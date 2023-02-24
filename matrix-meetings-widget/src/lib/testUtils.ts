@@ -22,7 +22,7 @@ import {
 } from '@matrix-widget-toolkit/api';
 import { MockedWidgetApi } from '@matrix-widget-toolkit/testing';
 import { rest } from 'msw';
-import { SetupServerApi } from 'msw/node';
+import { SetupServer } from 'msw/node';
 import { AvailableWidget } from '../reducer/meetingBotApi';
 import { Meeting } from '../reducer/meetingsApi';
 import {
@@ -419,7 +419,7 @@ export function mockWidgetEvent({
 }
 
 export function mockWidgetEndpoint(
-  server: SetupServerApi,
+  server: SetupServer,
   { widgets }: { widgets?: AvailableWidget[] } = {}
 ) {
   server.use(
@@ -443,7 +443,7 @@ export function mockWidgetEndpoint(
 }
 
 export function mockConfigEndpoint(
-  server: SetupServerApi,
+  server: SetupServer,
   {
     jitsiDialInEnabled,
     openXchangeMeetingUrlTemplate,
@@ -460,7 +460,7 @@ export function mockConfigEndpoint(
 }
 
 export function mockMeetingSharingInformationEndpoint(
-  server: SetupServerApi,
+  server: SetupServer,
   {
     jitsi_dial_in_number,
     jitsi_pin,
