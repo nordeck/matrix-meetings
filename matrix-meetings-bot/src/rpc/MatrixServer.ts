@@ -47,10 +47,10 @@ import { IUserContext } from '../model/IUserContext';
 import { RoomEventName } from '../model/RoomEventName';
 import { StateEventName } from '../model/StateEventName';
 import { ModuleProviderToken } from '../ModuleProviderToken';
-import { IContext } from './IContext';
-import { IMatrixPattern } from './IMatrixPattern';
 import { ControlRoomMigrationService } from '../service/ControlRoomMigrationService';
 import { RoomMessageService } from '../service/RoomMessageService';
+import { IContext } from './IContext';
+import { IMatrixPattern } from './IMatrixPattern';
 
 export const NET_NORDECK_MEETINGS = 'net.nordeck.meetings';
 
