@@ -7,7 +7,7 @@
   "private": true,
   "dependencies": {
     "@fullcalendar/common": "^5.11.3",
-    "@fullcalendar/core": "^5.11.3",
+    "@fullcalendar/core": "^6.1.4",
     "@fullcalendar/daygrid": "^5.11.3",
     "@fullcalendar/interaction": "^5.11.3",
     "@fullcalendar/react": "^5.11.2",
