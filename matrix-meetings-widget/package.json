@@ -56,7 +56,7 @@
     "@types/lodash": "^4.14.191",
     "@types/luxon": "^3.2.0",
     "@types/mustache": "^4.2.2",
-    "@types/node": "^16.18.12",
+    "@types/node": "^18.14.1",
     "@types/react": "^17.0.53",
     "@types/react-dom": "^17.0.19",
     "@types/react-i18next": "^8.1.0",
