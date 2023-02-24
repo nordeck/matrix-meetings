@@ -1,0 +1,390 @@
+{
+  "breakoutSessionGroup": {
+    "groupTitle": "Gruppentitel (erforderlich)",
+    "groupTitleHelperText": "Ein Titel ist erforderlich",
+    "selectUser": "Teilnehmer auswählen",
+    "youAreAlwaysMember": "Als Organisator bist du automatisch Mitglied jeder Breakoutsession."
+  },
+  "calendarDayPicker": {
+    "chooseDate": "Wähle ein Datum, das gewählte Datum ist {{date, datetime}}",
+    "label": "{{date, datetime}}"
+  },
+  "calendarMonthPicker": {
+    "chooseMonth": "Wähle einen Monat, der gewählte Monat ist {{date, datetime}}",
+    "label": "{{date, datetime}}"
+  },
+  "calendarWeekPicker": {
+    "chooseWeek": "Wähle eine Woche, die gewählte Woche ist {{range, daterange}}",
+    "label": "{{range, daterange}}"
+  },
+  "calendarWorkWeekPicker": {
+    "chooseWorkWeek": "Wähle eine Arbeitswoche, die gewählte Arbeitswoche ist {{range, daterange}}",
+    "label": "{{range, daterange}}"
+  },
+  "cancel": "Abbrechen",
+  "close": "Schließen",
+  "cockpitPanel": {
+    "toParentRoom": "zum übergeordenten Raum"
+  },
+  "copyableText": {
+    "copy-to-clipboard": "In die Zwischenablage kopieren"
+  },
+  "dateRangePicker": {
+    "chooseDate": "Datumsbereich auswählen, ausgewählter Bereich ist {{range, daterange}}",
+    "dateRange": "{{range, daterange}}"
+  },
+  "dateTimePickers": {
+    "endDate": "Enddatum",
+    "endTime": "Endzeit",
+    "error": {
+      "breakoutSessionInvalidEndTime": "Breakoutsessions müssen zwischen {{minDate, datetime}} und {{maxDate, datetime}} enden.",
+      "breakoutSessionInvalidStartTime": "Breakoutsessions müssen zwischen {{minDate, datetime}} und {{maxDate, datetime}} beginnen.",
+      "breakoutSessionStartBeforeEnd": "Breakoutsessions sollten beginnen, bevor sie enden.",
+      "meetingStartBeforeEnd": "Die Besprechung sollte beginnen, bevor sie endet.",
+      "meetingStartTooEarly": "Die Besprechung kann nicht in der Vergangenheit starten."
+    },
+    "invalidEndDate": "Ungültige Eingabe",
+    "invalidEndTime": "Ungültige Eingabe",
+    "invalidStartDate": "Ungültige Eingabe",
+    "invalidStartTime": "Ungültige Eingabe",
+    "openEndDatePicker": "Wähle Enddatum, ausgewähltes Datum ist {{date, datetime}}",
+    "openEndTimePicker": "Wähle Endzeit, ausgewählte Uhrzeit ist {{date, datetime}}",
+    "openStartDatePicker": "Wähle Startdatum, ausgewähltes Datum ist {{date, datetime}}",
+    "openStartTimePicker": "Wähle Startzeit, ausgewählte Uhrzeit ist {{date, datetime}}",
+    "startDate": "Startdatum",
+    "startTime": "Startzeit"
+  },
+  "editMeetingModal": {
+    "cancel": "Abbrechen",
+    "save": "Speichern",
+    "title": "Besprechung bearbeiten"
+  },
+  "invitedMeetingList": {
+    "detail": {
+      "invitedBy": "Einladung von: {{name}}"
+    }
+  },
+  "invitedMeetingsList": {
+    "title": "Einladungen"
+  },
+  "meetingCard": {
+    "actions": "Aktionen",
+    "deleteConfirmButton": "Löschen",
+    "deleteConfirmHeader": "Besprechung löschen",
+    "deleteConfirmMessage": "Du bist dabei die Besprechung „{{title}}“ am {{startTime, datetime}} und alles darin zu löschen. Bist du sicher?",
+    "deleteFailed": "Bitte versuche es erneut.",
+    "deleteFailedTitle": "Fehler beim Löschen der Besprechung",
+    "deleteInOpenXchangeMenu": "Besprechung in Open-Xchange löschen",
+    "deleteMenu": "Besprechung löschen",
+    "durationSubheader_default": "{{startDate, datetime}} – {{endDate, datetime}}",
+    "durationSubheader_recurring": "$t(meetingCard.durationSubheader_default)<0>. Wiederholung: {{recurrence}}</0>",
+    "editInOpenXchangeMenu": "Besprechung in Open-Xchange bearbeiten",
+    "editMenu": "Besprechung bearbeiten",
+    "editParticipants": {
+      "buttonTitle": "Teilnehmer anzeigen",
+      "membership_invite": "Eingeladen",
+      "membership_join": "Angenommen",
+      "menuTitle": "Teilnehmer"
+    },
+    "editPermissions": {
+      "allowMessaging": "Alle Benutzer können den Chat nutzen",
+      "buttonTitle": "Berechtigungen bearbeiten",
+      "menuTitle": "Berechtigungen",
+      "updateFailed": "Bitte versuche es erneut.",
+      "updateFailedTitle": "Fehler beim Ändern der Berechtigungen",
+      "updateTimeout": "Die Änderung wurde erfolgreich geplant und sollte demnächst ausgeführt werden.",
+      "updateTimeoutTitle": "Die Anfrage wurde versendet"
+    },
+    "meetingRoomWillBeDeleted": "Die Besprechung wird {{remainingTime, relativetime}} automatisch gelöscht.",
+    "meetingRoomWillBeDeletedSoon": "Die Besprechung wird in Kürze gelöscht.",
+    "moreSettings": "Mehr Einstellungen",
+    "recurrenceTooltip": "Wiederholung: {{recurrence}}",
+    "share": {
+      "buttonTitle": "Besprechung teilen",
+      "dialInCopyNumber": "Einwahlnummer",
+      "dialInCopyPin": "Einwahl PIN",
+      "dialInDescription": "Nutze die folgenden Informationen um sich in die Besprechung übers Telefon einzuwählen:",
+      "dialInTitle": "Teile die Eiwahldaten",
+      "downloadIcsFile": "ICS Datei herunterladen",
+      "emailCopyMessage": "Nachricht",
+      "emailDescription": "Nutze die folgende Nachricht um die Besprechung in einer E-Mail zu verteilen:",
+      "emailTitle": "E-Mail Einladung",
+      "icsDescription": "Lade die Besprechungsinformationen im iCalendar Format herunter um sie zu einer anderen Kalenderanwendung einzufügen:",
+      "icsTitle": "ICS Datei herunterladen",
+      "linkCopyMeetingLink": "Link teilen",
+      "linkDescription": "Nutze den folgenden Link um der Besprechung beizutreten:",
+      "linkTitle": "Teile einen Link zum Besprechungsraum",
+      "menuTitle": "Besprechung teilen",
+      "message": "{{title}}\n\n📅 {{date, daterange}}\n$t(meetingCard.share.messageRecurrence, {\"context\": \"{{recurrenceContext}}\" })\n$t(meetingCard.share.messageDescription, {\"context\": \"{{descriptionContext}}\" })\n__________________________\nRaum: {{link}}\n$t(meetingCard.share.messageDialIn, {\"context\": \"{{dialInContext}}\" })",
+      "messageDescription_none": "",
+      "messageDescription_present": "{{description}}\n",
+      "messageDialIn_none": "",
+      "messageDialIn_nopin": "Einwahl-Nummer: {{dialInNumber}}\nEinwahl-PIN: Kein PIN benötigt\n",
+      "messageDialIn_pin": "Einwahl-Nummer: {{dialInNumber}}\nEinwahl-PIN: {{dialInPin}}\n",
+      "messageRecurrence_none": "",
+      "messageRecurrence_present": "🔁 Wiederholung: {{recurrence}}\n",
+      "shareByMail": "E-Mail Einladung teilen",
+      "shareDialInNumber": "Einwahldaten teilen",
+      "shareDialInNumberError": "Fehler beim Laden der Einwahldaten.",
+      "shareDialInNumberNotPresent": "Es sind keine Einwahldaten verfügbar",
+      "shareLink": "Link teilen",
+      "warningRecurringMeetingDialInNumber": "Dies ist eine Einwahlnummer zu einer Besprechungsserie. Durch das Teilen dieser Einwahlnummer werden Benutzer zu allen Besprechungen in der Serie eingeladen.",
+      "warningRecurringMeetingEmail": "Dies ist eine E-Mail Einladung zu einer Besprechungsserie. Durch das Teilen dieser E-Mail Einladung werden Benutzer zu allen Besprechungen in der Serie eingeladen.",
+      "warningRecurringMeetingICalFile": "Dies ist eine iCal Datei zu einer Besprechungsserie. Durch das Teilen dieser iCal Datei werden Benutzer zu allen Besprechungen in der Serie eingeladen.",
+      "warningRecurringMeetingLink": "Dies ist ein Link zu einer Besprechungsserie. Durch das Teilen dieses Links werden Benutzer zu allen Besprechungen in der Serie eingeladen."
+    },
+    "updateFailed": "Bitte versuche es erneut.",
+    "updateFailedClose": "Schließen",
+    "updateFailedTitle": "Fehler beim Ändern der Besprechungsdetails"
+  },
+  "meetingHasBreakoutSessionsWarning": {
+    "message": "Wenn Start- oder Endzeit geändert wird, werden diese nicht automatisch verschoben!",
+    "title": "Die Besprechung hat bereits Breakoutsessions."
+  },
+  "meetingInvitationGuard": {
+    "meetingInvitation": "Bitte nehme die Einladung an um weitere Eigenschaften anzusehen."
+  },
+  "meetingList": {
+    "groupTitle": "{{date, datetime}}",
+    "noBreakoutSessionsScheduled": "Keine Breakoutsession im ausgewählten Zeitraum gefunden.",
+    "noMeetingsScheduled": "Keine Besprechung im ausgewählten Zeitraum gefunden.",
+    "openInvitationsDetail": "Bitte betrete alle Besprechungsräume.",
+    "openInvitationsTitle": "Du hast ausstehende Einladungen.",
+    "title": "Besprechungen"
+  },
+  "meetingsCalendar": {
+    "dialog": {
+      "close": "Schließen"
+    },
+    "event": {
+      "startTime": "{{startTime, datetime}}",
+      "summary_default": "{{startTime, datetime}}–{{endTime, datetime}}: “{{title}}” von {{creator}}",
+      "summary_recurring": "{{startTime, datetime}}–{{endTime, datetime}}: “{{title}}” von {{creator}}, wiederholte Besprechung"
+    }
+  },
+  "meetingsFilter": {
+    "filterAriaLabel": "Suche",
+    "filterPlaceholder": "Suche…"
+  },
+  "meetingsNavigation": {
+    "increaseWidth": "Vergrößere die Breite des Widgets",
+    "increaseWidthToShowMore": "Vergrößere die Breite des Widgets um mehr Ansichten auszuwählen.",
+    "label": "Ansicht",
+    "views": {
+      "day": "Tag",
+      "list": "Liste",
+      "month": "Monat",
+      "week": "Woche",
+      "workWeek": "Arbeitswoche"
+    }
+  },
+  "meetingsPanel": {
+    "actionsTitle": "Aktionen",
+    "filtersTitle": "Filter",
+    "messageToAllBreakoutRoom": {
+      "placeholder": "Nachricht senden...",
+      "sendFailed": "Bitte versuche es erneut.",
+      "sendFailedTitle": "Fehler beim Senden der Nachricht",
+      "sendLabel": "Sende Nachricht an alle Räume",
+      "sendTimeout": "Die Änderung wurde erfolgreich geplant und sollte demnächst ausgeführt werden.",
+      "sendTimeoutTitle": "Die Anfrage wurde versendet",
+      "title": "Nachricht an alle Breakoutsession Räume senden"
+    },
+    "scheduleBreakoutSession": "Breakoutsession planen",
+    "scheduleMeeting": "Besprechung planen",
+    "tabTitle": "Ansichten",
+    "tabTitleInvitations": "Einladungen",
+    "tabTitleMeetings": "Besprechungen"
+  },
+  "meetingsToolbar": {
+    "filterAriaLabel": "Suche",
+    "filterPlaceholder": "Suche…",
+    "next": {
+      "day": "Nächster Tag",
+      "month": "Nächster Monat",
+      "period": "Nächster Zeitraum",
+      "week": "Nächste Woche",
+      "workweek": "Nächste Arbeitswoche"
+    },
+    "previous": {
+      "day": "Vorheriger Tag",
+      "month": "Vorheriger Monat",
+      "period": "Vorheriger Zeitraum",
+      "week": "Vorherige Woche",
+      "workweek": "Vorherige Arbeitswoche"
+    },
+    "today": "Heute"
+  },
+  "meetingViewEditMeeting": {
+    "breakoutSessionIsOver": "Die Breakoutsession ist bereits beendet und kann nicht mehr verändert werden.",
+    "meetingIsOver": "Die Besprechung ist bereits beendet und kann nicht mehr verändert werden."
+  },
+  "memberSelectionDropdown": {
+    "instructions_one": "{{selectedCount}} von {{count}} Einträgen ausgewählt. Nutze die linke und rechte Pfeiltaste um zwischen den Einträgen zu navigieren. Nutze die aufwärts und abwärts Pfeiltaste um durch die verfügbaren Optionen zu navigieren.",
+    "instructions_other": "{{selectedCount}} von {{count}} Einträgen ausgewählt. Nutze die linke und rechte Pfeiltaste um zwischen den Einträgen zu navigieren. Nutze die aufwärts und abwärts Pfeiltaste um durch die verfügbaren Optionen zu navigieren.",
+    "noMembers": "Keine weiteren Teilnehmer.",
+    "selectAll": "Alle auswählen",
+    "tagInstructions": "Nutze die Rücktaste um den Eintrag zu löschen."
+  },
+  "openMeetingRoomButton": {
+    "openMeetingRoom": "Öffne den Besprechungsraum",
+    "openMeetingRoom_breakout": "Öffne den Breakoutsessionraum"
+  },
+  "recurrenceEditor": {
+    "custom": {
+      "frequency": {
+        "days": "Tage",
+        "months": "Monate",
+        "weeks": "Wochen",
+        "years": "Jahre"
+      },
+      "frequencyLabel": "Häufigkeit",
+      "intervalLabel": "{{frequencyLabel}} bis der Termin wiederholt wird",
+      "invalidInput": "Ungültige Eingabe",
+      "monthly": {
+        "byMonthday": "Am",
+        "byMonthdayLong": "Der Termin wird monatlich am {{nthMonthday}}. wiederholt",
+        "byWeekday": "Am",
+        "byWeekdayLong": "Der Termin wird monatlich am {{ordinal}} {{weekday}} wiederholt",
+        "customRuleMode": "Benutzerdefinierte Regel",
+        "invalidInput": "Ungültige Eingabe",
+        "monthdayInput": "Tag"
+      },
+      "repeatEvery": "Wiederholen alle",
+      "title": "Benutzerdefinierte wiederkehrende Besprechung",
+      "weekly": {
+        "repeatOnWeekday": "Wiederholen an Wochentag"
+      },
+      "yearly": {
+        "byMonthday": "Am",
+        "byMonthdayLong": "Der Termin wird jährlich am {{nthMonthday}}. {{month}} wiederholt",
+        "byWeekday": "Am",
+        "byWeekdayLong": "Der Termin wird jährlich am {{ordinal}} {{weekday}} in {{month}} wiederholt",
+        "byWeekdayOf": "im",
+        "customRuleMode": "Benutzerdefinierte Regel",
+        "invalidInput": "Ungültige Eingabe",
+        "monthdayInput": "Tag"
+      }
+    },
+    "monthLabel": "Monat",
+    "ordinalLabel": "Zähler",
+    "ordinals": {
+      "first": "ersten",
+      "fourth": "vierten",
+      "last": "letzten",
+      "second": "zweiten",
+      "third": "dritten"
+    },
+    "recurrencePreset": {
+      "custom": "Benutzerdefiniert",
+      "daily": "Täglich",
+      "mondayToFriday": "Montag bis Freitag",
+      "monthly": "Monatlich",
+      "once": "Nicht wiederholen",
+      "weekly": "Wöchentlich",
+      "yearly": "Jährlich"
+    },
+    "recurringMeetingEnd": {
+      "afterMeetingCount": "Nach",
+      "afterMeetingCountInput": "Anzahl der Termine",
+      "afterMeetingCountInputUnit": "Terminen",
+      "afterMeetingCountLong_one": "Endet nach einem Termin",
+      "afterMeetingCountLong_other": "Endet nach {{count}} Terminen",
+      "endOfRecurringMeeting": "Ende des wiederkehrenden Termins",
+      "invalidInput": "Ungültige Eingabe",
+      "never": "Nie",
+      "neverLong": "Der Termin wird endlos wiederholt",
+      "untilDate": "Am",
+      "untilDateInput": "Datum an dem der wiederkehrende Termin endet",
+      "untilDateInputInvalid": "Ungültige Eingabe",
+      "untilDateInputOpenDatePicker": "Datum an dem der wiederkehrende Termin endet, ausgewähltes Datum ist {{date, datetime}}",
+      "untilDateLong": "Wiederholung endet am {{date,datetime}}"
+    },
+    "repeatMeeting": "Die Besprechung wiederholen",
+    "ruleText": {
+      "afterMeetingCount_one": "für einen Termin",
+      "afterMeetingCount_other": "für {{count}} Termine",
+      "daily_one": "Jeden Tag$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "daily_other": "Jeden {{count}}. Tag$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_bymonthday_one": "Jeden Monat am $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true })$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_bymonthday_other": "Jeden {{count}}. Monat am $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true })$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_byweekday_one": "Jeden Monat am {{ordinalLabel}} {{byweekday}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_byweekday_other": "Jeden {{count}}. Monat am {{ordinalLabel}} {{byweekday}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_simple_one": "Jeden Monat$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_simple_other": "Jeden {{count}}. Monat$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "ordinal_other": "{{count}}.",
+      "recurrenceEnd_count": " $t(recurrenceEditor.ruleText.afterMeetingCount, {\"count\": {{afterMeetingCount}}, \"ordinal\": false })",
+      "recurrenceEnd_never": "",
+      "recurrenceEnd_until": " bis zum {{ untilDate, datetime(year: 'numeric'; month: 'long'; day: 'numeric') }}",
+      "unknown": "Nicht unterstützte Wiederholung",
+      "weekly_all_one": "Jede Woche$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_all_other": "Jede {{count}}. Woche$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_some_one": "Jede Woche am {{weekdays, list}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_some_other": "Jede {{count}}. Woche am {{weekdays, list}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_weekdays_one": "Jeden Montag bis Freitag$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_weekdays_other": "Jede {{count}}. Woche von Montag bis Freitag{{weekdays, list}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_bymonthday_one": "Jeden {{monthLabel}} am $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true })$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_bymonthday_other": "Jedes {{count}}. Jahr am $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true }) {{monthLabel}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_byweekday_one": "Jeden {{monthLabel}} am {{ordinalLabel}} {{byweekday}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_byweekday_other": "Jedes {{count}}. Jahr am {{ordinalLabel}} {{byweekday}} im {{monthLabel}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_simple_one": "Jedes Jahr$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_simple_other": "Jedes {{count}}. Jahr$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })"
+    },
+    "weekdayLabel": "Wochentag"
+  },
+  "scheduleMeeting": {
+    "cannotRemoveOwnUser": "Du kannst dich nicht selbst aus der Besprechung entfernen.",
+    "description": "Beschreibung",
+    "endAt": "Endzeitpunkt",
+    "hasPowerToKickUser": "Du hast nicht die Berechtigung um diesen Nutzer aus der Besprechung zu entfernen.",
+    "meetingAlreadyStarted": "Die Besprechung ist bereits gestartet.",
+    "participants": "Teilnehmer",
+    "recurringMeetingMessage": {
+      "message": "Alle Wiederholungen des Termins werden bearbeitet.",
+      "title": "Du bearbeitest einen Serientermin"
+    },
+    "startAt": "Startzeitpunkt",
+    "title": "Titel (erforderlich)",
+    "titleHelperText": "Ein Titel ist erforderlich",
+    "youAreAlwaysMember": "Als Organisator bist du automatisch Teilnehmer der Besprechung."
+  },
+  "scheduleMeetingModal": {
+    "cancel": "Abbrechen",
+    "create": "Besprechung erstellen",
+    "scheduleTitle": "Besprechung planen"
+  },
+  "setupBreakoutSessions": {
+    "description": "Beschreibung",
+    "distributeAllRoomMembers": "Alle {{amount}} Teilnehmer verteilen",
+    "endAt": "Endzeitpunkt",
+    "groupNumber": "Anzahl Gruppen (erforderlich)",
+    "groupNumberErrorMessage": "Es gibt nicht genügend Teilnehmer für die Anzahl der angegebenen Gruppen.",
+    "groups": "Gruppen",
+    "groupTitleDefaultValue": "Gruppe {{index}}",
+    "meetingIsOver": "Die Besprechung ist zu Ende. Du kannst keine neue Breakoutsession erstellen.",
+    "notAssignedMessage": "Nicht alle Teilnehmer sind einer Gruppe zugeordnet.",
+    "notAssignedTitle": "Hinweis",
+    "startAt": "Startzeitpunkt"
+  },
+  "setupBreakoutSessionsModal": {
+    "cancel": "Abbrechen",
+    "create": "Breakoutsession erstellen",
+    "title": "Breakoutsession planen"
+  },
+  "timeDistance": {
+    "futureText": "{{duration, relativetime}}",
+    "futureTextExact": "in {{duration}}",
+    "remainingText": "Endet {{duration, relativetime}}",
+    "remainingTextExact": "Endet in {{duration}}"
+  },
+  "widgetSelectionDropdown": {
+    "allActive": "Es wurden bereits alle Widgets aktiviert.",
+    "instructions_one": "{{selectedCount}} von {{count}} Einträgen ausgewählt. Nutze die linke und rechte Pfeiltaste um zwischen den Einträgen zu navigieren. Nutze die aufwärts und abwärts Pfeiltaste um durch die verfügbaren Optionen zu navigieren.",
+    "instructions_other": "{{selectedCount}} von {{count}} Einträgen ausgewählt. Nutze die linke und rechte Pfeiltaste um zwischen den Einträgen zu navigieren. Nutze die aufwärts und abwärts Pfeiltaste um durch die verfügbaren Optionen zu navigieren.",
+    "label": "Widgets",
+    "loading": "Lade Widgets…",
+    "loadingError": "Fehler beim Laden der Widgets. Du kannst die auch später aktivieren.",
+    "noWidgets": "Keine Widgets verfügbar.",
+    "tagInstructions": "Nutze die Rücktaste um den Eintrag zu löschen."
+  }
+}

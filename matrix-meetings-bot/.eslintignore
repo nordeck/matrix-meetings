@@ -1,0 +1,6 @@
+*.d.ts
+images/
+locales/
+lib/
+i18n
+setupJest.js

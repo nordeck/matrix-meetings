@@ -1,0 +1,102 @@
+{
+  "base": {
+    "exception": {
+      "message": "Ein Fehler {{errorName}} trat bei der Verarbeitung des Events für den Raum {{roomId}} {{roomName}} auf. <br> Bitte nutzen Sie folgende Nummer: [{{requestId}}] bei weiteren Support-Rückfragen."
+    }
+  },
+  "bot": {
+    "private": {
+      "errorRoom": {
+        "create": {
+          "message": "Fehlermeldung vom Meetings-Bot",
+          "topic": "Weitere Details"
+        }
+      }
+    }
+  },
+  "commandErrors": {
+    "badCommand": "Der Hilfe-Befehl ist leider nicht richtig. Schreibe {{trigger}} help",
+    "badLanguageCode": "Die ausgewählte Sprache wird nicht unterstützt",
+    "generic": "Leider konnte Dein Befehl nicht korrekt ausgeführt werden: {{message}}",
+    "noCommandProvided": "Der Befehl steht nicht zur Verfügung. Schreibe {{trigger}} help",
+    "noLanguageCode": "Bitte übergebe einen gültigen Sprach-Code ({{availableLanguageCodes}})"
+  },
+  "commandHelp": [
+    "<p>Verfügbare Befehle:</p>",
+    "<ul>",
+    "<li><code>!meeting lang &lt;en|de&gt;</code> (Die Sprache des {{botName}} in diesem Raum ändern.)</li>",
+    "<li><code>!meeting setup</code> (Fügt den Kalender zum Raum hinzu.)</li>",
+    "<li><code>!meeting status</code> (Überprüft die Fähigkeit, den Kalender hinzufügen zu können.)</li>",
+    "</ul>"
+  ],
+  "meeting": {
+    "invite": {
+      "htmlDescription": "<div><i>{{description}}</i></div>",
+      "htmlInvited": "Du wurdest von {{organizerUsername}} zu einem Meeting eingeladen. Es wird am <b>{{startDate}} um {{startTime}} {{timezone}}</b> beginnen und am <b>{{endDate}} um {{endTime}} {{timezone}}</b> enden. Bitte nimm diese Einladung an, indem du auf den \"Akzeptieren\"-Button klickst, um das Meeting in deinen Kalender zu übernehmen. Wenn du dem Meeting fernbleiben möchtest, klicke auf die Schaltfläche \"Ablehnen\".",
+      "htmlOrganizer": "Das Meeting wurde für dich angelegt. Es wird am <b>{{startDate}} um {{startTime}} {{timezone}}</b> stattfinden. Bitte nimm diese Einladung an, indem du auf den \"Akzeptieren\"-Button klickst, um das Meeting in deinen Kalender zu übernehmen. Wenn du dem Meeting fernbleiben möchtest, klicke auf die Schaltfläche \"Ablehnen\".",
+      "invited": "Du wurdest von {{organizerUsername}} zu einem Meeting eingeladen. Es wird am {{startDate}} um {{startTime}} {{timezone}} beginnen und am {{endDate}} um {{endTime}} {{timezone}} enden. Bitte nimm diese Einladung an, indem du auf den \"Akzeptieren\"-Button klickst, um das Meeting in deinen Kalender zu übernehmen. Wenn du dem Meeting fernbleiben möchtest, klicke auf die Schaltfläche \"Ablehnen\".",
+      "organizer": "Das Meeting wurde für dich angelegt. Es wird am {{startDate}} um {{startTime}} {{timezone}} stattfinden. Bitte nimm diese Einladung an, indem du auf den \"Akzeptieren\"-Button klickst, um das Meeting in deinen Kalender zu übernehmen. Wenn du dem Meeting fernbleiben möchtest, klicke auf die Schaltfläche \"Ablehnen\"."
+    },
+    "room": {
+      "notification": {
+        "changed": {
+          "date": {
+            "current": "Zeitraum: Von {{start}} bis {{end}}",
+            "previous": "(bislang: Von {{start}} bis {{end}})"
+          },
+          "description": {
+            "current": "Beschreibung: {{description}}",
+            "previous": "(bislang: {{description}})"
+          },
+          "headLine": "Änderungen",
+          "title": {
+            "current": "Titel: {{title}}",
+            "previous": "(bislang: {{title}})"
+          }
+        },
+        "closed": {
+          "message": "Der Raum wurde vom Administrator geschlossen"
+        }
+      }
+    },
+    "user": {
+      "kicked": "Der Benutzer {{userId}} ist vom Benutzer / Bot {{sender}} aus dem Raum entfernt worden"
+    }
+  },
+  "welcome": {
+    "botIsAdmin": "Ich bin nun Moderator in Deinem Raum <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>. Vielen Dank! <br> Schreibe nun den Hilfe-Befehl <code>!meeting setup</code> und ich werde für Dich die Meeting-Funktionalitäten zu Deinem Raum hinzufügen.",
+    "botNotAdmin": "Ich bin noch kein Moderator in Deinem Raum <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>. So kann ich Dir leider nicht helfen.<br>",
+    "errors": {
+      "meetingWidgetExists": "Die Kalender-Funktion ist bereits vorhanden. Du findest sie in deinem Raum <a href='{{originalRoomLink}}'>{{originalRoomName}}</a> unter der Überschrift Widgets.",
+      "notEnoughPermissions": "Leider kann ich die Kalender-Funktion nicht hinzufügen. Mir fehlt dazu die richtige Berechtigung. Bitte gib mir hierfür in deinem Raum <a href='{{originalRoomLink}}'>{{originalRoomName}}</a> Moderatoren-Rechte."
+    },
+    "helpWhenNotAdmin": "Leider kann ich die Kalender-Funktion nicht hinzufügen. Mir fehlt dazu die richtige Berechtigung. Bitte gib mir hierfür in deinem Raum <a href='{{originalRoomLink}}'>{{originalRoomName}}</a> Moderatoren-Rechte.",
+    "intro": [
+      "<p>Hallo {{userDisplayName}}, vielen Dank für die Einladung in den Raum <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>.</p>",
+      "<p>Gerne bin ich dir bei der Einrichtung deines Kalenders in dem Raum behilflich.</p>",
+      "<p>Damit ich die Kalenderfunktion in deinem Raum hinzufügen kann, gib mir bitte im Raum <a href='{{originalRoomLink}}'>{{originalRoomName}}</a> die notwendige Rolle um Widgets hinzufügen zu können (z.B. die Moderator Rolle). Dies kannst du in meinem Nutzerprofil einstellen, das du über das \"Info\"- Icon im rechten Seitenmenü erreichen kannst.</p>",
+      "<p>Wenn du mir nicht die entsprechenden Rechte im Raum geben möchtest, kannst du die Kalenderfunktion manuell einbinden indem du folgenden Text in den Raum sendest: <code>/addwidget {{widgetURL}}</code></p>",
+      "<p>Für eine Übersicht über alle Befehle sende mir die Nachricht: <code>!meeting help</code>"
+    ],
+    "introDone": [
+      "<p>Hallo {{userDisplayName}}, vielen Dank für die Einladung in den <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>.</p>",
+      "<p>Meine Aufgabe war es dir bei der Einrichtung des Kalenders zu helfen.</p>",
+      "<p>Der Kalender ist nun erfolgreich in deinem Raum eingerichtet. Daher kannst du diesen Chat jetzt verlassen.</p>",
+      "<p>Für eine Übersicht über alle Befehle sende mir die Nachricht: <code>!meeting help</code>"
+    ],
+    "introLanguage": [
+      "Information zur Spracheinstellung: Um eine Kommunikation in deiner gewohnten Sprache zu ermöglichen, kannst du folgende Befehle benutzen:",
+      "<ul>",
+      "<li>Sprache auf Deutsch umstellen: <code>!meeting lang de</code></li>",
+      "<li>Change language to English: <code>!meeting lang en</code></li>",
+      "</ul>"
+    ],
+    "languageWasChanged": "Die Sprache wurde auf <b>{{locale}}</b> geändert.",
+    "meetingWidgetAdded": "<p>Meine Arbeit ist getan.</p><p>Der Kalender ist bereits erfolgreich in deinem Raum installiert. Du kannst nun diesen privaten Chat-Raum verlassen.</p>",
+    "privateRoom": {
+      "inviteReason": "Hallo {{userDisplayName}}. Ich möchte dir helfen das Meeting-Widget in deinem Raum '{{originalRoomName}}' einzurichten",
+      "name": "Hilfebereich für {{originalRoomName}}.",
+      "topic": "Hallo, du hast mich eingeladen, um dir zu helfen. Ich konfiguriere dir deinen Raum {{originalRoomName}}, so dass du die Meeting-Funktionalität problemlos nutzen kannst."
+    }
+  }
+}

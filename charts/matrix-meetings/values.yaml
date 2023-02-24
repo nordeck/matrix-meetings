@@ -1,0 +1,11 @@
+matrix-meetings-widget:
+  ## Don't prefix the chart name with the name of this helm release
+  fullnameOverride: matrix-meetings-widget
+
+  ## Add further settings for the widget here
+
+matrix-meetings-bot:
+  ## Don't prefix the chart name with the name of this helm release
+  fullnameOverride: matrix-meetings-bot
+
+  ## Add further settings for the bot here

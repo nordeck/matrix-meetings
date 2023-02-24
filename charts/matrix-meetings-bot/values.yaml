@@ -1,0 +1,141 @@
+# Default values for matrix-meetings-bot.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+replicaCount: 1
+
+image:
+  repository: ghcr.io/nordeck/matrix-meetings-bot
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+imagePullSecrets: []
+nameOverride: ""
+fullnameOverride: ""
+
+serviceAccount:
+  ## Specifies whether a service account should be created
+  create: false
+  ## Annotations to add to the service account
+  annotations: {}
+  ## The name of the service account to use.
+  ## If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
+podSecurityContext:
+  fsGroup: 101
+
+securityContext:
+  capabilities:
+    drop:
+    - ALL
+  readOnlyRootFilesystem: true
+  runAsNonRoot: true
+
+service:
+  type: ClusterIP
+  port: 3000
+
+ingress:
+  enabled: false
+  className: ""
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # kubernetes.io/tls-acme: "true"
+  hosts:
+    - host: meetings-bot.local
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+
+resources: {}
+  ## We usually recommend not to specify default resources and to leave this as a conscious
+  ## choice for the user. This also increases chances charts run on environments with little
+  ## resources, such as Minikube. If you do want to specify resources, uncomment the following
+  ## lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+  # limits:
+  #   cpu: 100m
+  #   memory: 128Mi
+  # requests:
+  #   cpu: 100m
+  #   memory: 128Mi
+
+nodeSelector: {}
+
+tolerations: []
+
+affinity: {}
+
+## Persist configuration to a persistent volume
+persistence:
+  enabled: false
+  existingClaim:
+  storageClassName:
+  accessModes:
+    - ReadWriteMany
+  size: 8Gi
+
+additionalVolumes: []
+
+## Application settings for the bot
+settings:
+  ## The deployment url of the meetings widget that should be used for the registering widgets
+  widgetUrl: https://matrix-meetings-widget.local
+
+  # Optional configuration that will override the defaults if enabled
+  config: {}
+    ## provide a custom DEFAULT_EVENTS_CONFIG to override the defaults
+    # defaultEventsConfig: |
+    #   {
+    #     "state_events": [],
+    #     "room_events": []
+    #   }
+
+    # provide a custom DEFAULT_EVENTS_CONFIG to override the defaults
+    #defaultWidgetLayoutsConfig: |
+    #  []
+
+  ## Add any environment variable from `docs/configuration.md` to customize the
+  ## bot. All mandatory configuration options are listed below. Some are already
+  ## automatically set by the helm chart.
+  additionalEnv: []
+    ## Configure the URL of the homeserver to use
+    # - name: HOMESERVER_URL
+    #   value: 'https://matrix-client.matrix.org'
+
+    ## Configure the access token (can be skipped if init.readBotTokenFromDB.enabled is activated)
+    # - name: ACCESS_TOKEN
+    #   secretKeyRef:
+    #     name: pg-credentials
+    #     key: db_host
+
+    ## Other optional variables
+    #- name: LOG_LEVEL
+    #  value: 'debug'
+
+## Settings for the automatic creation and login to a bot user. This is optional
+## and will be executed as init containers. This is an alternative to manually
+## providing an ACCESS_TOKEN.
+init:
+  homeserver: 'matrix.org'
+  homeserverUrl: 'https://matrix-client.matrix.org'
+  username: bot-user
+
+  synapse:
+    image: matrixdotorg/synapse:v1.55.2
+
+  postgresClient:
+    image: docker.io/bitnami/postgresql:11.12.0-debian-10-r44 
+
+  createUserAccount:
+    enabled: false
+
+  disableRateLimitInDB:
+    enabled: false
+
+  readBotTokenFromDB:
+    enabled: false

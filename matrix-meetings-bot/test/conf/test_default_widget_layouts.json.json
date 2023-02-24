@@ -1,0 +1,67 @@
+[
+  {
+    "widgetIds": ["a", "b", "c"],
+    "layouts": {
+      "a": {
+        "container": "top",
+        "index": 0,
+        "width": 60,
+        "height": 40
+      },
+      "b": {
+        "container": "top",
+        "index": 0,
+        "width": 40,
+        "height": 40
+      },
+      "c": {
+        "container": "right"
+      }
+    }
+  },
+  {
+    "widgetIds": ["jitsi"],
+    "layouts": {
+      "jitsi": {
+        "container": "top",
+        "index": 0,
+        "width": 100,
+        "height": 100
+      }
+    }
+  },
+  {
+    "widgetIds": ["poll", "jitsi", "etherpad"],
+    "layouts": {
+      "poll": {
+        "container": "top",
+        "index": 0,
+        "width": 60,
+        "height": 40
+      },
+      "jitsi": {
+        "container": "top",
+        "index": 0,
+        "width": 40,
+        "height": 40
+      },
+      "etherpad": {
+        "container": "right"
+      }
+    }
+  },
+  {
+    "widgetIds": ["poll", "jitsi"],
+    "layouts": {
+      "poll": {
+        "container": "top",
+        "index": 0,
+        "width": 100,
+        "height": 40
+      },
+      "jitsi": {
+        "container": "right"
+      }
+    }
+  }
+]

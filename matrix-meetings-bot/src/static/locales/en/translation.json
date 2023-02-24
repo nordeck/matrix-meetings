@@ -1,0 +1,102 @@
+{
+  "base": {
+    "exception": {
+      "message": "An error \"{{errorName}}\" occurred while processing events for the room {{roomId}} {{roomName}}. <br> Please provide this number: [{{requestId}}] for further questions."
+    }
+  },
+  "bot": {
+    "private": {
+      "errorRoom": {
+        "create": {
+          "message": "Error messages from Meetings-Bot",
+          "topic": "More details"
+        }
+      }
+    }
+  },
+  "commandErrors": {
+    "badCommand": "Bad command, try {{trigger}} help",
+    "badLanguageCode": "Language code is not supported",
+    "generic": "There was an error processing your command: {{message}}",
+    "noCommandProvided": "No command provided, try {{trigger}} help",
+    "noLanguageCode": "Language code is not provided, use one of these ({{availableLanguageCodes}})"
+  },
+  "commandHelp": [
+    "<p>Available commands:</p>",
+    "<ul>",
+    "<li><code>!meeting lang &lt;en|de&gt;</code> (Change the language of the bot in this room.)</li>",
+    "<li><code>!meeting setup</code> (Adds the calendar to the room.)</li>",
+    "<li><code>!meeting status</code> (Checks the ability to add the calendar.)</li>",
+    "</ul>"
+  ],
+  "meeting": {
+    "invite": {
+      "htmlDescription": "<div><i>{{description}}</i></div>",
+      "htmlInvited": "You've been invited to a meeting by {{organizerUsername}}. It will take place on <b>{{startDate}} at {{startTime}} {{timezone}}</b> and ends on <b>{{endDate}} at {{endTime}} {{timezone}}</b>. Please accept this invitation by clicking the \"Accept\" button to add the meeting to your calendar. To stay away from the meeting, click on the \"Reject\" button.",
+      "htmlOrganizer": "The meeting was created for you. It will take place on <b>{{startDate}} at {{startTime}} {{timezone}}</b>. Please accept this invitation by clicking the \"Accept\" button to add the meeting to your calendar. To stay away from the meeting, click on the \"Reject\" button.",
+      "invited": "You've been invited to a meeting by {{organizerUsername}}. It will take place on {{startDate}} at {{startTime}} {{timezone}} and ends on {{endDate}} at {{endTime}} {{timezone}}. Please accept this invitation by clicking the \"Accept\" button to add the meeting to your calendar. To stay away from the meeting, click on the \"Reject\" button.",
+      "organizer": "The meeting was created for you. It will take place on {{startDate}} at {{startTime}} {{timezone}}. Please accept this invitation by clicking the \"Accept\" button to add the meeting to your calendar. To stay away from the meeting, click on the \"Reject\" button."
+    },
+    "room": {
+      "notification": {
+        "changed": {
+          "date": {
+            "current": "Date: {{start}} to {{end}}",
+            "previous": "(previously: {{start}} to {{end}})"
+          },
+          "description": {
+            "current": "Description: {{description}}",
+            "previous": "(previously: {{description}})"
+          },
+          "headLine": "CHANGES",
+          "title": {
+            "current": "Title: {{title}}",
+            "previous": "(previously: {{title}})"
+          }
+        },
+        "closed": {
+          "message": "Room was closed by administrator"
+        }
+      }
+    },
+    "user": {
+      "kicked": "User {{userId}} has been removed by {{sender}}"
+    }
+  },
+  "welcome": {
+    "botIsAdmin": "The bot is a moderator in the room <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>. If you enter the command <code>!meeting setup</code> meeting widget will be added to that room.",
+    "botNotAdmin": "The bot is not a moderator in the room <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>.",
+    "errors": {
+      "meetingWidgetExists": "Can't add a new widget because it already exists.",
+      "notEnoughPermissions": "Unfortunately, I cannot add the calendar function. I don't have the right authorisation. Please give me moderator rights in your room <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>."
+    },
+    "helpWhenNotAdmin": "Unfortunately, I cannot add the calendar function. I don't have the right authorisation. Please give me moderator rights in your room <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>.",
+    "intro": [
+      "<p>Hello {{userDisplayName}}, thank you for inviting me to the <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>.</p>",
+      "<p>I would be happy to help you set up your calendar in that room.</p>",
+      "<p>In order for me to add the calendar function to your room, please give me the necessary right to add widgets to the room <a href='{{originalRoomLink}}'>{{originalRoomName}}</a> (The Moderator role for example). You can do so in my user profile that you can find in the right side menu via the \"info\"-icon.</p>",
+      "<p>If you do not want to give me the necessary permissions, you can add the calendar function to your room manually by sending the following Message into the room: <code>/addwidget {{widgetURL}}</code></p>",
+      "<p>To get an overview of all commands you can send <code>!meeting help</code></p>"
+    ],
+    "introDone": [
+      "<p>Hello {{userDisplayName}}, thank you for inviting me to the <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>.</p>",
+      "<p>My job was to help you set up the calendar.</p>",
+      "<p>The calendar has now been successfully set up in your room. Therefore, you can now leave this chat.</p>",
+      "<p>To get an overview of all commands you can send <code>!meeting help</code></p>"
+    ],
+    "introLanguage": [
+      "Information on the language setting: To enable communication in your language, you can use the following commands:  ",
+      "<ul>",
+      "<li>Change language to English: <code>!meeting lang en</code></li>",
+      "<li>Sprache auf Deutsch umstellen: <code>!meeting lang de</code></li>",
+      "</ul>"
+    ],
+    "languageWasChanged": "The language was changed to <b>{{locale}}</b>.",
+    "meetingWidgetAdded": "<p>My job is done.</p><p>The calendar is already successfully installed into your room. You can leave this private chat-room.</p>",
+    "privateRoom": {
+      "inviteReason": "In this private room bot can help with adding a meeting widget to the room '{{originalRoomName}}'.",
+      "name": "Help for {{originalRoomName}}",
+      "topic": "How to use this bot to setup the widget bot in the room {{originalRoomName}}."
+    }
+  }
+}

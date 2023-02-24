@@ -1,0 +1,14 @@
+apiVersion: v2
+name: matrix-meetings
+description: A helper chart to deploy both the widget and the bot
+type: application
+version: 0.1.0
+appVersion: "0.0.0"
+home: https://github.com/nordeck/matrix-meetings
+dependencies:
+  - name: matrix-meetings-widget
+    version: "*"
+    repository: "file://../matrix-meetings-widget"
+  - name: matrix-meetings-bot
+    version: "*"
+    repository: "file://../matrix-meetings-bot"

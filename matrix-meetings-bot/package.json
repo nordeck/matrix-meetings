@@ -1,0 +1,134 @@
+{
+  "name": "@nordeck/matrix-meetings-bot",
+  "version": "1.1.1",
+  "description": "A Bot creating rooms / meetings triggered by custom events from the Matrix Meetings Widget UI",
+  "author": "Nordeck IT + Consulting GmbH",
+  "license": "Apache-2.0",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "scripts": {
+    "docker:build": "docker build -t nordeck/matrix-meetings-bot -f Dockerfile ..",
+    "docker:run": "dotenv -c development -- docker run --rm -e HOMESERVER_URL -e ACCESS_TOKEN -e USER_ID -e DATA_PATH -e ETHERPAD_URL -e MEETINGWIDGET_URL -e WHITEBOARD_URL -e JITSI_URL -e JITSI_NAME -e LOG_LEVEL -e WHITEBOARD_NAME -e ETHERPAD_NAME -e MEETINGWIDGET_NAME -e DELETE_ROOMS_AFTER_MINUTES -e MEETINGWIDGET_COCKPIT_URL -e MEETINGWIDGET_COCKPIT_NAME -e JITSI_DIAL_IN_JSON_URL -e JITSI_PIN_URL -e NODE_ENV -e LIST_TO_AUTO_INVITE_ON_MEETING_ROOM_CREATION -e ALLOW_PREVIEW_FOR_PUBLIC_ROOMS -e JITSI_AUTH -e BREAKOUT_SESSION_WIDGET_URL --name matrix-meetings-bot nordeck/matrix-meetings-bot",
+    "docker:stop": "docker stop matrix-meetings-bot",
+    "docker:remove": "yarn run docker:stop && docker rm -v matrix-meetings-bot",
+    "docker:inspect": "docker inspect nordeck/matrix-meetings-bot",
+    "prestart": "yarn build",
+    "build": "nest build && yarn copyfiles && yarn copyImages",
+    "depcheck": "depcheck --ignores=express,i18next-parser",
+    "start": "PORT=3001 nest start",
+    "start:dev": "PORT=3001 nest start --watch",
+    "start:debug": "PORT=3001 nest start --debug --watch",
+    "copyfiles": "mkdir -p ./lib/static && cp -rp ./src/static/locales ./lib/static/",
+    "copyImages": "mkdir -p ./lib/static && cp -rp ./src/static/images ./lib/static/",
+    "lint": "eslint . --no-error-on-unmatched-pattern",
+    "translate": "i18next 'src/**/*.{ts,tsx}'",
+    "test": "jest --watch",
+    "test:all": "jest --coverage --watchAll=false",
+    "generate-disclaimer": "cp ../LICENSE ./lib/LICENSE.txt && cp NOTICE ./lib/NOTICE.txt && yarn licenses generate-disclaimer --prod >> ./lib/NOTICE.txt && yarn licenses list --prod --json --no-progress > ./lib/licenses.json"
+  },
+  "engines": {
+    "node": ">=16",
+    "yarn": ">=1.22.1 <2.0.0"
+  },
+  "dependencies": {
+    "@nestjs/common": "^9.3.9",
+    "@nestjs/config": "^2.3.1",
+    "@nestjs/core": "^9.3.9",
+    "@nestjs/microservices": "^9.3.9",
+    "@nestjs/platform-express": "^9.3.9",
+    "@nestjs/swagger": "^6.2.1",
+    "@supercharge/promise-pool": "^2.4.0",
+    "base64url": "^3.0.1",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.0",
+    "express": "^4.17.1",
+    "html-entities": "^2.3.3",
+    "i18next": "^22.0.4",
+    "i18next-fs-backend": "^2.1.1",
+    "i18next-http-middleware": "^3.2.2",
+    "joi": "^17.8.3",
+    "lodash": "^4.17.20",
+    "luxon": "^3.2.1",
+    "matrix-bot-sdk": "^0.6.3",
+    "mime-types": "^2.1.35",
+    "moment-timezone": "^0.5.40",
+    "mustache": "^4.2.0",
+    "nestjs-pino": "^3.1.2",
+    "node-fetch": "^2.6.1",
+    "pino": "^8.11.0",
+    "pino-http": "^8.3.3",
+    "reflect-metadata": "^0.1.13",
+    "rfc4648": "^1.5.2",
+    "rrule": "^2.7.2",
+    "rxjs": "^7.8.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@nestjs/cli": "^9.2.0",
+    "@types/jest": "^27.5.2",
+    "@types/lodash": "^4.14.191",
+    "@types/luxon": "^3.2.0",
+    "@types/mime-types": "^2.1.1",
+    "@types/mustache": "^4.2.2",
+    "@types/node": "^16.18.12",
+    "@types/node-fetch": "^2.6.2",
+    "@types/uuid": "^9.0.1",
+    "depcheck": "^1.4.3",
+    "dotenv-cli": "^7.0.0",
+    "eslint": "^8.34.0",
+    "i18next-parser": "^7.7.0",
+    "jest": "^27.4.3",
+    "jest-fetch-mock": "^3.0.3",
+    "ts-jest": "^27.1.5",
+    "ts-mockito": "^2.6.1",
+    "typescript": "^4.9.5"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "automock": false,
+    "resetMocks": true,
+    "setupFiles": [
+      "./setupJest.js"
+    ],
+    "preset": "ts-jest",
+    "verbose": true,
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "moduleDirectories": [
+      "lib",
+      "node_modules"
+    ],
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/setupTests.ts"
+    ],
+    "roots": [
+      "<rootDir>/src",
+      "<rootDir>/test"
+    ]
+  },
+  "files": [
+    "test/*",
+    "lib/*",
+    "env/*",
+    "tsconfig.json",
+    "tslint.json"
+  ],
+  "directories": {
+    "lib": "lib"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nordeck/matrix-meetings.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nordeck/matrix-meetings/issues"
+  },
+  "homepage": "https://github.com/nordeck/matrix-meetings#readme"
+}

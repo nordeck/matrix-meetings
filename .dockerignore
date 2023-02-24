@@ -1,0 +1,6 @@
+*
+!/package.json
+!/yarn.lock
+!/matrix-meetings-bot/package.json
+!/matrix-meetings-bot/conf
+!/matrix-meetings-bot/lib

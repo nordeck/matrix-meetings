@@ -1,0 +1,25 @@
+kind: ConfigMap
+apiVersion: v1
+metadata:
+  name: {{ include "matrix-meetings-bot.fullname" . }}-sh-tools
+data: 
+{{ tpl (.Files.Glob "files/shell-tools/create_bot_account.sh").AsConfig . | indent 2 }}
+{{ tpl (.Files.Glob "files/shell-tools/set_ratelimit_bot_db.sh").AsConfig . | indent 2 }}
+{{ tpl (.Files.Glob "files/shell-tools/get_meetings_bot_token.sh").AsConfig . | indent 2 }}
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "matrix-meetings-bot.fullname" . }}-cm
+  labels:
+    {{- include "matrix-meetings-bot.labels" . | nindent 4 }}
+data:
+  {{- if .Values.settings.config.defaultEventsConfig }}
+  default_events.json: |
+    {{- .Values.settings.config.defaultEventsConfig | nindent 4 -}}
+  {{- end }}
+  {{- if .Values.settings.config.defaultWidgetLayoutsConfig }}
+  default_widget_layouts.json: |
+    {{- .Values.settings.config.defaultWidgetLayoutsConfig | nindent 4 -}}
+  {{- end }}
+  

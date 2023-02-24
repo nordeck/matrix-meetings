@@ -1,0 +1,7 @@
+apiVersion: v2
+name: matrix-meetings-bot
+description: A matrix bot to create Meeting Rooms with customizable settings
+type: application
+version: 0.1.0
+appVersion: "0.0.0"
+home: https://github.com/nordeck/matrix-meetings

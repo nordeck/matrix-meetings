@@ -1,0 +1,301 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  build-widget:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DOCKER_IMAGE: ghcr.io/nordeck/matrix-meetings-widget
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: yarn install
+        run: yarn install --frozen-lockfile
+
+      - name: prettier:check
+        run: yarn prettier:check
+
+      - name: depcheck
+        run: yarn depcheck
+
+      - name: type checking and declarations
+        run: yarn tsc
+
+      - name: Check Linting Rules
+        working-directory: ./matrix-meetings-widget/
+        run: yarn run lint
+
+      - name: check translations
+        working-directory: ./matrix-meetings-widget/
+        run: yarn translate --fail-on-update
+
+      - name: test
+        working-directory: ./matrix-meetings-widget/
+        run: yarn test:all
+
+      - name: build
+        working-directory: ./matrix-meetings-widget/
+        run: yarn build
+
+      - name: generate disclaimer
+        working-directory: ./matrix-meetings-widget/
+        run: yarn generate-disclaimer
+
+      - name: Login to ghcr.io
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Generate Docker metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        env:
+          DOCKER_METADATA_PR_HEAD_SHA: true
+        with:
+          images: ${{ env.DOCKER_IMAGE }}
+          labels: |
+            org.opencontainers.image.title=Matrix Meetings Widget
+            org.opencontainers.image.description=A meetings widget for the Element messenger
+            org.opencontainers.image.vendor=Nordeck IT + Consulting GmbH
+          tags: |
+            type=sha,prefix=
+
+      - name: Docker build and push
+        uses: docker/build-push-action@v4
+        id: dockerBuild
+        with:
+          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'pull_request' && secrets.GH_APP_OS_APP_ID != '' }}
+          context: ./matrix-meetings-widget/
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          platforms: linux/amd64,linux/arm64,linux/s390x
+
+  build-bot:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      DOCKER_IMAGE: ghcr.io/nordeck/matrix-meetings-bot
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: yarn install
+        run: yarn install --frozen-lockfile
+
+      - name: prettier:check
+        run: yarn prettier:check
+
+      - name: depcheck
+        run: yarn depcheck
+
+      - name: type checking and declarations
+        run: yarn tsc
+
+      - name: Check Linting Rules
+        working-directory: ./matrix-meetings-bot/
+        run: yarn run lint
+
+      - name: check translations
+        working-directory: ./matrix-meetings-bot/
+        run: yarn translate --fail-on-update
+
+      - name: test
+        working-directory: ./matrix-meetings-bot/
+        run: yarn test:all
+
+      - name: build
+        working-directory: ./matrix-meetings-bot/
+        run: yarn build
+
+      - name: generate disclaimer
+        working-directory: ./matrix-meetings-bot/
+        run: yarn generate-disclaimer
+
+      - name: Login to ghcr.io
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Generate Docker metadata
+        id: meta
+        uses: docker/metadata-action@v4
+        env:
+          DOCKER_METADATA_PR_HEAD_SHA: true
+        with:
+          images: ${{ env.DOCKER_IMAGE }}
+          labels: |
+            org.opencontainers.image.title=Matrix Meetings Bot
+            org.opencontainers.image.description=A Bot creating rooms / meetings triggered by custom events from the Matrix Meetings Widget UI
+            org.opencontainers.image.vendor=Nordeck IT + Consulting GmbH
+          tags: |
+            type=sha,prefix=
+
+      - name: Docker build and push
+        uses: docker/build-push-action@v4
+        id: dockerBuild
+        with:
+          push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'pull_request' && secrets.GH_APP_OS_APP_ID != '' }}
+          context: .
+          file: matrix-meetings-bot/Dockerfile
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          # TODO: reenable s390x builds once the matrix-rust-sdk supports it
+          platforms: linux/amd64,linux/arm64
+          #platforms: linux/amd64,linux/arm64,linux/s390x
+
+  run-changesets:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    timeout-minutes: 5
+    needs:
+      - build-widget
+      - build-bot
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          # required for changesets
+          fetch-depth: '0'
+          # don't persist the credentials so the changesets action doesn't use the
+          # github actions token but the git token provided via environment variable
+          persist-credentials: false
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: yarn install
+        run: yarn install --frozen-lockfile
+
+      - name: Generate GitHub token
+        id: generate_token
+        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92
+        with:
+          app_id: ${{ secrets.GH_APP_OS_APP_ID }}
+          private_key: ${{ secrets.GH_APP_OS_PRIVATE_KEY }}
+
+      - name: Create Release Pull Request or Publish Packages
+        uses: changesets/action@e9cc34b540dd3ad1b030c57fd97269e8f6ad905a
+        with:
+          publish: yarn changeset tag
+        env:
+          GITHUB_TOKEN: ${{ steps.generate_token.outputs.token }}
+
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: ['chromium', 'firefox', 'webkit']
+        # Webkit is currently to slow in CI and causes a lot of issues.
+        # Therefore we exclude it for now.
+        exclude:
+          - browser: webkit
+          - browser: firefox
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-node@v3
+        with:
+          node-version: '16'
+          cache: 'yarn'
+
+      - name: yarn install
+        run: yarn install --frozen-lockfile
+
+      - name: build
+        run: yarn build
+
+      - name: generate disclaimer
+        run: yarn generate-disclaimer
+
+      - name: Docker build widget
+        uses: docker/build-push-action@v4
+        id: dockerBuildWidget
+        with:
+          context: ./matrix-meetings-widget/
+
+      - name: Docker build bot
+        uses: docker/build-push-action@v4
+        id: dockerBuildBot
+        with:
+          context: .
+          file: ./matrix-meetings-bot/Dockerfile
+          tags: ghcr.io/nordeck/matrix-meetings-bot:local
+
+      - name: Install Playwright Browsers
+        run: npx playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Run Playwright tests
+        env:
+          IMAGE_ID: ${{ steps.dockerBuildWidget.outputs.imageid }}
+          BOT_CONTAINER_IMAGE: ghcr.io/nordeck/matrix-meetings-bot:local
+        working-directory: ./e2e/
+        run: yarn playwright test --project=${{ matrix.browser }}
+
+      - uses: actions/upload-artifact@v3
+        if: always()
+        with:
+          name: playwright-report-${{ matrix.browser }}
+          path: e2e/playwright-report/
+          retention-days: 7
+
+  deploy:
+    if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' }}
+    name: Deploy to Dev
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs:
+      - build-widget
+      - build-bot
+      - e2e
+    steps:
+      - name: Generate GitHub token
+        id: generate_token
+        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # @v1.8.0
+        with:
+          app_id: ${{ secrets.GH_APP_OS_APP_ID }}
+          private_key: ${{ secrets.GH_APP_OS_PRIVATE_KEY }}
+
+      - name: Trigger Workflow
+        uses: actions/github-script@v6
+        with:
+          github-token: ${{ steps.generate_token.outputs.token }}
+          script: |
+            github.rest.actions.createWorkflowDispatch({
+              owner: 'nordeck',
+              repo: '${{ secrets.GITOPS_DEPLOY_REPOSITORY }}',
+              workflow_id: 'deployment.yml',
+              ref: 'main',
+              inputs: {
+                environment: '${{ secrets.GITOPS_DEPLOY_ENVIRONMENT}}',
+                application: 'matrix-meetings-widget',
+                tag: '${{ github.sha }}'
+              }
+            })

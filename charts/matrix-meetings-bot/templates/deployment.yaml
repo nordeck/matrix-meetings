@@ -1,0 +1,221 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "matrix-meetings-bot.fullname" . }}
+  labels:
+    {{- include "matrix-meetings-bot.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.replicaCount }}
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      {{- include "matrix-meetings-bot.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      annotations:
+        checksum/configmap: {{ include (print $.Template.BasePath "/configmap.yaml") . | sha256sum }}
+      {{- with .Values.podAnnotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "matrix-meetings-bot.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "matrix-meetings-bot.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        {{- if .Values.init.createUserAccount.enabled }}
+        - name: createbotuser
+          image: {{ .Values.init.synapse.image }}
+          env:
+            - name: USERTOCREATE
+              value: "{{ .Values.init.username }}"
+            - name: HOMESERVER
+              value: "{{ .Values.init.homeserverUrl }}"
+          command:
+            - sh
+            - /scripts/create_bot_account.sh
+            - secret
+          volumeMounts:
+            - name: synapse-config
+              mountPath: /data/homeserver.yaml
+              subPath: homeserver.yaml
+            - name: shell-tools
+              mountPath: /scripts
+        {{- end }}
+        {{- if .Values.init.disableRateLimitInDB.enabled }}
+        - name: setratelimit
+          image: {{ .Values.init.postgresClient.image }}
+          command:
+            - sh
+            - -x
+            - /scripts/set_ratelimit_bot_db.sh
+          volumeMounts:
+            - name: shell-tools
+              mountPath: /scripts
+          env:
+            - name: PGPORT
+              valueFrom:
+                secretKeyRef:
+                  name: pg-credentials
+                  key: db_port
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-credentials
+                  key: password
+            - name: PGDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: pg-credentials
+                  key: db_name
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: pg-credentials
+                  key: username
+            - name: PGHOST
+              valueFrom:
+                secretKeyRef:
+                  name: pg-credentials
+                  key: db_host
+            - name: USERTOCREATE
+              value: "{{ .Values.init.username }}"
+            - name: SERVER
+              value: "{{ .Values.init.homeserver }}"
+        {{- end }}
+        {{- if .Values.init.readBotTokenFromDB.enabled }}
+        - name: getbottoken
+          image: {{ .Values.init.postgresClient.image }}
+          command:
+            - sh
+            - -x
+            - /scripts/get_meetings_bot_token.sh
+          volumeMounts:
+            - name: workdir
+              mountPath: "/work-dir"
+            - name: shell-tools
+              mountPath: /scripts
+          env:
+            - name: PGPORT
+              valueFrom:
+                secretKeyRef:
+                  name: pg-credentials
+                  key: db_port
+            - name: PGPASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: pg-credentials
+                  key: password
+            - name: PGDATABASE
+              valueFrom:
+                secretKeyRef:
+                  name: pg-credentials
+                  key: db_name
+            - name: PGUSER
+              valueFrom:
+                secretKeyRef:
+                  name: pg-credentials
+                  key: username
+            - name: PGHOST
+              valueFrom:
+                secretKeyRef:
+                  name: pg-credentials
+                  key: db_host
+            - name: USERTOCREATE
+              value: "{{ .Values.init.username }}"
+            - name: SERVER
+              value: "{{ .Values.init.homeserver }}"
+        {{- end }}
+      containers:
+        - name: {{ .Chart.Name }}
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          readinessProbe:
+              httpGet:
+                path: /v1/health
+                port: http
+          livenessProbe:
+              httpGet:
+                path: /v1/health
+                port: http
+          env:
+            - name: STORAGE_FILE_DATA_PATH
+              value: /app/storage
+            - name: MEETINGWIDGET_URL
+              value: '{{ .Values.settings.widgetUrl }}/#/?theme=$org.matrix.msc2873.client_theme&matrix_user_id=$matrix_user_id&matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_room_id=$matrix_room_id&matrix_client_id=$org.matrix.msc2873.client_id&matrix_client_language=$org.matrix.msc2873.client_language'
+            - name: MEETINGWIDGET_COCKPIT_URL
+              value: '{{ .Values.settings.widgetUrl }}/cockpit/#/?theme=$org.matrix.msc2873.client_theme&matrix_user_id=$matrix_user_id&matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_room_id=$matrix_room_id&matrix_client_id=$org.matrix.msc2873.client_id&matrix_client_language=$org.matrix.msc2873.client_language'
+            - name: BREAKOUT_SESSION_WIDGET_URL
+              value: '{{ .Values.settings.widgetUrl }}/#/?theme=$org.matrix.msc2873.client_theme&matrix_user_id=$matrix_user_id&matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_room_id=$matrix_room_id&matrix_client_id=$org.matrix.msc2873.client_id&matrix_client_language=$org.matrix.msc2873.client_language'
+            {{- if .Values.settings.additionalEnv }}
+              {{- toYaml .Values.settings.additionalEnv | nindent 12 }}
+            {{- end }}
+          volumeMounts:
+            - name: data
+              mountPath: /app/storage
+            {{- if .Values.init.readBotTokenFromDB.enabled }}
+            - name: workdir
+              mountPath: "/app/.env"
+              subPath: ".env"
+            {{- end }}
+            {{- if .Values.settings.config.defaultEventsConfig }}
+            - name: configurations
+              mountPath: /app/conf/default_events.json
+              subPath: default_events.json
+            {{- end }}
+            {{- if .Values.settings.config.defaultWidgetLayoutsConfig }}
+            - name: configurations
+              mountPath: /app/conf/default_widget_layouts.json
+              subPath: default_widget_layouts.json
+            {{- end }}
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: data
+          {{- if .Values.persistence.enabled }}
+          persistentVolumeClaim:
+            claimName: {{ .Values.persistence.existingClaim | default (include "matrix-meetings-bot.fullname" .) }}
+          {{- else }}
+          emptyDir: {}
+          {{- end }}
+        - name: workdir
+          emptyDir: {}
+        - name: configurations
+          configMap:
+            name: {{ include "matrix-meetings-bot.fullname" . }}-cm
+            defaultMode: 0777
+        {{- if or .Values.init.createUserAccount.enabled .Values.init.disableRateLimitInDB.enabled .Values.init.readBotTokenFromDB.enabled }}
+        - name: shell-tools
+          configMap:
+            name: {{ include "matrix-meetings-bot.fullname" . }}-sh-tools
+        - name: synapse-config
+          configMap:
+            name: synapse-config
+            items:
+              - key: homeserver.yaml
+                path: homeserver.yaml
+        {{- end }}
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

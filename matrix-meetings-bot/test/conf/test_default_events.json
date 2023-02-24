@@ -1,0 +1,89 @@
+{
+  "state_events": [
+    {
+      "type": "m.room.power_levels",
+      "content": {
+        "events": {
+          "net.nordeck.meetings.metadata": 100,
+          "m.room.tombstone": 100,
+          "net.nordeck.meetings.meeting.update": 50,
+          "net.nordeck.meetings.meeting.create": 50,
+          "net.nordeck.meetings.meeting.close": 50,
+          "im.vector.modular.widgets": 50
+        },
+        "users_default": 0,
+        "users": {},
+        "events_default": 0,
+        "state_default": 50,
+        "ban": 50,
+        "kick": 50,
+        "redact": 50,
+        "invite": 50
+      }
+    },
+    {
+      "type": "m.room.history_visibility",
+      "content": {
+        "history_visibility": "joined"
+      }
+    },
+    {
+      "type": "m.room.guest_access",
+      "content": {
+        "guest_access": "forbidden"
+      }
+    },
+    {
+      "type": "m.room.join_rules",
+      "content": {
+        "join_rule": "public"
+      }
+    },
+    {
+      "type": "im.vector.modular.widgets",
+      "state_key": "jitsi",
+      "content": {
+        "type": "jitsi",
+        "url": "https://jitsi.riot.im/jitsi.html?confId={{#encodeURIComponent}}{{base32_room_id}}{{/encodeURIComponent}}#conferenceId=$conferenceId&domain=$domain&isAudioOnly=$isAudioOnly&displayName=$matrix_display_name&avatarUrl=$matrix_avatar_url&userId=$matrix_user_id&roomId=$matrix_room_id&roomName=$roomName&theme=$theme{{#data.auth}}&auth={{data.auth}}{{/data.auth}}",
+        "name": "Video Conference",
+        "avatar_url": "../../src/static/images/calendar.png",
+        "data": {
+          "domain": "meet.jit.si",
+          "conferenceId": "{{base32_room_id}}",
+          "roomName": "{{title}}",
+          "isAudioOnly": true,
+          "auth": "token123"
+        }
+      }
+    },
+    {
+      "state_key": "etherpad",
+      "type": "im.vector.modular.widgets",
+      "content": {
+        "type": "m.etherpad",
+        "url": "https://some_url/p/{{#encodeURIComponent}}{{base32_room_id}}{{/encodeURIComponent}}?matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_user_id=$matrix_user_id&matrix_room_id=$matrix_room_id&theme=$theme&showChat=false",
+        "name": "{{appConfig.etherpad_name}}"
+      }
+    },
+    {
+      "type": "im.vector.modular.widgets",
+      "state_key": "whiteboard",
+      "content": {
+        "type": "net.nordeck.whiteboard",
+        "url": "https://some_url/?whiteboardid={{#encodeURIComponent}}{{base32_room_id}}{{/encodeURIComponent}}&matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_user_id=$matrix_user_id&matrix_room_id=$matrix_room_id&theme=$theme",
+        "name": "{{appConfig.whiteboard_name}}"
+      }
+    },
+
+    {
+      "type": "im.vector.modular.widgets",
+      "state_key": "poll",
+      "content": {
+        "type": "net.nordeck.poll",
+        "url": "https://some_url?theme=$theme&matrix_user_id=$matrix_user_id&matrix_avatar_url=$matrix_avatar_url&matrix_display_name=$matrix_display_name&matrix_room_id=$matrix_room_id",
+        "name": "Poll"
+      }
+    }
+  ],
+  "room_events": []
+}

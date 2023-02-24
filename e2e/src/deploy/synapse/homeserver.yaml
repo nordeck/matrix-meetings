@@ -1,0 +1,86 @@
+server_name: 'localhost'
+pid_file: /data/homeserver.pid
+# This won't actually be right: it lets docker allocate an ephemeral port,
+# so we have a chicken-and-egg problem
+public_baseurl: http://localhost:8008/
+listeners:
+  - port: 8008
+    tls: false
+    bind_addresses: ['::']
+    type: http
+    x_forwarded: true
+
+    resources:
+      - names: [client, federation]
+        compress: false
+
+database:
+  name: 'sqlite3'
+  args:
+    database: ':memory:'
+
+log_config: '/data/log.config'
+
+rc_messages_per_second: 10000
+rc_message_burst_count: 10000
+rc_registration:
+  per_second: 10000
+  burst_count: 10000
+
+rc_login:
+  address:
+    per_second: 10000
+    burst_count: 10000
+  account:
+    per_second: 10000
+    burst_count: 10000
+  failed_attempts:
+    per_second: 10000
+    burst_count: 10000
+
+rc_joins:
+  local:
+    per_second: 10000
+    burst_count: 10000
+  remote:
+    per_second: 10000
+    burst_count: 10000
+
+rc_invites:
+  per_room:
+    per_second: 10000
+    burst_count: 10000
+  per_user:
+    per_second: 10000
+    burst_count: 10000
+  per_issuer:
+    per_second: 10000
+    burst_count: 10000
+
+media_store_path: '/data/media_store'
+uploads_path: '/data/uploads'
+enable_registration: true
+enable_registration_without_verification: true
+disable_msisdn_registration: false
+registration_shared_secret: '{{REGISTRATION_SECRET}}'
+report_stats: false
+macaroon_secret_key: '{{MACAROON_SECRET_KEY}}'
+form_secret: '{{FORM_SECRET}}'
+signing_key_path: '/data/localhost.signing.key'
+
+trusted_key_servers:
+  - server_name: 'matrix.org'
+suppress_key_server_warning: true
+
+# Controls for the state that is shared with users who receive an invite
+# to a room
+room_prejoin_state:
+  # Additional state event types to share with users when they are invited
+  # to a room.
+  #
+  # By default, this list is empty (so only the default event types are shared).
+  #
+  additional_event_types:
+    - m.space.parent
+    - net.nordeck.meetings.metadata
+    - m.room.power_levels

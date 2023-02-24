@@ -1,0 +1,22 @@
+[
+  {
+    "rule": "aria-required-children",
+    "description": "Ensures elements with an ARIA role that require child roles contain them",
+    "targets": [
+      {
+        "target": [
+          "iframe",
+          ".fc-scrollgrid"
+        ],
+        "failureSummary": "Fix any of the following:\n  Element has children which are not allowed (see related nodes)\n  Element has no aria-busy=\"true\" attribute"
+      },
+      {
+        "target": [
+          "iframe",
+          "tbody[role=\"rowgroup\"]"
+        ],
+        "failureSummary": "Fix any of the following:\n  Element has children which are not allowed (see related nodes)\n  Element has no aria-busy=\"true\" attribute"
+      }
+    ]
+  }
+]

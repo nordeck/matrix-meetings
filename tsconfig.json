@@ -1,0 +1,22 @@
+// This is the root tsconfig that is extended by the individual packages
+{
+  "compilerOptions": {
+    "target": "es6",
+    "lib": ["dom", "dom.iterable", "esnext"],
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "strict": true,
+    "module": "esnext",
+    "moduleResolution": "node",
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "react-jsx",
+    "skipLibCheck": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    // TODO: this option was enabled with the typescript update, but this introduces some errors. we should to revert this to the default and fix the errors
+    "useUnknownInCatchVariables": false
+  }
+}
