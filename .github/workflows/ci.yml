@@ -295,7 +295,7 @@ jobs:
               ref: 'main',
               inputs: {
                 environment: '${{ secrets.GITOPS_DEPLOY_ENVIRONMENT}}',
-                application: 'matrix-meetings-widget',
+                application: 'matrix-meetings',
                 tag: '${{ github.sha }}'
               }
             })
