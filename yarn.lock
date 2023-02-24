@@ -1710,10 +1710,10 @@
   resolved "https://registry.yarnpkg.com/@fontsource/inter/-/inter-4.5.14.tgz#3944b809aa7bf27dacd20bdc04a49fb738959724"
   integrity sha512-JDC9AocdPLuGsASkvWw9hS5gtHE7K9dOwL98XLrk5yjYqxy4uVnScG58NUvFMJDVJRl/7c8Wnap6PEs+7Zvj1Q==
 
-"@fullcalendar/common@^5.11.3", "@fullcalendar/common@~5.11.2", "@fullcalendar/common@~5.11.3":
-  version "5.11.3"
-  resolved "https://registry.yarnpkg.com/@fullcalendar/common/-/common-5.11.3.tgz#6d555a06925b8a6d1556570c9f039960539908d5"
-  integrity sha512-welVwyfQOXQQGfDwBMSfYEPbiO1cPfUD+C7jd3ZoweJR+dSO11ddFugxIQ7dGfABAGZ63oq/+LW9FsmAJezVNg==
+"@fullcalendar/common@^5.11.3", "@fullcalendar/common@~5.11.3", "@fullcalendar/common@~5.11.4":
+  version "5.11.4"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/common/-/common-5.11.4.tgz#3541f4605bac9ea9a28bb939173f49d0c54a301b"
+  integrity sha512-wjy+EZgZIPWq1Z5qeB/pV2dmsXwzTJ2teNh5bjlVeHsvDYwERXSZEG2CdoF/NCTJaYeQY93xu1cj9Jw/0KXywA==
   dependencies:
     tslib "^2.1.0"
 
@@ -1742,12 +1742,12 @@
     "@fullcalendar/common" "~5.11.3"
     tslib "^2.1.0"
 
-"@fullcalendar/react@^5.11.2":
-  version "5.11.2"
-  resolved "https://registry.yarnpkg.com/@fullcalendar/react/-/react-5.11.2.tgz#019e6a0573d869c2a52f63426e13593857ee2d30"
-  integrity sha512-OnLvfV406VEQcK4QGN8xR4ro6Manp9dKE7/n9dhs19J1kKpqS1w1sIEYg1dT11njbk0Ob+TdF3cXLDFq73jUlA==
+"@fullcalendar/react@^5.11.4":
+  version "5.11.4"
+  resolved "https://registry.yarnpkg.com/@fullcalendar/react/-/react-5.11.4.tgz#a256f9510567f8e024e01b1e7838f5332b5b7ace"
+  integrity sha512-I9n9ENcQJWBZRNUfKrfab5z5ZXVHC4XdNnjqOHCG1JJzl1jRZjkK/6v3mORbXHoxa+vf9LP62sNl4Yb9RYZwPA==
   dependencies:
-    "@fullcalendar/common" "~5.11.2"
+    "@fullcalendar/common" "~5.11.4"
     tslib "^2.1.0"
 
 "@fullcalendar/timegrid@^5.11.3":
