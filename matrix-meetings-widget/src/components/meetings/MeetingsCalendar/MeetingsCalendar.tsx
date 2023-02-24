@@ -17,12 +17,14 @@
 import {
   EventClickArg,
   EventContentArg,
+  EventInput,
   EventMountArg,
   MoreLinkArg,
   MoreLinkMountArg,
-} from '@fullcalendar/common';
+  MoreLinkSimpleAction,
+} from '@fullcalendar/core';
 import deLocale from '@fullcalendar/core/locales/de';
-import FullCalendar, { EventInput } from '@fullcalendar/react'; // must be imported before plugins
+import FullCalendar from '@fullcalendar/react';
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import { unstable_useId as useId } from '@mui/utils';
 import { isEqual } from 'lodash';
@@ -189,7 +191,7 @@ export const MeetingsCalendar = ({
   }, []);
 
   const handleMoreLinkClick = useCallback(
-    (arg: MoreLinkArg) => {
+    (arg: MoreLinkArg): MoreLinkSimpleAction => {
       onShowMore(arg.date);
 
       // We handled the click, don't show the dialog

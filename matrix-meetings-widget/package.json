@@ -6,12 +6,11 @@
   "version": "1.2.1",
   "private": true,
   "dependencies": {
-    "@fullcalendar/common": "^5.11.3",
-    "@fullcalendar/core": "^5.11.3",
-    "@fullcalendar/daygrid": "^5.11.3",
-    "@fullcalendar/interaction": "^5.11.3",
-    "@fullcalendar/react": "^5.11.2",
-    "@fullcalendar/timegrid": "^5.11.3",
+    "@fullcalendar/core": "^6.1.4",
+    "@fullcalendar/daygrid": "^6.1.4",
+    "@fullcalendar/interaction": "^6.1.4",
+    "@fullcalendar/react": "^6.1.4",
+    "@fullcalendar/timegrid": "^6.1.4",
     "@matrix-widget-toolkit/api": "^3.1.0",
     "@matrix-widget-toolkit/mui": "^1.0.7",
     "@matrix-widget-toolkit/react": "^1.0.2",
@@ -102,6 +101,11 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "(?!(/node_modules/(@fullcalendar)/))(/node_modules/.+.(js|jsx|mjs|cjs|ts|tsx)$)"
     ]
   },
   "repository": {
