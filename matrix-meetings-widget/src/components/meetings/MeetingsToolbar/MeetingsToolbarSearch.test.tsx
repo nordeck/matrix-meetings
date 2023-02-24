@@ -34,13 +34,13 @@ describe('<MeetingsToolbarSearch/>', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it('should call onSearchChange when the search field is updated', () => {
+  it('should call onSearchChange when the search field is updated', async () => {
     const onSearchChange = jest.fn();
 
     render(<MeetingsToolbarSearch onSearchChange={onSearchChange} search="" />);
 
     const textbox = screen.getByRole('textbox', { name: 'Search' });
-    userEvent.type(textbox, 'N');
+    await userEvent.type(textbox, 'N');
 
     expect(onSearchChange).toHaveBeenLastCalledWith('N');
   });

@@ -535,7 +535,7 @@ describe('<CustomRecurringMeeting>', () => {
     expect(onCustomIntervalChange).toHaveBeenLastCalledWith('7');
   });
 
-  it('should change frequency', () => {
+  it('should change frequency', async () => {
     render(
       <CustomRecurringMeeting
         customByWeekday={[]}
@@ -558,7 +558,7 @@ describe('<CustomRecurringMeeting>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(screen.getByRole('button', { name: 'Repeat Days' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Repeat Days' }));
 
     expect(screen.getAllByRole('option').map((o) => o.textContent)).toEqual([
       'Days',
@@ -567,12 +567,12 @@ describe('<CustomRecurringMeeting>', () => {
       'Years',
     ]);
 
-    userEvent.click(screen.getByRole('option', { name: 'Months' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Months' }));
 
     expect(onCustomFrequencyChange).toHaveBeenLastCalledWith(Frequency.MONTHLY);
   });
 
-  it('should change by weekday', () => {
+  it('should change by weekday', async () => {
     render(
       <CustomRecurringMeeting
         customByWeekday={[5]}
@@ -613,14 +613,14 @@ describe('<CustomRecurringMeeting>', () => {
       'Saturday',
     ]);
 
-    userEvent.click(
+    await userEvent.click(
       within(weekdaysGroup).getByRole('button', { name: 'Tuesday' })
     );
 
     expect(onCustomByWeekdayChange).toHaveBeenLastCalledWith([1, 5]);
   });
 
-  it('should change rule mode for montly recurrence to by weekday', () => {
+  it('should change rule mode for montly recurrence to by weekday', async () => {
     render(
       <CustomRecurringMeeting
         customByWeekday={[]}
@@ -643,7 +643,7 @@ describe('<CustomRecurringMeeting>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('radio', {
         name: 'The meeting is repeated monthly on third Tuesday',
       })
@@ -654,7 +654,7 @@ describe('<CustomRecurringMeeting>', () => {
     );
   });
 
-  it('should change monthday for monthly recurrence (rule mode by monthday)', () => {
+  it('should change monthday for monthly recurrence (rule mode by monthday)', async () => {
     render(
       <CustomRecurringMeeting
         customByWeekday={[]}
@@ -689,7 +689,7 @@ describe('<CustomRecurringMeeting>', () => {
     expect(onCustomNthMonthdayChange).toHaveBeenLastCalledWith('10');
   });
 
-  it('should change n-th for monthly recurrence (rule mode by weekday)', () => {
+  it('should change n-th for monthly recurrence (rule mode by weekday)', async () => {
     render(
       <CustomRecurringMeeting
         customByWeekday={[]}
@@ -716,7 +716,7 @@ describe('<CustomRecurringMeeting>', () => {
       name: 'The meeting is repeated monthly on third Tuesday',
     });
 
-    userEvent.click(
+    await userEvent.click(
       within(weekdayGroup).getByRole('button', {
         name: 'Ordinal third',
       })
@@ -728,12 +728,12 @@ describe('<CustomRecurringMeeting>', () => {
       'fourth',
       'last',
     ]);
-    userEvent.click(screen.getByRole('option', { name: 'last' }));
+    await userEvent.click(screen.getByRole('option', { name: 'last' }));
 
     expect(onCustomNthChange).toHaveBeenLastCalledWith(-1);
   });
 
-  it('should change weekday for monthly recurrence (rule mode by weekday)', () => {
+  it('should change weekday for monthly recurrence (rule mode by weekday)', async () => {
     render(
       <CustomRecurringMeeting
         customByWeekday={[]}
@@ -760,7 +760,7 @@ describe('<CustomRecurringMeeting>', () => {
       name: 'The meeting is repeated monthly on third Tuesday',
     });
 
-    userEvent.click(
+    await userEvent.click(
       within(weekdayGroup).getByRole('button', { name: 'Weekday Tuesday' })
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
@@ -772,12 +772,12 @@ describe('<CustomRecurringMeeting>', () => {
       'Friday',
       'Saturday',
     ]);
-    userEvent.click(screen.getByRole('option', { name: 'Thursday' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Thursday' }));
 
     expect(onCustomWeekdayChange).toHaveBeenLastCalledWith(3);
   });
 
-  it('should change rule mode for yearly recurrence to by weekday', () => {
+  it('should change rule mode for yearly recurrence to by weekday', async () => {
     render(
       <CustomRecurringMeeting
         customByWeekday={[]}
@@ -800,7 +800,7 @@ describe('<CustomRecurringMeeting>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('radio', {
         name: 'The meeting is repeated yearly at third Tuesday of December',
       })
@@ -846,7 +846,7 @@ describe('<CustomRecurringMeeting>', () => {
     expect(onCustomNthMonthdayChange).toHaveBeenLastCalledWith('10');
   });
 
-  it('should change month for yearly recurrence (rule mode by monthday)', () => {
+  it('should change month for yearly recurrence (rule mode by monthday)', async () => {
     render(
       <CustomRecurringMeeting
         customByWeekday={[]}
@@ -873,7 +873,7 @@ describe('<CustomRecurringMeeting>', () => {
       name: 'The meeting is repeated yearly on 19 October',
     });
 
-    userEvent.click(
+    await userEvent.click(
       within(monthdayGroup).getByRole('button', { name: 'Month October' })
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
@@ -890,12 +890,12 @@ describe('<CustomRecurringMeeting>', () => {
       'November',
       'December',
     ]);
-    userEvent.click(screen.getByRole('option', { name: 'April' }));
+    await userEvent.click(screen.getByRole('option', { name: 'April' }));
 
     expect(onCustomMonthChange).toHaveBeenLastCalledWith(4);
   });
 
-  it('should change n-th for yearly recurrence (rule mode by weekday)', () => {
+  it('should change n-th for yearly recurrence (rule mode by weekday)', async () => {
     render(
       <CustomRecurringMeeting
         customByWeekday={[]}
@@ -922,7 +922,7 @@ describe('<CustomRecurringMeeting>', () => {
       name: 'The meeting is repeated yearly at third Tuesday of December',
     });
 
-    userEvent.click(
+    await userEvent.click(
       within(weekdayGroup).getByRole('button', {
         name: 'Ordinal third',
       })
@@ -934,12 +934,12 @@ describe('<CustomRecurringMeeting>', () => {
       'fourth',
       'last',
     ]);
-    userEvent.click(screen.getByRole('option', { name: 'last' }));
+    await userEvent.click(screen.getByRole('option', { name: 'last' }));
 
     expect(onCustomNthChange).toHaveBeenLastCalledWith(-1);
   });
 
-  it('should change weekday for yearly recurrence (rule mode by weekday)', () => {
+  it('should change weekday for yearly recurrence (rule mode by weekday)', async () => {
     render(
       <CustomRecurringMeeting
         customByWeekday={[]}
@@ -966,7 +966,7 @@ describe('<CustomRecurringMeeting>', () => {
       name: 'The meeting is repeated yearly at third Tuesday of December',
     });
 
-    userEvent.click(
+    await userEvent.click(
       within(weekdayGroup).getByRole('button', { name: 'Weekday Tuesday' })
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
@@ -978,12 +978,12 @@ describe('<CustomRecurringMeeting>', () => {
       'Friday',
       'Saturday',
     ]);
-    userEvent.click(screen.getByRole('option', { name: 'Thursday' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Thursday' }));
 
     expect(onCustomWeekdayChange).toHaveBeenLastCalledWith(3);
   });
 
-  it('should change month for yearly recurrence (rule mode by weekday)', () => {
+  it('should change month for yearly recurrence (rule mode by weekday)', async () => {
     render(
       <CustomRecurringMeeting
         customByWeekday={[]}
@@ -1010,7 +1010,7 @@ describe('<CustomRecurringMeeting>', () => {
       name: 'The meeting is repeated yearly at third Tuesday of December',
     });
 
-    userEvent.click(
+    await userEvent.click(
       within(weekdayGroup).getByRole('button', { name: 'Month October' })
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
@@ -1027,7 +1027,7 @@ describe('<CustomRecurringMeeting>', () => {
       'November',
       'December',
     ]);
-    userEvent.click(screen.getByRole('option', { name: 'April' }));
+    await userEvent.click(screen.getByRole('option', { name: 'April' }));
 
     expect(onCustomMonthChange).toHaveBeenLastCalledWith(4);
   });

@@ -71,7 +71,7 @@ describe('<DateRangePicker>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is February 1 – 7, 2022/i,
       })
@@ -121,31 +121,31 @@ describe('<DateRangePicker>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is February 1 – 7, 2022/i,
       })
     );
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: 'calendar view is open, switch to year view',
       })
     );
 
-    userEvent.click(screen.getByRole('button', { name: '2022' }));
-    userEvent.click(screen.getByRole('button', { name: 'Jan' }));
-    userEvent.click(screen.getByRole('gridcell', { name: '13' }));
+    await userEvent.click(screen.getByRole('button', { name: '2022' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Jan' }));
+    await userEvent.click(screen.getByRole('gridcell', { name: '13' }));
 
-    userEvent.click(screen.getByRole('gridcell', { name: '20' }));
+    await userEvent.click(screen.getByRole('gridcell', { name: '20' }));
 
     expect(onRangeChange).toBeCalledTimes(1);
     expect(onRangeChange).toHaveBeenLastCalledWith(
       '2022-01-13T00:00:00.000Z',
       '2022-01-20T23:59:59.999Z'
     );
-  });
+  }, 10000);
 
-  it('should not change range if user aborts after selecting a start date', () => {
+  it('should not change range if user aborts after selecting a start date', async () => {
     render(
       <DateRangePicker
         endDate="2022-02-07T23:59:59Z"
@@ -155,24 +155,24 @@ describe('<DateRangePicker>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is February 1 – 7, 2022/i,
       })
     );
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: 'calendar view is open, switch to year view',
       })
     );
 
-    userEvent.click(screen.getByRole('button', { name: '2022' }));
-    userEvent.click(screen.getByRole('button', { name: 'Jan' }));
-    userEvent.click(screen.getByRole('gridcell', { name: '15' }));
+    await userEvent.click(screen.getByRole('button', { name: '2022' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Jan' }));
+    await userEvent.click(screen.getByRole('gridcell', { name: '15' }));
 
-    userEvent.keyboard('{escape}');
+    await userEvent.keyboard('{escape}');
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is February 1 – 7, 2022/i,
       })
@@ -184,7 +184,7 @@ describe('<DateRangePicker>', () => {
     expect(onRangeChange).not.toBeCalled();
   });
 
-  it('should set start and end to the same day', () => {
+  it('should set start and end to the same day', async () => {
     render(
       <DateRangePicker
         endDate="2022-02-07T23:59:59Z"
@@ -194,31 +194,31 @@ describe('<DateRangePicker>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is February 1 – 7, 2022/i,
       })
     );
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: 'calendar view is open, switch to year view',
       })
     );
 
-    userEvent.click(screen.getByRole('button', { name: '2022' }));
-    userEvent.click(screen.getByRole('button', { name: 'Jan' }));
-    userEvent.click(screen.getByRole('gridcell', { name: '15' }));
+    await userEvent.click(screen.getByRole('button', { name: '2022' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Jan' }));
+    await userEvent.click(screen.getByRole('gridcell', { name: '15' }));
 
-    userEvent.click(screen.getByRole('gridcell', { name: '15' }));
+    await userEvent.click(screen.getByRole('gridcell', { name: '15' }));
 
     expect(onRangeChange).toBeCalledTimes(1);
     expect(onRangeChange).toHaveBeenLastCalledWith(
       '2022-01-15T00:00:00.000Z',
       '2022-01-15T23:59:59.999Z'
     );
-  });
+  }, 10000);
 
-  it('should not select end before start date', () => {
+  it('should not select end before start date', async () => {
     render(
       <DateRangePicker
         endDate="2022-02-07T23:59:59Z"
@@ -228,20 +228,20 @@ describe('<DateRangePicker>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is February 1 – 7, 2022/i,
       })
     );
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: 'calendar view is open, switch to year view',
       })
     );
 
-    userEvent.click(screen.getByRole('button', { name: '2022' }));
-    userEvent.click(screen.getByRole('button', { name: 'Jan' }));
-    userEvent.click(screen.getByRole('gridcell', { name: '15' }));
+    await userEvent.click(screen.getByRole('button', { name: '2022' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Jan' }));
+    await userEvent.click(screen.getByRole('gridcell', { name: '15' }));
 
     expect(screen.getByRole('gridcell', { name: '14' })).toBeDisabled();
   });

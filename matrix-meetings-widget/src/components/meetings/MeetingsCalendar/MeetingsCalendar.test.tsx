@@ -512,7 +512,7 @@ describe('<MeetingsCalendar/>', () => {
     );
 
     const day1 = screen.getByRole('gridcell', { name: /^january 1, 2021/i });
-    userEvent.click(
+    await userEvent.click(
       await within(day1).findByRole('button', {
         name: 'Show 2 more events',
       })
@@ -598,7 +598,7 @@ describe('<MeetingsCalendar/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', {
         name: /January 2, 2021(,| at) 2:00 PM–3:00 PM: “Meeting 5” by Alice/,
       })
@@ -611,7 +611,9 @@ describe('<MeetingsCalendar/>', () => {
     expect(within(dialog).getByText('Meeting 5')).toBeInTheDocument();
     expect(within(dialog).getByText('A brief description')).toBeInTheDocument();
 
-    userEvent.click(within(dialog).getByRole('button', { name: /close/i }));
+    await userEvent.click(
+      within(dialog).getByRole('button', { name: /close/i })
+    );
 
     // There is an animation closing the dialog
     await waitFor(() => {

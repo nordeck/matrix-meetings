@@ -193,7 +193,9 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
       description: /^Jan 1, 2999(,| at) 10:00 AM – 2:00 PM$/,
     });
 
-    userEvent.click(within(dialog).getByRole('button', { name: 'Close' }));
+    await userEvent.click(
+      within(dialog).getByRole('button', { name: 'Close' })
+    );
 
     expect(onClose).toBeCalled();
   });

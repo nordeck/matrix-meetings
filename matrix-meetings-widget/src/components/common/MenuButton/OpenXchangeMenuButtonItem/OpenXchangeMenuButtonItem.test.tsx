@@ -80,7 +80,7 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(screen.getByRole('button', { name: 'Menu' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Menu' }));
 
     const linkEl = await screen.findByRole('menuitem', { name: 'Edit' });
 
@@ -105,7 +105,7 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(screen.getByRole('button', { name: 'Menu' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Menu' }));
 
     await expect(
       screen.findByRole('menuitem', { name: /edit/i })
@@ -131,7 +131,7 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(screen.getByRole('button', { name: 'Menu' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Menu' }));
 
     const linkEl = await screen.findByRole('menuitem', { name: 'Edit' });
 
@@ -158,7 +158,7 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(screen.getByRole('button', { name: 'Menu' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Menu' }));
 
     const linkEl = await screen.findByRole('menuitem', { name: 'Edit' });
 

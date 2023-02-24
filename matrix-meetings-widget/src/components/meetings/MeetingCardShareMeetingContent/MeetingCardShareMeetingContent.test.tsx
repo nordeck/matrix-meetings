@@ -154,14 +154,14 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     );
   });
 
-  it('should open the meeting link dialog', () => {
+  it('should open the meeting link dialog', async () => {
     render(<MeetingCardShareMeetingContent meeting={meeting} />, {
       wrapper: Wrapper,
     });
 
     const list = screen.getByRole('list', { name: /share meeting/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(list).getByRole('button', { name: /share meeting link/i })
     );
 
@@ -176,7 +176,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     expect(within(dialog).queryByRole('status')).not.toBeInTheDocument();
   });
 
-  it('should warn the user when sharing a link that the meeting is recurring', () => {
+  it('should warn the user when sharing a link that the meeting is recurring', async () => {
     meeting.calendarEntries = [
       mockCalendarEntry({
         dtstart: '29990101T100000',
@@ -190,7 +190,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
 
     const list = screen.getByRole('list', { name: /share meeting/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(list).getByRole('button', { name: /share meeting link/i })
     );
 
@@ -224,7 +224,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
       expect(listItem).not.toHaveAttribute('aria-disabled', 'true');
     });
 
-    userEvent.click(
+    await userEvent.click(
       await within(list).findByRole('button', {
         name: /share dial-in number/i,
       })
@@ -272,7 +272,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
       expect(listItem).not.toHaveAttribute('aria-disabled', 'true');
     });
 
-    userEvent.click(
+    await userEvent.click(
       await within(list).findByRole('button', {
         name: /share dial-in number/i,
       })
@@ -313,14 +313,14 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     expect(listItem).toHaveAttribute('aria-disabled', 'true');
   });
 
-  it('should open the email dialog', () => {
+  it('should open the email dialog', async () => {
     render(<MeetingCardShareMeetingContent meeting={meeting} />, {
       wrapper: Wrapper,
     });
 
     const list = screen.getByRole('list', { name: /share meeting/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(list).getByRole('button', { name: /share by email/i })
     );
 
@@ -335,7 +335,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     expect(within(dialog).queryByRole('status')).not.toBeInTheDocument();
   });
 
-  it('should warn the user when sharing an email that the meeting is recurring', () => {
+  it('should warn the user when sharing an email that the meeting is recurring', async () => {
     meeting.calendarEntries = [
       mockCalendarEntry({
         dtstart: '29990101T100000',
@@ -349,7 +349,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
 
     const list = screen.getByRole('list', { name: /share meeting/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(list).getByRole('button', { name: /share by email/i })
     );
 
@@ -362,14 +362,14 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     );
   });
 
-  it('should open the ICS dialog', () => {
+  it('should open the ICS dialog', async () => {
     render(<MeetingCardShareMeetingContent meeting={meeting} />, {
       wrapper: Wrapper,
     });
 
     const list = screen.getByRole('list', { name: /share meeting/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(list).getByRole('button', { name: /download ics file/i })
     );
 
@@ -382,7 +382,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     ).toBeInTheDocument();
   });
 
-  it('should warn the user when sharing an ics file that the meeting is recurring', () => {
+  it('should warn the user when sharing an ics file that the meeting is recurring', async () => {
     meeting.calendarEntries = [
       mockCalendarEntry({
         dtstart: '29990101T100000',
@@ -396,7 +396,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
 
     const list = screen.getByRole('list', { name: /share meeting/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(list).getByRole('button', { name: /download ics file/i })
     );
 

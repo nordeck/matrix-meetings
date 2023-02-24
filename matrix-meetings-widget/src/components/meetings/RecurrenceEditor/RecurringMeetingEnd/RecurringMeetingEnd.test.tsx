@@ -159,7 +159,7 @@ describe('<RecurringMeetingEnd>', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it('should select endless repetition', () => {
+  it('should select endless repetition', async () => {
     render(
       <RecurringMeetingEnd
         afterMeetingCount="10"
@@ -173,14 +173,14 @@ describe('<RecurringMeetingEnd>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('radio', { name: 'The meeting is repeated forever' })
     );
 
     expect(onRecurrenceEndChange).toHaveBeenLastCalledWith(RecurrenceEnd.Never);
   });
 
-  it('should select until end date', () => {
+  it('should select until end date', async () => {
     render(
       <RecurringMeetingEnd
         afterMeetingCount="10"
@@ -194,7 +194,7 @@ describe('<RecurringMeetingEnd>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('radio', {
         name: 'The meeting is repeated till January 2, 2022',
       })
@@ -205,7 +205,7 @@ describe('<RecurringMeetingEnd>', () => {
     );
   });
 
-  it('should select end after meeting count', () => {
+  it('should select end after meeting count', async () => {
     render(
       <RecurringMeetingEnd
         afterMeetingCount="10"
@@ -219,7 +219,7 @@ describe('<RecurringMeetingEnd>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('radio', { name: 'Ends after 10 meetings' })
     );
 

@@ -72,7 +72,7 @@ describe('<EndTimePicker/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(screen.getByLabelText(/choose end time/i));
+    await userEvent.click(screen.getByLabelText(/choose end time/i));
 
     expect(await axe(container)).toHaveNoViolations();
   });

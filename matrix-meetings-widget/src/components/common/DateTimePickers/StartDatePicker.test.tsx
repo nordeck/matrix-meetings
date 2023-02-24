@@ -72,7 +72,7 @@ describe('<StartDatePicker/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(screen.getByLabelText(/choose start date/i));
+    await userEvent.click(screen.getByLabelText(/choose start date/i));
 
     expect(await axe(container)).toHaveNoViolations();
   });

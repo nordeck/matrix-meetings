@@ -142,7 +142,7 @@ describe('<MeetingCardEditPermissionsContent/>', () => {
 
     expect(checkbox).not.toBeChecked();
 
-    userEvent.click(checkbox);
+    await userEvent.click(checkbox);
 
     expect(widgetApi.sendRoomEvent).toBeCalledWith(
       'net.nordeck.meetings.meeting.change.message_permissions',
@@ -180,7 +180,7 @@ describe('<MeetingCardEditPermissionsContent/>', () => {
 
     expect(checkbox).toBeChecked();
 
-    userEvent.click(checkbox);
+    await userEvent.click(checkbox);
 
     expect(widgetApi.sendRoomEvent).toBeCalledWith(
       'net.nordeck.meetings.meeting.change.message_permissions',
@@ -209,7 +209,7 @@ describe('<MeetingCardEditPermissionsContent/>', () => {
       name: /allow messaging for all users/i,
     });
 
-    userEvent.click(checkbox);
+    await userEvent.click(checkbox);
 
     const alert = await screen.findByRole('alert');
     expect(
@@ -227,7 +227,7 @@ describe('<MeetingCardEditPermissionsContent/>', () => {
       name: /allow messaging for all users/i,
     });
 
-    userEvent.click(checkbox);
+    await userEvent.click(checkbox);
 
     await waitFor(() => {
       expect(widgetApi.sendRoomEvent).toBeCalled();
@@ -274,7 +274,7 @@ describe('<MeetingCardEditPermissionsContent/>', () => {
         name: /allow messaging for all users/i,
       });
 
-      userEvent.click(checkbox);
+      await userEvent.click(checkbox);
 
       expect(widgetApi.sendRoomEvent).toBeCalledWith(
         'net.nordeck.meetings.meeting.change.message_permissions',

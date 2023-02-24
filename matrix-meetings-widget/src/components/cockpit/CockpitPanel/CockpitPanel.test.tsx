@@ -167,7 +167,7 @@ describe('<CockpitPanel>', () => {
       screen.findByRole('heading', { name: 'An important meeting' })
     ).resolves.toBeInTheDocument();
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', { name: /back to parent room/i })
     );
 

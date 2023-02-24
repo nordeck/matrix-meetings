@@ -127,7 +127,7 @@ describe('<SetupBreakoutSessionsModal>', () => {
       name: 'Group title (required)',
     });
 
-    userEvent.clear(groupTitleTextbox);
+    await userEvent.clear(groupTitleTextbox);
 
     expect(widgetApi.setModalButtonEnabled).toHaveBeenLastCalledWith(
       'nic.schedule.breakoutsessions.submit',
@@ -135,7 +135,7 @@ describe('<SetupBreakoutSessionsModal>', () => {
     );
 
     // should enable button when required fields are available again
-    userEvent.type(groupTitleTextbox, 'My Group');
+    await userEvent.type(groupTitleTextbox, 'My Group');
 
     expect(widgetApi.setModalButtonEnabled).toHaveBeenLastCalledWith(
       'nic.schedule.breakoutsessions.submit',

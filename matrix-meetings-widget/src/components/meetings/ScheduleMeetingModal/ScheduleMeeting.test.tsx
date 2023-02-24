@@ -98,15 +98,15 @@ describe('<ScheduleMeeting>', () => {
       { timeout: 10000 }
     );
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
       'My Meeting'
     );
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: 'Description' }),
       'My Description'
     );
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('button', { name: 'Widget 2' }),
       '{Backspace}'
     );
@@ -162,7 +162,7 @@ describe('<ScheduleMeeting>', () => {
     );
 
     // Trigger the dirty state by adding any input
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: 'Description' }),
       'I want to…'
     );
@@ -180,7 +180,7 @@ describe('<ScheduleMeeting>', () => {
 
     expect(onMeetingChange).toHaveBeenLastCalledWith(undefined);
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
       'My Meeting'
     );
@@ -195,7 +195,7 @@ describe('<ScheduleMeeting>', () => {
       wrapper: Wrapper,
     });
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
       'My Meeting'
     );
@@ -230,23 +230,23 @@ describe('<ScheduleMeeting>', () => {
     });
   });
 
-  it('should adjust meeting repetition', () => {
+  it('should adjust meeting repetition', async () => {
     render(<ScheduleMeeting onMeetingChange={onMeetingChange} />, {
       wrapper: Wrapper,
     });
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
       'My Meeting'
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', { name: 'Repeat meeting No repetition' })
     );
     const recurrenceOptionsList = screen.getByRole('listbox', {
       name: 'Repeat meeting',
     });
-    userEvent.click(
+    await userEvent.click(
       within(recurrenceOptionsList).getByRole('option', { name: 'Daily' })
     );
 
@@ -256,7 +256,7 @@ describe('<ScheduleMeeting>', () => {
       participants: ['@user-id'],
       startTime: '2022-01-02T13:15:00.000Z',
       title: 'My Meeting',
-      widgetIds: [],
+      widgetIds: ['widget-1', 'widget-2'],
       rrule: 'FREQ=DAILY',
     });
   });
@@ -267,13 +267,17 @@ describe('<ScheduleMeeting>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
       'My Meeting'
     );
 
-    userEvent.click(screen.getByRole('combobox', { name: 'Participants' }));
-    userEvent.click(await screen.findByRole('option', { name: '@user-1' }));
+    await userEvent.click(
+      screen.getByRole('combobox', { name: 'Participants' })
+    );
+    await userEvent.click(
+      await screen.findByRole('option', { name: '@user-1' })
+    );
 
     await waitFor(() => {
       expect(onMeetingChange).toHaveBeenLastCalledWith({
@@ -287,7 +291,7 @@ describe('<ScheduleMeeting>', () => {
     });
   });
 
-  it('should warn the user if title is missing', () => {
+  it('should warn the user if title is missing', async () => {
     render(<ScheduleMeeting onMeetingChange={onMeetingChange} />, {
       wrapper: Wrapper,
     });
@@ -299,7 +303,7 @@ describe('<ScheduleMeeting>', () => {
 
     expect(titleTextbox).toBeInvalid();
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: 'Description' }),
       'My Description'
     );
@@ -310,12 +314,12 @@ describe('<ScheduleMeeting>', () => {
     expect(onMeetingChange).toHaveBeenLastCalledWith(undefined);
   });
 
-  it('should warn the user if end date is before start date', () => {
+  it('should warn the user if end date is before start date', async () => {
     render(<ScheduleMeeting onMeetingChange={onMeetingChange} />, {
       wrapper: Wrapper,
     });
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
       'My Meeting'
     );
@@ -339,12 +343,12 @@ describe('<ScheduleMeeting>', () => {
     expect(onMeetingChange).toHaveBeenLastCalledWith(undefined);
   });
 
-  it('should warn the user if the meeting starts in the past', () => {
+  it('should warn the user if the meeting starts in the past', async () => {
     render(<ScheduleMeeting onMeetingChange={onMeetingChange} />, {
       wrapper: Wrapper,
     });
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
       'My Meeting'
     );
@@ -389,23 +393,23 @@ describe('<ScheduleMeeting>', () => {
     );
   });
 
-  it('should warn the user if the recurrence rule is invalid', () => {
+  it('should warn the user if the recurrence rule is invalid', async () => {
     render(<ScheduleMeeting onMeetingChange={onMeetingChange} />, {
       wrapper: Wrapper,
     });
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', { name: 'Repeat meeting No repetition' })
     );
     const recurrenceOptionsList = screen.getByRole('listbox', {
       name: 'Repeat meeting',
     });
-    userEvent.click(
+    await userEvent.click(
       within(recurrenceOptionsList).getByRole('option', { name: 'Daily' })
     );
 
-    userEvent.click(screen.getByRole('radio', { name: /Ends after/ }));
-    userEvent.clear(
+    await userEvent.click(screen.getByRole('radio', { name: /Ends after/ }));
+    await userEvent.clear(
       screen.getByRole('spinbutton', { name: 'Count of meetings' })
     );
 
@@ -450,21 +454,23 @@ describe('<ScheduleMeeting>', () => {
     expect(titleField).toHaveValue('An important meeting');
     expect(descriptionField).toHaveValue('A brief description');
 
-    userEvent.type(titleField, '{selectall}A new name');
-    userEvent.type(descriptionField, '{selectall}A new description');
+    await userEvent.clear(titleField);
+    await userEvent.type(titleField, 'A new name');
+    await userEvent.clear(descriptionField);
+    await userEvent.type(descriptionField, 'A new description');
 
     fireEvent.change(startDateField, { target: { value: '01/02/2023' } });
     fireEvent.change(startTimeField, { target: { value: '12:34 AM' } });
     fireEvent.change(endDateField, { target: { value: '01/03/2023' } });
     fireEvent.change(endTimeField, { target: { value: '12:34 PM' } });
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', { name: 'Repeat meeting No repetition' })
     );
     const recurrenceOptionsList = screen.getByRole('listbox', {
       name: 'Repeat meeting',
     });
-    userEvent.click(
+    await userEvent.click(
       within(recurrenceOptionsList).getByRole('option', { name: 'Daily' })
     );
 
@@ -836,10 +842,11 @@ describe('<ScheduleMeeting>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.type(
-      screen.getByRole('textbox', { name: 'Title (required)' }),
-      '{selectall}Group A'
-    );
+    const titleField = screen.getByRole('textbox', {
+      name: 'Title (required)',
+    });
+    await userEvent.clear(titleField);
+    await userEvent.type(titleField, 'Group A');
 
     expect(
       screen.queryByRole('button', { name: /Repeat meeting/ })

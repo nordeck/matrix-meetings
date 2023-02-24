@@ -99,9 +99,9 @@ describe('<BreakoutSessionsMessageForm/>', () => {
       name: /send message to all breakout session rooms/i,
     });
 
-    userEvent.type(textbox, 'Hello folks');
+    await userEvent.type(textbox, 'Hello folks');
 
-    userEvent.click(button);
+    await userEvent.click(button);
 
     await waitFor(() => {
       expect(textbox).toHaveValue('');
@@ -130,9 +130,9 @@ describe('<BreakoutSessionsMessageForm/>', () => {
       name: /send message to all breakout session rooms/i,
     });
 
-    userEvent.type(
+    await userEvent.type(
       textbox,
-      'Hello folks{shift}{enter}{/shift}Whats up?{enter}'
+      'Hello folks{Shift>}{enter}{/Shift}Whats up?{enter}'
     );
 
     await waitFor(() => {
@@ -162,7 +162,7 @@ describe('<BreakoutSessionsMessageForm/>', () => {
       name: /send message to all breakout session rooms/i,
     });
 
-    userEvent.type(textbox, 'Hello folks{enter}');
+    await userEvent.type(textbox, 'Hello folks{enter}');
 
     const alert = await screen.findByRole('alert');
     expect(
@@ -181,7 +181,7 @@ describe('<BreakoutSessionsMessageForm/>', () => {
       name: /send message to all breakout session rooms/i,
     });
 
-    userEvent.type(textbox, 'Hello folks{enter}');
+    await userEvent.type(textbox, 'Hello folks{enter}');
 
     await waitFor(() => {
       expect(widgetApi.sendRoomEvent).toBeCalledWith(

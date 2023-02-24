@@ -36,7 +36,7 @@ describe('<RecurrenceEditor>', () => {
     };
   });
 
-  it('should provide presets', () => {
+  it('should provide presets', async () => {
     render(
       <RecurrenceEditor
         onChange={onChange}
@@ -46,7 +46,7 @@ describe('<RecurrenceEditor>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', { name: 'Repeat meeting No repetition' })
     );
 
@@ -189,7 +189,7 @@ describe('<RecurrenceEditor>', () => {
     ).toBeInTheDocument();
   });
 
-  it('should render with custom rule montly', () => {
+  it('should render with custom rule monthly', () => {
     render(
       <RecurrenceEditor
         onChange={onChange}
@@ -281,7 +281,7 @@ describe('<RecurrenceEditor>', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it('should change preset to no repetition', () => {
+  it('should change preset to no repetition', async () => {
     render(
       <RecurrenceEditor
         onChange={onChange}
@@ -291,15 +291,17 @@ describe('<RecurrenceEditor>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', { name: 'Repeat meeting Every day' })
     );
-    userEvent.click(screen.getByRole('option', { name: 'No repetition' }));
+    await userEvent.click(
+      screen.getByRole('option', { name: 'No repetition' })
+    );
 
     expect(onChange).toHaveBeenLastCalledWith(undefined, true, true);
   });
 
-  it('should change preset to weekly', () => {
+  it('should change preset to weekly', async () => {
     render(
       <RecurrenceEditor
         onChange={onChange}
@@ -309,15 +311,15 @@ describe('<RecurrenceEditor>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', { name: 'Repeat meeting No repetition' })
     );
-    userEvent.click(screen.getByRole('option', { name: 'Weekly' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Weekly' }));
 
     expect(onChange).toHaveBeenLastCalledWith('FREQ=WEEKLY', true, true);
   });
 
-  it('should change to custom rule', () => {
+  it('should change to custom rule', async () => {
     render(
       <RecurrenceEditor
         onChange={onChange}
@@ -327,39 +329,40 @@ describe('<RecurrenceEditor>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', { name: 'Repeat meeting No repetition' })
     );
-    userEvent.click(screen.getByRole('option', { name: 'Custom' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Custom' }));
 
     const customGroup = screen.getByRole('group', {
       name: 'Custom recurring meeting',
     });
 
-    userEvent.click(
+    await userEvent.click(
       within(customGroup).getByRole('button', { name: 'Repeat Days' })
     );
-    userEvent.click(screen.getByRole('option', { name: 'Months' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Months' }));
 
-    userEvent.type(
+    await userEvent.type(
       within(customGroup).getByRole('spinbutton', {
         name: 'Months until the appointment is repeated',
       }),
-      '{selectall}2'
+      '2',
+      { initialSelectionStart: 0, initialSelectionEnd: 1 }
     );
 
-    userEvent.click(
+    await userEvent.click(
       within(customGroup).getByRole('radio', {
         name: 'The meeting is repeated monthly on first Sunday',
       })
     );
 
-    userEvent.click(
+    await userEvent.click(
       within(customGroup).getByRole('button', {
         name: 'Ordinal first',
       })
     );
-    userEvent.click(screen.getByRole('option', { name: 'last' }));
+    await userEvent.click(screen.getByRole('option', { name: 'last' }));
 
     expect(onChange).toHaveBeenLastCalledWith(
       'FREQ=MONTHLY;INTERVAL=2;BYSETPOS=-1;BYDAY=SU',
@@ -368,7 +371,7 @@ describe('<RecurrenceEditor>', () => {
     );
   });
 
-  it('should change recurrence end', () => {
+  it('should change recurrence end', async () => {
     render(
       <RecurrenceEditor
         onChange={onChange}
@@ -378,7 +381,7 @@ describe('<RecurrenceEditor>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('radio', { name: 'Ends after 30 meetings' })
     );
 
@@ -389,7 +392,7 @@ describe('<RecurrenceEditor>', () => {
     );
   });
 
-  it('should handle invalid input', () => {
+  it('should handle invalid input', async () => {
     render(
       <RecurrenceEditor
         onChange={onChange}
@@ -399,7 +402,7 @@ describe('<RecurrenceEditor>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('radio', { name: 'Ends after 30 meetings' })
     );
     // Get the spinbutton into an invalid state

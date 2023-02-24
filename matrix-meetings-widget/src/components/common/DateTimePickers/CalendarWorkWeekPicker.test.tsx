@@ -70,7 +70,7 @@ describe('<CalendarWorkWeekPicker>', () => {
       />,
       { wrapper: Wrapper }
     );
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: 'Choose work week, selected work week is February 1 – 5, 2022',
       })
@@ -89,7 +89,7 @@ describe('<CalendarWorkWeekPicker>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: 'Choose work week, selected work week is February 1 – 5, 2022',
       })
@@ -97,15 +97,15 @@ describe('<CalendarWorkWeekPicker>', () => {
 
     const dialog = screen.getByRole('dialog');
 
-    userEvent.click(
+    await userEvent.click(
       within(dialog).getByRole('button', {
         name: 'calendar view is open, switch to year view',
       })
     );
 
-    userEvent.click(within(dialog).getByRole('button', { name: '2023' }));
-    userEvent.click(within(dialog).getByRole('button', { name: 'Jan' }));
-    userEvent.click(within(dialog).getByRole('gridcell', { name: '13' }));
+    await userEvent.click(within(dialog).getByRole('button', { name: '2023' }));
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Jan' }));
+    await userEvent.click(within(dialog).getByRole('gridcell', { name: '13' }));
 
     expect(onRangeChange).toBeCalledTimes(1);
     expect(onRangeChange).toHaveBeenCalledWith(

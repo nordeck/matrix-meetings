@@ -51,19 +51,19 @@ describe('<MenuButton/>', () => {
       </MenuButton>
     );
 
-    userEvent.click(screen.getByRole('button', { name: /settings/i }));
+    await userEvent.click(screen.getByRole('button', { name: /settings/i }));
 
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it('should open the menu', () => {
+  it('should open the menu', async () => {
     render(
       <MenuButton buttonLabel="Settings">
         <MenuButtonItem icon={<DeleteIcon />}>Delete</MenuButtonItem>
       </MenuButton>
     );
 
-    userEvent.click(screen.getByRole('button', { name: /settings/i }));
+    await userEvent.click(screen.getByRole('button', { name: /settings/i }));
 
     const button = screen.getByRole('button', {
       name: /settings/i,
@@ -78,7 +78,7 @@ describe('<MenuButton/>', () => {
     expect(screen.getByRole('menu', { name: /settings/i })).toBeInTheDocument();
   });
 
-  it('should trigger a callback when the menu is opened', () => {
+  it('should trigger a callback when the menu is opened', async () => {
     const onOpen = jest.fn();
 
     render(
@@ -87,7 +87,7 @@ describe('<MenuButton/>', () => {
       </MenuButton>
     );
 
-    userEvent.click(screen.getByRole('button', { name: /settings/i }));
+    await userEvent.click(screen.getByRole('button', { name: /settings/i }));
 
     expect(onOpen).toBeCalledTimes(1);
   });
@@ -99,11 +99,13 @@ describe('<MenuButton/>', () => {
       </MenuButton>
     );
 
-    userEvent.click(screen.getByRole('button', { name: /settings/i }));
+    await userEvent.click(screen.getByRole('button', { name: /settings/i }));
 
     const menu = screen.getByRole('menu', { name: /settings/i });
 
-    userEvent.click(within(menu).getByRole('menuitem', { name: /delete/i }));
+    await userEvent.click(
+      within(menu).getByRole('menuitem', { name: /delete/i })
+    );
 
     await waitFor(() => {
       expect(menu).not.toBeInTheDocument();

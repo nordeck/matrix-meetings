@@ -107,7 +107,7 @@ describe('<TooltipToggleButton/>', () => {
       </ToggleButtonGroup>
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', { pressed: false, name: 'Option A' })
     );
 
@@ -123,7 +123,7 @@ describe('<TooltipToggleButton/>', () => {
       screen.getByRole('button', { pressed: true, name: 'Option A' })
     ).toBeInTheDocument();
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', { pressed: false, name: 'Option B' })
     );
 

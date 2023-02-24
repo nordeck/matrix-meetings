@@ -19,7 +19,7 @@ import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { MeetingsToolbarButtons } from './MeetingsToolbarButtons';
 
-afterEach(() => jest.useRealTimers());
+afterEach(() => jest.restoreAllMocks());
 
 describe('<MeetingsToolbarButtons/>', () => {
   it('should render without exploding in list view', () => {
@@ -130,11 +130,12 @@ describe('<MeetingsToolbarButtons/>', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it('should change the filter to the current week', () => {
+  it('should change the filter to the current week', async () => {
     const onRangeChange = jest.fn();
 
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2020-06-15T13:00:00.000Z'));
+    jest
+      .spyOn(Date, 'now')
+      .mockImplementation(() => +new Date('2020-06-15T13:00:00.000Z'));
 
     render(
       <MeetingsToolbarButtons
@@ -145,7 +146,7 @@ describe('<MeetingsToolbarButtons/>', () => {
       />
     );
 
-    userEvent.click(screen.getByRole('button', { name: 'Today' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Today' }));
 
     expect(onRangeChange).toHaveBeenLastCalledWith(
       '2020-06-14T00:00:00.000+00:00',
@@ -153,7 +154,7 @@ describe('<MeetingsToolbarButtons/>', () => {
     );
   });
 
-  it('should change the filter to the previous week', () => {
+  it('should change the filter to the previous week', async () => {
     const onRangeChange = jest.fn();
 
     render(
@@ -165,7 +166,9 @@ describe('<MeetingsToolbarButtons/>', () => {
       />
     );
 
-    userEvent.click(screen.getByRole('button', { name: 'Previous week' }));
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Previous week' })
+    );
 
     expect(onRangeChange).toHaveBeenLastCalledWith(
       '2020-05-31T00:00:00.000+00:00',
@@ -173,7 +176,7 @@ describe('<MeetingsToolbarButtons/>', () => {
     );
   });
 
-  it('should change the filter to the next week', () => {
+  it('should change the filter to the next week', async () => {
     const onRangeChange = jest.fn();
 
     render(
@@ -185,7 +188,7 @@ describe('<MeetingsToolbarButtons/>', () => {
       />
     );
 
-    userEvent.click(screen.getByRole('button', { name: 'Next week' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Next week' }));
 
     expect(onRangeChange).toHaveBeenLastCalledWith(
       '2020-06-14T00:00:00.000+00:00',

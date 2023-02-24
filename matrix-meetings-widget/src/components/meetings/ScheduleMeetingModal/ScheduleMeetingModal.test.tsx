@@ -73,7 +73,7 @@ describe('<ScheduleMeetingModal>', () => {
 
     render(<ScheduleMeetingModal />, { wrapper: Wrapper });
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: /title/i }),
       'My Meeting'
     );
@@ -88,7 +88,7 @@ describe('<ScheduleMeetingModal>', () => {
           participants: ['@user-id'],
           startTime: '2022-01-02T13:15:00.000Z',
           title: 'My Meeting',
-          widgetIds: [],
+          widgetIds: ['widget-1', 'widget-2'],
         },
         type: 'nic.schedule.meeting.submit',
       });
@@ -108,7 +108,8 @@ describe('<ScheduleMeetingModal>', () => {
 
     expect(titleTextbox).toHaveValue('An important meeting');
 
-    userEvent.type(titleTextbox, '{selectall}My Meeting');
+    await userEvent.clear(titleTextbox);
+    await userEvent.type(titleTextbox, 'My Meeting');
 
     subject.next('nic.schedule.meeting.submit');
 
@@ -130,7 +131,7 @@ describe('<ScheduleMeetingModal>', () => {
   it('should disable submission if input is invalid', async () => {
     render(<ScheduleMeetingModal />, { wrapper: Wrapper });
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: /title/i }),
       'My Meeting'
     );
@@ -141,7 +142,7 @@ describe('<ScheduleMeetingModal>', () => {
     );
 
     // should disable button when required fields are missing
-    userEvent.clear(screen.getByRole('textbox', { name: /title/i }));
+    await userEvent.clear(screen.getByRole('textbox', { name: /title/i }));
 
     expect(widgetApi.setModalButtonEnabled).toHaveBeenLastCalledWith(
       'nic.schedule.meeting.submit',

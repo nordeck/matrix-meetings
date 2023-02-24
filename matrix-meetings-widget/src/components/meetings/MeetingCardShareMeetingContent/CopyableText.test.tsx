@@ -50,7 +50,7 @@ describe('<CopyableText/>', () => {
     ).toBeInTheDocument();
   });
 
-  it('should copy text to clipboard', () => {
+  it('should copy text to clipboard', async () => {
     render(<CopyableText label="Example" text="Hello World" />);
 
     const copyButton = screen.getByRole('button', {
@@ -58,12 +58,12 @@ describe('<CopyableText/>', () => {
     });
     expect(screen.getByTestId('ContentCopyOutlinedIcon')).toBeInTheDocument();
 
-    userEvent.click(copyButton);
+    await userEvent.click(copyButton);
 
     expect(copyToClipboard).toBeCalledWith('Hello World');
     expect(screen.getByTestId('CheckOutlinedIcon')).toBeInTheDocument();
 
-    userEvent.tab();
+    await userEvent.tab();
     expect(screen.getByTestId('ContentCopyOutlinedIcon')).toBeInTheDocument();
   });
 

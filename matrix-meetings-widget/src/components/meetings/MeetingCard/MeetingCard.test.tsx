@@ -391,13 +391,13 @@ describe('<MeetingCard/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', { name: /more settings/i })
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(menu).getByRole('menuitem', { name: /delete meeting/i })
     );
 
@@ -405,7 +405,7 @@ describe('<MeetingCard/>', () => {
       name: /delete meeting/i,
     });
 
-    userEvent.click(
+    await userEvent.click(
       within(deleteModal).getByRole('button', { name: 'Delete' })
     );
 
@@ -470,13 +470,13 @@ describe('<MeetingCard/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', { name: /more settings/i })
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(menu).getByRole('menuitem', { name: /edit meeting/i })
     );
 
@@ -629,13 +629,13 @@ describe('<MeetingCard/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', { name: /more settings/i })
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(menu).getByRole('menuitem', { name: /edit meeting/i })
     );
 
@@ -708,13 +708,13 @@ describe('<MeetingCard/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', { name: /more settings/i })
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(menu).getByRole('menuitem', { name: /edit meeting/i })
     );
 
@@ -782,13 +782,13 @@ describe('<MeetingCard/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', { name: /more settings/i })
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(menu).getByRole('menuitem', { name: /edit meeting/i })
     );
 
@@ -798,7 +798,7 @@ describe('<MeetingCard/>', () => {
 
     expect(dialog).toHaveTextContent('Please try again');
 
-    userEvent.click(
+    await userEvent.click(
       await within(dialog).findByRole('button', { name: 'Close' })
     );
 
@@ -855,13 +855,13 @@ describe('<MeetingCard/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', { name: /more settings/i })
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(menu).getByRole('menuitem', { name: /edit meeting/i })
     );
 
@@ -871,7 +871,7 @@ describe('<MeetingCard/>', () => {
 
     expect(dialog).toHaveTextContent('Please try again');
 
-    userEvent.click(
+    await userEvent.click(
       await within(dialog).findByRole('button', { name: 'Close' })
     );
 
@@ -928,13 +928,13 @@ describe('<MeetingCard/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', { name: /more settings/i })
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(menu).getByRole('menuitem', { name: /edit meeting/i })
     );
 
@@ -944,7 +944,7 @@ describe('<MeetingCard/>', () => {
 
     expect(dialog).toHaveTextContent('Please try again');
 
-    userEvent.click(
+    await userEvent.click(
       await within(dialog).findByRole('button', { name: 'Close' })
     );
 
@@ -1000,13 +1000,13 @@ describe('<MeetingCard/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', { name: /more settings/i })
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(menu).getByRole('menuitem', { name: /edit meeting/i })
     );
 
@@ -1016,7 +1016,7 @@ describe('<MeetingCard/>', () => {
 
     expect(dialog).toHaveTextContent('Please try again');
 
-    userEvent.click(
+    await userEvent.click(
       await within(dialog).findByRole('button', { name: 'Close' })
     );
 
@@ -1040,13 +1040,13 @@ describe('<MeetingCard/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', { name: /more settings/i })
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(menu).getByRole('menuitem', { name: /delete meeting/i })
     );
 
@@ -1054,7 +1054,7 @@ describe('<MeetingCard/>', () => {
       name: /delete meeting/i,
     });
 
-    userEvent.click(
+    await userEvent.click(
       within(deleteModal).getByRole('button', { name: 'Delete' })
     );
 
@@ -1097,13 +1097,13 @@ describe('<MeetingCard/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', { name: /more settings/i })
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(menu).getByRole('menuitem', { name: /delete meeting/i })
     );
 
@@ -1130,12 +1130,12 @@ describe('<MeetingCard/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', { name: /more settings/i })
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
-    userEvent.click(
+    await userEvent.click(
       within(menu).getByRole('menuitem', { name: /delete meeting/i })
     );
 
@@ -1147,7 +1147,7 @@ describe('<MeetingCard/>', () => {
       name: 'Delete',
     });
 
-    userEvent.click(deleteButton);
+    await userEvent.click(deleteButton);
 
     const alert = await screen.findByRole('alert');
     expect(
@@ -1295,7 +1295,7 @@ describe('<MeetingCard/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', { name: /more settings/i })
     );
 
@@ -1324,7 +1324,7 @@ describe('<MeetingCard/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', { name: /share meeting/i })
     );
 
@@ -1348,7 +1348,7 @@ describe('<MeetingCard/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       await screen.findByRole('button', {
         name: /edit permissions/i,
         expanded: false,
