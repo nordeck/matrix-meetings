@@ -218,8 +218,8 @@ describe('<MeetingsPanel/>', () => {
   it('should have no accessibility violations, if day view', async () => {
     const { container } = render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    userEvent.click(screen.getByRole('button', { name: 'View List' }));
-    userEvent.click(screen.getByRole('option', { name: 'Day' }));
+    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Day' }));
 
     expect(await screen.findByText('An important meeting')).toBeInTheDocument();
 
@@ -237,8 +237,8 @@ describe('<MeetingsPanel/>', () => {
   it('should have no accessibility violations, if work week view', async () => {
     const { container } = render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    userEvent.click(screen.getByRole('button', { name: 'View List' }));
-    userEvent.click(screen.getByRole('option', { name: 'Work Week' }));
+    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Work Week' }));
 
     expect(await screen.findByText('An important meeting')).toBeInTheDocument();
 
@@ -256,8 +256,8 @@ describe('<MeetingsPanel/>', () => {
   it('should have no accessibility violations, if week view', async () => {
     const { container } = render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    userEvent.click(screen.getByRole('button', { name: 'View List' }));
-    userEvent.click(screen.getByRole('option', { name: 'Week' }));
+    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Week' }));
 
     expect(await screen.findByText('An important meeting')).toBeInTheDocument();
 
@@ -275,8 +275,8 @@ describe('<MeetingsPanel/>', () => {
   it('should have no accessibility violations, if month view', async () => {
     const { container } = render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    userEvent.click(screen.getByRole('button', { name: 'View List' }));
-    userEvent.click(screen.getByRole('option', { name: 'Month' }));
+    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Month' }));
 
     expect(await screen.findByText('An important meeting')).toBeInTheDocument();
 
@@ -328,8 +328,8 @@ describe('<MeetingsPanel/>', () => {
   it('should render the day view', async () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    userEvent.click(screen.getByRole('button', { name: 'View List' }));
-    userEvent.click(screen.getByRole('option', { name: 'Day' }));
+    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Day' }));
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(1);
     expect(await screen.findByText('An important meeting')).toBeInTheDocument();
@@ -346,8 +346,8 @@ describe('<MeetingsPanel/>', () => {
 
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    userEvent.click(screen.getByRole('button', { name: 'View List' }));
-    userEvent.click(screen.getByRole('option', { name: 'Month' }));
+    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Month' }));
 
     expect(
       screen.getByRole('button', { name: 'View Month' })
@@ -381,8 +381,8 @@ describe('<MeetingsPanel/>', () => {
   it('should render the work week view', async () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    userEvent.click(screen.getByRole('button', { name: 'View List' }));
-    userEvent.click(screen.getByRole('option', { name: 'Work Week' }));
+    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Work Week' }));
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(5);
     expect(await screen.findByText('An important meeting')).toBeInTheDocument();
@@ -397,8 +397,8 @@ describe('<MeetingsPanel/>', () => {
   it('should render the week view', async () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    userEvent.click(screen.getByRole('button', { name: 'View List' }));
-    userEvent.click(screen.getByRole('option', { name: 'Week' }));
+    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Week' }));
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(7);
     expect(await screen.findByText('An important meeting')).toBeInTheDocument();
@@ -413,8 +413,8 @@ describe('<MeetingsPanel/>', () => {
   it('should render the month view', async () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    userEvent.click(screen.getByRole('button', { name: 'View List' }));
-    userEvent.click(screen.getByRole('option', { name: 'Month' }));
+    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Month' }));
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(5 * 7);
     expect(await screen.findByText('An important meeting')).toBeInTheDocument();
@@ -460,14 +460,16 @@ describe('<MeetingsPanel/>', () => {
 
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    userEvent.click(screen.getByRole('button', { name: 'View List' }));
-    userEvent.click(screen.getByRole('option', { name: 'Month' }));
+    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Month' }));
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(5 * 7);
     expect(await screen.findByText('An important meeting')).toBeInTheDocument();
     expect(screen.getByText('Meeting 1')).toBeInTheDocument();
 
-    userEvent.click(screen.getByRole('button', { name: 'Show 2 more events' }));
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Show 2 more events' })
+    );
 
     await waitFor(() => {
       expect(screen.getAllByRole('gridcell')).toHaveLength(1);
@@ -499,7 +501,7 @@ describe('<MeetingsPanel/>', () => {
       })
     ).toBeInTheDocument();
 
-    userEvent.click(
+    await userEvent.click(
       within(navGroup).getByRole('button', {
         name: /invitations/i,
         expanded: false,
@@ -541,14 +543,14 @@ describe('<MeetingsPanel/>', () => {
       screen.findByRole('listitem', { name: /an important meeting/i })
     ).resolves.toBeInTheDocument();
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is March 1 – 7, 2022/i,
       })
     );
 
-    userEvent.click(screen.getByRole('gridcell', { name: '7' }));
-    userEvent.click(screen.getByRole('gridcell', { name: '13' }));
+    await userEvent.click(screen.getByRole('gridcell', { name: '7' }));
+    await userEvent.click(screen.getByRole('gridcell', { name: '13' }));
 
     expect(
       screen.getByRole('button', {
@@ -568,20 +570,20 @@ describe('<MeetingsPanel/>', () => {
       screen.findByRole('listitem', { name: /an important meeting/i })
     ).resolves.toBeInTheDocument();
 
-    userEvent.click(screen.getByRole('button', { name: 'View List' }));
-    userEvent.click(screen.getByRole('option', { name: 'Day' }));
+    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Day' }));
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(1);
     const meeting = await screen.findByText('An important meeting');
     expect(meeting).toBeInTheDocument();
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date, selected date is March 1, 2022/i,
       })
     );
 
-    userEvent.click(screen.getByRole('gridcell', { name: '7' }));
+    await userEvent.click(screen.getByRole('gridcell', { name: '7' }));
 
     expect(meeting).not.toBeInTheDocument();
   });
@@ -595,14 +597,14 @@ describe('<MeetingsPanel/>', () => {
       screen.findByRole('listitem', { name: /my breakout session/i })
     ).resolves.toBeInTheDocument();
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is March 1 – 7, 2022/i,
       })
     );
 
-    userEvent.click(screen.getByRole('gridcell', { name: '7' }));
-    userEvent.click(screen.getByRole('gridcell', { name: '13' }));
+    await userEvent.click(screen.getByRole('gridcell', { name: '7' }));
+    await userEvent.click(screen.getByRole('gridcell', { name: '13' }));
 
     expect(
       screen.getByRole('button', {
@@ -624,7 +626,7 @@ describe('<MeetingsPanel/>', () => {
       screen.findByRole('listitem', { name: /an important meeting/i })
     ).resolves.toBeInTheDocument();
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: 'Search' }),
       'something'
     );
@@ -637,13 +639,13 @@ describe('<MeetingsPanel/>', () => {
   it('should filter the meetings for day view via search', async () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    userEvent.click(screen.getByRole('button', { name: 'View List' }));
-    userEvent.click(screen.getByRole('option', { name: 'Day' }));
+    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Day' }));
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(1);
     const meeting = await screen.findByText('An important meeting');
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: /search/i }),
       'something'
     );
@@ -660,7 +662,7 @@ describe('<MeetingsPanel/>', () => {
       screen.findByRole('listitem', { name: /my breakout session/i })
     ).resolves.toBeInTheDocument();
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: 'Search' }),
       'something'
     );
@@ -679,7 +681,7 @@ describe('<MeetingsPanel/>', () => {
 
     const nav = await screen.findByRole('navigation', { name: /actions/i });
 
-    userEvent.click(
+    await userEvent.click(
       await within(nav).findByRole('button', {
         name: /schedule breakout session/i,
       })
@@ -732,7 +734,7 @@ describe('<MeetingsPanel/>', () => {
 
     const nav = await screen.findByRole('navigation', { name: /actions/i });
 
-    userEvent.click(
+    await userEvent.click(
       within(nav).getByRole('button', {
         name: /schedule breakout session/i,
       })
@@ -800,7 +802,7 @@ describe('<MeetingsPanel/>', () => {
     const textbox = within(actions).getByRole('textbox', {
       name: /send message to all breakout session rooms/i,
     });
-    userEvent.type(textbox, 'Hello{enter}');
+    await userEvent.type(textbox, 'Hello{enter}');
 
     await waitFor(() => {
       expect(textbox).toHaveValue('');

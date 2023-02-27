@@ -145,7 +145,7 @@ describe('<BreakoutSessionGroupForm>', () => {
 
     const listItem = screen.getByRole('listitem', { name: 'My Group' });
 
-    userEvent.type(
+    await userEvent.type(
       within(listItem).getByRole('button', { name: '@user-1' }),
       '{Backspace}'
     );

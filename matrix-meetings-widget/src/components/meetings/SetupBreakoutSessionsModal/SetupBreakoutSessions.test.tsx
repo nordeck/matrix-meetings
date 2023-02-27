@@ -120,11 +120,11 @@ describe('<SetupBreakoutSessions>', () => {
       screen.getByRole('spinbutton', { name: 'Number of groups (required)' })
     ).toHaveValue(1);
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('textbox', { name: 'Description' }),
       'My description'
     );
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('button', { name: 'Widget 2' }),
       '{Backspace}'
     );
@@ -226,7 +226,7 @@ describe('<SetupBreakoutSessions>', () => {
     });
   });
 
-  it('should warn if a group title is missing', () => {
+  it('should warn if a group title is missing', async () => {
     const onBreakoutSessionsChange = jest.fn();
     render(
       <SetupBreakoutSessions
@@ -241,7 +241,7 @@ describe('<SetupBreakoutSessions>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.clear(
+    await userEvent.clear(
       screen.getByRole('textbox', { name: 'Group title (required)' })
     );
 

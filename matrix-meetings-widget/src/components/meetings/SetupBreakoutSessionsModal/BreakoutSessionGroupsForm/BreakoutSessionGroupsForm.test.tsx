@@ -124,7 +124,7 @@ describe('<BreakoutSessionGroupsForm>', () => {
       /Some participants are not assigned to a group/
     );
 
-    userEvent.type(
+    await userEvent.type(
       within(section).getByRole('spinbutton', {
         name: 'Number of groups (required)',
       }),
@@ -173,7 +173,7 @@ describe('<BreakoutSessionGroupsForm>', () => {
       /Some participants are not assigned to a group/
     );
 
-    userEvent.click(
+    await userEvent.click(
       within(section).getByRole('button', {
         name: 'Distribute all 2 participants',
       })

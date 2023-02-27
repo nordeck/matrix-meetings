@@ -34,14 +34,14 @@ describe('<MeetingsNavigation/>', () => {
     };
   });
 
-  it('should render without exploding', () => {
+  it('should render without exploding', async () => {
     jest.mocked(useMediaQuery).mockReturnValue(true);
 
     render(<MeetingsNavigation onViewChange={jest.fn()} view="list" />, {
       wrapper: Wrapper,
     });
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', { name: 'View List', description: '' })
     );
 
@@ -63,7 +63,7 @@ describe('<MeetingsNavigation/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
 
     expect(await axe(container)).toHaveNoViolations();
   });
@@ -76,12 +76,12 @@ describe('<MeetingsNavigation/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
 
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it('should select a different view', () => {
+  it('should select a different view', async () => {
     const onViewChange = jest.fn();
 
     jest.mocked(useMediaQuery).mockReturnValue(true);
@@ -90,20 +90,20 @@ describe('<MeetingsNavigation/>', () => {
       wrapper: Wrapper,
     });
 
-    userEvent.click(screen.getByRole('button', { name: 'View Week' }));
-    userEvent.click(screen.getByRole('option', { name: 'Month' }));
+    await userEvent.click(screen.getByRole('button', { name: 'View Week' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Month' }));
 
     expect(onViewChange).toHaveBeenLastCalledWith('month');
   });
 
-  it('should disable some calendar views on a small screen', () => {
+  it('should disable some calendar views on a small screen', async () => {
     jest.mocked(useMediaQuery).mockReturnValue(false);
 
     render(<MeetingsNavigation onViewChange={jest.fn()} view="list" />, {
       wrapper: Wrapper,
     });
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: 'View List',
         description: 'Increase widget width to enable more views.',

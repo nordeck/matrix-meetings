@@ -71,7 +71,7 @@ describe('<CalendarMonthPicker>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: 'Choose month, selected month is January 2022',
       })
@@ -90,7 +90,7 @@ describe('<CalendarMonthPicker>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: 'Choose month, selected month is January 2022',
       })
@@ -98,14 +98,14 @@ describe('<CalendarMonthPicker>', () => {
 
     const dialog = screen.getByRole('dialog');
 
-    userEvent.click(
+    await userEvent.click(
       within(dialog).getByRole('button', {
         name: 'calendar view is open, switch to year view',
       })
     );
 
-    userEvent.click(within(dialog).getByRole('button', { name: '2023' }));
-    userEvent.click(within(dialog).getByRole('button', { name: 'Mar' }));
+    await userEvent.click(within(dialog).getByRole('button', { name: '2023' }));
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Mar' }));
 
     expect(onRangeChange).toBeCalledTimes(2);
     expect(onRangeChange).toHaveBeenLastCalledWith(

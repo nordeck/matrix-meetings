@@ -105,7 +105,7 @@ describe('<MemberSelectionDropdown/>', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it('should add own member', () => {
+  it('should add own member', async () => {
     const onUpdate = jest.fn();
 
     render(
@@ -119,15 +119,15 @@ describe('<MemberSelectionDropdown/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('combobox', { name: 'Members', expanded: false })
     );
-    userEvent.click(screen.getByRole('option', { name: '@user-1' }));
+    await userEvent.click(screen.getByRole('option', { name: '@user-1' }));
 
     expect(onUpdate).toHaveBeenLastCalledWith(['@user-id', '@user-1']);
   });
 
-  it('should not duplicate own member', () => {
+  it('should not duplicate own member', async () => {
     const onUpdate = jest.fn();
 
     render(
@@ -141,15 +141,15 @@ describe('<MemberSelectionDropdown/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('combobox', { name: 'Members', expanded: false })
     );
-    userEvent.click(screen.getByRole('option', { name: '@user-1' }));
+    await userEvent.click(screen.getByRole('option', { name: '@user-1' }));
 
     expect(onUpdate).toHaveBeenLastCalledWith(['@user-id', '@user-1']);
   });
 
-  it('should not add own member if member event is missing', () => {
+  it('should not add own member if member event is missing', async () => {
     const onUpdate = jest.fn();
 
     render(
@@ -163,15 +163,15 @@ describe('<MemberSelectionDropdown/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('combobox', { name: 'Members', expanded: false })
     );
-    userEvent.click(screen.getByRole('option', { name: '@user-1' }));
+    await userEvent.click(screen.getByRole('option', { name: '@user-1' }));
 
     expect(onUpdate).toHaveBeenLastCalledWith(['@user-1']);
   });
 
-  it('should remove member', () => {
+  it('should remove member', async () => {
     const onUpdate = jest.fn();
 
     render(
@@ -185,7 +185,7 @@ describe('<MemberSelectionDropdown/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.type(
+    await userEvent.type(
       screen.getByRole('button', {
         name: '@user-1',
         description: /Use the backspace key/,
@@ -196,7 +196,7 @@ describe('<MemberSelectionDropdown/>', () => {
     expect(onUpdate).toHaveBeenLastCalledWith(['@user-id']);
   });
 
-  it('should not remove own member', () => {
+  it('should not remove own member', async () => {
     const onUpdate = jest.fn();
 
     render(
@@ -211,8 +211,8 @@ describe('<MemberSelectionDropdown/>', () => {
     );
 
     const combobox = screen.getByRole('combobox', { name: 'Members' });
-    userEvent.type(combobox, '{Backspace}');
-    userEvent.type(combobox, '{Backspace}');
+    await userEvent.type(combobox, '{Backspace}');
+    await userEvent.type(combobox, '{Backspace}');
 
     expect(onUpdate).toHaveBeenLastCalledWith(['@user-id']);
   });
@@ -259,8 +259,8 @@ describe('<MemberSelectionDropdown/>', () => {
         description: 'user has higher power level',
       })
     ).toBeInTheDocument();
-    userEvent.type(combobox, '{Backspace}');
-    userEvent.type(combobox, '{Backspace}');
+    await userEvent.type(combobox, '{Backspace}');
+    await userEvent.type(combobox, '{Backspace}');
 
     expect(onUpdate).toHaveBeenLastCalledWith(['@user-id', '@user-1']);
   });
@@ -323,12 +323,12 @@ describe('<MemberSelectionDropdown/>', () => {
     ).resolves.toBeInTheDocument();
 
     const combobox = screen.getByRole('combobox', { name: 'Members' });
-    userEvent.type(combobox, '{Backspace}');
+    await userEvent.type(combobox, '{Backspace}');
 
     expect(onUpdate).toHaveBeenLastCalledWith(['@user-id']);
   });
 
-  it('should show selected users even if they are not part of the selectableMemberEvents', () => {
+  it('should show selected users even if they are not part of the selectableMemberEvents', async () => {
     render(
       <MemberSelectionDropdown
         allMemberEvents={allMemberEvents}
@@ -341,9 +341,9 @@ describe('<MemberSelectionDropdown/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', { name: 'Alice', description: 'This is you' })
     );
-    userEvent.click(screen.getByRole('button', { name: '@user-1' }));
+    await userEvent.click(screen.getByRole('button', { name: '@user-1' }));
   });
 });

@@ -76,7 +76,7 @@ describe('<OpenMeetingRoomButton/>', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it('should navigate to the room', () => {
+  it('should navigate to the room', async () => {
     render(
       <OpenMeetingRoomButton
         meetingType="net.nordeck.meetings.meeting"
@@ -89,7 +89,7 @@ describe('<OpenMeetingRoomButton/>', () => {
       name: /open the meeting room/i,
     });
 
-    userEvent.click(button);
+    await userEvent.click(button);
 
     expect(widgetApi.navigateTo).toBeCalledWith('https://matrix.to/#/!room-id');
   });

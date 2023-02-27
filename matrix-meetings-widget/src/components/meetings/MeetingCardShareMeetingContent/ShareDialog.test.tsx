@@ -78,7 +78,7 @@ describe('<ShareDialog/>', () => {
     expect(within(dialog).getByText(/children/i)).toBeInTheDocument();
   });
 
-  it('should close the dialog', () => {
+  it('should close the dialog', async () => {
     render(
       <ShareDialog
         description="Description"
@@ -90,7 +90,9 @@ describe('<ShareDialog/>', () => {
 
     const dialog = screen.getByRole('dialog', { name: /title/i });
 
-    userEvent.click(within(dialog).getByRole('button', { name: /close/i }));
+    await userEvent.click(
+      within(dialog).getByRole('button', { name: /close/i })
+    );
 
     expect(onClose).toBeCalled();
   });

@@ -89,7 +89,7 @@ describe('<CreateMeetingForm/>', () => {
       name: /schedule meeting/i,
     });
 
-    userEvent.click(scheduleButton);
+    await userEvent.click(scheduleButton);
 
     expect(widgetApi.openModal).toBeCalledWith(
       '/schedule-meeting',
@@ -135,14 +135,14 @@ describe('<CreateMeetingForm/>', () => {
     });
   });
 
-  it('should skip the meeting creation if the user aborts the action', () => {
+  it('should skip the meeting creation if the user aborts the action', async () => {
     render(<CreateMeetingForm />, { wrapper: Wrapper });
 
     const scheduleButton = screen.getByRole('button', {
       name: /schedule meeting/i,
     });
 
-    userEvent.click(scheduleButton);
+    await userEvent.click(scheduleButton);
 
     expect(widgetApi.openModal).toBeCalledWith(
       '/schedule-meeting',

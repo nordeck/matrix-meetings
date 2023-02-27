@@ -156,10 +156,10 @@ describe('<WidgetsSelectionDropdown>', () => {
       expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('combobox', { name: 'Widgets', expanded: false })
     );
-    userEvent.click(screen.getByRole('option', { name: 'Widget 1' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Widget 1' }));
 
     expect(onChange).toBeCalledWith(['widget-1']);
   });
@@ -177,7 +177,7 @@ describe('<WidgetsSelectionDropdown>', () => {
       expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('combobox', { name: 'Widgets', expanded: false })
     );
     expect(
@@ -204,7 +204,7 @@ describe('<WidgetsSelectionDropdown>', () => {
       expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('combobox', { name: 'Widgets', expanded: false })
     );
     expect(screen.getByText(/No Widgets/)).toBeInTheDocument();
@@ -229,7 +229,7 @@ describe('<WidgetsSelectionDropdown>', () => {
       expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('combobox', { name: 'Widgets', expanded: false })
     );
     expect(

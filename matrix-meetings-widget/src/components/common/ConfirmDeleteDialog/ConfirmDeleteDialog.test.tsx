@@ -97,7 +97,7 @@ describe('<ConfirmDeleteDialog/>', () => {
       within(deleteModal).getByText(/the description of the modal/i)
     ).toBeInTheDocument();
 
-    userEvent.click(
+    await userEvent.click(
       within(deleteModal).getByRole('button', { name: 'Confirm' })
     );
 
@@ -133,7 +133,7 @@ describe('<ConfirmDeleteDialog/>', () => {
       within(deleteModal).getByText(/the description of the modal/i)
     ).toBeInTheDocument();
 
-    userEvent.click(
+    await userEvent.click(
       within(deleteModal).getByRole('button', { name: 'Cancel' })
     );
 

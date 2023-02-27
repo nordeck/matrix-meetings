@@ -67,7 +67,7 @@ describe('<EndDatePicker/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByLabelText(
         /choose end date, selected date is January 1, 2020/i
       )

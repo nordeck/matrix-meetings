@@ -72,7 +72,7 @@ describe('<StartTimePicker/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(screen.getByLabelText(/choose start time/i));
+    await userEvent.click(screen.getByLabelText(/choose start time/i));
 
     expect(await axe(container)).toHaveNoViolations();
   });

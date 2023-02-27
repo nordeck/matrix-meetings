@@ -61,7 +61,7 @@ describe('<MeetingsFilter/>', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it('should update the date', () => {
+  it('should update the date', async () => {
     const onFiltersChange = jest.fn();
 
     render(
@@ -69,32 +69,32 @@ describe('<MeetingsFilter/>', () => {
       { wrapper: Wrapper }
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is January 1 – 8, 2020/i,
       })
     );
 
-    userEvent.click(
+    await userEvent.click(
       screen.getByRole('button', {
         name: 'calendar view is open, switch to year view',
       })
     );
 
-    userEvent.click(screen.getByRole('button', { name: '2022' }));
-    userEvent.click(screen.getByRole('button', { name: 'Jan' }));
-    userEvent.click(screen.getByRole('gridcell', { name: '13' }));
+    await userEvent.click(screen.getByRole('button', { name: '2022' }));
+    await userEvent.click(screen.getByRole('button', { name: 'Jan' }));
+    await userEvent.click(screen.getByRole('gridcell', { name: '13' }));
 
-    userEvent.click(screen.getByRole('gridcell', { name: '20' }));
+    await userEvent.click(screen.getByRole('gridcell', { name: '20' }));
 
     expect(last(onFiltersChange.mock.calls)?.[0](filters)).toEqual({
       startDate: '2022-01-13T00:00:00.000Z',
       endDate: '2022-01-20T23:59:59.999Z',
       filterText: '',
     });
-  });
+  }, 10000);
 
-  it('should update the text', () => {
+  it('should update the text', async () => {
     const onFiltersChange = jest.fn();
 
     render(
@@ -104,7 +104,7 @@ describe('<MeetingsFilter/>', () => {
 
     const textbox = screen.getByRole('textbox', { name: 'Search' });
 
-    userEvent.type(textbox, 'New Filter');
+    await userEvent.type(textbox, 'New Filter');
 
     expect(last(onFiltersChange.mock.calls)?.[0](filters)).toEqual({
       startDate: '2020-01-01T00:00:00.000Z',
@@ -113,7 +113,7 @@ describe('<MeetingsFilter/>', () => {
     });
   });
 
-  it('should clear the text', () => {
+  it('should clear the text', async () => {
     const onFiltersChange = jest.fn();
 
     filters = {
@@ -131,7 +131,7 @@ describe('<MeetingsFilter/>', () => {
 
     expect(textbox).toHaveValue('Filter');
 
-    userEvent.clear(textbox);
+    await userEvent.clear(textbox);
 
     expect(last(onFiltersChange.mock.calls)?.[0](filters)).toEqual({
       startDate: '2020-01-01T00:00:00.000Z',
