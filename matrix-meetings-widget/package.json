@@ -45,7 +45,7 @@
   "devDependencies": {
     "@craco/craco": "^7.0.0",
     "@matrix-widget-toolkit/testing": "^2.2.0",
-    "@testing-library/dom": "^8.20.0",
+    "@testing-library/dom": "^9.0.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.1",
