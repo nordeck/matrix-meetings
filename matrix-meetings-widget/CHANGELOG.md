@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.3.0
+
+### Minor Changes
+
+- 6feb722: Restore the previous calendar view when opening the widget.
+
 ## 1.2.1
 
 ### Patch Changes
