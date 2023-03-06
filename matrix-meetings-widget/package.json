@@ -17,7 +17,7 @@
     "@mui/icons-material": "^5.11.9",
     "@mui/lab": "^5.0.0-alpha.115",
     "@mui/material": "^5.11.10",
-    "@mui/utils": "^5.11.9",
+    "@mui/utils": "^5.11.11",
     "@mui/x-date-pickers": "^5.0.20",
     "@reduxjs/toolkit": "^1.9.3",
     "i18next": "^22.0.4",
