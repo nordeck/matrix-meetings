@@ -43,7 +43,7 @@
     "class-validator": "^0.14.0",
     "express": "^4.17.1",
     "html-entities": "^2.3.3",
-    "i18next": "^22.0.4",
+    "i18next": "^22.4.11",
     "i18next-fs-backend": "^2.1.1",
     "i18next-http-middleware": "^3.2.2",
     "joi": "^17.8.3",
