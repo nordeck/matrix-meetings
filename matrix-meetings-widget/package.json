@@ -20,7 +20,7 @@
     "@mui/utils": "^5.11.9",
     "@mui/x-date-pickers": "^5.0.20",
     "@reduxjs/toolkit": "^1.9.3",
-    "i18next": "^22.0.4",
+    "i18next": "^22.4.12",
     "i18next-chained-backend": "^4.2.0",
     "i18next-http-backend": "^2.1.1",
     "ical-generator": "^3.6.1",
