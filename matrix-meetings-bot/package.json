@@ -46,7 +46,7 @@
     "i18next": "^22.0.4",
     "i18next-fs-backend": "^2.1.1",
     "i18next-http-middleware": "^3.2.2",
-    "joi": "^17.8.3",
+    "joi": "^17.9.0",
     "lodash": "^4.17.20",
     "luxon": "^3.3.0",
     "matrix-bot-sdk": "^0.6.3",
