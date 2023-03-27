@@ -51,7 +51,7 @@
     "luxon": "^3.3.0",
     "matrix-bot-sdk": "^0.6.3",
     "mime-types": "^2.1.35",
-    "moment-timezone": "^0.5.40",
+    "moment-timezone": "^0.5.42",
     "mustache": "^4.2.0",
     "nestjs-pino": "^3.1.2",
     "node-fetch": "^2.6.1",
