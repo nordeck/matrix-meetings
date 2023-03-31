@@ -2,4 +2,4 @@
 '@nordeck/matrix-meetings-widget': patch
 ---
 
-Fix typo in the german translation.
+Update the title of the share dialog.

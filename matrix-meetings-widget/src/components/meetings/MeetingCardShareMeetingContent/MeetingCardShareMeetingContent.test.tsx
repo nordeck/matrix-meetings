@@ -231,7 +231,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     );
 
     const dialog = screen.getByRole('dialog', {
-      name: /share the dial in information/i,
+      name: 'Invite more people',
     });
 
     expect(
@@ -279,7 +279,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     );
 
     const dialog = screen.getByRole('dialog', {
-      name: /share the dial in information/i,
+      name: 'Invite more people',
     });
 
     expect(within(dialog).getByRole('status')).toHaveTextContent(

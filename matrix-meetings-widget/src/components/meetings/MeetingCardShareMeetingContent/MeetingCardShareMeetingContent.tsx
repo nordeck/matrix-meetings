@@ -242,10 +242,7 @@ export function MeetingCardShareMeetingContent({
           )}
           onClose={dialInDialog.onClose}
           open={dialInDialog.open}
-          title={t(
-            'meetingCard.share.dialInTitle',
-            'Share the dial in information'
-          )}
+          title={t('meetingCard.share.dialInTitle', 'Invite more people')}
         >
           {isRecurringCalendarSourceEntry(meeting.calendarEntries) && (
             <Alert role="status" severity="warning" sx={{ my: 1 }}>
