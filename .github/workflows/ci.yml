@@ -164,9 +164,7 @@ jobs:
           file: matrix-meetings-bot/Dockerfile
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
-          # TODO: reenable s390x builds once the matrix-rust-sdk supports it
-          platforms: linux/amd64,linux/arm64
-          #platforms: linux/amd64,linux/arm64,linux/s390x
+          platforms: linux/amd64,linux/arm64,linux/s390x
 
   run-changesets:
     runs-on: ubuntu-latest

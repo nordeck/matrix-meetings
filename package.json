@@ -38,6 +38,9 @@
     "translate": "yarn workspaces run translate",
     "e2e": "yarn workspace e2e e2e"
   },
+  "resolutions": {
+    "@matrix-org/matrix-sdk-crypto-nodejs": "./resolutions/matrix-sdk-crypto-nodejs"
+  },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
       "yarn eslint --max-warnings=0",
