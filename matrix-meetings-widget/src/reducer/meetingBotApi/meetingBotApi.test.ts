@@ -182,6 +182,7 @@ describe('meetingBotApi', () => {
               {
                 id: 'widget-2',
                 name: 'Widget 2',
+                optional: true,
               },
             ])
           );
@@ -198,6 +199,7 @@ describe('meetingBotApi', () => {
         {
           id: 'widget-2',
           name: 'Widget 2',
+          optional: true,
         },
       ]);
     });

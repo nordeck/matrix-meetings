@@ -61,6 +61,12 @@ export async function startMatrixMeetingsBot({
       AUTO_DELETION_OFFSET: '60',
       LOG_LEVEL: 'debug',
     })
+    .withCopyFilesToContainer([
+      {
+        source: require.resolve('./default_events.json'),
+        target: '/app/conf/default_events.json',
+      },
+    ])
     .withExposedPorts({ container: 3000, host: staticHostPort })
     .withWaitStrategy(Wait.forLogMessage(/Bot is running as @/))
     .start();

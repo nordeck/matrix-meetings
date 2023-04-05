@@ -36,7 +36,7 @@ export class DoesWidgetWithIdExistConstraint
   ) {}
 
   validate(value: any) {
-    return this.roomMatrixEvents.widgetIds.includes(value);
+    return this.roomMatrixEvents.allWidgetIds.includes(value);
   }
 
   defaultMessage() {

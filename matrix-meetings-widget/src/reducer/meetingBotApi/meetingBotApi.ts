@@ -46,6 +46,7 @@ const availableWidgetsReponseSchema =
     Joi.object({
       id: Joi.string().required(),
       name: Joi.string().required(),
+      optional: Joi.boolean(),
     }).unknown()
   );
 

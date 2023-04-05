@@ -66,7 +66,9 @@ export function WidgetsSelectionDropdown({
 
   useEffect(() => {
     if (autoSelectAllWidgets && !isDirty && availableWidgets.length > 0) {
-      onChange(availableWidgets.map(({ id }) => id));
+      onChange(
+        availableWidgets.filter(({ optional }) => !optional).map(({ id }) => id)
+      );
       setDirty(true);
     }
   }, [

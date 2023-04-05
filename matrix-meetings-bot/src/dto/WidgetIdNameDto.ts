@@ -15,7 +15,7 @@
  */
 
 import { ApiProperty } from '@nestjs/swagger';
-import { IsString } from 'class-validator';
+import { IsBoolean, IsString } from 'class-validator';
 
 export class WidgetIdNameDto {
   /**
@@ -33,8 +33,16 @@ export class WidgetIdNameDto {
   @IsString()
   readonly name: string;
 
-  constructor(id: string, name: string) {
+  /**
+   * If true, the widget will not be activated by default.
+   */
+  @ApiProperty()
+  @IsBoolean()
+  readonly optional: boolean;
+
+  constructor(id: string, name: string, optional: boolean) {
     this.id = id;
     this.name = name;
+    this.optional = optional;
   }
 }

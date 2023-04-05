@@ -59,7 +59,8 @@ describe('MeetingClient', () => {
             stateEvents: [],
             roomEvents: [],
             widgetContents: [],
-            widgetIds: [],
+            allWidgetIds: [],
+            defaultWidgetIds: [],
           },
           {
             locale: 'en',
@@ -147,7 +148,8 @@ describe('MeetingClient', () => {
             stateEvents: [],
             roomEvents: [],
             widgetContents: [],
-            widgetIds: [],
+            allWidgetIds: [],
+            defaultWidgetIds: [],
           },
           {
             locale: 'en',

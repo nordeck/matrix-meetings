@@ -1,0 +1,62 @@
+{
+  "state_events": [
+    {
+      "type": "m.room.power_levels",
+      "content": {
+        "events": {
+          "net.nordeck.meetings.metadata": 100
+        }
+      }
+    },
+    {
+      "type": "m.room.history_visibility",
+      "content": {
+        "history_visibility": "shared"
+      }
+    },
+    {
+      "type": "m.room.guest_access",
+      "content": {
+        "guest_access": "forbidden"
+      }
+    },
+    {
+      "type": "m.room.join_rules",
+      "content": {
+        "join_rule": "public"
+      }
+    },
+    {
+      "type": "im.vector.modular.widgets",
+      "state_key": "jitsi",
+      "content": {
+        "type": "jitsi",
+        "url": "https://example.com",
+        "name": "Video Conference",
+        "data": {
+          "domain": "meet.jit.si",
+          "conferenceId": "{{base32_room_id}}",
+          "roomName": "{{title}}",
+          "isAudioOnly": true
+        }
+      }
+    },
+    {
+      "type": "im.vector.modular.widgets",
+      "state_key": "jitsi_2",
+      "optional": true,
+      "content": {
+        "type": "jitsi",
+        "url": "https://example.com",
+        "name": "Video Conference (optional)",
+        "data": {
+          "domain": "meet.jit.si",
+          "conferenceId": "{{base32_room_id}}",
+          "roomName": "{{title}}",
+          "isAudioOnly": true
+        }
+      }
+    }
+  ],
+  "room_events": []
+}

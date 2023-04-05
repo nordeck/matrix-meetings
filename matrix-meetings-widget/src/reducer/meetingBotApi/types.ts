@@ -17,6 +17,7 @@
 export type AvailableWidget = {
   id: string;
   name: string;
+  optional?: boolean;
 };
 
 export type MeetingSharingInformation = {

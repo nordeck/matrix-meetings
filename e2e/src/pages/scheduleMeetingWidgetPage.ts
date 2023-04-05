@@ -85,6 +85,12 @@ export class ScheduleMeetingWidgetPage {
     await this.participantsCombobox.press('Enter');
   }
 
+  async addWidget(widgetName: string) {
+    await this.widgetsCombobox.click();
+    await this.widget.getByRole('option', { name: widgetName }).click();
+    await this.widget.getByRole('button', { name: widgetName }).waitFor();
+  }
+
   async removeLastWidget() {
     await this.widget
       .getByRole('button', { name: 'Video Conference' })

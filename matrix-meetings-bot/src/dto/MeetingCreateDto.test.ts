@@ -29,7 +29,8 @@ describe('MeetingCreateDto', () => {
             roomEvents: [],
             stateEvents: [],
             widgetContents: [],
-            widgetIds: ['widget-0'],
+            allWidgetIds: ['widget-0'],
+            defaultWidgetIds: [],
           });
         }
 
