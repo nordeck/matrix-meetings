@@ -5751,10 +5751,10 @@ dot-case@^3.0.4:
     no-case "^3.0.4"
     tslib "^2.0.3"
 
-dotenv-cli@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.yarnpkg.com/dotenv-cli/-/dotenv-cli-7.0.0.tgz#b24e842a4c00928ec91d051ab152cd927c66ad97"
-  integrity sha512-XfMzVdpdDTRnlcgvFLg3lSyiLXqFxS4tH7RbK5IxkC4XIUuxPyrGoDufkfLjy/dA28EILzEu+mros6h8aQmyGg==
+dotenv-cli@^7.2.1:
+  version "7.2.1"
+  resolved "https://registry.yarnpkg.com/dotenv-cli/-/dotenv-cli-7.2.1.tgz#e595afd9ebfb721df9da809a435b9aa966c92062"
+  integrity sha512-ODHbGTskqRtXAzZapDPvgNuDVQApu4oKX8lZW7Y0+9hKA6le1ZJlyRS687oU9FXjOVEDU/VFV6zI125HzhM1UQ==
   dependencies:
     cross-spawn "^7.0.3"
     dotenv "^16.0.0"
