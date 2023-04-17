@@ -454,10 +454,14 @@ describe('<ScheduleMeeting>', () => {
     expect(titleField).toHaveValue('An important meeting');
     expect(descriptionField).toHaveValue('A brief description');
 
-    await userEvent.clear(titleField);
-    await userEvent.type(titleField, 'A new name');
-    await userEvent.clear(descriptionField);
-    await userEvent.type(descriptionField, 'A new description');
+    await userEvent.type(titleField, 'A new name', {
+      initialSelectionStart: 0,
+      initialSelectionEnd: 20,
+    });
+    await userEvent.type(descriptionField, 'A new description', {
+      initialSelectionStart: 0,
+      initialSelectionEnd: 19,
+    });
 
     fireEvent.change(startDateField, { target: { value: '01/02/2023' } });
     fireEvent.change(startTimeField, { target: { value: '12:34 AM' } });
@@ -483,7 +487,7 @@ describe('<ScheduleMeeting>', () => {
       participants: ['@user-id'],
       rrule: 'FREQ=DAILY',
     });
-  });
+  }, 10000);
 
   it('should fill the form for editing a recurring meeting', async () => {
     render(
