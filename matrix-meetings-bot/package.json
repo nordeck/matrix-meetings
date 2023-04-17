@@ -34,7 +34,7 @@
     "@nestjs/common": "^9.3.9",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.3.9",
-    "@nestjs/microservices": "^9.3.9",
+    "@nestjs/microservices": "^9.4.0",
     "@nestjs/platform-express": "^9.3.9",
     "@nestjs/swagger": "^6.2.1",
     "@supercharge/promise-pool": "^2.4.0",
