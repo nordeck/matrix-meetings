@@ -2070,10 +2070,10 @@
     qs "^6.11.0"
     rxjs "^7.8.0"
 
-"@matrix-widget-toolkit/mui@^1.0.7":
-  version "1.0.7"
-  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/mui/-/mui-1.0.7.tgz#fb405b56910dfe85a8697da90ff4f831170db2a7"
-  integrity sha512-lPgF9wCTQW4RPfHSom2vWPD2X2QSqxKK3t/mYN8/r3scBcbwPwqSUzKE2jwJ7UJgvYBcira69NakCEfwZ9b19g==
+"@matrix-widget-toolkit/mui@^1.1.2":
+  version "1.1.2"
+  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/mui/-/mui-1.1.2.tgz#68d1c99df8628a06b430834c4a00ee249dea4c44"
+  integrity sha512-Ptro5KtkFzHIa9RGtVrbySUY0/WkTm1XCEk2be/YMY1F3LdCFLwmq7E/Uwq8yn8ObPpeFS7N6Ehmru05kSweDQ==
   dependencies:
     "@emotion/cache" "^11.10.5"
     "@emotion/react" "^11.10.5"
@@ -2087,6 +2087,7 @@
     i18next "^22.0.4"
     i18next-browser-languagedetector "^7.0.1"
     i18next-resources-to-backend "^1.0.0"
+    lodash "^4.17.21"
     matrix-widget-api "^1.1.1"
     react "^17.0.2"
     react-i18next "^12.0.0"
