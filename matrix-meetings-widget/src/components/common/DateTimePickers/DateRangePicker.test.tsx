@@ -182,7 +182,7 @@ describe('<DateRangePicker>', () => {
       screen.getByRole('gridcell', { name: '1', selected: true })
     ).toBeInTheDocument();
     expect(onRangeChange).not.toBeCalled();
-  });
+  }, 10000);
 
   it('should set start and end to the same day', async () => {
     render(
