@@ -22,7 +22,7 @@
     "@reduxjs/toolkit": "^1.9.3",
     "i18next": "^22.0.4",
     "i18next-chained-backend": "^4.2.0",
-    "i18next-http-backend": "^2.1.1",
+    "i18next-http-backend": "^2.2.0",
     "ical-generator": "^3.6.1",
     "joi": "^17.9.1",
     "lodash": "^4.17.20",
