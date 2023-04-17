@@ -24,7 +24,7 @@
     "i18next-chained-backend": "^4.2.0",
     "i18next-http-backend": "^2.1.1",
     "ical-generator": "^3.6.1",
-    "joi": "^17.8.3",
+    "joi": "^17.9.1",
     "lodash": "^4.17.20",
     "luxon": "^3.3.0",
     "matrix-widget-api": "^1.1.0",
