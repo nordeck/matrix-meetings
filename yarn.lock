@@ -2104,10 +2104,10 @@
     react-error-boundary "^3.1.4"
     react-use "^17.4.0"
 
-"@matrix-widget-toolkit/testing@^2.2.0":
-  version "2.2.0"
-  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/testing/-/testing-2.2.0.tgz#34c8b0685cb97e0ba47cfe7813b471f2ee0f64e1"
-  integrity sha512-qkbOy6dlWY6XHi4Ll51v4jcSgvjwIPI5OEqO7bG5OOHw6krNVDN5gzswBve3t8BKy1nxlTG3quXkSsA3zHBB3g==
+"@matrix-widget-toolkit/testing@^2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/testing/-/testing-2.2.1.tgz#d86b803d74e51435c23e6b9698a20b653fbc8c32"
+  integrity sha512-uR71zz7orXJ/9l4xQ5nFYKHT8xrj9hwZcdzvWaP1774CzozWvNI4bdypysrWEnf+S60TqhkcTwz2YoS9c85ggQ==
   dependencies:
     "@matrix-widget-toolkit/api" "^3.1.0"
     lodash "^4.17.21"
