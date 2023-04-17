@@ -12,7 +12,7 @@
     "@fullcalendar/react": "^6.1.5",
     "@fullcalendar/timegrid": "^6.1.5",
     "@matrix-widget-toolkit/api": "^3.1.0",
-    "@matrix-widget-toolkit/mui": "^1.0.7",
+    "@matrix-widget-toolkit/mui": "^1.1.2",
     "@matrix-widget-toolkit/react": "^1.0.2",
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.126",
@@ -44,7 +44,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
-    "@matrix-widget-toolkit/testing": "^2.2.0",
+    "@matrix-widget-toolkit/testing": "^2.2.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.1",
