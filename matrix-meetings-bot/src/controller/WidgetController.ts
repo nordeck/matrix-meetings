@@ -42,7 +42,11 @@ export class WidgetController {
         wc.name,
         {}
       );
-      return new WidgetIdNameDto(wc.id, name);
+      return new WidgetIdNameDto(
+        wc.id,
+        name,
+        !this.roomMatrixEvents.defaultWidgetIds.includes(wc.id)
+      );
     });
   }
 }

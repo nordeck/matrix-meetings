@@ -72,6 +72,12 @@ test.describe('OpenXchange', () => {
       'href',
       'https://webmail-hostname/appsuite/#app=io.ox/calendar&id=meeting-id&folder=cal://0/471'
     );
+
+    expect(await aliceElementWebPage.getWidgets()).toEqual([
+      'Breakout Sessions',
+      'Meeting Controls',
+      'Video Conference',
+    ]);
   });
 
   test('should update meeting via OX', async ({

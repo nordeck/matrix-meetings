@@ -119,6 +119,30 @@ test.describe('Meeting Room', () => {
       .toEqual(['Breakout Sessions', 'Meeting Controls']);
   });
 
+  test('should enable the optional widget from within the meeting', async ({
+    aliceElementWebPage,
+    aliceCockpitWidgetPage,
+  }) => {
+    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    const meetingCard = aliceCockpitWidgetPage.getMeeting();
+    const aliceEditMeetingWidgetPage = await meetingCard.editMeeting();
+    await aliceEditMeetingWidgetPage.addWidget('Video Conference (optional)');
+    await aliceEditMeetingWidgetPage.submit();
+
+    await aliceElementWebPage.approveWidgetIdentity();
+
+    await expect
+      .poll(async () => {
+        return await aliceElementWebPage.getWidgets();
+      })
+      .toEqual([
+        'Breakout Sessions',
+        'Meeting Controls',
+        'Video Conference',
+        'Video Conference (optional)',
+      ]);
+  });
+
   test('should toggle whether users can use the chat', async ({
     aliceElementWebPage,
     aliceCockpitWidgetPage,

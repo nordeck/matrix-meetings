@@ -78,6 +78,7 @@
     {
       "type": "im.vector.modular.widgets",
       "state_key": "poll",
+      "optional": true,
       "content": {
         "type": "net.nordeck.poll",
         "url": "https://some_url?theme=$theme&matrix_user_id=$matrix_user_id&matrix_avatar_url=$matrix_avatar_url&matrix_display_name=$matrix_display_name&matrix_room_id=$matrix_room_id",

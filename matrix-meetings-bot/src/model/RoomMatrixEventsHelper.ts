@@ -33,56 +33,60 @@ export class RoomMatrixEventsHelper {
     stateEvents: readonly IStateEvent<unknown>[],
     roomEvents: readonly IRoomEvent<unknown>[]
   ): IRoomMatrixEvents {
-    const widgetContents: IWidgetContent[] = stateEvents
-      .filter(
-        (se) => se.type === StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT
-      )
-      .map((se) => {
-        const widgetContent = se.content as IWidgetContent;
+    const allWidgetEvents = stateEvents.filter(
+      (se) => se.type === StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT
+    );
 
-        // id and state key will be the same, they both should be able to identify the widget
-        const widgetId = se.state_key;
-        widgetContent.id = widgetId;
+    const widgetContents = allWidgetEvents.map<IWidgetContent>((se) => {
+      const widgetContent = se.content as IWidgetContent;
 
-        const avatarUrlString = widgetContent.avatar_url;
-        if (avatarUrlString) {
-          const avatarUrl = StringUtil.asUrl(avatarUrlString);
-          if (avatarUrl) {
-            if (avatarUrl.protocol !== 'mxc:') {
-              widgetContent.avatar_url = undefined; // ignore avatar path
-              this.logger.warn(
-                `only 'mxc:' protocol can be used in avatar url, widget ${widgetId} has '${avatarUrl.protocol}' in url ${avatarUrlString}, avatar url is ignored`
-              );
-            }
-          } else {
-            // not a valid URL then it should be a path to avatar relative to default_events.json
-            // use default_events.json path to create avatar path relative to working directory or absolute path
-            const newAvatarPath = path.join(
-              path.dirname(this.defaultEventsPath),
-              avatarUrlString
+      // id and state key will be the same, they both should be able to identify the widget
+      const widgetId = se.state_key;
+      widgetContent.id = widgetId;
+
+      const avatarUrlString = widgetContent.avatar_url;
+      if (avatarUrlString) {
+        const avatarUrl = StringUtil.asUrl(avatarUrlString);
+        if (avatarUrl) {
+          if (avatarUrl.protocol !== 'mxc:') {
+            widgetContent.avatar_url = undefined; // ignore avatar path
+            this.logger.warn(
+              `only 'mxc:' protocol can be used in avatar url, widget ${widgetId} has '${avatarUrl.protocol}' in url ${avatarUrlString}, avatar url is ignored`
             );
-            if (fs.existsSync(newAvatarPath)) {
-              widgetContent.avatar_url = newAvatarPath; // override avatar path
-            } else {
-              widgetContent.avatar_url = undefined; // ignore avatar path
-              const avatarPathAbsolute = path.resolve(newAvatarPath);
-              this.logger.warn(
-                `cannot find avatar ${avatarUrlString} for ${widgetId} widget, icon doesn't exists: ${avatarPathAbsolute}`
-              );
-            }
+          }
+        } else {
+          // not a valid URL then it should be a path to avatar relative to default_events.json
+          // use default_events.json path to create avatar path relative to working directory or absolute path
+          const newAvatarPath = path.join(
+            path.dirname(this.defaultEventsPath),
+            avatarUrlString
+          );
+          if (fs.existsSync(newAvatarPath)) {
+            widgetContent.avatar_url = newAvatarPath; // override avatar path
+          } else {
+            widgetContent.avatar_url = undefined; // ignore avatar path
+            const avatarPathAbsolute = path.resolve(newAvatarPath);
+            this.logger.warn(
+              `cannot find avatar ${avatarUrlString} for ${widgetId} widget, icon doesn't exists: ${avatarPathAbsolute}`
+            );
           }
         }
+      }
 
-        return widgetContent;
-      });
+      return widgetContent;
+    });
 
-    const widgetIds = widgetContents.map((o) => o.id);
+    const allWidgetIds = allWidgetEvents.map((o) => o.state_key);
+    const defaultWidgetIds = allWidgetEvents
+      .filter((o) => !('optional' in o && o.optional))
+      .map((o) => o.state_key);
 
     return {
       stateEvents,
       roomEvents,
       widgetContents,
-      widgetIds,
+      allWidgetIds,
+      defaultWidgetIds,
     };
   }
 }

@@ -22,5 +22,6 @@ export interface IRoomMatrixEvents {
   readonly stateEvents: readonly IStateEvent<unknown>[];
   readonly roomEvents: readonly IRoomEvent<unknown>[];
   readonly widgetContents: IWidgetContent[];
-  readonly widgetIds: string[];
+  readonly allWidgetIds: string[];
+  readonly defaultWidgetIds: string[];
 }

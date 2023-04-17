@@ -193,7 +193,7 @@ export class MeetingService {
     }
 
     const widgetIds = meetingCreate.widget_ids || [
-      ...this.roomMatrixEvents.widgetIds,
+      ...this.roomMatrixEvents.defaultWidgetIds,
     ];
     promises.push(
       this.setupWidgets(meetingType, roomId, meetingCreate, widgetIds)
@@ -299,7 +299,7 @@ export class MeetingService {
   ): Promise<void> {
     const promises: Promise<any>[] = [];
     const unClearableWidgets: string[] = [];
-    for (const key of this.roomMatrixEvents.widgetIds) {
+    for (const key of this.roomMatrixEvents.allWidgetIds) {
       if (widgetIds && !widgetIds.includes(key)) {
         const widgetContent: IStateEvent<IWidgetContent> | undefined =
           room.widgetEventById(key);

@@ -122,7 +122,7 @@ export class WidgetClient {
   }
 
   public getCustomConfiguredWidgetIds() {
-    return new Set(this.roomMatrixEvents.widgetIds);
+    return new Set(this.roomMatrixEvents.allWidgetIds);
   }
 
   public isCustomConfiguredWidget(widgetId: string): boolean {

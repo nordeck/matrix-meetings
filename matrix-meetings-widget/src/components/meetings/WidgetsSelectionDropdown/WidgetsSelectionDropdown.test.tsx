@@ -144,6 +144,32 @@ describe('<WidgetsSelectionDropdown>', () => {
     expect(onChange).toBeCalledWith(['widget-1', 'widget-2']);
   });
 
+  it('should not enable any optional widgets', async () => {
+    mockWidgetEndpoint(server, {
+      widgets: [
+        { id: 'widget-1', name: 'Widget 1' },
+        { id: 'widget-2', name: 'Widget 2', optional: true },
+      ],
+    });
+
+    const onChange = jest.fn();
+
+    render(
+      <WidgetsSelectionDropdown
+        autoSelectAllWidgets
+        onChange={onChange}
+        selectedWidgets={[]}
+      />,
+      { wrapper: Wrapper }
+    );
+
+    await waitFor(() =>
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+    );
+
+    expect(onChange).toBeCalledWith(['widget-1']);
+  });
+
   it('should select a widget', async () => {
     const onChange = jest.fn();
 

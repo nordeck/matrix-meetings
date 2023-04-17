@@ -51,7 +51,6 @@ export class MeetingsBotApi {
           description,
           start_time: startTime,
           end_time: endTime,
-          widget_ids: ['jitsi'],
           participants: participants.map((u) => ({
             user_id: `@${u}:localhost`,
           })),

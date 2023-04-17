@@ -154,32 +154,32 @@ describe('test relevant functionality of MeetingService', () => {
       CURRENT_USER,
       PARENT_MEETING_ROOM_ID,
       null,
-      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings']
+      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll']
     );
     const mainRoom: any[] = create_test_meeting(
       CURRENT_USER,
       MAIN_NON_MEETING_ROOM_ID,
       null,
-      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings'],
+      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll'],
       false
     );
     const childRoom1: IStateEvent<any>[] = create_test_meeting(
       CURRENT_USER,
       'childRoom1',
       PARENT_MEETING_ROOM_ID,
-      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings']
+      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll']
     );
     const childRoom2: IStateEvent<any>[] = create_test_meeting(
       CURRENT_USER,
       'childRoom2',
       PARENT_MEETING_ROOM_ID,
-      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings']
+      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll']
     );
     const room: any[] = create_test_meeting(
       CURRENT_USER,
       ROOM_ID,
       PARENT_MEETING_ROOM_ID,
-      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings']
+      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll']
     );
     const meetingRoomWithoutWidgetsUnderMeetingRoom: any[] =
       create_test_meeting(
@@ -746,7 +746,6 @@ describe('test relevant functionality of MeetingService', () => {
       'jitsi',
       'etherpad',
       'whiteboard',
-      'poll',
     ]);
   });
 
@@ -786,14 +785,6 @@ describe('test relevant functionality of MeetingService', () => {
         anything()
       )
     ).times(0);
-    verify(
-      clientMock.sendStateEvent(
-        MEETINGROOM_WITHOUT_WIDGETS_UNDER_NON_MEETING_ROOM_ID,
-        'im.vector.modular.widgets',
-        anything(),
-        anything()
-      )
-    ).times(6);
 
     const stateEventCalls = getArgsFromCaptor(
       capture(clientMock.sendStateEvent)
@@ -815,7 +806,6 @@ describe('test relevant functionality of MeetingService', () => {
       'jitsi',
       'etherpad',
       'whiteboard',
-      'poll',
     ]);
   });
 

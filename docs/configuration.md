@@ -151,15 +151,16 @@ The following content is available:
 
 ##### Content
 
-| Field                      | Type     | Description                 |
-| -------------------------- | -------- | --------------------------- |
-| `state_events[]`           | —        | A list of state events.     |
-| `state_events[].type`      | `string` | The type of event.          |
-| `state_events[].state_key` | `string` | The state key of the event. |
-| `state_events[].content`   | `object` | The content of the event.   |
-| `room_events[]`            | —        | The list of room events.    |
-| `room_events[].type`       | `string` | The type of event.          |
-| `room_events[].content`    | `object` | The content of the event.   |
+| Field                      | Type      | Description                                   |
+| -------------------------- | --------- | --------------------------------------------- |
+| `state_events[]`           | —         | A list of state events.                       |
+| `state_events[].type`      | `string`  | The type of event.                            |
+| `state_events[].state_key` | `string`  | The state key of the event.                   |
+| `state_events[].optional`  | `boolean` | If true, this widget is not added by default. |
+| `state_events[].content`   | `object`  | The content of the event.                     |
+| `room_events[]`            | —         | The list of room events.                      |
+| `room_events[].type`       | `string`  | The type of event.                            |
+| `room_events[].content`    | `object`  | The content of the event.                     |
 
 ##### Example
 
@@ -182,6 +183,7 @@ The following content is available:
     {
       "type": "im.vector.modular.widgets",
       "state_key": "jitsi",
+      "optional": true,
       "content": {
         "type": "jitsi",
         "url": "https://app.element.io/jitsi.html?confId={{#encodeURIComponent}}{{base32_room_id}}{{/encodeURIComponent}}#conferenceId=$conferenceId&domain=$domain&isAudioOnly=$isAudioOnly&displayName=$matrix_display_name&avatarUrl=$matrix_avatar_url&userId=$matrix_user_id&roomId=$matrix_room_id&roomName=$roomName&theme=$theme{{#data.auth}}&auth={{data.auth}}{{/data.auth}}",

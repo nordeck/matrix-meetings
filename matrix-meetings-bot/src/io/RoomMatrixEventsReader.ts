@@ -45,6 +45,13 @@ export const schema = Joi.object({
         then: Joi.string().required(), // widgets are required to have state_key that will be used as widget id as well
         otherwise: Joi.string().allow(''),
       }),
+      optional: Joi.alternatives()
+        .conditional('type', {
+          is: StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
+          then: Joi.boolean().required(),
+          otherwise: Joi.disallow(),
+        })
+        .optional(),
       content: Joi.alternatives().conditional('type', {
         is: StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
         then: Joi.object({
@@ -55,16 +62,18 @@ export const schema = Joi.object({
             scheme: 'mxc', // matrix URL possible
             allowRelative: true, // for avatar upload
           }),
-          data: Joi.any(),
-        }).required(),
-        otherwise: Joi.any().required(),
+          data: Joi.object(),
+        })
+          .unknown()
+          .required(),
+        otherwise: Joi.object().required(),
       }),
-    })
+    }).unknown()
   ),
   room_events: Joi.array().items(
     Joi.object({
       type: Joi.string().required(),
-      content: Joi.any().required(),
-    })
+      content: Joi.object().required(),
+    }).unknown()
   ),
-});
+}).unknown();
