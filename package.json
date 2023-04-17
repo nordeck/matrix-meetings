@@ -7,7 +7,7 @@
     "e2e"
   ],
   "devDependencies": {
-    "@changesets/cli": "^2.26.0",
+    "@changesets/cli": "^2.26.1",
     "depcheck": "^1.4.3",
     "eslint-config-prettier": "^8.8.0",
     "eslint-config-react-app": "^7.0.1",
