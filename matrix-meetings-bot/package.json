@@ -31,12 +31,12 @@
     "yarn": ">=1.22.1 <2.0.0"
   },
   "dependencies": {
-    "@nestjs/common": "^9.3.9",
+    "@nestjs/common": "^9.4.0",
     "@nestjs/config": "^2.3.1",
     "@nestjs/core": "^9.4.0",
-    "@nestjs/microservices": "^9.3.9",
-    "@nestjs/platform-express": "^9.3.9",
-    "@nestjs/swagger": "^6.2.1",
+    "@nestjs/microservices": "^9.4.0",
+    "@nestjs/platform-express": "^9.4.0",
+    "@nestjs/swagger": "^6.3.0",
     "@supercharge/promise-pool": "^2.4.0",
     "base64url": "^3.0.1",
     "class-transformer": "^0.5.1",
@@ -64,7 +64,7 @@
     "uuid": "^9.0.0"
   },
   "devDependencies": {
-    "@nestjs/cli": "^9.2.0",
+    "@nestjs/cli": "^9.4.0",
     "@types/jest": "^27.5.2",
     "@types/lodash": "^4.14.191",
     "@types/luxon": "^3.2.0",
