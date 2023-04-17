@@ -15,17 +15,14 @@
  */
 
 import { getRoomMemberDisplayName } from '@matrix-widget-toolkit/api';
+import { ElementAvatar } from '@matrix-widget-toolkit/mui';
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
-import { Avatar } from '@mui/material';
 import { useMemo } from 'react';
 import {
   makeSelectAllRoomMemberEventsByRoomId,
   makeSelectRoomMemberEventByUserId,
 } from '../../../reducer/meetingsApi/meetingsApi';
 import { useAppSelector } from '../../../store';
-import { createUserAvatarUrl } from './createUserAvatarUrl';
-import { getColor } from './getColor';
-import { getInitialLetter } from './getInitialLetter';
 
 export type MemberAvatarProps = {
   /** The id of the user */
@@ -64,44 +61,16 @@ export function MemberAvatar({ userId, roomId, className }: MemberAvatarProps) {
     )
   );
 
-  const displayName = useMemo(
-    () =>
-      memberEvent
-        ? getRoomMemberDisplayName(memberEvent, allRoomMembers)
-        : userId,
-    [allRoomMembers, memberEvent, userId]
-  );
-
-  const avatarUrl = useMemo(() => {
-    const userAvatar = allRoomMembers.find((m) => m?.state_key === userId)
-      ?.content.avatar_url;
-
-    if (userAvatar) {
-      return createUserAvatarUrl(userAvatar);
-    } else {
-      return undefined;
-    }
-  }, [allRoomMembers, userId]);
+  const displayName = memberEvent
+    ? getRoomMemberDisplayName(memberEvent, allRoomMembers)
+    : userId;
 
   return (
-    <Avatar
-      alt=""
-      aria-hidden
+    <ElementAvatar
       className={className}
-      src={avatarUrl}
-      sx={{
-        // increase the specificity of the css selector to override styles of
-        // chip or button components that provide their own css for avatars.
-        '&, &&.MuiChip-avatar': {
-          bgcolor: getColor(userId),
-          fontSize: 18,
-          width: 24,
-          height: 24,
-          color: 'white',
-        },
-      }}
-    >
-      {getInitialLetter(displayName)}
-    </Avatar>
+      userId={userId}
+      displayName={displayName}
+      avatarUrl={memberEvent?.content.avatar_url ?? undefined}
+    />
   );
 }
