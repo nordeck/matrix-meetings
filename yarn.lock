@@ -2054,7 +2054,7 @@
     globby "^11.0.0"
     read-yaml-file "^1.1.0"
 
-"@matrix-org/matrix-sdk-crypto-nodejs@^0.1.0-beta.3":
+"@matrix-org/matrix-sdk-crypto-nodejs@0.1.0-beta.3":
   version "0.1.0-beta.3"
   resolved "https://registry.yarnpkg.com/@matrix-org/matrix-sdk-crypto-nodejs/-/matrix-sdk-crypto-nodejs-0.1.0-beta.3.tgz#a07225dd180d9d227c24ba62bba439939446d113"
   integrity sha512-jHFn6xBeNqfsY5gX60akbss7iFBHZwXycJWMw58Mjz08OwOi7AbTxeS9I2Pa4jX9/M2iinskmGZbzpqOT2fM3A==
@@ -2136,10 +2136,10 @@
     strict-event-emitter "^0.2.4"
     web-encoding "^1.1.5"
 
-"@mui/base@5.0.0-alpha.125":
-  version "5.0.0-alpha.125"
-  resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-alpha.125.tgz#6bb3df0760d87aa9186ed9add29b3ae96dee4aa8"
-  integrity sha512-hAHJJ97SATu6SrkLH/HsAayK1zMZt89lrWyKuAInBKVyn363H78d1MnwyZwre9vDK5MrPoDL/NnZxtAXhwTnBA==
+"@mui/base@5.0.0-alpha.126":
+  version "5.0.0-alpha.126"
+  resolved "https://registry.yarnpkg.com/@mui/base/-/base-5.0.0-alpha.126.tgz#99555a5876a60e7dad772d75eb171e3d1336321d"
+  integrity sha512-I5e52A0Muv9Gaoy2GcqbYrQ6dpRyC2UXeA00brT3HuW0nF0E4fiTOIqdNTN+N5gyaYK0z3O6jtLt/97CCrIxVA==
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@emotion/is-prop-valid" "^1.2.0"
@@ -2150,10 +2150,10 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/core-downloads-tracker@^5.12.0":
-  version "5.12.0"
-  resolved "https://registry.yarnpkg.com/@mui/core-downloads-tracker/-/core-downloads-tracker-5.12.0.tgz#2f0dcbf07d4b032bc6f743fdb96fc2c10681da6e"
-  integrity sha512-1hoFIdlLI0sG+mkJgm70FjgIVpfLcE1vxPtNolg1tLFXrvbXGUYp9NHy3d6c41nDkg2OajuVS+Mn6A8UirFuMw==
+"@mui/core-downloads-tracker@^5.12.1":
+  version "5.12.1"
+  resolved "https://registry.yarnpkg.com/@mui/core-downloads-tracker/-/core-downloads-tracker-5.12.1.tgz#f828554889e6ab7345395626bb46e561c113435e"
+  integrity sha512-rNiQYHtkXljcvCEnhWrJzie1ifff5O98j3uW7ZlchFgD8HWxEcz/QoxZvo+sCKC9aayAgxi9RsVn2VjCyp5CrA==
 
 "@mui/icons-material@^5.11.0", "@mui/icons-material@^5.11.16":
   version "5.11.16"
@@ -2162,29 +2162,29 @@
   dependencies:
     "@babel/runtime" "^7.21.0"
 
-"@mui/lab@^5.0.0-alpha.126":
-  version "5.0.0-alpha.126"
-  resolved "https://registry.yarnpkg.com/@mui/lab/-/lab-5.0.0-alpha.126.tgz#70b35fa0c6be7a0516d5e1b2252c4a31b6f98474"
-  integrity sha512-Hdv0q0mO2B+S1NGkEBJcBYiapmNEMlDF4PKko+v5StB0ntLA0+U/hB8RVBbjh7eqbUyZI1/wVvLH9+HxNA6Qyw==
+"@mui/lab@^5.0.0-alpha.127":
+  version "5.0.0-alpha.127"
+  resolved "https://registry.yarnpkg.com/@mui/lab/-/lab-5.0.0-alpha.127.tgz#158f59cb0ab993be840cbf79ab643ca32fd9a5d8"
+  integrity sha512-D+Q7MV06rn31g8ZgNcLxgsmh94PJYfyqXAcM3BokgMJ4u89QfwneSlaoHnQ9qitvWFyTz7Ic4HVMNT08FkRG7Q==
   dependencies:
     "@babel/runtime" "^7.21.0"
-    "@mui/base" "5.0.0-alpha.125"
-    "@mui/system" "^5.12.0"
+    "@mui/base" "5.0.0-alpha.126"
+    "@mui/system" "^5.12.1"
     "@mui/types" "^7.2.4"
     "@mui/utils" "^5.12.0"
     clsx "^1.2.1"
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/material@^5.11.3", "@mui/material@^5.12.0":
-  version "5.12.0"
-  resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.12.0.tgz#ab553e61f4446cf3325667adfbd4effb3c1e1237"
-  integrity sha512-IMellv153zJ6+xfhLWgXpAm/9hsX8qE6gP66xWcW/Pf2B8ubyVhmkTXsp8pAJxk81D6p/EyYcnAjo5DiDVkj9g==
+"@mui/material@^5.11.3", "@mui/material@^5.12.1":
+  version "5.12.1"
+  resolved "https://registry.yarnpkg.com/@mui/material/-/material-5.12.1.tgz#3297ffc6836f426a26568332d68357c1398f0630"
+  integrity sha512-m+G9J6+FzIMhRqKV2y30yONH97wX107z9EWgiNCeS1/+y1CnytFZNG1ENdOuaJo1NimCRnmB/iXPvoOaSo6dOg==
   dependencies:
     "@babel/runtime" "^7.21.0"
-    "@mui/base" "5.0.0-alpha.125"
-    "@mui/core-downloads-tracker" "^5.12.0"
-    "@mui/system" "^5.12.0"
+    "@mui/base" "5.0.0-alpha.126"
+    "@mui/core-downloads-tracker" "^5.12.1"
+    "@mui/system" "^5.12.1"
     "@mui/types" "^7.2.4"
     "@mui/utils" "^5.12.0"
     "@types/react-transition-group" "^4.4.5"
@@ -2213,10 +2213,10 @@
     csstype "^3.1.2"
     prop-types "^15.8.1"
 
-"@mui/system@^5.12.0":
-  version "5.12.0"
-  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.12.0.tgz#b47e73917d28db00535c79c043ad04edc5906475"
-  integrity sha512-Zi+WHuiJfK1ya+9+oeJQ1rLIBdY8CGDYT5oVlQg/6kIuyiCaE6SnN9PVzxBxfY77wHuOPwz4kxcPe9srdZc12Q==
+"@mui/system@^5.12.1":
+  version "5.12.1"
+  resolved "https://registry.yarnpkg.com/@mui/system/-/system-5.12.1.tgz#8452bc03159f0a6725b96bde1dee1316e308231b"
+  integrity sha512-Po+sicdV3bbRYXdU29XZaHPZrW7HUYUqU1qCu77GCCEMbahC756YpeyefdIYuPMUg0OdO3gKIUfDISBrkjJL+w==
   dependencies:
     "@babel/runtime" "^7.21.0"
     "@mui/private-theming" "^5.12.0"
@@ -2400,13 +2400,13 @@
   resolved "https://registry.yarnpkg.com/@open-draft/until/-/until-1.0.3.tgz#db9cc719191a62e7d9200f6e7bab21c5b848adca"
   integrity sha512-Aq58f5HiWdyDlFffbbSjAlv596h/cOnt2DO1w3DOC7OJ5EHs0hd/nycJfiu9RJbT6Yk6F1knnRRXNSpxoIVZ9Q==
 
-"@playwright/test@^1.31.2":
-  version "1.31.2"
-  resolved "https://registry.yarnpkg.com/@playwright/test/-/test-1.31.2.tgz#426d8545143a97a6fed250a2a27aa1c8e5e2548e"
-  integrity sha512-BYVutxDI4JeZKV1+ups6dt5WiqKhjBtIYowyZIJ3kBDmJgsuPKsqqKNIMFbUePLSCmp2cZu+BDL427RcNKTRYw==
+"@playwright/test@^1.32.3":
+  version "1.32.3"
+  resolved "https://registry.yarnpkg.com/@playwright/test/-/test-1.32.3.tgz#75be8346d4ef289896835e1d2a86fdbe3d9be92a"
+  integrity sha512-BvWNvK0RfBriindxhLVabi8BRe3X0J9EVjKlcmhxjg4giWBD/xleLcg2dz7Tx0agu28rczjNIPQWznwzDwVsZQ==
   dependencies:
     "@types/node" "*"
-    playwright-core "1.31.2"
+    playwright-core "1.32.3"
   optionalDependencies:
     fsevents "2.3.2"
 
@@ -9062,12 +9062,12 @@ matcher-collection@^2.0.0:
     "@types/minimatch" "^3.0.3"
     minimatch "^3.0.2"
 
-matrix-bot-sdk@^0.6.3:
-  version "0.6.3"
-  resolved "https://registry.yarnpkg.com/matrix-bot-sdk/-/matrix-bot-sdk-0.6.3.tgz#7ed72a314cbf2cf7b952affdb3681ccf7d1dfa58"
-  integrity sha512-YXVML3VaRWa6KUtx2z2WQ6819e20ssruw7ytNZAB+c2X7GWvZgMV41PoZ+jNFJj5H2OPIuwVxJF5aYBy49Xm6A==
+matrix-bot-sdk@^0.6.5:
+  version "0.6.5"
+  resolved "https://registry.yarnpkg.com/matrix-bot-sdk/-/matrix-bot-sdk-0.6.5.tgz#74a88af1e2e56ccad5e6ac747f34080f5187e7ab"
+  integrity sha512-V+m+GtUSvl/2kr+x4bcKM7cZJsSe6B06DmFMdQZbR9N+FDMwVZiQuXp1mtIr2TCujGRCk/iXoSqFccq8/twUhg==
   dependencies:
-    "@matrix-org/matrix-sdk-crypto-nodejs" "^0.1.0-beta.3"
+    "@matrix-org/matrix-sdk-crypto-nodejs" "0.1.0-beta.3"
     "@types/express" "^4.17.13"
     another-json "^0.2.0"
     async-lock "^1.3.2"
@@ -10114,10 +10114,10 @@ pkg-up@^3.1.0:
   dependencies:
     find-up "^3.0.0"
 
-playwright-core@1.31.2:
-  version "1.31.2"
-  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.31.2.tgz#debf4b215d14cb619adb7e511c164d068075b2ed"
-  integrity sha512-a1dFgCNQw4vCsG7bnojZjDnPewZcw7tZUNFN0ZkcLYKj+mPmXvg4MpaaKZ5SgqPsOmqIf2YsVRkgqiRDxD+fDQ==
+playwright-core@1.32.3:
+  version "1.32.3"
+  resolved "https://registry.yarnpkg.com/playwright-core/-/playwright-core-1.32.3.tgz#e6dc7db0b49e9b6c0b8073c4a2d789a96f519c48"
+  integrity sha512-SB+cdrnu74ZIn5Ogh/8278ngEh9NEEV0vR4sJFmK04h2iZpybfbqBY0bX6+BLYWVdV12JLLI+JEFtSnYgR+mWg==
 
 please-upgrade-node@^3.2.0:
   version "3.2.0"
@@ -10700,10 +10700,10 @@ prettier-plugin-organize-imports@^3.2.2:
   resolved "https://registry.yarnpkg.com/prettier-plugin-organize-imports/-/prettier-plugin-organize-imports-3.2.2.tgz#91993365e017daa5d0d28d8183179834224d8dd1"
   integrity sha512-e97lE6odGSiHonHJMTYC0q0iLXQyw0u5z/PJpvP/3vRy6/Zi9kLBwFAbEGjDzIowpjQv8b+J04PDamoUSQbzGA==
 
-prettier@^2.7.1, prettier@^2.8.1:
-  version "2.8.4"
-  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.4.tgz#34dd2595629bfbb79d344ac4a91ff948694463c3"
-  integrity sha512-vIS4Rlc2FNh0BySk3Wkd6xmwxB0FpOndW5fisM5H8hsZSxU2VWVB5CWIkIjWvrHjIhxk2g3bfMKM87zNTrZddw==
+prettier@^2.7.1, prettier@^2.8.7:
+  version "2.8.7"
+  resolved "https://registry.yarnpkg.com/prettier/-/prettier-2.8.7.tgz#bb79fc8729308549d28fe3a98fce73d2c0656450"
+  integrity sha512-yPngTo3aXUUmyuTjeTUT75txrf+aMh9FiD7q9ZE/i6r0bPb22g4FsE6Y338PQX1bmfy08i9QQCB7/rcUAVntfw==
 
 pretty-bytes@^5.3.0, pretty-bytes@^5.4.1:
   version "5.6.0"

@@ -98,8 +98,7 @@ function createConfiguration() {
     calendar_room_name: process.env.CALENDAR_ROOM_NAME ?? 'Calendar',
     bot_displayname: process.env.BOT_DISPLAYNAME,
 
-    // TODO: change the default back to true after https://github.com/turt2live/matrix-bot-sdk/pull/297 has been released
-    matrix_filter_apply: toBoolean(process.env.MATRIX_FILTER_APPLY, false),
+    matrix_filter_apply: toBoolean(process.env.MATRIX_FILTER_APPLY, true),
     matrix_filter_timeline_limit: toNumber(
       process.env.MATRIX_FILTER_TIMELINE_LIMIT,
       50
