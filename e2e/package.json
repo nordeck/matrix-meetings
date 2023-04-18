@@ -9,7 +9,7 @@
     "cross-fetch": "^3.1.5"
   },
   "devDependencies": {
-    "@axe-core/playwright": "^4.6.0",
+    "@axe-core/playwright": "^4.6.1",
     "@playwright/test": "^1.31.2",
     "@types/node": "^16.18.23",
     "eslint": "^8.38.0",
