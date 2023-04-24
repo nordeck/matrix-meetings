@@ -6,7 +6,7 @@
   "version": "1.2.1",
   "private": true,
   "dependencies": {
-    "@fullcalendar/core": "^6.1.5",
+    "@fullcalendar/core": "^6.1.6",
     "@fullcalendar/daygrid": "^6.1.5",
     "@fullcalendar/interaction": "^6.1.5",
     "@fullcalendar/react": "^6.1.5",
