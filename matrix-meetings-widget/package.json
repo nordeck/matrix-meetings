@@ -10,7 +10,7 @@
     "@fullcalendar/daygrid": "^6.1.5",
     "@fullcalendar/interaction": "^6.1.5",
     "@fullcalendar/react": "^6.1.5",
-    "@fullcalendar/timegrid": "^6.1.5",
+    "@fullcalendar/timegrid": "^6.1.6",
     "@matrix-widget-toolkit/api": "^3.1.0",
     "@matrix-widget-toolkit/mui": "^1.1.2",
     "@matrix-widget-toolkit/react": "^1.0.2",
