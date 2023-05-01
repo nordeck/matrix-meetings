@@ -14,7 +14,7 @@
     "@types/node": "^16.18.23",
     "eslint": "^8.39.0",
     "eslint-plugin-playwright": "^0.12.0",
-    "testcontainers": "^9.5.0",
+    "testcontainers": "^9.6.0",
     "typescript": "^4.9.5"
   },
   "engines": {
