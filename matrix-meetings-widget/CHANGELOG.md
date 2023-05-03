@@ -1,5 +1,17 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.3.0
+
+### Minor Changes
+
+- d55243f: Configure widgets to be optional so they are not added to all meetings by default.
+- 6feb722: Restore the previous calendar view when opening the widget.
+
+### Patch Changes
+
+- eb01d89: Fix typo in the german translation of the “Back to parent room” button.
+- 66df6cc: Update the title of the share dialog.
+
 ## 1.2.1
 
 ### Patch Changes

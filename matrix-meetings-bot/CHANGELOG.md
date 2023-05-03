@@ -1,5 +1,19 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.0.0
+
+### Major Changes
+
+- 6feb722: Remove support for redis and pantalaimon. The bot will use the file storage by default.
+
+### Minor Changes
+
+- d55243f: Configure widgets to be optional so they are not added to all meetings by default.
+
+### Patch Changes
+
+- 6feb722: Update the default values for the `MEETINGWIDGET_COCKPIT_NAME` and `BREAKOUT_SESSION_WIDGET_NAME` configurations.
+
 ## 1.1.1
 
 ### Patch Changes
