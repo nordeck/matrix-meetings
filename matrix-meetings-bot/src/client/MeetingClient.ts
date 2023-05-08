@@ -52,6 +52,8 @@ import {
   getMeetingEndTime,
   getMeetingStartTime,
 } from '../shared';
+import { extractOxRrule } from '../util/extractOxRrule';
+import { migrateMeetingTime } from '../util/IMeetingTime';
 import { templateHelper } from '../util/TemplateHelper';
 
 @Injectable()
@@ -236,16 +238,25 @@ export class MeetingClient {
       params
     );
 
+    const meetingTime = migrateMeetingTime(
+      {
+        start_time: meetingCreate.start_time,
+        end_time: meetingCreate.end_time,
+        calendar: meetingCreate.calendar,
+      },
+      extractOxRrule(meetingCreate)
+    );
+
     const meetingsMetadataEventContent: IMeetingsMetadataEventContent = {
-      start_time: meetingCreate.start_time,
-      end_time: meetingCreate.end_time,
-      calendar: meetingCreate.calendar,
+      start_time: meetingTime.start_time,
+      end_time: meetingTime.end_time,
+      calendar: meetingTime.calendar,
       force_deletion_at: getForceDeletionTime(
         autoDeletionOffset,
-        meetingCreate.calendar
+        meetingTime.calendar
       ),
       auto_deletion_offset:
-        meetingCreate.calendar === undefined ? autoDeletionOffset : undefined,
+        meetingTime.calendar === undefined ? autoDeletionOffset : undefined,
       creator: userContext.userId,
       external_data: meetingCreate.external_data,
     };

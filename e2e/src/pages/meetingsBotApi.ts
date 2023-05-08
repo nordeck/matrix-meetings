@@ -29,6 +29,7 @@ export class MeetingsBotApi {
     endTime,
     participants,
     openIdToken,
+    externalDataOxRrules = [],
   }: {
     parentRoomId?: string;
     title: string;
@@ -37,6 +38,7 @@ export class MeetingsBotApi {
     endTime: string;
     participants: string[];
     openIdToken: OpenIdToken;
+    externalDataOxRrules?: string[];
   }): Promise<{
     roomId: string;
     meetingUrl: string;
@@ -58,6 +60,7 @@ export class MeetingsBotApi {
             'io.ox': {
               folder: 'cal://0/471',
               id: 'meeting-id',
+              rrules: externalDataOxRrules,
             },
           },
         },
@@ -83,6 +86,7 @@ export class MeetingsBotApi {
     startTime,
     endTime,
     openIdToken,
+    externalDataOxRrules = [],
   }: {
     roomId: string;
     title: string;
@@ -90,6 +94,7 @@ export class MeetingsBotApi {
     startTime: string;
     endTime: string;
     openIdToken: OpenIdToken;
+    externalDataOxRrules?: string[];
   }) {
     const response = await this.request.put(
       `${getBotUrl()}/v1/meeting/update`,
@@ -105,6 +110,7 @@ export class MeetingsBotApi {
             'io.ox': {
               folder: 'cal://0/471',
               id: 'meeting-id',
+              rrules: externalDataOxRrules,
             },
           },
         },

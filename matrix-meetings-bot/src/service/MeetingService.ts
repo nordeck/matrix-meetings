@@ -66,7 +66,9 @@ import {
   getMeetingEndTime,
   getMeetingStartTime,
 } from '../shared';
+import { extractOxRrule } from '../util/extractOxRrule';
 import { IMeetingChanges, meetingChangesHelper } from '../util/IMeetingChanges';
+import { migrateMeetingTime } from '../util/IMeetingTime';
 import { templateHelper } from '../util/TemplateHelper';
 import { RoomMessageService } from './RoomMessageService';
 import { WidgetLayoutService } from './WidgetLayoutService';
@@ -363,15 +365,25 @@ export class MeetingService {
     const oldMeeting = room.meeting;
     const newMeeting: IMeeting = { ...room.meeting };
 
-    newMeeting.calendar = meetingDetails.calendar ?? newMeeting.calendar;
+    // change data model if meeting is OX with non-empty rrules
+    const meetingTime = migrateMeetingTime(
+      {
+        start_time: meetingDetails.start_time,
+        end_time: meetingDetails.end_time,
+        calendar: meetingDetails.calendar,
+      },
+      extractOxRrule(meetingDetails)
+    );
+
+    newMeeting.calendar = meetingTime.calendar ?? newMeeting.calendar;
 
     // TODO: Include the recurrence information in the update notifications (PB-2991)
 
     newMeeting.startTime =
-      getMeetingStartTime(meetingDetails.start_time, meetingDetails.calendar) ??
+      getMeetingStartTime(meetingTime.start_time, meetingTime.calendar) ??
       newMeeting.startTime;
     newMeeting.endTime =
-      getMeetingEndTime(meetingDetails.end_time, meetingDetails.calendar) ??
+      getMeetingEndTime(meetingTime.end_time, meetingTime.calendar) ??
       newMeeting.endTime;
     newMeeting.title = meetingDetails.title ?? newMeeting.title;
     newMeeting.description =
@@ -389,14 +401,12 @@ export class MeetingService {
     const content: IMeetingsMetadataEventContent = {
       creator: newMeeting.creator,
       start_time:
-        meetingDetails.calendar === undefined
-          ? newMeeting.startTime
-          : undefined,
+        meetingTime.calendar === undefined ? newMeeting.startTime : undefined,
       end_time:
-        meetingDetails.calendar === undefined ? newMeeting.endTime : undefined,
+        meetingTime.calendar === undefined ? newMeeting.endTime : undefined,
       calendar:
-        meetingDetails.start_time === undefined &&
-        meetingDetails.end_time === undefined
+        meetingTime.start_time === undefined &&
+        meetingTime.end_time === undefined
           ? newMeeting.calendar
           : undefined,
       auto_deletion_offset:
