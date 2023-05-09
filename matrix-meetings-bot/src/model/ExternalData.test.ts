@@ -14,35 +14,18 @@
  * limitations under the License.
  */
 
-import {
-  ExternalData,
-  extractOpenXChangeExternalReference,
-} from '../../src/model/ExternalData';
-
-function createEvent(opts: {
-  folder: string | number;
-  id: string | number | undefined;
-  rrules: any;
-}): ExternalData {
-  return {
-    'io.ox': {
-      folder: opts.folder,
-      id: opts.id,
-      rrules: opts.rrules,
-    },
-  };
-}
+import { extractOpenXChangeExternalReference } from './ExternalData';
 
 describe('extractOpenXChangeExternalReference', () => {
   it('should return reference', () => {
     expect(
-      extractOpenXChangeExternalReference(
-        createEvent({
+      extractOpenXChangeExternalReference({
+        'io.ox': {
           folder: 'cal://0/31',
           id: 'cal://0/31.1.0',
           rrules: ['FREQ=DAILY;COUNT=10'],
-        })
-      )
+        },
+      })
     ).toEqual({
       folder: 'cal://0/31',
       id: 'cal://0/31.1.0',
@@ -52,13 +35,13 @@ describe('extractOpenXChangeExternalReference', () => {
 
   it('should return reference if id is undefined', () => {
     expect(
-      extractOpenXChangeExternalReference(
-        createEvent({
+      extractOpenXChangeExternalReference({
+        'io.ox': {
           folder: 'cal://0/31',
           id: undefined,
           rrules: ['FREQ=DAILY;COUNT=10'],
-        })
-      )
+        },
+      })
     ).toEqual({
       folder: 'cal://0/31',
       id: undefined,
@@ -68,25 +51,25 @@ describe('extractOpenXChangeExternalReference', () => {
 
   it('should return undefined if folder has invalid type', () => {
     expect(
-      extractOpenXChangeExternalReference(
-        createEvent({
+      extractOpenXChangeExternalReference({
+        'io.ox': {
           folder: 555,
           id: 'cal://0/31.1.0',
           rrules: ['FREQ=DAILY;COUNT=10'],
-        })
-      )
+        },
+      })
     ).toBeUndefined();
   });
 
   it('should return undefined if id has invalid type', () => {
     expect(
-      extractOpenXChangeExternalReference(
-        createEvent({
+      extractOpenXChangeExternalReference({
+        'io.ox': {
           folder: 'cal://0/31',
           id: 555,
           rrules: ['FREQ=DAILY;COUNT=10'],
-        })
-      )
+        },
+      })
     ).toBeUndefined();
   });
 
@@ -100,13 +83,13 @@ describe('extractOpenXChangeExternalReference', () => {
     ['not a rrule here'],
   ])('should return undefined if rrules has invalid value: %s', (rrules) => {
     expect(
-      extractOpenXChangeExternalReference(
-        createEvent({
+      extractOpenXChangeExternalReference({
+        'io.ox': {
           folder: 'cal://0/31',
           id: 'cal://0/31.1.0',
           rrules,
-        })
-      )
+        },
+      })
     ).toBeUndefined();
   });
 
