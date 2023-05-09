@@ -31,7 +31,7 @@ describe('parseRRule', () => {
       parseRRule(
         'DTSTART:29990101T100000Z\nRRULE:FREQ=DAILY;INTERVAL=2;COUNT=5'
       )
-    ).toThrow();
+    ).toThrow('rule should not include DTSTART or similar');
   });
 });
 
