@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-import { CalendarEntryDto } from '../../src/dto/CalendarEntryDto';
-import { IMeetingTime, migrateMeetingTime } from '../../src/util/IMeetingTime';
+import { CalendarEntryDto } from '../dto/CalendarEntryDto';
+import { IMeetingTime, migrateMeetingTime } from './migrateMeetingTime';
 
-describe('IMeetingTime', () => {
-  it('migrateMeetingTime should change to calendar model', () => {
+describe('migrateMeetingTime', () => {
+  it('should change to calendar model', () => {
     expect(
       migrateMeetingTime(
         {
@@ -61,18 +61,15 @@ describe('IMeetingTime', () => {
       externalRrule: undefined,
     },
   ])(
-    'migrateMeetingTime should not change meeting time with %s',
+    'should not change meeting time with %s',
     ({ calendar, externalRrule }) => {
-      const meetingTime = migrateMeetingTime(
-        {
-          start_time: '2022-01-01T00:00:00.000Z',
-          end_time: '2022-01-03T00:00:00.000Z',
-          calendar,
-        },
-        externalRrule
-      );
+      const meetingTime = {
+        start_time: '2022-01-01T00:00:00.000Z',
+        end_time: '2022-01-03T00:00:00.000Z',
+        calendar,
+      };
 
-      expect(meetingTime).toBe(meetingTime);
+      expect(meetingTime).toBe(migrateMeetingTime(meetingTime, externalRrule));
     }
   );
 });

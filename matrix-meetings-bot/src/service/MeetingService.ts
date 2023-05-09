@@ -68,7 +68,7 @@ import {
 } from '../shared';
 import { extractOxRrule } from '../util/extractOxRrule';
 import { IMeetingChanges, meetingChangesHelper } from '../util/IMeetingChanges';
-import { migrateMeetingTime } from '../util/IMeetingTime';
+import { migrateMeetingTime } from '../util/migrateMeetingTime';
 import { templateHelper } from '../util/TemplateHelper';
 import { RoomMessageService } from './RoomMessageService';
 import { WidgetLayoutService } from './WidgetLayoutService';
@@ -366,25 +366,19 @@ export class MeetingService {
     const newMeeting: IMeeting = { ...room.meeting };
 
     // change data model if meeting is OX with non-empty rrules
-    const meetingTime = migrateMeetingTime(
-      {
-        start_time: meetingDetails.start_time,
-        end_time: meetingDetails.end_time,
-        calendar: meetingDetails.calendar,
-      },
+    const { start_time, end_time, calendar } = migrateMeetingTime(
+      meetingDetails,
       extractOxRrule(meetingDetails)
     );
 
-    newMeeting.calendar = meetingTime.calendar ?? newMeeting.calendar;
+    newMeeting.calendar = calendar ?? newMeeting.calendar;
 
     // TODO: Include the recurrence information in the update notifications (PB-2991)
 
     newMeeting.startTime =
-      getMeetingStartTime(meetingTime.start_time, meetingTime.calendar) ??
-      newMeeting.startTime;
+      getMeetingStartTime(start_time, calendar) ?? newMeeting.startTime;
     newMeeting.endTime =
-      getMeetingEndTime(meetingTime.end_time, meetingTime.calendar) ??
-      newMeeting.endTime;
+      getMeetingEndTime(end_time, calendar) ?? newMeeting.endTime;
     newMeeting.title = meetingDetails.title ?? newMeeting.title;
     newMeeting.description =
       meetingDetails.description ?? newMeeting.description;
@@ -400,13 +394,10 @@ export class MeetingService {
     // ==> creator is not necessarily identical to the event's creator field. If the content event gets updated by another moderator it should still represent the original creator of the newMeeting.
     const content: IMeetingsMetadataEventContent = {
       creator: newMeeting.creator,
-      start_time:
-        meetingTime.calendar === undefined ? newMeeting.startTime : undefined,
-      end_time:
-        meetingTime.calendar === undefined ? newMeeting.endTime : undefined,
+      start_time: calendar === undefined ? newMeeting.startTime : undefined,
+      end_time: calendar === undefined ? newMeeting.endTime : undefined,
       calendar:
-        meetingTime.start_time === undefined &&
-        meetingTime.end_time === undefined
+        start_time === undefined && end_time === undefined
           ? newMeeting.calendar
           : undefined,
       auto_deletion_offset:
