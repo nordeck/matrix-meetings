@@ -14,8 +14,45 @@
  * limitations under the License.
  */
 
+import { parseRRuleSafe } from '../shared/format';
+import { OpenXChangeExternalReference } from './OpenXChangeExternalReference';
+
+export const OPEN_XCHANGE_TYPE = 'io.ox';
+
 export interface ExternalData {
   [space: string]: {
-    [key: string]: string;
+    [key: string]: unknown;
+  };
+}
+
+export function extractOpenXChangeExternalReference(
+  externalData: ExternalData | undefined
+): OpenXChangeExternalReference | undefined {
+  const value = externalData?.[OPEN_XCHANGE_TYPE];
+
+  if (!value) {
+    return undefined;
+  }
+
+  if (typeof value.folder !== 'string') {
+    return undefined;
+  }
+
+  if (value.id !== undefined && typeof value.id !== 'string') {
+    return undefined;
+  }
+
+  if (
+    value.rrules !== undefined &&
+    (!Array.isArray(value.rrules) ||
+      value.rrules.some((v) => typeof v !== 'string' || !parseRRuleSafe(v)))
+  ) {
+    return undefined;
+  }
+
+  return {
+    folder: value.folder,
+    id: value.id,
+    rrules: value.rrules,
   };
 }

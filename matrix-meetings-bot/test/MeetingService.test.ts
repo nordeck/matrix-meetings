@@ -15,7 +15,7 @@
  */
 
 import fetch from 'jest-fetch-mock';
-import _ from 'lodash';
+import _, { last } from 'lodash';
 import { MatrixClient, PowerLevelsEventContent } from 'matrix-bot-sdk';
 import { PowerLevelAction } from 'matrix-bot-sdk/lib/models/PowerLevelAction';
 import {
@@ -1180,8 +1180,8 @@ describe('test relevant functionality of MeetingService', () => {
   test('updateMeetingDetails', async () => {
     const roomId = 'a1';
 
-    const startTime = '2022-01-01T00:00:0.000Z';
-    const endTime = '2022-01-03T00:00:0.000Z';
+    const startTime = '2022-01-01T00:00:00.000Z';
+    const endTime = '2022-01-03T00:00:00.000Z';
     const autoDeletionOffset = 0;
 
     const roomCreationEvent: IStateEvent<any> = {
@@ -1474,6 +1474,81 @@ describe('test relevant functionality of MeetingService', () => {
         deepEqual(meetingMetadataEventContentUpdated3)
       )
     ).once();
+
+    // OX meeting with empty rrules should be updated
+    const externalDataOx: ExternalData = {
+      'io.ox': {
+        folder: 'cal://0/301',
+        id: '1',
+        rrules: [],
+      },
+    };
+
+    const meetingDetailsOx = new MeetingUpdateDetailsDto(
+      roomId,
+      startTime,
+      endTime,
+      undefined,
+      title1,
+      description1,
+      externalDataOx
+    );
+    await meetingService.updateMeetingDetails(userContext, meetingDetailsOx);
+
+    expect(
+      last(
+        getArgsFromCaptor(capture(clientMock.sendStateEvent))
+          .filter(
+            ([, type]) => type === StateEventName.NIC_MEETINGS_METADATA_EVENT
+          )
+          .map(([, , , content]) => content)
+      )
+    ).toEqual({
+      creator: CURRENT_USER,
+      start_time: startTime,
+      end_time: endTime,
+      calendar: undefined,
+      force_deletion_at: undefined,
+      auto_deletion_offset: autoDeletionOffset,
+      external_data: externalDataOx,
+    } as IMeetingsMetadataEventContent);
+
+    // OX meeting with non-empty rrules should send 'net.nordeck.meetings.metadata' event with calendar
+    const externalDataOx1: ExternalData = {
+      'io.ox': {
+        folder: 'cal://0/301',
+        id: '1',
+        rrules: ['FREQ=DAILY;COUNT=1'],
+      },
+    };
+    meetingDetailsOx.external_data = externalDataOx1;
+
+    await meetingService.updateMeetingDetails(userContext, meetingDetailsOx);
+
+    expect(
+      last(
+        getArgsFromCaptor(capture(clientMock.sendStateEvent))
+          .filter(
+            ([, type]) => type === StateEventName.NIC_MEETINGS_METADATA_EVENT
+          )
+          .map(([, , , content]) => content)
+      )
+    ).toEqual({
+      creator: CURRENT_USER,
+      start_time: undefined,
+      end_time: undefined,
+      calendar: [
+        {
+          uid: expect.any(String),
+          dtstart: { tzid: 'UTC', value: '20220101T000000' },
+          dtend: { tzid: 'UTC', value: '20220103T000000' },
+          rrule: 'FREQ=DAILY;COUNT=1',
+        },
+      ],
+      auto_deletion_offset: undefined,
+      force_deletion_at: new Date('2022-01-03T00:05:00Z').getTime(),
+      external_data: externalDataOx1,
+    } as IMeetingsMetadataEventContent);
   });
 
   test('getSharingInformationAsync', async () => {
@@ -1782,6 +1857,85 @@ describe('test relevant functionality of MeetingService', () => {
       force_deletion_at: new Date('2022-02-05T01:00:00Z').getTime(),
       external_data: undefined,
     });
+  });
+
+  test('createMeeting OX', async () => {
+    const startTime = '2022-01-01T00:00:00.000Z';
+    const endTime = '2022-01-03T00:00:00.000Z';
+
+    const externalDataOx: ExternalData = {
+      'io.ox': {
+        folder: 'cal://0/301',
+        id: '1',
+        rrules: [],
+      },
+    };
+
+    const meetingCreate: MeetingCreateDto = {
+      ...createEvent(PARENT_MEETING_ROOM_ID),
+      start_time: startTime,
+      end_time: endTime,
+      external_data: externalDataOx,
+    };
+
+    await meetingService.createMeeting(userContext, meetingCreate);
+
+    verify(clientMock.createRoom(anything())).once();
+    expect(
+      last(
+        getArgsFromCaptor(capture(clientMock.createRoom)).map(
+          ([roomCreateOptions]) => roomCreateOptions as IRoomCreate
+        )
+      )?.initial_state.find(
+        (e) => e.type === StateEventName.NIC_MEETINGS_METADATA_EVENT
+      )?.content
+    ).toStrictEqual({
+      creator: CURRENT_USER,
+      start_time: startTime,
+      end_time: endTime,
+      calendar: undefined,
+      auto_deletion_offset: 5,
+      force_deletion_at: undefined,
+      external_data: externalDataOx,
+    } as IMeetingsMetadataEventContent);
+
+    const externalDataOx1: ExternalData = {
+      'io.ox': {
+        folder: 'cal://0/301',
+        id: '1',
+        rrules: ['FREQ=DAILY;COUNT=1'],
+      },
+    };
+    meetingCreate.external_data = externalDataOx1;
+
+    await meetingService.createMeeting(userContext, meetingCreate);
+
+    verify(clientMock.createRoom(anything())).twice();
+
+    expect(
+      last(
+        getArgsFromCaptor(capture(clientMock.createRoom)).map(
+          ([roomCreateOptions]) => roomCreateOptions as IRoomCreate
+        )
+      )?.initial_state.find(
+        (e) => e.type === StateEventName.NIC_MEETINGS_METADATA_EVENT
+      )?.content
+    ).toStrictEqual({
+      creator: CURRENT_USER,
+      start_time: undefined,
+      end_time: undefined,
+      calendar: [
+        {
+          uid: expect.any(String),
+          dtstart: { tzid: 'UTC', value: '20220101T000000' },
+          dtend: { tzid: 'UTC', value: '20220103T000000' },
+          rrule: 'FREQ=DAILY;COUNT=1',
+        },
+      ],
+      auto_deletion_offset: undefined,
+      force_deletion_at: new Date('2022-01-03T00:05:00Z').getTime(),
+      external_data: externalDataOx1,
+    } as IMeetingsMetadataEventContent);
   });
 
   test('createMeeting with undefined enable_auto_deletion should take value from config', async () => {

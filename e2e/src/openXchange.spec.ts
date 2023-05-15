@@ -80,6 +80,36 @@ test.describe('OpenXchange', () => {
     ]);
   });
 
+  test('should create recurring meeting via OX', async ({
+    alice,
+    alicePage,
+    aliceElementWebPage,
+    aliceCockpitWidgetPage,
+    meetingsBotApi,
+  }) => {
+    const { meetingUrl } = await meetingsBotApi.createMeeting({
+      title: 'My Meeting',
+      description: 'My Description',
+      startTime: '2040-10-03T10:30:00.000+02:00',
+      endTime: '2040-10-03T11:00:00.000+02:00',
+      openIdToken: await aliceElementWebPage.getOpenIdToken(),
+      participants: [alice.username],
+      externalDataOxRrules: ['FREQ=DAILY;COUNT=5'],
+    });
+
+    await alicePage.goto(meetingUrl);
+
+    await aliceElementWebPage.acceptRoomInvitation();
+
+    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+
+    await expect(
+      aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
+    ).toHaveText(
+      'Oct 3, 2040, 10:30 AM – 11:00 AM. Recurrence: Every day for 5 times'
+    );
+  });
+
   test('should update meeting via OX', async ({
     alice,
     alicePage,
@@ -163,6 +193,92 @@ test.describe('OpenXchange', () => {
     await expect(inviteReasonText).toContainText('My new Description');
     await expect(aliceElementWebPage.roomInviteHeader).toHaveText(
       /My new Meeting/
+    );
+  });
+
+  test('should convert a recurring OX meeting into a single meeting', async ({
+    alice,
+    alicePage,
+    aliceElementWebPage,
+    aliceCockpitWidgetPage,
+    meetingsBotApi,
+  }) => {
+    const { meetingUrl, roomId } = await meetingsBotApi.createMeeting({
+      title: 'My Meeting',
+      description: 'My Description',
+      startTime: '2040-10-03T10:30:00.000+02:00',
+      endTime: '2040-10-03T11:00:00.000+02:00',
+      openIdToken: await aliceElementWebPage.getOpenIdToken(),
+      participants: [alice.username],
+      externalDataOxRrules: ['FREQ=DAILY;COUNT=5'],
+    });
+
+    await alicePage.goto(meetingUrl);
+
+    await aliceElementWebPage.acceptRoomInvitation();
+
+    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+
+    await expect(
+      aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
+    ).toHaveText(
+      'Oct 3, 2040, 10:30 AM – 11:00 AM. Recurrence: Every day for 5 times'
+    );
+
+    await meetingsBotApi.updateMeeting({
+      roomId,
+      startTime: '2040-10-03T10:30:00.000+02:00',
+      endTime: '2040-10-03T11:00:00.000+02:00',
+      title: 'My Meeting',
+      description: 'My Description',
+      openIdToken: await aliceElementWebPage.getOpenIdToken(),
+    });
+
+    await expect(
+      aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
+    ).toHaveText('Oct 3, 2040, 10:30 AM – 11:00 AM');
+  });
+
+  test('should convert a single OX meeting into a recurring meeting', async ({
+    alice,
+    alicePage,
+    aliceElementWebPage,
+    aliceCockpitWidgetPage,
+    meetingsBotApi,
+  }) => {
+    const { meetingUrl, roomId } = await meetingsBotApi.createMeeting({
+      title: 'My Meeting',
+      description: 'My Description',
+      startTime: '2040-10-03T10:30:00.000+02:00',
+      endTime: '2040-10-03T11:00:00.000+02:00',
+      openIdToken: await aliceElementWebPage.getOpenIdToken(),
+      participants: [alice.username],
+    });
+
+    await alicePage.goto(meetingUrl);
+
+    await aliceElementWebPage.acceptRoomInvitation();
+
+    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+
+    await expect(
+      aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
+    ).toHaveText('Oct 3, 2040, 10:30 AM – 11:00 AM');
+
+    await meetingsBotApi.updateMeeting({
+      roomId,
+      startTime: '2040-10-03T10:30:00.000+02:00',
+      endTime: '2040-10-03T11:00:00.000+02:00',
+      title: 'My Meeting',
+      description: 'My Description',
+      openIdToken: await aliceElementWebPage.getOpenIdToken(),
+      externalDataOxRrules: ['FREQ=DAILY;COUNT=5'],
+    });
+
+    await expect(
+      aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
+    ).toHaveText(
+      'Oct 3, 2040, 10:30 AM – 11:00 AM. Recurrence: Every day for 5 times'
     );
   });
 
