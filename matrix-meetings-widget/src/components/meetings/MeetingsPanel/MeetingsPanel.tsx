@@ -22,7 +22,7 @@ import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
 import { DateTime } from 'luxon';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { generateFilterRange } from '../../../lib/utils';
+import { CalendarViewType, generateFilterRange } from '../../../lib/utils';
 import {
   Filters,
   makeSelectAllInvitedMeetingIds,
@@ -79,6 +79,34 @@ export const MeetingsPanel = () => {
       }));
     }
   }, [setFilters, view]);
+
+  const handleChangeMonthToWeekInterval = useCallback(
+    (view: CalendarViewType) => {
+      const startDate = DateTime.fromISO(filters.startDate, { zone: 'local' });
+      setFilters((oldFilters) => ({
+        ...oldFilters,
+        ...generateFilterRange(
+          view,
+          startDate.day === 1 && startDate.day !== startDate.startOf('week').day
+            ? startDate.plus({ week: 1 }).toISO()
+            : oldFilters.startDate
+        ),
+      }));
+    },
+    [filters.startDate]
+  );
+
+  const handleViewChange = useCallback(
+    (view) => {
+      setView(view);
+      if (view === 'week' || view === 'workWeek') {
+        if (readLastViewTypeFromStorage(widgetApi) === 'month') {
+          handleChangeMonthToWeekInterval(view);
+        }
+      }
+    },
+    [setView, handleChangeMonthToWeekInterval, widgetApi]
+  );
 
   const handleOnRangeChange = useCallback(
     (startDate: string, endDate: string) =>
@@ -179,7 +207,7 @@ export const MeetingsPanel = () => {
                 filters={filters}
                 onRangeChange={handleOnRangeChange}
                 onSearchChange={handleOnSearchChange}
-                onViewChange={setView}
+                onViewChange={handleViewChange}
                 view={view}
               />
             </Box>
