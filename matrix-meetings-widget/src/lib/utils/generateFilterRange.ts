@@ -61,7 +61,11 @@ export const generateFilterRange = (
   }
 
   if (view === 'workWeek') {
-    const startDate = referenceDate.plus(normalizeDuration).startOf('week');
+    let startDate = referenceDate.plus(normalizeDuration).startOf('week');
+    if (previousView === 'month') {
+      if (startDate.day !== referenceDate.day)
+        startDate = startDate.plus({ week: 1 });
+    }
     return {
       startDate: startDate.toISO(),
       endDate: startDate.plus({ days: 4 }).endOf('day').toISO(),
