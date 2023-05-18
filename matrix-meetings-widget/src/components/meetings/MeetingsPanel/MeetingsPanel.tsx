@@ -22,7 +22,7 @@ import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
 import { DateTime } from 'luxon';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { CalendarViewType, generateFilterRange } from '../../../lib/utils';
+import { generateFilterRange } from '../../../lib/utils';
 import {
   Filters,
   makeSelectAllInvitedMeetingIds,
@@ -66,6 +66,7 @@ export const MeetingsPanel = () => {
     endDate: DateTime.now().plus({ days: 6 }).endOf('day').toISO(),
     filterText: '',
   });
+  const previousView = readLastViewTypeFromStorage(widgetApi);
 
   useEffect(() => {
     saveLastViewTypeToStorage(widgetApi, view);
@@ -75,38 +76,10 @@ export const MeetingsPanel = () => {
     if (view !== 'list') {
       setFilters((oldFilters) => ({
         ...oldFilters,
-        ...generateFilterRange(view, oldFilters.startDate),
+        ...generateFilterRange(view, oldFilters.startDate, previousView),
       }));
     }
-  }, [setFilters, view]);
-
-  const handleChangeMonthToWeekInterval = useCallback(
-    (view: CalendarViewType) => {
-      const startDate = DateTime.fromISO(filters.startDate, { zone: 'local' });
-      setFilters((oldFilters) => ({
-        ...oldFilters,
-        ...generateFilterRange(
-          view,
-          startDate.day === 1 && startDate.day !== startDate.startOf('week').day
-            ? startDate.plus({ week: 1 }).toISO()
-            : oldFilters.startDate
-        ),
-      }));
-    },
-    [filters.startDate]
-  );
-
-  const handleViewChange = useCallback(
-    (view) => {
-      setView(view);
-      if (view === 'week' || view === 'workWeek') {
-        if (readLastViewTypeFromStorage(widgetApi) === 'month') {
-          handleChangeMonthToWeekInterval(view);
-        }
-      }
-    },
-    [setView, handleChangeMonthToWeekInterval, widgetApi]
-  );
+  }, [setFilters, view, previousView]);
 
   const handleOnRangeChange = useCallback(
     (startDate: string, endDate: string) =>
@@ -207,7 +180,7 @@ export const MeetingsPanel = () => {
                 filters={filters}
                 onRangeChange={handleOnRangeChange}
                 onSearchChange={handleOnSearchChange}
-                onViewChange={handleViewChange}
+                onViewChange={setView}
                 view={view}
               />
             </Box>

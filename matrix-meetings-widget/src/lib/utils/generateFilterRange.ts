@@ -16,12 +16,14 @@
 
 import { DateTime, Duration } from 'luxon';
 import moment from 'moment';
+import { ViewType } from '../../components/meetings/MeetingsNavigation';
 
 export type CalendarViewType = 'day' | 'workWeek' | 'week' | 'month';
 
 export const generateFilterRange = (
   view: CalendarViewType,
-  date: string
+  date: string,
+  previousView?: ViewType
 ): { startDate: string; endDate: string } => {
   // luxon only supports isoWeekday always returns a day-of-week=1.
   // this duration normalizes it to the configured locale
@@ -44,10 +46,14 @@ export const generateFilterRange = (
   }
 
   if (view === 'week') {
-    const startDate = referenceDate
+    let startDate = referenceDate
       .plus(normalizeDuration)
       .startOf('week')
       .minus(normalizeDuration);
+    if (previousView === 'month') {
+      if (startDate.day !== referenceDate.day)
+        startDate = startDate.plus({ week: 1 });
+    }
     return {
       startDate: startDate.toISO(),
       endDate: startDate.plus({ days: 6 }).endOf('day').toISO(),
