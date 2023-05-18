@@ -51,7 +51,7 @@ export const generateFilterRange = (
       .startOf('week')
       .minus(normalizeDuration);
     if (previousView === 'month') {
-      if (startDate.day !== referenceDate.day)
+      if (startDate.month !== referenceDate.month)
         startDate = startDate.plus({ week: 1 });
     }
     return {
@@ -63,7 +63,7 @@ export const generateFilterRange = (
   if (view === 'workWeek') {
     let startDate = referenceDate.plus(normalizeDuration).startOf('week');
     if (previousView === 'month') {
-      if (startDate.day !== referenceDate.day)
+      if (startDate.month !== referenceDate.month)
         startDate = startDate.plus({ week: 1 });
     }
     return {
