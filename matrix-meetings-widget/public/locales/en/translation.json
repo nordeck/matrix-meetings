@@ -222,9 +222,12 @@
   "memberSelectionDropdown": {
     "instructions_one": "{{selectedCount}} of {{count}} entry selected. Use the left and right arrow keys to navigate between them. Use the up and down arrow key to navigate through the available options.",
     "instructions_other": "{{selectedCount}} of {{count}} entries selected. Use the left and right arrow keys to navigate between them. Use the up and down arrow key to navigate through the available options.",
+    "loading": "Loading…",
     "noMembers": "No further members.",
+    "searchHomeserverUsersFailed": "Failed to search users on homeserver",
     "selectAll": "Select all",
-    "tagInstructions": "Use the backspace key to delete the entry."
+    "tagInstructions": "Use the backspace key to delete the entry.",
+    "typeToSearch": "Type to search for a user…"
   },
   "openMeetingRoomButton": {
     "openMeetingRoom": "Open the meeting room",

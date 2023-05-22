@@ -72,6 +72,10 @@ trusted_key_servers:
   - server_name: 'matrix.org'
 suppress_key_server_warning: true
 
+user_directory:
+  # Users that are not known to each other can be found.
+  search_all_users: true
+
 # Controls for the state that is shared with users who receive an invite
 # to a room
 room_prejoin_state:

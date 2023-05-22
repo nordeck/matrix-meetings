@@ -81,6 +81,7 @@ export class ScheduleMeetingWidgetPage {
 
   async addParticipant(name: string) {
     await this.participantsCombobox.type(name);
+    await this.widget.getByRole('option', { name }).waitFor();
     await this.participantsCombobox.press('ArrowDown');
     await this.participantsCombobox.press('Enter');
   }

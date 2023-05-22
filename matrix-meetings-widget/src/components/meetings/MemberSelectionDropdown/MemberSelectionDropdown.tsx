@@ -19,8 +19,11 @@ import {
   RoomMemberStateEventContent,
   StateEvent,
 } from '@matrix-widget-toolkit/api';
+import { ElementAvatar } from '@matrix-widget-toolkit/mui';
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import {
+  Alert,
+  AlertTitle,
   Autocomplete,
   AutocompleteRenderGetTagProps,
   Button,
@@ -40,22 +43,27 @@ import React, {
   ReactElement,
   useCallback,
   useMemo,
+  useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { shallowEqual } from 'react-redux';
 import { ellipsis } from '../../../lib/ellipsis';
+import { isBotUser } from '../../../lib/utils';
 import { selectRoomPowerLevelsEventByRoomId } from '../../../reducer/meetingsApi';
 import {
   filterAllRoomMemberEventsByRoomId,
   selectRoomMemberEventEntities,
 } from '../../../reducer/meetingsApi/meetingsApi';
 import { useAppSelector } from '../../../store';
-import { MemberAvatar } from '../../common/MemberAvatar';
+import { useUserSearchResults } from './useUserSearchResults';
 
 /**
  * Props for the {@link MemberSelectionDropdown} component.
  */
 type MemberSelectionDropdownProps = {
+  /** Allows to search and invite users */
+  searchHomeserverUsers?: boolean;
+
   /** A list of all room member events */
   allMemberEvents: StateEvent<RoomMemberStateEventContent>[];
 
@@ -90,6 +98,26 @@ type MemberSelectionDropdownProps = {
   showSelectAll?: boolean;
 };
 
+type MemberState = StateEvent<RoomMemberStateEventContent> | MemberSearchState;
+
+type MemberSearchState = {
+  state_key: string;
+
+  content: {
+    displayname?: string | null;
+    avatar_url?: string | null;
+  };
+};
+
+function isMemberSearchState(
+  memberState: MemberState
+): memberState is MemberSearchState {
+  return (
+    (memberState as StateEvent<RoomMemberStateEventContent>).content
+      .membership === undefined
+  );
+}
+
 /**
  * A dropdown to select members from a list of `m.room.member` events.
  * The own user (as specified by the {@link WidgetApi}) can't be removed
@@ -98,6 +126,7 @@ type MemberSelectionDropdownProps = {
  * @param param0 - {@link MemberSelectionDropdownProps}
  */
 export function MemberSelectionDropdown({
+  searchHomeserverUsers,
   selectedMembers,
   onSelectedMembersUpdated,
   allMemberEvents,
@@ -110,10 +139,20 @@ export function MemberSelectionDropdown({
 }: MemberSelectionDropdownProps): ReactElement {
   const { t } = useTranslation();
   const widgetApi = useWidgetApi();
+
+  const [term, setTerm] = useState('');
+
   const instructionId = useId();
   const tagInstructionId = useId();
   const ownUserInstructionsId = useId();
   const hasPowerToKickUserId = useId();
+
+  const homeserverUsers: Record<string, MemberSearchState> = useMemo(
+    () => ({}),
+    []
+  );
+
+  const { loading, results, error } = useUserSearchResults(term, 100);
 
   const allMembersInTheRoom = useAppSelector(
     (state) =>
@@ -126,7 +165,23 @@ export function MemberSelectionDropdown({
     shallowEqual
   );
 
-  const availableMemberOptions = useMemo(() => {
+  const availableMemberOptions: MemberState[] = useMemo(() => {
+    if (searchHomeserverUsers) {
+      return results
+        .filter(
+          (r) => !selectedMembers.includes(r.userId) && !isBotUser(r.userId)
+        )
+        .map((r) => {
+          return {
+            content: {
+              displayname: r.displayName,
+              avatar_url: r.avatarUrl,
+            },
+            state_key: r.userId,
+          };
+        });
+    }
+
     if (selectableMemberEvents) {
       return selectableMemberEvents.concat(
         allMemberEvents.filter(
@@ -138,19 +193,22 @@ export function MemberSelectionDropdown({
     }
 
     return allMemberEvents;
-  }, [allMemberEvents, selectableMemberEvents, selectedMembers]);
+  }, [
+    searchHomeserverUsers,
+    allMemberEvents,
+    selectableMemberEvents,
+    selectedMembers,
+    results,
+  ]);
 
-  const selectedMemberOptions = useMemo(
-    () =>
-      allMemberEvents
-        .filter((m) => selectedMembers.includes(m.state_key))
-        .sort(
-          (a, b) =>
-            selectedMembers.indexOf(a.state_key) -
-            selectedMembers.indexOf(b.state_key)
-        ),
-    [allMemberEvents, selectedMembers]
-  );
+  const selectedMemberOptions = useMemo(() => {
+    return selectedMembers.flatMap(
+      (selectedMember) =>
+        allMemberEvents.find((m) => selectedMember === m.state_key) ??
+        homeserverUsers[selectedMember] ??
+        []
+    );
+  }, [allMemberEvents, homeserverUsers, selectedMembers]);
 
   const powerLevelsEvent = useAppSelector(
     (state) => meetingId && selectRoomPowerLevelsEventByRoomId(state, meetingId)
@@ -186,7 +244,7 @@ export function MemberSelectionDropdown({
   );
 
   const ensureUsers = useCallback(
-    (members: StateEvent<RoomMemberStateEventContent>[]) => {
+    (members: MemberState[]) => {
       const newMembers = members
         .map((m) => m.state_key)
         .filter(
@@ -221,13 +279,36 @@ export function MemberSelectionDropdown({
   );
 
   const handleOnChange = useCallback(
-    (
-      _: React.SyntheticEvent<Element, Event>,
-      value: StateEvent<RoomMemberStateEventContent>[]
-    ) => {
+    (_: React.SyntheticEvent<Element, Event>, value: MemberState[]) => {
+      const memberSearches = value.filter(isMemberSearchState);
+
+      memberSearches
+        .filter(
+          (ms) =>
+            !allMemberEvents.some((me) => me.state_key === ms.state_key) &&
+            !homeserverUsers[ms.state_key]
+        )
+        .forEach((ms) => {
+          homeserverUsers[ms.state_key] = ms;
+        });
+
+      const memberSearchUserIds = memberSearches.map((ms) => ms.state_key);
+      Object.keys(homeserverUsers)
+        .filter((key) => !memberSearchUserIds.includes(key))
+        .forEach((key) => {
+          delete homeserverUsers[key];
+        });
+
       onSelectedMembersUpdated(ensureUsers(value));
     },
-    [ensureUsers, onSelectedMembersUpdated]
+    [homeserverUsers, ensureUsers, onSelectedMembersUpdated, allMemberEvents]
+  );
+
+  const handleInputChange = useCallback(
+    (_: React.SyntheticEvent<Element, Event>, value: string) => {
+      setTerm(value);
+    },
+    []
   );
 
   const canSelectAll = selectedMembers.length === availableMemberOptions.length;
@@ -246,7 +327,7 @@ export function MemberSelectionDropdown({
             'aria-describedby': instructionId,
             endAdornment: (
               <>
-                {showSelectAll && (
+                {showSelectAll && !searchHomeserverUsers && (
                   <InputAdornment
                     position="end"
                     sx={{
@@ -273,24 +354,30 @@ export function MemberSelectionDropdown({
         />
       );
     },
-    [canSelectAll, handleSelectAll, instructionId, label, showSelectAll, t]
+    [
+      canSelectAll,
+      handleSelectAll,
+      instructionId,
+      label,
+      showSelectAll,
+      searchHomeserverUsers,
+      t,
+    ]
   );
 
   const getOptionLabel = useCallback(
-    (o: StateEvent<RoomMemberStateEventContent>) =>
-      o.content.displayname ?? o.state_key,
+    (o: MemberState) => o.content.displayname ?? o.state_key,
     []
   );
+
+  const filterOptions = useCallback((x: MemberState[]) => x, []);
 
   const handleClickOwnUser = useCallback(() => {
     // No-op
   }, []);
 
   const renderTags = useCallback(
-    (
-      value: StateEvent<RoomMemberStateEventContent>[],
-      getTagProps: AutocompleteRenderGetTagProps
-    ) =>
+    (value: MemberState[], getTagProps: AutocompleteRenderGetTagProps) =>
       value.map((option, index) => {
         const { key, ...chipProps } = getTagProps({ index });
         const isOwnUser =
@@ -316,7 +403,13 @@ export function MemberSelectionDropdown({
                 aria-describedby={
                   isOwnUser ? ownUserInstructionsId : hasPowerToKickUserId
                 }
-                avatar={<MemberAvatar userId={option.state_key} />}
+                avatar={
+                  <ElementAvatar
+                    userId={option.state_key}
+                    displayName={option.content.displayname ?? undefined}
+                    avatarUrl={option.content.avatar_url ?? undefined}
+                  />
+                }
                 label={option.content.displayname ?? option.state_key}
                 onClick={handleClickOwnUser}
                 {...chipProps}
@@ -329,7 +422,13 @@ export function MemberSelectionDropdown({
         return (
           <Chip
             aria-describedby={tagInstructionId}
-            avatar={<MemberAvatar userId={option.state_key} />}
+            avatar={
+              <ElementAvatar
+                userId={option.state_key}
+                displayName={option.content.displayname ?? undefined}
+                avatarUrl={option.content.avatar_url ?? undefined}
+              />
+            }
             key={key}
             label={option.content.displayname ?? option.state_key}
             {...chipProps}
@@ -349,10 +448,7 @@ export function MemberSelectionDropdown({
   );
 
   const renderOption = useCallback(
-    (
-      props: HTMLAttributes<HTMLLIElement>,
-      option: StateEvent<RoomMemberStateEventContent>
-    ) => (
+    (props: HTMLAttributes<HTMLLIElement>, option: MemberState) => (
       <MemberOption
         ListItemProps={props}
         key={option.state_key}
@@ -366,6 +462,18 @@ export function MemberSelectionDropdown({
 
   return (
     <>
+      {error && (
+        <Alert severity="error" variant="outlined">
+          <AlertTitle>
+            {t(
+              'memberSelectionDropdown.searchHomeserverUsersFailed',
+              'Failed to search users on homeserver'
+            )}
+          </AlertTitle>
+          {error.message}
+        </Alert>
+      )}
+
       <Typography aria-hidden id={ownUserInstructionsId} sx={visuallyHidden}>
         {ownUserPopupContent}
       </Typography>
@@ -394,16 +502,24 @@ export function MemberSelectionDropdown({
       <Autocomplete
         disableCloseOnSelect
         disablePortal
-        filterSelectedOptions
+        filterSelectedOptions={!searchHomeserverUsers}
         fullWidth
         getOptionLabel={getOptionLabel}
+        filterOptions={searchHomeserverUsers ? filterOptions : undefined}
         id={id}
         multiple
-        noOptionsText={t(
-          'memberSelectionDropdown.noMembers',
-          'No further members.'
-        )}
+        loading={searchHomeserverUsers ? loading : undefined}
+        noOptionsText={
+          searchHomeserverUsers && term.length === 0
+            ? t(
+                'memberSelectionDropdown.typeToSearch',
+                'Type to search for a user…'
+              )
+            : t('memberSelectionDropdown.noMembers', 'No further members.')
+        }
+        loadingText={t('memberSelectionDropdown.loading', 'Loading…')}
         onChange={handleOnChange}
+        onInputChange={searchHomeserverUsers ? handleInputChange : undefined}
         options={availableMemberOptions}
         renderInput={renderInput}
         renderOption={renderOption}
@@ -420,14 +536,18 @@ function MemberOption({
   member,
 }: {
   ListItemProps: ListItemProps;
-  member: StateEvent<RoomMemberStateEventContent>;
+  member: MemberState;
 }) {
   const titleId = useId();
 
   return (
     <ListItem {...ListItemProps} aria-labelledby={titleId} dense>
       <ListItemIcon sx={{ mr: 1, minWidth: 0 }}>
-        <MemberAvatar userId={member.state_key} />
+        <ElementAvatar
+          userId={member.state_key}
+          displayName={member.content.displayname ?? undefined}
+          avatarUrl={member.content.avatar_url ?? undefined}
+        />
       </ListItemIcon>
 
       <ListItemText

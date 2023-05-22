@@ -22,6 +22,7 @@ import {
 } from '@matrix-widget-toolkit/api';
 import {
   EventDirection,
+  MatrixCapabilities,
   Symbols,
   WidgetEventCapability,
 } from 'matrix-widget-api';
@@ -40,6 +41,7 @@ import { RoomEvents } from './reducer/meetingsApi';
 
 export const widgetCapabilities = [
   WIDGET_CAPABILITY_NAVIGATE,
+  MatrixCapabilities.MSC3973UserDirectorySearch,
   ...generateRoomTimelineCapabilities(Symbols.AnyRoom),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,

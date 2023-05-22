@@ -25,6 +25,7 @@ import {
   MeetingsWidgetPage,
 } from './pages';
 import { getBotUsername, registerUser, User } from './util';
+import { deactivateUser } from './util/deactivateUser';
 
 type Fixtures = {
   alice: User;
@@ -129,6 +130,8 @@ export const test = base.extend<Fixtures>({
     const user = await registerUser('Bob');
 
     await use(user);
+
+    await deactivateUser(user);
   },
 
   bobPage: async ({ browser, contextOptions, video }, use, testInfo) => {
@@ -203,6 +206,8 @@ export const test = base.extend<Fixtures>({
     const user = await registerUser('Charlie');
 
     await use(user);
+
+    await deactivateUser(user);
   },
 
   meetingsBotApi: async ({ request }, use) => {

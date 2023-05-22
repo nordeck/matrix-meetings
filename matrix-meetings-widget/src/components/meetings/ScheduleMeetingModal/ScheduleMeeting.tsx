@@ -153,7 +153,10 @@ export const ScheduleMeeting = ({
   );
 
   const roomMembers = useAppSelector((state) =>
-    selectAllRoomMemberEventsByRoomId(state, widgetApi.widgetParameters.roomId)
+    selectAllRoomMemberEventsByRoomId(
+      state,
+      initialMeeting?.meetingId ?? widgetApi.widgetParameters.roomId
+    )
   );
 
   const handleChangeTitle = useCallback(
@@ -392,6 +395,7 @@ export const ScheduleMeeting = ({
 
         {showParticipants && isParticipantSelectionEnabled && (
           <MemberSelectionDropdown
+            searchHomeserverUsers
             allMemberEvents={roomMembers}
             hasPowerToKickPopupContent={t(
               'scheduleMeeting.hasPowerToKickUser',

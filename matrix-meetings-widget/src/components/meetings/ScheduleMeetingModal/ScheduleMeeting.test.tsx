@@ -67,6 +67,21 @@ describe('<ScheduleMeeting>', () => {
         content: { displayname: undefined },
       })
     );
+    widgetApi.searchUserDirectory.mockImplementation((searchTerm: string) => {
+      const results =
+        searchTerm === 'user-1'
+          ? [
+              {
+                userId: '@user-1',
+                displayName: undefined,
+                avatarUrl: undefined,
+              },
+            ]
+          : [];
+      return Promise.resolve({
+        results,
+      });
+    });
 
     jest
       .spyOn(Date, 'now')
@@ -272,8 +287,9 @@ describe('<ScheduleMeeting>', () => {
       'My Meeting'
     );
 
-    await userEvent.click(
-      screen.getByRole('combobox', { name: 'Participants' })
+    await userEvent.type(
+      screen.getByRole('combobox', { name: 'Participants' }),
+      'user-1'
     );
     await userEvent.click(
       await screen.findByRole('option', { name: '@user-1' })
@@ -713,6 +729,7 @@ describe('<ScheduleMeeting>', () => {
     widgetApi.mockSendStateEvent(
       mockRoomMember({
         state_key: '@user-id-2',
+        room_id: '!meeting-room-id',
         content: { displayname: 'Bob', membership: 'invite' },
       })
     );
