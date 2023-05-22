@@ -486,6 +486,37 @@ describe('<MeetingsPanel/>', () => {
     ).toBeInTheDocument();
   });
 
+  it('should keep the month when switching from month to week to month, if the first week of the month starts in the previous month', async () => {
+    render(<MeetingsPanel />, { wrapper: Wrapper });
+
+    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Month' }));
+
+    expect(
+      screen.getByRole('button', {
+        name: 'Choose month, selected month is March 2022',
+      })
+    ).toHaveTextContent('March 2022');
+
+    await userEvent.click(screen.getByRole('button', { name: 'View Month' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Week' }));
+
+    expect(
+      screen.getByRole('button', {
+        name: 'Choose week, selected week is March 6 – 12, 2022',
+      })
+    ).toHaveTextContent('Mar 6 – 12, 2022');
+
+    await userEvent.click(screen.getByRole('button', { name: 'View Week' }));
+    await userEvent.click(screen.getByRole('option', { name: 'Month' }));
+
+    expect(
+      screen.getByRole('button', {
+        name: 'Choose month, selected month is March 2022',
+      })
+    ).toHaveTextContent('March 2022');
+  });
+
   it('should render invitations list', async () => {
     mockCreateMeetingInvitation(widgetApi, {
       room_id: '!invitation-meeting-room-id',

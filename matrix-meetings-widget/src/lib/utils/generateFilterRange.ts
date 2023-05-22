@@ -16,14 +16,13 @@
 
 import { DateTime, Duration } from 'luxon';
 import moment from 'moment';
-import { ViewType } from '../../components/meetings/MeetingsNavigation';
 
 export type CalendarViewType = 'day' | 'workWeek' | 'week' | 'month';
 
 export const generateFilterRange = (
   view: CalendarViewType,
   date: string,
-  previousView?: ViewType
+  previousView?: CalendarViewType
 ): { startDate: string; endDate: string } => {
   // luxon only supports isoWeekday always returns a day-of-week=1.
   // this duration normalizes it to the configured locale
@@ -50,10 +49,12 @@ export const generateFilterRange = (
       .plus(normalizeDuration)
       .startOf('week')
       .minus(normalizeDuration);
-    if (previousView === 'month') {
-      if (startDate.month !== referenceDate.month)
-        startDate = startDate.plus({ week: 1 });
+
+    // make sure we selected the first full week in the month
+    if (previousView === 'month' && startDate.month !== referenceDate.month) {
+      startDate = startDate.plus({ weeks: 1 });
     }
+
     return {
       startDate: startDate.toISO(),
       endDate: startDate.plus({ days: 6 }).endOf('day').toISO(),
@@ -62,10 +63,12 @@ export const generateFilterRange = (
 
   if (view === 'workWeek') {
     let startDate = referenceDate.plus(normalizeDuration).startOf('week');
-    if (previousView === 'month') {
-      if (startDate.month !== referenceDate.month)
-        startDate = startDate.plus({ week: 1 });
+
+    // make sure we selected the first full work week in the month
+    if (previousView === 'month' && startDate.month !== referenceDate.month) {
+      startDate = startDate.plus({ weeks: 1 });
     }
+
     return {
       startDate: startDate.toISO(),
       endDate: startDate.plus({ days: 4 }).endOf('day').toISO(),
