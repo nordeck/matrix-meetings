@@ -58,7 +58,7 @@ export const MeetingsPanel = () => {
     )
   );
 
-  const [view, setView] = useState<ViewType>(
+  const [view, setViewInternal] = useState<ViewType>(
     () => readLastViewTypeFromStorage(widgetApi) ?? 'list'
   );
   const [filters, setFilters] = useState<Filters>({
@@ -67,18 +67,21 @@ export const MeetingsPanel = () => {
     filterText: '',
   });
 
-  useEffect(() => {
-    saveLastViewTypeToStorage(widgetApi, view);
-  }, [view, widgetApi]);
+  const setView = useCallback(
+    (newView: ViewType) => {
+      const previousView = view !== 'list' ? view : undefined;
+      setViewInternal(newView);
+      saveLastViewTypeToStorage(widgetApi, newView);
 
-  useEffect(() => {
-    if (view !== 'list') {
-      setFilters((oldFilters) => ({
-        ...oldFilters,
-        ...generateFilterRange(view, oldFilters.startDate),
-      }));
-    }
-  }, [setFilters, view]);
+      if (newView !== 'list') {
+        setFilters((oldFilters) => ({
+          ...oldFilters,
+          ...generateFilterRange(newView, oldFilters.startDate, previousView),
+        }));
+      }
+    },
+    [view, widgetApi]
+  );
 
   const handleOnRangeChange = useCallback(
     (startDate: string, endDate: string) =>
@@ -138,13 +141,16 @@ export const MeetingsPanel = () => {
     }
   }, [invitedMeetingIdLength]);
 
-  const handleShowMore = useCallback((date: Date) => {
-    setView('day');
-    setFilters((old) => ({
-      ...old,
-      ...generateFilterRange('day', date.toISOString()),
-    }));
-  }, []);
+  const handleShowMore = useCallback(
+    (date: Date) => {
+      setView('day');
+      setFilters((old) => ({
+        ...old,
+        ...generateFilterRange('day', date.toISOString()),
+      }));
+    },
+    [setView]
+  );
 
   const filtersId = useId();
   const meetingsId = useId();
