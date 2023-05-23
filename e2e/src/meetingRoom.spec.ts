@@ -25,8 +25,6 @@ test.describe('Meeting Room', () => {
       aliceElementWebPage,
       aliceJitsiWidgetPage,
     }) => {
-      await aliceElementWebPage.inviteUser(bob.username);
-
       await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
 
       const aliceScheduleMeetingWidgetPage =
@@ -39,6 +37,8 @@ test.describe('Meeting Room', () => {
       await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
       await aliceScheduleMeetingWidgetPage.addParticipant(bob.displayName);
       await aliceScheduleMeetingWidgetPage.submit();
+
+      await aliceElementWebPage.inviteUser(bob.username);
 
       await aliceElementWebPage.waitForRoomJoin('My Meeting');
       await aliceMeetingsWidgetPage

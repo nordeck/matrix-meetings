@@ -263,9 +263,6 @@ test.describe('Accessibility', () => {
   }) => {
     await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
 
-    await aliceElementWebPage.inviteUser(bob.username);
-    await aliceElementWebPage.inviteUser(charlie.username);
-
     const aliceScheduleMeetingWidgetPage =
       await aliceMeetingsWidgetPage.scheduleMeeting();
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
@@ -276,6 +273,9 @@ test.describe('Accessibility', () => {
     await aliceScheduleMeetingWidgetPage.addParticipant(bob.displayName);
     await aliceScheduleMeetingWidgetPage.addParticipant(charlie.displayName);
     await aliceScheduleMeetingWidgetPage.submit();
+
+    await aliceElementWebPage.inviteUser(bob.username);
+    await aliceElementWebPage.inviteUser(charlie.username);
 
     await aliceElementWebPage.waitForRoomJoin('My Meeting');
     await aliceMeetingsWidgetPage
@@ -330,9 +330,6 @@ test.describe('Accessibility', () => {
   }) => {
     await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
 
-    await aliceElementWebPage.inviteUser(bob.username);
-    await aliceElementWebPage.inviteUser(charlie.username);
-
     const aliceScheduleMeetingWidgetPage =
       await aliceMeetingsWidgetPage.scheduleMeeting();
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
@@ -343,6 +340,9 @@ test.describe('Accessibility', () => {
     await aliceScheduleMeetingWidgetPage.addParticipant(bob.displayName);
     await aliceScheduleMeetingWidgetPage.addParticipant(charlie.displayName);
     await aliceScheduleMeetingWidgetPage.submit();
+
+    await aliceElementWebPage.inviteUser(bob.username);
+    await aliceElementWebPage.inviteUser(charlie.username);
 
     await aliceElementWebPage.waitForRoomJoin('My Meeting');
     await aliceMeetingsWidgetPage
