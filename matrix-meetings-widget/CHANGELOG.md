@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.3.1
+
+### Patch Changes
+
+- da6695c: Always select the first full week when switching from the month view.
+
 ## 1.3.0
 
 ### Minor Changes
