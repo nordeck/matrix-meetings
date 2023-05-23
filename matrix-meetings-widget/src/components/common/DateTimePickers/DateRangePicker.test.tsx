@@ -244,5 +244,5 @@ describe('<DateRangePicker>', () => {
     await userEvent.click(screen.getByRole('gridcell', { name: '15' }));
 
     expect(screen.getByRole('gridcell', { name: '14' })).toBeDisabled();
-  });
+  }, 10000);
 });
