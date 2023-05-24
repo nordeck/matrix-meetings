@@ -16,7 +16,7 @@
 
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import { isError } from 'lodash';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 type SearchResults = Array<{
   userId: string;
@@ -25,6 +25,7 @@ type SearchResults = Array<{
 }>;
 
 export function useUserSearchResults(
+  skip: boolean,
   input: string,
   delay: number
 ): {
@@ -38,11 +39,8 @@ export function useUserSearchResults(
   const [error, setError] = useState<undefined | Error>();
   const [results, setResults] = useState<SearchResults>([]);
 
-  const mount = useRef(false);
-
   useEffect(() => {
-    if (!mount.current) {
-      mount.current = true;
+    if (skip) {
       return;
     }
 
@@ -58,7 +56,6 @@ export function useUserSearchResults(
           setLoading(false);
         }
       } catch (e) {
-        console.log('ma.error', e);
         if (!ignore && isError(e)) {
           setError(e);
           setLoading(false);
@@ -73,7 +70,7 @@ export function useUserSearchResults(
       clearTimeout(timer);
       ignore = true;
     };
-  }, [delay, input, widgetApi]);
+  }, [skip, delay, input, widgetApi]);
 
   return {
     loading,

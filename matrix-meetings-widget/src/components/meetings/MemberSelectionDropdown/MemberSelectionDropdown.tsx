@@ -43,6 +43,7 @@ import React, {
   ReactElement,
   useCallback,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -147,12 +148,13 @@ export function MemberSelectionDropdown({
   const ownUserInstructionsId = useId();
   const hasPowerToKickUserId = useId();
 
-  const homeserverUsers: Record<string, MemberSearchState> = useMemo(
-    () => ({}),
-    []
-  );
+  const homeserverUsersRef = useRef<Record<string, MemberSearchState>>({});
 
-  const { loading, results, error } = useUserSearchResults(term, 100);
+  const { loading, results, error } = useUserSearchResults(
+    !searchHomeserverUsers,
+    term,
+    100
+  );
 
   const allMembersInTheRoom = useAppSelector(
     (state) =>
@@ -205,10 +207,10 @@ export function MemberSelectionDropdown({
     return selectedMembers.flatMap(
       (selectedMember) =>
         allMemberEvents.find((m) => selectedMember === m.state_key) ??
-        homeserverUsers[selectedMember] ??
+        homeserverUsersRef.current[selectedMember] ??
         []
     );
-  }, [allMemberEvents, homeserverUsers, selectedMembers]);
+  }, [allMemberEvents, selectedMembers]);
 
   const powerLevelsEvent = useAppSelector(
     (state) => meetingId && selectRoomPowerLevelsEventByRoomId(state, meetingId)
@@ -286,22 +288,22 @@ export function MemberSelectionDropdown({
         .filter(
           (ms) =>
             !allMemberEvents.some((me) => me.state_key === ms.state_key) &&
-            !homeserverUsers[ms.state_key]
+            !homeserverUsersRef.current[ms.state_key]
         )
         .forEach((ms) => {
-          homeserverUsers[ms.state_key] = ms;
+          homeserverUsersRef.current[ms.state_key] = ms;
         });
 
       const memberSearchUserIds = memberSearches.map((ms) => ms.state_key);
-      Object.keys(homeserverUsers)
+      Object.keys(homeserverUsersRef.current)
         .filter((key) => !memberSearchUserIds.includes(key))
         .forEach((key) => {
-          delete homeserverUsers[key];
+          delete homeserverUsersRef.current[key];
         });
 
       onSelectedMembersUpdated(ensureUsers(value));
     },
-    [homeserverUsers, ensureUsers, onSelectedMembersUpdated, allMemberEvents]
+    [ensureUsers, onSelectedMembersUpdated, allMemberEvents]
   );
 
   const handleInputChange = useCallback(
@@ -519,7 +521,7 @@ export function MemberSelectionDropdown({
         }
         loadingText={t('memberSelectionDropdown.loading', 'Loading…')}
         onChange={handleOnChange}
-        onInputChange={searchHomeserverUsers ? handleInputChange : undefined}
+        onInputChange={handleInputChange}
         options={availableMemberOptions}
         renderInput={renderInput}
         renderOption={renderOption}
