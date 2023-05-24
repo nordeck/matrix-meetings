@@ -68,7 +68,7 @@ export class ElementWebPage {
     await dialogLocator
       .getByRole('switch', { name: 'Remember my selection for this widget' })
       // Increase but also limit the timeout to account for widget load time
-      .click({ timeout: 12000 });
+      .click({ timeout: 15000 });
 
     await dialogLocator.getByRole('button', { name: 'Approve' }).click();
   }
