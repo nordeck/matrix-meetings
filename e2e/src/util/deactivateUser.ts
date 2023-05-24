@@ -28,7 +28,7 @@ export async function deactivateUser(user: User): Promise<void> {
     },
     body: JSON.stringify({
       auth: {
-        password: 'Pl4ywr1ght',
+        password: user.password,
         type: 'm.login.password',
         user: user.username,
       },
