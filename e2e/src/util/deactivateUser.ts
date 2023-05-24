@@ -19,13 +19,12 @@ import { getSynapseUrl } from './config';
 import { User } from './registerUser';
 
 export async function deactivateUser(user: User): Promise<void> {
-  const url = `${getSynapseUrl()}/_matrix/client/v3/account/deactivate?access_token=${
-    user.credentials.accessToken
-  }`;
+  const url = `${getSynapseUrl()}/_matrix/client/v3/account/deactivate`;
   const resp = await fetch(url, {
     method: 'POST',
     headers: {
       'content-type': 'application/json',
+      Authorization: `Bearer ${user.credentials.accessToken}`,
     },
     body: JSON.stringify({
       auth: {

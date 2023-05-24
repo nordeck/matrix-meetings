@@ -94,6 +94,23 @@ test.describe('Meeting Room', () => {
     ).toBeVisible();
   });
 
+  test('should add the meeting participant from within the meeting', async ({
+    aliceElementWebPage,
+    aliceCockpitWidgetPage,
+    charlie,
+  }) => {
+    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+
+    const meetingCard = aliceCockpitWidgetPage.getMeeting();
+    const aliceEditMeetingWidgetPage = await meetingCard.editMeeting();
+    await aliceEditMeetingWidgetPage.addParticipant(charlie.displayName);
+    await aliceEditMeetingWidgetPage.submit();
+
+    await aliceElementWebPage.approveWidgetIdentity();
+
+    await aliceElementWebPage.waitForUserMembership(charlie.username, 'invite');
+  });
+
   test('should disable the video conference from within the meeting', async ({
     aliceElementWebPage,
     aliceCockpitWidgetPage,

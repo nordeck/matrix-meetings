@@ -263,6 +263,13 @@ export class ElementWebPage {
   }
 
   async waitForUserToJoin(username: string) {
+    await this.waitForUserMembership(username, 'join');
+  }
+
+  async waitForUserMembership(
+    username: string,
+    membership: 'join' | 'leave' | 'ban' | 'invite'
+  ) {
     // Instead of controling the UI, we use the matrix client as it is faster.
     await expect
       .poll(async () => {
@@ -288,7 +295,7 @@ export class ElementWebPage {
           { roomId, username }
         );
       })
-      .toEqual('join');
+      .toEqual(membership);
   }
 
   async removeUser(username: string) {
