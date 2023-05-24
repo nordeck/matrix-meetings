@@ -225,7 +225,6 @@
     "loading": "Loading…",
     "noMembers": "Keine weiteren Teilnehmer.",
     "searchHomeserverUsersFailed": "Failed to search users on homeserver",
-    "selectAll": "Alle auswählen",
     "tagInstructions": "Nutze die Rücktaste um den Eintrag zu löschen.",
     "typeToSearch": "Type to search for a user…"
   },

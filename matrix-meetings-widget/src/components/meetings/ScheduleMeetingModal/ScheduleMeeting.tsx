@@ -416,7 +416,6 @@ export const ScheduleMeeting = ({
                   )
             }
             selectedMembers={participants}
-            showSelectAll
           />
         )}
 

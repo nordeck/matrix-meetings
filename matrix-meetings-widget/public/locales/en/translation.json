@@ -225,7 +225,6 @@
     "loading": "Loading…",
     "noMembers": "No further members.",
     "searchHomeserverUsersFailed": "Failed to search users on homeserver",
-    "selectAll": "Select all",
     "tagInstructions": "Use the backspace key to delete the entry.",
     "typeToSearch": "Type to search for a user…"
   },

@@ -26,9 +26,7 @@ import {
   AlertTitle,
   Autocomplete,
   AutocompleteRenderGetTagProps,
-  Button,
   Chip,
-  InputAdornment,
   ListItem,
   ListItemIcon,
   ListItemProps,
@@ -94,9 +92,6 @@ type MemberSelectionDropdownProps = {
 
   /** meeting id */
   meetingId?: string;
-
-  /** Show a button to select all members */
-  showSelectAll?: boolean;
 };
 
 type MemberState = StateEvent<RoomMemberStateEventContent> | MemberSearchState;
@@ -133,7 +128,6 @@ export function MemberSelectionDropdown({
   allMemberEvents,
   selectableMemberEvents,
   label,
-  showSelectAll,
   ownUserPopupContent,
   hasPowerToKickPopupContent,
   meetingId,
@@ -313,11 +307,6 @@ export function MemberSelectionDropdown({
     []
   );
 
-  const canSelectAll = selectedMembers.length === availableMemberOptions.length;
-  const handleSelectAll = useCallback(() => {
-    onSelectedMembersUpdated(ensureUsers(availableMemberOptions));
-  }, [availableMemberOptions, ensureUsers, onSelectedMembersUpdated]);
-
   const renderInput = useCallback(
     (props) => {
       return (
@@ -327,44 +316,13 @@ export function MemberSelectionDropdown({
             ...props.InputProps,
             margin: 'dense',
             'aria-describedby': instructionId,
-            endAdornment: (
-              <>
-                {showSelectAll && !searchHomeserverUsers && (
-                  <InputAdornment
-                    position="end"
-                    sx={{
-                      right: 60,
-                      top: 'calc(50%)',
-                      position: 'absolute',
-                    }}
-                  >
-                    <Button
-                      color="inherit"
-                      disabled={canSelectAll}
-                      onClick={handleSelectAll}
-                    >
-                      {t('memberSelectionDropdown.selectAll', 'Select all')}
-                    </Button>
-                  </InputAdornment>
-                )}
-                {props.InputProps.endAdornment}
-              </>
-            ),
           }}
           label={label}
           size="medium"
         />
       );
     },
-    [
-      canSelectAll,
-      handleSelectAll,
-      instructionId,
-      label,
-      showSelectAll,
-      searchHomeserverUsers,
-      t,
-    ]
+    [instructionId, label]
   );
 
   const getOptionLabel = useCallback(
