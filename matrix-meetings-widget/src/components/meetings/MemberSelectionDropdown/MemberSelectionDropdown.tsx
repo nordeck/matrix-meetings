@@ -61,7 +61,7 @@ import { useUserSearchResults } from './useUserSearchResults';
  * Props for the {@link MemberSelectionDropdown} component.
  */
 type MemberSelectionDropdownProps = {
-  /** Allows to search and invite users */
+  /** Search and invite users from homeserver */
   searchHomeserverUsers?: boolean;
 
   /** A list of all room member events */
@@ -463,7 +463,7 @@ export function MemberSelectionDropdown({
   return (
     <>
       {error && (
-        <Alert severity="error" variant="outlined">
+        <Alert severity="error" sx={{ my: 1 }}>
           <AlertTitle>
             {t(
               'memberSelectionDropdown.searchHomeserverUsersFailed',
