@@ -25,7 +25,6 @@ type SearchResults = Array<{
 }>;
 
 export function useUserSearchResults(
-  skip: boolean,
   input: string,
   delay: number
 ): {
@@ -40,10 +39,6 @@ export function useUserSearchResults(
   const [results, setResults] = useState<SearchResults>([]);
 
   useEffect(() => {
-    if (skip) {
-      return;
-    }
-
     let ignore = false;
 
     async function fetchResults() {
@@ -70,7 +65,7 @@ export function useUserSearchResults(
       clearTimeout(timer);
       ignore = true;
     };
-  }, [skip, delay, input, widgetApi]);
+  }, [delay, input, widgetApi]);
 
   return {
     loading,

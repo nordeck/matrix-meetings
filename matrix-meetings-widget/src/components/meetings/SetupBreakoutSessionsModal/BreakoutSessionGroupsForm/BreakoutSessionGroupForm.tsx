@@ -20,7 +20,7 @@ import {
 } from '@matrix-widget-toolkit/api';
 import { Box, Card, CardContent, TextField } from '@mui/material';
 import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
-import { ChangeEvent, ReactElement, useCallback } from 'react';
+import { ChangeEvent, ReactElement, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MemberSelectionDropdown } from '../../MemberSelectionDropdown';
 import { BreakoutSessionGroup } from './types';
@@ -60,6 +60,26 @@ export function BreakoutSessionGroupForm({
   const titleId = useId();
   const cardId = useId();
 
+  const availableMembers = useMemo(() => {
+    return selectableMemberEvents.concat(
+      allMemberEvents.filter(
+        (m) =>
+          group.members.includes(m.state_key) &&
+          !selectableMemberEvents.includes(m)
+      )
+    );
+  }, [selectableMemberEvents, allMemberEvents, group.members]);
+
+  const filteredSelectedMembers = useMemo(() => {
+    return allMemberEvents
+      .filter((m) => group.members.includes(m.state_key))
+      .sort(
+        (a, b) =>
+          group.members.indexOf(a.state_key) -
+          group.members.indexOf(b.state_key)
+      );
+  }, [group.members, allMemberEvents]);
+
   return (
     <Card aria-labelledby={cardId} component="li" elevation={0} sx={{ mt: 2 }}>
       <Box id={cardId} sx={visuallyHidden}>
@@ -88,15 +108,18 @@ export function BreakoutSessionGroupForm({
         />
 
         <MemberSelectionDropdown
-          allMemberEvents={allMemberEvents}
+          availableMembers={availableMembers}
+          selectedMembers={filteredSelectedMembers}
           label={t('breakoutSessionGroup.selectUser', 'Select participants')}
           onSelectedMembersUpdated={handleChangeMembers}
           ownUserPopupContent={t(
             'breakoutSessionGroup.youAreAlwaysMember',
             'The organizer will always join all breakout sessions.'
           )}
-          selectableMemberEvents={selectableMemberEvents}
-          selectedMembers={group.members}
+          noOptionsText={t(
+            'memberSelectionDropdown.noMembers',
+            'No further members.'
+          )}
         />
       </CardContent>
     </Card>

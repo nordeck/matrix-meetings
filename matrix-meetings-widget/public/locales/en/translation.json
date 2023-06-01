@@ -222,11 +222,9 @@
   "memberSelectionDropdown": {
     "instructions_one": "{{selectedCount}} of {{count}} entry selected. Use the left and right arrow keys to navigate between them. Use the up and down arrow key to navigate through the available options.",
     "instructions_other": "{{selectedCount}} of {{count}} entries selected. Use the left and right arrow keys to navigate between them. Use the up and down arrow key to navigate through the available options.",
-    "loading": "Loading…",
     "noMembers": "No further members.",
     "searchHomeserverUsersFailed": "Failed to search users on homeserver",
-    "tagInstructions": "Use the backspace key to delete the entry.",
-    "typeToSearch": "Type to search for a user…"
+    "tagInstructions": "Use the backspace key to delete the entry."
   },
   "openMeetingRoomButton": {
     "openMeetingRoom": "Open the meeting room",
@@ -342,6 +340,7 @@
     "description": "Description",
     "endAt": "End at",
     "hasPowerToKickUser": "You don't have the permission to remove this participant.",
+    "loading": "Loading…",
     "meetingAlreadyStarted": "The meeting already started.",
     "participants": "Participants",
     "recurringMeetingMessage": {
@@ -351,6 +350,7 @@
     "startAt": "Start at",
     "title": "Title (required)",
     "titleHelperText": "A title is required",
+    "typeToSearch": "Type to search for a user…",
     "youAreAlwaysMember": "The organizer will always join the meeting."
   },
   "scheduleMeetingModal": {

@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-import {
-  calculateUserPowerLevel,
-  RoomMemberStateEventContent,
-  StateEvent,
-} from '@matrix-widget-toolkit/api';
+import { calculateUserPowerLevel } from '@matrix-widget-toolkit/api';
 import { ElementAvatar } from '@matrix-widget-toolkit/mui';
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import {
-  Alert,
-  AlertTitle,
   Autocomplete,
   AutocompleteRenderGetTagProps,
   Chip,
@@ -39,47 +33,34 @@ import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
 import React, {
   HTMLAttributes,
   ReactElement,
+  ReactNode,
   useCallback,
-  useMemo,
-  useRef,
-  useState,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { shallowEqual } from 'react-redux';
 import { ellipsis } from '../../../lib/ellipsis';
-import { isBotUser } from '../../../lib/utils';
 import { selectRoomPowerLevelsEventByRoomId } from '../../../reducer/meetingsApi';
 import {
   filterAllRoomMemberEventsByRoomId,
   selectRoomMemberEventEntities,
 } from '../../../reducer/meetingsApi/meetingsApi';
 import { useAppSelector } from '../../../store';
-import { useUserSearchResults } from './useUserSearchResults';
 
 /**
  * Props for the {@link MemberSelectionDropdown} component.
  */
 type MemberSelectionDropdownProps = {
-  /** Search and invite users from homeserver */
-  searchHomeserverUsers?: boolean;
+  /** The available member options */
+  availableMembers: MemberSelection[];
 
-  /** A list of all room member events */
-  allMemberEvents: StateEvent<RoomMemberStateEventContent>[];
-
-  /**
-   * An optional list of member events that can be still selected.
-   * These must not include any user that is part of `selectedMembers`.
-   *
-   * @remarks this is helpful if multiple inputs are used and a single
-   *          user can only be part of a single group.
-   */
-  selectableMemberEvents?: StateEvent<RoomMemberStateEventContent>[];
-
-  /** The selected of user ids of the members (state_key of `m.room.member`) */
-  selectedMembers: string[];
+  /** The selected members */
+  selectedMembers: MemberSelection[];
 
   /** Is called when the selected members are updated */
   onSelectedMembersUpdated: (selectedMembers: string[]) => void;
+
+  /** Is called when the input value changes */
+  onInputChange?: (value: string) => void;
 
   /** The label text for the input field */
   label: string;
@@ -92,11 +73,21 @@ type MemberSelectionDropdownProps = {
 
   /** meeting id */
   meetingId?: string;
+
+  /** Disables options filtering, makes sense when options are filtered already */
+  disableFilterOptions?: boolean;
+
+  /** If true, it shows the loadingText in place of suggestions. */
+  loading?: boolean;
+
+  /** Text to display when there are no options. */
+  noOptionsText?: ReactNode;
+
+  /** Text to display when in a loading state. */
+  loadingText?: ReactNode;
 };
 
-type MemberState = StateEvent<RoomMemberStateEventContent> | MemberSearchState;
-
-type MemberSearchState = {
+export type MemberSelection = {
   state_key: string;
 
   content: {
@@ -104,15 +95,6 @@ type MemberSearchState = {
     avatar_url?: string | null;
   };
 };
-
-function isMemberSearchState(
-  memberState: MemberState
-): memberState is MemberSearchState {
-  return (
-    (memberState as StateEvent<RoomMemberStateEventContent>).content
-      .membership === undefined
-  );
-}
 
 /**
  * A dropdown to select members from a list of `m.room.member` events.
@@ -122,33 +104,25 @@ function isMemberSearchState(
  * @param param0 - {@link MemberSelectionDropdownProps}
  */
 export function MemberSelectionDropdown({
-  searchHomeserverUsers,
+  availableMembers,
   selectedMembers,
   onSelectedMembersUpdated,
-  allMemberEvents,
-  selectableMemberEvents,
+  onInputChange,
   label,
   ownUserPopupContent,
   hasPowerToKickPopupContent,
   meetingId,
+  disableFilterOptions,
+  loading,
+  noOptionsText,
+  loadingText,
 }: MemberSelectionDropdownProps): ReactElement {
   const { t } = useTranslation();
   const widgetApi = useWidgetApi();
-
-  const [term, setTerm] = useState('');
-
   const instructionId = useId();
   const tagInstructionId = useId();
   const ownUserInstructionsId = useId();
   const hasPowerToKickUserId = useId();
-
-  const homeserverUsersRef = useRef<Record<string, MemberSearchState>>({});
-
-  const { loading, results, error } = useUserSearchResults(
-    !searchHomeserverUsers,
-    term,
-    100
-  );
 
   const allMembersInTheRoom = useAppSelector(
     (state) =>
@@ -160,51 +134,6 @@ export function MemberSelectionDropdown({
         : [],
     shallowEqual
   );
-
-  const availableMemberOptions: MemberState[] = useMemo(() => {
-    if (searchHomeserverUsers) {
-      return results
-        .filter(
-          (r) => !selectedMembers.includes(r.userId) && !isBotUser(r.userId)
-        )
-        .map((r) => {
-          return {
-            content: {
-              displayname: r.displayName,
-              avatar_url: r.avatarUrl,
-            },
-            state_key: r.userId,
-          };
-        });
-    }
-
-    if (selectableMemberEvents) {
-      return selectableMemberEvents.concat(
-        allMemberEvents.filter(
-          (m) =>
-            selectedMembers.includes(m.state_key) &&
-            !selectableMemberEvents.includes(m)
-        )
-      );
-    }
-
-    return allMemberEvents;
-  }, [
-    searchHomeserverUsers,
-    allMemberEvents,
-    selectableMemberEvents,
-    selectedMembers,
-    results,
-  ]);
-
-  const selectedMemberOptions = useMemo(() => {
-    return selectedMembers.flatMap(
-      (selectedMember) =>
-        allMemberEvents.find((m) => selectedMember === m.state_key) ??
-        homeserverUsersRef.current[selectedMember] ??
-        []
-    );
-  }, [allMemberEvents, selectedMembers]);
 
   const powerLevelsEvent = useAppSelector(
     (state) => meetingId && selectRoomPowerLevelsEventByRoomId(state, meetingId)
@@ -240,7 +169,7 @@ export function MemberSelectionDropdown({
   );
 
   const ensureUsers = useCallback(
-    (members: MemberState[]) => {
+    (members: MemberSelection[]) => {
       const newMembers = members
         .map((m) => m.state_key)
         .filter(
@@ -248,16 +177,18 @@ export function MemberSelectionDropdown({
         );
 
       // add all users that are not kickable
-      const notKickableUsers = selectedMembers.filter(
-        (m) => m !== widgetApi.widgetParameters.userId && !hasPowerToRemove(m)
-      );
+      const notKickableUsers = selectedMembers
+        .map((m) => m.state_key)
+        .filter(
+          (m) => m !== widgetApi.widgetParameters.userId && !hasPowerToRemove(m)
+        );
 
       // the own user should always be the first entry
       newMembers.unshift(...notKickableUsers);
 
       if (
         widgetApi.widgetParameters.userId &&
-        allMemberEvents.some(
+        availableMembers.some(
           (e) => e.state_key === widgetApi.widgetParameters.userId
         )
       ) {
@@ -267,7 +198,7 @@ export function MemberSelectionDropdown({
       return newMembers;
     },
     [
-      allMemberEvents,
+      availableMembers,
       hasPowerToRemove,
       selectedMembers,
       widgetApi.widgetParameters.userId,
@@ -275,36 +206,17 @@ export function MemberSelectionDropdown({
   );
 
   const handleOnChange = useCallback(
-    (_: React.SyntheticEvent<Element, Event>, value: MemberState[]) => {
-      const memberSearches = value.filter(isMemberSearchState);
-
-      memberSearches
-        .filter(
-          (ms) =>
-            !allMemberEvents.some((me) => me.state_key === ms.state_key) &&
-            !homeserverUsersRef.current[ms.state_key]
-        )
-        .forEach((ms) => {
-          homeserverUsersRef.current[ms.state_key] = ms;
-        });
-
-      const memberSearchUserIds = memberSearches.map((ms) => ms.state_key);
-      Object.keys(homeserverUsersRef.current)
-        .filter((key) => !memberSearchUserIds.includes(key))
-        .forEach((key) => {
-          delete homeserverUsersRef.current[key];
-        });
-
+    (_: React.SyntheticEvent<Element, Event>, value: MemberSelection[]) => {
       onSelectedMembersUpdated(ensureUsers(value));
     },
-    [ensureUsers, onSelectedMembersUpdated, allMemberEvents]
+    [ensureUsers, onSelectedMembersUpdated]
   );
 
   const handleInputChange = useCallback(
     (_: React.SyntheticEvent<Element, Event>, value: string) => {
-      setTerm(value);
+      onInputChange?.(value);
     },
-    []
+    [onInputChange]
   );
 
   const renderInput = useCallback(
@@ -326,18 +238,18 @@ export function MemberSelectionDropdown({
   );
 
   const getOptionLabel = useCallback(
-    (o: MemberState) => o.content.displayname ?? o.state_key,
+    (o: MemberSelection) => o.content.displayname ?? o.state_key,
     []
   );
 
-  const filterOptions = useCallback((x: MemberState[]) => x, []);
+  const filterOptionsDisabled = useCallback((x: MemberSelection[]) => x, []);
 
   const handleClickOwnUser = useCallback(() => {
     // No-op
   }, []);
 
   const renderTags = useCallback(
-    (value: MemberState[], getTagProps: AutocompleteRenderGetTagProps) =>
+    (value: MemberSelection[], getTagProps: AutocompleteRenderGetTagProps) =>
       value.map((option, index) => {
         const { key, ...chipProps } = getTagProps({ index });
         const isOwnUser =
@@ -408,7 +320,7 @@ export function MemberSelectionDropdown({
   );
 
   const renderOption = useCallback(
-    (props: HTMLAttributes<HTMLLIElement>, option: MemberState) => (
+    (props: HTMLAttributes<HTMLLIElement>, option: MemberSelection) => (
       <MemberOption
         ListItemProps={props}
         key={option.state_key}
@@ -422,18 +334,6 @@ export function MemberSelectionDropdown({
 
   return (
     <>
-      {error && (
-        <Alert severity="error" sx={{ my: 1 }}>
-          <AlertTitle>
-            {t(
-              'memberSelectionDropdown.searchHomeserverUsersFailed',
-              'Failed to search users on homeserver'
-            )}
-          </AlertTitle>
-          {error.message}
-        </Alert>
-      )}
-
       <Typography aria-hidden id={ownUserInstructionsId} sx={visuallyHidden}>
         {ownUserPopupContent}
       </Typography>
@@ -446,8 +346,8 @@ export function MemberSelectionDropdown({
           'memberSelectionDropdown.instructions',
           '{{selectedCount}} of {{count}} entries selected. Use the left and right arrow keys to navigate between them. Use the up and down arrow key to navigate through the available options.',
           {
-            selectedCount: selectedMemberOptions.length,
-            count: availableMemberOptions.length,
+            selectedCount: selectedMembers.length,
+            count: availableMembers.length,
           }
         )}
       </Typography>
@@ -462,30 +362,23 @@ export function MemberSelectionDropdown({
       <Autocomplete
         disableCloseOnSelect
         disablePortal
-        filterSelectedOptions={!searchHomeserverUsers}
+        filterSelectedOptions
         fullWidth
         getOptionLabel={getOptionLabel}
-        filterOptions={searchHomeserverUsers ? filterOptions : undefined}
+        filterOptions={disableFilterOptions ? filterOptionsDisabled : undefined}
         id={id}
         multiple
-        loading={searchHomeserverUsers ? loading : undefined}
-        noOptionsText={
-          searchHomeserverUsers && term.length === 0
-            ? t(
-                'memberSelectionDropdown.typeToSearch',
-                'Type to search for a user…'
-              )
-            : t('memberSelectionDropdown.noMembers', 'No further members.')
-        }
-        loadingText={t('memberSelectionDropdown.loading', 'Loading…')}
+        loading={loading}
+        noOptionsText={noOptionsText}
+        loadingText={loadingText}
         onChange={handleOnChange}
         onInputChange={handleInputChange}
-        options={availableMemberOptions}
+        options={availableMembers}
         renderInput={renderInput}
         renderOption={renderOption}
         renderTags={renderTags}
         sx={{ my: 1 }}
-        value={selectedMemberOptions}
+        value={selectedMembers}
       />
     </>
   );
@@ -496,7 +389,7 @@ function MemberOption({
   member,
 }: {
   ListItemProps: ListItemProps;
-  member: MemberState;
+  member: MemberSelection;
 }) {
   const titleId = useId();
 

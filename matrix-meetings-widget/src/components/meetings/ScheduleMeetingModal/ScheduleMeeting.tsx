@@ -33,6 +33,7 @@ import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   getInitialMeetingTimes,
+  isBotUser,
   isRecurringCalendarSourceEntry,
   parseICalDate,
 } from '../../../lib/utils';
@@ -52,6 +53,8 @@ import {
 import { MeetingNotEndedGuard } from '../../common/MeetingNotEndedGuard';
 import { MeetingHasBreakoutSessionsWarning } from '../MeetingCard/MeetingHasBreakoutSessionsWarning';
 import { MemberSelectionDropdown } from '../MemberSelectionDropdown';
+import { MemberSelection } from '../MemberSelectionDropdown/MemberSelectionDropdown';
+import { useUserSearchResults } from '../MemberSelectionDropdown/useUserSearchResults';
 import { RecurrenceEditor } from '../RecurrenceEditor';
 import { WidgetsSelectionDropdown } from '../WidgetsSelectionDropdown';
 import { CreateMeeting } from './types';
@@ -107,6 +110,9 @@ export const ScheduleMeeting = ({
       return [];
     }
   });
+
+  const [participantTerm, setParticipantTerm] = useState('');
+
   const [widgets, setWidgets] = useState<string[]>(
     () => initialMeeting?.widgets ?? []
   );
@@ -159,6 +165,9 @@ export const ScheduleMeeting = ({
     )
   );
 
+  // keeps users that were found via users directory search and selected
+  const [selectedUsers, setSelectedUsers] = useState<MemberSelection[]>([]);
+
   const handleChangeTitle = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       setIsDirty(true);
@@ -193,9 +202,74 @@ export const ScheduleMeeting = ({
     setIsDirty(true);
   }, []);
 
-  const handleChangeParticipants = useCallback((participants: string[]) => {
-    setIsDirty(true);
-    setParticipants(participants);
+  const { loading, results, error } = useUserSearchResults(
+    participantTerm,
+    100
+  );
+
+  const userResults: MemberSelection[] = useMemo(() => {
+    return results
+      .filter((r) => !participants.includes(r.userId) && !isBotUser(r.userId))
+      .map((r) => {
+        return {
+          content: {
+            displayname: r.displayName,
+            avatar_url: r.avatarUrl,
+          },
+          state_key: r.userId,
+        };
+      });
+  }, [results, participants]);
+
+  const selectedRoomMembers = useMemo(
+    () => roomMembers.filter((m) => participants.includes(m.state_key)),
+    [roomMembers, participants]
+  );
+
+  const availableMembers = useMemo(
+    () => [...selectedRoomMembers, ...selectedUsers, ...userResults],
+    [selectedRoomMembers, selectedUsers, userResults]
+  );
+
+  const selectedMembers = useMemo(
+    () =>
+      [...selectedRoomMembers, ...selectedUsers].sort(
+        (a, b) =>
+          participants.indexOf(a.state_key) - participants.indexOf(b.state_key)
+      ),
+    [selectedRoomMembers, selectedUsers, participants]
+  );
+
+  const handleChangeParticipants = useCallback(
+    (participants: string[]) => {
+      const roomMemberIds = roomMembers.map((rm) => rm.state_key);
+      const userParticipants = participants.filter(
+        (p) => !roomMemberIds.includes(p)
+      );
+
+      const newSelectedUsers = selectedUsers.filter((c) =>
+        userParticipants.includes(c.state_key)
+      );
+
+      const newSelectedUsersIds = newSelectedUsers.map((u) => u.state_key);
+      userParticipants
+        .filter((u) => !newSelectedUsersIds.includes(u))
+        .forEach((m) => {
+          const result = userResults.find((r) => r.state_key === m);
+          if (result) {
+            newSelectedUsers.push(result);
+          }
+        });
+
+      setIsDirty(true);
+      setParticipants(participants);
+      setSelectedUsers(newSelectedUsers);
+    },
+    [roomMembers, userResults, selectedUsers]
+  );
+
+  const handleInputChange = useCallback((value: string) => {
+    setParticipantTerm(value);
   }, []);
 
   const handleChangeWidgets = useCallback(
@@ -394,29 +468,57 @@ export const ScheduleMeeting = ({
         />
 
         {showParticipants && isParticipantSelectionEnabled && (
-          <MemberSelectionDropdown
-            searchHomeserverUsers
-            allMemberEvents={roomMembers}
-            hasPowerToKickPopupContent={t(
-              'scheduleMeeting.hasPowerToKickUser',
-              "You don't have the permission to remove this participant."
+          <>
+            {error && (
+              <Alert severity="error" sx={{ my: 1 }}>
+                <AlertTitle>
+                  {t(
+                    'memberSelectionDropdown.searchHomeserverUsersFailed',
+                    'Failed to search users on homeserver'
+                  )}
+                </AlertTitle>
+                {error.message}
+              </Alert>
             )}
-            label={t('scheduleMeeting.participants', 'Participants')}
-            meetingId={initialMeeting?.meetingId}
-            onSelectedMembersUpdated={handleChangeParticipants}
-            ownUserPopupContent={
-              initialMeeting
-                ? t(
-                    'scheduleMeeting.cannotRemoveOwnUser',
-                    "You can't remove yourself from the meeting."
-                  )
-                : t(
-                    'scheduleMeeting.youAreAlwaysMember',
-                    'The organizer will always join the meeting.'
-                  )
-            }
-            selectedMembers={participants}
-          />
+
+            <MemberSelectionDropdown
+              availableMembers={availableMembers}
+              selectedMembers={selectedMembers}
+              hasPowerToKickPopupContent={t(
+                'scheduleMeeting.hasPowerToKickUser',
+                "You don't have the permission to remove this participant."
+              )}
+              label={t('scheduleMeeting.participants', 'Participants')}
+              meetingId={initialMeeting?.meetingId}
+              onSelectedMembersUpdated={handleChangeParticipants}
+              onInputChange={handleInputChange}
+              ownUserPopupContent={
+                initialMeeting
+                  ? t(
+                      'scheduleMeeting.cannotRemoveOwnUser',
+                      "You can't remove yourself from the meeting."
+                    )
+                  : t(
+                      'scheduleMeeting.youAreAlwaysMember',
+                      'The organizer will always join the meeting.'
+                    )
+              }
+              disableFilterOptions={true}
+              loading={loading}
+              noOptionsText={
+                participantTerm.length === 0
+                  ? t(
+                      'scheduleMeeting.typeToSearch',
+                      'Type to search for a user…'
+                    )
+                  : t(
+                      'memberSelectionDropdown.noMembers',
+                      'No further members.'
+                    )
+              }
+              loadingText={t('scheduleMeeting.loading', 'Loading…')}
+            />
+          </>
         )}
 
         <WidgetsSelectionDropdown

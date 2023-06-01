@@ -222,11 +222,9 @@
   "memberSelectionDropdown": {
     "instructions_one": "{{selectedCount}} von {{count}} Einträgen ausgewählt. Nutze die linke und rechte Pfeiltaste um zwischen den Einträgen zu navigieren. Nutze die aufwärts und abwärts Pfeiltaste um durch die verfügbaren Optionen zu navigieren.",
     "instructions_other": "{{selectedCount}} von {{count}} Einträgen ausgewählt. Nutze die linke und rechte Pfeiltaste um zwischen den Einträgen zu navigieren. Nutze die aufwärts und abwärts Pfeiltaste um durch die verfügbaren Optionen zu navigieren.",
-    "loading": "Loading…",
     "noMembers": "Keine weiteren Teilnehmer.",
     "searchHomeserverUsersFailed": "Failed to search users on homeserver",
-    "tagInstructions": "Nutze die Rücktaste um den Eintrag zu löschen.",
-    "typeToSearch": "Type to search for a user…"
+    "tagInstructions": "Nutze die Rücktaste um den Eintrag zu löschen."
   },
   "openMeetingRoomButton": {
     "openMeetingRoom": "Öffne den Besprechungsraum",
@@ -339,6 +337,7 @@
     "description": "Beschreibung",
     "endAt": "Endzeitpunkt",
     "hasPowerToKickUser": "Du hast nicht die Berechtigung um diesen Nutzer aus der Besprechung zu entfernen.",
+    "loading": "Loading…",
     "meetingAlreadyStarted": "Die Besprechung ist bereits gestartet.",
     "participants": "Teilnehmer",
     "recurringMeetingMessage": {
@@ -348,6 +347,7 @@
     "startAt": "Startzeitpunkt",
     "title": "Titel (erforderlich)",
     "titleHelperText": "Ein Titel ist erforderlich",
+    "typeToSearch": "Type to search for a user…",
     "youAreAlwaysMember": "Als Organisator bist du automatisch Teilnehmer der Besprechung."
   },
   "scheduleMeetingModal": {

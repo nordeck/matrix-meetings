@@ -67,11 +67,13 @@ describe('<MemberSelectionDropdown/>', () => {
   it('should render without exploding', () => {
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMemberEvents}
         label="Members"
         onSelectedMembersUpdated={jest.fn()}
         ownUserPopupContent="This is you"
-        selectedMembers={['@user-id']}
+        selectedMembers={allMemberEvents.filter(
+          (se) => se.state_key === '@user-id'
+        )}
       />,
       { wrapper: Wrapper }
     );
@@ -93,11 +95,13 @@ describe('<MemberSelectionDropdown/>', () => {
   it('should have no accessibility violations', async () => {
     const { container } = render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMemberEvents}
         label="Members"
         onSelectedMembersUpdated={jest.fn()}
         ownUserPopupContent="This is you"
-        selectedMembers={['@user-id']}
+        selectedMembers={allMemberEvents.filter(
+          (se) => se.state_key === '@user-id'
+        )}
       />,
       { wrapper: Wrapper }
     );
@@ -110,7 +114,7 @@ describe('<MemberSelectionDropdown/>', () => {
 
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMemberEvents}
         label="Members"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
@@ -132,11 +136,13 @@ describe('<MemberSelectionDropdown/>', () => {
 
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMemberEvents}
         label="Members"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
-        selectedMembers={['@user-id']}
+        selectedMembers={allMemberEvents.filter(
+          (se) => se.state_key === '@user-id'
+        )}
       />,
       { wrapper: Wrapper }
     );
@@ -154,7 +160,7 @@ describe('<MemberSelectionDropdown/>', () => {
 
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents.slice(1)}
+        availableMembers={allMemberEvents.slice(1)}
         label="Members"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
@@ -176,11 +182,11 @@ describe('<MemberSelectionDropdown/>', () => {
 
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMemberEvents}
         label="Members"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
-        selectedMembers={['@user-id', '@user-1']}
+        selectedMembers={allMemberEvents}
       />,
       { wrapper: Wrapper }
     );
@@ -201,11 +207,11 @@ describe('<MemberSelectionDropdown/>', () => {
 
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMemberEvents}
         label="Members"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
-        selectedMembers={['@user-id', '@user-1']}
+        selectedMembers={allMemberEvents}
       />,
       { wrapper: Wrapper }
     );
@@ -240,13 +246,13 @@ describe('<MemberSelectionDropdown/>', () => {
 
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMemberEvents}
         hasPowerToKickPopupContent="user has higher power level"
         label="Members"
         meetingId="!meeting-room-id"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
-        selectedMembers={['@user-id', '@user-1']}
+        selectedMembers={allMemberEvents}
       />,
       { wrapper: Wrapper }
     );
@@ -288,13 +294,13 @@ describe('<MemberSelectionDropdown/>', () => {
 
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMemberEvents}
         hasPowerToKickPopupContent="user has higher power level"
         label="Members"
         meetingId="!meeting-room-id"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
-        selectedMembers={['@user-id', '@user-1']}
+        selectedMembers={allMemberEvents}
       />,
       { wrapper: Wrapper }
     );
@@ -331,12 +337,11 @@ describe('<MemberSelectionDropdown/>', () => {
   it('should show selected users even if they are not part of the selectableMemberEvents', async () => {
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMemberEvents.slice(1)}
+        selectedMembers={allMemberEvents}
         label="Members"
         onSelectedMembersUpdated={jest.fn()}
         ownUserPopupContent="This is you"
-        selectableMemberEvents={allMemberEvents.slice(1)}
-        selectedMembers={['@user-id', '@user-1']}
       />,
       { wrapper: Wrapper }
     );
