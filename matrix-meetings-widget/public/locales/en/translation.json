@@ -222,8 +222,8 @@
   "memberSelectionDropdown": {
     "instructions_one": "{{selectedCount}} of {{count}} entry selected. Use the left and right arrow keys to navigate between them. Use the up and down arrow key to navigate through the available options.",
     "instructions_other": "{{selectedCount}} of {{count}} entries selected. Use the left and right arrow keys to navigate between them. Use the up and down arrow key to navigate through the available options.",
+    "loadingError": "Error while loading available users.",
     "noMembers": "No further members.",
-    "searchHomeserverUsersFailed": "Failed to search users on homeserver",
     "tagInstructions": "Use the backspace key to delete the entry."
   },
   "openMeetingRoomButton": {

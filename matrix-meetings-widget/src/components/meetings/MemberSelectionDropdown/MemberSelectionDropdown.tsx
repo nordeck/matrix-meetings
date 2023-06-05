@@ -35,6 +35,7 @@ import React, {
   ReactElement,
   ReactNode,
   useCallback,
+  useMemo,
 } from 'react';
 import { useTranslation } from 'react-i18next';
 import { shallowEqual } from 'react-redux';
@@ -80,6 +81,9 @@ type MemberSelectionDropdownProps = {
   /** If true, it shows the loadingText in place of suggestions. */
   loading?: boolean;
 
+  /** The error that could happen during the loading */
+  error?: Error;
+
   /** Text to display when there are no options. */
   noOptionsText?: ReactNode;
 
@@ -114,6 +118,7 @@ export function MemberSelectionDropdown({
   meetingId,
   disableFilterOptions,
   loading,
+  error,
   noOptionsText,
   loadingText,
 }: MemberSelectionDropdownProps): ReactElement {
@@ -204,6 +209,17 @@ export function MemberSelectionDropdown({
       widgetApi.widgetParameters.userId,
     ]
   );
+
+  const noResultsMessage = useMemo(() => {
+    if (error) {
+      return t(
+        'memberSelectionDropdown.loadingError',
+        'Error while loading available users.'
+      );
+    }
+
+    return noOptionsText;
+  }, [error, noOptionsText, t]);
 
   const handleOnChange = useCallback(
     (_: React.SyntheticEvent<Element, Event>, value: MemberSelection[]) => {
@@ -369,7 +385,7 @@ export function MemberSelectionDropdown({
         id={id}
         multiple
         loading={loading}
-        noOptionsText={noOptionsText}
+        noOptionsText={noResultsMessage}
         loadingText={loadingText}
         onChange={handleOnChange}
         onInputChange={handleInputChange}

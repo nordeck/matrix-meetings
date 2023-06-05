@@ -222,8 +222,8 @@
   "memberSelectionDropdown": {
     "instructions_one": "{{selectedCount}} von {{count}} Einträgen ausgewählt. Nutze die linke und rechte Pfeiltaste um zwischen den Einträgen zu navigieren. Nutze die aufwärts und abwärts Pfeiltaste um durch die verfügbaren Optionen zu navigieren.",
     "instructions_other": "{{selectedCount}} von {{count}} Einträgen ausgewählt. Nutze die linke und rechte Pfeiltaste um zwischen den Einträgen zu navigieren. Nutze die aufwärts und abwärts Pfeiltaste um durch die verfügbaren Optionen zu navigieren.",
+    "loadingError": "Fehler beim Suchen von Nutzern.",
     "noMembers": "Keine weiteren Teilnehmer.",
-    "searchHomeserverUsersFailed": "Failed to search users on homeserver",
     "tagInstructions": "Nutze die Rücktaste um den Eintrag zu löschen."
   },
   "openMeetingRoomButton": {

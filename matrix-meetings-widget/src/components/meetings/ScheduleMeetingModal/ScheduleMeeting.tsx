@@ -468,57 +468,41 @@ export const ScheduleMeeting = ({
         />
 
         {showParticipants && isParticipantSelectionEnabled && (
-          <>
-            {error && (
-              <Alert severity="error" sx={{ my: 1 }}>
-                <AlertTitle>
-                  {t(
-                    'memberSelectionDropdown.searchHomeserverUsersFailed',
-                    'Failed to search users on homeserver'
-                  )}
-                </AlertTitle>
-                {error.message}
-              </Alert>
+          <MemberSelectionDropdown
+            availableMembers={availableMembers}
+            selectedMembers={selectedMembers}
+            hasPowerToKickPopupContent={t(
+              'scheduleMeeting.hasPowerToKickUser',
+              "You don't have the permission to remove this participant."
             )}
-
-            <MemberSelectionDropdown
-              availableMembers={availableMembers}
-              selectedMembers={selectedMembers}
-              hasPowerToKickPopupContent={t(
-                'scheduleMeeting.hasPowerToKickUser',
-                "You don't have the permission to remove this participant."
-              )}
-              label={t('scheduleMeeting.participants', 'Participants')}
-              meetingId={initialMeeting?.meetingId}
-              onSelectedMembersUpdated={handleChangeParticipants}
-              onInputChange={handleInputChange}
-              ownUserPopupContent={
-                initialMeeting
-                  ? t(
-                      'scheduleMeeting.cannotRemoveOwnUser',
-                      "You can't remove yourself from the meeting."
-                    )
-                  : t(
-                      'scheduleMeeting.youAreAlwaysMember',
-                      'The organizer will always join the meeting.'
-                    )
-              }
-              disableFilterOptions={true}
-              loading={loading}
-              noOptionsText={
-                participantTerm.length === 0
-                  ? t(
-                      'scheduleMeeting.typeToSearch',
-                      'Type to search for a user…'
-                    )
-                  : t(
-                      'memberSelectionDropdown.noMembers',
-                      'No further members.'
-                    )
-              }
-              loadingText={t('scheduleMeeting.loading', 'Loading…')}
-            />
-          </>
+            label={t('scheduleMeeting.participants', 'Participants')}
+            meetingId={initialMeeting?.meetingId}
+            onSelectedMembersUpdated={handleChangeParticipants}
+            onInputChange={handleInputChange}
+            ownUserPopupContent={
+              initialMeeting
+                ? t(
+                    'scheduleMeeting.cannotRemoveOwnUser',
+                    "You can't remove yourself from the meeting."
+                  )
+                : t(
+                    'scheduleMeeting.youAreAlwaysMember',
+                    'The organizer will always join the meeting.'
+                  )
+            }
+            disableFilterOptions={true}
+            loading={loading}
+            error={error}
+            noOptionsText={
+              participantTerm.length === 0
+                ? t(
+                    'scheduleMeeting.typeToSearch',
+                    'Type to search for a user…'
+                  )
+                : t('memberSelectionDropdown.noMembers', 'No further members.')
+            }
+            loadingText={t('scheduleMeeting.loading', 'Loading…')}
+          />
         )}
 
         <WidgetsSelectionDropdown
