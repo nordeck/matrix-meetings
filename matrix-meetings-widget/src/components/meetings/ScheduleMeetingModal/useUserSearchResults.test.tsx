@@ -86,6 +86,23 @@ describe('useUserSearchResults', () => {
     });
   });
 
+  it.each(['', '  '])(
+    'should not search for empty input: "%s"',
+    async (input) => {
+      const { result } = renderHook(() => useUserSearchResults(input, 10), {
+        wrapper: Wrapper,
+      });
+
+      expect(result.current).toEqual({
+        loading: false,
+        results: [],
+        error: undefined,
+      });
+
+      expect(widgetApi.searchUserDirectory).toBeCalledTimes(0);
+    }
+  );
+
   it('should return error', async () => {
     widgetApi.searchUserDirectory.mockRejectedValue(new Error('unexpected'));
 

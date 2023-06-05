@@ -291,10 +291,15 @@ describe('<ScheduleMeeting>', () => {
 
     await userEvent.type(
       screen.getByRole('combobox', { name: 'Participants' }),
-      'user-2'
+      'user-1'
     );
     await userEvent.click(
       await screen.findByRole('option', { name: '@user-1' })
+    );
+
+    await userEvent.type(
+      screen.getByRole('combobox', { name: 'Participants' }),
+      'user-2'
     );
     await userEvent.click(
       await screen.findByRole('option', { name: '@user-2' })

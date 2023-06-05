@@ -39,6 +39,13 @@ export function useUserSearchResults(
   const [results, setResults] = useState<SearchResults>([]);
 
   useEffect(() => {
+    if (input.trim() === '') {
+      setResults((old) => (old.length === 0 ? old : []));
+      setError(undefined);
+      setLoading(false);
+      return;
+    }
+
     let ignore = false;
 
     async function fetchResults() {
