@@ -38,7 +38,6 @@ import {
   makeSelectAllRoomMemberEventsByRoomId,
   makeSelectAllRoomParentEventsByParentRoomId,
   makeSelectAllRoomWidgetEventsByRoomId,
-  makeSelectRoomMemberEventByUserId,
   meetingsApi,
 } from './meetingsApi';
 import {
@@ -1321,44 +1320,6 @@ describe('selectAllRoomMemberEventsByRoomId', () => {
     expect(selectAllRoomMemberEventsByRoomId(getState(), '!roomId2')).toEqual([
       events[2],
     ]);
-  });
-});
-
-describe('makeSelectRoomMemberEventByUserId', () => {
-  const selectRoomMemberEventByUserId = makeSelectRoomMemberEventByUserId();
-
-  it('should return a room member', async () => {
-    const events = [
-      widgetApi.mockSendStateEvent(
-        mockRoomMember({
-          room_id: '!roomId1',
-          state_key: '@user1:matrix',
-          content: { membership: 'join' },
-        })
-      ),
-      widgetApi.mockSendStateEvent(
-        mockRoomMember({
-          room_id: '!roomId1',
-          state_key: '@user2:matrix',
-          content: { membership: 'invite' },
-        })
-      ),
-      widgetApi.mockSendStateEvent(
-        mockRoomMember({
-          room_id: '!roomId2',
-          state_key: '@user2:matrix',
-          content: { membership: 'invite' },
-        })
-      ),
-    ];
-
-    const { dispatch, getState } = createStore({ widgetApi });
-
-    await initializeMeetingsApi(dispatch);
-
-    expect(
-      selectRoomMemberEventByUserId(getState(), '!roomId1', '@user2:matrix')
-    ).toEqual(events[1]);
   });
 });
 

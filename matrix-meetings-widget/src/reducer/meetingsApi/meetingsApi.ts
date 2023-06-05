@@ -1177,29 +1177,12 @@ export function filterAllRoomMemberEventsByRoomId(
     .filter((ev) => ev.room_id === roomId);
 }
 
-export function findRoomMemberEventByUserId(
-  events: StateEvent<RoomMemberStateEventContent>[],
-  userId: string
-): StateEvent<RoomMemberStateEventContent> | undefined {
-  return events.find((ev) => ev.state_key === userId);
-}
-
 export function makeSelectAllRoomMemberEventsByRoomId() {
   return createSelector(
     (_: RootState, roomId: string | undefined) => roomId,
     selectRoomMemberEventEntities,
     (roomId, events): StateEvent<RoomMemberStateEventContent>[] =>
       roomId ? filterAllRoomMemberEventsByRoomId(events, roomId) : []
-  );
-}
-
-export function makeSelectRoomMemberEventByUserId() {
-  return createSelector(
-    (_: RootState, _roomId: string | undefined, userId: string | undefined) =>
-      userId,
-    makeSelectAllRoomMemberEventsByRoomId(),
-    (userId, events): StateEvent<RoomMemberStateEventContent> | undefined =>
-      userId ? findRoomMemberEventByUserId(events, userId) : undefined
   );
 }
 
