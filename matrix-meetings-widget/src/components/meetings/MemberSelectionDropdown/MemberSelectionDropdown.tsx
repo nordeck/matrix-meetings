@@ -47,6 +47,12 @@ import {
 } from '../../../reducer/meetingsApi/meetingsApi';
 import { useAppSelector } from '../../../store';
 
+export type MemberSelection = {
+  userId: string;
+  displayName?: string;
+  avatarUrl?: string;
+};
+
 /**
  * Props for the {@link MemberSelectionDropdown} component.
  */
@@ -89,15 +95,6 @@ type MemberSelectionDropdownProps = {
 
   /** Text to display when in a loading state. */
   loadingText?: ReactNode;
-};
-
-export type MemberSelection = {
-  state_key: string;
-
-  content: {
-    displayname?: string | null;
-    avatar_url?: string | null;
-  };
 };
 
 /**
@@ -176,14 +173,14 @@ export function MemberSelectionDropdown({
   const ensureUsers = useCallback(
     (members: MemberSelection[]) => {
       const newMembers = members
-        .map((m) => m.state_key)
+        .map((m) => m.userId)
         .filter(
           (m) => m !== widgetApi.widgetParameters.userId && hasPowerToRemove(m)
         );
 
       // add all users that are not kickable
       const notKickableUsers = selectedMembers
-        .map((m) => m.state_key)
+        .map((m) => m.userId)
         .filter(
           (m) => m !== widgetApi.widgetParameters.userId && !hasPowerToRemove(m)
         );
@@ -194,7 +191,7 @@ export function MemberSelectionDropdown({
       if (
         widgetApi.widgetParameters.userId &&
         availableMembers.some(
-          (e) => e.state_key === widgetApi.widgetParameters.userId
+          (e) => e.userId === widgetApi.widgetParameters.userId
         )
       ) {
         newMembers.unshift(widgetApi.widgetParameters.userId);
@@ -254,7 +251,7 @@ export function MemberSelectionDropdown({
   );
 
   const getOptionLabel = useCallback(
-    (o: MemberSelection) => o.content.displayname ?? o.state_key,
+    (o: MemberSelection) => o.displayName ?? o.userId,
     []
   );
 
@@ -268,10 +265,9 @@ export function MemberSelectionDropdown({
     (value: MemberSelection[], getTagProps: AutocompleteRenderGetTagProps) =>
       value.map((option, index) => {
         const { key, ...chipProps } = getTagProps({ index });
-        const isOwnUser =
-          option.state_key === widgetApi.widgetParameters.userId;
+        const isOwnUser = option.userId === widgetApi.widgetParameters.userId;
 
-        const hasPowerToKickUser = hasPowerToRemove(option.state_key);
+        const hasPowerToKickUser = hasPowerToRemove(option.userId);
 
         if (isOwnUser || !hasPowerToKickUser) {
           return (
@@ -293,12 +289,12 @@ export function MemberSelectionDropdown({
                 }
                 avatar={
                   <ElementAvatar
-                    userId={option.state_key}
-                    displayName={option.content.displayname ?? undefined}
-                    avatarUrl={option.content.avatar_url ?? undefined}
+                    userId={option.userId}
+                    displayName={option.displayName}
+                    avatarUrl={option.avatarUrl}
                   />
                 }
-                label={option.content.displayname ?? option.state_key}
+                label={option.displayName ?? option.userId}
                 onClick={handleClickOwnUser}
                 {...chipProps}
                 onDelete={undefined}
@@ -312,13 +308,13 @@ export function MemberSelectionDropdown({
             aria-describedby={tagInstructionId}
             avatar={
               <ElementAvatar
-                userId={option.state_key}
-                displayName={option.content.displayname ?? undefined}
-                avatarUrl={option.content.avatar_url ?? undefined}
+                userId={option.userId}
+                displayName={option.displayName}
+                avatarUrl={option.displayName}
               />
             }
             key={key}
-            label={option.content.displayname ?? option.state_key}
+            label={option.displayName ?? option.userId}
             {...chipProps}
           />
         );
@@ -337,11 +333,7 @@ export function MemberSelectionDropdown({
 
   const renderOption = useCallback(
     (props: HTMLAttributes<HTMLLIElement>, option: MemberSelection) => (
-      <MemberOption
-        ListItemProps={props}
-        key={option.state_key}
-        member={option}
-      />
+      <MemberOption ListItemProps={props} key={option.userId} member={option} />
     ),
     []
   );
@@ -413,15 +405,15 @@ function MemberOption({
     <ListItem {...ListItemProps} aria-labelledby={titleId} dense>
       <ListItemIcon sx={{ mr: 1, minWidth: 0 }}>
         <ElementAvatar
-          userId={member.state_key}
-          displayName={member.content.displayname ?? undefined}
-          avatarUrl={member.content.avatar_url ?? undefined}
+          userId={member.userId}
+          displayName={member.displayName}
+          avatarUrl={member.avatarUrl}
         />
       </ListItemIcon>
 
       <ListItemText
         id={titleId}
-        primary={member.content.displayname ?? member.state_key}
+        primary={member.displayName ?? member.userId}
         primaryTypographyProps={{ sx: ellipsis }}
       />
     </ListItem>

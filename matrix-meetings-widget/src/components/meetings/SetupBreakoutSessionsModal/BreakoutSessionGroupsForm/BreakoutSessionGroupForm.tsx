@@ -23,6 +23,7 @@ import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
 import { ChangeEvent, ReactElement, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MemberSelectionDropdown } from '../../MemberSelectionDropdown';
+import { MemberSelection } from '../../MemberSelectionDropdown/MemberSelectionDropdown';
 import { BreakoutSessionGroup } from './types';
 
 type BreakoutSessionGroupFormProps = {
@@ -60,25 +61,43 @@ export function BreakoutSessionGroupForm({
   const titleId = useId();
   const cardId = useId();
 
+  const allMembers: MemberSelection[] = useMemo(
+    () =>
+      allMemberEvents.map((m) => ({
+        userId: m.state_key,
+        displayName: m.content.displayname ?? undefined,
+        avatarUrl: m.content.avatar_url ?? undefined,
+      })),
+    [allMemberEvents]
+  );
+
+  const selectableMembers: MemberSelection[] = useMemo(
+    () =>
+      selectableMemberEvents.map((m) => ({
+        userId: m.state_key,
+        displayName: m.content.displayname ?? undefined,
+        avatarUrl: m.content.avatar_url ?? undefined,
+      })),
+    [selectableMemberEvents]
+  );
+
   const availableMembers = useMemo(() => {
-    return selectableMemberEvents.concat(
-      allMemberEvents.filter(
+    return selectableMembers.concat(
+      allMembers.filter(
         (m) =>
-          group.members.includes(m.state_key) &&
-          !selectableMemberEvents.includes(m)
+          group.members.includes(m.userId) && !selectableMembers.includes(m)
       )
     );
-  }, [selectableMemberEvents, allMemberEvents, group.members]);
+  }, [selectableMembers, allMembers, group.members]);
 
-  const filteredSelectedMembers = useMemo(() => {
-    return allMemberEvents
-      .filter((m) => group.members.includes(m.state_key))
+  const selectedMembers = useMemo(() => {
+    return allMembers
+      .filter((m) => group.members.includes(m.userId))
       .sort(
         (a, b) =>
-          group.members.indexOf(a.state_key) -
-          group.members.indexOf(b.state_key)
+          group.members.indexOf(a.userId) - group.members.indexOf(b.userId)
       );
-  }, [group.members, allMemberEvents]);
+  }, [group.members, allMembers]);
 
   return (
     <Card aria-labelledby={cardId} component="li" elevation={0} sx={{ mt: 2 }}>
@@ -109,7 +128,7 @@ export function BreakoutSessionGroupForm({
 
         <MemberSelectionDropdown
           availableMembers={availableMembers}
-          selectedMembers={filteredSelectedMembers}
+          selectedMembers={selectedMembers}
           label={t('breakoutSessionGroup.selectUser', 'Select participants')}
           onSelectedMembersUpdated={handleChangeMembers}
           ownUserPopupContent={t(

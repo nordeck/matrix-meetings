@@ -158,7 +158,7 @@ export const ScheduleMeeting = ({
     []
   );
 
-  const roomMembers = useAppSelector((state) =>
+  const roomMemberEvents = useAppSelector((state) =>
     selectAllRoomMemberEventsByRoomId(
       state,
       initialMeeting?.meetingId ?? widgetApi.widgetParameters.roomId
@@ -212,18 +212,25 @@ export const ScheduleMeeting = ({
       .filter((r) => !participants.includes(r.userId) && !isBotUser(r.userId))
       .map((r) => {
         return {
-          content: {
-            displayname: r.displayName,
-            avatar_url: r.avatarUrl,
-          },
-          state_key: r.userId,
+          userId: r.userId,
+          displayName: r.displayName,
+          avatarUrl: r.avatarUrl,
         };
       });
   }, [results, participants]);
 
-  const selectedRoomMembers = useMemo(
-    () => roomMembers.filter((m) => participants.includes(m.state_key)),
-    [roomMembers, participants]
+  const selectedRoomMembers: MemberSelection[] = useMemo(
+    () =>
+      roomMemberEvents
+        .filter((m) => participants.includes(m.state_key))
+        .map((m) => {
+          return {
+            userId: m.state_key,
+            displayName: m.content.displayname ?? undefined,
+            avatarUrl: m.content.avatar_url ?? undefined,
+          };
+        }),
+    [roomMemberEvents, participants]
   );
 
   const availableMembers = useMemo(
@@ -235,27 +242,27 @@ export const ScheduleMeeting = ({
     () =>
       [...selectedRoomMembers, ...selectedUsers].sort(
         (a, b) =>
-          participants.indexOf(a.state_key) - participants.indexOf(b.state_key)
+          participants.indexOf(a.userId) - participants.indexOf(b.userId)
       ),
     [selectedRoomMembers, selectedUsers, participants]
   );
 
   const handleChangeParticipants = useCallback(
     (participants: string[]) => {
-      const roomMemberIds = roomMembers.map((rm) => rm.state_key);
+      const roomMemberIds = roomMemberEvents.map((m) => m.state_key);
       const userParticipants = participants.filter(
         (p) => !roomMemberIds.includes(p)
       );
 
-      const newSelectedUsers = selectedUsers.filter((c) =>
-        userParticipants.includes(c.state_key)
+      const newSelectedUsers = selectedUsers.filter((u) =>
+        userParticipants.includes(u.userId)
       );
 
-      const newSelectedUsersIds = newSelectedUsers.map((u) => u.state_key);
+      const newSelectedUsersIds = newSelectedUsers.map((u) => u.userId);
       userParticipants
         .filter((u) => !newSelectedUsersIds.includes(u))
-        .forEach((m) => {
-          const result = userResults.find((r) => r.state_key === m);
+        .forEach((u) => {
+          const result = userResults.find((r) => r.userId === u);
           if (result) {
             newSelectedUsers.push(result);
           }
@@ -265,7 +272,7 @@ export const ScheduleMeeting = ({
       setParticipants(participants);
       setSelectedUsers(newSelectedUsers);
     },
-    [roomMembers, userResults, selectedUsers]
+    [roomMemberEvents, userResults, selectedUsers]
   );
 
   const handleInputChange = useCallback((value: string) => {
