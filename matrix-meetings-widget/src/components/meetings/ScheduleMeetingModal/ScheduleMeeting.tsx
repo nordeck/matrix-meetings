@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { getEnvironment } from '@matrix-widget-toolkit/mui';
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import {
   Alert,
@@ -66,13 +65,9 @@ export type ScheduleMeetingProps = {
   parentRoomId?: string;
 };
 
-const isParticipantSelectionEnabled =
-  getEnvironment('REACT_APP_HIDE_USER_INVITE') !== 'true';
-
 export const ScheduleMeeting = ({
   onMeetingChange,
   initialMeeting,
-  showParticipants = true,
 }: ScheduleMeetingProps) => {
   const { t } = useTranslation();
   const widgetApi = useWidgetApi();
@@ -474,43 +469,38 @@ export const ScheduleMeeting = ({
           value={description}
         />
 
-        {showParticipants && isParticipantSelectionEnabled && (
-          <MemberSelectionDropdown
-            availableMembers={availableMembers}
-            selectedMembers={selectedMembers}
-            hasPowerToKickPopupContent={t(
-              'scheduleMeeting.hasPowerToKickUser',
-              "You don't have the permission to remove this participant."
-            )}
-            label={t('scheduleMeeting.participants', 'Participants')}
-            meetingId={initialMeeting?.meetingId}
-            onSelectedMembersUpdated={handleChangeParticipants}
-            onInputChange={handleInputChange}
-            ownUserPopupContent={
-              initialMeeting
-                ? t(
-                    'scheduleMeeting.cannotRemoveOwnUser',
-                    "You can't remove yourself from the meeting."
-                  )
-                : t(
-                    'scheduleMeeting.youAreAlwaysMember',
-                    'The organizer will always join the meeting.'
-                  )
-            }
-            disableFilterOptions={true}
-            loading={loading}
-            error={error}
-            noOptionsText={
-              participantTerm.length === 0
-                ? t(
-                    'scheduleMeeting.typeToSearch',
-                    'Type to search for a user…'
-                  )
-                : t('memberSelectionDropdown.noMembers', 'No further members.')
-            }
-            loadingText={t('scheduleMeeting.loadingUsers', 'Loading users…')}
-          />
-        )}
+        <MemberSelectionDropdown
+          availableMembers={availableMembers}
+          selectedMembers={selectedMembers}
+          hasPowerToKickPopupContent={t(
+            'scheduleMeeting.hasPowerToKickUser',
+            "You don't have the permission to remove this participant."
+          )}
+          label={t('scheduleMeeting.participants', 'Participants')}
+          meetingId={initialMeeting?.meetingId}
+          onSelectedMembersUpdated={handleChangeParticipants}
+          onInputChange={handleInputChange}
+          ownUserPopupContent={
+            initialMeeting
+              ? t(
+                  'scheduleMeeting.cannotRemoveOwnUser',
+                  "You can't remove yourself from the meeting."
+                )
+              : t(
+                  'scheduleMeeting.youAreAlwaysMember',
+                  'The organizer will always join the meeting.'
+                )
+          }
+          disableFilterOptions={true}
+          loading={loading}
+          error={error}
+          noOptionsText={
+            participantTerm.length === 0
+              ? t('scheduleMeeting.typeToSearch', 'Type to search for a user…')
+              : t('memberSelectionDropdown.noMembers', 'No further members.')
+          }
+          loadingText={t('scheduleMeeting.loadingUsers', 'Loading users…')}
+        />
 
         <WidgetsSelectionDropdown
           autoSelectAllWidgets={!initialMeeting}
