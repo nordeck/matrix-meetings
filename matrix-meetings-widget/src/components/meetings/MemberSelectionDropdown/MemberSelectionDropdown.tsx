@@ -21,6 +21,8 @@ import {
   Autocomplete,
   AutocompleteRenderGetTagProps,
   Chip,
+  CircularProgress,
+  InputAdornment,
   ListItem,
   ListItemIcon,
   ListItemProps,
@@ -92,9 +94,6 @@ type MemberSelectionDropdownProps = {
 
   /** Text to display when there are no options. */
   noOptionsText?: ReactNode;
-
-  /** Text to display when in a loading state. */
-  loadingText?: ReactNode;
 };
 
 /**
@@ -117,7 +116,6 @@ export function MemberSelectionDropdown({
   loading,
   error,
   noOptionsText,
-  loadingText,
 }: MemberSelectionDropdownProps): ReactElement {
   const { t } = useTranslation();
   const widgetApi = useWidgetApi();
@@ -241,13 +239,30 @@ export function MemberSelectionDropdown({
             ...props.InputProps,
             margin: 'dense',
             'aria-describedby': instructionId,
+            endAdornment: (
+              <>
+                {loading && (
+                  <InputAdornment position="end">
+                    <CircularProgress
+                      aria-label={t(
+                        'memberSelectionDropdown.loadingUsers',
+                        'Loading users…'
+                      )}
+                      color="inherit"
+                      size={20}
+                    />
+                  </InputAdornment>
+                )}
+                {props.InputProps.endAdornment}
+              </>
+            ),
           }}
           label={label}
           size="medium"
         />
       );
     },
-    [instructionId, label]
+    [instructionId, loading, t, label]
   );
 
   const getOptionLabel = useCallback(
@@ -378,7 +393,10 @@ export function MemberSelectionDropdown({
         multiple
         loading={loading}
         noOptionsText={noResultsMessage}
-        loadingText={loadingText}
+        loadingText={t(
+          'memberSelectionDropdown.loadingUsers',
+          'Loading users…'
+        )}
         onChange={handleOnChange}
         onInputChange={handleInputChange}
         options={availableMembers}

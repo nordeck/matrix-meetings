@@ -223,6 +223,7 @@
     "instructions_one": "{{selectedCount}} von {{count}} Einträgen ausgewählt. Nutze die linke und rechte Pfeiltaste um zwischen den Einträgen zu navigieren. Nutze die aufwärts und abwärts Pfeiltaste um durch die verfügbaren Optionen zu navigieren.",
     "instructions_other": "{{selectedCount}} von {{count}} Einträgen ausgewählt. Nutze die linke und rechte Pfeiltaste um zwischen den Einträgen zu navigieren. Nutze die aufwärts und abwärts Pfeiltaste um durch die verfügbaren Optionen zu navigieren.",
     "loadingError": "Fehler beim Suchen von Nutzern.",
+    "loadingUsers": "Lade Nutzer…",
     "noMembers": "Keine weiteren Teilnehmer.",
     "tagInstructions": "Nutze die Rücktaste um den Eintrag zu löschen."
   },
@@ -337,7 +338,6 @@
     "description": "Beschreibung",
     "endAt": "Endzeitpunkt",
     "hasPowerToKickUser": "Du hast nicht die Berechtigung um diesen Nutzer aus der Besprechung zu entfernen.",
-    "loadingUsers": "Lade Nutzer…",
     "meetingAlreadyStarted": "Die Besprechung ist bereits gestartet.",
     "participants": "Teilnehmer",
     "recurringMeetingMessage": {

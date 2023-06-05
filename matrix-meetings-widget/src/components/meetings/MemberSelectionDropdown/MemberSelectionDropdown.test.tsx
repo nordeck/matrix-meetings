@@ -346,4 +346,40 @@ describe('<MemberSelectionDropdown/>', () => {
     );
     await userEvent.click(screen.getByRole('button', { name: '@user-1' }));
   });
+
+  it('should show a message if members could not be loaded', async () => {
+    const { rerender } = render(
+      <MemberSelectionDropdown
+        availableMembers={[]}
+        selectedMembers={[]}
+        label="Members"
+        onSelectedMembersUpdated={jest.fn()}
+        ownUserPopupContent="This is you"
+        loading={true}
+      />,
+      { wrapper: Wrapper }
+    );
+
+    const progressBar = screen.getByRole('progressbar');
+    expect(progressBar).toBeInTheDocument();
+
+    rerender(
+      <MemberSelectionDropdown
+        availableMembers={[]}
+        selectedMembers={[]}
+        label="Members"
+        onSelectedMembersUpdated={jest.fn()}
+        ownUserPopupContent="This is you"
+        loading={false}
+        error={new Error('unexpected')}
+      />
+    );
+
+    expect(progressBar).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('combobox', { name: 'Members' }));
+    expect(
+      screen.getByText(/Error while loading available users/)
+    ).toBeInTheDocument();
+  });
 });

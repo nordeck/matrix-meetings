@@ -335,9 +335,13 @@ describe('<ScheduleMeeting>', () => {
       'user'
     );
 
-    await expect(
-      screen.findByText(/Error while loading available users/)
-    ).resolves.toBeInTheDocument();
+    await waitFor(() =>
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+    );
+
+    expect(
+      screen.getByText(/Error while loading available users/)
+    ).toBeInTheDocument();
   });
 
   it('should allow member selection when meeting is updated', async () => {

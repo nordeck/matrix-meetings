@@ -499,7 +499,6 @@ export const ScheduleMeeting = ({
               ? t('scheduleMeeting.typeToSearch', 'Type to search for a user…')
               : t('memberSelectionDropdown.noMembers', 'No further members.')
           }
-          loadingText={t('scheduleMeeting.loadingUsers', 'Loading users…')}
         />
 
         <WidgetsSelectionDropdown
