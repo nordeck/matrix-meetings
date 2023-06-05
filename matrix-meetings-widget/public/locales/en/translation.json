@@ -340,7 +340,7 @@
     "description": "Description",
     "endAt": "End at",
     "hasPowerToKickUser": "You don't have the permission to remove this participant.",
-    "loading": "Loading…",
+    "loadingUsers": "Loading users…",
     "meetingAlreadyStarted": "The meeting already started.",
     "participants": "Participants",
     "recurringMeetingMessage": {

@@ -501,7 +501,7 @@ export const ScheduleMeeting = ({
                   )
                 : t('memberSelectionDropdown.noMembers', 'No further members.')
             }
-            loadingText={t('scheduleMeeting.loading', 'Loading…')}
+            loadingText={t('scheduleMeeting.loadingUsers', 'Loading users…')}
           />
         )}
 

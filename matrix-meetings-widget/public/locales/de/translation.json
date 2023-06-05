@@ -337,7 +337,7 @@
     "description": "Beschreibung",
     "endAt": "Endzeitpunkt",
     "hasPowerToKickUser": "Du hast nicht die Berechtigung um diesen Nutzer aus der Besprechung zu entfernen.",
-    "loading": "Loading…",
+    "loadingUsers": "Lade Nutzer…",
     "meetingAlreadyStarted": "Die Besprechung ist bereits gestartet.",
     "participants": "Teilnehmer",
     "recurringMeetingMessage": {
@@ -347,7 +347,7 @@
     "startAt": "Startzeitpunkt",
     "title": "Titel (erforderlich)",
     "titleHelperText": "Ein Titel ist erforderlich",
-    "typeToSearch": "Type to search for a user…",
+    "typeToSearch": "Tippe um einen Nutzer zu suchen…",
     "youAreAlwaysMember": "Als Organisator bist du automatisch Teilnehmer der Besprechung."
   },
   "scheduleMeetingModal": {
