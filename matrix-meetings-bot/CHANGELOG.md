@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.1.0
+
+### Minor Changes
+
+- aef42fb: Add support for recurring meetings to be created via Open-Xchange.
+
 ## 2.0.0
 
 ### Major Changes

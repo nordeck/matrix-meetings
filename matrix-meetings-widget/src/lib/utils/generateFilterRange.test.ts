@@ -103,6 +103,27 @@ describe('generateFilterRange', () => {
     }
   );
 
+  it('should select first full week when switching from the month view for august 2023', () => {
+    expect(
+      generateFilterRange('week', '2023-08-01T00:00:00Z', 'month')
+    ).toEqual({
+      startDate: '2023-08-06T00:00:00.000+00:00',
+      endDate: '2023-08-12T23:59:59.999+00:00',
+    });
+  });
+
+  it('should select first full week when switching from the month view for august 2023 in DST Berlin time and german locale', () => {
+    setLocale('de');
+    mockDateTimeFormatTimeZone('Europe/Berlin');
+
+    expect(
+      generateFilterRange('week', '2023-08-01T00:00:00Z', 'month')
+    ).toEqual({
+      startDate: '2023-08-07T00:00:00.000+02:00',
+      endDate: '2023-08-13T23:59:59.999+02:00',
+    });
+  });
+
   it.each([
     '2020-01-05T00:00:00Z',
     '2020-01-10T12:00:00Z',
@@ -147,6 +168,27 @@ describe('generateFilterRange', () => {
       });
     }
   );
+
+  it('should select first full work week when switching from the month view for august 2023', () => {
+    expect(
+      generateFilterRange('workWeek', '2023-08-01T00:00:00Z', 'month')
+    ).toEqual({
+      startDate: '2023-08-07T00:00:00.000+00:00',
+      endDate: '2023-08-11T23:59:59.999+00:00',
+    });
+  });
+
+  it('should select first full work week when switching from the month view for august 2023 in DST Berlin time and german locale', () => {
+    setLocale('de');
+    mockDateTimeFormatTimeZone('Europe/Berlin');
+
+    expect(
+      generateFilterRange('workWeek', '2023-08-01T00:00:00Z', 'month')
+    ).toEqual({
+      startDate: '2023-08-07T00:00:00.000+02:00',
+      endDate: '2023-08-11T23:59:59.999+02:00',
+    });
+  });
 
   it.each([
     '2020-01-01T00:00:00Z',
