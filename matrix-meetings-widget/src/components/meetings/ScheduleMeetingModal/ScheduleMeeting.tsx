@@ -493,7 +493,7 @@ export const ScheduleMeeting = ({
           }
           disableFilterOptions={true}
           loading={loading}
-          error={error}
+          error={!!error}
           noOptionsText={
             participantTerm.length === 0
               ? t('scheduleMeeting.typeToSearch', 'Type to search for a user…')

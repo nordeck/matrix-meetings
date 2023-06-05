@@ -371,7 +371,7 @@ describe('<MemberSelectionDropdown/>', () => {
         onSelectedMembersUpdated={jest.fn()}
         ownUserPopupContent="This is you"
         loading={false}
-        error={new Error('unexpected')}
+        error={true}
       />
     );
 

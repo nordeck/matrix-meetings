@@ -89,8 +89,8 @@ type MemberSelectionDropdownProps = {
   /** If true, it shows the loadingText in place of suggestions. */
   loading?: boolean;
 
-  /** The error that could happen during the loading */
-  error?: Error;
+  /** If true, it shows the error that users can't be loaded. */
+  error?: boolean;
 
   /** Text to display when there are no options. */
   noOptionsText?: ReactNode;
