@@ -491,7 +491,7 @@ export const ScheduleMeeting = ({
                   'The organizer will always join the meeting.'
                 )
           }
-          disableFilterOptions={true}
+          disableFilterOptions
           loading={loading}
           error={!!error}
           noOptionsText={

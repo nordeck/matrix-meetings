@@ -216,6 +216,11 @@ export function MemberSelectionDropdown({
     return noOptionsText;
   }, [error, noOptionsText, t]);
 
+  const loadingText = t(
+    'memberSelectionDropdown.loadingUsers',
+    'Loading users…'
+  );
+
   const handleOnChange = useCallback(
     (_: React.SyntheticEvent<Element, Event>, value: MemberSelection[]) => {
       onSelectedMembersUpdated(ensureUsers(value));
@@ -244,10 +249,7 @@ export function MemberSelectionDropdown({
                 {loading && (
                   <InputAdornment position="end">
                     <CircularProgress
-                      aria-label={t(
-                        'memberSelectionDropdown.loadingUsers',
-                        'Loading users…'
-                      )}
+                      aria-label={loadingText}
                       color="inherit"
                       size={20}
                     />
@@ -262,7 +264,7 @@ export function MemberSelectionDropdown({
         />
       );
     },
-    [instructionId, loading, t, label]
+    [instructionId, loading, loadingText, label]
   );
 
   const getOptionLabel = useCallback(
@@ -393,10 +395,7 @@ export function MemberSelectionDropdown({
         multiple
         loading={loading}
         noOptionsText={noResultsMessage}
-        loadingText={t(
-          'memberSelectionDropdown.loadingUsers',
-          'Loading users…'
-        )}
+        loadingText={loadingText}
         onChange={handleOnChange}
         onInputChange={handleInputChange}
         options={availableMembers}

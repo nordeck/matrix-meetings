@@ -355,7 +355,7 @@ describe('<MemberSelectionDropdown/>', () => {
         label="Members"
         onSelectedMembersUpdated={jest.fn()}
         ownUserPopupContent="This is you"
-        loading={true}
+        loading
       />,
       { wrapper: Wrapper }
     );
@@ -371,7 +371,7 @@ describe('<MemberSelectionDropdown/>', () => {
         onSelectedMembersUpdated={jest.fn()}
         ownUserPopupContent="This is you"
         loading={false}
-        error={true}
+        error
       />
     );
 
