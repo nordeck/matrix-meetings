@@ -54,10 +54,10 @@ import { MeetingNotEndedGuard } from '../../common/MeetingNotEndedGuard';
 import { MeetingHasBreakoutSessionsWarning } from '../MeetingCard/MeetingHasBreakoutSessionsWarning';
 import { MemberSelectionDropdown } from '../MemberSelectionDropdown';
 import { MemberSelection } from '../MemberSelectionDropdown/MemberSelectionDropdown';
-import { useUserSearchResults } from '../MemberSelectionDropdown/useUserSearchResults';
 import { RecurrenceEditor } from '../RecurrenceEditor';
 import { WidgetsSelectionDropdown } from '../WidgetsSelectionDropdown';
 import { CreateMeeting } from './types';
+import { useUserSearchResults } from './useUserSearchResults';
 
 export type ScheduleMeetingProps = {
   onMeetingChange: (meeting: CreateMeeting | undefined) => void;
