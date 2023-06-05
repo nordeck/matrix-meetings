@@ -312,6 +312,29 @@ describe('<ScheduleMeeting>', () => {
     });
   });
 
+  it('should show a message if members could not be loaded', async () => {
+    widgetApi.searchUserDirectory.mockRejectedValue(new Error('unexpected'));
+
+    render(
+      <ScheduleMeeting onMeetingChange={onMeetingChange} showParticipants />,
+      { wrapper: Wrapper }
+    );
+
+    await userEvent.type(
+      screen.getByRole('textbox', { name: 'Title (required)' }),
+      'My Meeting'
+    );
+
+    await userEvent.type(
+      screen.getByRole('combobox', { name: 'Participants' }),
+      'user'
+    );
+
+    await expect(
+      screen.findByText(/Error while loading available users/)
+    ).resolves.toBeInTheDocument();
+  });
+
   it('should allow member selection when meeting is updated', async () => {
     widgetApi.searchUserDirectory.mockResolvedValue({
       results: [
