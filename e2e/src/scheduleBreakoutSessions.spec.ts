@@ -22,9 +22,6 @@ test.describe('Schedule Breakout Sessions', () => {
     async ({ bob, charlie, aliceMeetingsWidgetPage, aliceElementWebPage }) => {
       await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
 
-      await aliceElementWebPage.inviteUser(bob.username);
-      await aliceElementWebPage.inviteUser(charlie.username);
-
       const aliceScheduleMeetingWidgetPage =
         await aliceMeetingsWidgetPage.scheduleMeeting();
 
@@ -36,6 +33,9 @@ test.describe('Schedule Breakout Sessions', () => {
       await aliceScheduleMeetingWidgetPage.addParticipant(bob.displayName);
       await aliceScheduleMeetingWidgetPage.addParticipant(charlie.displayName);
       await aliceScheduleMeetingWidgetPage.submit();
+
+      await aliceElementWebPage.inviteUser(bob.username);
+      await aliceElementWebPage.inviteUser(charlie.username);
 
       await aliceElementWebPage.waitForRoomJoin('My Meeting');
       await aliceMeetingsWidgetPage

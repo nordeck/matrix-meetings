@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-import {
-  RoomMemberStateEventContent,
-  StateEvent,
-} from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
@@ -28,6 +24,7 @@ import { Provider } from 'react-redux';
 import { MemberSelectionDropdown } from '.';
 import { mockPowerLevelsEvent, mockRoomMember } from '../../../lib/testUtils';
 import { createStore, initializeStore } from '../../../store/store';
+import { MemberSelection } from './MemberSelectionDropdown';
 
 let widgetApi: MockedWidgetApi;
 
@@ -37,10 +34,10 @@ beforeEach(() => (widgetApi = mockWidgetApi()));
 
 describe('<MemberSelectionDropdown/>', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
-  let allMemberEvents: StateEvent<RoomMemberStateEventContent>[];
+  let allMembers: MemberSelection[];
 
   beforeEach(() => {
-    allMemberEvents = [
+    allMembers = [
       widgetApi.mockSendStateEvent(mockRoomMember()),
       widgetApi.mockSendStateEvent(
         mockRoomMember({
@@ -48,7 +45,11 @@ describe('<MemberSelectionDropdown/>', () => {
           content: { displayname: undefined },
         })
       ),
-    ];
+    ].map((m) => ({
+      userId: m.state_key,
+      displayName: m.content.displayname ?? undefined,
+      avatarUrl: m.content.avatar_url ?? undefined,
+    }));
 
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
       const store = useMemo(() => {
@@ -67,11 +68,11 @@ describe('<MemberSelectionDropdown/>', () => {
   it('should render without exploding', () => {
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMembers}
+        selectedMembers={allMembers.filter((se) => se.userId === '@user-id')}
         label="Members"
         onSelectedMembersUpdated={jest.fn()}
         ownUserPopupContent="This is you"
-        selectedMembers={['@user-id']}
       />,
       { wrapper: Wrapper }
     );
@@ -93,11 +94,11 @@ describe('<MemberSelectionDropdown/>', () => {
   it('should have no accessibility violations', async () => {
     const { container } = render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMembers}
+        selectedMembers={allMembers.filter((se) => se.userId === '@user-id')}
         label="Members"
         onSelectedMembersUpdated={jest.fn()}
         ownUserPopupContent="This is you"
-        selectedMembers={['@user-id']}
       />,
       { wrapper: Wrapper }
     );
@@ -110,11 +111,11 @@ describe('<MemberSelectionDropdown/>', () => {
 
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMembers}
+        selectedMembers={[]}
         label="Members"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
-        selectedMembers={[]}
       />,
       { wrapper: Wrapper }
     );
@@ -132,11 +133,11 @@ describe('<MemberSelectionDropdown/>', () => {
 
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMembers}
+        selectedMembers={allMembers.filter((se) => se.userId === '@user-id')}
         label="Members"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
-        selectedMembers={['@user-id']}
       />,
       { wrapper: Wrapper }
     );
@@ -154,11 +155,11 @@ describe('<MemberSelectionDropdown/>', () => {
 
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents.slice(1)}
+        availableMembers={allMembers.slice(1)}
+        selectedMembers={[]}
         label="Members"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
-        selectedMembers={[]}
       />,
       { wrapper: Wrapper }
     );
@@ -176,11 +177,11 @@ describe('<MemberSelectionDropdown/>', () => {
 
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMembers}
+        selectedMembers={allMembers}
         label="Members"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
-        selectedMembers={['@user-id', '@user-1']}
       />,
       { wrapper: Wrapper }
     );
@@ -201,11 +202,11 @@ describe('<MemberSelectionDropdown/>', () => {
 
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMembers}
+        selectedMembers={allMembers}
         label="Members"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
-        selectedMembers={['@user-id', '@user-1']}
       />,
       { wrapper: Wrapper }
     );
@@ -240,13 +241,13 @@ describe('<MemberSelectionDropdown/>', () => {
 
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMembers}
+        selectedMembers={allMembers}
         hasPowerToKickPopupContent="user has higher power level"
         label="Members"
         meetingId="!meeting-room-id"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
-        selectedMembers={['@user-id', '@user-1']}
       />,
       { wrapper: Wrapper }
     );
@@ -288,13 +289,13 @@ describe('<MemberSelectionDropdown/>', () => {
 
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMembers}
+        selectedMembers={allMembers}
         hasPowerToKickPopupContent="user has higher power level"
         label="Members"
         meetingId="!meeting-room-id"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
-        selectedMembers={['@user-id', '@user-1']}
       />,
       { wrapper: Wrapper }
     );
@@ -331,12 +332,11 @@ describe('<MemberSelectionDropdown/>', () => {
   it('should show selected users even if they are not part of the selectableMemberEvents', async () => {
     render(
       <MemberSelectionDropdown
-        allMemberEvents={allMemberEvents}
+        availableMembers={allMembers.slice(1)}
+        selectedMembers={allMembers}
         label="Members"
         onSelectedMembersUpdated={jest.fn()}
         ownUserPopupContent="This is you"
-        selectableMemberEvents={allMemberEvents.slice(1)}
-        selectedMembers={['@user-id', '@user-1']}
       />,
       { wrapper: Wrapper }
     );
@@ -345,5 +345,41 @@ describe('<MemberSelectionDropdown/>', () => {
       screen.getByRole('button', { name: 'Alice', description: 'This is you' })
     );
     await userEvent.click(screen.getByRole('button', { name: '@user-1' }));
+  });
+
+  it('should show a message if members could not be loaded', async () => {
+    const { rerender } = render(
+      <MemberSelectionDropdown
+        availableMembers={[]}
+        selectedMembers={[]}
+        label="Members"
+        onSelectedMembersUpdated={jest.fn()}
+        ownUserPopupContent="This is you"
+        loading
+      />,
+      { wrapper: Wrapper }
+    );
+
+    const progressBar = screen.getByRole('progressbar');
+    expect(progressBar).toBeInTheDocument();
+
+    rerender(
+      <MemberSelectionDropdown
+        availableMembers={[]}
+        selectedMembers={[]}
+        label="Members"
+        onSelectedMembersUpdated={jest.fn()}
+        ownUserPopupContent="This is you"
+        loading={false}
+        error
+      />
+    );
+
+    expect(progressBar).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole('combobox', { name: 'Members' }));
+    expect(
+      screen.getByText(/Error while loading available users/)
+    ).toBeInTheDocument();
   });
 });

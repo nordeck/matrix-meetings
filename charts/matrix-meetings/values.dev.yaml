@@ -2,8 +2,6 @@
 
 matrix-meetings-widget:
   env:
-    - name: REACT_APP_HIDE_USER_INVITE
-      value: 'false'
     - name: REACT_APP_BOT_USER_ID
       value: '@meetings-bot:synapse.dev.nordeck.systems'
 

@@ -21,7 +21,7 @@ let container: StartedTestContainer | undefined;
 
 export async function startElementWeb({
   homeserverUrl,
-  containerImage = 'vectorim/element-web:v1.11.8',
+  containerImage = 'vectorim/element-web:v1.11.29',
 }: {
   homeserverUrl: string;
   containerImage?: string;
@@ -40,15 +40,8 @@ export async function startElementWeb({
     .withCopyContentToContainer([
       { target: '/app/config.json', content: elementWebConfig },
     ])
-    .withHealthCheck({
-      test: ['CMD-SHELL', 'curl -f http://localhost:80/ || exit 1'],
-      interval: 1000,
-      timeout: 3000,
-      retries: 5,
-      startPeriod: 1000,
-    })
     .withExposedPorts(80)
-    .withWaitStrategy(Wait.forHealthCheck())
+    .withWaitStrategy(Wait.forHttp('/', 80))
     .start();
 
   const elementWebUrl = `http://${container.getHost()}:${container.getMappedPort(

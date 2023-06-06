@@ -43,6 +43,8 @@ import { initializeStore } from '../../../store/store';
 import { LocalizationProvider } from '../../common/LocalizationProvider';
 import { ScheduleMeeting } from './ScheduleMeeting';
 
+jest.setTimeout(12000);
+
 const server = setupServer();
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -262,6 +264,21 @@ describe('<ScheduleMeeting>', () => {
   });
 
   it('should allow member selection', async () => {
+    widgetApi.searchUserDirectory.mockResolvedValue({
+      results: [
+        {
+          userId: '@user-1',
+          displayName: undefined,
+          avatarUrl: undefined,
+        },
+        {
+          userId: '@user-2',
+          displayName: undefined,
+          avatarUrl: undefined,
+        },
+      ],
+    });
+
     render(
       <ScheduleMeeting onMeetingChange={onMeetingChange} showParticipants />,
       { wrapper: Wrapper }
@@ -272,22 +289,128 @@ describe('<ScheduleMeeting>', () => {
       'My Meeting'
     );
 
-    await userEvent.click(
-      screen.getByRole('combobox', { name: 'Participants' })
+    await userEvent.type(
+      screen.getByRole('combobox', { name: 'Participants' }),
+      'user-1'
     );
     await userEvent.click(
       await screen.findByRole('option', { name: '@user-1' })
+    );
+
+    await userEvent.type(
+      screen.getByRole('combobox', { name: 'Participants' }),
+      'user-2'
+    );
+    await userEvent.click(
+      await screen.findByRole('option', { name: '@user-2' })
     );
 
     await waitFor(() => {
       expect(onMeetingChange).toHaveBeenLastCalledWith({
         description: '',
         endTime: '2022-01-02T14:15:00.000Z',
-        participants: ['@user-id', '@user-1'],
+        participants: ['@user-id', '@user-1', '@user-2'],
         startTime: '2022-01-02T13:15:00.000Z',
         title: 'My Meeting',
         widgetIds: ['widget-1', 'widget-2'],
       });
+    });
+  });
+
+  it('should show a message if members could not be loaded', async () => {
+    widgetApi.searchUserDirectory.mockRejectedValue(new Error('unexpected'));
+
+    render(
+      <ScheduleMeeting onMeetingChange={onMeetingChange} showParticipants />,
+      { wrapper: Wrapper }
+    );
+
+    await userEvent.type(
+      screen.getByRole('textbox', { name: 'Title (required)' }),
+      'My Meeting'
+    );
+
+    await userEvent.type(
+      screen.getByRole('combobox', { name: 'Participants' }),
+      'user'
+    );
+
+    await waitFor(() =>
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+    );
+
+    expect(
+      screen.getByText(/Error while loading available users/)
+    ).toBeInTheDocument();
+  });
+
+  it('should allow member selection when meeting is updated', async () => {
+    widgetApi.searchUserDirectory.mockResolvedValue({
+      results: [
+        {
+          userId: '@user-id-3',
+          displayName: undefined,
+          avatarUrl: undefined,
+        },
+      ],
+    });
+
+    widgetApi.mockSendStateEvent(
+      mockRoomMember({
+        room_id: '!meeting-room-id',
+      })
+    );
+    widgetApi.mockSendStateEvent(
+      mockRoomMember({
+        state_key: '@user-id-2',
+        room_id: '!meeting-room-id',
+        content: { displayname: 'Bob', membership: 'invite' },
+      })
+    );
+
+    const meeting = mockMeeting({
+      content: {
+        participants: [
+          {
+            userId: '@user-id',
+            displayName: 'Alice',
+            membership: 'join',
+            rawEvent: mockRoomMember({ room_id: '!meeting-room-id' }),
+          },
+          {
+            userId: '@user-id-2',
+            displayName: 'Bob',
+            membership: 'join',
+            rawEvent: mockRoomMember({ room_id: '!meeting-room-id' }),
+          },
+        ],
+      },
+    });
+
+    render(
+      <ScheduleMeeting
+        initialMeeting={meeting}
+        onMeetingChange={onMeetingChange}
+        showParticipants
+      />,
+      { wrapper: Wrapper }
+    );
+
+    await userEvent.type(
+      screen.getByRole('combobox', { name: 'Participants' }),
+      'user-id-3'
+    );
+
+    await userEvent.click(
+      await screen.findByRole('option', { name: '@user-id-3' })
+    );
+
+    await waitFor(() => {
+      expect(onMeetingChange).toHaveBeenLastCalledWith(
+        expect.objectContaining({
+          participants: ['@user-id', '@user-id-2', '@user-id-3'],
+        })
+      );
     });
   });
 
@@ -713,6 +836,7 @@ describe('<ScheduleMeeting>', () => {
     widgetApi.mockSendStateEvent(
       mockRoomMember({
         state_key: '@user-id-2',
+        room_id: '!meeting-room-id',
         content: { displayname: 'Bob', membership: 'invite' },
       })
     );

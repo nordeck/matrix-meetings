@@ -222,8 +222,9 @@
   "memberSelectionDropdown": {
     "instructions_one": "{{selectedCount}} of {{count}} entry selected. Use the left and right arrow keys to navigate between them. Use the up and down arrow key to navigate through the available options.",
     "instructions_other": "{{selectedCount}} of {{count}} entries selected. Use the left and right arrow keys to navigate between them. Use the up and down arrow key to navigate through the available options.",
+    "loadingError": "Error while loading available users.",
+    "loadingUsers": "Loading users…",
     "noMembers": "No further members.",
-    "selectAll": "Select all",
     "tagInstructions": "Use the backspace key to delete the entry."
   },
   "openMeetingRoomButton": {
@@ -349,6 +350,7 @@
     "startAt": "Start at",
     "title": "Title (required)",
     "titleHelperText": "A title is required",
+    "typeToSearch": "Type to search for a user…",
     "youAreAlwaysMember": "The organizer will always join the meeting."
   },
   "scheduleMeetingModal": {

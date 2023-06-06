@@ -68,7 +68,7 @@ export class ElementWebPage {
     await dialogLocator
       .getByRole('switch', { name: 'Remember my selection for this widget' })
       // Increase but also limit the timeout to account for widget load time
-      .click({ timeout: 10000 });
+      .click({ timeout: 15000 });
 
     await dialogLocator.getByRole('button', { name: 'Approve' }).click();
   }
@@ -263,6 +263,13 @@ export class ElementWebPage {
   }
 
   async waitForUserToJoin(username: string) {
+    await this.waitForUserMembership(username, 'join');
+  }
+
+  async waitForUserMembership(
+    username: string,
+    membership: 'join' | 'leave' | 'ban' | 'invite'
+  ) {
     // Instead of controling the UI, we use the matrix client as it is faster.
     await expect
       .poll(async () => {
@@ -288,7 +295,7 @@ export class ElementWebPage {
           { roomId, username }
         );
       })
-      .toEqual('join');
+      .toEqual(membership);
   }
 
   async removeUser(username: string) {

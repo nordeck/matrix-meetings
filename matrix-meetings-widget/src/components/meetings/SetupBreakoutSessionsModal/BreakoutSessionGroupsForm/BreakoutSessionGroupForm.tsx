@@ -20,9 +20,10 @@ import {
 } from '@matrix-widget-toolkit/api';
 import { Box, Card, CardContent, TextField } from '@mui/material';
 import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
-import { ChangeEvent, ReactElement, useCallback } from 'react';
+import { ChangeEvent, ReactElement, useCallback, useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { MemberSelectionDropdown } from '../../MemberSelectionDropdown';
+import { MemberSelection } from '../../MemberSelectionDropdown/MemberSelectionDropdown';
 import { BreakoutSessionGroup } from './types';
 
 type BreakoutSessionGroupFormProps = {
@@ -60,6 +61,48 @@ export function BreakoutSessionGroupForm({
   const titleId = useId();
   const cardId = useId();
 
+  const allMembers: MemberSelection[] = useMemo(
+    () =>
+      allMemberEvents.map((m) => ({
+        userId: m.state_key,
+        displayName: m.content.displayname ?? undefined,
+        avatarUrl: m.content.avatar_url ?? undefined,
+      })),
+    [allMemberEvents]
+  );
+
+  const selectableMembers: MemberSelection[] = useMemo(
+    () =>
+      selectableMemberEvents.map((m) => ({
+        userId: m.state_key,
+        displayName: m.content.displayname ?? undefined,
+        avatarUrl: m.content.avatar_url ?? undefined,
+      })),
+    [selectableMemberEvents]
+  );
+
+  const availableMembers = useMemo(
+    () =>
+      selectableMembers.concat(
+        allMembers.filter(
+          (m) =>
+            group.members.includes(m.userId) && !selectableMembers.includes(m)
+        )
+      ),
+    [selectableMembers, allMembers, group.members]
+  );
+
+  const selectedMembers = useMemo(
+    () =>
+      allMembers
+        .filter((m) => group.members.includes(m.userId))
+        .sort(
+          (a, b) =>
+            group.members.indexOf(a.userId) - group.members.indexOf(b.userId)
+        ),
+    [group.members, allMembers]
+  );
+
   return (
     <Card aria-labelledby={cardId} component="li" elevation={0} sx={{ mt: 2 }}>
       <Box id={cardId} sx={visuallyHidden}>
@@ -88,15 +131,18 @@ export function BreakoutSessionGroupForm({
         />
 
         <MemberSelectionDropdown
-          allMemberEvents={allMemberEvents}
+          availableMembers={availableMembers}
+          selectedMembers={selectedMembers}
           label={t('breakoutSessionGroup.selectUser', 'Select participants')}
           onSelectedMembersUpdated={handleChangeMembers}
           ownUserPopupContent={t(
             'breakoutSessionGroup.youAreAlwaysMember',
             'The organizer will always join all breakout sessions.'
           )}
-          selectableMemberEvents={selectableMemberEvents}
-          selectedMembers={group.members}
+          noOptionsText={t(
+            'memberSelectionDropdown.noMembers',
+            'No further members.'
+          )}
         />
       </CardContent>
     </Card>

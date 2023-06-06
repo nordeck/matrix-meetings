@@ -9,7 +9,7 @@ on:
 jobs:
   build-widget:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
     env:
       DOCKER_IMAGE: ghcr.io/nordeck/matrix-meetings-widget
     steps:

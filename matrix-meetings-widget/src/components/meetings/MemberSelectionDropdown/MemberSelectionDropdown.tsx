@@ -14,17 +14,14 @@
  * limitations under the License.
  */
 
-import {
-  calculateUserPowerLevel,
-  RoomMemberStateEventContent,
-  StateEvent,
-} from '@matrix-widget-toolkit/api';
+import { calculateUserPowerLevel } from '@matrix-widget-toolkit/api';
+import { ElementAvatar } from '@matrix-widget-toolkit/mui';
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import {
   Autocomplete,
   AutocompleteRenderGetTagProps,
-  Button,
   Chip,
+  CircularProgress,
   InputAdornment,
   ListItem,
   ListItemIcon,
@@ -38,6 +35,7 @@ import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
 import React, {
   HTMLAttributes,
   ReactElement,
+  ReactNode,
   useCallback,
   useMemo,
 } from 'react';
@@ -50,29 +48,28 @@ import {
   selectRoomMemberEventEntities,
 } from '../../../reducer/meetingsApi/meetingsApi';
 import { useAppSelector } from '../../../store';
-import { MemberAvatar } from '../../common/MemberAvatar';
+
+export type MemberSelection = {
+  userId: string;
+  displayName?: string;
+  avatarUrl?: string;
+};
 
 /**
  * Props for the {@link MemberSelectionDropdown} component.
  */
 type MemberSelectionDropdownProps = {
-  /** A list of all room member events */
-  allMemberEvents: StateEvent<RoomMemberStateEventContent>[];
+  /** The available member options */
+  availableMembers: MemberSelection[];
 
-  /**
-   * An optional list of member events that can be still selected.
-   * These must not include any user that is part of `selectedMembers`.
-   *
-   * @remarks this is helpful if multiple inputs are used and a single
-   *          user can only be part of a single group.
-   */
-  selectableMemberEvents?: StateEvent<RoomMemberStateEventContent>[];
-
-  /** The selected of user ids of the members (state_key of `m.room.member`) */
-  selectedMembers: string[];
+  /** The selected members */
+  selectedMembers: MemberSelection[];
 
   /** Is called when the selected members are updated */
   onSelectedMembersUpdated: (selectedMembers: string[]) => void;
+
+  /** Is called when the input value changes */
+  onInputChange?: (value: string) => void;
 
   /** The label text for the input field */
   label: string;
@@ -86,8 +83,17 @@ type MemberSelectionDropdownProps = {
   /** meeting id */
   meetingId?: string;
 
-  /** Show a button to select all members */
-  showSelectAll?: boolean;
+  /** Disables options filtering, makes sense when options are filtered already */
+  disableFilterOptions?: boolean;
+
+  /** If true, it shows the loadingText in place of suggestions. */
+  loading?: boolean;
+
+  /** If true, it shows the error that users can't be loaded. */
+  error?: boolean;
+
+  /** Text to display when there are no options. */
+  noOptionsText?: ReactNode;
 };
 
 /**
@@ -98,15 +104,18 @@ type MemberSelectionDropdownProps = {
  * @param param0 - {@link MemberSelectionDropdownProps}
  */
 export function MemberSelectionDropdown({
+  availableMembers,
   selectedMembers,
   onSelectedMembersUpdated,
-  allMemberEvents,
-  selectableMemberEvents,
+  onInputChange,
   label,
-  showSelectAll,
   ownUserPopupContent,
   hasPowerToKickPopupContent,
   meetingId,
+  disableFilterOptions,
+  loading,
+  error,
+  noOptionsText,
 }: MemberSelectionDropdownProps): ReactElement {
   const { t } = useTranslation();
   const widgetApi = useWidgetApi();
@@ -124,32 +133,6 @@ export function MemberSelectionDropdown({
           ).map((e) => e.state_key)
         : [],
     shallowEqual
-  );
-
-  const availableMemberOptions = useMemo(() => {
-    if (selectableMemberEvents) {
-      return selectableMemberEvents.concat(
-        allMemberEvents.filter(
-          (m) =>
-            selectedMembers.includes(m.state_key) &&
-            !selectableMemberEvents.includes(m)
-        )
-      );
-    }
-
-    return allMemberEvents;
-  }, [allMemberEvents, selectableMemberEvents, selectedMembers]);
-
-  const selectedMemberOptions = useMemo(
-    () =>
-      allMemberEvents
-        .filter((m) => selectedMembers.includes(m.state_key))
-        .sort(
-          (a, b) =>
-            selectedMembers.indexOf(a.state_key) -
-            selectedMembers.indexOf(b.state_key)
-        ),
-    [allMemberEvents, selectedMembers]
   );
 
   const powerLevelsEvent = useAppSelector(
@@ -186,25 +169,27 @@ export function MemberSelectionDropdown({
   );
 
   const ensureUsers = useCallback(
-    (members: StateEvent<RoomMemberStateEventContent>[]) => {
+    (members: MemberSelection[]) => {
       const newMembers = members
-        .map((m) => m.state_key)
+        .map((m) => m.userId)
         .filter(
           (m) => m !== widgetApi.widgetParameters.userId && hasPowerToRemove(m)
         );
 
       // add all users that are not kickable
-      const notKickableUsers = selectedMembers.filter(
-        (m) => m !== widgetApi.widgetParameters.userId && !hasPowerToRemove(m)
-      );
+      const notKickableUsers = selectedMembers
+        .map((m) => m.userId)
+        .filter(
+          (m) => m !== widgetApi.widgetParameters.userId && !hasPowerToRemove(m)
+        );
 
       // the own user should always be the first entry
       newMembers.unshift(...notKickableUsers);
 
       if (
         widgetApi.widgetParameters.userId &&
-        allMemberEvents.some(
-          (e) => e.state_key === widgetApi.widgetParameters.userId
+        availableMembers.some(
+          (e) => e.userId === widgetApi.widgetParameters.userId
         )
       ) {
         newMembers.unshift(widgetApi.widgetParameters.userId);
@@ -213,27 +198,42 @@ export function MemberSelectionDropdown({
       return newMembers;
     },
     [
-      allMemberEvents,
+      availableMembers,
       hasPowerToRemove,
       selectedMembers,
       widgetApi.widgetParameters.userId,
     ]
   );
 
+  const noResultsMessage = useMemo(() => {
+    if (error) {
+      return t(
+        'memberSelectionDropdown.loadingError',
+        'Error while loading available users.'
+      );
+    }
+
+    return noOptionsText;
+  }, [error, noOptionsText, t]);
+
+  const loadingText = t(
+    'memberSelectionDropdown.loadingUsers',
+    'Loading users…'
+  );
+
   const handleOnChange = useCallback(
-    (
-      _: React.SyntheticEvent<Element, Event>,
-      value: StateEvent<RoomMemberStateEventContent>[]
-    ) => {
+    (_: React.SyntheticEvent<Element, Event>, value: MemberSelection[]) => {
       onSelectedMembersUpdated(ensureUsers(value));
     },
     [ensureUsers, onSelectedMembersUpdated]
   );
 
-  const canSelectAll = selectedMembers.length === availableMemberOptions.length;
-  const handleSelectAll = useCallback(() => {
-    onSelectedMembersUpdated(ensureUsers(availableMemberOptions));
-  }, [availableMemberOptions, ensureUsers, onSelectedMembersUpdated]);
+  const handleInputChange = useCallback(
+    (_: React.SyntheticEvent<Element, Event>, value: string) => {
+      onInputChange?.(value);
+    },
+    [onInputChange]
+  );
 
   const renderInput = useCallback(
     (props) => {
@@ -246,22 +246,13 @@ export function MemberSelectionDropdown({
             'aria-describedby': instructionId,
             endAdornment: (
               <>
-                {showSelectAll && (
-                  <InputAdornment
-                    position="end"
-                    sx={{
-                      right: 60,
-                      top: 'calc(50%)',
-                      position: 'absolute',
-                    }}
-                  >
-                    <Button
+                {loading && (
+                  <InputAdornment position="end">
+                    <CircularProgress
+                      aria-label={loadingText}
                       color="inherit"
-                      disabled={canSelectAll}
-                      onClick={handleSelectAll}
-                    >
-                      {t('memberSelectionDropdown.selectAll', 'Select all')}
-                    </Button>
+                      size={20}
+                    />
                   </InputAdornment>
                 )}
                 {props.InputProps.endAdornment}
@@ -273,30 +264,27 @@ export function MemberSelectionDropdown({
         />
       );
     },
-    [canSelectAll, handleSelectAll, instructionId, label, showSelectAll, t]
+    [instructionId, loading, loadingText, label]
   );
 
   const getOptionLabel = useCallback(
-    (o: StateEvent<RoomMemberStateEventContent>) =>
-      o.content.displayname ?? o.state_key,
+    (o: MemberSelection) => o.displayName ?? o.userId,
     []
   );
+
+  const filterOptionsDisabled = useCallback((x: MemberSelection[]) => x, []);
 
   const handleClickOwnUser = useCallback(() => {
     // No-op
   }, []);
 
   const renderTags = useCallback(
-    (
-      value: StateEvent<RoomMemberStateEventContent>[],
-      getTagProps: AutocompleteRenderGetTagProps
-    ) =>
+    (value: MemberSelection[], getTagProps: AutocompleteRenderGetTagProps) =>
       value.map((option, index) => {
         const { key, ...chipProps } = getTagProps({ index });
-        const isOwnUser =
-          option.state_key === widgetApi.widgetParameters.userId;
+        const isOwnUser = option.userId === widgetApi.widgetParameters.userId;
 
-        const hasPowerToKickUser = hasPowerToRemove(option.state_key);
+        const hasPowerToKickUser = hasPowerToRemove(option.userId);
 
         if (isOwnUser || !hasPowerToKickUser) {
           return (
@@ -316,8 +304,14 @@ export function MemberSelectionDropdown({
                 aria-describedby={
                   isOwnUser ? ownUserInstructionsId : hasPowerToKickUserId
                 }
-                avatar={<MemberAvatar userId={option.state_key} />}
-                label={option.content.displayname ?? option.state_key}
+                avatar={
+                  <ElementAvatar
+                    userId={option.userId}
+                    displayName={option.displayName}
+                    avatarUrl={option.avatarUrl}
+                  />
+                }
+                label={option.displayName ?? option.userId}
                 onClick={handleClickOwnUser}
                 {...chipProps}
                 onDelete={undefined}
@@ -329,9 +323,15 @@ export function MemberSelectionDropdown({
         return (
           <Chip
             aria-describedby={tagInstructionId}
-            avatar={<MemberAvatar userId={option.state_key} />}
+            avatar={
+              <ElementAvatar
+                userId={option.userId}
+                displayName={option.displayName}
+                avatarUrl={option.displayName}
+              />
+            }
             key={key}
-            label={option.content.displayname ?? option.state_key}
+            label={option.displayName ?? option.userId}
             {...chipProps}
           />
         );
@@ -349,15 +349,8 @@ export function MemberSelectionDropdown({
   );
 
   const renderOption = useCallback(
-    (
-      props: HTMLAttributes<HTMLLIElement>,
-      option: StateEvent<RoomMemberStateEventContent>
-    ) => (
-      <MemberOption
-        ListItemProps={props}
-        key={option.state_key}
-        member={option}
-      />
+    (props: HTMLAttributes<HTMLLIElement>, option: MemberSelection) => (
+      <MemberOption ListItemProps={props} key={option.userId} member={option} />
     ),
     []
   );
@@ -378,8 +371,8 @@ export function MemberSelectionDropdown({
           'memberSelectionDropdown.instructions',
           '{{selectedCount}} of {{count}} entries selected. Use the left and right arrow keys to navigate between them. Use the up and down arrow key to navigate through the available options.',
           {
-            selectedCount: selectedMemberOptions.length,
-            count: availableMemberOptions.length,
+            selectedCount: selectedMembers.length,
+            count: availableMembers.length,
           }
         )}
       </Typography>
@@ -397,19 +390,20 @@ export function MemberSelectionDropdown({
         filterSelectedOptions
         fullWidth
         getOptionLabel={getOptionLabel}
+        filterOptions={disableFilterOptions ? filterOptionsDisabled : undefined}
         id={id}
         multiple
-        noOptionsText={t(
-          'memberSelectionDropdown.noMembers',
-          'No further members.'
-        )}
+        loading={loading}
+        noOptionsText={noResultsMessage}
+        loadingText={loadingText}
         onChange={handleOnChange}
-        options={availableMemberOptions}
+        onInputChange={handleInputChange}
+        options={availableMembers}
         renderInput={renderInput}
         renderOption={renderOption}
         renderTags={renderTags}
         sx={{ my: 1 }}
-        value={selectedMemberOptions}
+        value={selectedMembers}
       />
     </>
   );
@@ -420,19 +414,23 @@ function MemberOption({
   member,
 }: {
   ListItemProps: ListItemProps;
-  member: StateEvent<RoomMemberStateEventContent>;
+  member: MemberSelection;
 }) {
   const titleId = useId();
 
   return (
     <ListItem {...ListItemProps} aria-labelledby={titleId} dense>
       <ListItemIcon sx={{ mr: 1, minWidth: 0 }}>
-        <MemberAvatar userId={member.state_key} />
+        <ElementAvatar
+          userId={member.userId}
+          displayName={member.displayName}
+          avatarUrl={member.avatarUrl}
+        />
       </ListItemIcon>
 
       <ListItemText
         id={titleId}
-        primary={member.content.displayname ?? member.state_key}
+        primary={member.displayName ?? member.userId}
         primaryTypographyProps={{ sx: ellipsis }}
       />
     </ListItem>

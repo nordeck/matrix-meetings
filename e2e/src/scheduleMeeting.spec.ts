@@ -88,8 +88,6 @@ test.describe('Schedule Meeting', () => {
     bobMeetingsWidgetPage,
     bobJitsiWidgetPage,
   }) => {
-    await aliceElementWebPage.inviteUser(bob.username);
-
     await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
     const aliceScheduleMeetingWidgetPage =
       await aliceMeetingsWidgetPage.scheduleMeeting();
@@ -101,6 +99,8 @@ test.describe('Schedule Meeting', () => {
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.addParticipant(bob.displayName);
     await aliceScheduleMeetingWidgetPage.submit();
+
+    await aliceElementWebPage.inviteUser(bob.username);
 
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/03/2040')
