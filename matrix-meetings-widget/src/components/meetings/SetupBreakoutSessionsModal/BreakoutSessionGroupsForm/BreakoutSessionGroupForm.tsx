@@ -81,23 +81,27 @@ export function BreakoutSessionGroupForm({
     [selectableMemberEvents]
   );
 
-  const availableMembers = useMemo(() => {
-    return selectableMembers.concat(
-      allMembers.filter(
-        (m) =>
-          group.members.includes(m.userId) && !selectableMembers.includes(m)
-      )
-    );
-  }, [selectableMembers, allMembers, group.members]);
+  const availableMembers = useMemo(
+    () =>
+      selectableMembers.concat(
+        allMembers.filter(
+          (m) =>
+            group.members.includes(m.userId) && !selectableMembers.includes(m)
+        )
+      ),
+    [selectableMembers, allMembers, group.members]
+  );
 
-  const selectedMembers = useMemo(() => {
-    return allMembers
-      .filter((m) => group.members.includes(m.userId))
-      .sort(
-        (a, b) =>
-          group.members.indexOf(a.userId) - group.members.indexOf(b.userId)
-      );
-  }, [group.members, allMembers]);
+  const selectedMembers = useMemo(
+    () =>
+      allMembers
+        .filter((m) => group.members.includes(m.userId))
+        .sort(
+          (a, b) =>
+            group.members.indexOf(a.userId) - group.members.indexOf(b.userId)
+        ),
+    [group.members, allMembers]
+  );
 
   return (
     <Card aria-labelledby={cardId} component="li" elevation={0} sx={{ mt: 2 }}>

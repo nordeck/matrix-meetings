@@ -202,29 +202,27 @@ export const ScheduleMeeting = ({
     100
   );
 
-  const userResults: MemberSelection[] = useMemo(() => {
-    return results
-      .filter((r) => !participants.includes(r.userId) && !isBotUser(r.userId))
-      .map((r) => {
-        return {
+  const userResults: MemberSelection[] = useMemo(
+    () =>
+      results
+        .filter((r) => !participants.includes(r.userId) && !isBotUser(r.userId))
+        .map((r) => ({
           userId: r.userId,
           displayName: r.displayName,
           avatarUrl: r.avatarUrl,
-        };
-      });
-  }, [results, participants]);
+        })),
+    [results, participants]
+  );
 
   const selectedRoomMembers: MemberSelection[] = useMemo(
     () =>
       roomMemberEvents
         .filter((m) => participants.includes(m.state_key))
-        .map((m) => {
-          return {
-            userId: m.state_key,
-            displayName: m.content.displayname ?? undefined,
-            avatarUrl: m.content.avatar_url ?? undefined,
-          };
-        }),
+        .map((m) => ({
+          userId: m.state_key,
+          displayName: m.content.displayname ?? undefined,
+          avatarUrl: m.content.avatar_url ?? undefined,
+        })),
     [roomMemberEvents, participants]
   );
 
