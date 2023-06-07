@@ -362,7 +362,7 @@ export class WelcomeWorkflowService {
       );
       await this.client.sendHtmlText(roomId, html);
       this.logger.warn(
-        `Can't add meeting widget to room, welcome.errors.notEnoughPermissions ${context.originalRoomId}`
+        `Can't add NeoDateFix widget to room, welcome.errors.notEnoughPermissions ${context.originalRoomId}`
       );
       return;
     }
@@ -379,7 +379,7 @@ export class WelcomeWorkflowService {
       );
       await this.client.sendHtmlText(roomId, html);
       this.logger.warn(
-        `Can't add meeting widget to room, welcome.errors.meetingWidgetExists ${context.originalRoomId}`
+        `Can't add NeoDateFix widget to room, welcome.errors.meetingWidgetExists ${context.originalRoomId}`
       );
       return;
     }
@@ -417,7 +417,7 @@ export class WelcomeWorkflowService {
         htmls.push(
           i18next.t(
             'welcome.botIsAdmin',
-            "The bot is a moderator in the room <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>. If you enter the command <code>!meeting setup</code> meeting widget will be added to that room.",
+            "The bot is a moderator in the room <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>. If you enter the command <code>!meeting setup</code> NeoDateFix widget will be added to that room.",
             this.i18nOptions(context)
           )
         );
@@ -570,7 +570,7 @@ export class WelcomeWorkflowService {
     );
 
     this.logger.verbose(
-      `added meeting widget to room ${roomId}, stateKey = ${state_key}`
+      `added NeoDateFix widget to room ${roomId}, stateKey = ${state_key}`
     );
   }
 
@@ -758,7 +758,7 @@ export class WelcomeWorkflowService {
 
     const reason = i18next.t(
       'welcome.privateRoom.inviteReason',
-      "In this private room bot can help with adding a meeting widget to the room '{{originalRoomName}}'.",
+      "In this private room bot can help with adding a NeoDateFix widget to the room '{{originalRoomName}}'.",
       this.i18nOptions(ctx)
     );
     const htmlReason = `<table><tr><td><b>${reason}</b></td></tr></table>`;

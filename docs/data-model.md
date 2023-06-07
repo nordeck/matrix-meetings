@@ -1,6 +1,6 @@
 # Data Format
 
-The “meetings widget” is an application to create and manage video conference meetings in the Element messenger.
+“NeoDateFix” is an application to create and manage video conference meetings in the Element messenger.
 Technically, it supports the following core features:
 
 1. Schedule video conference meetings as new Matrix rooms.
@@ -26,20 +26,20 @@ The application consists of different components:
 Client-Server API │ │  x                        x  │ │ Matrix Bot SDK
                   │ │  x                        x  │ │
                   │ ▼  xxxxxxx                  v  │ ▼
-           ┌──────┴────────┐ x           ┌─────────┴───────────┐
-           │               │ x           │                     │
-           │ Matrix Client │ x           │ Meetings Widget Bot │
-           │               │ x           │                     │
-           └────────┬──────┘ x           └─────────────────────┘
+           ┌──────┴────────┐ x             ┌───────┴────────┐
+           │               │ x             │                │
+           │ Matrix Client │ x             │ NeoDateFix Bot │
+           │               │ x             │                │
+           └────────┬──────┘ x             └────────────────┘
                   ▲ │ xxxxxxxx                     ▲ ▲
 Matrix Widget API │ │ x                            │ │
                   │ │ x                   HTTP API │ │ HTTP API
                   │ ▼ ^                            │ │
-          ┌───────┴─────────┐                      │ │
-          │                 │                      │ │
-          │ Meetings Widget │◄─────────────────────┘ │
-          │                 │    <read config>       │ <send commands>
-          └─────────────────┘                        │
+         ┌────────┴──────────┐                     │ │
+         │                   │                     │ │
+         │ NeoDateFix Widget │◄────────────────────┘ │
+         │                   │    <read config>      │ <send commands>
+         └───────────────────┘                       │
                                                      │
                                            ┌─────────┴────────────┐
                                            │                      │
@@ -159,18 +159,18 @@ This parent room was used to create the meeting and can be interpreted as being 
 
 ## Room setup
 
-The planner view of the meetings widget can be installed to a room in different ways.
+The planner view of the NeoDateFix widget can be installed to a room in different ways.
 
 ### 1:1 chat
 
 The user can initiate a 1:1 chat with the meetings bot user.
-The bot will accept the invitation, add the meetings widget, and change the widget layout to show it full screen.
+The bot will accept the invitation, add the NeoDateFix widget, and change the widget layout to show it full screen.
 
 ### Welcome Workflow
 
 The user can invite the meetings bot into a normal matrix room.
 The bot will accept the invitation and will invite the user into a separete “Help” room.
-This room contains more information on how to setup the meetings widget.
+This room contains more information on how to setup the NeoDateFix widget.
 
 ## Bot API
 

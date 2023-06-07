@@ -643,7 +643,7 @@ describe('test WelcomeWorkflowService', () => {
       verify(clientMock.sendHtmlText(ROOM_ID, anyString())).once();
       const txt = captureSendHtmlText();
       expect(txt).toEqual(
-        "<p>The bot is a moderator in the room <a href='originalRoomId'></a>. If you enter the command <code>!meeting setup</code> meeting widget will be added to that room.</p>"
+        "<p>The bot is a moderator in the room <a href='originalRoomId'></a>. If you enter the command <code>!meeting setup</code> NeoDateFix widget will be added to that room.</p>"
       );
     });
 
