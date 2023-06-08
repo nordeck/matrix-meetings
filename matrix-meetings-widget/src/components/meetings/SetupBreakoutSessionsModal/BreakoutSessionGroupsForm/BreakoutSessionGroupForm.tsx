@@ -114,6 +114,8 @@ export function BreakoutSessionGroupForm({
           // don't use the required property of the text field because we don't
           // want it to add a asterisk (*) to the title.
           InputProps={{ required: true }}
+          // limit the title field analog to https://spec.matrix.org/v1.1/client-server-api/#mroomname
+          inputProps={{ maxLength: 255 }}
           error={isTitleEmpty}
           fullWidth
           helperText={

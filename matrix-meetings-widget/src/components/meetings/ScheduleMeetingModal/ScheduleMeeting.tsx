@@ -375,6 +375,8 @@ export const ScheduleMeeting = ({
           // don't use the required property of the text field because we don't
           // want it to add a asterisk (*) to the title.
           InputProps={{ required: true }}
+          // limit the title field analog to https://spec.matrix.org/v1.1/client-server-api/#mroomname
+          inputProps={{ maxLength: 255 }}
           error={titleError}
           fullWidth
           helperText={
@@ -459,6 +461,7 @@ export const ScheduleMeeting = ({
         <TextField
           fullWidth
           id={descriptionId}
+          inputProps={{ maxLength: 20000 }}
           label={t('scheduleMeeting.description', 'Description')}
           margin="dense"
           minRows={2}
