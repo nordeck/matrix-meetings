@@ -63,6 +63,13 @@ export class ScheduleBreakoutSessionsWidgetPage {
     await participantCombobox.press('Enter');
   }
 
+  getGroupTitleTextbox(group: string) {
+    return this.widget
+      .getByRole('list', { name: 'Groups' })
+      .locator(`role=listItem[name="${group}"]`)
+      .getByRole('textbox', { name: 'Group title (required)' });
+  }
+
   async createBreakoutSessions() {
     await this.createMeetingButton.click();
   }
