@@ -73,7 +73,7 @@ BREAKOUT_SESSION_WIDGET_URL='http://meetings-widget.example.com/#/?theme=$org.ma
 BREAKOUT_SESSION_WIDGET_NAME='Breakout Sessions'
 
 # optional - the name of the 1:1 chat room, when a user initiates a chat with the bot.
-CALENDAR_ROOM_NAME='Calendar'
+CALENDAR_ROOM_NAME='NeoDateFix'
 
 # optional - the log level (one of silent, fatal, error, warn, info, debug, trace)
 LOG_LEVEL=error

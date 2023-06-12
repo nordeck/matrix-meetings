@@ -95,7 +95,7 @@ function createConfiguration() {
       Number(process.env.MATRIX_SERVER_EVENT_MAX_AGE_MINUTES) || 5,
     open_xchange_meeting_url_template:
       process.env.OPEN_XCHANGE_MEETING_URL_TEMPLATE,
-    calendar_room_name: process.env.CALENDAR_ROOM_NAME ?? 'Calendar',
+    calendar_room_name: process.env.CALENDAR_ROOM_NAME ?? 'NeoDateFix',
     bot_displayname: process.env.BOT_DISPLAYNAME,
 
     matrix_filter_apply: toBoolean(process.env.MATRIX_FILTER_APPLY, true),

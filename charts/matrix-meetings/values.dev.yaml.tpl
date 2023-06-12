@@ -13,7 +13,9 @@ matrix-meetings-bot:
       - name: MATRIX_LINK_SHARE
         value: 'https://element.dev.nordeck.systems/#/'
       - name: BOT_DISPLAYNAME
-        value: 'NeoDateFix Bot${PR_SUFFIX}'
+        value: 'NeoDateFix Bot${PR_SUFFIX}'  
+      - name: CALENDAR_ROOM_NAME
+        value: 'NeoDateFix${PR_SUFFIX}'
       - name: LOG_LEVEL
         value: 'info'
       - name: AUTO_DELETION_OFFSET
