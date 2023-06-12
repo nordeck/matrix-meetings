@@ -49,7 +49,7 @@ function createConfiguration() {
     homeserver_url: process.env.HOMESERVER_URL as string,
 
     meetingwidget_url: process.env.MEETINGWIDGET_URL as string,
-    meetingwidget_name: process.env.MEETINGWIDGET_NAME ?? 'Meetings',
+    meetingwidget_name: process.env.MEETINGWIDGET_NAME ?? 'NeoDateFix',
 
     breakout_session_widget_url: process.env
       .BREAKOUT_SESSION_WIDGET_URL as string,
@@ -58,7 +58,7 @@ function createConfiguration() {
 
     meetingwidget_cockpit_url: process.env.MEETINGWIDGET_COCKPIT_URL as string,
     meetingwidget_cockpit_name:
-      process.env.MEETINGWIDGET_COCKPIT_NAME ?? 'Meeting Controls',
+      process.env.MEETINGWIDGET_COCKPIT_NAME ?? 'NeoDateFix Details',
 
     auto_deletion_offset: toNumber(process.env.AUTO_DELETION_OFFSET),
 

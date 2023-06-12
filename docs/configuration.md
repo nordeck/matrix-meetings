@@ -58,13 +58,13 @@ ACCESS_TOKEN=syt_...
 MEETINGWIDGET_URL='http://meetings-widget.example.com/#/?theme=$org.matrix.msc2873.client_theme&matrix_user_id=$matrix_user_id&matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_room_id=$matrix_room_id&matrix_client_id=$org.matrix.msc2873.client_id&matrix_client_language=$org.matrix.msc2873.client_language'
 
 # optional - the name of the NeoDateFix widget that will be added to the planning room
-MEETINGWIDGET_NAME='Meetings'
+MEETINGWIDGET_NAME='NeoDateFix'
 
 # the url to the cockpit widget that will be added to the meeting rooms
 MEETINGWIDGET_COCKPIT_URL='http://meetings-widget.example.com/cockpit/#/?theme=$org.matrix.msc2873.client_theme&matrix_user_id=$matrix_user_id&matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_room_id=$matrix_room_id&matrix_client_id=$org.matrix.msc2873.client_id&matrix_client_language=$org.matrix.msc2873.client_language'
 
 # optional - the name of the cockpit widget that will be added to the meeting rooms
-MEETINGWIDGET_COCKPIT_NAME='Meeting Controls'
+MEETINGWIDGET_COCKPIT_NAME='NeoDateFix Details'
 
 # the url to the breakout sessions widget that will be added to the meeting rooms
 BREAKOUT_SESSION_WIDGET_URL='http://meetings-widget.example.com/#/?theme=$org.matrix.msc2873.client_theme&matrix_user_id=$matrix_user_id&matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_room_id=$matrix_room_id&matrix_client_id=$org.matrix.msc2873.client_id&matrix_client_language=$org.matrix.msc2873.client_language'
