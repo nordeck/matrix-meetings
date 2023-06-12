@@ -143,6 +143,7 @@ export const SetupBreakoutSessions = ({
         <TextField
           fullWidth
           id={descriptionId}
+          inputProps={{ maxLength: 20000 }}
           label={t('setupBreakoutSessions.description', 'Description')}
           margin="normal"
           minRows={2}

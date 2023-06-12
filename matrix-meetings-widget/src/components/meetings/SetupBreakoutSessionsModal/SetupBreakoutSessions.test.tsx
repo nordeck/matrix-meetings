@@ -25,6 +25,7 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
+import { repeat } from 'lodash';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
@@ -464,5 +465,43 @@ describe('<SetupBreakoutSessions>', () => {
     expect(screen.getByRole('textbox', { name: /end time/i })).toBeInvalid();
 
     expect(onBreakoutSessionsChange).toHaveBeenLastCalledWith(undefined);
+  });
+
+  it('should limit the length of the title and description', async () => {
+    const onBreakoutSessionsChange = jest.fn();
+
+    render(
+      <SetupBreakoutSessions
+        onBreakoutSessionsChange={onBreakoutSessionsChange}
+        parentMeeting={mockMeeting({
+          content: {
+            startTime: '2022-01-02T13:00:00.000Z',
+            endTime: '2022-01-03T14:00:00.000Z',
+          },
+        })}
+      />,
+      { wrapper: Wrapper }
+    );
+
+    await userEvent.click(
+      screen.getByRole('textbox', { name: 'Group title (required)' })
+    );
+    await userEvent.paste(repeat('+', 255));
+
+    await userEvent.click(screen.getByRole('textbox', { name: 'Description' }));
+    await userEvent.paste(repeat('+', 21000));
+
+    expect(onBreakoutSessionsChange).toHaveBeenLastCalledWith({
+      description: repeat('+', 20000),
+      endTime: '2022-01-02T13:30:00.000Z',
+      startTime: '2022-01-02T13:15:00.000Z',
+      groups: [
+        {
+          participants: ['@user-id'],
+          title: 'Group 1' + repeat('+', 255 - 'Group 1'.length),
+        },
+      ],
+      widgetIds: ['widget-1', 'widget-2'],
+    });
   });
 });

@@ -25,6 +25,7 @@ import {
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
+import { repeat } from 'lodash';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
@@ -1121,5 +1122,38 @@ describe('<ScheduleMeeting>', () => {
     );
     expect(endTimeTextbox).toBeInvalid();
     expect(onMeetingChange).toHaveBeenLastCalledWith(undefined);
+  });
+
+  it('should limit the length of the title and description fields', async () => {
+    const title = repeat('_', 250);
+    const description = repeat('_', 19995);
+
+    render(
+      <ScheduleMeeting
+        initialMeeting={mockMeeting({
+          content: { title, description },
+        })}
+        onMeetingChange={onMeetingChange}
+      />,
+      { wrapper: Wrapper }
+    );
+
+    await userEvent.type(
+      screen.getByRole('textbox', { name: 'Title (required)' }),
+      repeat('+', 10)
+    );
+    await userEvent.type(
+      screen.getByRole('textbox', { name: 'Description' }),
+      repeat('+', 10)
+    );
+
+    expect(onMeetingChange).toHaveBeenLastCalledWith({
+      endTime: '2999-01-01T14:00:00.000Z',
+      participants: ['@user-id'],
+      startTime: '2999-01-01T10:00:00.000Z',
+      widgetIds: [],
+      title: title + repeat('+', 5),
+      description: description + repeat('+', 5),
+    });
   });
 });
