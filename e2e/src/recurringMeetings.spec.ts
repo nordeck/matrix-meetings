@@ -44,7 +44,7 @@ test.describe('Recurring Meetings', () => {
 
     await aliceElementWebPage.switchToRoom('My Meeting');
 
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText

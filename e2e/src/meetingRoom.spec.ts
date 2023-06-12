@@ -54,7 +54,7 @@ test.describe('Meeting Room', () => {
   }) => {
     expect(await aliceElementWebPage.getWidgets()).toEqual([
       'Breakout Sessions',
-      'Meeting Controls',
+      'NeoDateFix Details',
       'Video Conference',
     ]);
 
@@ -63,7 +63,7 @@ test.describe('Meeting Room', () => {
       'My Description'
     );
 
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
     const meetingCard = aliceCockpitWidgetPage.getMeeting();
     await expect(meetingCard.meetingTimeRangeText).toHaveText(
       'Oct 3, 2040, 10:30 AM – 11:30 AM'
@@ -78,7 +78,7 @@ test.describe('Meeting Room', () => {
     aliceElementWebPage,
     aliceCockpitWidgetPage,
   }) => {
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
 
     const meetingCard = aliceCockpitWidgetPage.getMeeting();
     const aliceEditMeetingWidgetPage = await meetingCard.editMeeting();
@@ -99,7 +99,7 @@ test.describe('Meeting Room', () => {
     aliceCockpitWidgetPage,
     charlie,
   }) => {
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
 
     const meetingCard = aliceCockpitWidgetPage.getMeeting();
     const aliceEditMeetingWidgetPage = await meetingCard.editMeeting();
@@ -115,7 +115,7 @@ test.describe('Meeting Room', () => {
     aliceElementWebPage,
     aliceCockpitWidgetPage,
   }) => {
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
     const meetingCard = aliceCockpitWidgetPage.getMeeting();
     const aliceEditMeetingWidgetPage = await meetingCard.editMeeting();
     await aliceEditMeetingWidgetPage.removeLastWidget();
@@ -133,14 +133,14 @@ test.describe('Meeting Room', () => {
       .poll(async () => {
         return await aliceElementWebPage.getWidgets();
       })
-      .toEqual(['Breakout Sessions', 'Meeting Controls']);
+      .toEqual(['Breakout Sessions', 'NeoDateFix Details']);
   });
 
   test('should enable the optional widget from within the meeting', async ({
     aliceElementWebPage,
     aliceCockpitWidgetPage,
   }) => {
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
     const meetingCard = aliceCockpitWidgetPage.getMeeting();
     const aliceEditMeetingWidgetPage = await meetingCard.editMeeting();
     await aliceEditMeetingWidgetPage.addWidget('Video Conference (optional)');
@@ -154,7 +154,7 @@ test.describe('Meeting Room', () => {
       })
       .toEqual([
         'Breakout Sessions',
-        'Meeting Controls',
+        'NeoDateFix Details',
         'Video Conference',
         'Video Conference (optional)',
       ]);
@@ -179,7 +179,7 @@ test.describe('Meeting Room', () => {
     await bobElementWebPage.acceptRoomInvitation();
     await bobElementWebPage.sendMessage('I am Bob');
     await aliceElementWebPage.sendMessage('I am Alice');
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
     const meetingCard = aliceCockpitWidgetPage.getMeeting();
     await meetingCard.switchToEditPermissions();
     await meetingCard.toggleChatPermission();
@@ -207,7 +207,7 @@ test.describe('Meeting Room', () => {
       .getMeeting('My Meeting', '10/03/2040')
       .joinMeeting();
     await bobElementWebPage.acceptRoomInvitation();
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
     const meetingCard = aliceCockpitWidgetPage.getMeeting();
     await meetingCard.deleteMeeting();
 
@@ -230,11 +230,11 @@ test.describe('Meeting Room', () => {
     aliceElementWebPage,
     aliceCockpitWidgetPage,
   }) => {
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
     await aliceCockpitWidgetPage.backToParentRoom();
     await aliceElementWebPage.approveWidgetCapabilities();
 
     await expect(aliceElementWebPage.roomNameText).toHaveText('Calendar');
-    expect(await aliceElementWebPage.getWidgets()).toEqual(['Meetings']);
+    expect(await aliceElementWebPage.getWidgets()).toEqual(['NeoDateFix']);
   });
 });

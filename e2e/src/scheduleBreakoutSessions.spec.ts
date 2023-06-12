@@ -111,11 +111,11 @@ test.describe('Schedule Breakout Sessions', () => {
     await aliceElementWebPage.sendMessage('Alice in breakout session room');
 
     expect(await aliceElementWebPage.getWidgets()).toEqual([
-      'Meeting Controls',
+      'NeoDateFix Details',
       'Video Conference',
     ]);
 
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
     const meetingCard = aliceCockpitWidgetPage.getMeeting();
     await expect(meetingCard.meetingTitleText).toHaveText('Group 1');
     await expect(meetingCard.meetingDescriptionText).toHaveText(
@@ -130,7 +130,7 @@ test.describe('Schedule Breakout Sessions', () => {
     await bobElementWebPage.sendMessage('Bob in breakout session room');
 
     expect(await bobElementWebPage.getWidgets()).toEqual([
-      'Meeting Controls',
+      'NeoDateFix Details',
       'Video Conference',
     ]);
   });
