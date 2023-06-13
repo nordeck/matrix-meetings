@@ -67,6 +67,37 @@
   "invitedMeetingsList": {
     "title": "Einladungen"
   },
+  "meetingCalenderDetails": {
+    "content": {
+      "dateAndTime": "{{range, daterange}}",
+      "description": "Beschreibung",
+      "details": "Einzelheiten",
+      "organizer": "Veranstalter",
+      "participants": "Teilnehmer",
+      "shareMeeting": {
+        "download": "Herunterladen",
+        "downloadIcsFile": "ICS Datei herunterladen",
+        "emailCopyMessage": "Nachricht",
+        "emailDescription": "Nutze die folgende Nachricht um die Besprechung in einer E-Mail zu verteilen:",
+        "emailTitle": "E-Mail Einladung",
+        "icsDescription": "Lade die Besprechungsinformationen im iCalendar Format herunter um sie zu einer anderen Kalenderanwendung einzufügen:",
+        "icsTitle": "ICS Datei herunterladen",
+        "shareByMail": "E-Mail Einladung teilen",
+        "title": "Besprechung teilen",
+        "warningRecurringMeetingEmail": "Dies ist eine E-Mail Einladung zu einer Besprechungsserie. Durch das Teilen dieser E-Mail Einladung werden Benutzer zu allen Besprechungen in der Serie eingeladen.",
+        "warningRecurringMeetingICalFile": "Dies ist eine iCal Datei zu einer Besprechungsserie. Durch das Teilen dieser iCal Datei werden Benutzer zu allen Besprechungen in der Serie eingeladen."
+      }
+    },
+    "header": {
+      "deleteConfirmButton": "Löschen",
+      "deleteConfirmHeader": "Besprechung löschen",
+      "deleteConfirmMessage": "Du bist dabei die Besprechung „{{title}}“ am {{startTime, datetime}} und alles darin zu löschen. Bist du sicher?",
+      "deleteFailed": "Bitte versuche es erneut.",
+      "deleteFailedTitle": "Fehler beim Löschen der Besprechung",
+      "deleteMenu": "Besprechung löschen",
+      "editMenu": "Besprechung bearbeiten"
+    }
+  },
   "meetingCard": {
     "actions": "Aktionen",
     "deleteConfirmButton": "Löschen",
@@ -153,9 +184,6 @@
     "title": "Besprechungen"
   },
   "meetingsCalendar": {
-    "dialog": {
-      "close": "Schließen"
-    },
     "event": {
       "startTime": "{{startTime, datetime}}",
       "summary_default": "{{startTime, datetime}}–{{endTime, datetime}}: “{{title}}” von {{creator}}",
@@ -228,6 +256,8 @@
     "tagInstructions": "Nutze die Rücktaste um den Eintrag zu löschen."
   },
   "openMeetingRoomButton": {
+    "join": "Besprechungsraum beitreten",
+    "joinBreakout_breakout": "Besprechungsraum beitreten",
     "openMeetingRoom": "Öffne den Besprechungsraum",
     "openMeetingRoom_breakout": "Öffne den Breakoutsessionraum"
   },

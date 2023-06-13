@@ -67,6 +67,37 @@
   "invitedMeetingsList": {
     "title": "Invitations"
   },
+  "meetingCalenderDetails": {
+    "content": {
+      "dateAndTime": "{{range, daterange}}",
+      "description": "Description",
+      "details": "Details",
+      "organizer": "Organizer",
+      "participants": "Participants",
+      "shareMeeting": {
+        "download": "Download",
+        "downloadIcsFile": "Download ICS File",
+        "emailCopyMessage": "Message",
+        "emailDescription": "Use the following information to forward the conference for example by email:",
+        "emailTitle": "Share the meeting invitation",
+        "icsDescription": "Download the meeting in the iCalendar format to add it to a calendar application:",
+        "icsTitle": "Download a calendar file",
+        "shareByMail": "Share by email",
+        "title": "Share meeting",
+        "warningRecurringMeetingEmail": "This is an email invitation to a meeting series. Sharing this email invitation invites users to all meetings in the series.",
+        "warningRecurringMeetingICalFile": "This is an iCal file of a meeting series. Sharing this iCal file invites users to all meetings in the series."
+      }
+    },
+    "header": {
+      "deleteConfirmButton": "Delete",
+      "deleteConfirmHeader": "Delete meeting",
+      "deleteConfirmMessage": "Are you sure you want to delete the meeting “{{title}}” on {{startTime, datetime}} and every content related to it?",
+      "deleteFailed": "Please try again.",
+      "deleteFailedTitle": "Failed to delete the meeting",
+      "deleteMenu": "Delete",
+      "editMenu": "Edit"
+    }
+  },
   "meetingCard": {
     "actions": "Actions",
     "deleteConfirmButton": "Delete",
@@ -153,9 +184,6 @@
     "title": "Meetings"
   },
   "meetingsCalendar": {
-    "dialog": {
-      "close": "Close"
-    },
     "event": {
       "startTime": "{{startTime, datetime}}",
       "summary_default": "{{startTime, datetime}}–{{endTime, datetime}}: “{{title}}” by {{creator}}",
@@ -228,6 +256,8 @@
     "tagInstructions": "Use the backspace key to delete the entry."
   },
   "openMeetingRoomButton": {
+    "join": "Join",
+    "joinBreakout_breakout": "Join",
     "openMeetingRoom": "Open the meeting room",
     "openMeetingRoom_breakout": "Open the breakout session room"
   },

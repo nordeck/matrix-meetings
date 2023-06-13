@@ -14,14 +14,13 @@
  * limitations under the License.
  */
 
-import CloseIcon from '@mui/icons-material/Close';
-import { Dialog, IconButton } from '@mui/material';
+import { Dialog, Divider, useMediaQuery } from '@mui/material';
 import { unstable_useId as useId } from '@mui/utils';
 import { DispatchWithoutAction, useMemo } from 'react';
-import { useTranslation } from 'react-i18next';
 import { makeSelectMeeting } from '../../../reducer/meetingsApi';
 import { useAppSelector } from '../../../store';
-import { MeetingCard } from '../MeetingCard';
+import { MeetingCalenderDetailsContent } from './MeetingCalenderDetails/MeetingCalenderDetailsContent';
+import { MeetingCalenderDetailsHeader } from './MeetingCalenderDetails/MeetingCalenderDetailsHeader';
 
 export function MeetingsCalendarDetailsDialog({
   meetingId,
@@ -32,59 +31,51 @@ export function MeetingsCalendarDetailsDialog({
     | undefined;
   onClose: DispatchWithoutAction;
 }) {
-  const { t } = useTranslation();
-
+  const isBigWindow = useMediaQuery('(min-width:550px)', { noSsr: true });
   const selectMeeting = useMemo(makeSelectMeeting, []);
-  useAppSelector((state) => {
-    if (meetingId) {
-      const meeting = selectMeeting(
-        state,
-        meetingId.meetingId,
-        meetingId.uid,
-        meetingId.recurrenceId
-      );
-      if (!meeting) {
-        onClose();
-      }
+  const meeting = useAppSelector((state) => {
+    if (!meetingId) {
+      return undefined;
     }
+
+    return selectMeeting(
+      state,
+      meetingId.meetingId,
+      meetingId.uid,
+      meetingId.recurrenceId
+    );
   });
 
-  const titleId = useId();
-  const meetingTimeId = useId();
+  const dialogTitleId = useId();
+
+  if (!meeting) {
+    onClose();
+    return <></>;
+  }
 
   return (
     <Dialog
+      fullScreen
       PaperProps={{
         sx: {
-          // Make sure the card has a fixed max width
-          width: 'min(327px, 100% - 16px)',
-          // Make the time distance component work
-          overflowY: 'visible',
+          m: 0,
+          background: (theme) => theme.palette.background.default,
         },
       }}
-      aria-describedby={meetingTimeId}
-      aria-labelledby={titleId}
+      aria-labelledby={dialogTitleId}
       onClose={onClose}
       open={meetingId !== undefined}
-      scroll="body"
     >
-      <MeetingCard
-        cardHeaderButtons={
-          <IconButton
-            aria-describedby={titleId}
-            aria-label={t('meetingsCalendar.dialog.close', 'Close')}
-            onClick={onClose}
-          >
-            <CloseIcon />
-          </IconButton>
-        }
-        headingComponent="h3"
-        meetingTimeId={meetingTimeId}
-        recurrenceId={meetingId?.recurrenceId}
-        roomId={meetingId?.meetingId}
-        showOpenMeetingRoomButton
-        titleId={titleId}
-        uid={meetingId?.uid}
+      <MeetingCalenderDetailsHeader
+        meeting={meeting}
+        onClose={onClose}
+        aria-describedby={dialogTitleId}
+        isBigWindow={isBigWindow}
+      />
+      <Divider variant="middle" />
+      <MeetingCalenderDetailsContent
+        meeting={meeting}
+        isBigWindow={isBigWindow}
       />
     </Dialog>
   );
