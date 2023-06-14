@@ -19,7 +19,6 @@ import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import { IconButton, TextField, Tooltip } from '@mui/material';
 import { ReactElement, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useCopyToClipboard } from 'react-use';
 
 export function CopyableText({
   text,
@@ -32,12 +31,11 @@ export function CopyableText({
 }): ReactElement {
   const { t } = useTranslation();
   const [hasCopied, setHasCopied] = useState(false);
-  const [, copyToClipboard] = useCopyToClipboard();
 
   const handleOnClick = useCallback(() => {
-    copyToClipboard(text);
+    navigator.clipboard.writeText(text);
     setHasCopied(true);
-  }, [text, copyToClipboard]);
+  }, [text]);
 
   const handleOnBlur = useCallback(() => setHasCopied(false), []);
 
