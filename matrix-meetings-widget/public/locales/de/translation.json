@@ -57,7 +57,7 @@
   "editMeetingModal": {
     "cancel": "Abbrechen",
     "save": "Speichern",
-    "title": "Besprechung bearbeiten"
+    "title": "Bearbeiten"
   },
   "invitedMeetingList": {
     "detail": {
@@ -94,8 +94,8 @@
       "deleteConfirmMessage": "Du bist dabei die Besprechung „{{title}}“ am {{startTime, datetime}} und alles darin zu löschen. Bist du sicher?",
       "deleteFailed": "Bitte versuche es erneut.",
       "deleteFailedTitle": "Fehler beim Löschen der Besprechung",
-      "deleteMenu": "Besprechung löschen",
-      "editMenu": "Besprechung bearbeiten"
+      "deleteMenu": "Löschen",
+      "editMenu": "Bearbeiten"
     }
   },
   "meetingCard": {
@@ -256,8 +256,8 @@
     "tagInstructions": "Nutze die Rücktaste um den Eintrag zu löschen."
   },
   "openMeetingRoomButton": {
-    "join": "Besprechungsraum beitreten",
-    "joinBreakout_breakout": "Besprechungsraum beitreten",
+    "join": "Beitreten",
+    "joinBreakout_breakout": "Beitreten",
     "openMeetingRoom": "Öffne den Besprechungsraum",
     "openMeetingRoom_breakout": "Öffne den Breakoutsessionraum"
   },
