@@ -167,7 +167,7 @@ export function MeetingCalenderDetailsHeader({
   return (
     <>
       <Stack alignItems="baseline" direction="row">
-        <Box display={isBigWindow ? 'flex' : 'grid'} flex={1} my={2}>
+        <Box display="flex" flexWrap="wrap" flex={1} my={2}>
           <DialogTitle
             component="h3"
             id={ariaDescribedBy}
@@ -175,7 +175,12 @@ export function MeetingCalenderDetailsHeader({
           >
             {meeting?.title}
           </DialogTitle>
-          <Box display="flex" alignItems="baseline" ml={isBigWindow ? 0 : 3}>
+          <Box
+            display="flex"
+            flexWrap="wrap"
+            alignItems="baseline"
+            ml={isBigWindow ? 0 : 3}
+          >
             <MeetingCalenderDetailsJoinButton
               aria-describedby={titleId}
               meetingType={meeting.type}
