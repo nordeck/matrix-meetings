@@ -15,6 +15,7 @@
  */
 
 import { expect } from '@playwright/test';
+import { repeat } from 'lodash';
 import { test } from './fixtures';
 
 test.describe('Schedule Breakout Sessions', () => {
@@ -132,6 +133,61 @@ test.describe('Schedule Breakout Sessions', () => {
       'Meeting Controls',
       'Video Conference',
     ]);
+  });
+
+  test('should create breakout sessions with the longest title and description', async ({
+    charlie,
+    bob,
+    aliceBreakoutSessionsPage,
+  }) => {
+    const aliceScheduleBreakoutSessionWidgetPage =
+      await aliceBreakoutSessionsPage.scheduleBreakoutSession();
+
+    await aliceScheduleBreakoutSessionWidgetPage.setStartAndEndTime(
+      '10:30 AM',
+      '10:40 AM'
+    );
+    // For some reason the test fails to enter the description if we enter it
+    // first (firefox only?)
+    await aliceScheduleBreakoutSessionWidgetPage.descriptionTextbox.fill(
+      'My Description' + repeat('+', 100000)
+    );
+    await aliceScheduleBreakoutSessionWidgetPage.groupNumberSnipButton.fill(
+      '2'
+    );
+    await aliceScheduleBreakoutSessionWidgetPage.addParticipantToGroup(
+      bob.displayName,
+      'Group 1'
+    );
+    await aliceScheduleBreakoutSessionWidgetPage.addParticipantToGroup(
+      charlie.displayName,
+      'Group 2'
+    );
+    await aliceScheduleBreakoutSessionWidgetPage
+      .getGroupTitleTextbox('Group 1')
+      .fill('Group 1' + repeat('+', 100000));
+    await aliceScheduleBreakoutSessionWidgetPage
+      .getGroupTitleTextbox('Group 2')
+      .fill('Group 2' + repeat('+', 100000));
+    await aliceScheduleBreakoutSessionWidgetPage.createBreakoutSessions();
+
+    await aliceBreakoutSessionsPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
+
+    await expect(
+      aliceBreakoutSessionsPage.getBreakoutSession(
+        'Group 1' + repeat('+', 255 - 'Group 1'.length)
+      ).meetingDescriptionText
+    ).toHaveText(
+      'My Description' + repeat('+', 20000 - 'My Description'.length)
+    );
+
+    await expect(
+      aliceBreakoutSessionsPage.getBreakoutSession(
+        'Group 2' + repeat('+', 255 - 'Group 2'.length)
+      ).meetingDescriptionText
+    ).toHaveText(
+      'My Description' + repeat('+', 20000 - 'My Description'.length)
+    );
   });
 
   test('should send a message to all breakout sessions', async ({
