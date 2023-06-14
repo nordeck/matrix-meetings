@@ -106,3 +106,8 @@ declare global {
 // Polyfills required for jsdom
 global.TextEncoder = TextEncoder as typeof global.TextEncoder;
 global.TextDecoder = TextDecoder as typeof global.TextDecoder;
+
+// Provide a mock for the Clipboard API
+Object.defineProperty(navigator, 'clipboard', {
+  value: { writeText: jest.fn() },
+});
