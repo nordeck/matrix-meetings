@@ -2,4 +2,4 @@
 '@nordeck/matrix-meetings-widget': minor
 ---
 
-create meeting expanded details view
+Add meeting expanded details view

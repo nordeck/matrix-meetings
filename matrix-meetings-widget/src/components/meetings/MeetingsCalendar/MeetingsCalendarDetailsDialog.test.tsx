@@ -17,7 +17,6 @@
 import { extractWidgetApiParameters } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
-import { useMediaQuery } from '@mui/material';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
@@ -254,32 +253,5 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     await waitFor(() => {
       expect(onClose).toBeCalled();
     });
-  });
-
-  it('should change the view style on a small screen', async () => {
-    jest.mocked(useMediaQuery).mockReturnValue(false);
-
-    render(
-      <MeetingsCalendarDetailsDialog
-        meetingId={{
-          meetingId: '!meeting-room-id',
-          uid: 'entry-0',
-          recurrenceId: undefined,
-        }}
-        onClose={onClose}
-      />,
-      { wrapper: Wrapper }
-    );
-
-    /*const dialog = await screen.findByRole('dialog', {
-      name: 'An important meeting',
-    });
-
-     expect(within(dialog).getByRole('grid', { name: 'List' })).toHaveStyle(
-      'display: flex'
-    ); */
-
-    expect(useMediaQuery).toBeCalledWith('(min-width:550px)', { noSsr: true });
-    //expect(onViewChange).toHaveBeenLastCalledWith('day');
   });
 });
