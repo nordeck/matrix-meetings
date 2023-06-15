@@ -1,7 +1,7 @@
 {
   "name": "@nordeck/matrix-meetings-bot",
   "version": "2.1.0",
-  "description": "A Bot creating rooms / meetings triggered by custom events from the Matrix Meetings Widget UI",
+  "description": "A Matrix bot that creates rooms for meetings triggered by custom events from the NeoDateFix widget",
   "author": "Nordeck IT + Consulting GmbH",
   "license": "Apache-2.0",
   "main": "lib/index.js",

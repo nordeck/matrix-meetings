@@ -87,7 +87,7 @@ export const test = base.extend<Fixtures>({
 
     const meetingsWidgetPage = new MeetingsWidgetPage(
       alicePage,
-      aliceElementWebPage.widgetByTitle('Meetings')
+      aliceElementWebPage.widgetByTitle('NeoDateFix')
     );
 
     await meetingsWidgetPage.scheduleMeetingButton.waitFor({
@@ -108,7 +108,7 @@ export const test = base.extend<Fixtures>({
   aliceCockpitWidgetPage: async ({ alicePage, aliceElementWebPage }, use) => {
     const cockpitWidgetPage = new CockpitWidgetPage(
       alicePage,
-      aliceElementWebPage.widgetByTitle('Meeting Controls')
+      aliceElementWebPage.widgetByTitle('NeoDateFix Details')
     );
 
     await use(cockpitWidgetPage);
@@ -179,7 +179,7 @@ export const test = base.extend<Fixtures>({
   bobMeetingsWidgetPage: async ({ bobPage, bobElementWebPage }, use) => {
     const meetingsWidgetPage = new MeetingsWidgetPage(
       bobPage,
-      bobElementWebPage.widgetByTitle('Meetings')
+      bobElementWebPage.widgetByTitle('NeoDateFix')
     );
 
     await use(meetingsWidgetPage);
