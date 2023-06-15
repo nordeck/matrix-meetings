@@ -8,7 +8,7 @@
     "private": {
       "errorRoom": {
         "create": {
-          "message": "Error messages from Meetings-Bot",
+          "message": "Error messages from NeoDateFix-Bot",
           "topic": "More details"
         }
       }
