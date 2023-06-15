@@ -14,8 +14,6 @@
  * limitations under the License.
  */
 
-//TODO: flex wrap, flex box
-
 import { Dialog, Divider, useMediaQuery } from '@mui/material';
 import { unstable_useId as useId } from '@mui/utils';
 import { DispatchWithoutAction, useMemo } from 'react';
@@ -72,7 +70,6 @@ export function MeetingsCalendarDetailsDialog({
         meeting={meeting}
         onClose={onClose}
         aria-describedby={dialogTitleId}
-        isBigWindow={isBigWindow}
       />
       <Divider variant="middle" />
       <MeetingCalenderDetailsContent

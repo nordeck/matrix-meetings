@@ -64,12 +64,10 @@ import { MeetingCalenderDetailsJoinButton } from './MeetingCalenderDetailsJoinBu
 export function MeetingCalenderDetailsHeader({
   meeting,
   onClose,
-  isBigWindow,
   'aria-describedby': ariaDescribedBy,
 }: {
   meeting: Meeting;
   onClose: DispatchWithoutAction;
-  isBigWindow: boolean;
   'aria-describedby'?: string;
 }) {
   const widgetApi = useWidgetApi();
@@ -167,20 +165,19 @@ export function MeetingCalenderDetailsHeader({
   return (
     <>
       <Stack alignItems="baseline" direction="row">
-        <Box display="flex" flexWrap="wrap" flex={1} my={2}>
+        <Box display="flex" flexWrap="wrap" flex={1} mt={2}>
           <DialogTitle
             component="h3"
             id={ariaDescribedBy}
-            sx={{ pb: '0 !important', pt: '0 !important', alignSelf: 'center' }}
+            sx={{
+              pb: '0 !important',
+              pt: '0 !important',
+              pr: '0 !important',
+            }}
           >
             {meeting?.title}
           </DialogTitle>
-          <Box
-            display="flex"
-            flexWrap="wrap"
-            alignItems="baseline"
-            ml={isBigWindow ? 0 : 3}
-          >
+          <Box display="flex" flexWrap="wrap" alignItems="baseline" ml={3}>
             <MeetingCalenderDetailsJoinButton
               aria-describedby={titleId}
               meetingType={meeting.type}
@@ -190,7 +187,7 @@ export function MeetingCalenderDetailsHeader({
               <Button
                 variant="outlined"
                 onClick={handleClickEditMeeting}
-                sx={{ mr: 1, mt: isBigWindow ? 0 : 1 }}
+                sx={{ mr: 1, mb: 1 }}
               >
                 {t('meetingCalenderDetails.header.editMenu', 'Edit')}
               </Button>
@@ -201,7 +198,6 @@ export function MeetingCalenderDetailsHeader({
                 variant="outlined"
                 onClick={handleClickOpenDeleteConfirm}
                 color="error"
-                sx={{ mr: 1, mt: isBigWindow ? 0 : 1 }}
               >
                 {t('meetingCalenderDetails.header.deleteMenu', 'Delete')}
               </Button>

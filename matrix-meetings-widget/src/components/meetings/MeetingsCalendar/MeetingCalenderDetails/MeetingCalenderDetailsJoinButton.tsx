@@ -62,7 +62,7 @@ export function MeetingCalenderDetailsJoinButton({
       href={breakoutSessionMode ? url : undefined}
       onClick={breakoutSessionMode ? undefined : handleOnClick}
       target={breakoutSessionMode ? '_blank' : undefined}
-      sx={{ mr: 1 }}
+      sx={{ mr: 1, mb: 1 }}
     >
       {openRoomLabel}
     </Button>
