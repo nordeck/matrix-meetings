@@ -15,6 +15,7 @@
  */
 
 import { expect } from '@playwright/test';
+import { repeat } from 'lodash';
 import { test } from './fixtures';
 
 test.describe('Schedule Meeting', () => {
@@ -43,6 +44,33 @@ test.describe('Schedule Meeting', () => {
     await aliceElementWebPage.switchToRoom('My Meeting');
 
     await expect(aliceJitsiWidgetPage.joinConferenceButton).toBeVisible();
+  });
+
+  test('should schedule a meeting with the longest title and description', async ({
+    aliceMeetingsWidgetPage,
+  }) => {
+    await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
+
+    const aliceScheduleMeetingWidgetPage =
+      await aliceMeetingsWidgetPage.scheduleMeeting();
+
+    await aliceScheduleMeetingWidgetPage.titleTextbox.fill(
+      'My Meeting' + repeat('+', 100000)
+    );
+    await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
+      'My Description' + repeat('+', 100000)
+    );
+    await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
+    await aliceScheduleMeetingWidgetPage.submit();
+
+    await expect(
+      aliceMeetingsWidgetPage.getMeeting(
+        'My Meeting' + repeat('+', 255 - 'My Meeting'.length),
+        '10/03/2040'
+      ).meetingDescriptionText
+    ).toHaveText(
+      'My Description' + repeat('+', 20000 - 'My Description'.length)
+    );
   });
 
   test('should reschedule the meeting to a different day', async ({

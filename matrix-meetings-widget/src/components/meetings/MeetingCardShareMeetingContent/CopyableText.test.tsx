@@ -17,27 +17,9 @@
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
-import { useCopyToClipboard as useCopyToClipboardMocked } from 'react-use';
 import { CopyableText } from './CopyableText';
 
-jest.mock('react-use');
-
-const useCopyToClipboard = useCopyToClipboardMocked as jest.MockedFunction<
-  typeof useCopyToClipboardMocked
->;
-
 describe('<CopyableText/>', () => {
-  const copyToClipboard = jest.fn();
-
-  beforeEach(() => {
-    jest.resetAllMocks();
-
-    useCopyToClipboard.mockReturnValue([
-      { noUserInteraction: false },
-      copyToClipboard,
-    ]);
-  });
-
   it('should render without exploding', () => {
     render(<CopyableText label="Example" text="Hello World" />);
 
@@ -60,7 +42,7 @@ describe('<CopyableText/>', () => {
 
     await userEvent.click(copyButton);
 
-    expect(copyToClipboard).toBeCalledWith('Hello World');
+    expect(navigator.clipboard.writeText).toBeCalledWith('Hello World');
     expect(screen.getByTestId('CheckOutlinedIcon')).toBeInTheDocument();
 
     await userEvent.tab();
