@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { Dialog, Divider, useMediaQuery } from '@mui/material';
+import { Dialog, Divider } from '@mui/material';
 import { unstable_useId as useId } from '@mui/utils';
 import { DispatchWithoutAction, useMemo } from 'react';
 import { makeSelectMeeting } from '../../../reducer/meetingsApi';
@@ -31,7 +31,6 @@ export function MeetingsCalendarDetailsDialog({
     | undefined;
   onClose: DispatchWithoutAction;
 }) {
-  const isBigWindow = useMediaQuery('(min-width:550px)', { noSsr: true });
   const selectMeeting = useMemo(makeSelectMeeting, []);
   const meeting = useAppSelector((state) => {
     if (!meetingId) {
@@ -72,10 +71,7 @@ export function MeetingsCalendarDetailsDialog({
         aria-describedby={dialogTitleId}
       />
       <Divider variant="middle" />
-      <MeetingCalenderDetailsContent
-        meeting={meeting}
-        isBigWindow={isBigWindow}
-      />
+      <MeetingCalenderDetailsContent meeting={meeting} />
     </Dialog>
   );
 }

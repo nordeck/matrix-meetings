@@ -40,10 +40,8 @@ import { MeetingCalenderDetailsShare } from './MeetingCalenderDetailsShare';
 
 export function MeetingCalenderDetailsContent({
   meeting,
-  isBigWindow,
 }: {
   meeting: Meeting;
-  isBigWindow: boolean;
 }) {
   const { t } = useTranslation();
   const { url: meetingUrl } = useMeetingUrl(meeting);
@@ -64,7 +62,7 @@ export function MeetingCalenderDetailsContent({
   return (
     <DialogContent sx={{ mt: 1 }}>
       <Grid container spacing={2}>
-        <Grid item xs={isBigWindow ? 6 : 12}>
+        <Grid item xs={12} sm={6}>
           <Box mb={2}>
             <Typography
               component="h4"
@@ -164,7 +162,7 @@ export function MeetingCalenderDetailsContent({
           <MeetingCalenderDetailsShare meeting={meeting} />
         </Grid>
 
-        <Grid item xs={isBigWindow ? 6 : 1212}>
+        <Grid item xs={12} sm={6}>
           <MeetingCalenderDetailsParticipants
             participants={meeting.participants}
             creator={meeting.creator}
