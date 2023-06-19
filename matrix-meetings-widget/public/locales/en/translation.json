@@ -69,6 +69,7 @@
   },
   "meetingCalenderDetails": {
     "content": {
+      "copy-to-clipboard": "Copy to clipboard",
       "dateAndTime": "{{range, daterange}}",
       "description": "Description",
       "details": "Details",

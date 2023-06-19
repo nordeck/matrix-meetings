@@ -15,6 +15,7 @@
  */
 
 import { List, Typography } from '@mui/material';
+import { unstable_useId as useId } from '@mui/utils';
 import { useTranslation } from 'react-i18next';
 import { isBotUser } from '../../../../lib/utils';
 import { MeetingParticipant } from '../../../../reducer/meetingsApi';
@@ -36,7 +37,9 @@ export function MeetingCalenderDetailsParticipants({
   creator: string;
 }) {
   const { t } = useTranslation();
-  const roomCreator = participants.filter((p) => p.userId === creator)[0];
+  const roomCreator = participants.find((p) => p.userId === creator);
+
+  const titleId = useId();
 
   return (
     <>
@@ -45,15 +48,18 @@ export function MeetingCalenderDetailsParticipants({
         fontSize="inherit"
         fontWeight="bold"
         display="block"
+        id={titleId}
         mb={1}
       >
         {t('meetingCalenderDetails.content.participants', 'Participants')}
       </Typography>
-      <List>
-        <MeetingCalenderDetailsParticipant
-          participant={roomCreator}
-          isOrganizer
-        />
+      <List aria-labelledby={titleId}>
+        {roomCreator && (
+          <MeetingCalenderDetailsParticipant
+            participant={roomCreator}
+            isOrganizer
+          />
+        )}
         {participants
           .filter((r) => !isBotUser(r.userId) && r.userId !== creator)
           .sort(sortByNameAndStatus)

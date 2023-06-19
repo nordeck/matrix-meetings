@@ -25,6 +25,7 @@ import {
   Grid,
   IconButton,
   Link,
+  Tooltip,
   Typography,
 } from '@mui/material';
 import { useCallback, useState } from 'react';
@@ -137,14 +138,20 @@ export function MeetingCalenderDetailsContent({
                   {meetingUrl}
                 </Link>
               </Box>
-
-              <IconButton onBlur={handleOnBlur} onClick={handleOnClick}>
-                {hasCopied ? (
-                  <CheckOutlinedIcon fontSize="inherit" />
-                ) : (
-                  <ContentCopyOutlinedIcon fontSize="inherit" />
+              <Tooltip
+                title={t(
+                  'meetingCalenderDetails.content.copy-to-clipboard',
+                  'Copy to clipboard'
                 )}
-              </IconButton>
+              >
+                <IconButton onBlur={handleOnBlur} onClick={handleOnClick}>
+                  {hasCopied ? (
+                    <CheckOutlinedIcon fontSize="inherit" />
+                  ) : (
+                    <ContentCopyOutlinedIcon fontSize="inherit" />
+                  )}
+                </IconButton>
+              </Tooltip>
             </Box>
           </Box>
 

@@ -23,11 +23,13 @@ import {
   Box,
   Button,
   List,
+  ListItem,
   ListItemButton,
   ListItemIcon,
   ListItemText,
   Typography,
 } from '@mui/material';
+import { unstable_useId as useId } from '@mui/utils';
 import { useTranslation } from 'react-i18next';
 import { isRecurringCalendarSourceEntry } from '../../../../lib/utils';
 import { Meeting } from '../../../../reducer/meetingsApi';
@@ -51,6 +53,7 @@ export function MeetingCalenderDetailsShare({ meeting }: { meeting: Meeting }) {
 
   const emailDialog = useShareDialog();
   const icsDialog = useShareDialog();
+  const titleId = useId();
 
   return (
     <>
@@ -60,6 +63,7 @@ export function MeetingCalenderDetailsShare({ meeting }: { meeting: Meeting }) {
           fontSize="inherit"
           fontWeight="bold"
           display="block"
+          id={titleId}
           mb={1}
         >
           {t(
@@ -67,41 +71,45 @@ export function MeetingCalenderDetailsShare({ meeting }: { meeting: Meeting }) {
             'Share meeting'
           )}
         </Typography>
-        <List>
-          <ListItemButton disableGutters onClick={emailDialog.onOpen}>
-            <ListItemIcon sx={{ minWidth: 'auto', mr: 1 }}>
-              <EmailOutlinedIcon />
-            </ListItemIcon>
-            <ListItemText>
-              {t(
-                'meetingCalenderDetails.content.shareMeeting.shareByMail',
-                'Share by email'
-              )}
-            </ListItemText>
-          </ListItemButton>
-          <ListItemButton
-            disableGutters
-            onClick={icsDialog.onOpen}
-            sx={{ color: icsError ? 'error.main' : undefined }}
-          >
-            <ListItemIcon
-              sx={{
-                color: icsError ? 'error.main' : undefined,
-                minWidth: 'auto',
-                mr: 1,
-              }}
+        <List aria-labelledby={titleId}>
+          <ListItem disablePadding>
+            <ListItemButton disableGutters onClick={emailDialog.onOpen}>
+              <ListItemIcon sx={{ minWidth: 'auto', mr: 1 }}>
+                <EmailOutlinedIcon />
+              </ListItemIcon>
+              <ListItemText>
+                {t(
+                  'meetingCalenderDetails.content.shareMeeting.shareByMail',
+                  'Share by email'
+                )}
+              </ListItemText>
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton
+              disableGutters
+              onClick={icsDialog.onOpen}
+              sx={{ color: icsError ? 'error.main' : undefined }}
             >
-              {icsError ? <ErrorIcon /> : <FileDownloadOutlinedIcon />}
-            </ListItemIcon>
-            <ListItemText
-              primary={t(
-                'meetingCalenderDetails.content.shareMeeting.downloadIcsFile',
-                'Download ICS File'
-              )}
-              secondary={icsError}
-              secondaryTypographyProps={{ color: 'inherit' }}
-            ></ListItemText>
-          </ListItemButton>
+              <ListItemIcon
+                sx={{
+                  color: icsError ? 'error.main' : undefined,
+                  minWidth: 'auto',
+                  mr: 1,
+                }}
+              >
+                {icsError ? <ErrorIcon /> : <FileDownloadOutlinedIcon />}
+              </ListItemIcon>
+              <ListItemText
+                primary={t(
+                  'meetingCalenderDetails.content.shareMeeting.downloadIcsFile',
+                  'Download ICS File'
+                )}
+                secondary={icsError}
+                secondaryTypographyProps={{ color: 'inherit' }}
+              ></ListItemText>
+            </ListItemButton>
+          </ListItem>
         </List>
       </Box>
       <ShareDialog
