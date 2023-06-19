@@ -99,7 +99,9 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
 
     const dialog = await screen.findByRole('dialog', {
       name: 'An important meeting',
+      description: 'January 1, 2999, 10:00 AM – 2:00 PM',
     });
+
     expect(
       within(dialog).getByRole('heading', {
         name: 'An important meeting',
@@ -158,6 +160,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     await expect(
       screen.findByRole('dialog', {
         name: 'An important meeting',
+        description: 'January 1, 2999, 10:00 AM – 2:00 PM',
       })
     ).resolves.toBeInTheDocument();
 
@@ -189,6 +192,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
 
     const dialog = await screen.findByRole('dialog', {
       name: 'An important meeting',
+      description: 'January 10, 2999, 10:00 AM – 2:00 PM',
     });
 
     expect(
@@ -220,6 +224,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
 
     const dialog = await screen.findByRole('dialog', {
       name: 'An important meeting',
+      description: 'January 1, 2999, 10:00 AM – 2:00 PM',
     });
 
     await userEvent.click(
@@ -244,6 +249,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
 
     await screen.findByRole('dialog', {
       name: 'An important meeting',
+      description: 'January 1, 2999, 10:00 AM – 2:00 PM',
     });
 
     widgetApi.mockSendStateEvent(

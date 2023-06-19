@@ -46,6 +46,7 @@ export function MeetingsCalendarDetailsDialog({
   });
 
   const dialogTitleId = useId();
+  const meetingTimeId = useId();
 
   if (!meeting) {
     onClose();
@@ -62,6 +63,7 @@ export function MeetingsCalendarDetailsDialog({
         },
       }}
       aria-labelledby={dialogTitleId}
+      aria-describedby={meetingTimeId}
       onClose={onClose}
       open={meetingId !== undefined}
     >
@@ -71,7 +73,10 @@ export function MeetingsCalendarDetailsDialog({
         aria-describedby={dialogTitleId}
       />
       <Divider variant="middle" />
-      <MeetingCalenderDetailsContent meeting={meeting} />
+      <MeetingCalenderDetailsContent
+        meeting={meeting}
+        meetingTimeId={meetingTimeId}
+      />
     </Dialog>
   );
 }

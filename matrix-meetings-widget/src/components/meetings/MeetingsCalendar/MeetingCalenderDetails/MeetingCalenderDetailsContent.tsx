@@ -40,8 +40,10 @@ import { MeetingCalenderDetailsShare } from './MeetingCalenderDetailsShare';
 
 export function MeetingCalenderDetailsContent({
   meeting,
+  meetingTimeId,
 }: {
   meeting: Meeting;
+  meetingTimeId?: string;
 }) {
   const { t } = useTranslation();
   const { url: meetingUrl } = useMeetingUrl(meeting);
@@ -83,7 +85,11 @@ export function MeetingCalenderDetailsContent({
               ) : (
                 <TodayIcon fontSize="medium" sx={{ mr: 1 }} color="action" />
               )}
-              <Typography component="span" fontSize="inherit">
+              <Typography
+                component="span"
+                fontSize="inherit"
+                id={meetingTimeId}
+              >
                 {t(
                   'meetingCalenderDetails.content.dateAndTime',
                   '{{range, daterange}}',
