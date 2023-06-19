@@ -34,7 +34,14 @@ function AppContainer({
     <MuiThemeProvider>
       <Suspense fallback={<PageLoader />}>
         <LocalizationProvider>
-          <MuiWidgetApiProvider widgetApiPromise={widgetApiPromise}>
+          <MuiWidgetApiProvider
+            widgetApiPromise={widgetApiPromise}
+            widgetRegistration={{
+              name: 'NeoDateFix',
+              // "calendar" suffix to get a custom icon
+              type: 'net.nordeck.neodatefix:calendar',
+            }}
+          >
             <StoreProvider>
               <App />
             </StoreProvider>

@@ -1,4 +1,4 @@
-# Matrix Meetings
+# NeoDateFix
 
 ![Build](https://github.com/nordeck/matrix-meetings/workflows/CI/badge.svg)
 
@@ -26,8 +26,8 @@ It also provides an API to create meetings from third party services, like Open-
 
 The widgets has multiple parts:
 
-- [**Meetings Widget**](./matrix-meetings-widget/): Matrix widget for managing and viewing the calendar.
-- [**Meetings Bot**](./matrix-meetings-bot): Matrix bot for creating meeting rooms.
+- [**NeoDateFix Widget**](./matrix-meetings-widget/): Matrix widget for managing and viewing the calendar.
+- [**NeoDateFix Bot**](./matrix-meetings-bot): Matrix bot for creating meeting rooms.
 - [**End-to-end tests**](./e2e): An end-to-end test suite for the Matrix widget and bot for creating meeting rooms.
 
 ## Demo

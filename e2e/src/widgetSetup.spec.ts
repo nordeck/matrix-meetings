@@ -42,7 +42,7 @@ test.describe('Meeting Widget Setup', () => {
     // the bot to setup the page
     const widget = new MeetingsWidgetPage(
       alicePage,
-      aliceElementWebPage.widgetByTitle('Custom')
+      aliceElementWebPage.widgetByTitle('NeoDateFix')
     );
 
     await expect(widget.scheduleMeetingButton).toBeVisible();
@@ -80,6 +80,6 @@ test.describe('Meeting Widget Setup', () => {
     // is no better way to observe that the bot has completed its work.
     await alicePage.waitForTimeout(1000);
 
-    expect(await aliceElementWebPage.getWidgets()).toEqual(['Meetings']);
+    expect(await aliceElementWebPage.getWidgets()).toEqual(['NeoDateFix']);
   });
 });
