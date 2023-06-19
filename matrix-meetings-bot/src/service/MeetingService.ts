@@ -371,9 +371,10 @@ export class MeetingService {
       extractOxRrule(meetingDetails)
     );
 
-    newMeeting.calendar = calendar ?? newMeeting.calendar;
-
-    // TODO: Include the recurrence information in the update notifications (PB-2991)
+    newMeeting.calendar =
+      start_time === undefined && end_time === undefined
+        ? calendar ?? newMeeting.calendar
+        : undefined;
 
     newMeeting.startTime =
       getMeetingStartTime(start_time, calendar) ?? newMeeting.startTime;

@@ -61,13 +61,23 @@ describe('test RoomMessageService', () => {
       invite: {},
     },
   };
-  const initMeeting = () => {
+  const initMeeting = (rrule?: string) => {
     const meeting: IMeeting = {
       roomId,
       title: 'title',
       description: 'description',
       startTime: '2022-01-16T22:07:21.488Z',
       endTime: '3022-12-16T22:07:21.488Z',
+      calendar: rrule
+        ? [
+            {
+              uid: 'uuid',
+              dtstart: { tzid: 'UTC', value: '20220116T220721' },
+              dtend: { tzid: 'UTC', value: '30221216T220721' },
+              rrule,
+            },
+          ]
+        : undefined,
       widgetIds: [],
       participants: [],
       creator: 'creator',
@@ -184,6 +194,7 @@ describe('test RoomMessageService', () => {
     expect(msg).toContain('Title: title');
     expect(msg).toContain('previously: changed');
     expect(msg).not.toContain('Description: description');
+    expect(msg).not.toContain('Repeat meeting');
   });
 
   it('test to send a message, that contains information about the description change, if description of meeting is changed', async () => {
@@ -206,6 +217,7 @@ describe('test RoomMessageService', () => {
     expect(msg).not.toContain('Title: title');
     expect(msg).toContain('Description: description');
     expect(msg).toContain('previously: changed');
+    expect(msg).not.toContain('Repeat meeting');
   });
 
   it('test to send a message, that contains information about the time-range change, if starttime of meeting is changed', async () => {
@@ -233,6 +245,7 @@ describe('test RoomMessageService', () => {
     );
     expect(msg).not.toContain('Title: title');
     expect(msg).not.toContain('Description: description');
+    expect(msg).not.toContain('Repeat meeting');
   });
 
   it('test to send a message, that contains information about the time-range change, if endtime of meeting is changed', async () => {
@@ -259,6 +272,76 @@ describe('test RoomMessageService', () => {
       '(previously: 01/16/2022 10:07 PM UTC to 12/16/3024 10:07 PM UTC)'
     );
     expect(msg).not.toContain('Title: title');
+    expect(msg).not.toContain('Description: description');
+    expect(msg).not.toContain('Repeat meeting');
+  });
+
+  it('test to send a message, that contains information about the repetition change, if repetition is added', async () => {
+    const oldMeeting = initMeeting();
+    const newMeeting = initMeeting('FREQ=MONTHLY');
+    const meetingChanges = meetingChangesHelper.calculate(
+      oldMeeting,
+      newMeeting
+    );
+    await roomMessageService.notifyMeetingTimeChangedAsync(
+      userContext,
+      oldMeeting,
+      newMeeting,
+      meetingChanges,
+      roomId
+    );
+    verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
+    const msg = capture(matrixClientMock.sendHtmlText).first()[1];
+    expect(msg).toContain('Repeat meeting: Every month');
+    expect(msg).toContain('(previously: )');
+    expect(msg).not.toContain('Title: title');
+    expect(msg).not.toContain('Date:');
+    expect(msg).not.toContain('Description: description');
+  });
+
+  it('test to send a message, that contains information about the repetition change, if repetition is updated', async () => {
+    const oldMeeting = initMeeting('FREQ=DAILY');
+    const newMeeting = initMeeting('FREQ=MONTHLY');
+    const meetingChanges = meetingChangesHelper.calculate(
+      oldMeeting,
+      newMeeting
+    );
+    await roomMessageService.notifyMeetingTimeChangedAsync(
+      userContext,
+      oldMeeting,
+      newMeeting,
+      meetingChanges,
+      roomId
+    );
+    verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
+    const msg = capture(matrixClientMock.sendHtmlText).first()[1];
+    expect(msg).toContain('Repeat meeting: Every month');
+    expect(msg).toContain('(previously: Every day)');
+    expect(msg).not.toContain('Title: title');
+    expect(msg).not.toContain('Date:');
+    expect(msg).not.toContain('Description: description');
+  });
+
+  it('test to send a message, that contains information about the repetition change, if repetition is deleted', async () => {
+    const oldMeeting = initMeeting('FREQ=MONTHLY');
+    const newMeeting = initMeeting();
+    const meetingChanges = meetingChangesHelper.calculate(
+      oldMeeting,
+      newMeeting
+    );
+    await roomMessageService.notifyMeetingTimeChangedAsync(
+      userContext,
+      oldMeeting,
+      newMeeting,
+      meetingChanges,
+      roomId
+    );
+    verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
+    const msg = capture(matrixClientMock.sendHtmlText).first()[1];
+    expect(msg).toContain('Repeat meeting: ');
+    expect(msg).toContain('(previously: Every month)');
+    expect(msg).not.toContain('Title: title');
+    expect(msg).not.toContain('Date:');
     expect(msg).not.toContain('Description: description');
   });
 });

@@ -237,6 +237,16 @@ test.describe('OpenXchange', () => {
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
     ).toHaveText('Oct 3, 2040, 10:30 AM – 11:00 AM');
+
+    await expect(
+      aliceElementWebPage.locateChatMessageInRoom(/Repeat meeting: $/)
+    ).toBeVisible();
+
+    await expect(
+      aliceElementWebPage.locateChatMessageInRoom(
+        /\(previously: Every day for 5 times\)/
+      )
+    ).toBeVisible();
   });
 
   test('should convert a single OX meeting into a recurring meeting', async ({
@@ -280,6 +290,16 @@ test.describe('OpenXchange', () => {
     ).toHaveText(
       'Oct 3, 2040, 10:30 AM – 11:00 AM. Recurrence: Every day for 5 times'
     );
+
+    await expect(
+      aliceElementWebPage.locateChatMessageInRoom(
+        /Repeat meeting: Every day for 5 times/
+      )
+    ).toBeVisible();
+
+    await expect(
+      aliceElementWebPage.locateChatMessageInRoom(/\(previously: \)/)
+    ).toBeVisible();
   });
 
   test('should delete meeting via OX with tombstone', async ({

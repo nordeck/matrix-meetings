@@ -24,6 +24,8 @@ import { MatrixEndpoint } from '../MatrixEndpoint';
 import { IMeeting } from '../model/IMeeting';
 import { IUserContext } from '../model/IUserContext';
 import { StateEventName } from '../model/StateEventName';
+import { isRecurringCalendarSourceEntry } from '../shared/calendarUtils/helpers';
+import { formatRRuleText } from '../shared/format';
 import { IMeetingChanges } from '../util/IMeetingChanges';
 
 @Injectable()
@@ -268,6 +270,30 @@ export class RoomMessageService {
     }
   }
 
+  private createRepetitionLine(
+    lng: string,
+    repetitionText: string,
+    previous?: boolean
+  ) {
+    if (previous) {
+      return this.formatPrevious(
+        i18next.t(
+          'meeting.room.notification.changed.repetition.previous',
+          '(previously: {{repetitionText}})',
+          { lng, repetitionText }
+        )
+      );
+    } else {
+      return this.formatCurrent(
+        i18next.t(
+          'meeting.room.notification.changed.repetition.current',
+          'Repeat meeting: {{repetitionText}}',
+          { lng, repetitionText }
+        )
+      );
+    }
+  }
+
   public async notifyMeetingTimeChangedAsync(
     userContext: IUserContext,
     oldMeeting: IMeeting,
@@ -323,6 +349,18 @@ export class RoomMessageService {
       const oldDescription = oldMeeting.description;
       notification += this.createDescriptionLine(lng, newDescription);
       notification += this.createDescriptionLine(lng, oldDescription, true);
+    }
+
+    if (meetingChanges.calendarChanged) {
+      const newRruleText = isRecurringCalendarSourceEntry(newMeeting.calendar)
+        ? formatRRuleText(newMeeting.calendar[0].rrule, i18next.t, lng)
+        : '';
+      notification += this.createRepetitionLine(lng, newRruleText);
+
+      const oldRruleText = isRecurringCalendarSourceEntry(oldMeeting.calendar)
+        ? formatRRuleText(oldMeeting.calendar[0].rrule, i18next.t, lng)
+        : '';
+      notification += this.createRepetitionLine(lng, oldRruleText, true);
     }
 
     await this.client.sendHtmlText(toRoomId, notification);
