@@ -14,13 +14,12 @@
  * limitations under the License.
  */
 
-import { Dialog, Divider } from '@mui/material';
+import { Dialog } from '@mui/material';
 import { unstable_useId as useId } from '@mui/utils';
 import { DispatchWithoutAction, useMemo } from 'react';
 import { makeSelectMeeting } from '../../../reducer/meetingsApi';
 import { useAppSelector } from '../../../store';
-import { MeetingCalenderDetailsContent } from './MeetingCalenderDetails/MeetingCalenderDetailsContent';
-import { MeetingCalenderDetailsHeader } from './MeetingCalenderDetails/MeetingCalenderDetailsHeader';
+import { MeetingDetails } from '../MeetingDetails';
 
 export function MeetingsCalendarDetailsDialog({
   meetingId,
@@ -45,7 +44,7 @@ export function MeetingsCalendarDetailsDialog({
     );
   });
 
-  const dialogTitleId = useId();
+  const titleId = useId();
   const meetingTimeId = useId();
 
   if (!meeting) {
@@ -62,20 +61,18 @@ export function MeetingsCalendarDetailsDialog({
           background: (theme) => theme.palette.background.default,
         },
       }}
-      aria-labelledby={dialogTitleId}
+      aria-labelledby={titleId}
       aria-describedby={meetingTimeId}
       onClose={onClose}
       open={meetingId !== undefined}
     >
-      <MeetingCalenderDetailsHeader
-        meeting={meeting}
-        onClose={onClose}
-        aria-describedby={dialogTitleId}
-      />
-      <Divider variant="middle" />
-      <MeetingCalenderDetailsContent
-        meeting={meeting}
+      <MeetingDetails
         meetingTimeId={meetingTimeId}
+        recurrenceId={meetingId?.recurrenceId}
+        roomId={meetingId?.meetingId}
+        titleId={titleId}
+        uid={meetingId?.uid}
+        onClose={onClose}
       />
     </Dialog>
   );

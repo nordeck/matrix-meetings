@@ -19,18 +19,29 @@ import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render } from '@testing-library/react';
 import { axe } from 'jest-axe';
+import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
-import { mockCreateMeetingRoom, mockMeeting } from '../../../../lib/testUtils';
-
+import {
+  mockConfigEndpoint,
+  mockCreateMeetingRoom,
+  mockMeeting,
+  mockMeetingSharingInformationEndpoint,
+} from '../../../../lib/testUtils';
 import { createStore } from '../../../../store';
 import { initializeStore } from '../../../../store/store';
-import { MeetingCalenderDetailsShare } from './MeetingCalenderDetailsShare';
+import { MeetingDetailsContent } from './MeetingDetailsContent';
 
 jest.mock('@matrix-widget-toolkit/api', () => ({
   ...jest.requireActual('@matrix-widget-toolkit/api'),
   extractWidgetApiParameters: jest.fn(),
 }));
+
+const server = setupServer();
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
 let widgetApi: MockedWidgetApi;
 
@@ -38,10 +49,12 @@ afterEach(() => widgetApi.stop());
 
 beforeEach(() => (widgetApi = mockWidgetApi()));
 
-describe('<MeetingCalenderDetailsShare/>', () => {
+describe('<MeetingDetailsContent/>', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
+    mockConfigEndpoint(server);
+    mockMeetingSharingInformationEndpoint(server);
     jest.mocked(extractWidgetApiParameters).mockReturnValue({
       clientOrigin: 'http://element.local',
       widgetId: '',
@@ -63,72 +76,20 @@ describe('<MeetingCalenderDetailsShare/>', () => {
     };
   });
 
-  /*   it('should render without exploding', async () => {
-    render(
-      <MeetingsCalendarDetailsDialog
-        meetingId={{
-          meetingId: '!meeting-room-id',
-          uid: 'entry-0',
-          recurrenceId: undefined,
-        }}
-        onClose={onClose}
-      />,
-      { wrapper: Wrapper }
-    );
-
-    const dialog = await screen.findByRole('dialog', {
-      name: 'An important meeting',
-      description: 'January 1, 2999, 10:00 AM – 2:00 PM',
-    });
-
-    expect(
-      within(dialog).getByRole('heading', {
-        name: 'An important meeting',
-        level: 3,
-      })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByText(/^January 1, 2999, 10:00 AM – 2:00 PM$/)
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('button', { name: 'Join' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('button', { name: 'Edit' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('button', { name: 'Delete' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('button', { name: 'Share by email' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('button', { name: 'Download ICS File' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('listitem', { name: 'Alice' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('link', {
-        name: 'http://element.local/#/room/!meeting-room-id',
-      })
-    ).toBeInTheDocument();
-  }); */
+  it.todo('should render without exploding');
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
-      <MeetingCalenderDetailsShare meeting={mockMeeting()} />,
+      <MeetingDetailsContent
+        meeting={mockMeeting()}
+        meetingTimeId="meeting-id"
+      />,
       { wrapper: Wrapper }
     );
 
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  it.todo('should join meeting room by clicking the link');
+  it.todo('should copy the room link');
 });

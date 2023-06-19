@@ -30,7 +30,7 @@ type MeetingCalenderDetailsJoinButtonProps = {
   'aria-describedby'?: string;
 };
 
-export function MeetingCalenderDetailsJoinButton({
+export function MeetingDetailsJoinButton({
   roomId,
   meetingType,
   'aria-describedby': ariaDescribedBy,
@@ -50,8 +50,8 @@ export function MeetingCalenderDetailsJoinButton({
   }, [roomId, widgetApi]);
 
   const openRoomLabel = breakoutSessionMode
-    ? t('openMeetingRoomButton.joinBreakout', 'Join', { context: 'breakout' })
-    : t('openMeetingRoomButton.join', 'Join');
+    ? t('meetingDetails.header.joinBreakout', 'Join', { context: 'breakout' })
+    : t('meetingDetails.header.join', 'Join');
 
   return (
     <Button

@@ -22,10 +22,9 @@ import { axe } from 'jest-axe';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
 import { mockCreateMeetingRoom, mockMeeting } from '../../../../lib/testUtils';
-
 import { createStore } from '../../../../store';
 import { initializeStore } from '../../../../store/store';
-import { MeetingCalenderDetailsParticipants } from './MeetingCalenderDetailsParticipants';
+import { MeetingDetailsParticipants } from './MeetingDetailsParticipants';
 
 jest.mock('@matrix-widget-toolkit/api', () => ({
   ...jest.requireActual('@matrix-widget-toolkit/api'),
@@ -38,7 +37,7 @@ afterEach(() => widgetApi.stop());
 
 beforeEach(() => (widgetApi = mockWidgetApi()));
 
-describe('<MeetingCalenderDetailsParticipants/>', () => {
+describe('<MeetingDetailsParticipants/>', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
@@ -125,7 +124,7 @@ describe('<MeetingCalenderDetailsParticipants/>', () => {
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
-      <MeetingCalenderDetailsParticipants
+      <MeetingDetailsParticipants
         participants={mockMeeting().participants}
         creator="@user-id"
       />,

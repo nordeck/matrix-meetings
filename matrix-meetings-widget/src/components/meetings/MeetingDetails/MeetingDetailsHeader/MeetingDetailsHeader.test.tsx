@@ -19,29 +19,17 @@ import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render } from '@testing-library/react';
 import { axe } from 'jest-axe';
-import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
-import {
-  mockConfigEndpoint,
-  mockCreateMeetingRoom,
-  mockMeeting,
-  mockMeetingSharingInformationEndpoint,
-} from '../../../../lib/testUtils';
+import { mockCreateMeetingRoom, mockMeeting } from '../../../../lib/testUtils';
 import { createStore } from '../../../../store';
 import { initializeStore } from '../../../../store/store';
-import { MeetingCalenderDetailsContent } from './MeetingCalenderDetailsContent';
+import { MeetingDetailsHeader } from './MeetingDetailsHeader';
 
 jest.mock('@matrix-widget-toolkit/api', () => ({
   ...jest.requireActual('@matrix-widget-toolkit/api'),
   extractWidgetApiParameters: jest.fn(),
 }));
-
-const server = setupServer();
-
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
 
 let widgetApi: MockedWidgetApi;
 
@@ -49,12 +37,11 @@ afterEach(() => widgetApi.stop());
 
 beforeEach(() => (widgetApi = mockWidgetApi()));
 
-describe('<MeetingCalenderDetailsContent/>', () => {
+describe('<MeetingDetailsHeader/>', () => {
+  const onClose = jest.fn();
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
-    mockConfigEndpoint(server);
-    mockMeetingSharingInformationEndpoint(server);
     jest.mocked(extractWidgetApiParameters).mockReturnValue({
       clientOrigin: 'http://element.local',
       widgetId: '',
@@ -76,75 +63,20 @@ describe('<MeetingCalenderDetailsContent/>', () => {
     };
   });
 
-  /*   it('should render without exploding', async () => {
-    render(
-      <MeetingsCalendarDetailsDialog
-        meetingId={{
-          meetingId: '!meeting-room-id',
-          uid: 'entry-0',
-          recurrenceId: undefined,
-        }}
-        onClose={onClose}
-      />,
-      { wrapper: Wrapper }
-    );
-
-    const dialog = await screen.findByRole('dialog', {
-      name: 'An important meeting',
-      description: 'January 1, 2999, 10:00 AM – 2:00 PM',
-    });
-
-    expect(
-      within(dialog).getByRole('heading', {
-        name: 'An important meeting',
-        level: 3,
-      })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByText(/^January 1, 2999, 10:00 AM – 2:00 PM$/)
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('button', { name: 'Join' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('button', { name: 'Edit' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('button', { name: 'Delete' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('button', { name: 'Share by email' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('button', { name: 'Download ICS File' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('listitem', { name: 'Alice' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('link', {
-        name: 'http://element.local/#/room/!meeting-room-id',
-      })
-    ).toBeInTheDocument();
-  }); */
+  it.todo('should render without exploding');
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
-      <MeetingCalenderDetailsContent
-        meeting={mockMeeting()}
-        meetingTimeId="meeting-id"
-      />,
+      <MeetingDetailsHeader meeting={mockMeeting()} onClose={onClose} />,
       { wrapper: Wrapper }
     );
 
     expect(await axe(container)).toHaveNoViolations();
   });
+
+  it.todo('should join meeting room');
+  it.todo('should open edit dialog');
+  it.todo('should delete the meeting');
+  it.todo('should show message if delete the meeting failed');
+  it.todo('should close the expended meeting dialog');
 });

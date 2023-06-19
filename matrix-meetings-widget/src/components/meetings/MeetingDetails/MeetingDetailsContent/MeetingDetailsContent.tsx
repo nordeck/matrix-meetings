@@ -36,10 +36,10 @@ import { Meeting } from '../../../../reducer/meetingsApi';
 import { fullLongDateFormat } from '../../../common/DateTimePickers';
 import { useMeetingUrl } from '../../MeetingCardShareMeetingContent/useMeetingUrl';
 import { formatRRuleText } from '../../RecurrenceEditor/utils';
-import { MeetingCalenderDetailsParticipants } from './MeetingCalenderDetailsParticipants';
-import { MeetingCalenderDetailsShare } from './MeetingCalenderDetailsShare';
+import { MeetingDetailsParticipants } from './MeetingDetailsParticipants';
+import { MeetingDetailsShare } from './MeetingDetailsShare';
 
-export function MeetingCalenderDetailsContent({
+export function MeetingDetailsContent({
   meeting,
   meetingTimeId,
 }: {
@@ -74,7 +74,7 @@ export function MeetingCalenderDetailsContent({
               display="block"
               mb={1}
             >
-              {t('meetingCalenderDetails.content.details', 'Details')}
+              {t('meetingDetails.content.details', 'Details')}
             </Typography>
             <Box display="flex" alignItems="flex-end" mb={1}>
               {isRecurringCalendarSourceEntry(meeting.calendarEntries) ? (
@@ -92,7 +92,7 @@ export function MeetingCalenderDetailsContent({
                 id={meetingTimeId}
               >
                 {t(
-                  'meetingCalenderDetails.content.dateAndTime',
+                  'meetingDetails.content.dateAndTime',
                   '{{range, daterange}}',
                   {
                     range: [
@@ -140,7 +140,7 @@ export function MeetingCalenderDetailsContent({
               </Box>
               <Tooltip
                 title={t(
-                  'meetingCalenderDetails.content.copy-to-clipboard',
+                  'meetingDetails.content.copy-to-clipboard',
                   'Copy to clipboard'
                 )}
               >
@@ -164,7 +164,7 @@ export function MeetingCalenderDetailsContent({
                 display="block"
                 mb={1}
               >
-                {t('meetingCalenderDetails.content.description', 'Description')}
+                {t('meetingDetails.content.description', 'Description')}
               </Typography>
               <Typography paragraph fontSize="inherit">
                 {meeting.description}
@@ -172,11 +172,11 @@ export function MeetingCalenderDetailsContent({
             </Box>
           )}
 
-          <MeetingCalenderDetailsShare meeting={meeting} />
+          <MeetingDetailsShare meeting={meeting} />
         </Grid>
 
         <Grid item xs={12} sm={6}>
-          <MeetingCalenderDetailsParticipants
+          <MeetingDetailsParticipants
             participants={meeting.participants}
             creator={meeting.creator}
           />

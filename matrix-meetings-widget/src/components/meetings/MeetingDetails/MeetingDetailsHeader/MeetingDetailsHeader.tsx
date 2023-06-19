@@ -59,16 +59,16 @@ import { getOpenXChangeExternalReference } from '../../../common/MenuButton';
 import { UpdateFailedDialog } from '../../MeetingCard/MeetingCardMenu';
 import { ScheduledDeletionWarning } from '../../MeetingCard/ScheduledDeletionWarning';
 import { useEditMeeting } from '../../ScheduleMeetingModal';
-import { MeetingCalenderDetailsJoinButton } from './MeetingCalenderDetailsJoinButton';
+import { MeetingDetailsJoinButton } from './MeetingDetailsJoinButton';
 
-export function MeetingCalenderDetailsHeader({
+export function MeetingDetailsHeader({
   meeting,
   onClose,
-  'aria-describedby': ariaDescribedBy,
+  titleId,
 }: {
   meeting: Meeting;
-  onClose: DispatchWithoutAction;
-  'aria-describedby'?: string;
+  onClose?: DispatchWithoutAction;
+  titleId?: string;
 }) {
   const widgetApi = useWidgetApi();
   const { t } = useTranslation();
@@ -160,7 +160,7 @@ export function MeetingCalenderDetailsHeader({
     widgetApi,
   ]);
 
-  const titleId = useId();
+  const joinButtonTitleId = useId();
 
   return (
     <>
@@ -168,7 +168,7 @@ export function MeetingCalenderDetailsHeader({
         <Box display="flex" flexWrap="wrap" flex={1} mt={2} overflow="hidden">
           <DialogTitle
             component="h3"
-            id={ariaDescribedBy}
+            id={titleId}
             sx={{
               pb: '0 !important',
               pt: '0 !important',
@@ -182,8 +182,8 @@ export function MeetingCalenderDetailsHeader({
             {meeting?.title}
           </DialogTitle>
           <Box display="flex" flexWrap="wrap" alignItems="baseline" ml={3}>
-            <MeetingCalenderDetailsJoinButton
-              aria-describedby={titleId}
+            <MeetingDetailsJoinButton
+              aria-describedby={joinButtonTitleId}
               meetingType={meeting.type}
               roomId={meeting.meetingId}
             />
@@ -193,7 +193,7 @@ export function MeetingCalenderDetailsHeader({
                 onClick={handleClickEditMeeting}
                 sx={{ mr: 1, mb: 1 }}
               >
-                {t('meetingCalenderDetails.header.editMenu', 'Edit')}
+                {t('meetingDetails.header.editMenu', 'Edit')}
               </Button>
             )}
 
@@ -203,7 +203,7 @@ export function MeetingCalenderDetailsHeader({
                 onClick={handleClickOpenDeleteConfirm}
                 color="error"
               >
-                {t('meetingCalenderDetails.header.deleteMenu', 'Delete')}
+                {t('meetingDetails.header.deleteMenu', 'Delete')}
               </Button>
             )}
           </Box>
@@ -218,12 +218,9 @@ export function MeetingCalenderDetailsHeader({
       {showErrorDialog && <UpdateFailedDialog setOpen={setShowErrorDialog} />}
 
       <ConfirmDeleteDialog
-        confirmTitle={t(
-          'meetingCalenderDetails.header.deleteConfirmButton',
-          'Delete'
-        )}
+        confirmTitle={t('meetingDetails.header.deleteConfirmButton', 'Delete')}
         description={t(
-          'meetingCalenderDetails.header.deleteConfirmMessage',
+          'meetingDetails.header.deleteConfirmMessage',
           'Are you sure you want to delete the meeting “{{title}}” on {{startTime, datetime}} and every content related to it?',
           {
             title: meeting.title,
@@ -241,10 +238,7 @@ export function MeetingCalenderDetailsHeader({
         onCancel={handleCloseDeleteConfirm}
         onConfirm={handleClickDeleteConfirm}
         open={openDeleteConfirm}
-        title={t(
-          'meetingCalenderDetails.header.deleteConfirmHeader',
-          'Delete meeting'
-        )}
+        title={t('meetingDetails.header.deleteConfirmHeader', 'Delete meeting')}
       >
         {meeting.deletionTime !== undefined && (
           <ScheduledDeletionWarning deletionTime={meeting.deletionTime} />
@@ -254,14 +248,11 @@ export function MeetingCalenderDetailsHeader({
           <Alert severity="error">
             <AlertTitle>
               {t(
-                'meetingCalenderDetails.header..deleteFailedTitle',
+                'meetingDetails.header..deleteFailedTitle',
                 'Failed to delete the meeting'
               )}
             </AlertTitle>
-            {t(
-              'meetingCalenderDetails.header..deleteFailed',
-              'Please try again.'
-            )}
+            {t('meetingDetails.header..deleteFailed', 'Please try again.')}
           </Alert>
         )}
       </ConfirmDeleteDialog>

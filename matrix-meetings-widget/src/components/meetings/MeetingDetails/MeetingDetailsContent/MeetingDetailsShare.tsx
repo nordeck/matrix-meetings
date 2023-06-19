@@ -41,7 +41,7 @@ import {
 import { useDownloadIcsFile } from '../../MeetingCardShareMeetingContent/useDownloadIcsFile';
 import { useMeetingEmail } from '../../MeetingCardShareMeetingContent/useMeetingEmail';
 
-export function MeetingCalenderDetailsShare({ meeting }: { meeting: Meeting }) {
+export function MeetingDetailsShare({ meeting }: { meeting: Meeting }) {
   const { t } = useTranslation();
   const {
     href: icsUrl,
@@ -66,10 +66,7 @@ export function MeetingCalenderDetailsShare({ meeting }: { meeting: Meeting }) {
           id={titleId}
           mb={1}
         >
-          {t(
-            'meetingCalenderDetails.content.shareMeeting.title',
-            'Share meeting'
-          )}
+          {t('meetingDetails.content.shareMeeting.title', 'Share meeting')}
         </Typography>
         <List aria-labelledby={titleId}>
           <ListItem disablePadding>
@@ -79,7 +76,7 @@ export function MeetingCalenderDetailsShare({ meeting }: { meeting: Meeting }) {
               </ListItemIcon>
               <ListItemText>
                 {t(
-                  'meetingCalenderDetails.content.shareMeeting.shareByMail',
+                  'meetingDetails.content.shareMeeting.shareByMail',
                   'Share by email'
                 )}
               </ListItemText>
@@ -102,7 +99,7 @@ export function MeetingCalenderDetailsShare({ meeting }: { meeting: Meeting }) {
               </ListItemIcon>
               <ListItemText
                 primary={t(
-                  'meetingCalenderDetails.content.shareMeeting.downloadIcsFile',
+                  'meetingDetails.content.shareMeeting.downloadIcsFile',
                   'Download ICS File'
                 )}
                 secondary={icsError}
@@ -114,27 +111,27 @@ export function MeetingCalenderDetailsShare({ meeting }: { meeting: Meeting }) {
       </Box>
       <ShareDialog
         description={t(
-          'meetingCalenderDetails.content.shareMeeting.emailDescription',
+          'meetingDetails.content.shareMeeting.emailDescription',
           'Use the following information to forward the conference for example by email:'
         )}
         onClose={emailDialog.onClose}
         open={emailDialog.open}
         title={t(
-          'meetingCalenderDetails.content.shareMeeting.emailTitle',
+          'meetingDetails.content.shareMeeting.emailTitle',
           'Share the meeting invitation'
         )}
       >
         {isRecurringCalendarSourceEntry(meeting.calendarEntries) && (
           <Alert role="status" severity="warning" sx={{ my: 1 }}>
             {t(
-              'meetingCalenderDetails.content.shareMeeting.warningRecurringMeetingEmail',
+              'meetingDetails.content.shareMeeting.warningRecurringMeetingEmail',
               'This is an email invitation to a meeting series. Sharing this email invitation invites users to all meetings in the series.'
             )}
           </Alert>
         )}
         <CopyableText
           label={t(
-            'meetingCalenderDetails.content.shareMeeting.emailCopyMessage',
+            'meetingDetails.content.shareMeeting.emailCopyMessage',
             'Message'
           )}
           multiline
@@ -144,20 +141,20 @@ export function MeetingCalenderDetailsShare({ meeting }: { meeting: Meeting }) {
 
       <ShareDialog
         description={t(
-          'meetingCalenderDetails.content.shareMeeting.icsDescription',
+          'meetingDetails.content.shareMeeting.icsDescription',
           'Download the meeting in the iCalendar format to add it to a calendar application:'
         )}
         onClose={icsDialog.onClose}
         open={icsDialog.open}
         title={t(
-          'meetingCalenderDetails.content.shareMeeting.icsTitle',
+          'meetingDetails.content.shareMeeting.icsTitle',
           'Download a calendar file'
         )}
       >
         {isRecurringCalendarSourceEntry(meeting.calendarEntries) && (
           <Alert role="status" severity="warning" sx={{ my: 1 }}>
             {t(
-              'meetingCalenderDetails.content.shareMeeting.warningRecurringMeetingICalFile',
+              'meetingDetails.content.shareMeeting.warningRecurringMeetingICalFile',
               'This is an iCal file of a meeting series. Sharing this iCal file invites users to all meetings in the series.'
             )}
           </Alert>
@@ -171,10 +168,7 @@ export function MeetingCalenderDetailsShare({ meeting }: { meeting: Meeting }) {
           sx={{ my: 1 }}
           variant="outlined"
         >
-          {t(
-            'meetingCalenderDetails.content.shareMeeting.download',
-            'Download'
-          )}
+          {t('meetingDetails.content.shareMeeting.download', 'Download')}
         </Button>
       </ShareDialog>
     </>

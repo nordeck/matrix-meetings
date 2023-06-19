@@ -22,7 +22,7 @@ import { ellipsis } from '../../../../lib/ellipsis';
 import { MeetingParticipant } from '../../../../reducer/meetingsApi';
 import { getParticipantMembership } from '../../MeetingCardEditParticipantsContent/ParticipantItem';
 
-export function MeetingCalenderDetailsParticipant({
+export function MeetingDetailsParticipant({
   participant,
   isOrganizer = false,
 }: {
@@ -65,7 +65,7 @@ export function MeetingCalenderDetailsParticipant({
         primaryTypographyProps={{ sx: ellipsis, id: titleId }}
         secondary={
           isOrganizer
-            ? t('meetingCalenderDetails.content.organizer', 'Organizer')
+            ? t('meetingDetails.content.organizer', 'Organizer')
             : secondaryText
         }
         secondaryTypographyProps={{ id: subtitleId }}

@@ -20,7 +20,7 @@ import { useTranslation } from 'react-i18next';
 import { isBotUser } from '../../../../lib/utils';
 import { MeetingParticipant } from '../../../../reducer/meetingsApi';
 import { sortByNameAndStatus } from '../../MeetingCardEditParticipantsContent/MeetingCardEditParticipantsContent';
-import { MeetingCalenderDetailsParticipant } from './MeetingCalenderDetailsParticipant';
+import { MeetingDetailsParticipant } from './MeetingDetailsParticipant';
 
 export type ParticipantDetails = {
   userId: string;
@@ -29,7 +29,7 @@ export type ParticipantDetails = {
   avatarUrl?: string;
 };
 
-export function MeetingCalenderDetailsParticipants({
+export function MeetingDetailsParticipants({
   participants,
   creator,
 }: {
@@ -51,20 +51,17 @@ export function MeetingCalenderDetailsParticipants({
         id={titleId}
         mb={1}
       >
-        {t('meetingCalenderDetails.content.participants', 'Participants')}
+        {t('meetingDetails.content.participants', 'Participants')}
       </Typography>
       <List aria-labelledby={titleId}>
         {roomCreator && (
-          <MeetingCalenderDetailsParticipant
-            participant={roomCreator}
-            isOrganizer
-          />
+          <MeetingDetailsParticipant participant={roomCreator} isOrganizer />
         )}
         {participants
           .filter((r) => !isBotUser(r.userId) && r.userId !== creator)
           .sort(sortByNameAndStatus)
           .map((p) => (
-            <MeetingCalenderDetailsParticipant participant={p} key={p.userId} />
+            <MeetingDetailsParticipant participant={p} key={p.userId} />
           ))}
       </List>
     </>
