@@ -606,7 +606,9 @@ describe('<MeetingsCalendar/>', () => {
 
     const dialog = await screen.findByRole('dialog', {
       name: 'Meeting 5',
+      description: 'January 2, 2021, 2:00 – 3:00 PM',
     });
+
     expect(within(dialog).getByText('Meeting 5')).toBeInTheDocument();
     expect(within(dialog).getByText('A brief description')).toBeInTheDocument();
 
