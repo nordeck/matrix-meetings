@@ -1,4 +1,4 @@
-# Matrix Meetings Bot
+# NeoDateFix Bot
 
 A Matrix bot to create meeting rooms with customizable settings.
 The bot is used for every action we can not directly perform from the widget via the Widget API.
@@ -6,7 +6,7 @@ It also provides a REST API to integrate with third party services.
 
 ## Getting Started
 
-There are two ways to setup the meetings widget using the bot:
+There are two ways to setup the NeoDateFix widget using the bot:
 
 > **Warning**: The bot currently doesn't support encrypted rooms.
 
@@ -21,9 +21,9 @@ In a private chat-room you can use the following commands:
 
 - `!meeting help`: shows all available commands.
 - `!meeting lang <en|de>` Change bot's language in this room
-- `!meeting detail` Show the manual about meeting widget setup in the room
-- `!meeting setup` Adds a meeting widget to the room
-- `!meeting status` Check the ability to add the meeting widget
+- `!meeting detail` Show the manual about NeoDateFix widget setup in the room
+- `!meeting setup` Adds a NeoDateFix widget to the room
+- `!meeting status` Check the ability to add the NeoDateFix widget
 
 ### Available Scripts
 

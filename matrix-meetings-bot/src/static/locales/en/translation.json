@@ -8,7 +8,7 @@
     "private": {
       "errorRoom": {
         "create": {
-          "message": "Error messages from Meetings-Bot",
+          "message": "Error messages from NeoDateFix-Bot",
           "topic": "More details"
         }
       }
@@ -64,7 +64,7 @@
     }
   },
   "welcome": {
-    "botIsAdmin": "The bot is a moderator in the room <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>. If you enter the command <code>!meeting setup</code> meeting widget will be added to that room.",
+    "botIsAdmin": "The bot is a moderator in the room <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>. If you enter the command <code>!meeting setup</code> NeoDateFix widget will be added to that room.",
     "botNotAdmin": "The bot is not a moderator in the room <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>.",
     "errors": {
       "meetingWidgetExists": "Can't add a new widget because it already exists.",
@@ -94,7 +94,7 @@
     "languageWasChanged": "The language was changed to <b>{{locale}}</b>.",
     "meetingWidgetAdded": "<p>My job is done.</p><p>The calendar is already successfully installed into your room. You can leave this private chat-room.</p>",
     "privateRoom": {
-      "inviteReason": "In this private room bot can help with adding a meeting widget to the room '{{originalRoomName}}'.",
+      "inviteReason": "In this private room bot can help with adding a NeoDateFix widget to the room '{{originalRoomName}}'.",
       "name": "Help for {{originalRoomName}}",
       "topic": "How to use this bot to setup the widget bot in the room {{originalRoomName}}."
     }

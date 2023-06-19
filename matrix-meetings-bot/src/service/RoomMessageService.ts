@@ -47,7 +47,7 @@ export class RoomMessageService {
   private async setupErrorPrivateRoom(userId: string): Promise<string> {
     const roomName = i18next.t(
       'bot.private.errorRoom.create.message',
-      'Error messages from Meetings-Bot'
+      'Error messages from NeoDateFix-Bot'
     );
     const topic = i18next.t(
       'bot.private.errorRoom.create.topic',
