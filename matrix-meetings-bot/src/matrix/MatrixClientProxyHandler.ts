@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
+import { Logger } from '@nestjs/common';
 import { MatrixClient } from 'matrix-bot-sdk';
 import { Matrix404Error } from '../error/Matrix404Error';
 import { MatrixError } from '../error/MatrixError';
 
+const logger = new Logger('MatrixClientProxyHandler');
 /**
  * Proxy handler to intercept MatrixClient invocations.
  * Improves error handling by throwing MatrixError with relevant stack and message if operation to Matrix failed.
@@ -32,12 +34,32 @@ export class MatrixClientProxyHandler implements ProxyHandler<MatrixClient> {
       const errorStack = new Error().stack; // stores stack to be used in case of error
 
       return async function (...args: any[]) {
-        try {
-          return await targetPropValue.apply(target, args);
-        } catch (reason) {
-          const error = extractError(reason);
-          error.stack = errorStack;
-          throw error;
+        let remainingRetries = 5;
+
+        // eslint-disable-next-line no-constant-condition
+        while (remainingRetries > 0) {
+          try {
+            return await targetPropValue.apply(target, args);
+          } catch (reason) {
+            const body = (reason as any)?.body;
+            if (
+              body?.errcode === 'M_LIMIT_EXCEEDED' &&
+              body?.error &&
+              body?.retry_after_ms
+            ) {
+              logger.warn(
+                `${body.errcode}: Retry for ${remainingRetries} times. Wait for ${body.retry_after_ms}`
+              );
+              await new Promise((resolve) =>
+                setTimeout(resolve, body.retry_after_ms)
+              );
+              remainingRetries--;
+            } else {
+              const error = extractError(reason);
+              error.stack = errorStack;
+              throw error;
+            }
+          }
         }
       };
     } else {
