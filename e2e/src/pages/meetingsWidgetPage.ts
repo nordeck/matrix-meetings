@@ -106,7 +106,10 @@ export class MeetingsWidgetPage {
   async openCalendarEventDetails(
     title: string
   ): Promise<CalendarEventDetailsPage> {
+    const elementWebPage = new ElementWebPage(this.page);
     await this.getCalendarEvent(title).click();
+
+    await elementWebPage.approveWidgetIdentity();
 
     return new CalendarEventDetailsPage(
       this.page,

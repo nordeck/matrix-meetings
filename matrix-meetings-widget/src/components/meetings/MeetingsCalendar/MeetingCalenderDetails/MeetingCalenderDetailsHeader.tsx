@@ -165,7 +165,7 @@ export function MeetingCalenderDetailsHeader({
   return (
     <>
       <Stack alignItems="baseline" direction="row">
-        <Box display="flex" flexWrap="wrap" flex={1} mt={2}>
+        <Box display="flex" flexWrap="wrap" flex={1} mt={2} overflow="hidden">
           <DialogTitle
             component="h3"
             id={ariaDescribedBy}
@@ -173,6 +173,10 @@ export function MeetingCalenderDetailsHeader({
               pb: '0 !important',
               pt: '0 !important',
               pr: '0 !important',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              maxWidth: '100%',
             }}
           >
             {meeting?.title}

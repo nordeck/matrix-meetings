@@ -32,7 +32,7 @@ export class MeetingCardPage {
       .getByRole('heading')
       .locator('..')
       .locator('> span');
-    this.meetingTitleText = this.card.getByRole('heading');
+    this.meetingTitleText = this.card.getByRole('heading', { level: 3 });
     this.meetingDescriptionText = this.card.getByRole('paragraph').first();
   }
 
