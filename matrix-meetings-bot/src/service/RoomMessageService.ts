@@ -354,12 +354,16 @@ export class RoomMessageService {
     if (meetingChanges.calendarChanged) {
       const newRruleText = isRecurringCalendarSourceEntry(newMeeting.calendar)
         ? formatRRuleText(newMeeting.calendar[0].rrule, i18next.t, lng)
-        : '';
+        : i18next.t('meeting.room.notification.noRepetition', 'No repetition', {
+            lng,
+          });
       notification += this.createRepetitionLine(lng, newRruleText);
 
       const oldRruleText = isRecurringCalendarSourceEntry(oldMeeting.calendar)
         ? formatRRuleText(oldMeeting.calendar[0].rrule, i18next.t, lng)
-        : '';
+        : i18next.t('meeting.room.notification.noRepetition', 'No repetition', {
+            lng,
+          });
       notification += this.createRepetitionLine(lng, oldRruleText, true);
     }
 

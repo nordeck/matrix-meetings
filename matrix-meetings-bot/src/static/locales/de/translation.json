@@ -60,7 +60,8 @@
         },
         "closed": {
           "message": "Der Raum wurde vom Administrator geschlossen"
-        }
+        },
+        "noRepetition": "Nicht wiederholen"
       }
     },
     "user": {

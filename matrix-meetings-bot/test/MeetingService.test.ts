@@ -1566,7 +1566,7 @@ describe('test relevant functionality of MeetingService', () => {
 
     msg = capture(clientMock.sendHtmlText).last()[1];
     expect(msg).toContain('Repeat meeting: Every day for one time');
-    expect(msg).toContain('(previously: )');
+    expect(msg).toContain('(previously: No repetition)');
   });
 
   test('getSharingInformationAsync', async () => {

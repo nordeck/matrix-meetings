@@ -239,7 +239,9 @@ test.describe('OpenXchange', () => {
     ).toHaveText('Oct 3, 2040, 10:30 AM – 11:00 AM');
 
     await expect(
-      aliceElementWebPage.locateChatMessageInRoom(/Repeat meeting: $/)
+      aliceElementWebPage.locateChatMessageInRoom(
+        /Repeat meeting: No repetition/
+      )
     ).toBeVisible();
 
     await expect(
@@ -298,7 +300,9 @@ test.describe('OpenXchange', () => {
     ).toBeVisible();
 
     await expect(
-      aliceElementWebPage.locateChatMessageInRoom(/\(previously: \)/)
+      aliceElementWebPage.locateChatMessageInRoom(
+        /\(previously: No repetition\)/
+      )
     ).toBeVisible();
   });
 

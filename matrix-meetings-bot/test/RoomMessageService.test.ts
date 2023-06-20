@@ -293,7 +293,7 @@ describe('test RoomMessageService', () => {
     verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
     const msg = capture(matrixClientMock.sendHtmlText).first()[1];
     expect(msg).toContain('Repeat meeting: Every month');
-    expect(msg).toContain('(previously: )');
+    expect(msg).toContain('(previously: No repetition)');
     expect(msg).not.toContain('Title: title');
     expect(msg).not.toContain('Date:');
     expect(msg).not.toContain('Description: description');
@@ -338,7 +338,7 @@ describe('test RoomMessageService', () => {
     );
     verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
     const msg = capture(matrixClientMock.sendHtmlText).first()[1];
-    expect(msg).toContain('Repeat meeting: ');
+    expect(msg).toContain('Repeat meeting: No repetition');
     expect(msg).toContain('(previously: Every month)');
     expect(msg).not.toContain('Title: title');
     expect(msg).not.toContain('Date:');

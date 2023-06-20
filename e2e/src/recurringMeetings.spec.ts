@@ -225,7 +225,9 @@ test.describe('Recurring Meetings', () => {
     await aliceElementWebPage.navigateToRoomOrInvitation('My Meeting');
 
     await expect(
-      aliceElementWebPage.locateChatMessageInRoom(/Repeat meeting: $/)
+      aliceElementWebPage.locateChatMessageInRoom(
+        /Repeat meeting: No repetition/
+      )
     ).toBeVisible();
 
     await expect(
@@ -282,7 +284,9 @@ test.describe('Recurring Meetings', () => {
     ).toBeVisible();
 
     await expect(
-      aliceElementWebPage.locateChatMessageInRoom(/\(previously: \)/)
+      aliceElementWebPage.locateChatMessageInRoom(
+        /\(previously: No repetition\)/
+      )
     ).toBeVisible();
   });
 

@@ -60,7 +60,8 @@
         },
         "closed": {
           "message": "Room was closed by administrator"
-        }
+        },
+        "noRepetition": "No repetition"
       }
     },
     "user": {
