@@ -88,7 +88,6 @@ export class Room implements IRoom {
         }
 
         // TODO: Include the recurrence information in the invitation text (PB-2990)
-        // TODO: Include the recurrence information in the update notifications (PB-2991)
 
         this._meeting = {
           type: meetingType,
@@ -97,6 +96,7 @@ export class Room implements IRoom {
           parentRoomId: spaceParent?.state_key,
           startTime: getMeetingStartTime(content.start_time, content.calendar),
           endTime: getMeetingEndTime(content.end_time, content.calendar),
+          calendar: content.calendar,
           autoDeletionOffset: content.auto_deletion_offset,
           title: (
             this.roomEventsByName(StateEventName.M_ROOM_NAME_EVENT)[0]

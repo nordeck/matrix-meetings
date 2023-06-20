@@ -27,8 +27,8 @@ describe('test IMeetingChanges', () => {
       roomId: 'r1',
       title: 'title',
       description: 'description',
-      startTime: '2022-01-16T22:07:21.488Z',
-      endTime: '3022-12-16T22:07:21.488Z',
+      startTime: '2022-01-01T00:00:00.000Z',
+      endTime: '2022-01-01T00:00:00.000Z',
       widgetIds: [],
       participants: [],
       creator: 'creator',
@@ -40,6 +40,7 @@ describe('test IMeetingChanges', () => {
       descriptionChanged: false,
       startTimeChanged: false,
       endTimeChanged: false,
+      calendarChanged: false,
       timeChanged: false,
       anythingChanged: false,
     };
@@ -60,6 +61,24 @@ describe('test IMeetingChanges', () => {
       ...nothingChanged,
       startTimeChanged: true,
       timeChanged: true,
+      anythingChanged: true,
+    } as IMeetingChanges);
+
+    expect(
+      meetingChangesHelper.calculate(meeting, {
+        ...meeting,
+        calendar: [
+          {
+            uid: 'uuid',
+            dtstart: { tzid: 'Europe/Berlin', value: '20200101T000000' },
+            dtend: { tzid: 'Europe/Berlin', value: '20200101T000000' },
+            rrule: 'FREQ=DAILY',
+          },
+        ],
+      })
+    ).toEqual({
+      ...nothingChanged,
+      calendarChanged: true,
       anythingChanged: true,
     } as IMeetingChanges);
   });

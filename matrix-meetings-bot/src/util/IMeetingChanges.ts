@@ -15,12 +15,14 @@
  */
 
 import { IMeeting } from '../model/IMeeting';
+import { isRecurringCalendarSourceEntry } from '../shared/calendarUtils/helpers';
 
 export interface IMeetingChanges {
   titleChanged: boolean;
   descriptionChanged: boolean;
   startTimeChanged: boolean;
   endTimeChanged: boolean;
+  calendarChanged: boolean;
 
   timeChanged: boolean;
   anythingChanged: boolean;
@@ -37,13 +39,22 @@ class MeetingChangesHelper {
     const startTimeChanged = newMeeting.startTime !== oldMeeting.startTime;
     const endTimeChanged = newMeeting.endTime !== oldMeeting.endTime;
     const timeChanged = startTimeChanged || endTimeChanged;
-    const anythingChanged = titleChanged || descriptionChanged || timeChanged;
+    const newRrule = isRecurringCalendarSourceEntry(newMeeting.calendar)
+      ? newMeeting.calendar[0].rrule
+      : undefined;
+    const oldRrule = isRecurringCalendarSourceEntry(oldMeeting.calendar)
+      ? oldMeeting.calendar[0].rrule
+      : undefined;
+    const calendarChanged = newRrule !== oldRrule;
+    const anythingChanged =
+      titleChanged || descriptionChanged || timeChanged || calendarChanged;
 
     return {
       titleChanged,
       descriptionChanged,
       startTimeChanged,
       endTimeChanged,
+      calendarChanged,
       timeChanged,
       anythingChanged,
     };

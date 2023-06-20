@@ -1216,6 +1216,7 @@ describe('test relevant functionality of MeetingService', () => {
       content: {
         events_default: 50,
         users: {
+          [BOT_USER]: 101,
           [CURRENT_USER]: 100,
         },
       },
@@ -1416,6 +1417,9 @@ describe('test relevant functionality of MeetingService', () => {
       )
     ).once();
 
+    let msg = capture(clientMock.sendHtmlText).last()[1];
+    expect(msg).not.toContain('Repeat meeting');
+
     meetingDetails.calendar = [
       {
         uid: 'uid-0',
@@ -1451,6 +1455,10 @@ describe('test relevant functionality of MeetingService', () => {
       )
     ).once();
 
+    msg = capture(clientMock.sendHtmlText).last()[1];
+    expect(msg).toContain('Repeat meeting: Every day for 3 times');
+    expect(msg).toContain('(previously: )');
+
     // check if the can be moved back to the old data model
     delete meetingDetails.calendar;
     meetingDetails.start_time = '2022-02-01T10:00:00Z';
@@ -1474,6 +1482,9 @@ describe('test relevant functionality of MeetingService', () => {
         deepEqual(meetingMetadataEventContentUpdated3)
       )
     ).once();
+
+    msg = capture(clientMock.sendHtmlText).last()[1];
+    expect(msg).not.toContain('Repeat meeting: ');
 
     // OX meeting with empty rrules should be updated
     const externalDataOx: ExternalData = {
@@ -1513,6 +1524,9 @@ describe('test relevant functionality of MeetingService', () => {
       external_data: externalDataOx,
     } as IMeetingsMetadataEventContent);
 
+    msg = capture(clientMock.sendHtmlText).last()[1];
+    expect(msg).not.toContain('Repeat meeting: ');
+
     // OX meeting with non-empty rrules should send 'net.nordeck.meetings.metadata' event with calendar
     const externalDataOx1: ExternalData = {
       'io.ox': {
@@ -1549,6 +1563,10 @@ describe('test relevant functionality of MeetingService', () => {
       force_deletion_at: new Date('2022-01-03T00:05:00Z').getTime(),
       external_data: externalDataOx1,
     } as IMeetingsMetadataEventContent);
+
+    msg = capture(clientMock.sendHtmlText).last()[1];
+    expect(msg).toContain('Repeat meeting: Every day for one time');
+    expect(msg).toContain('(previously: No repetition)');
   });
 
   test('getSharingInformationAsync', async () => {
