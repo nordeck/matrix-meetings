@@ -29,8 +29,8 @@ jobs:
         with:
           images: ${{ env.DOCKER_IMAGE }}
           labels: |
-            org.opencontainers.image.title=Matrix Meetings Bot
-            org.opencontainers.image.description=A Bot creating rooms / meetings triggered by custom events from the Matrix Meetings Widget UI
+            org.opencontainers.image.title=NeoDateFix Bot
+            org.opencontainers.image.description=A Matrix bot that creates rooms for meetings triggered by custom events from the NeoDateFix widget
             org.opencontainers.image.vendor=Nordeck IT + Consulting GmbH
           tags: |
             type=match,pattern=@nordeck/matrix-meetings-bot@(.*),group=1

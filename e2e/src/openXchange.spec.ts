@@ -50,7 +50,7 @@ test.describe('OpenXchange', () => {
     );
     await expect(aliceJitsiWidgetPage.joinConferenceButton).toBeVisible();
 
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
 
     const meetingCard = aliceCockpitWidgetPage.getMeeting();
     await expect(meetingCard.meetingTitleText).toHaveText('My Meeting');
@@ -75,7 +75,7 @@ test.describe('OpenXchange', () => {
 
     expect(await aliceElementWebPage.getWidgets()).toEqual([
       'Breakout Sessions',
-      'Meeting Controls',
+      'NeoDateFix Details',
       'Video Conference',
     ]);
   });
@@ -101,7 +101,7 @@ test.describe('OpenXchange', () => {
 
     await aliceElementWebPage.acceptRoomInvitation();
 
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
@@ -129,7 +129,7 @@ test.describe('OpenXchange', () => {
     await alicePage.goto(meetingUrl);
     await aliceElementWebPage.acceptRoomInvitation();
 
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
 
     const meetingCard = aliceCockpitWidgetPage.getMeeting();
     await expect(meetingCard.meetingTimeRangeText).toHaveText(
@@ -217,7 +217,7 @@ test.describe('OpenXchange', () => {
 
     await aliceElementWebPage.acceptRoomInvitation();
 
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
@@ -271,7 +271,7 @@ test.describe('OpenXchange', () => {
 
     await aliceElementWebPage.acceptRoomInvitation();
 
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText

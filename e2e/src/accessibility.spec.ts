@@ -31,7 +31,7 @@ test.describe('Accessibility', () => {
   }) => {
     await aliceMeetingsWidgetPage.scheduleMeetingButton.waitFor();
 
-    expect(await runAxeAnalysis(alicePage, 'Meetings')).toMatchSnapshot();
+    expect(await runAxeAnalysis(alicePage, 'NeoDateFix')).toMatchSnapshot();
   });
 
   test('meeting list should not have automatically detectable accessibility violations', async ({
@@ -54,7 +54,7 @@ test.describe('Accessibility', () => {
       .getMeeting('My Meeting', '10/03/2040')
       .card.waitFor();
 
-    expect(await runAxeAnalysis(alicePage, 'Meetings')).toMatchSnapshot();
+    expect(await runAxeAnalysis(alicePage, 'NeoDateFix')).toMatchSnapshot();
   });
 
   test('meeting calendar day view should not have automatically detectable accessibility violations', async ({
@@ -78,7 +78,7 @@ test.describe('Accessibility', () => {
       aliceMeetingsWidgetPage.getCalendarEvent('My Meeting')
     ).toBeVisible();
 
-    expect(await runAxeAnalysis(alicePage, 'Meetings')).toMatchSnapshot();
+    expect(await runAxeAnalysis(alicePage, 'NeoDateFix')).toMatchSnapshot();
   });
 
   test('meeting calendar week view should not have automatically detectable accessibility violations', async ({
@@ -102,7 +102,7 @@ test.describe('Accessibility', () => {
       aliceMeetingsWidgetPage.getCalendarEvent('My Meeting')
     ).toBeVisible();
 
-    expect(await runAxeAnalysis(alicePage, 'Meetings')).toMatchSnapshot();
+    expect(await runAxeAnalysis(alicePage, 'NeoDateFix')).toMatchSnapshot();
   });
 
   test('meeting calendar work week view should not have automatically detectable accessibility violations', async ({
@@ -126,7 +126,7 @@ test.describe('Accessibility', () => {
       aliceMeetingsWidgetPage.getCalendarEvent('My Meeting')
     ).toBeVisible();
 
-    expect(await runAxeAnalysis(alicePage, 'Meetings')).toMatchSnapshot();
+    expect(await runAxeAnalysis(alicePage, 'NeoDateFix')).toMatchSnapshot();
   });
 
   test('meeting calendar month view should not have automatically detectable accessibility violations', async ({
@@ -150,7 +150,7 @@ test.describe('Accessibility', () => {
       aliceMeetingsWidgetPage.getCalendarEvent('My Meeting')
     ).toBeVisible();
 
-    expect(await runAxeAnalysis(alicePage, 'Meetings')).toMatchSnapshot();
+    expect(await runAxeAnalysis(alicePage, 'NeoDateFix')).toMatchSnapshot();
   });
 
   test('meeting calendar details view should not have automatically detectable accessibility violations', async ({
@@ -175,7 +175,7 @@ test.describe('Accessibility', () => {
 
     await meetingDetails.meetingCard.meetingTitleText.waitFor();
 
-    expect(await runAxeAnalysis(alicePage, 'Meetings')).toMatchSnapshot();
+    expect(await runAxeAnalysis(alicePage, 'NeoDateFix')).toMatchSnapshot();
   });
 
   test('schedule meeting dialog should not have automatically detectable accessibility violations', async ({
@@ -213,11 +213,11 @@ test.describe('Accessibility', () => {
       .getMeeting('My Meeting', '10/03/2040')
       .joinMeeting();
     await aliceElementWebPage.waitForRoom('My Meeting');
-    await aliceElementWebPage.showWidgetInSidebar('Meeting Controls');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
     const meetingCard = aliceCockpitWidgetPage.getMeeting();
     await meetingCard.meetingTitleText.waitFor();
     expect(
-      await runAxeAnalysis(alicePage, 'Meeting Controls')
+      await runAxeAnalysis(alicePage, 'NeoDateFix Details')
     ).toMatchSnapshot();
   });
 

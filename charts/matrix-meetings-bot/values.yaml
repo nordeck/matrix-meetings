@@ -83,7 +83,7 @@ additionalVolumes: []
 
 ## Application settings for the bot
 settings:
-  ## The deployment url of the meetings widget that should be used for the registering widgets
+  ## The deployment url of the widget that should be used for the registered widgets
   widgetUrl: https://matrix-meetings-widget.local
 
   # Optional configuration that will override the defaults if enabled

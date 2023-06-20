@@ -8,7 +8,7 @@
     "private": {
       "errorRoom": {
         "create": {
-          "message": "Fehlermeldung vom Meetings-Bot",
+          "message": "Fehlermeldung vom NeoDateFix-Bot",
           "topic": "Weitere Details"
         }
       }
@@ -137,7 +137,7 @@
     "languageWasChanged": "Die Sprache wurde auf <b>{{locale}}</b> geändert.",
     "meetingWidgetAdded": "<p>Meine Arbeit ist getan.</p><p>Der Kalender ist bereits erfolgreich in deinem Raum installiert. Du kannst nun diesen privaten Chat-Raum verlassen.</p>",
     "privateRoom": {
-      "inviteReason": "Hallo {{userDisplayName}}. Ich möchte dir helfen das Meeting-Widget in deinem Raum '{{originalRoomName}}' einzurichten",
+      "inviteReason": "Hallo {{userDisplayName}}. Ich möchte dir helfen das NeoDateFix-Widget in deinem Raum '{{originalRoomName}}' einzurichten",
       "name": "Hilfebereich für {{originalRoomName}}.",
       "topic": "Hallo, du hast mich eingeladen, um dir zu helfen. Ich konfiguriere dir deinen Raum {{originalRoomName}}, so dass du die Meeting-Funktionalität problemlos nutzen kannst."
     }

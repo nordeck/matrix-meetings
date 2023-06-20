@@ -1,4 +1,4 @@
-# Matrix Meetings Widget
+# NeoDateFix Widget
 
 The matrix widget that is used to manage meeting rooms.
 

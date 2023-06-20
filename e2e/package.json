@@ -1,6 +1,6 @@
 {
   "name": "e2e",
-  "description": "End-to-end tests for the meetings widget",
+  "description": "End-to-end tests for NeoDateFix",
   "author": "Nordeck IT + Consulting GmbH",
   "license": "Apache-2.0",
   "version": "0.0.0",
