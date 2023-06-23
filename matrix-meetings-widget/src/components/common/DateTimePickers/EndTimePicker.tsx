@@ -69,13 +69,13 @@ export function EndTimePicker({
     [TextFieldProps, date, error, hideHelperText, t]
   );
 
-  const getOpenDialogAriaText = useCallback(
-    (date: Moment) => {
+  const openDatePickerDialogue = useCallback(
+    (date: Moment | null) => {
       return t(
         'dateTimePickers.openEndTimePicker',
         'Choose end time, selected time is  {{date, datetime}}',
         {
-          date: date.toDate(),
+          date: date?.toDate(),
           formatParams: {
             date: timeOnlyDateFormat,
           },
@@ -102,10 +102,10 @@ export function EndTimePicker({
 
   return (
     <TimePicker
-      getOpenDialogAriaText={getOpenDialogAriaText}
+      localeText={{ openDatePickerDialogue }}
       label={t('dateTimePickers.endTime', 'End time')}
       onChange={handleOnChange}
-      renderInput={renderInput}
+      //renderInput={renderInput}
       value={date}
     />
   );

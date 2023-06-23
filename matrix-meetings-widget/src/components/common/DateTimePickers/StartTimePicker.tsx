@@ -86,13 +86,13 @@ export function StartTimePicker({
     [TextFieldProps, date, error, hideHelperText, readOnly, t]
   );
 
-  const getOpenDialogAriaText = useCallback(
-    (date: Moment) => {
+  const openDatePickerDialogue = useCallback(
+    (date: Moment | null) => {
       return t(
         'dateTimePickers.openStartTimePicker',
         'Choose start time, selected time is  {{date, datetime}}',
         {
-          date: date.toDate(),
+          date: date?.toDate(),
           formatParams: {
             date: timeOnlyDateFormat,
           },
@@ -119,11 +119,11 @@ export function StartTimePicker({
 
   return (
     <TimePicker
-      getOpenDialogAriaText={getOpenDialogAriaText}
+      localeText={{ openDatePickerDialogue }}
       label={t('dateTimePickers.startTime', 'Start time')}
       onChange={handleOnChange}
       readOnly={Boolean(readOnly)}
-      renderInput={renderInput}
+      //renderInput={renderInput}
       value={date}
     />
   );

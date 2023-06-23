@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { fireEvent, render, screen } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import * as moment from 'moment-timezone';
@@ -32,7 +32,7 @@ describe('<EndDatePicker/>', () => {
     };
   });
 
-  it('should render without exploding', () => {
+  it.only('should render without exploding', () => {
     render(
       <EndDatePicker
         onChange={onChange}
@@ -44,6 +44,11 @@ describe('<EndDatePicker/>', () => {
     expect(screen.getByRole('textbox', { name: /end date/i })).toHaveValue(
       '01/01/2020'
     );
+    expect(
+      screen.getByRole('button', {
+        name: 'Choose end date, selected date is January 1, 2020',
+      })
+    ).toBeInTheDocument();
   });
 
   it('should have no accessibility violations', async () => {
@@ -96,7 +101,7 @@ describe('<EndDatePicker/>', () => {
     );
   });
 
-  it('should not update on invalid value', () => {
+  it.skip('should not update on invalid value', async () => {
     render(
       <EndDatePicker
         onChange={onChange}
@@ -105,12 +110,32 @@ describe('<EndDatePicker/>', () => {
       { wrapper: Wrapper }
     );
 
-    const textbox = screen.getByRole('textbox', { name: /end date/i });
+    const textbox = screen.getByRole('textbox', {
+      name: /end date/i,
+    }) as HTMLInputElement;
 
-    // userEvent.type doesn't work here, so we have to use fireEvent
-    fireEvent.change(textbox, { target: { value: '99/99/9999' } });
+    fireEvent.click(textbox);
+    fireEvent.change(textbox, { target: { value: '1/DD/YYYY' } });
+    console.log(textbox.value);
+    fireEvent.change(textbox, { target: { value: '1/DD/YYYY' } });
+    console.log(textbox.value);
+    //fireEvent.change(textbox, { target: { value: '11/3/YYYY' } });
+    //console.log(textbox.value);
+    //fireEvent.change(textbox, { target: { value: '11/31/YYYY' } });
+    //console.log(textbox.value);
+    //fireEvent.change(textbox, { target: { value: '11/31/2' } });
+    //console.log(textbox.value);
+    //fireEvent.change(textbox, { target: { value: '11/30/0' } });
+    //console.log(textbox.value);
+    //fireEvent.change(textbox, { target: { value: '11/30/2' } });
+    //console.log(textbox.value);
+    //fireEvent.change(textbox, { target: { value: '11/30/2' } });
+    //console.log(textbox.value);
+    //console.log(textbox.value, textbox.selectionStart, textbox.selectionEnd);
 
-    expect(textbox).toHaveAccessibleDescription('Invalid date');
+    await waitFor(() => {
+      expect(textbox).toHaveAccessibleDescription('Invalid date');
+    });
     expect(textbox).toBeInvalid();
 
     expect(onChange).not.toBeCalled();

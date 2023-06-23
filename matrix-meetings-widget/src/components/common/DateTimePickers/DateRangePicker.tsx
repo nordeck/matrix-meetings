@@ -125,26 +125,28 @@ export const DateRangePicker = ({
         })}
       </Button>
       <DesktopDatePicker
-        PopperProps={{
-          anchorEl: buttonRef.current,
-          sx: {
-            '& .MuiTypography-caption': {
-              margin: 0,
-            },
-            '& .MuiDialogActions-root': {
-              p: (theme) => theme.spacing(1),
+        componentsProps={{
+          popper: {
+            anchorEl: buttonRef.current,
+            sx: {
+              '& .MuiTypography-caption': {
+                margin: 0,
+              },
+              '& .MuiDialogActions-root': {
+                p: (theme) => theme.spacing(1),
+              },
             },
           },
         }}
         closeOnSelect={false}
-        minDate={selectedStartDate ? moment(selectedStartDate) : undefined}
+        //minDate={selectedStartDate ? moment(selectedStartDate) : undefined}
         onChange={handleChange}
         onClose={onClose}
         onOpen={onOpen}
         open={open}
         reduceAnimations={isReduceAnimations()}
-        renderDay={renderDay}
-        renderInput={renderInput}
+        //renderDay={renderDay}
+        //renderInput={renderInput}
         showDaysOutsideCurrentMonth
         value={selectedStartDate ?? startDate}
         views={['year', 'month', 'day']}

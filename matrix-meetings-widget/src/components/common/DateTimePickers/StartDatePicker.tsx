@@ -59,13 +59,13 @@ export function StartDatePicker({
     setDate(value);
   }, [value]);
 
-  const getOpenDialogAriaText = useCallback(
-    (date: Moment) => {
+  const openDatePickerDialogue = useCallback(
+    (date: Moment | null) => {
       return t(
         'dateTimePickers.openStartDatePicker',
         'Choose start date, selected date is {{date, datetime}}',
         {
-          date: date.toDate(),
+          date: date?.toDate(),
           formatParams: {
             date: longDateFormat,
           },
@@ -118,13 +118,13 @@ export function StartDatePicker({
 
   return (
     <DatePicker
-      getOpenDialogAriaText={getOpenDialogAriaText}
+      localeText={{ openDatePickerDialogue }}
       label={t('dateTimePickers.startDate', 'Start date')}
-      minDate={minDate}
+      //minDate={minDate}
       onChange={handleOnChange}
       readOnly={Boolean(readOnly)}
       reduceAnimations={isReduceAnimations()}
-      renderInput={renderInput}
+      //renderInput={renderInput}
       value={date}
       views={['year', 'month', 'day']}
     />

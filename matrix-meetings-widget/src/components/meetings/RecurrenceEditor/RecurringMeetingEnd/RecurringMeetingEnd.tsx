@@ -82,13 +82,13 @@ export const RecurringMeetingEnd = ({
     [onUntilDateChange]
   );
 
-  const getOpenDialogAriaText = useCallback(
-    (date: Moment) => {
+  const openDatePickerDialogue = useCallback(
+    (date: Moment | null) => {
       return t(
         'recurrenceEditor.recurringMeetingEnd.untilDateInputOpenDatePicker',
         'Choose date at which the recurring meeting ends, selected date is {{date, datetime}}',
         {
-          date: date.toDate(),
+          date: date?.toDate(),
           formatParams: {
             date: longDateFormat,
           },
@@ -205,10 +205,10 @@ export const RecurringMeetingEnd = ({
           >
             <DatePicker
               disabled={recurrenceEnd !== RecurrenceEnd.UntilDate}
-              getOpenDialogAriaText={getOpenDialogAriaText}
-              minDate={moment(startDate)}
+              localeText={{ openDatePickerDialogue }}
+              //minDate={moment(startDate)}
               onChange={handleUntilDateChange}
-              renderInput={renderInput}
+              //renderInput={renderInput}
               value={untilDate}
             />
           </Box>

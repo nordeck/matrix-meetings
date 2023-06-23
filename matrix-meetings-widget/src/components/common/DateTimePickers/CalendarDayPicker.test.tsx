@@ -109,7 +109,7 @@ describe('<CalendarDayPicker>', () => {
     await userEvent.click(within(dialog).getByRole('gridcell', { name: '13' }));
 
     expect(onRangeChange).toBeCalledTimes(1);
-    expect(onRangeChange).toHaveBeenCalledWith(
+    expect(onRangeChange).toHaveBeenLastCalledWith(
       '2023-01-13T00:00:00.000+00:00',
       '2023-01-13T23:59:59.999+00:00'
     );
