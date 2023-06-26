@@ -32,7 +32,7 @@
   },
   "dependencies": {
     "@nestjs/common": "^9.4.0",
-    "@nestjs/config": "^2.3.1",
+    "@nestjs/config": "^3.0.0",
     "@nestjs/core": "^9.4.0",
     "@nestjs/microservices": "^9.4.0",
     "@nestjs/platform-express": "^9.4.0",
