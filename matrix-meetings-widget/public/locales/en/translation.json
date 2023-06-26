@@ -26,7 +26,7 @@
   "cockpitPanel": {
     "toParentRoom": "Back to parent room"
   },
-  "copyableText": {
+  "copyableTextButton": {
     "copy-to-clipboard": "Copy to clipboard"
   },
   "dateRangePicker": {
@@ -139,7 +139,6 @@
   },
   "meetingDetails": {
     "content": {
-      "copy-to-clipboard": "Copy to clipboard",
       "dateAndTime": "{{range, daterange}}",
       "description": "Description",
       "details": "Details",

@@ -17,11 +17,19 @@
 import { extractWidgetApiParameters } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
-import { render } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import { axe } from 'jest-axe';
+import { setupServer } from 'msw/lib/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
-import { mockCreateMeetingRoom, mockMeeting } from '../../../../lib/testUtils';
+import {
+  mockConfigEndpoint,
+  mockCreateMeetingRoom,
+  mockMeeting,
+  mockMeetingSharingInformationEndpoint,
+  mockWidgetEndpoint,
+} from '../../../../lib/testUtils';
+import { MeetingParticipant } from '../../../../reducer/meetingsApi';
 import { createStore } from '../../../../store';
 import { initializeStore } from '../../../../store/store';
 import { MeetingDetailsParticipants } from './MeetingDetailsParticipants';
@@ -31,6 +39,12 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
   extractWidgetApiParameters: jest.fn(),
 }));
 
+const server = setupServer();
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
 let widgetApi: MockedWidgetApi;
 
 afterEach(() => widgetApi.stop());
@@ -39,12 +53,60 @@ beforeEach(() => (widgetApi = mockWidgetApi()));
 
 describe('<MeetingDetailsParticipants/>', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
+  const participants: MeetingParticipant[] = [
+    {
+      userId: '@user-id',
+      displayName: 'Alice',
+      membership: 'join',
+      rawEvent: {
+        type: 'm.room.member',
+        sender: '@inviter-id',
+        content: { membership: 'join', displayname: 'Alice' },
+        state_key: '@user-id',
+        origin_server_ts: 0,
+        event_id: '$event-id-0',
+        room_id: '!meeting-room-id',
+      },
+    },
+    {
+      userId: '@user-id-1',
+      displayName: 'John',
+      membership: 'invite',
+      rawEvent: {
+        type: 'm.room.member',
+        sender: '@inviter-id',
+        content: { membership: 'invite', displayname: 'John' },
+        state_key: '@user-id-1',
+        origin_server_ts: 0,
+        event_id: '$event-id-0',
+        room_id: '!meeting-room-id',
+      },
+    },
+    {
+      userId: '@user-id-2',
+      displayName: 'Marly',
+      membership: 'join',
+      rawEvent: {
+        type: 'm.room.member',
+        sender: '@inviter-id',
+        content: { membership: 'join', displayname: 'Marly' },
+        state_key: '@user-id-2',
+        origin_server_ts: 0,
+        event_id: '$event-id-0',
+        room_id: '!meeting-room-id',
+      },
+    },
+  ];
 
   beforeEach(() => {
     jest.mocked(extractWidgetApiParameters).mockReturnValue({
       clientOrigin: 'http://element.local',
       widgetId: '',
     });
+
+    mockWidgetEndpoint(server);
+    mockConfigEndpoint(server);
+    mockMeetingSharingInformationEndpoint(server);
 
     mockCreateMeetingRoom(widgetApi);
 
@@ -62,65 +124,37 @@ describe('<MeetingDetailsParticipants/>', () => {
     };
   });
 
-  /*   it('should render without exploding', async () => {
+  it('should render without exploding', () => {
     render(
-      <MeetingsCalendarDetailsDialog
-        meetingId={{
-          meetingId: '!meeting-room-id',
-          uid: 'entry-0',
-          recurrenceId: undefined,
-        }}
-        onClose={onClose}
+      <MeetingDetailsParticipants
+        participants={participants}
+        creator="@user-id"
       />,
       { wrapper: Wrapper }
     );
 
-    const dialog = await screen.findByRole('dialog', {
-      name: 'An important meeting',
-      description: 'January 1, 2999, 10:00 AM – 2:00 PM',
+    expect(
+      screen.getByRole('heading', { level: 4, name: /Participants/i })
+    ).toBeInTheDocument();
+
+    const list = screen.getByRole('list', { name: 'Participants' });
+
+    const listItemAlice = within(list).getByRole('listitem', {
+      name: /Alice/i,
     });
 
-    expect(
-      within(dialog).getByRole('heading', {
-        name: 'An important meeting',
-        level: 3,
-      })
-    ).toBeInTheDocument();
+    expect(within(listItemAlice).getByText('Organizer')).toBeInTheDocument();
 
-    expect(
-      within(dialog).getByText(/^January 1, 2999, 10:00 AM – 2:00 PM$/)
-    ).toBeInTheDocument();
+    const listItemMarly = within(list).getByRole('listitem', {
+      name: /Marly/i,
+    });
 
-    expect(
-      within(dialog).getByRole('button', { name: 'Join' })
-    ).toBeInTheDocument();
+    expect(within(listItemMarly).getByText('Accepted')).toBeInTheDocument();
 
-    expect(
-      within(dialog).getByRole('button', { name: 'Edit' })
-    ).toBeInTheDocument();
+    const listItemJohn = within(list).getByRole('listitem', { name: /John/i });
 
-    expect(
-      within(dialog).getByRole('button', { name: 'Delete' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('button', { name: 'Share by email' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('button', { name: 'Download ICS File' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('listitem', { name: 'Alice' })
-    ).toBeInTheDocument();
-
-    expect(
-      within(dialog).getByRole('link', {
-        name: 'http://element.local/#/room/!meeting-room-id',
-      })
-    ).toBeInTheDocument();
-  }); */
+    expect(within(listItemJohn).getByText('Invited')).toBeInTheDocument();
+  });
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
@@ -132,5 +166,17 @@ describe('<MeetingDetailsParticipants/>', () => {
     );
 
     expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it('should just the participants list if the creator not in the room', () => {
+    render(
+      <MeetingDetailsParticipants
+        participants={participants}
+        creator="@user-id-3"
+      />,
+      { wrapper: Wrapper }
+    );
+
+    expect(screen.queryByText('Organizer')).not.toBeInTheDocument();
   });
 });

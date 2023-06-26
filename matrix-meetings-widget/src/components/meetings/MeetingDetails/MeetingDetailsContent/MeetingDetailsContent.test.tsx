@@ -17,12 +17,13 @@
 import { extractWidgetApiParameters } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import { axe } from 'jest-axe';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
 import {
+  mockCalendar,
   mockConfigEndpoint,
   mockCreateMeetingRoom,
   mockMeeting,
@@ -76,7 +77,41 @@ describe('<MeetingDetailsContent/>', () => {
     };
   });
 
-  it.todo('should render without exploding');
+  it('should render without exploding', () => {
+    render(
+      <MeetingDetailsContent
+        meeting={mockMeeting()}
+        meetingTimeId="meeting-id"
+      />,
+      {
+        wrapper: Wrapper,
+      }
+    );
+
+    expect(
+      screen.getByRole('heading', { level: 4, name: /Details/i })
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('heading', { level: 4, name: /Description/i })
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('heading', { level: 4, name: /Share meeting/i })
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('heading', { level: 4, name: /Participants/i })
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('link', {
+        name: 'http://element.local/#/room/!meeting-room-id',
+      })
+    ).toBeInTheDocument();
+
+    expect(screen.getByText('A brief description')).toBeInTheDocument();
+  });
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
@@ -90,6 +125,62 @@ describe('<MeetingDetailsContent/>', () => {
     expect(await axe(container)).toHaveNoViolations();
   });
 
-  it.todo('should join meeting room by clicking the link');
-  it.todo('should copy the room link');
+  it('should show meeting with recurring rule', () => {
+    render(
+      <MeetingDetailsContent
+        meeting={mockMeeting({
+          room_id: '!meeting-room-id',
+          content: {
+            recurrenceId: '2999-01-02T10:00:00Z',
+            calendarEntries: mockCalendar({
+              dtstart: '29990101T100000',
+              dtend: '29990101T140000',
+              rrule: 'FREQ=DAILY',
+            }),
+          },
+        })}
+        meetingTimeId="meeting-id"
+      />,
+      {
+        wrapper: Wrapper,
+      }
+    );
+
+    expect(screen.getByText('Every day')).toBeInTheDocument();
+  });
+
+  it('should show hide description section if there is no description', () => {
+    render(
+      <MeetingDetailsContent
+        meeting={mockMeeting({ content: { description: '' } })}
+        meetingTimeId="meeting-id"
+      />,
+      {
+        wrapper: Wrapper,
+      }
+    );
+
+    expect(screen.queryByText('Description')).not.toBeInTheDocument();
+  });
+
+  it('should join meeting room by clicking the link', async () => {
+    render(
+      <MeetingDetailsContent
+        meeting={mockMeeting({ content: { description: '' } })}
+        meetingTimeId="meeting-id"
+      />,
+      {
+        wrapper: Wrapper,
+      }
+    );
+    const link = screen.getByRole('link', {
+      name: 'http://element.local/#/room/!meeting-room-id',
+    });
+
+    expect(link).toHaveAttribute('target', '_blank');
+    expect(link).toHaveAttribute(
+      'href',
+      'http://element.local/#/room/!meeting-room-id'
+    );
+  });
 });

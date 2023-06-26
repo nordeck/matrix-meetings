@@ -31,27 +31,22 @@ export function MeetingsCalendarDetailsDialog({
   onClose: DispatchWithoutAction;
 }) {
   const selectMeeting = useMemo(makeSelectMeeting, []);
-  const meeting = useAppSelector((state) => {
-    if (!meetingId) {
-      return undefined;
+  useAppSelector((state) => {
+    if (meetingId) {
+      const meeting = selectMeeting(
+        state,
+        meetingId.meetingId,
+        meetingId.uid,
+        meetingId.recurrenceId
+      );
+      if (!meeting) {
+        onClose();
+      }
     }
-
-    return selectMeeting(
-      state,
-      meetingId.meetingId,
-      meetingId.uid,
-      meetingId.recurrenceId
-    );
   });
 
   const titleId = useId();
   const meetingTimeId = useId();
-
-  if (!meeting) {
-    onClose();
-    return <></>;
-  }
-
   return (
     <Dialog
       fullScreen

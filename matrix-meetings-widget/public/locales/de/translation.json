@@ -26,7 +26,7 @@
   "cockpitPanel": {
     "toParentRoom": "Zum übergeordneten Raum"
   },
-  "copyableText": {
+  "copyableTextButton": {
     "copy-to-clipboard": "In die Zwischenablage kopieren"
   },
   "dateRangePicker": {
@@ -139,7 +139,6 @@
   },
   "meetingDetails": {
     "content": {
-      "copy-to-clipboard": "In die Zwischenablage kopieren",
       "dateAndTime": "{{range, daterange}}",
       "description": "Beschreibung",
       "details": "Einzelheiten",

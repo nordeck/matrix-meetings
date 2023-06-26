@@ -31,15 +31,12 @@ import {
 } from '@mui/material';
 import { unstable_useId as useId } from '@mui/utils';
 import { useTranslation } from 'react-i18next';
-import { isRecurringCalendarSourceEntry } from '../../../../lib/utils';
-import { Meeting } from '../../../../reducer/meetingsApi';
-import { CopyableText } from '../../MeetingCardShareMeetingContent/CopyableText';
-import {
-  ShareDialog,
-  useShareDialog,
-} from '../../MeetingCardShareMeetingContent/ShareDialog';
-import { useDownloadIcsFile } from '../../MeetingCardShareMeetingContent/useDownloadIcsFile';
-import { useMeetingEmail } from '../../MeetingCardShareMeetingContent/useMeetingEmail';
+import { isRecurringCalendarSourceEntry } from '../../../../../lib/utils';
+import { Meeting } from '../../../../../reducer/meetingsApi';
+import { CopyableText } from '../../../MeetingCardShareMeetingContent/CopyableText';
+import { useDownloadIcsFile } from '../../../MeetingCardShareMeetingContent/useDownloadIcsFile';
+import { useMeetingEmail } from '../../../MeetingCardShareMeetingContent/useMeetingEmail';
+import { ShareDialog, useShareDialog } from './ShareDialog';
 
 export function MeetingDetailsShare({ meeting }: { meeting: Meeting }) {
   const { t } = useTranslation();

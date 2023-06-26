@@ -14,30 +14,19 @@
  * limitations under the License.
  */
 
-import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import LinkIcon from '@mui/icons-material/Link';
 import TodayIcon from '@mui/icons-material/Today';
-import {
-  Box,
-  DialogContent,
-  Grid,
-  IconButton,
-  Link,
-  Tooltip,
-  Typography,
-} from '@mui/material';
-import { useCallback, useState } from 'react';
+import { Box, DialogContent, Grid, Link, Typography } from '@mui/material';
 import { useTranslation } from 'react-i18next';
-import { useCopyToClipboard } from 'react-use';
 import { isRecurringCalendarSourceEntry } from '../../../../lib/utils';
 import { Meeting } from '../../../../reducer/meetingsApi';
+import { CopyableTextButton } from '../../../common/CopyableTextButton';
 import { fullLongDateFormat } from '../../../common/DateTimePickers';
 import { useMeetingUrl } from '../../MeetingCardShareMeetingContent/useMeetingUrl';
 import { formatRRuleText } from '../../RecurrenceEditor/utils';
 import { MeetingDetailsParticipants } from './MeetingDetailsParticipants';
-import { MeetingDetailsShare } from './MeetingDetailsShare';
+import { MeetingDetailsShare } from './MeetingDetailsShare/MeetingDetailsShare';
 
 export function MeetingDetailsContent({
   meeting,
@@ -48,15 +37,6 @@ export function MeetingDetailsContent({
 }) {
   const { t } = useTranslation();
   const { url: meetingUrl } = useMeetingUrl(meeting);
-  const [hasCopied, setHasCopied] = useState(false);
-  const [, copyToClipboard] = useCopyToClipboard();
-
-  const handleOnClick = useCallback(() => {
-    copyToClipboard(meetingUrl);
-    setHasCopied(true);
-  }, [meetingUrl, copyToClipboard]);
-
-  const handleOnBlur = useCallback(() => setHasCopied(false), []);
 
   const recurrence = isRecurringCalendarSourceEntry(meeting.calendarEntries)
     ? formatRRuleText(meeting.calendarEntries[0].rrule, t)
@@ -138,20 +118,7 @@ export function MeetingDetailsContent({
                   {meetingUrl}
                 </Link>
               </Box>
-              <Tooltip
-                title={t(
-                  'meetingDetails.content.copy-to-clipboard',
-                  'Copy to clipboard'
-                )}
-              >
-                <IconButton onBlur={handleOnBlur} onClick={handleOnClick}>
-                  {hasCopied ? (
-                    <CheckOutlinedIcon fontSize="inherit" />
-                  ) : (
-                    <ContentCopyOutlinedIcon fontSize="inherit" />
-                  )}
-                </IconButton>
-              </Tooltip>
+              <CopyableTextButton text={meetingUrl} />
             </Box>
           </Box>
 
