@@ -11,7 +11,7 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.6.0",
     "@playwright/test": "^1.33.0",
-    "@types/lodash": "^4.14.194",
+    "@types/lodash": "^4.14.195",
     "@types/node": "^16.18.25",
     "eslint": "^8.39.0",
     "eslint-plugin-playwright": "^0.12.0",
