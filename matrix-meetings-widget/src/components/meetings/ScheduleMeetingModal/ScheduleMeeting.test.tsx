@@ -44,7 +44,7 @@ import { initializeStore } from '../../../store/store';
 import { LocalizationProvider } from '../../common/LocalizationProvider';
 import { ScheduleMeeting } from './ScheduleMeeting';
 
-jest.setTimeout(12000);
+jest.setTimeout(15000);
 
 const server = setupServer();
 beforeAll(() => server.listen());

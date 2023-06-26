@@ -167,6 +167,20 @@ test.describe('Recurring Meetings', () => {
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting').card
     ).toHaveCount(3);
+
+    await aliceElementWebPage.navigateToRoomOrInvitation('My Meeting');
+
+    await expect(
+      aliceElementWebPage.locateChatMessageInRoom(
+        /Repeat meeting: Every week on Monday, Tuesday, and Thursday for 30 times/
+      )
+    ).toBeVisible();
+
+    await expect(
+      aliceElementWebPage.locateChatMessageInRoom(
+        /\(previously: Every day for 5 times\)/
+      )
+    ).toBeVisible();
   });
 
   test('should covert a recurring meeting into a single meeting', async ({
@@ -207,6 +221,20 @@ test.describe('Recurring Meetings', () => {
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting').card
     ).toHaveCount(1);
+
+    await aliceElementWebPage.navigateToRoomOrInvitation('My Meeting');
+
+    await expect(
+      aliceElementWebPage.locateChatMessageInRoom(
+        /Repeat meeting: No repetition/
+      )
+    ).toBeVisible();
+
+    await expect(
+      aliceElementWebPage.locateChatMessageInRoom(
+        /\(previously: Every day for 5 times\)/
+      )
+    ).toBeVisible();
   });
 
   test('should convert a single meeting into a recurring meeting', async ({
@@ -246,6 +274,20 @@ test.describe('Recurring Meetings', () => {
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting').card
     ).toHaveCount(5);
+
+    await aliceElementWebPage.navigateToRoomOrInvitation('My Meeting');
+
+    await expect(
+      aliceElementWebPage.locateChatMessageInRoom(
+        /Repeat meeting: Every day for 5 times/
+      )
+    ).toBeVisible();
+
+    await expect(
+      aliceElementWebPage.locateChatMessageInRoom(
+        /\(previously: No repetition\)/
+      )
+    ).toBeVisible();
   });
 
   // TODO: Edit single meeting
