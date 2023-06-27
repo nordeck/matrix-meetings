@@ -58,6 +58,4 @@ jobs:
           context: .
           tags: ${{ steps.meta-new-tags.outputs.tags }}
           labels: ${{ steps.meta-new-tags.outputs.labels }}
-          # TODO: reenable s390x builds once the matrix-rust-sdk supports it
-          platforms: linux/amd64,linux/arm64
-          #platforms: linux/amd64,linux/arm64,linux/s390x
+          platforms: linux/amd64,linux/arm64,linux/s390x

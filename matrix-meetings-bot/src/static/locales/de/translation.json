@@ -49,6 +49,10 @@
             "previous": "(bislang: {{description}})"
           },
           "headLine": "Änderungen",
+          "repetition": {
+            "current": "Die Besprechung wiederholen: {{repetitionText}}",
+            "previous": "(bislang: {{repetitionText}})"
+          },
           "title": {
             "current": "Titel: {{title}}",
             "previous": "(bislang: {{title}})"
@@ -56,11 +60,50 @@
         },
         "closed": {
           "message": "Der Raum wurde vom Administrator geschlossen"
-        }
+        },
+        "noRepetition": "Nicht wiederholen"
       }
     },
     "user": {
       "kicked": "Der Benutzer {{userId}} ist vom Benutzer / Bot {{sender}} aus dem Raum entfernt worden"
+    }
+  },
+  "recurrenceEditor": {
+    "ordinals": {
+      "first": "ersten",
+      "fourth": "vierten",
+      "last": "letzten",
+      "second": "zweiten",
+      "third": "dritten"
+    },
+    "ruleText": {
+      "afterMeetingCount_one": "für einen Termin",
+      "afterMeetingCount_other": "für {{count}} Termine",
+      "daily_one": "Jeden Tag$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "daily_other": "Jeden {{count}}. Tag$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_bymonthday_one": "Jeden Monat am $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true })$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_bymonthday_other": "Jeden {{count}}. Monat am $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true })$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_byweekday_one": "Jeden Monat am {{ordinalLabel}} {{byweekday}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_byweekday_other": "Jeden {{count}}. Monat am {{ordinalLabel}} {{byweekday}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_simple_one": "Jeden Monat$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_simple_other": "Jeden {{count}}. Monat$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "ordinal_other": "{{count}}.",
+      "recurrenceEnd_count": " $t(recurrenceEditor.ruleText.afterMeetingCount, {\"count\": {{afterMeetingCount}}, \"ordinal\": false })",
+      "recurrenceEnd_never": "",
+      "recurrenceEnd_until": " bis zum {{ untilDate, datetime(year: 'numeric'; month: 'long'; day: 'numeric') }}",
+      "unknown": "Nicht unterstützte Wiederholung",
+      "weekly_all_one": "Jede Woche$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_all_other": "Jede {{count}}. Woche$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_some_one": "Jede Woche am {{weekdays, list}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_some_other": "Jede {{count}}. Woche am {{weekdays, list}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_weekdays_one": "Jeden Montag bis Freitag$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_weekdays_other": "Jede {{count}}. Woche von Montag bis Freitag{{weekdays, list}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_bymonthday_one": "Jeden {{monthLabel}} am $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true })$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_bymonthday_other": "Jedes {{count}}. Jahr am $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true }) {{monthLabel}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_byweekday_one": "Jeden {{monthLabel}} am {{ordinalLabel}} {{byweekday}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_byweekday_other": "Jedes {{count}}. Jahr am {{ordinalLabel}} {{byweekday}} im {{monthLabel}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_simple_one": "Jedes Jahr$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_simple_other": "Jedes {{count}}. Jahr$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })"
     }
   },
   "welcome": {

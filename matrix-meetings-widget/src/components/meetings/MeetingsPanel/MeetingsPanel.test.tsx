@@ -39,7 +39,7 @@ import { SetupBreakoutSessionsModalResult } from '../SetupBreakoutSessionsModal'
 import { MeetingsPanel } from './MeetingsPanel';
 
 // The DOM is quite complex and big, therefore we have to increase the timeout
-jest.setTimeout(10000);
+jest.setTimeout(15000);
 
 jest.mock('@mui/material/useMediaQuery');
 
