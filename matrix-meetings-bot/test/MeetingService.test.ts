@@ -1804,6 +1804,57 @@ describe('test relevant functionality of MeetingService', () => {
         callInfo(0, 3, StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT)
       ).toStrictEqual(expected);
     });
+
+    test('update room layout when widgets change', async () => {
+      const parentRoom: any = create_test_meeting(
+        CURRENT_USER,
+        PARENT_MEETING_ROOM_ID,
+        null,
+        [WidgetType.COCKPIT, WidgetType.BREAKOUT_SESSIONS]
+      );
+      when(clientMock.getRoomState(PARENT_MEETING_ROOM_ID)).thenResolve(
+        parentRoom
+      );
+
+      // should not have custom layout
+      verify(
+        clientMock.sendStateEvent(
+          parentId,
+          StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT,
+          anything(),
+          anything()
+        )
+      ).times(0);
+
+      // add jitsi widget
+      const widgets = ['jitsi'];
+      await meetingService.handleWidgets(
+        userContext,
+        new MeetingWidgetsHandleDto(parentId, true, widgets)
+      );
+
+      // the resulting layout should exactly match the custom configuration
+      const layout = layoutConfigs.find((o) =>
+        _.isEqual(_.sortBy(o.widgetIds), _.sortBy(widgets))
+      );
+      const expected = {
+        widgets: layout?.layouts,
+      };
+
+      verify(
+        clientMock.sendStateEvent(
+          parentId,
+          StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT,
+          anything(),
+          anything()
+        )
+      ).times(1);
+
+      // event content
+      expect(
+        callInfo(0, 3, StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT)
+      ).toStrictEqual(expected);
+    });
   });
 
   test('createMeeting without parent with external data', async () => {

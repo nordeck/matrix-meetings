@@ -604,6 +604,14 @@ export class MeetingService {
           )
         );
       }
+      const filteredWidgetIds = eventWidgetIds.filter(
+        (widget) =>
+          widget !== WidgetType.COCKPIT &&
+          widget !== WidgetType.BREAKOUT_SESSIONS
+      );
+      promises.push(
+        this.setUpWidgetLayoutConfiguration(roomId, filteredWidgetIds)
+      );
 
       promises.push(this.cleanupWidgets(widgetIds, room, userContext));
       await Promise.all(promises);
