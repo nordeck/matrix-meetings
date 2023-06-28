@@ -65,10 +65,12 @@ export function MeetingDetailsHeader({
   meeting,
   onClose,
   titleId,
+  isSettingMeeting,
 }: {
   meeting: Meeting;
   onClose?: DispatchWithoutAction;
   titleId?: string;
+  isSettingMeeting?: boolean;
 }) {
   const widgetApi = useWidgetApi();
   const { t } = useTranslation();
@@ -182,11 +184,13 @@ export function MeetingDetailsHeader({
             {meeting?.title}
           </DialogTitle>
           <Box display="flex" flexWrap="wrap" alignItems="baseline" ml={3}>
-            <MeetingDetailsJoinButton
-              aria-describedby={joinButtonTitleId}
-              meetingType={meeting.type}
-              roomId={meeting.meetingId}
-            />
+            {!isSettingMeeting && (
+              <MeetingDetailsJoinButton
+                aria-describedby={joinButtonTitleId}
+                meetingType={meeting.type}
+                roomId={meeting.meetingId}
+              />
+            )}
             {canUpdateMeeting && !isExternalReference && (
               <Button
                 variant="outlined"
@@ -208,11 +212,13 @@ export function MeetingDetailsHeader({
             )}
           </Box>
         </Box>
-        <Tooltip onClick={onClose} title={t('close', 'Close')}>
-          <IconButton autoFocus sx={{ mr: 3 }}>
-            <CloseIcon />
-          </IconButton>
-        </Tooltip>
+        {!isSettingMeeting && (
+          <Tooltip onClick={onClose} title={t('close', 'Close')}>
+            <IconButton autoFocus sx={{ mr: 3 }}>
+              <CloseIcon />
+            </IconButton>
+          </Tooltip>
+        )}
       </Stack>
 
       {showErrorDialog && <UpdateFailedDialog setOpen={setShowErrorDialog} />}

@@ -30,16 +30,25 @@ type MeetingDetailsProps = WithMeetingProps & {
   meetingTimeId?: string;
 
   onClose?: () => void;
+
+  isSettingMeeting?: boolean;
 };
 
 export const MeetingDetails = withRoomIdMeeting(
-  ({ meeting, titleId, meetingTimeId, onClose }: MeetingDetailsProps) => {
+  ({
+    meeting,
+    titleId,
+    meetingTimeId,
+    onClose,
+    isSettingMeeting,
+  }: MeetingDetailsProps) => {
     return (
       <>
         <MeetingDetailsHeader
           meeting={meeting}
           onClose={onClose}
           titleId={titleId}
+          isSettingMeeting={isSettingMeeting}
         />
         <Divider variant="middle" />
         <MeetingDetailsContent

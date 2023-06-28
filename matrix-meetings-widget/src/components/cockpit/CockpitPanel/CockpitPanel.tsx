@@ -14,15 +14,17 @@
  * limitations under the License.
  */
 
-import { navigateToRoom } from '@matrix-widget-toolkit/api';
-import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import ArrowCircleLeftIcon from '@mui/icons-material/ArrowCircleLeft';
 import { Box, Button, Divider, Stack } from '@mui/material';
+import { unstable_useId as useId } from '@mui/utils';
+
+import { navigateToRoom } from '@matrix-widget-toolkit/api';
+import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Meeting } from '../../../reducer/meetingsApi';
 import { withCurrentRoomMeeting } from '../../common/withRoomMeeting';
-import { MeetingCard } from '../../meetings/MeetingCard';
+import { MeetingDetails } from '../../meetings/MeetingDetails';
 
 type CockpitPanelProps = {
   meeting: Meeting;
@@ -39,11 +41,14 @@ export const CockpitPanel = withCurrentRoomMeeting(
       }
     }, [meeting.parentRoomId, widgetApi]);
 
+    const titleId = useId();
+    const meetingTimeId = useId();
+
     return (
       <Stack height="100%">
         {meeting.parentRoomId && (
           <Box component="nav" px={2}>
-            <Box maxWidth={327} mx="auto" my={2}>
+            <Box mx="auto" my={2}>
               <Button
                 fullWidth
                 onClick={openMeeting}
@@ -59,10 +64,15 @@ export const CockpitPanel = withCurrentRoomMeeting(
         )}
 
         <Box px={2}>
-          <Box maxWidth={327} mx="auto" my={2}>
-            <Box position="relative">
-              <MeetingCard headingComponent="h3" meeting={meeting} />
-            </Box>
+          <Box position="relative">
+            <MeetingDetails
+              meetingTimeId={meetingTimeId}
+              recurrenceId={meeting.recurrenceId}
+              roomId={meeting.meetingId}
+              titleId={titleId}
+              uid={meeting.calendarUid}
+              isSettingMeeting={true}
+            />
           </Box>
         </Box>
       </Stack>
