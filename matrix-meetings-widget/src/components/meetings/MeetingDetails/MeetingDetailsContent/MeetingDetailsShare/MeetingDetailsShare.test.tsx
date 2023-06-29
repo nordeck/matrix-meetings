@@ -14,19 +14,22 @@
  * limitations under the License.
  */
 
-import { extractWidgetApiParameters } from '@matrix-widget-toolkit/api';
+import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
+import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
 import {
   mockCalendarEntry,
-  mockCreateMeetingRoom,
+  mockConfigEndpoint,
   mockMeeting,
+  mockMeetingSharingInformationEndpoint,
 } from '../../../../../lib/testUtils';
+import { Meeting } from '../../../../../reducer/meetingsApi';
 import { createStore } from '../../../../../store';
 import { initializeStore } from '../../../../../store/store';
 import { MeetingDetailsShare } from './MeetingDetailsShare';
@@ -36,6 +39,16 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
   extractWidgetApiParameters: jest.fn(),
 }));
 
+const extractWidgetApiParameters = jest.mocked(
+  extractWidgetApiParametersMocked
+);
+
+const server = setupServer();
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
 let widgetApi: MockedWidgetApi;
 
 afterEach(() => widgetApi.stop());
@@ -44,14 +57,18 @@ beforeEach(() => (widgetApi = mockWidgetApi()));
 
 describe('<MeetingDetailsShare/>', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
+  let meeting: Meeting;
 
   beforeEach(() => {
-    jest.mocked(extractWidgetApiParameters).mockReturnValue({
+    mockConfigEndpoint(server);
+    mockMeetingSharingInformationEndpoint(server);
+
+    meeting = mockMeeting();
+
+    extractWidgetApiParameters.mockReturnValue({
       clientOrigin: 'http://element.local',
       widgetId: '',
     });
-
-    mockCreateMeetingRoom(widgetApi);
 
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
       const [store] = useState(() => {
@@ -68,7 +85,7 @@ describe('<MeetingDetailsShare/>', () => {
   });
 
   it('should render without exploding', async () => {
-    render(<MeetingDetailsShare meeting={mockMeeting()} />, {
+    render(<MeetingDetailsShare meeting={meeting} />, {
       wrapper: Wrapper,
     });
 
@@ -83,16 +100,15 @@ describe('<MeetingDetailsShare/>', () => {
   });
 
   it('should have no accessibility violations', async () => {
-    const { container } = render(
-      <MeetingDetailsShare meeting={mockMeeting()} />,
-      { wrapper: Wrapper }
-    );
+    const { container } = render(<MeetingDetailsShare meeting={meeting} />, {
+      wrapper: Wrapper,
+    });
 
     expect(await axe(container)).toHaveNoViolations();
   });
 
   it('should open the email dialog', async () => {
-    render(<MeetingDetailsShare meeting={mockMeeting()} />, {
+    render(<MeetingDetailsShare meeting={meeting} />, {
       wrapper: Wrapper,
     });
 
@@ -114,21 +130,16 @@ describe('<MeetingDetailsShare/>', () => {
   });
 
   it('should warn the user when sharing an email that the meeting is recurring', async () => {
-    const calendarEntries = [
+    meeting.calendarEntries = [
       mockCalendarEntry({
         dtstart: '29990101T100000',
         dtend: '29990101T140000',
         rrule: 'FREQ=DAILY',
       }),
     ];
-    render(
-      <MeetingDetailsShare
-        meeting={mockMeeting({ content: { calendarEntries } })}
-      />,
-      {
-        wrapper: Wrapper,
-      }
-    );
+    render(<MeetingDetailsShare meeting={meeting} />, {
+      wrapper: Wrapper,
+    });
 
     const list = screen.getByRole('list', { name: /share meeting/i });
 
@@ -146,7 +157,7 @@ describe('<MeetingDetailsShare/>', () => {
   });
 
   it('should open the ICS dialog', async () => {
-    render(<MeetingDetailsShare meeting={mockMeeting()} />, {
+    render(<MeetingDetailsShare meeting={meeting} />, {
       wrapper: Wrapper,
     });
 
@@ -166,21 +177,16 @@ describe('<MeetingDetailsShare/>', () => {
   });
 
   it('should warn the user when sharing an ics file that the meeting is recurring', async () => {
-    const calendarEntries = [
+    meeting.calendarEntries = [
       mockCalendarEntry({
         dtstart: '29990101T100000',
         dtend: '29990101T140000',
         rrule: 'FREQ=DAILY',
       }),
     ];
-    render(
-      <MeetingDetailsShare
-        meeting={mockMeeting({ content: { calendarEntries } })}
-      />,
-      {
-        wrapper: Wrapper,
-      }
-    );
+    render(<MeetingDetailsShare meeting={meeting} />, {
+      wrapper: Wrapper,
+    });
 
     const list = screen.getByRole('list', { name: /share meeting/i });
 
