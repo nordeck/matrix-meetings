@@ -14,22 +14,36 @@
  * limitations under the License.
  */
 
+import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
+import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
 import {
   mockCalendar,
+  mockConfigEndpoint,
   mockCreateMeetingRoom,
+  mockMeetingSharingInformationEndpoint,
   mockNordeckMeetingMetadataEvent,
+  mockWidgetEndpoint,
 } from '../../../lib/testUtils';
 import { createStore } from '../../../store';
 import { initializeStore } from '../../../store/store';
 import { LocalizationProvider } from '../../common/LocalizationProvider';
 import { CockpitPanel } from './CockpitPanel';
+
+jest.mock('@matrix-widget-toolkit/api', () => ({
+  ...jest.requireActual('@matrix-widget-toolkit/api'),
+  extractWidgetApiParameters: jest.fn(),
+}));
+
+const extractWidgetApiParameters = jest.mocked(
+  extractWidgetApiParametersMocked
+);
 
 let widgetApi: MockedWidgetApi;
 
@@ -37,11 +51,26 @@ afterEach(() => widgetApi.stop());
 
 beforeEach(() => (widgetApi = mockWidgetApi({ roomId: '!meeting-room-id' })));
 
+const server = setupServer();
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
+
 describe('<CockpitPanel>', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
     mockCreateMeetingRoom(widgetApi);
+
+    mockWidgetEndpoint(server);
+    mockConfigEndpoint(server);
+    mockMeetingSharingInformationEndpoint(server);
+
+    extractWidgetApiParameters.mockReturnValue({
+      clientOrigin: 'http://element.local',
+      widgetId: '',
+    });
 
     jest
       .spyOn(Date, 'now')
@@ -74,7 +103,7 @@ describe('<CockpitPanel>', () => {
     ).resolves.toBeInTheDocument();
 
     expect(
-      screen.getByText('Jan 1, 2999, 10:00 AM – 2:00 PM')
+      screen.getByText('January 1, 2999, 10:00 AM – 2:00 PM')
     ).toBeInTheDocument();
   });
 
@@ -108,8 +137,10 @@ describe('<CockpitPanel>', () => {
     ).resolves.toBeInTheDocument();
 
     expect(
-      screen.getByText('Jan 2, 2022, 3:00 PM – 4:00 PM')
+      screen.getByText('January 2, 2022, 3:00 – 4:00 PM')
     ).toBeInTheDocument();
+
+    expect(screen.getByText('Every day')).toBeInTheDocument();
   });
 
   it('should display current recurring meeting if one is in progress', async () => {
@@ -132,7 +163,7 @@ describe('<CockpitPanel>', () => {
     ).resolves.toBeInTheDocument();
 
     expect(
-      screen.getByText('Jan 2, 2022, 1:00 PM – 2:00 PM')
+      screen.getByText('January 2, 2022, 1:00 – 2:00 PM')
     ).toBeInTheDocument();
   });
 
@@ -156,7 +187,7 @@ describe('<CockpitPanel>', () => {
     ).resolves.toBeInTheDocument();
 
     expect(
-      screen.getByText('Jan 5, 2021, 1:00 PM – 2:00 PM')
+      screen.getByText('January 5, 2021, 1:00 – 2:00 PM')
     ).toBeInTheDocument();
   });
 
