@@ -15,7 +15,7 @@
  */
 
 import { FrameLocator, Locator, Page } from '@playwright/test';
-import { MeetingCardPage } from './meetingCardPage';
+import { MMeetingDetailsPage } from './MMeetingDetailsPage';
 
 export class CockpitWidgetPage {
   public readonly backToParentRoomButton: Locator;
@@ -33,11 +33,11 @@ export class CockpitWidgetPage {
     await this.backToParentRoomButton.click();
   }
 
-  getMeeting(): MeetingCardPage {
-    return new MeetingCardPage(
+  getMeeting(): MMeetingDetailsPage {
+    return new MMeetingDetailsPage(
       this.page,
       this.widget,
-      this.widget.getByRole('heading').locator('..').locator('..').locator('..')
+      this.widget.getByRole('region', { name: 'Meeting details' })
     );
   }
 }

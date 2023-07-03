@@ -69,6 +69,7 @@ export function MeetingDetailsContent({
               <Typography
                 component="span"
                 fontSize="inherit"
+                data-testid="date"
                 id={meetingTimeId}
               >
                 {t(
@@ -89,7 +90,11 @@ export function MeetingDetailsContent({
 
             {recurrence && (
               <Box mb={1} ml={4}>
-                <Typography component="span" fontSize="inherit">
+                <Typography
+                  component="span"
+                  fontSize="inherit"
+                  data-testid="recurrenceRole"
+                >
                   {recurrence}
                 </Typography>
               </Box>
