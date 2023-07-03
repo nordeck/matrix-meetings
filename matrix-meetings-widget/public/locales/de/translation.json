@@ -86,15 +86,6 @@
       "membership_join": "Angenommen",
       "menuTitle": "Teilnehmer"
     },
-    "editPermissions": {
-      "allowMessaging": "Alle Benutzer können den Chat nutzen",
-      "buttonTitle": "Berechtigungen bearbeiten",
-      "menuTitle": "Berechtigungen",
-      "updateFailed": "Bitte versuche es erneut.",
-      "updateFailedTitle": "Fehler beim Ändern der Berechtigungen",
-      "updateTimeout": "Die Änderung wurde erfolgreich geplant und sollte demnächst ausgeführt werden.",
-      "updateTimeoutTitle": "Die Anfrage wurde versendet"
-    },
     "meetingRoomWillBeDeleted": "Die Besprechung wird {{remainingTime, relativetime}} automatisch gelöscht.",
     "meetingRoomWillBeDeletedSoon": "Die Besprechung wird in Kürze gelöscht.",
     "moreSettings": "Mehr Einstellungen",
@@ -334,6 +325,7 @@
     "weekdayLabel": "Wochentag"
   },
   "scheduleMeeting": {
+    "allowMessaging": "Alle Teilnehmer können den Chat nutzen",
     "cannotRemoveOwnUser": "Du kannst dich nicht selbst aus der Besprechung entfernen.",
     "description": "Beschreibung",
     "endAt": "Endzeitpunkt",

@@ -156,6 +156,7 @@ export const meetingsApi = createApi({
             calendar: meeting.calendar,
             widget_ids: meeting.widgetIds,
             participants: meeting.participants.map((user_id) => ({ user_id })),
+            messaging_power_level: meeting.powerLevels?.messaging,
           })
         );
 
@@ -392,6 +393,7 @@ export const meetingsApi = createApi({
             title: updates.title,
             description: updates.description,
             calendar: updates.calendar,
+            messaging_power_level: updates.powerLevels?.messaging,
           })
         );
 

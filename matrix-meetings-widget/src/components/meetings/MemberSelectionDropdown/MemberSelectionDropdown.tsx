@@ -402,7 +402,7 @@ export function MemberSelectionDropdown({
         renderInput={renderInput}
         renderOption={renderOption}
         renderTags={renderTags}
-        sx={{ my: 1 }}
+        sx={{ mt: 1, mb: 0.5 }}
         value={selectedMembers}
       />
     </>

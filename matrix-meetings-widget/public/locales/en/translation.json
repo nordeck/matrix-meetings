@@ -86,15 +86,6 @@
       "membership_join": "Accepted",
       "menuTitle": "Participants"
     },
-    "editPermissions": {
-      "allowMessaging": "Allow messaging for all users",
-      "buttonTitle": "Edit permissions",
-      "menuTitle": "Permissions",
-      "updateFailed": "Please try again.",
-      "updateFailedTitle": "Failed to update the permissions",
-      "updateTimeout": "The change was submitted and will be applied soon.",
-      "updateTimeoutTitle": "The request was sent"
-    },
     "meetingRoomWillBeDeleted": "Meeting room will be automatically deleted {{remainingTime, relativetime}}.",
     "meetingRoomWillBeDeletedSoon": "Meeting room will be automatically deleted soon.",
     "moreSettings": "More settings",
@@ -337,6 +328,7 @@
     "weekdayLabel": "Weekday"
   },
   "scheduleMeeting": {
+    "allowMessaging": "Allow messaging for all participants",
     "cannotRemoveOwnUser": "You can't remove yourself from the meeting.",
     "description": "Description",
     "endAt": "End at",

@@ -107,6 +107,9 @@ export type CreateMeetingOptions = {
     calendar: CalendarEntry[];
     widgetIds: string[];
     participants: string[];
+    powerLevels?: {
+      messaging?: number;
+    };
   };
 };
 /**/
@@ -130,6 +133,9 @@ export type UpdateMeetingDetailsOptions = {
     title?: string;
     description?: string;
     calendar?: CalendarEntry[];
+    powerLevels?: {
+      messaging?: number;
+    };
   };
 };
 /**/
