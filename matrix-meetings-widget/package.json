@@ -60,7 +60,7 @@
     "@types/react-i18next": "^8.1.0",
     "cross-env": "^7.0.3",
     "dotenv-cli": "^7.2.1",
-    "eslint": "^8.39.0",
+    "eslint": "^8.44.0",
     "i18next-parser": "^7.7.0",
     "jest": "^27.4.3",
     "jest-axe": "^7.0.0",
