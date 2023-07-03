@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
-import { DispatchWithoutAction, PropsWithChildren, ReactElement } from 'react';
-import { useGetConfigurationQuery } from '../../../../reducer/meetingBotApi';
+import { Button } from '@mui/material';
+import { DispatchWithoutAction, PropsWithChildren } from 'react';
+import { useGetConfigurationQuery } from '../../../../../reducer/meetingBotApi';
 import {
   buildOpenXChangeLink,
   OpenXChangeExternalReference,
@@ -24,13 +24,11 @@ import {
 
 type OpenXchangeMenuButtonItemProps = {
   color?: string;
-  icon?: ReactElement;
   reference: OpenXChangeExternalReference;
   onClick?: DispatchWithoutAction;
 };
 
 export function OpenXchangeMenuButtonItem({
-  icon,
   children,
   color,
   reference,
@@ -45,7 +43,7 @@ export function OpenXchangeMenuButtonItem({
   const urlTemplate = config?.openXChange?.meetingUrlTemplate;
 
   return (
-    <MenuItem
+    <Button
       component="a"
       disabled={!urlTemplate || isLoadingConfiguration || isErrorConfiguration}
       href={urlTemplate && buildOpenXChangeLink(reference, urlTemplate)}
@@ -54,10 +52,7 @@ export function OpenXchangeMenuButtonItem({
       sx={{ color }}
       target="_blank"
     >
-      <ListItemIcon sx={{ color }}>{icon}</ListItemIcon>
-      <ListItemText primaryTypographyProps={{ noWrap: true }}>
-        {children}
-      </ListItemText>
-    </MenuItem>
+      {children}
+    </Button>
   );
 }

@@ -865,4 +865,49 @@ describe('<MeetingDetailsHeader/>', () => {
 
     expect(deleteButton).toBeEnabled();
   });
+
+  it.only('should link from edit and delete button to Open-Xchange if enabled', async () => {
+    mockConfigEndpoint(server, {
+      jitsiDialInEnabled: true,
+      openXchangeMeetingUrlTemplate:
+        'https://ox.io/appsuite/#app=io.ox/calendar&id={{id}}&folder={{folder}}',
+    });
+
+    widgetApi.mockSendStateEvent(
+      mockNordeckMeetingMetadataEvent({
+        content: {
+          external_data: {
+            'io.ox': {
+              folder: 'cal://0/31',
+              id: 'cal://0/31.1.0',
+            },
+          },
+        },
+      })
+    );
+
+    render(
+      <MeetingDetailsHeader
+        meeting={mockMeeting({
+          room_id: '!meeting-room-id',
+          parentRoomId: undefined,
+        })}
+        onClose={onClose}
+      />,
+      {
+        wrapper: Wrapper,
+      }
+    );
+
+    expect(
+      screen.getByRole('button', {
+        name: /edit meeting in open-xchange/i,
+      })
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('menuitem', {
+        name: /delete meeting in open-xchange/i,
+      })
+    ).toBeInTheDocument();
+  });
 });

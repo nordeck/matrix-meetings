@@ -55,11 +55,14 @@ import {
 import { useAppSelector } from '../../../../store';
 import { ConfirmDeleteDialog } from '../../../common/ConfirmDeleteDialog';
 import { withoutYearDateFormat } from '../../../common/DateTimePickers';
-import { getOpenXChangeExternalReference } from '../../../common/MenuButton';
 import { UpdateFailedDialog } from '../../MeetingCard/MeetingCardMenu';
 import { ScheduledDeletionWarning } from '../../MeetingCard/ScheduledDeletionWarning';
 import { useEditMeeting } from '../../ScheduleMeetingModal';
 import { MeetingDetailsJoinButton } from './MeetingDetailsJoinButton';
+import {
+  getOpenXChangeExternalReference,
+  OpenXchangeMenuButtonItem,
+} from './OpenXchangeMenuButtonItem';
 
 export function MeetingDetailsHeader({
   meeting,
@@ -187,6 +190,14 @@ export function MeetingDetailsHeader({
               meetingType={meeting.type}
               roomId={meeting.meetingId}
             />
+            {canUpdateMeeting && isExternalReference && (
+              <OpenXchangeMenuButtonItem reference={openXChangeReference}>
+                {t(
+                  'meetingDetails.header.editInOpenXchangeMenu',
+                  'Edit meeting in Open-Xchange'
+                )}
+              </OpenXchangeMenuButtonItem>
+            )}
             {canUpdateMeeting && !isExternalReference && (
               <Button
                 variant="outlined"
@@ -195,6 +206,18 @@ export function MeetingDetailsHeader({
               >
                 {t('meetingDetails.header.editMenu', 'Edit')}
               </Button>
+            )}
+
+            {canCloseMeeting && openXChangeReference && (
+              <OpenXchangeMenuButtonItem
+                color="error.main"
+                reference={openXChangeReference}
+              >
+                {t(
+                  'meetingDetails.header.deleteInOpenXchangeMenu',
+                  'Delete meeting in Open-Xchange'
+                )}
+              </OpenXchangeMenuButtonItem>
             )}
 
             {canCloseMeeting && !openXChangeReference && (
