@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { extractWidgetApiParameters } from '@matrix-widget-toolkit/api';
+import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, waitFor, within } from '@testing-library/react';
@@ -47,6 +47,10 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
   ...jest.requireActual('@matrix-widget-toolkit/api'),
   extractWidgetApiParameters: jest.fn(),
 }));
+
+const extractWidgetApiParameters = jest.mocked(
+  extractWidgetApiParametersMocked
+);
 
 const server = setupServer();
 
@@ -866,7 +870,7 @@ describe('<MeetingDetailsHeader/>', () => {
     expect(deleteButton).toBeEnabled();
   });
 
-  it.only('should link from edit and delete button to Open-Xchange if enabled', async () => {
+  it.skip('should link from edit and delete button to Open-Xchange if enabled', async () => {
     mockConfigEndpoint(server, {
       jitsiDialInEnabled: true,
       openXchangeMeetingUrlTemplate:

@@ -17,7 +17,6 @@
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
@@ -25,7 +24,7 @@ import { Provider } from 'react-redux';
 import { mockConfigEndpoint } from '../../../../../lib/testUtils';
 import { createStore } from '../../../../../store';
 import { initializeStore } from '../../../../../store/store';
-import { OpenXchangeMenuButtonItem } from './OpenXchangeMenuButtonItem';
+import { OpenXchangeButton } from './OpenXchangeButton';
 
 const server = setupServer();
 beforeAll(() => server.listen());
@@ -38,7 +37,7 @@ afterEach(() => widgetApi.stop());
 
 beforeEach(() => (widgetApi = mockWidgetApi()));
 
-describe('<OpenXchangeMenuButtonItem/>', () => {
+describe('<OpenXchangeButton/>', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
@@ -69,17 +68,15 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
     });
 
     const { container } = render(
-      <OpenXchangeMenuButtonItem
+      <OpenXchangeButton
         reference={{ folder: 'cal://0/31', id: 'cal://0/31.1.0' }}
       >
         Edit
-      </OpenXchangeMenuButtonItem>,
+      </OpenXchangeButton>,
       { wrapper: Wrapper }
     );
 
-    await userEvent.click(screen.getByRole('button', { name: 'Menu' }));
-
-    const linkEl = await screen.findByRole('menuitem', { name: 'Edit' });
+    const linkEl = await screen.findByRole('button', { name: 'Edit' });
 
     await waitFor(() =>
       expect(linkEl).toHaveAttribute(
@@ -93,18 +90,16 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
 
   it('should have no accessibility violations, if button is disabled', async () => {
     const { container } = render(
-      <OpenXchangeMenuButtonItem
+      <OpenXchangeButton
         reference={{ folder: 'cal://0/31', id: 'cal://0/31.1.0' }}
       >
         Edit
-      </OpenXchangeMenuButtonItem>,
+      </OpenXchangeButton>,
       { wrapper: Wrapper }
     );
 
-    await userEvent.click(screen.getByRole('button', { name: 'Menu' }));
-
     await expect(
-      screen.findByRole('menuitem', { name: /edit/i })
+      screen.findByRole('button', { name: /edit/i })
     ).resolves.toBeInTheDocument();
 
     expect(await axe(container)).toHaveNoViolations();
@@ -118,17 +113,15 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
     });
 
     render(
-      <OpenXchangeMenuButtonItem
+      <OpenXchangeButton
         reference={{ folder: 'cal://0/31', id: 'cal://0/31.1.0' }}
       >
         Edit
-      </OpenXchangeMenuButtonItem>,
+      </OpenXchangeButton>,
       { wrapper: Wrapper }
     );
 
-    await userEvent.click(screen.getByRole('button', { name: 'Menu' }));
-
-    const linkEl = await screen.findByRole('menuitem', { name: 'Edit' });
+    const linkEl = await screen.findByRole('button', { name: 'Edit' });
 
     await waitFor(() =>
       expect(linkEl).toHaveAttribute(
@@ -141,20 +134,18 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
 
   it('should skip if missing url template', async () => {
     render(
-      <OpenXchangeMenuButtonItem
+      <OpenXchangeButton
         reference={{
           folder: 'cal://0/31',
           id: 'cal://0/31.1.0',
         }}
       >
         Edit
-      </OpenXchangeMenuButtonItem>,
+      </OpenXchangeButton>,
       { wrapper: Wrapper }
     );
 
-    await userEvent.click(screen.getByRole('button', { name: 'Menu' }));
-
-    const linkEl = await screen.findByRole('menuitem', { name: 'Edit' });
+    const linkEl = await screen.findByRole('button', { name: 'Edit' });
 
     expect(linkEl).toHaveAttribute('aria-disabled', 'true');
   });

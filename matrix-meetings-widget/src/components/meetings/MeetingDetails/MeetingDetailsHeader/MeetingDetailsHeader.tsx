@@ -59,10 +59,8 @@ import { UpdateFailedDialog } from '../../MeetingCard/MeetingCardMenu';
 import { ScheduledDeletionWarning } from '../../MeetingCard/ScheduledDeletionWarning';
 import { useEditMeeting } from '../../ScheduleMeetingModal';
 import { MeetingDetailsJoinButton } from './MeetingDetailsJoinButton';
-import {
-  getOpenXChangeExternalReference,
-  OpenXchangeMenuButtonItem,
-} from './OpenXchangeMenuButtonItem';
+import { getOpenXChangeExternalReference } from './OpenXchangeButton';
+import { OpenXchangeButton } from './OpenXchangeButton/OpenXchangeButton';
 
 export function MeetingDetailsHeader({
   meeting,
@@ -191,12 +189,12 @@ export function MeetingDetailsHeader({
               roomId={meeting.meetingId}
             />
             {canUpdateMeeting && isExternalReference && (
-              <OpenXchangeMenuButtonItem reference={openXChangeReference}>
+              <OpenXchangeButton reference={openXChangeReference}>
                 {t(
                   'meetingDetails.header.editInOpenXchangeMenu',
                   'Edit meeting in Open-Xchange'
                 )}
-              </OpenXchangeMenuButtonItem>
+              </OpenXchangeButton>
             )}
             {canUpdateMeeting && !isExternalReference && (
               <Button
@@ -209,7 +207,7 @@ export function MeetingDetailsHeader({
             )}
 
             {canCloseMeeting && openXChangeReference && (
-              <OpenXchangeMenuButtonItem
+              <OpenXchangeButton
                 color="error.main"
                 reference={openXChangeReference}
               >
@@ -217,7 +215,7 @@ export function MeetingDetailsHeader({
                   'meetingDetails.header.deleteInOpenXchangeMenu',
                   'Delete meeting in Open-Xchange'
                 )}
-              </OpenXchangeMenuButtonItem>
+              </OpenXchangeButton>
             )}
 
             {canCloseMeeting && !openXChangeReference && (

@@ -22,18 +22,18 @@ import {
   OpenXChangeExternalReference,
 } from './openXchange';
 
-type OpenXchangeMenuButtonItemProps = {
+type OpenXchangeButtonProps = {
   color?: string;
   reference: OpenXChangeExternalReference;
   onClick?: DispatchWithoutAction;
 };
 
-export function OpenXchangeMenuButtonItem({
+export function OpenXchangeButton({
   children,
   color,
   reference,
   onClick,
-}: PropsWithChildren<OpenXchangeMenuButtonItemProps>) {
+}: PropsWithChildren<OpenXchangeButtonProps>) {
   const {
     data: config,
     isLoading: isLoadingConfiguration,

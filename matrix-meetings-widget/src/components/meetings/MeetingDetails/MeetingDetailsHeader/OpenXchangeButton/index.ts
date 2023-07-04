@@ -15,4 +15,4 @@
  */
 
 export { getOpenXChangeExternalReference } from './openXchange';
-export { OpenXchangeMenuButtonItem } from './OpenXchangeMenuButtonItem';
+export { OpenXchangeButton } from './OpenXchangeButton';
