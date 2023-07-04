@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { extractWidgetApiParameters } from '@matrix-widget-toolkit/api';
+import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, waitFor, within } from '@testing-library/react';
@@ -47,6 +47,10 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
   ...jest.requireActual('@matrix-widget-toolkit/api'),
   extractWidgetApiParameters: jest.fn(),
 }));
+
+const extractWidgetApiParameters = jest.mocked(
+  extractWidgetApiParametersMocked
+);
 
 const server = setupServer();
 
@@ -864,5 +868,54 @@ describe('<MeetingDetailsHeader/>', () => {
     expect(within(alert).getByText(/please try again/i)).toBeInTheDocument();
 
     expect(deleteButton).toBeEnabled();
+  });
+
+  it('should link from edit and delete button to Open-Xchange if enabled', async () => {
+    mockConfigEndpoint(server, {
+      jitsiDialInEnabled: true,
+      openXchangeMeetingUrlTemplate:
+        'https://ox.io/appsuite/#app=io.ox/calendar&id={{id}}&folder={{folder}}',
+    });
+
+    widgetApi.mockSendStateEvent(
+      mockNordeckMeetingMetadataEvent({
+        content: {
+          external_data: {
+            'io.ox': {
+              folder: 'cal://0/31',
+              id: 'cal://0/31.1.0',
+            },
+          },
+        },
+      })
+    );
+
+    render(
+      <MeetingDetailsHeader
+        meeting={mockMeeting({
+          room_id: '!meeting-room-id',
+          parentRoomId: undefined,
+        })}
+        onClose={onClose}
+      />,
+      {
+        wrapper: Wrapper,
+      }
+    );
+
+    await waitFor(() => {
+      expect(
+        screen.getByRole('button', {
+          name: /Edit meeting in Open-Xchange/i,
+        })
+      ).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(
+        screen.getByRole('button', {
+          name: /Delete meeting in Open-Xchange/i,
+        })
+      ).toBeInTheDocument();
+    });
   });
 });

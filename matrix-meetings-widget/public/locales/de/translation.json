@@ -164,7 +164,9 @@
       "deleteConfirmMessage": "Du bist dabei die Besprechung „{{title}}“ am {{startTime, datetime}} und alles darin zu löschen. Bist du sicher?",
       "deleteFailed": "Bitte versuche es erneut.",
       "deleteFailedTitle": "Fehler beim Löschen der Besprechung",
+      "deleteInOpenXchangeMenu": "Besprechung in Open-Xchange löschen",
       "deleteMenu": "Löschen",
+      "editInOpenXchangeMenu": "Besprechung in Open-Xchange bearbeiten",
       "editMenu": "Bearbeiten",
       "join": "Beitreten",
       "joinBreakout_breakout": "Beitreten"
