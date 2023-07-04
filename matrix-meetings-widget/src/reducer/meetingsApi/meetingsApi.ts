@@ -393,7 +393,6 @@ export const meetingsApi = createApi({
             title: updates.title,
             description: updates.description,
             calendar: updates.calendar,
-            messaging_power_level: updates.powerLevels?.messaging,
           })
         );
 

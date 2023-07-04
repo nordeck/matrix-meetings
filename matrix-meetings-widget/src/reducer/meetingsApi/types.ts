@@ -133,9 +133,6 @@ export type UpdateMeetingDetailsOptions = {
     title?: string;
     description?: string;
     calendar?: CalendarEntry[];
-    powerLevels?: {
-      messaging?: number;
-    };
   };
 };
 /**/
