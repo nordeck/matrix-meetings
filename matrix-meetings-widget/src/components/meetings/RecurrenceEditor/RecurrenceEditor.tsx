@@ -176,7 +176,7 @@ export const RecurrenceEditor = ({
 
   return (
     <>
-      <FormControl fullWidth margin="dense" size="small">
+      <FormControl fullWidth margin="dense" size="small" sx={{ mb: 0 }}>
         <InputLabel id={repetitionLabelId}>{repetitionLabelText}</InputLabel>
         <Select
           id={selectId}

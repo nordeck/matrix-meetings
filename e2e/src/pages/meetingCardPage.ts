@@ -77,12 +77,6 @@ export class MeetingCardPage {
     await this.card.getByRole('button', { name: 'Edit permissions' }).click();
   }
 
-  async toggleChatPermission() {
-    await this.card
-      .getByRole('checkbox', { name: 'Allow messaging for all users' })
-      .click();
-  }
-
   async switchToShareMeeting() {
     await this.card.getByRole('button', { name: 'Share meeting' }).click();
   }

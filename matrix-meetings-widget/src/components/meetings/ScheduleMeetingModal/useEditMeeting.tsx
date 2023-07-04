@@ -26,6 +26,7 @@ import {
   UpdateMeetingDetailsOptions,
   useUpdateMeetingDetailsMutation,
   useUpdateMeetingParticipantsMutation,
+  useUpdateMeetingPermissionsMutation,
   useUpdateMeetingWidgetsMutation,
 } from '../../../reducer/meetingsApi';
 import { useAppDispatch } from '../../../store';
@@ -39,17 +40,18 @@ import {
 } from './types';
 
 export function useEditMeeting(): {
-  editMeeting: (meeting: Meeting) => Promise<void>;
+  editMeeting: (meeting: Meeting, isMessagingEnabled: boolean) => Promise<void>;
 } {
   const { t } = useTranslation();
   const widgetApi = useWidgetApi();
   const dispatch = useAppDispatch();
   const [updateMeetingDetails] = useUpdateMeetingDetailsMutation();
   const [updateMeetingParticipants] = useUpdateMeetingParticipantsMutation();
+  const [updateMeetingPermissions] = useUpdateMeetingPermissionsMutation();
   const [updateWidget] = useUpdateMeetingWidgetsMutation();
 
   const editMeeting = useCallback(
-    async (meeting: Meeting) => {
+    async (meeting: Meeting, isMessagingEnabled: boolean) => {
       const updatedMeeting = await widgetApi.openModal<
         ScheduleMeetingModalResult,
         ScheduleMeetingModalRequest
@@ -70,7 +72,7 @@ export function useEditMeeting(): {
               label: t('editMeetingModal.cancel', 'Cancel'),
             },
           ],
-          data: { meeting },
+          data: { meeting, isMessagingEnabled },
         }
       );
 
@@ -89,8 +91,10 @@ export function useEditMeeting(): {
             removeUserIds,
             addWidgets,
             removeWidgets,
+            powerLevels,
           } = diffMeeting(
             meeting,
+            isMessagingEnabled,
             updatedMeeting.meeting,
             availableWidgets.map((w) => w.id)
           );
@@ -112,10 +116,21 @@ export function useEditMeeting(): {
             removeWidgets,
           }).unwrap();
 
+          let meetingPermissionsResult;
+          if (powerLevels.messaging !== undefined) {
+            meetingPermissionsResult = await updateMeetingPermissions({
+              roomId: meeting.meetingId,
+              powerLevels: {
+                messaging: powerLevels.messaging,
+              },
+            }).unwrap();
+          }
+
           if (
             detailsResult.acknowledgement.error ||
             participantsResult.acknowledgements.some((a) => a.error) ||
-            widgetsResult.acknowledgements.some((a) => a.error)
+            widgetsResult.acknowledgements.some((a) => a.error) ||
+            meetingPermissionsResult?.acknowledgement.error
           ) {
             throw new Error('Error while updating');
           }
@@ -130,6 +145,7 @@ export function useEditMeeting(): {
       dispatch,
       updateMeetingDetails,
       updateMeetingParticipants,
+      updateMeetingPermissions,
       updateWidget,
     ]
   );
@@ -175,6 +191,7 @@ function diffParticipants(
 
 export const diffMeeting = (
   oldMeeting: Meeting,
+  isMessagingEnabled: boolean,
   newMeeting: CreateMeeting,
   availableWidgets: string[]
 ) => {
@@ -205,11 +222,20 @@ export const diffMeeting = (
       }),
     ],
   };
+
+  const newMeetingIsMessagingEnabled = newMeeting.powerLevels?.messaging === 0;
+  const powerLevels = {
+    messaging:
+      isMessagingEnabled !== newMeetingIsMessagingEnabled
+        ? newMeeting.powerLevels?.messaging
+        : undefined,
+  };
   return {
     meetingDetails,
     addUserIds,
     removeUserIds,
     addWidgets,
     removeWidgets,
+    powerLevels,
   };
 };

@@ -133,6 +133,12 @@ describe('<ScheduleMeeting>', () => {
     ).toHaveValue('02:15 PM');
 
     expect(
+      screen.getByRole('checkbox', {
+        name: 'Allow messaging for all participants',
+      })
+    ).toBeChecked();
+
+    expect(
       screen.getByRole('button', { name: 'Repeat meeting No repetition' })
     ).toBeInTheDocument();
 
@@ -593,6 +599,12 @@ describe('<ScheduleMeeting>', () => {
     fireEvent.change(endTimeField, { target: { value: '12:34 PM' } });
 
     await userEvent.click(
+      screen.getByRole('checkbox', {
+        name: 'Allow messaging for all participants',
+      })
+    );
+
+    await userEvent.click(
       screen.getByRole('button', { name: 'Repeat meeting No repetition' })
     );
     const recurrenceOptionsList = screen.getByRole('listbox', {
@@ -609,6 +621,9 @@ describe('<ScheduleMeeting>', () => {
       endTime: '2023-01-03T12:34:00.000Z',
       widgetIds: [],
       participants: ['@user-id'],
+      powerLevels: {
+        messaging: 100,
+      },
       rrule: 'FREQ=DAILY',
     });
   }, 10000);

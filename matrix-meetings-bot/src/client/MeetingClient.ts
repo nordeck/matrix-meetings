@@ -89,7 +89,8 @@ export class MeetingClient {
     spaceParentEventContent: ISpaceParentEventContent,
     roomMatrixEvents: DeepReadonly<IRoomMatrixEvents>,
     userContext: IUserContext,
-    autoDeletionOffset: number | undefined
+    autoDeletionOffset?: number,
+    messagingPowerLevel?: number
   ): Promise<
     [string, DeepReadonlyArray<IStateEvent<IElementMembershipEventContent>>]
   > {
@@ -230,6 +231,10 @@ export class MeetingClient {
         ...powerLevelUsers,
       },
     };
+
+    if (messagingPowerLevel) {
+      powerLevel.events_default = messagingPowerLevel;
+    }
 
     const renderedMemberEventsWithReason: DeepReadonlyArray<
       IStateEvent<IElementMembershipEventContent>
