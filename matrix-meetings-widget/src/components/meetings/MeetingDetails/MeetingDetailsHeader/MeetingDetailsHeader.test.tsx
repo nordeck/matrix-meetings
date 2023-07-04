@@ -870,7 +870,7 @@ describe('<MeetingDetailsHeader/>', () => {
     expect(deleteButton).toBeEnabled();
   });
 
-  it.skip('should link from edit and delete button to Open-Xchange if enabled', async () => {
+  it('should link from edit and delete button to Open-Xchange if enabled', async () => {
     mockConfigEndpoint(server, {
       jitsiDialInEnabled: true,
       openXchangeMeetingUrlTemplate:
@@ -903,15 +903,19 @@ describe('<MeetingDetailsHeader/>', () => {
       }
     );
 
-    expect(
-      screen.getByRole('button', {
-        name: /edit meeting in open-xchange/i,
-      })
-    ).toBeInTheDocument();
-    expect(
-      screen.getByRole('menuitem', {
-        name: /delete meeting in open-xchange/i,
-      })
-    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(
+        screen.getByRole('button', {
+          name: /Edit meeting in Open-Xchange/i,
+        })
+      ).toBeInTheDocument();
+    });
+    await waitFor(() => {
+      expect(
+        screen.getByRole('button', {
+          name: /Delete meeting in Open-Xchange/i,
+        })
+      ).toBeInTheDocument();
+    });
   });
 });
