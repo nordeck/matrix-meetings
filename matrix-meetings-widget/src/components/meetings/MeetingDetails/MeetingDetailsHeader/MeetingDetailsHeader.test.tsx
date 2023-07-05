@@ -213,6 +213,7 @@ describe('<MeetingDetailsHeader/>', () => {
             parentRoomId: '!room-id',
             content: { widgets: ['widget-1'] },
           }),
+          isMessagingEnabled: false,
         },
       }
     );
@@ -374,6 +375,7 @@ describe('<MeetingDetailsHeader/>', () => {
               startTime: '2999-01-01T10:00:00Z',
             },
           }),
+          isMessagingEnabled: false,
         },
       }
     );
@@ -434,7 +436,10 @@ describe('<MeetingDetailsHeader/>', () => {
             label: 'Cancel',
           },
         ],
-        data: { meeting: mockMeeting({ parentRoomId: '!room-id' }) },
+        data: {
+          meeting: mockMeeting({ parentRoomId: '!room-id' }),
+          isMessagingEnabled: false,
+        },
       }
     );
 
