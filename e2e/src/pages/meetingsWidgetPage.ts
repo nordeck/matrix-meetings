@@ -18,7 +18,7 @@ import { FrameLocator, Locator, Page } from '@playwright/test';
 import { ElementWebPage } from './elementWebPage';
 import { fillDatePicker } from './helper';
 import { MeetingCardPage } from './meetingCardPage';
-import { MeetingDetailsPage } from './MeetingDetailsPage';
+import { MeetingDetailsPage } from './meetingDetailsPage';
 import { ScheduleMeetingWidgetPage } from './scheduleMeetingWidgetPage';
 
 export type CalendarView = 'list' | 'day' | 'week' | 'work week' | 'month';
@@ -113,6 +113,8 @@ export class MeetingsWidgetPage {
     await elementWebPage.approveWidgetIdentity();
 
     return new CalendarEventDetailsPage(
+      this.page,
+      this.widget,
       this.widget.getByRole('dialog', { name: title })
     );
   }
@@ -121,8 +123,16 @@ export class MeetingsWidgetPage {
 class CalendarEventDetailsPage {
   public readonly meetingDetails: MeetingDetailsPage;
 
-  constructor(private readonly dialog: Locator) {
-    this.meetingDetails = new MeetingDetailsPage(this.dialog);
+  constructor(
+    private readonly page: Page,
+    private readonly widget: FrameLocator,
+    private readonly dialog: Locator
+  ) {
+    this.meetingDetails = new MeetingDetailsPage(
+      this.page,
+      this.widget,
+      this.widget.getByRole('region', { name: 'Meeting details' })
+    );
   }
 
   async close() {

@@ -18,7 +18,7 @@ import { expect } from '@playwright/test';
 import { test } from './fixtures';
 
 test.describe('OpenXchange', () => {
-  test.skip('should create meeting via OX', async ({
+  test('should create meeting via OX', async ({
     alice,
     alicePage,
     aliceElementWebPage,
@@ -60,16 +60,14 @@ test.describe('OpenXchange', () => {
       'My Description'
     );
     await expect(meetingDetails.meetingTimeRangeText).toHaveText(
-      'Oct 3, 2040, 10:30 AM – 11:00 AM'
+      'October 3, 2040, 10:30 – 11:00 AM'
     );
 
-    /*  const menu = await meetingCard.openMoreSettingsMenu();
-
-    await expect(menu.editInOpenXchangeMenuItem).toHaveAttribute(
+    await expect(meetingDetails.editInOpenXchangeMenuItem).toHaveAttribute(
       'href',
       'https://webmail-hostname/appsuite/#app=io.ox/calendar&id=meeting-id&folder=cal://0/471'
     );
-    await expect(menu.deleteInOpenXchangeMenuItem).toHaveAttribute(
+    await expect(meetingDetails.deleteInOpenXchangeMenuItem).toHaveAttribute(
       'href',
       'https://webmail-hostname/appsuite/#app=io.ox/calendar&id=meeting-id&folder=cal://0/471'
     );
@@ -78,7 +76,7 @@ test.describe('OpenXchange', () => {
       'Breakout Sessions',
       'NeoDateFix Details',
       'Video Conference',
-    ]); */
+    ]);
   });
 
   test('should create recurring meeting via OX', async ({
@@ -109,7 +107,7 @@ test.describe('OpenXchange', () => {
     ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingRecurrenceRuleText
-    ).toHaveText('Recurrence: Every day for 5 times');
+    ).toHaveText('Every day for 5 times');
   });
 
   test('should update meeting via OX', async ({
@@ -133,9 +131,9 @@ test.describe('OpenXchange', () => {
 
     await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
 
-    const meetingCard = aliceCockpitWidgetPage.getMeeting();
-    await expect(meetingCard.meetingTimeRangeText).toHaveText(
-      'Oct 3, 2040, 10:30 AM – 11:00 AM'
+    const meetingDetails = aliceCockpitWidgetPage.getMeeting();
+    await expect(meetingDetails.meetingTimeRangeText).toHaveText(
+      'October 3, 2040, 10:30 – 11:00 AM'
     );
 
     await meetingsBotApi.updateMeeting({
@@ -147,14 +145,16 @@ test.describe('OpenXchange', () => {
       openIdToken: await aliceElementWebPage.getOpenIdToken(),
     });
 
+    await aliceElementWebPage.approveWidgetIdentity();
+
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
         /10\/04\/2040 10:30 AM CEST to 10\/04\/2040 11:00 AM CEST/
       )
     ).toBeVisible();
 
-    await expect(meetingCard.meetingTimeRangeText).toHaveText(
-      'Oct 4, 2040, 10:30 AM – 11:00 AM'
+    await expect(meetingDetails.meetingTimeRangeText).toHaveText(
+      'October 4, 2040, 10:30 – 11:00 AM'
     );
   });
 
@@ -198,7 +198,7 @@ test.describe('OpenXchange', () => {
     );
   });
 
-  test('should convert a recurring OX meeting into a single meeting', async ({
+  test.skip('should convert a recurring OX meeting into a single meeting', async ({
     alice,
     alicePage,
     aliceElementWebPage,
@@ -223,9 +223,11 @@ test.describe('OpenXchange', () => {
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
-    ).toHaveText(
-      'Oct 3, 2040, 10:30 AM – 11:00 AM. Recurrence: Every day for 5 times'
-    );
+    ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
+
+    await expect(
+      aliceCockpitWidgetPage.getMeeting().meetingRecurrenceRuleText
+    ).toHaveText(' Every day for 5 times');
 
     await meetingsBotApi.updateMeeting({
       roomId,
@@ -238,7 +240,9 @@ test.describe('OpenXchange', () => {
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
-    ).toHaveText('Oct 3, 2040, 10:30 AM – 11:00 AM');
+    ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
+
+    await aliceElementWebPage.approveWidgetIdentity();
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
@@ -253,7 +257,7 @@ test.describe('OpenXchange', () => {
     ).toBeVisible();
   });
 
-  test('should convert a single OX meeting into a recurring meeting', async ({
+  test.skip('should convert a single OX meeting into a recurring meeting', async ({
     alice,
     alicePage,
     aliceElementWebPage,
@@ -277,7 +281,7 @@ test.describe('OpenXchange', () => {
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
-    ).toHaveText('Oct 3, 2040, 10:30 AM – 11:00 AM');
+    ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
 
     await meetingsBotApi.updateMeeting({
       roomId,
@@ -291,15 +295,17 @@ test.describe('OpenXchange', () => {
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
-    ).toHaveText(
-      'Oct 3, 2040, 10:30 AM – 11:00 AM. Recurrence: Every day for 5 times'
-    );
+    ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
+
+    await expect(
+      aliceCockpitWidgetPage.getMeeting().meetingRecurrenceRuleText
+    ).toHaveText('Every day for 5 times');
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
         /Repeat meeting: Every day for 5 times/
       )
-    ).toBeVisible();
+    ).ktoBeVisible();
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(

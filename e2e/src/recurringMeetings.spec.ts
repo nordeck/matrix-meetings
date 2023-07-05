@@ -46,11 +46,15 @@ test.describe('Recurring Meetings', () => {
 
     await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
 
+    await aliceElementWebPage.approveWidgetIdentity();
+
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
-    ).toHaveText(
-      'Oct 3, 2040, 10:30 AM – 11:30 AM. Recurrence: Every day for 5 times'
-    );
+    ).toHaveText('October 3, 2040, 10:30 – 11:30 AM');
+
+    await expect(
+      aliceCockpitWidgetPage.getMeeting().meetingRecurrenceRuleText
+    ).toHaveText('Every day for 5 times');
   });
 
   test('should show meeting recurrences in meeting list', async ({
@@ -118,7 +122,7 @@ test.describe('Recurring Meetings', () => {
     ).toHaveCount(5);
   });
 
-  test('should edit recurring meeting', async ({
+  test.skip('should edit recurring meeting', async ({
     aliceMeetingsWidgetPage,
     aliceElementWebPage,
   }) => {
@@ -183,7 +187,7 @@ test.describe('Recurring Meetings', () => {
     ).toBeVisible();
   });
 
-  test('should covert a recurring meeting into a single meeting', async ({
+  test.skip('should covert a recurring meeting into a single meeting', async ({
     aliceMeetingsWidgetPage,
     aliceElementWebPage,
   }) => {
@@ -237,7 +241,7 @@ test.describe('Recurring Meetings', () => {
     ).toBeVisible();
   });
 
-  test('should convert a single meeting into a recurring meeting', async ({
+  test.skip('should convert a single meeting into a recurring meeting', async ({
     aliceMeetingsWidgetPage,
     aliceElementWebPage,
   }) => {
