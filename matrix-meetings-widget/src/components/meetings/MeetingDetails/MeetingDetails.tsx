@@ -35,7 +35,7 @@ type MeetingDetailsProps = WithMeetingProps & {
 export const MeetingDetails = withRoomIdMeeting(
   ({ meeting, titleId, meetingTimeId, onClose }: MeetingDetailsProps) => {
     return (
-      <>
+      <div role="region" aria-label="Meeting details">
         <MeetingDetailsHeader
           meeting={meeting}
           onClose={onClose}
@@ -46,7 +46,7 @@ export const MeetingDetails = withRoomIdMeeting(
           meeting={meeting}
           meetingTimeId={meetingTimeId}
         />
-      </>
+      </div>
     );
   }
 );
