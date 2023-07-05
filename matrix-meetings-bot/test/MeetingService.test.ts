@@ -1806,15 +1806,10 @@ describe('test relevant functionality of MeetingService', () => {
     });
 
     test('update room layout when widgets change', async () => {
-      const parentRoom: any = create_test_meeting(
-        CURRENT_USER,
-        PARENT_MEETING_ROOM_ID,
-        null,
-        [WidgetType.COCKPIT, WidgetType.BREAKOUT_SESSIONS]
-      );
-      when(clientMock.getRoomState(PARENT_MEETING_ROOM_ID)).thenResolve(
-        parentRoom
-      );
+      const event = createEvent(parentId);
+      let widgets = [WidgetType.COCKPIT, WidgetType.BREAKOUT_SESSIONS, 'poll'];
+      event.widget_ids = widgets;
+      await meetingService.createMeeting(userContext, event);
 
       // should not have custom layout
       verify(
@@ -1827,7 +1822,7 @@ describe('test relevant functionality of MeetingService', () => {
       ).times(0);
 
       // add jitsi widget
-      const widgets = ['jitsi'];
+      widgets = ['jitsi'];
       await meetingService.handleWidgets(
         userContext,
         new MeetingWidgetsHandleDto(parentId, true, widgets)
