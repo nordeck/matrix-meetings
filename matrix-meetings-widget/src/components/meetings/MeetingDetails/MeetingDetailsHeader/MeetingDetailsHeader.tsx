@@ -191,11 +191,13 @@ export function MeetingDetailsHeader({
             {meeting?.title}
           </DialogTitle>
           <Box display="flex" flexWrap="wrap" alignItems="baseline" ml={3}>
-            <MeetingDetailsJoinButton
-              aria-describedby={joinButtonTitleId}
-              meetingType={meeting.type}
-              roomId={meeting.meetingId}
-            />
+            {!isSettingMeeting && (
+              <MeetingDetailsJoinButton
+                aria-describedby={joinButtonTitleId}
+                meetingType={meeting.type}
+                roomId={meeting.meetingId}
+              />
+            )}
             {canUpdateMeeting && isExternalReference && (
               <OpenXchangeButton reference={openXChangeReference}>
                 {t(
