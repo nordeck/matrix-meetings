@@ -19,6 +19,7 @@ export { CockpitWidgetPage } from './cockpitWidgetPage';
 export { ElementWebPage } from './elementWebPage';
 export type { OpenIdToken } from './elementWebPage';
 export { JitsiWidgetPage } from './jitsiWidgetPage';
+export { MeetingDetailsPage } from './meetingDetailsPage';
 export { MeetingsBotApi } from './meetingsBotApi';
 export { MeetingsWidgetPage } from './meetingsWidgetPage';
 export { ScheduleBreakoutSessionsWidgetPage } from './scheduleBreakoutSessionsWidgetPage';

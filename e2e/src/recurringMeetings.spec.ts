@@ -122,7 +122,7 @@ test.describe('Recurring Meetings', () => {
     ).toHaveCount(5);
   });
 
-  test.skip('should edit recurring meeting', async ({
+  test('should edit recurring meeting', async ({
     aliceMeetingsWidgetPage,
     aliceElementWebPage,
   }) => {
@@ -187,7 +187,7 @@ test.describe('Recurring Meetings', () => {
     ).toBeVisible();
   });
 
-  test.skip('should covert a recurring meeting into a single meeting', async ({
+  test('should covert a recurring meeting into a single meeting', async ({
     aliceMeetingsWidgetPage,
     aliceElementWebPage,
   }) => {
@@ -241,7 +241,7 @@ test.describe('Recurring Meetings', () => {
     ).toBeVisible();
   });
 
-  test.skip('should convert a single meeting into a recurring meeting', async ({
+  test('should convert a single meeting into a recurring meeting', async ({
     aliceMeetingsWidgetPage,
     aliceElementWebPage,
   }) => {

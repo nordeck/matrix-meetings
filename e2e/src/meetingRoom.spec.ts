@@ -159,7 +159,7 @@ test.describe('Meeting Room', () => {
       ]);
   });
 
-  test.skip('should toggle whether users can use the chat', async ({
+  test('should toggle whether users can use the chat', async ({
     aliceElementWebPage,
     aliceCockpitWidgetPage,
     bobElementWebPage,
@@ -180,10 +180,10 @@ test.describe('Meeting Room', () => {
     await aliceElementWebPage.sendMessage('I am Alice');
     await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
     const meetingCard = aliceCockpitWidgetPage.getMeeting();
+    await aliceElementWebPage.approveWidgetIdentity();
     let aliceEditMeetingWidgetPage = await meetingCard.editMeeting();
     await aliceEditMeetingWidgetPage.toggleChatPermission();
     await aliceEditMeetingWidgetPage.submit();
-    await aliceElementWebPage.approveWidgetIdentity();
     await aliceElementWebPage.sendMessage('I am still here');
     await expect(bobElementWebPage.noChatPermissionText).toBeVisible();
     aliceEditMeetingWidgetPage = await meetingCard.editMeeting();
@@ -191,7 +191,7 @@ test.describe('Meeting Room', () => {
     await aliceEditMeetingWidgetPage.submit();
     await expect(bobElementWebPage.noChatPermissionText).toBeHidden();
     await bobElementWebPage.sendMessage('I am Bob again');
-    await aliceElementWebPage.sendMessage('I am Alice again'); */
+    await aliceElementWebPage.sendMessage('I am Alice again');
   });
 
   test('should cancel the meeting', async ({

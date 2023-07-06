@@ -198,7 +198,7 @@ test.describe('OpenXchange', () => {
     );
   });
 
-  test.skip('should convert a recurring OX meeting into a single meeting', async ({
+  test('should convert a recurring OX meeting into a single meeting', async ({
     alice,
     alicePage,
     aliceElementWebPage,
@@ -257,7 +257,7 @@ test.describe('OpenXchange', () => {
     ).toBeVisible();
   });
 
-  test.skip('should convert a single OX meeting into a recurring meeting', async ({
+  test('should convert a single OX meeting into a recurring meeting', async ({
     alice,
     alicePage,
     aliceElementWebPage,
@@ -305,7 +305,7 @@ test.describe('OpenXchange', () => {
       aliceElementWebPage.locateChatMessageInRoom(
         /Repeat meeting: Every day for 5 times/
       )
-    ).ktoBeVisible();
+    ).toBeVisible();
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
