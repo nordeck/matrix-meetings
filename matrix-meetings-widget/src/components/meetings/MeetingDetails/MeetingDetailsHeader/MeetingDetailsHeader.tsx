@@ -50,6 +50,7 @@ import {
   makeSelectRoomPermissions,
   Meeting,
   selectNordeckMeetingMetadataEventByRoomId,
+  selectRoomPowerLevelsEventByRoomId,
   useCloseMeetingMutation,
 } from '../../../../reducer/meetingsApi';
 import { useAppSelector } from '../../../../store';
@@ -112,6 +113,11 @@ export function MeetingDetailsHeader({
     return event;
   });
 
+  const isMessagingEnabled = useAppSelector((state) => {
+    const event = selectRoomPowerLevelsEventByRoomId(state, meeting.meetingId);
+    return event?.content.events_default === 0;
+  });
+
   const openXChangeReference = useMemo(
     () => metadataEvent && getOpenXChangeExternalReference(metadataEvent),
     [metadataEvent]
@@ -121,12 +127,12 @@ export function MeetingDetailsHeader({
   const handleClickEditMeeting = useCallback(async () => {
     try {
       if (meeting) {
-        await editMeeting(meeting);
+        await editMeeting(meeting, isMessagingEnabled);
       }
     } catch {
       setShowErrorDialog(true);
     }
-  }, [editMeeting, meeting]);
+  }, [editMeeting, isMessagingEnabled, meeting]);
 
   const handleClickOpenDeleteConfirm = useCallback(() => {
     setOpenDeleteConfirm(true);

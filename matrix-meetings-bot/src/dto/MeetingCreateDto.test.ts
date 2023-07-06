@@ -57,6 +57,7 @@ describe('MeetingCreateDto', () => {
       undefined,
       undefined,
       undefined,
+      undefined,
       undefined
     );
 
@@ -79,6 +80,7 @@ describe('MeetingCreateDto', () => {
       ],
       ['widget-0'],
       [{ user_id: '@user-id' }],
+      undefined,
       true,
       { 'my.provider': { 'my.property': 'text' } }
     );
@@ -126,6 +128,7 @@ describe('MeetingCreateDto', () => {
       ],
       ['widget-0'],
       [new ParticipantDto('@user-id', undefined)],
+      undefined,
       false,
       { 'my.provider': { 'my.property': 'text' } }
     );
@@ -144,6 +147,7 @@ describe('MeetingCreateDto', () => {
       'Meeting description',
       '2020-01-01T00:00:00Z',
       '2020-01-01T01:00:00Z',
+      undefined,
       undefined,
       undefined,
       undefined,
@@ -181,6 +185,7 @@ describe('MeetingCreateDto', () => {
       'Meeting description',
       '2020-01-01T00:00:00Z',
       '2020-01-01T01:00:00Z',
+      undefined,
       undefined,
       undefined,
       undefined,

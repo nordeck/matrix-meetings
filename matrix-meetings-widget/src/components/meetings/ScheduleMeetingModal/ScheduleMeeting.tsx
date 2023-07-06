@@ -19,10 +19,12 @@ import {
   Alert,
   AlertTitle,
   FormControl,
+  FormControlLabel,
   FormGroup,
   FormLabel,
   Grid,
   Stack,
+  Switch,
   TextField,
 } from '@mui/material';
 import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
@@ -55,12 +57,14 @@ import { MemberSelectionDropdown } from '../MemberSelectionDropdown';
 import { MemberSelection } from '../MemberSelectionDropdown/MemberSelectionDropdown';
 import { RecurrenceEditor } from '../RecurrenceEditor';
 import { WidgetsSelectionDropdown } from '../WidgetsSelectionDropdown';
+import { getMessagingPowerLevel } from './getMessagingPowerLevel';
 import { CreateMeeting } from './types';
 import { useUserSearchResults } from './useUserSearchResults';
 
 export type ScheduleMeetingProps = {
   onMeetingChange: (meeting: CreateMeeting | undefined) => void;
   initialMeeting?: Meeting | undefined;
+  initialIsMessagingEnabled?: boolean;
   showParticipants?: boolean;
   parentRoomId?: string;
 };
@@ -68,6 +72,7 @@ export type ScheduleMeetingProps = {
 export const ScheduleMeeting = ({
   onMeetingChange,
   initialMeeting,
+  initialIsMessagingEnabled,
 }: ScheduleMeetingProps) => {
   const { t } = useTranslation();
   const widgetApi = useWidgetApi();
@@ -107,6 +112,13 @@ export const ScheduleMeeting = ({
   });
 
   const [participantTerm, setParticipantTerm] = useState('');
+
+  const [isMessagingEnabledState, setIsMessagingEnabled] = useState<
+    boolean | undefined
+  >(undefined);
+
+  const isMessagingEnabled =
+    isMessagingEnabledState ?? initialIsMessagingEnabled;
 
   const [widgets, setWidgets] = useState<string[]>(
     () => initialMeeting?.widgets ?? []
@@ -272,6 +284,14 @@ export const ScheduleMeeting = ({
     setParticipantTerm(value);
   }, []);
 
+  const handleChangeMessagingPermissions = useCallback(
+    (_, checked: boolean) => {
+      setIsDirty(true);
+      setIsMessagingEnabled(checked);
+    },
+    []
+  );
+
   const handleChangeWidgets = useCallback(
     (value: string[]) => {
       setWidgets(value);
@@ -311,12 +331,25 @@ export const ScheduleMeeting = ({
     if (isInvalid || (!recurrence.isDirty && !isDirty)) {
       onMeetingChange(undefined);
     } else {
+      const messaging =
+        isMessagingEnabled === undefined
+          ? undefined
+          : isMessagingEnabled
+          ? 0
+          : getMessagingPowerLevel();
+      const powerLevels =
+        messaging !== undefined
+          ? {
+              messaging,
+            }
+          : undefined;
       onMeetingChange({
         title: title.trim(),
         description,
         startTime: startDate.toISOString(),
         endTime: endDate.toISOString(),
         participants,
+        powerLevels,
         widgetIds: widgets,
         rrule: recurrence.rrule,
       });
@@ -329,6 +362,7 @@ export const ScheduleMeeting = ({
     isDirty,
     onMeetingChange,
     participants,
+    isMessagingEnabled,
     recurrence.isDirty,
     recurrence.isValid,
     recurrence.rrule,
@@ -348,6 +382,7 @@ export const ScheduleMeeting = ({
 
   const titleId = useId();
   const descriptionId = useId();
+  const messagingId = useId();
 
   return (
     <MeetingNotEndedGuard meeting={initialMeeting} withMessage>
@@ -370,7 +405,7 @@ export const ScheduleMeeting = ({
         </Alert>
       )}
 
-      <Stack direction="column" flexWrap="wrap" p={1}>
+      <Stack direction="column" flexWrap="wrap" sx={{ px: 1, pt: 1 }}>
         <TextField
           // don't use the required property of the text field because we don't
           // want it to add a asterisk (*) to the title.
@@ -388,6 +423,7 @@ export const ScheduleMeeting = ({
           margin="dense"
           onChange={handleChangeTitle}
           value={title}
+          sx={{ mt: 0 }}
         />
 
         <Grid container>
@@ -501,6 +537,29 @@ export const ScheduleMeeting = ({
               : t('memberSelectionDropdown.noMembers', 'No further members.')
           }
         />
+
+        <Stack direction="row" justifyContent="flex-end">
+          <FormControl size="small" sx={{ mt: 1, mb: 0.5 }}>
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={
+                    isMessagingEnabled === undefined || isMessagingEnabled
+                  }
+                  id={messagingId}
+                  onChange={handleChangeMessagingPermissions}
+                  sx={{ ml: 2 }}
+                />
+              }
+              label={t(
+                'scheduleMeeting.allowMessaging',
+                'Allow messaging for all participants'
+              )}
+              sx={{ mx: 0 }}
+              labelPlacement="start"
+            />
+          </FormControl>
+        </Stack>
 
         <WidgetsSelectionDropdown
           autoSelectAllWidgets={!initialMeeting}

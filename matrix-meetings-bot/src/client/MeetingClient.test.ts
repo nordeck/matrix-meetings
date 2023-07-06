@@ -32,81 +32,21 @@ describe('MeetingClient', () => {
         .mockResolvedValue('!new-room-id');
     });
 
-    it('should create a meeting', async () => {
-      const client = new MeetingClient(
-        new MatrixClient('', ''),
-        new EventContentRenderer({} as any)
-      );
+    it.each([undefined, 100])(
+      'should create a meeting',
+      async (messagingPowerLevel) => {
+        const client = new MeetingClient(
+          new MatrixClient('', ''),
+          new EventContentRenderer({} as any)
+        );
 
-      await expect(
-        client.createMeeting(
-          undefined,
-          '@bot-user-id:example',
-          {
-            title: 'My Meeting',
-            description: 'My Description',
-            calendar: [
-              {
-                uid: 'uid-0',
-                dtstart: { tzid: 'Europe/Berlin', value: '20200507T100000' },
-                dtend: { tzid: 'Europe/Berlin', value: '20200507T110000' },
-              },
-            ],
-          },
-          MeetingType.MEETING,
-          { via: ['example'] },
-          {
-            stateEvents: [],
-            roomEvents: [],
-            widgetContents: [],
-            allWidgetIds: [],
-            defaultWidgetIds: [],
-          },
-          {
-            locale: 'en',
-            timezone: 'Europe/Berlin',
-            userId: '@user-id:example',
-          },
-          60
-        )
-      ).resolves.toEqual([
-        '!new-room-id',
-        [
-          {
-            type: 'm.room.member',
-            state_key: '@user-id:example',
-            content: {
-              membership: 'invite',
-              'io.element.html_reason': expect.stringMatching(
-                /It will take place on <b>05\/07\/2020 at 10:00 AM CEST<\/b>.*<hr><div><i>My Description<\/i><\/div>$/
-              ),
-              reason: expect.stringMatching(
-                /It will take place on 05\/07\/2020 at 10:00 AM CEST/
-              ),
-            },
-          },
-        ],
-      ]);
-
-      expect(jest.mocked(MatrixClient).prototype.createRoom).toBeCalledWith({
-        name: 'My Meeting',
-        topic: 'My Description',
-        visibility: 'private',
-        preset: 'private_chat',
-        creation_content: {
-          type: 'net.nordeck.meetings.meeting',
-        },
-        power_level_content_override: {
-          users: {
-            '@bot-user-id:example': 101,
-            '@user-id:example': 100,
-          },
-        },
-        initial_state: [
-          {
-            type: 'net.nordeck.meetings.metadata',
-            content: {
-              creator: '@user-id:example',
+        await expect(
+          client.createMeeting(
+            undefined,
+            '@bot-user-id:example',
+            {
+              title: 'My Meeting',
+              description: 'My Description',
               calendar: [
                 {
                   uid: 'uid-0',
@@ -114,17 +54,85 @@ describe('MeetingClient', () => {
                   dtend: { tzid: 'Europe/Berlin', value: '20200507T110000' },
                 },
               ],
-              start_time: undefined,
-              end_time: undefined,
-              auto_deletion_offset: undefined,
-              force_deletion_at: new Date(
-                '2020-05-07T12:00:00+02:00'
-              ).getTime(),
+            },
+            MeetingType.MEETING,
+            { via: ['example'] },
+            {
+              stateEvents: [],
+              roomEvents: [],
+              widgetContents: [],
+              allWidgetIds: [],
+              defaultWidgetIds: [],
+            },
+            {
+              locale: 'en',
+              timezone: 'Europe/Berlin',
+              userId: '@user-id:example',
+            },
+            60,
+            messagingPowerLevel
+          )
+        ).resolves.toEqual([
+          '!new-room-id',
+          [
+            {
+              type: 'm.room.member',
+              state_key: '@user-id:example',
+              content: {
+                membership: 'invite',
+                'io.element.html_reason': expect.stringMatching(
+                  /It will take place on <b>05\/07\/2020 at 10:00 AM CEST<\/b>.*<hr><div><i>My Description<\/i><\/div>$/
+                ),
+                reason: expect.stringMatching(
+                  /It will take place on 05\/07\/2020 at 10:00 AM CEST/
+                ),
+              },
+            },
+          ],
+        ]);
+
+        expect(jest.mocked(MatrixClient).prototype.createRoom).toBeCalledWith({
+          name: 'My Meeting',
+          topic: 'My Description',
+          visibility: 'private',
+          preset: 'private_chat',
+          creation_content: {
+            type: 'net.nordeck.meetings.meeting',
+          },
+          power_level_content_override: {
+            events_default: messagingPowerLevel,
+            users: {
+              '@bot-user-id:example': 101,
+              '@user-id:example': 100,
             },
           },
-        ],
-      });
-    });
+          initial_state: [
+            {
+              type: 'net.nordeck.meetings.metadata',
+              content: {
+                creator: '@user-id:example',
+                calendar: [
+                  {
+                    uid: 'uid-0',
+                    dtstart: {
+                      tzid: 'Europe/Berlin',
+                      value: '20200507T100000',
+                    },
+                    dtend: { tzid: 'Europe/Berlin', value: '20200507T110000' },
+                  },
+                ],
+                start_time: undefined,
+                end_time: undefined,
+                auto_deletion_offset: undefined,
+                force_deletion_at: new Date(
+                  '2020-05-07T12:00:00+02:00'
+                ).getTime(),
+              },
+            },
+          ],
+        });
+      }
+    );
 
     it('should create a meeting with the legacy data format', async () => {
       const client = new MeetingClient(

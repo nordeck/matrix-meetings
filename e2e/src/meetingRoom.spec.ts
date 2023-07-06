@@ -179,12 +179,17 @@ test.describe('Meeting Room', () => {
     await bobElementWebPage.sendMessage('I am Bob');
     await aliceElementWebPage.sendMessage('I am Alice');
     await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
-    /*const meetingCard = aliceCockpitWidgetPage.getMeeting();
-     await meetingCard.switchToEditPermissions();
-    await meetingCard.toggleChatPermission();
+    const meetingCard = aliceCockpitWidgetPage.getMeeting();
+    let aliceEditMeetingWidgetPage = await meetingCard.editMeeting();
+    await aliceEditMeetingWidgetPage.toggleChatPermission();
+    await aliceEditMeetingWidgetPage.submit();
+    await aliceElementWebPage.approveWidgetIdentity();
     await aliceElementWebPage.sendMessage('I am still here');
     await expect(bobElementWebPage.noChatPermissionText).toBeVisible();
-    await meetingCard.toggleChatPermission();
+    aliceEditMeetingWidgetPage = await meetingCard.editMeeting();
+    await aliceEditMeetingWidgetPage.toggleChatPermission();
+    await aliceEditMeetingWidgetPage.submit();
+    await expect(bobElementWebPage.noChatPermissionText).toBeHidden();
     await bobElementWebPage.sendMessage('I am Bob again');
     await aliceElementWebPage.sendMessage('I am Alice again'); */
   });

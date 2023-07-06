@@ -197,7 +197,7 @@ export function WidgetsSelectionDropdown({
         options={availableWidgets}
         renderInput={renderInput}
         renderTags={renderTags}
-        sx={{ my: 1 }}
+        sx={{ mt: 1, mb: 0.5 }}
         value={availableSelectedWidgets}
       />
     </>

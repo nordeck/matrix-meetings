@@ -29,6 +29,7 @@ describe('extractOxRrule', () => {
       undefined,
       ['widget-0'],
       [{ user_id: '@user-id' }],
+      0,
       true,
       {
         'io.ox': {
@@ -72,6 +73,7 @@ describe('extractOxRrule', () => {
       undefined,
       ['widget-0'],
       [{ user_id: '@user-id' }],
+      0,
       true,
       {
         'io.ox': {
