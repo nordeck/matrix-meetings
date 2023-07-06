@@ -36,6 +36,8 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
   extractWidgetApiParameters: jest.fn(),
 }));
 
+jest.mock('@mui/material/useMediaQuery');
+
 let widgetApi: MockedWidgetApi;
 
 afterEach(() => widgetApi.stop());
@@ -97,16 +99,48 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
 
     const dialog = await screen.findByRole('dialog', {
       name: 'An important meeting',
-      description: /^Jan 1, 2999(,| at) 10:00 AM – 2:00 PM$/,
+      description: 'January 1, 2999, 10:00 AM – 2:00 PM',
     });
+
     expect(
       within(dialog).getByRole('heading', {
         name: 'An important meeting',
         level: 3,
       })
     ).toBeInTheDocument();
+
     expect(
-      within(dialog).getByText(/^Jan 1, 2999(,| at) 10:00 AM – 2:00 PM$/)
+      within(dialog).getByText(/^January 1, 2999, 10:00 AM – 2:00 PM$/)
+    ).toBeInTheDocument();
+
+    expect(
+      within(dialog).getByRole('button', { name: 'Join' })
+    ).toBeInTheDocument();
+
+    expect(
+      within(dialog).getByRole('button', { name: 'Edit' })
+    ).toBeInTheDocument();
+
+    expect(
+      within(dialog).getByRole('button', { name: 'Delete' })
+    ).toBeInTheDocument();
+
+    expect(
+      within(dialog).getByRole('button', { name: 'Share by email' })
+    ).toBeInTheDocument();
+
+    expect(
+      within(dialog).getByRole('button', { name: 'Download ICS File' })
+    ).toBeInTheDocument();
+
+    expect(
+      within(dialog).getByRole('listitem', { name: 'Alice' })
+    ).toBeInTheDocument();
+
+    expect(
+      within(dialog).getByRole('link', {
+        name: 'http://element.local/#/room/!meeting-room-id',
+      })
     ).toBeInTheDocument();
   });
 
@@ -126,7 +160,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     await expect(
       screen.findByRole('dialog', {
         name: 'An important meeting',
-        description: /^Jan 1, 2999(,| at) 10:00 AM – 2:00 PM$/,
+        description: 'January 1, 2999, 10:00 AM – 2:00 PM',
       })
     ).resolves.toBeInTheDocument();
 
@@ -158,21 +192,21 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
 
     const dialog = await screen.findByRole('dialog', {
       name: 'An important meeting',
-      description:
-        /^Jan 10, 2999(,| at) 10:00 AM – 2:00 PM . Recurrence: Every day$/,
+      description: 'January 10, 2999, 10:00 AM – 2:00 PM',
     });
+
     expect(
       within(dialog).getByRole('heading', {
         name: 'An important meeting',
         level: 3,
       })
     ).toBeInTheDocument();
+
     expect(
-      within(dialog).getByText(/^Jan 10, 2999(,| at) 10:00 AM – 2:00 PM$/)
+      within(dialog).getByText(/^January 10, 2999, 10:00 AM – 2:00 PM$/)
     ).toBeInTheDocument();
-    expect(
-      within(dialog).getByText('. Recurrence: Every day')
-    ).toBeInTheDocument();
+
+    expect(within(dialog).getByText('Every day')).toBeInTheDocument();
   });
 
   it('should handle closing', async () => {
@@ -190,7 +224,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
 
     const dialog = await screen.findByRole('dialog', {
       name: 'An important meeting',
-      description: /^Jan 1, 2999(,| at) 10:00 AM – 2:00 PM$/,
+      description: 'January 1, 2999, 10:00 AM – 2:00 PM',
     });
 
     await userEvent.click(
@@ -215,7 +249,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
 
     await screen.findByRole('dialog', {
       name: 'An important meeting',
-      description: /^Jan 1, 2999(,| at) 10:00 AM – 2:00 PM$/,
+      description: 'January 1, 2999, 10:00 AM – 2:00 PM',
     });
 
     widgetApi.mockSendStateEvent(

@@ -14,31 +14,5 @@
  * limitations under the License.
  */
 
-import { TextField } from '@mui/material';
-import { ReactElement } from 'react';
-import { CopyableTextButton } from '../../common/CopyableTextButton';
-
-export function CopyableText({
-  text,
-  label,
-  multiline,
-}: {
-  text: string;
-  label: string;
-  multiline?: boolean;
-}): ReactElement {
-  return (
-    <TextField
-      InputProps={{
-        readOnly: true,
-        endAdornment: <CopyableTextButton text={text} />,
-      }}
-      fullWidth
-      label={label}
-      margin="normal"
-      multiline={multiline}
-      size="medium"
-      value={text}
-    />
-  );
-}
+export { getOpenXChangeExternalReference } from './openXchange';
+export { OpenXchangeButton } from './OpenXchangeButton';

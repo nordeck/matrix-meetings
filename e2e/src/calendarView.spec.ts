@@ -46,15 +46,15 @@ test.describe('Calendar View', () => {
 
     const meetingDetails =
       await aliceMeetingsWidgetPage.openCalendarEventDetails('My Meeting');
-    await expect(meetingDetails.meetingCard.meetingTitleText).toHaveText(
+    await expect(meetingDetails.meetingDetails.meetingTitleText).toHaveText(
       'My Meeting'
     );
-    await expect(meetingDetails.meetingCard.meetingDescriptionText).toHaveText(
-      'My Description'
-    );
+    await expect(
+      meetingDetails.meetingDetails.meetingDescriptionText
+    ).toHaveText('My Description');
     await meetingDetails.close();
 
-    await expect(meetingDetails.meetingCard.card).toBeHidden();
+    await expect(meetingDetails.meetingDetails.meetingDetailsView).toBeHidden();
   });
 
   test('should show meetings in week view', async ({
@@ -69,15 +69,15 @@ test.describe('Calendar View', () => {
 
     const meetingDetails =
       await aliceMeetingsWidgetPage.openCalendarEventDetails('My Meeting');
-    await expect(meetingDetails.meetingCard.meetingTitleText).toHaveText(
+    await expect(meetingDetails.meetingDetails.meetingTitleText).toHaveText(
       'My Meeting'
     );
-    await expect(meetingDetails.meetingCard.meetingDescriptionText).toHaveText(
-      'My Description'
-    );
+    await expect(
+      meetingDetails.meetingDetails.meetingDescriptionText
+    ).toHaveText('My Description');
     await meetingDetails.close();
 
-    await expect(meetingDetails.meetingCard.card).toBeHidden();
+    await expect(meetingDetails.meetingDetails.meetingDetailsView).toBeHidden();
   });
 
   test('should show meetings in work week view', async ({
@@ -91,15 +91,15 @@ test.describe('Calendar View', () => {
 
     const meetingDetails =
       await aliceMeetingsWidgetPage.openCalendarEventDetails('My Meeting');
-    await expect(meetingDetails.meetingCard.meetingTitleText).toHaveText(
+    await expect(meetingDetails.meetingDetails.meetingTitleText).toHaveText(
       'My Meeting'
     );
-    await expect(meetingDetails.meetingCard.meetingDescriptionText).toHaveText(
-      'My Description'
-    );
+    await expect(
+      meetingDetails.meetingDetails.meetingDescriptionText
+    ).toHaveText('My Description');
     await meetingDetails.close();
 
-    await expect(meetingDetails.meetingCard.card).toBeHidden();
+    await expect(meetingDetails.meetingDetails.meetingDetailsView).toBeHidden();
   });
 
   test('should show meetings in month view', async ({
@@ -113,15 +113,15 @@ test.describe('Calendar View', () => {
 
     const meetingDetails =
       await aliceMeetingsWidgetPage.openCalendarEventDetails('My Meeting');
-    await expect(meetingDetails.meetingCard.meetingTitleText).toHaveText(
+    await expect(meetingDetails.meetingDetails.meetingTitleText).toHaveText(
       'My Meeting'
     );
-    await expect(meetingDetails.meetingCard.meetingDescriptionText).toHaveText(
-      'My Description'
-    );
+    await expect(
+      meetingDetails.meetingDetails.meetingDescriptionText
+    ).toHaveText('My Description');
     await meetingDetails.close();
 
-    await expect(meetingDetails.meetingCard.card).toBeHidden();
+    await expect(meetingDetails.meetingDetails.meetingDetailsView).toBeHidden();
   });
 
   test('should switch to day week if window is resized', async ({

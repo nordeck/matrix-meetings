@@ -4,6 +4,8 @@ matrix-meetings-widget:
   env:
     - name: REACT_APP_BOT_USER_ID
       value: '@meetings-bot:synapse.dev.nordeck.systems'
+    - name: REACT_APP_DISPLAY_ALL_MEETINGS
+      value: 'true'
 
 matrix-meetings-bot:
   settings:
