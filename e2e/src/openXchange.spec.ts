@@ -279,6 +279,8 @@ test.describe('OpenXchange', () => {
 
     await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
 
+    await aliceElementWebPage.approveWidgetIdentity();
+
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
     ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
