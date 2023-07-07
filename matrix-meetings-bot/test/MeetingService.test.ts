@@ -1805,7 +1805,7 @@ describe('test relevant functionality of MeetingService', () => {
       ).toStrictEqual(expected);
     });
 
-    test.only('update room layout when widgets change', async () => {
+    test('update room layout when widgets change', async () => {
       // room has a poll widget
       // cockpit is there after the meeting room was created
       const parentRoom: any = create_test_meeting(
