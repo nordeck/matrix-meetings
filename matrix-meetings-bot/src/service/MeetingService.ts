@@ -608,8 +608,8 @@ export class MeetingService {
       promises.push(this.cleanupWidgets(widgetIds, room, userContext));
       const filteredWidgetIds = widgetIds.filter(
         (widget) =>
-          !widget.includes(WidgetType.COCKPIT) &&
-          !widget.includes(WidgetType.BREAKOUT_SESSIONS)
+          !widget.startsWith(`${WidgetType.COCKPIT}`) &&
+          !widget.startsWith(`${WidgetType.BREAKOUT_SESSIONS}`)
       );
       promises.push(
         this.setUpWidgetLayoutConfiguration(roomId, filteredWidgetIds)

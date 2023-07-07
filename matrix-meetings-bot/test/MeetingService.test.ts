@@ -1805,37 +1805,43 @@ describe('test relevant functionality of MeetingService', () => {
       ).toStrictEqual(expected);
     });
 
-    test('update room layout when widgets change', async () => {
-      const event = createEvent(parentId);
-      let widgets = [WidgetType.COCKPIT, WidgetType.BREAKOUT_SESSIONS, 'poll'];
-      event.widget_ids = widgets;
-      await meetingService.createMeeting(userContext, event);
+    test.only('update room layout when widgets change', async () => {
+      // room has a poll widget
+      // cockpit is there after the meeting room was created
+      const parentRoom: any = create_test_meeting(
+        CURRENT_USER,
+        PARENT_MEETING_ROOM_ID,
+        null,
+        ['poll', WidgetType.COCKPIT]
+      );
+      when(clientMock.getRoomState(PARENT_MEETING_ROOM_ID)).thenResolve(
+        parentRoom
+      );
 
-      // should not have custom layout
-      verify(
-        clientMock.sendStateEvent(
-          parentId,
-          StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT,
-          anything(),
-          anything()
-        )
-      ).times(0);
-
-      // add jitsi widget
-      widgets = ['jitsi'];
+      // add jitsi
+      const widgets = ['jitsi'];
       await meetingService.handleWidgets(
         userContext,
         new MeetingWidgetsHandleDto(parentId, true, widgets)
       );
 
-      // the resulting layout should exactly match the custom configuration
-      const layout = layoutConfigs.find((o) =>
-        _.isEqual(_.sortBy(o.widgetIds), _.sortBy(widgets))
-      );
-      const expected = {
-        widgets: layout?.layouts,
-      };
+      const e = StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT;
+      verify(
+        clientMock.sendStateEvent(parentId, e, anything(), anything())
+      ).times(2);
 
+      expect(callInfo(0, SendStateEventParameter.Content, e).type).toBe(
+        'net.nordeck.poll'
+      ); // updated poll
+      expect(callInfo(1, SendStateEventParameter.Content, e).type).toBe(
+        'jitsi'
+      ); // added jitsi
+      const expected = {
+        widgets: {
+          poll: { container: 'top', index: 0, width: 100, height: 40 },
+          jitsi: { container: 'right' },
+        },
+      };
       verify(
         clientMock.sendStateEvent(
           parentId,
