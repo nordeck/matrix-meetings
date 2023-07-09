@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2023 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,4 +14,12 @@
  * limitations under the License.
  */
 
-export { MeetingCardEditPermissionsContent } from './MeetingCardEditPermissionsContent';
+import { getEnvironment } from '@matrix-widget-toolkit/mui';
+
+export function getMessagingPowerLevel() {
+  // this is in a function so we can mock it tests
+  const raw = Number.parseInt(
+    getEnvironment('REACT_APP_MESSAGING_NOT_ALLOWED_POWER_LEVEL', '100')
+  );
+  return isNaN(raw) || raw < 0 ? 100 : raw;
+}

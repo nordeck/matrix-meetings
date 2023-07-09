@@ -79,7 +79,7 @@
     "docker:stop": "docker stop matrix-meetings-widget",
     "docker:remove": "yarn run docker:stop && docker rm -v matrix-meetings-widget",
     "docker:inspect": "docker inspect nordeck/matrix-meetings-widget",
-    "start": "cross-env HTTPS=true BROWSER=none craco start",
+    "start": "cross-env HTTPS=true BROWSER=none ESLINT_NO_DEV_ERRORS=true TSC_COMPILE_ON_ERROR=true craco start",
     "dev": "cross-env BROWSER=none ESLINT_NO_DEV_ERRORS=true TSC_COMPILE_ON_ERROR=true WDS_SOCKET_PORT=0 craco start",
     "build": "cross-env GENERATE_SOURCEMAP=false INLINE_RUNTIME_CHUNK=false craco build",
     "depcheck": "depcheck --ignores=@types/jest,typescript,i18next-parser,jest",

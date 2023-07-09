@@ -142,9 +142,6 @@ describe('<MeetingCard/>', () => {
     expect(
       screen.getByRole('button', { name: /share meeting/i, expanded: false })
     ).toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /edit permissions/i, expanded: false })
-    ).toBeInTheDocument();
   });
 
   it('should have no accessibility violations', async () => {
@@ -215,9 +212,6 @@ describe('<MeetingCard/>', () => {
     ).toHaveAccessibleDescription(/an important meeting/i);
     expect(
       screen.getByRole('button', { name: /share meeting/i })
-    ).toHaveAccessibleDescription(/an important meeting/i);
-    expect(
-      screen.getByRole('button', { name: /edit permissions/i })
     ).toHaveAccessibleDescription(/an important meeting/i);
   });
 
@@ -447,6 +441,12 @@ describe('<MeetingCard/>', () => {
         state_key: 'widget-1',
       })
     );
+    widgetApi.mockSendStateEvent(
+      mockPowerLevelsEvent({
+        room_id: '!meeting-room-id',
+        content: { events_default: 0 },
+      })
+    );
 
     const newMeeting: CreateMeeting = {
       title: 'My new Meeting',
@@ -502,6 +502,7 @@ describe('<MeetingCard/>', () => {
             parentRoomId: '!room-id',
             content: { widgets: ['widget-1'] },
           }),
+          isMessagingEnabled: true,
         },
       }
     );
@@ -604,6 +605,12 @@ describe('<MeetingCard/>', () => {
         },
       })
     );
+    widgetApi.mockSendStateEvent(
+      mockPowerLevelsEvent({
+        room_id: '!meeting-room-id',
+        content: { events_default: 0 },
+      })
+    );
 
     const newMeeting: CreateMeeting = {
       title: 'My new Meeting',
@@ -671,6 +678,7 @@ describe('<MeetingCard/>', () => {
               recurrenceId: '2999-01-02T10:00:00Z',
             },
           }),
+          isMessagingEnabled: true,
         },
       }
     );
@@ -699,6 +707,13 @@ describe('<MeetingCard/>', () => {
   });
 
   it('should skip editing the meeting if the user aborts the action', async () => {
+    widgetApi.mockSendStateEvent(
+      mockPowerLevelsEvent({
+        room_id: '!meeting-room-id',
+        content: { events_default: 0 },
+      })
+    );
+
     render(
       <MeetingCard
         recurrenceId={undefined}
@@ -735,7 +750,10 @@ describe('<MeetingCard/>', () => {
             label: 'Cancel',
           },
         ],
-        data: { meeting: mockMeeting({ parentRoomId: '!room-id' }) },
+        data: {
+          meeting: mockMeeting({ parentRoomId: '!room-id' }),
+          isMessagingEnabled: true,
+        },
       }
     );
 
@@ -1158,41 +1176,6 @@ describe('<MeetingCard/>', () => {
     expect(deleteButton).toBeEnabled();
   });
 
-  it('should hide edit permissions dialog if the permission is missing', async () => {
-    widgetApi.mockSendStateEvent(
-      mockPowerLevelsEvent({
-        room_id: '!meeting-room-id',
-        content: {
-          events: {
-            'net.nordeck.meetings.meeting.change.message_permissions': 101,
-          },
-        },
-      })
-    );
-
-    render(
-      <MeetingCard
-        recurrenceId={undefined}
-        roomId="!meeting-room-id"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper }
-    );
-
-    await expect(
-      screen.findByRole('button', { name: /show participants/i })
-    ).resolves.toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /share meeting/i })
-    ).toBeInTheDocument();
-    expect(
-      screen.queryByRole('button', { name: /edit permissions/i })
-    ).not.toBeInTheDocument();
-    expect(
-      screen.getByRole('button', { name: /more settings/i })
-    ).toBeInTheDocument();
-  });
-
   it.each([
     'net.nordeck.meetings.meeting.update',
     'net.nordeck.meetings.meeting.widgets.handle',
@@ -1222,9 +1205,6 @@ describe('<MeetingCard/>', () => {
       ).resolves.toBeInTheDocument();
       expect(
         screen.getByRole('button', { name: /share meeting/i })
-      ).toBeInTheDocument();
-      expect(
-        screen.getByRole('button', { name: /edit permissions/i })
       ).toBeInTheDocument();
       expect(
         screen.queryByRole('button', { name: /more settings/i })
@@ -1257,9 +1237,6 @@ describe('<MeetingCard/>', () => {
     expect(
       screen.getByRole('button', { name: /share meeting/i })
     ).toBeInTheDocument();
-    expect(
-      screen.queryByRole('button', { name: /edit permissions/i })
-    ).not.toBeInTheDocument();
     expect(
       screen.queryByRole('button', { name: /more settings/i })
     ).not.toBeInTheDocument();
@@ -1335,34 +1312,6 @@ describe('<MeetingCard/>', () => {
       .forEach((item) => {
         expect(item).toHaveAccessibleDescription(/an important meeting/i);
       });
-  });
-
-  it('should edit permissions', async () => {
-    render(
-      <MeetingCard
-        recurrenceId={undefined}
-        roomId="!meeting-room-id"
-        titleId="title-id"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper }
-    );
-
-    await userEvent.click(
-      await screen.findByRole('button', {
-        name: /edit permissions/i,
-        expanded: false,
-      })
-    );
-
-    expect(
-      screen.getByRole('list', { name: /permissions/i })
-    ).toBeInTheDocument();
-
-    const checkboxes = await screen.findAllByRole('checkbox');
-    checkboxes.forEach((item) => {
-      expect(item).toHaveAccessibleDescription(/an important meeting/i);
-    });
   });
 
   it('should show an icon when the meeting is part of a recurring meeting', async () => {

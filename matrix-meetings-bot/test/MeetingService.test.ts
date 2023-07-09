@@ -120,6 +120,7 @@ describe('test relevant functionality of MeetingService', () => {
       undefined,
       undefined,
       [],
+      0,
       true,
       undefined
     );
@@ -546,6 +547,21 @@ describe('test relevant functionality of MeetingService', () => {
     verify(clientMock.createRoom(anything())).once();
     const roomEvent = capture(clientMock.createRoom).first()[0];
     checkStandardFields(roomEvent);
+  });
+
+  test('check if messaging power level is defined', async () => {
+    appConfig.auto_deletion_offset = undefined;
+
+    await meetingService.createMeeting(userContext, {
+      ...createEvent(PARENT_MEETING_ROOM_ID),
+      messaging_power_level: 100,
+    });
+
+    verify(clientMock.createRoom(anything())).once();
+    const roomCreateOptions = capture(clientMock.createRoom).first()[0];
+    expect(
+      roomCreateOptions?.power_level_content_override?.events_default
+    ).toBe(100);
   });
 
   test('check invite sender and other users', async () => {

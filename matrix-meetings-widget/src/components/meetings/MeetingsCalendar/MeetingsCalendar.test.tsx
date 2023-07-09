@@ -584,7 +584,7 @@ describe('<MeetingsCalendar/>', () => {
     expect(await screen.findByText('Meeting 6')).toBeInTheDocument();
   });
 
-  it('should open meeting details', async () => {
+  it('should open expended meeting view details', async () => {
     render(
       <MeetingsCalendar
         filters={{
@@ -606,8 +606,9 @@ describe('<MeetingsCalendar/>', () => {
 
     const dialog = await screen.findByRole('dialog', {
       name: 'Meeting 5',
-      description: /^Jan 2, 2021(,| at) 2:00 PM – 3:00 PM$/,
+      description: 'January 2, 2021, 2:00 – 3:00 PM',
     });
+
     expect(within(dialog).getByText('Meeting 5')).toBeInTheDocument();
     expect(within(dialog).getByText('A brief description')).toBeInTheDocument();
 

@@ -35,6 +35,7 @@ import {
   makeSelectRoomPermissions,
   Meeting,
   selectNordeckMeetingMetadataEventByRoomId,
+  selectRoomPowerLevelsEventByRoomId,
   useCloseMeetingMutation,
 } from '../../../reducer/meetingsApi';
 import { useAppSelector } from '../../../store';
@@ -75,6 +76,7 @@ export function MeetingCardMenu({
     canUpdateMeetingWidgets,
     canUpdateMeetingParticipantsInvite,
     canUpdateMeetingParticipantsKick,
+    canUpdateMeetingPermissions,
   } = useAppSelector((state) =>
     selectRoomPermissions(
       state,
@@ -101,7 +103,8 @@ export function MeetingCardMenu({
     canUpdateMeetingDetails &&
     canUpdateMeetingWidgets &&
     canUpdateMeetingParticipantsInvite &&
-    canUpdateMeetingParticipantsKick;
+    canUpdateMeetingParticipantsKick &&
+    canUpdateMeetingPermissions;
 
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
 
@@ -142,13 +145,18 @@ export function MeetingCardMenu({
 
   const { editMeeting } = useEditMeeting();
 
+  const isMessagingEnabled = useAppSelector((state) => {
+    const event = selectRoomPowerLevelsEventByRoomId(state, meeting.meetingId);
+    return event?.content.events_default === 0;
+  });
+
   const handleClickEditMeeting = useCallback(async () => {
     try {
-      await editMeeting(meeting);
+      await editMeeting(meeting, isMessagingEnabled);
     } catch {
       setShowErrorDialog(true);
     }
-  }, [editMeeting, meeting]);
+  }, [editMeeting, meeting, isMessagingEnabled]);
 
   if (!canUpdateMeeting || !canCloseMeeting) {
     // If the menu would be empty, skip it
