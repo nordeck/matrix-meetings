@@ -1820,6 +1820,58 @@ describe('test relevant functionality of MeetingService', () => {
         callInfo(0, 3, StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT)
       ).toStrictEqual(expected);
     });
+
+    test('update room layout when widgets change', async () => {
+      // room has a poll widget
+      // cockpit is there after the meeting room was created
+      const parentRoom: any = create_test_meeting(
+        CURRENT_USER,
+        PARENT_MEETING_ROOM_ID,
+        null,
+        ['poll', WidgetType.COCKPIT]
+      );
+      when(clientMock.getRoomState(PARENT_MEETING_ROOM_ID)).thenResolve(
+        parentRoom
+      );
+
+      // add jitsi
+      const widgets = ['jitsi'];
+      await meetingService.handleWidgets(
+        userContext,
+        new MeetingWidgetsHandleDto(parentId, true, widgets)
+      );
+
+      const e = StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT;
+      verify(
+        clientMock.sendStateEvent(parentId, e, anything(), anything())
+      ).times(2);
+
+      expect(callInfo(0, SendStateEventParameter.Content, e).type).toBe(
+        'net.nordeck.poll'
+      ); // updated poll
+      expect(callInfo(1, SendStateEventParameter.Content, e).type).toBe(
+        'jitsi'
+      ); // added jitsi
+      const expected = {
+        widgets: {
+          poll: { container: 'top', index: 0, width: 100, height: 40 },
+          jitsi: { container: 'right' },
+        },
+      };
+      verify(
+        clientMock.sendStateEvent(
+          parentId,
+          StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT,
+          anything(),
+          anything()
+        )
+      ).times(1);
+
+      // event content
+      expect(
+        callInfo(0, 3, StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT)
+      ).toStrictEqual(expected);
+    });
   });
 
   test('createMeeting without parent with external data', async () => {
