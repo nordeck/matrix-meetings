@@ -31,7 +31,7 @@ type MeetingDetailsProps = WithMeetingProps & {
 
   onClose?: () => void;
 
-  isSettingMeeting?: boolean;
+  showJoinButton?: boolean;
 };
 
 export const MeetingDetails = withRoomIdMeeting(
@@ -40,7 +40,7 @@ export const MeetingDetails = withRoomIdMeeting(
     titleId,
     meetingTimeId,
     onClose,
-    isSettingMeeting,
+    showJoinButton = true,
   }: MeetingDetailsProps) => {
     return (
       <div role="region" aria-label="Meeting details">
@@ -48,7 +48,7 @@ export const MeetingDetails = withRoomIdMeeting(
           meeting={meeting}
           onClose={onClose}
           titleId={titleId}
-          isSettingMeeting={isSettingMeeting}
+          showJoinButton={showJoinButton}
         />
         <Divider variant="middle" />
         <MeetingDetailsContent

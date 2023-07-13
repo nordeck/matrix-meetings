@@ -100,9 +100,16 @@ describe('<MeetingDetailsHeader/>', () => {
   });
 
   it('should render without exploding', () => {
-    render(<MeetingDetailsHeader meeting={mockMeeting()} onClose={onClose} />, {
-      wrapper: Wrapper,
-    });
+    render(
+      <MeetingDetailsHeader
+        showJoinButton={true}
+        meeting={mockMeeting()}
+        onClose={onClose}
+      />,
+      {
+        wrapper: Wrapper,
+      }
+    );
 
     expect(
       screen.getByRole('heading', { level: 3, name: /An important meeting/i })
@@ -116,7 +123,11 @@ describe('<MeetingDetailsHeader/>', () => {
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
-      <MeetingDetailsHeader meeting={mockMeeting()} onClose={onClose} />,
+      <MeetingDetailsHeader
+        showJoinButton
+        meeting={mockMeeting()}
+        onClose={onClose}
+      />,
       { wrapper: Wrapper }
     );
 
@@ -124,9 +135,16 @@ describe('<MeetingDetailsHeader/>', () => {
   });
 
   it('should close the expended meeting dialog', async () => {
-    render(<MeetingDetailsHeader meeting={mockMeeting()} onClose={onClose} />, {
-      wrapper: Wrapper,
-    });
+    render(
+      <MeetingDetailsHeader
+        showJoinButton
+        meeting={mockMeeting()}
+        onClose={onClose}
+      />,
+      {
+        wrapper: Wrapper,
+      }
+    );
 
     await userEvent.click(
       await screen.findByRole('button', { name: /Close/i }),
@@ -138,11 +156,7 @@ describe('<MeetingDetailsHeader/>', () => {
 
   it('should hide join and close button in meeting details sidebar', async () => {
     render(
-      <MeetingDetailsHeader
-        meeting={mockMeeting()}
-        isSettingMeeting
-        onClose={onClose}
-      />,
+      <MeetingDetailsHeader showJoinButton={false} meeting={mockMeeting()} />,
       {
         wrapper: Wrapper,
       }
@@ -195,6 +209,7 @@ describe('<MeetingDetailsHeader/>', () => {
 
     render(
       <MeetingDetailsHeader
+        showJoinButton
         meeting={mockMeeting({
           room_id: '!meeting-room-id',
           parentRoomId: '!room-id',
@@ -342,6 +357,7 @@ describe('<MeetingDetailsHeader/>', () => {
 
     render(
       <MeetingDetailsHeader
+        showJoinButton
         meeting={mockMeeting({
           room_id: '!meeting-room-id',
           parentRoomId: '!room-id',
@@ -426,6 +442,7 @@ describe('<MeetingDetailsHeader/>', () => {
   it('should skip editing the meeting if the user aborts the action', async () => {
     render(
       <MeetingDetailsHeader
+        showJoinButton
         meeting={mockMeeting({
           room_id: '!meeting-room-id',
           parentRoomId: '!room-id',
@@ -499,6 +516,7 @@ describe('<MeetingDetailsHeader/>', () => {
 
     render(
       <MeetingDetailsHeader
+        showJoinButton
         meeting={mockMeeting({
           room_id: '!meeting-room-id',
           parentRoomId: '!room-id',
@@ -570,6 +588,7 @@ describe('<MeetingDetailsHeader/>', () => {
 
     render(
       <MeetingDetailsHeader
+        showJoinButton
         meeting={mockMeeting({
           room_id: '!meeting-room-id',
           parentRoomId: '!room-id',
@@ -642,6 +661,7 @@ describe('<MeetingDetailsHeader/>', () => {
 
     render(
       <MeetingDetailsHeader
+        showJoinButton
         meeting={mockMeeting({
           room_id: '!meeting-room-id',
           parentRoomId: '!room-id',
@@ -713,6 +733,7 @@ describe('<MeetingDetailsHeader/>', () => {
 
     render(
       <MeetingDetailsHeader
+        showJoinButton
         meeting={mockMeeting({
           room_id: '!meeting-room-id',
           parentRoomId: '!room-id',
@@ -768,6 +789,7 @@ describe('<MeetingDetailsHeader/>', () => {
 
     render(
       <MeetingDetailsHeader
+        showJoinButton
         meeting={mockMeeting({
           room_id: '!room-id',
           parentRoomId: '!parent-room-id',
@@ -820,9 +842,16 @@ describe('<MeetingDetailsHeader/>', () => {
       .observeRoomEvents('net.nordeck.meetings.meeting.close')
       .subscribe(acknowledgeAllEvents(widgetApi));
 
-    render(<MeetingDetailsHeader meeting={mockMeeting()} onClose={onClose} />, {
-      wrapper: Wrapper,
-    });
+    render(
+      <MeetingDetailsHeader
+        showJoinButton
+        meeting={mockMeeting()}
+        onClose={onClose}
+      />,
+      {
+        wrapper: Wrapper,
+      }
+    );
 
     await userEvent.click(
       await screen.findByRole('button', { name: /Delete/i })
@@ -858,6 +887,7 @@ describe('<MeetingDetailsHeader/>', () => {
 
     render(
       <MeetingDetailsHeader
+        showJoinButton
         meeting={mockMeeting({
           room_id: '!meeting-room-id',
           parentRoomId: '!room-id',
@@ -917,6 +947,7 @@ describe('<MeetingDetailsHeader/>', () => {
 
     render(
       <MeetingDetailsHeader
+        showJoinButton
         meeting={mockMeeting({
           room_id: '!meeting-room-id',
           parentRoomId: undefined,

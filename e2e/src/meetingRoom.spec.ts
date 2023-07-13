@@ -71,7 +71,7 @@ test.describe('Meeting Room', () => {
     );
     await expect(meetingDetails.meetingTitleText).toHaveText('My Meeting');
     await expect(meetingDetails.meetingTimeRangeText).toHaveText(
-      'October 3, 2040, 10:30 – 11:30 AM'
+      'October 3, 2040, 10:30 – 11:30 AM'
     );
   });
 

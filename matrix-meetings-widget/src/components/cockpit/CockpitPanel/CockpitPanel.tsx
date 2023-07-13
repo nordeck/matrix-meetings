@@ -64,16 +64,14 @@ export const CockpitPanel = withCurrentRoomMeeting(
         )}
 
         <Box px={2}>
-          <Box position="relative">
-            <MeetingDetails
-              meetingTimeId={meetingTimeId}
-              recurrenceId={meeting.recurrenceId}
-              roomId={meeting.meetingId}
-              titleId={titleId}
-              uid={meeting.calendarUid}
-              isSettingMeeting={true}
-            />
-          </Box>
+          <MeetingDetails
+            meetingTimeId={meetingTimeId}
+            recurrenceId={meeting.recurrenceId}
+            roomId={meeting.meetingId}
+            titleId={titleId}
+            uid={meeting.calendarUid}
+            showJoinButton={false}
+          />
         </Box>
       </Stack>
     );

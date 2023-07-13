@@ -60,7 +60,7 @@ test.describe('OpenXchange', () => {
       'My Description'
     );
     await expect(meetingDetails.meetingTimeRangeText).toHaveText(
-      'October 3, 2040, 10:30 – 11:00 AM'
+      'October 3, 2040, 10:30 – 11:00 AM'
     );
 
     await expect(meetingDetails.editInOpenXchangeMenuItem).toHaveAttribute(
@@ -104,7 +104,7 @@ test.describe('OpenXchange', () => {
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
-    ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
+    ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingRecurrenceRuleText
     ).toHaveText('Every day for 5 times');
@@ -133,7 +133,7 @@ test.describe('OpenXchange', () => {
 
     const meetingDetails = aliceCockpitWidgetPage.getMeeting();
     await expect(meetingDetails.meetingTimeRangeText).toHaveText(
-      'October 3, 2040, 10:30 – 11:00 AM'
+      'October 3, 2040, 10:30 – 11:00 AM'
     );
 
     await meetingsBotApi.updateMeeting({
@@ -154,7 +154,7 @@ test.describe('OpenXchange', () => {
     ).toBeVisible();
 
     await expect(meetingDetails.meetingTimeRangeText).toHaveText(
-      'October 4, 2040, 10:30 – 11:00 AM'
+      'October 4, 2040, 10:30 – 11:00 AM'
     );
   });
 
@@ -223,7 +223,7 @@ test.describe('OpenXchange', () => {
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
-    ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
+    ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingRecurrenceRuleText
@@ -240,7 +240,7 @@ test.describe('OpenXchange', () => {
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
-    ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
+    ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
 
     await aliceElementWebPage.approveWidgetIdentity();
 
@@ -283,7 +283,7 @@ test.describe('OpenXchange', () => {
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
-    ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
+    ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
 
     await meetingsBotApi.updateMeeting({
       roomId,
@@ -297,7 +297,7 @@ test.describe('OpenXchange', () => {
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
-    ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
+    ).toHaveText('October 3, 2040, 10:30 – 11:00 AM');
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingRecurrenceRuleText

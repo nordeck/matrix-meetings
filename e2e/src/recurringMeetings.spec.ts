@@ -50,7 +50,7 @@ test.describe('Recurring Meetings', () => {
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
-    ).toHaveText('October 3, 2040, 10:30 – 11:30 AM');
+    ).toHaveText('October 3, 2040, 10:30 – 11:30 AM');
 
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingRecurrenceRuleText
