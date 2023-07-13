@@ -70,7 +70,7 @@ export const CockpitPanel = withCurrentRoomMeeting(
             roomId={meeting.meetingId}
             titleId={titleId}
             uid={meeting.calendarUid}
-            showJoinButton={false}
+            hideJoinButton
           />
         </Box>
       </Stack>

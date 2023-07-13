@@ -67,12 +67,12 @@ export function MeetingDetailsHeader({
   meeting,
   onClose,
   titleId,
-  showJoinButton,
+  hideJoinButton,
 }: {
   meeting: Meeting;
   onClose?: DispatchWithoutAction;
   titleId?: string;
-  showJoinButton: boolean;
+  hideJoinButton?: boolean;
 }) {
   const widgetApi = useWidgetApi();
   const { t } = useTranslation();
@@ -191,7 +191,7 @@ export function MeetingDetailsHeader({
             {meeting?.title}
           </DialogTitle>
           <Box display="flex" flexWrap="wrap" alignItems="baseline" ml={3}>
-            {showJoinButton && (
+            {!hideJoinButton && (
               <MeetingDetailsJoinButton
                 aria-describedby={joinButtonTitleId}
                 meetingType={meeting.type}
