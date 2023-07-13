@@ -607,6 +607,14 @@ export class MeetingService {
       }
 
       promises.push(this.cleanupWidgets(widgetIds, room, userContext));
+      const filteredWidgetIds = widgetIds.filter(
+        (widget) =>
+          !widget.startsWith(WidgetType.COCKPIT) &&
+          !widget.startsWith(WidgetType.BREAKOUT_SESSIONS)
+      );
+      promises.push(
+        this.setUpWidgetLayoutConfiguration(roomId, filteredWidgetIds)
+      );
       await Promise.all(promises);
     }
   }
