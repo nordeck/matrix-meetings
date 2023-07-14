@@ -67,10 +67,12 @@ export function MeetingDetailsHeader({
   meeting,
   onClose,
   titleId,
+  hideJoinButton,
 }: {
   meeting: Meeting;
   onClose?: DispatchWithoutAction;
   titleId?: string;
+  hideJoinButton?: boolean;
 }) {
   const widgetApi = useWidgetApi();
   const { t } = useTranslation();
@@ -189,11 +191,13 @@ export function MeetingDetailsHeader({
             {meeting?.title}
           </DialogTitle>
           <Box display="flex" flexWrap="wrap" alignItems="baseline" ml={3}>
-            <MeetingDetailsJoinButton
-              aria-describedby={joinButtonTitleId}
-              meetingType={meeting.type}
-              roomId={meeting.meetingId}
-            />
+            {!hideJoinButton && (
+              <MeetingDetailsJoinButton
+                aria-describedby={joinButtonTitleId}
+                meetingType={meeting.type}
+                roomId={meeting.meetingId}
+              />
+            )}
             {canUpdateMeeting && isExternalReference && (
               <OpenXchangeButton reference={openXChangeReference}>
                 {t(
@@ -235,11 +239,13 @@ export function MeetingDetailsHeader({
             )}
           </Box>
         </Box>
-        <Tooltip onClick={onClose} title={t('close', 'Close')}>
-          <IconButton autoFocus sx={{ mr: 3 }}>
-            <CloseIcon />
-          </IconButton>
-        </Tooltip>
+        {onClose && (
+          <Tooltip onClick={onClose} title={t('close', 'Close')}>
+            <IconButton autoFocus sx={{ mr: 3 }}>
+              <CloseIcon />
+            </IconButton>
+          </Tooltip>
+        )}
       </Stack>
 
       {showErrorDialog && <UpdateFailedDialog setOpen={setShowErrorDialog} />}

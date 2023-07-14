@@ -30,16 +30,25 @@ type MeetingDetailsProps = WithMeetingProps & {
   meetingTimeId?: string;
 
   onClose?: () => void;
+
+  hideJoinButton?: boolean;
 };
 
 export const MeetingDetails = withRoomIdMeeting(
-  ({ meeting, titleId, meetingTimeId, onClose }: MeetingDetailsProps) => {
+  ({
+    meeting,
+    titleId,
+    meetingTimeId,
+    onClose,
+    hideJoinButton,
+  }: MeetingDetailsProps) => {
     return (
       <div role="region" aria-label="Meeting details">
         <MeetingDetailsHeader
           meeting={meeting}
           onClose={onClose}
           titleId={titleId}
+          hideJoinButton={hideJoinButton}
         />
         <Divider variant="middle" />
         <MeetingDetailsContent

@@ -136,6 +136,19 @@ describe('<MeetingDetailsHeader/>', () => {
     expect(onClose).toBeCalled();
   });
 
+  it('should hide join and close button in meeting details sidebar', async () => {
+    render(<MeetingDetailsHeader hideJoinButton meeting={mockMeeting()} />, {
+      wrapper: Wrapper,
+    });
+
+    expect(
+      screen.queryByRole('button', { name: 'Join' })
+    ).not.toBeInTheDocument();
+    expect(
+      screen.queryByRole('button', { name: 'Close' })
+    ).not.toBeInTheDocument();
+  });
+
   it('should edit the meeting', async () => {
     widgetApi
       .observeRoomEvents('net.nordeck.meetings.meeting.update')
