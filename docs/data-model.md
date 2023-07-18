@@ -254,6 +254,7 @@ Creates a child meeting for the given room ID taken from the room event.
 | `data.participants[]`                | —`?`        | A list of users to invite to the meeting.                                                       |
 | `data.participants[].user_id`        | `string`    | The ID of the user.                                                                             |
 | `data.participants[].power_level`    | `number?`   | The custom power level of the user. Defaults: `0`. The creator will be `100`.                   |
+| `data.messaging_power_level`         | `number?`   | The power level of the messaging power. Defaults: `0`. Prefer to use `0` and `100`.             |
 | `data.external_data`                 | —`?`        | Data that might reference to external resources.                                                |
 | `data.external_data.key`             | `object`    | Each entry should be namespaced with a key.                                                     |
 | `data.enable_auto_deletion`          | `boolean?`  | (deprecated) If `true`, the Room Reaper will delete the meeting after it ends. Default: `true`. |
@@ -619,20 +620,21 @@ Instructs the bot to create a new meeting.
 
 ##### Request Content
 
-| Field                        | Type        | Description                                                                        |
-| ---------------------------- | ----------- | ---------------------------------------------------------------------------------- |
-| `parent_room_id`             | `string?`   | The id of room that should be a parent for the meeting.                            |
-| `title`                      | `string`    | The title of the meeting.                                                          |
-| `description`                | `string`    | The description of the meeting.                                                    |
-| `start_time`                 | `string`    | The start time of the meeting as ISO 8601 timestamp.                               |
-| `end_time`                   | `string`    | The end time of the meeting as ISO 8601 timestamp.                                 |
-| `widget_ids[]`               | `string[]?` | A list of widget IDs to be enabled (get IDs from `/v1/api/widgets/list`).          |
-| `participants[]`             | —`?`        | A list of users to invite to the meeting.                                          |
-| `participants[].user_id`     | `string`    | The ID of the user.                                                                |
-| `participants[].power_level` | `number?`   | The custom power level of the user. Defaults: `0`. The creator will be `100`.      |
-| `enable_auto_deletion`       | `boolean?`  | If `true`, the Room Reaper will delete the meeting after it ends. Default: `true`. |
-| `external_data`              | —`?`        | Data that might reference to external resources.                                   |
-| `external_data.key`          | `object`    | Each entry should be namespaced with a key.                                        |
+| Field                        | Type        | Description                                                                         |
+| ---------------------------- | ----------- | ----------------------------------------------------------------------------------- |
+| `parent_room_id`             | `string?`   | The id of room that should be a parent for the meeting.                             |
+| `title`                      | `string`    | The title of the meeting.                                                           |
+| `description`                | `string`    | The description of the meeting.                                                     |
+| `start_time`                 | `string`    | The start time of the meeting as ISO 8601 timestamp.                                |
+| `end_time`                   | `string`    | The end time of the meeting as ISO 8601 timestamp.                                  |
+| `widget_ids[]`               | `string[]?` | A list of widget IDs to be enabled (get IDs from `/v1/api/widgets/list`).           |
+| `participants[]`             | —`?`        | A list of users to invite to the meeting.                                           |
+| `participants[].user_id`     | `string`    | The ID of the user.                                                                 |
+| `participants[].power_level` | `number?`   | The custom power level of the user. Defaults: `0`. The creator will be `100`.       |
+| `messaging_power_level`      | `number?`   | The power level of the messaging power. Defaults: `0`. Prefer to use `0` and `100`. |
+| `enable_auto_deletion`       | `boolean?`  | If `true`, the Room Reaper will delete the meeting after it ends. Default: `true`.  |
+| `external_data`              | —`?`        | Data that might reference to external resources.                                    |
+| `external_data.key`          | `object`    | Each entry should be namespaced with a key.                                         |
 
 ##### Response Content
 
