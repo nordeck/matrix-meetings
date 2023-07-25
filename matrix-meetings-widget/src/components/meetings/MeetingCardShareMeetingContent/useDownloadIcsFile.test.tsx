@@ -27,7 +27,11 @@ import {
   mockMeetingSharingInformationEndpoint,
 } from '../../../lib/testUtils';
 import { createStore } from '../../../store';
-import { createIcsFile, useDownloadIcsFile } from './useDownloadIcsFile';
+import {
+  createIcsFile,
+  generateVTimezone,
+  useDownloadIcsFile,
+} from './useDownloadIcsFile';
 
 jest.mock('@matrix-widget-toolkit/api', () => ({
   ...jest.requireActual('@matrix-widget-toolkit/api'),
@@ -160,10 +164,31 @@ describe('createIcsFile', () => {
       "BEGIN:VCALENDAR
       VERSION:2.0
       PRODID:-//sebbo.net//ical-generator//EN
+      BEGIN:VTIMEZONE
+      TZID:Europe/Berlin
+      X-LIC-LOCATION:Europe/Berlin
+      LAST-MODIFIED:20230517T170335Z
+      BEGIN:DAYLIGHT
+      TZNAME:CEST
+      TZOFFSETFROM:+0100
+      TZOFFSETTO:+0200
+      DTSTART:19700329T020000
+      RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=-1SU
+      END:DAYLIGHT
+      BEGIN:STANDARD
+      TZNAME:CET
+      TZOFFSETFROM:+0200
+      TZOFFSETTO:+0100
+      DTSTART:19701025T030000
+      RRULE:FREQ=YEARLY;BYMONTH=10;BYDAY=-1SU
+      END:STANDARD
+      END:VTIMEZONE
+      TIMEZONE-ID:Europe/Berlin
+      X-WR-TIMEZONE:Europe/Berlin
       BEGIN:VEVENT
       UID:!meeting-room-id-entry-0
       SEQUENCE:0
-      DTSTAMP:20200101T100000Z
+      DTSTAMP:20200101T110000
       DTSTART;TZID=Europe/Berlin:29990101T100000
       DTEND;TZID=Europe/Berlin:29990101T140000
       SUMMARY:An important meeting
@@ -205,5 +230,15 @@ describe('createIcsFile', () => {
       END:VEVENT
       END:VCALENDAR"
     `);
+  });
+});
+
+describe('generateVTimezone', () => {
+  it('should return a string for a valid timezone', () => {
+    expect(generateVTimezone('Europe/Berlin')).toEqual(expect.any(String));
+  });
+
+  it('should skip invalid timezone', () => {
+    expect(generateVTimezone('NoContinent/NoCity')).toBeNull();
   });
 });
