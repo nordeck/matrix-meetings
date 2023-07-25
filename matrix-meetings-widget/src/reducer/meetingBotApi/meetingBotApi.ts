@@ -92,66 +92,74 @@ export const meetingBotApi = createApi({
   endpoints: (builder) => ({
     getConfiguration: builder.query<MeetingsBotConfiguration, void>({
       queryFn: async (_, __, ___, fetch) => {
-        const response = await fetch({ url: '/v1/config' });
+        try {
+          const response = await fetch({ url: '/v1/config' });
 
-        if (response.data) {
-          try {
-            const data = await configurationResponseSchema.validateAsync(
-              response.data
-            );
+          if (response.data) {
+            try {
+              const data = await configurationResponseSchema.validateAsync(
+                response.data
+              );
 
-            return {
-              data: {
-                jitsi: {
-                  dialInEnabled: data.jitsiDialInEnabled ?? false,
+              return {
+                data: {
+                  jitsi: {
+                    dialInEnabled: data.jitsiDialInEnabled ?? false,
+                  },
+                  openXChange: data.openXchangeMeetingUrlTemplate
+                    ? {
+                        meetingUrlTemplate: data.openXchangeMeetingUrlTemplate,
+                      }
+                    : undefined,
                 },
-                openXChange: data.openXchangeMeetingUrlTemplate
-                  ? {
-                      meetingUrlTemplate: data.openXchangeMeetingUrlTemplate,
-                    }
-                  : undefined,
-              },
-            };
-          } catch (e) {
-            return {
-              error: {
-                error: e.message,
-                status: 'PARSING_ERROR',
-                originalStatus: response.meta?.response?.status ?? 0,
-                data: response.data,
-              } as FetchBaseQueryError,
-            };
+              };
+            } catch (e) {
+              return {
+                error: {
+                  error: e.message,
+                  status: 'PARSING_ERROR',
+                  originalStatus: response.meta?.response?.status ?? 0,
+                  data: response.data,
+                } as FetchBaseQueryError,
+              };
+            }
           }
-        }
 
-        return { error: response.error as FetchBaseQueryError };
+          return { error: response.error as FetchBaseQueryError };
+        } catch (error) {
+          return { error: { error: error.message, status: 'CUSTOM_ERROR' } };
+        }
       },
     }),
 
     getAvailableWidgets: builder.query<AvailableWidget[], void>({
       queryFn: async (_, __, ___, fetch) => {
-        const response = await fetch({ url: '/v1/widget/list' });
+        try {
+          const response = await fetch({ url: '/v1/widget/list' });
 
-        if (response.data) {
-          try {
-            const data = await availableWidgetsReponseSchema.validateAsync(
-              response.data
-            );
+          if (response.data) {
+            try {
+              const data = await availableWidgetsReponseSchema.validateAsync(
+                response.data
+              );
 
-            return { data };
-          } catch (e) {
-            return {
-              error: {
-                error: e.message,
-                status: 'PARSING_ERROR',
-                originalStatus: response.meta?.response?.status ?? 0,
-                data: response.data,
-              } as FetchBaseQueryError,
-            };
+              return { data };
+            } catch (e) {
+              return {
+                error: {
+                  error: e.message,
+                  status: 'PARSING_ERROR',
+                  originalStatus: response.meta?.response?.status ?? 0,
+                  data: response.data,
+                } as FetchBaseQueryError,
+              };
+            }
           }
-        }
 
-        return { error: response.error as FetchBaseQueryError };
+          return { error: response.error as FetchBaseQueryError };
+        } catch (error) {
+          return { error: { error: error.message, status: 'CUSTOM_ERROR' } };
+        }
       },
     }),
 
@@ -160,38 +168,42 @@ export const meetingBotApi = createApi({
       { roomId: string }
     >({
       queryFn: async ({ roomId }, _, __, fetch) => {
-        const response = await fetch({
-          url: `/v1/meeting/${encodeURIComponent(roomId)}/sharingInformation`,
-        });
+        try {
+          const response = await fetch({
+            url: `/v1/meeting/${encodeURIComponent(roomId)}/sharingInformation`,
+          });
 
-        if (response.data) {
-          try {
-            const data =
-              await meetingSharingInformationResponseSchema.validateAsync(
-                response.data
-              );
+          if (response.data) {
+            try {
+              const data =
+                await meetingSharingInformationResponseSchema.validateAsync(
+                  response.data
+                );
 
-            return {
-              data: {
-                jitsi: {
-                  dialInNumber: data.jitsi_dial_in_number,
-                  pin: data.jitsi_pin,
+              return {
+                data: {
+                  jitsi: {
+                    dialInNumber: data.jitsi_dial_in_number,
+                    pin: data.jitsi_pin,
+                  },
                 },
-              },
-            };
-          } catch (e) {
-            return {
-              error: {
-                error: e.message,
-                status: 'PARSING_ERROR',
-                originalStatus: response.meta?.response?.status ?? 0,
-                data: response.data,
-              } as FetchBaseQueryError,
-            };
+              };
+            } catch (e) {
+              return {
+                error: {
+                  error: e.message,
+                  status: 'PARSING_ERROR',
+                  originalStatus: response.meta?.response?.status ?? 0,
+                  data: response.data,
+                } as FetchBaseQueryError,
+              };
+            }
           }
-        }
 
-        return { error: response.error as FetchBaseQueryError };
+          return { error: response.error as FetchBaseQueryError };
+        } catch (error) {
+          return { error: { error: error.message, status: 'CUSTOM_ERROR' } };
+        }
       },
     }),
   }),

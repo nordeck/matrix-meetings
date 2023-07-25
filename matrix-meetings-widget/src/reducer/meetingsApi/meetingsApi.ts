@@ -148,29 +148,35 @@ export const meetingsApi = createApi({
       queryFn: async ({ meeting }, { extra }) => {
         const { widgetApi } = extra as ThunkExtraArgument;
 
-        const event = await widgetApi.sendRoomEvent(
-          RoomEvents.NET_NORDECK_MEETINGS_MEETING_CREATE,
-          withEventContext(widgetApi, {
-            title: meeting.title,
-            description: meeting.description,
-            calendar: meeting.calendar,
-            widget_ids: meeting.widgetIds,
-            participants: meeting.participants.map((user_id) => ({ user_id })),
-            messaging_power_level: meeting.powerLevels?.messaging,
-          })
-        );
+        try {
+          const event = await widgetApi.sendRoomEvent(
+            RoomEvents.NET_NORDECK_MEETINGS_MEETING_CREATE,
+            withEventContext(widgetApi, {
+              title: meeting.title,
+              description: meeting.description,
+              calendar: meeting.calendar,
+              widget_ids: meeting.widgetIds,
+              participants: meeting.participants.map((user_id) => ({
+                user_id,
+              })),
+              messaging_power_level: meeting.powerLevels?.messaging,
+            })
+          );
 
-        const [acknowledgement] = await awaitAcknowledgement(
-          widgetApi,
-          event.event_id
-        );
+          const [acknowledgement] = await awaitAcknowledgement(
+            widgetApi,
+            event.event_id
+          );
 
-        return {
-          data: {
-            acknowledgement,
-            event,
-          },
-        };
+          return {
+            data: {
+              acknowledgement,
+              event,
+            },
+          };
+        } catch (error) {
+          return { error: { message: error.message } };
+        }
       },
     }),
 
@@ -181,32 +187,38 @@ export const meetingsApi = createApi({
       queryFn: async ({ breakoutSessions }, { extra }) => {
         const { widgetApi } = extra as ThunkExtraArgument;
 
-        const event = await widgetApi.sendRoomEvent(
-          RoomEvents.NET_NORDECK_MEETINGS_BREAKOUTSESSIONS_CREATE,
-          withEventContext(widgetApi, {
-            // the roomId is read from the room_id of the event.
-            groups: breakoutSessions.groups.map(({ title, participants }) => ({
-              title,
-              participants: participants.map((user_id) => ({ user_id })),
-            })),
-            description: breakoutSessions.description,
-            start_time: breakoutSessions.startTime,
-            end_time: breakoutSessions.endTime,
-            widget_ids: breakoutSessions.widgetIds,
-          })
-        );
+        try {
+          const event = await widgetApi.sendRoomEvent(
+            RoomEvents.NET_NORDECK_MEETINGS_BREAKOUTSESSIONS_CREATE,
+            withEventContext(widgetApi, {
+              // the roomId is read from the room_id of the event.
+              groups: breakoutSessions.groups.map(
+                ({ title, participants }) => ({
+                  title,
+                  participants: participants.map((user_id) => ({ user_id })),
+                })
+              ),
+              description: breakoutSessions.description,
+              start_time: breakoutSessions.startTime,
+              end_time: breakoutSessions.endTime,
+              widget_ids: breakoutSessions.widgetIds,
+            })
+          );
 
-        const [acknowledgement] = await awaitAcknowledgement(
-          widgetApi,
-          event.event_id
-        );
+          const [acknowledgement] = await awaitAcknowledgement(
+            widgetApi,
+            event.event_id
+          );
 
-        return {
-          data: {
-            acknowledgement,
-            event,
-          },
-        };
+          return {
+            data: {
+              acknowledgement,
+              event,
+            },
+          };
+        } catch (error) {
+          return { error: { message: error.message } };
+        }
       },
     }),
 
@@ -214,24 +226,28 @@ export const meetingsApi = createApi({
       queryFn: async ({ roomId }, { extra }) => {
         const { widgetApi } = extra as ThunkExtraArgument;
 
-        const event = await widgetApi.sendRoomEvent(
-          RoomEvents.NET_NORDECK_MEETINGS_MEETING_CLOSE,
-          withEventContext(widgetApi, {
-            target_room_id: roomId,
-          })
-        );
+        try {
+          const event = await widgetApi.sendRoomEvent(
+            RoomEvents.NET_NORDECK_MEETINGS_MEETING_CLOSE,
+            withEventContext(widgetApi, {
+              target_room_id: roomId,
+            })
+          );
 
-        const [acknowledgement] = await awaitAcknowledgement(
-          widgetApi,
-          event.event_id
-        );
+          const [acknowledgement] = await awaitAcknowledgement(
+            widgetApi,
+            event.event_id
+          );
 
-        return {
-          data: {
-            acknowledgement,
-            event,
-          },
-        };
+          return {
+            data: {
+              acknowledgement,
+              event,
+            },
+          };
+        } catch (error) {
+          return { error: { message: error.message } };
+        }
       },
     }),
 
@@ -245,25 +261,29 @@ export const meetingsApi = createApi({
       queryFn: async ({ parentRoomId, message }, { extra }) => {
         const { widgetApi } = extra as ThunkExtraArgument;
 
-        const event = await widgetApi.sendRoomEvent(
-          RoomEvents.NET_NORDECK_MEETINGS_SUB_MEETINGS_SEND_MESSAGE,
-          withEventContext(widgetApi, {
-            target_room_id: parentRoomId,
-            message,
-          })
-        );
+        try {
+          const event = await widgetApi.sendRoomEvent(
+            RoomEvents.NET_NORDECK_MEETINGS_SUB_MEETINGS_SEND_MESSAGE,
+            withEventContext(widgetApi, {
+              target_room_id: parentRoomId,
+              message,
+            })
+          );
 
-        const [acknowledgement] = await awaitAcknowledgement(
-          widgetApi,
-          event.event_id
-        );
+          const [acknowledgement] = await awaitAcknowledgement(
+            widgetApi,
+            event.event_id
+          );
 
-        return {
-          data: {
-            acknowledgement,
-            event,
-          },
-        };
+          return {
+            data: {
+              acknowledgement,
+              event,
+            },
+          };
+        } catch (error) {
+          return { error: { message: error.message } };
+        }
       },
     }),
 
@@ -281,45 +301,49 @@ export const meetingsApi = createApi({
       ) => {
         const { widgetApi } = extra as ThunkExtraArgument;
 
-        const events = [];
+        try {
+          const events = [];
 
-        if (addWidgets.length > 0) {
-          events.push(
-            await widgetApi.sendRoomEvent(
-              RoomEvents.NET_NORDECK_MEETINGS_MEETING_WIDGETS_HANDLE,
-              withEventContext(widgetApi, {
-                target_room_id: roomId,
-                add: true,
-                widget_ids: addWidgets,
-              })
-            )
+          if (addWidgets.length > 0) {
+            events.push(
+              await widgetApi.sendRoomEvent(
+                RoomEvents.NET_NORDECK_MEETINGS_MEETING_WIDGETS_HANDLE,
+                withEventContext(widgetApi, {
+                  target_room_id: roomId,
+                  add: true,
+                  widget_ids: addWidgets,
+                })
+              )
+            );
+          }
+
+          if (removeWidgets.length > 0) {
+            events.push(
+              await widgetApi.sendRoomEvent(
+                RoomEvents.NET_NORDECK_MEETINGS_MEETING_WIDGETS_HANDLE,
+                withEventContext(widgetApi, {
+                  target_room_id: roomId,
+                  add: false,
+                  widget_ids: removeWidgets,
+                })
+              )
+            );
+          }
+
+          const acknowledgements = await awaitAcknowledgement(
+            widgetApi,
+            ...events.map((e) => e.event_id)
           );
+
+          return {
+            data: {
+              acknowledgements,
+              events,
+            },
+          };
+        } catch (error) {
+          return { error: { message: error.message } };
         }
-
-        if (removeWidgets.length > 0) {
-          events.push(
-            await widgetApi.sendRoomEvent(
-              RoomEvents.NET_NORDECK_MEETINGS_MEETING_WIDGETS_HANDLE,
-              withEventContext(widgetApi, {
-                target_room_id: roomId,
-                add: false,
-                widget_ids: removeWidgets,
-              })
-            )
-          );
-        }
-
-        const acknowledgements = await awaitAcknowledgement(
-          widgetApi,
-          ...events.map((e) => e.event_id)
-        );
-
-        return {
-          data: {
-            acknowledgements,
-            events,
-          },
-        };
       },
     }),
 
@@ -337,45 +361,49 @@ export const meetingsApi = createApi({
       ) => {
         const { widgetApi } = extra as ThunkExtraArgument;
 
-        const events = [];
+        try {
+          const events = [];
 
-        if (addUserIds.length > 0) {
-          events.push(
-            await widgetApi.sendRoomEvent(
-              RoomEvents.NET_NORDECK_MEETINGS_MEETING_PARTICIPANTS_HANDLE,
-              withEventContext(widgetApi, {
-                target_room_id: roomId,
-                invite: true,
-                userIds: addUserIds,
-              })
-            )
+          if (addUserIds.length > 0) {
+            events.push(
+              await widgetApi.sendRoomEvent(
+                RoomEvents.NET_NORDECK_MEETINGS_MEETING_PARTICIPANTS_HANDLE,
+                withEventContext(widgetApi, {
+                  target_room_id: roomId,
+                  invite: true,
+                  userIds: addUserIds,
+                })
+              )
+            );
+          }
+
+          if (removeUserIds.length > 0) {
+            events.push(
+              await widgetApi.sendRoomEvent(
+                RoomEvents.NET_NORDECK_MEETINGS_MEETING_PARTICIPANTS_HANDLE,
+                withEventContext(widgetApi, {
+                  target_room_id: roomId,
+                  invite: false,
+                  userIds: removeUserIds,
+                })
+              )
+            );
+          }
+
+          const acknowledgements = await awaitAcknowledgement(
+            widgetApi,
+            ...events.map((e) => e.event_id)
           );
+
+          return {
+            data: {
+              acknowledgements,
+              events,
+            },
+          };
+        } catch (error) {
+          return { error: { message: error.message } };
         }
-
-        if (removeUserIds.length > 0) {
-          events.push(
-            await widgetApi.sendRoomEvent(
-              RoomEvents.NET_NORDECK_MEETINGS_MEETING_PARTICIPANTS_HANDLE,
-              withEventContext(widgetApi, {
-                target_room_id: roomId,
-                invite: false,
-                userIds: removeUserIds,
-              })
-            )
-          );
-        }
-
-        const acknowledgements = await awaitAcknowledgement(
-          widgetApi,
-          ...events.map((e) => e.event_id)
-        );
-
-        return {
-          data: {
-            acknowledgements,
-            events,
-          },
-        };
       },
     }),
 
@@ -386,27 +414,31 @@ export const meetingsApi = createApi({
       queryFn: async ({ roomId, updates }, { extra }) => {
         const { widgetApi } = extra as ThunkExtraArgument;
 
-        const event = await widgetApi.sendRoomEvent(
-          RoomEvents.NET_NORDECK_MEETINGS_MEETING_UPDATE,
-          withEventContext(widgetApi, {
-            target_room_id: roomId,
-            title: updates.title,
-            description: updates.description,
-            calendar: updates.calendar,
-          })
-        );
+        try {
+          const event = await widgetApi.sendRoomEvent(
+            RoomEvents.NET_NORDECK_MEETINGS_MEETING_UPDATE,
+            withEventContext(widgetApi, {
+              target_room_id: roomId,
+              title: updates.title,
+              description: updates.description,
+              calendar: updates.calendar,
+            })
+          );
 
-        const [acknowledgement] = await awaitAcknowledgement(
-          widgetApi,
-          event.event_id
-        );
+          const [acknowledgement] = await awaitAcknowledgement(
+            widgetApi,
+            event.event_id
+          );
 
-        return {
-          data: {
-            acknowledgement,
-            event,
-          },
-        };
+          return {
+            data: {
+              acknowledgement,
+              event,
+            },
+          };
+        } catch (error) {
+          return { error: { message: error.message } };
+        }
       },
     }),
 
@@ -415,27 +447,31 @@ export const meetingsApi = createApi({
       UpdateMeetingPermissionsOptions
     >({
       queryFn: async ({ roomId, powerLevels }, { extra }) => {
-        const { widgetApi } = extra as ThunkExtraArgument;
+        try {
+          const { widgetApi } = extra as ThunkExtraArgument;
 
-        const event = await widgetApi.sendRoomEvent(
-          RoomEvents.NET_NORDECK_MEETINGS_MEETING_CHANGE_MESSAGE_PERMISSIONS,
-          withEventContext(widgetApi, {
-            target_room_id: roomId,
-            messaging_power_level: powerLevels.messaging,
-          })
-        );
+          const event = await widgetApi.sendRoomEvent(
+            RoomEvents.NET_NORDECK_MEETINGS_MEETING_CHANGE_MESSAGE_PERMISSIONS,
+            withEventContext(widgetApi, {
+              target_room_id: roomId,
+              messaging_power_level: powerLevels.messaging,
+            })
+          );
 
-        const [acknowledgement] = await awaitAcknowledgement(
-          widgetApi,
-          event.event_id
-        );
+          const [acknowledgement] = await awaitAcknowledgement(
+            widgetApi,
+            event.event_id
+          );
 
-        return {
-          data: {
-            acknowledgement,
-            event,
-          },
-        };
+          return {
+            data: {
+              acknowledgement,
+              event,
+            },
+          };
+        } catch (error) {
+          return { error: { message: error.message } };
+        }
       },
     }),
 

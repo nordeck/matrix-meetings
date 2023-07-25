@@ -126,8 +126,9 @@ describe('meetingBotApi', () => {
 
       const store = createStore({ widgetApi });
 
-      await expect(store.dispatch(initiate()).unwrap()).rejects.toMatchObject({
-        message: expect.stringMatching('No token received'),
+      await expect(store.dispatch(initiate()).unwrap()).rejects.toEqual({
+        error: expect.stringMatching('No token received'),
+        status: 'CUSTOM_ERROR',
       });
     });
 
@@ -238,8 +239,9 @@ describe('meetingBotApi', () => {
 
       const store = createStore({ widgetApi });
 
-      await expect(store.dispatch(initiate()).unwrap()).rejects.toMatchObject({
-        message: expect.stringMatching('No token received'),
+      await expect(store.dispatch(initiate()).unwrap()).rejects.toEqual({
+        error: expect.stringMatching('No token received'),
+        status: 'CUSTOM_ERROR',
       });
     });
 
@@ -358,8 +360,9 @@ describe('meetingBotApi', () => {
 
       await expect(
         store.dispatch(initiate({ roomId: '!roomId' })).unwrap()
-      ).rejects.toMatchObject({
-        message: expect.stringMatching('No token received'),
+      ).rejects.toEqual({
+        error: expect.stringMatching('No token received'),
+        status: 'CUSTOM_ERROR',
       });
     });
 
