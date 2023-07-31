@@ -15,8 +15,10 @@
  */
 
 import ical from 'ical-generator';
+import { isArray } from 'lodash';
 import { DateTime } from 'luxon';
 import { useEffect, useMemo, useState } from 'react';
+import { tzlib_get_ical_block } from 'timezones-ical-library';
 import { parseICalDate } from '../../../lib/utils';
 import { Meeting } from '../../../reducer/meetingsApi';
 import { useMeetingEmail } from './useMeetingEmail';
@@ -80,9 +82,17 @@ export function createIcsFile(
 
   // TODO: consider all entries (incl recurrenceId and exdate)
 
+  if (meeting.calendarEntries[0].dtstart.tzid !== 'UTC') {
+    cal.timezone({
+      name: meeting.calendarEntries[0].dtstart.tzid,
+      generator: generateVTimezone,
+    });
+  }
+
   cal.createEvent({
     id: `${meeting.meetingId}-${meeting.calendarUid}`,
     summary: meeting.title,
+    stamp: DateTime.now(),
     description: message,
     start: parseICalDate(meeting.calendarEntries[0].dtstart),
     end: parseICalDate(meeting.calendarEntries[0].dtend),
@@ -98,4 +108,14 @@ export function createIcsFile(
   });
 
   return cal.toString();
+}
+
+export function generateVTimezone(timezone: string): string | null {
+  const result = tzlib_get_ical_block(timezone);
+
+  if (isArray(result) && result.length >= 1) {
+    return result[0];
+  }
+
+  return null;
 }
