@@ -16,7 +16,7 @@
 
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Button } from '@mui/material';
+import { Button, SxProps } from '@mui/material';
 import {
   BaseSingleInputFieldProps,
   DatePicker,
@@ -35,6 +35,7 @@ type ButtonFieldProps = BaseSingleInputFieldProps<
   open?: boolean;
   onOpen?: DispatchWithoutAction;
   onClose?: DispatchWithoutAction;
+  sx?: SxProps;
 };
 
 function ButtonField(props: ButtonFieldProps) {
@@ -47,6 +48,7 @@ function ButtonField(props: ButtonFieldProps) {
     disabled,
     InputProps: { ref } = {},
     inputProps: { 'aria-label': ariaLabel } = {},
+    sx,
   } = props;
 
   return (
@@ -57,6 +59,7 @@ function ButtonField(props: ButtonFieldProps) {
       aria-label={ariaLabel}
       endIcon={open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
       onClick={() => (open ? onClose?.() : onOpen?.())}
+      sx={sx}
     >
       {label}
     </Button>
