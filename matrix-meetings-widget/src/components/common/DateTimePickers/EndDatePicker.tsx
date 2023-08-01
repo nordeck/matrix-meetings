@@ -43,7 +43,6 @@ export function EndDatePicker({
 
   const openDatePickerDialogue = useCallback(
     (date: Moment | null) => {
-      console.log('openDatePickerDialogue')
       return t(
         'dateTimePickers.openEndDatePicker',
         'Choose end date, selected date is {{date, datetime}}',
@@ -79,11 +78,13 @@ export function EndDatePicker({
   return (
     <DatePicker
       disablePast={!enablePast}
-      localeText={{ openDatePickerDialogue }}
       label={t('dateTimePickers.endDate', 'End date')}
       onChange={handleOnChange}
       reduceAnimations={isReduceAnimations()}
       slotProps={{
+        openPickerButton: {
+          'aria-label': openDatePickerDialogue(value),
+        },
         textField: {
           fullWidth: true,
           helperText:
@@ -91,7 +92,7 @@ export function EndDatePicker({
               t('dateTimePickers.invalidEndDate', 'Invalid date')) ||
             (typeof error === 'string' ? error : undefined),
           margin: 'dense',
-          error: !date.isValid() || !!error,
+          error: !date.isValid() || !!error || undefined,
         },
       }}
       value={date}

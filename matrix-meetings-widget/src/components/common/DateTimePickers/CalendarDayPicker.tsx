@@ -88,7 +88,6 @@ export const CalendarDayPicker = ({
             ),
           },
           open,
-          setOpen,
         } as ButtonFieldProps,
       }}
       onAccept={handleRangeChange}

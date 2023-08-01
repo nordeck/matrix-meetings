@@ -403,7 +403,7 @@ export const ScheduleMeeting = ({
                     <Grid item sm={6} xs={12}>
                       <StartDatePicker
                         error={isDirty && startDateError}
-                        //minDate={minStartDate}
+                        minDate={minStartDate}
                         onChange={handleStartDateChange}
                         readOnly={startDateReadOnly}
                         value={startDate}

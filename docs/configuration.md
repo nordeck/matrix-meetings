@@ -41,6 +41,9 @@ REACT_APP_MESSAGING_NOT_ALLOWED_POWER_LEVEL=100
 
 # optional - shows meetings from all rooms
 REACT_APP_DISPLAY_ALL_MEETINGS=true
+
+# optional - shows time picker as digital clock
+REACT_APP_RENDER_TIME_PICKER_DIGITAL=true
 ```
 
 ### Bot Container

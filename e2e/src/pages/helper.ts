@@ -33,6 +33,17 @@ export async function fillDatePicker(
   await pickerModal.waitFor({ state: 'hidden' });
 }
 
+export async function fillTimePicker(
+  frame: FrameLocator,
+  timePickerButton: Locator,
+  time: string
+) {
+  await timePickerButton.click();
+
+  const timeModal = frame.getByRole('dialog');
+  await fillTime(timeModal, time);
+}
+
 export async function fillDate(
   pickerModal: Locator,
   date: [number, number] | [number, number, number]
@@ -61,4 +72,15 @@ export async function fillDate(
       .locator(`button:not(.MuiPickersDay-dayOutsideMonth) >> text="${day}"`)
       .click();
   }
+}
+
+export async function fillTime(pickerModal: Locator, time: string) {
+  const [hours, minutes, ampm] = time.split(/:|\s/);
+  const mins = minutes === '00' ? '0' : minutes;
+
+  await pickerModal.getByRole('option', { name: `${hours} hours` }).click();
+  await pickerModal
+    .getByRole('option', { name: `${mins} minutes`, exact: true })
+    .click();
+  await pickerModal.getByRole('option', { name: `${ampm}` }).click();
 }

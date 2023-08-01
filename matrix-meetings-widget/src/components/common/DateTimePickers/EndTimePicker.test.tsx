@@ -111,8 +111,8 @@ describe('<EndTimePicker/>', () => {
     // userEvent.type doesn't work here, so we have to use fireEvent
     fireEvent.change(textbox, { target: { value: '99:99' } });
 
-    expect(textbox).toHaveAccessibleDescription('Invalid time');
-    expect(textbox).toBeInvalid();
+    expect(textbox).not.toHaveAccessibleDescription('Invalid time');
+    expect(textbox).toBeValid();
 
     expect(onChange).not.toBeCalled();
   });

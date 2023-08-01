@@ -25,7 +25,6 @@ import {
   SelectChangeEvent,
   Stack,
   TextField,
-  TextFieldProps,
 } from '@mui/material';
 import { unstable_useId as useId } from '@mui/utils';
 import { DatePicker } from '@mui/x-date-pickers';
@@ -93,33 +92,6 @@ export const RecurringMeetingEnd = ({
             date: longDateFormat,
           },
         }
-      );
-    },
-    [t]
-  );
-
-  const renderInput = useCallback(
-    (props: TextFieldProps) => {
-      return (
-        <TextField
-          fullWidth
-          helperText={
-            props.error &&
-            t(
-              'recurrenceEditor.recurringMeetingEnd.untilDateInputInvalid',
-              'Invalid date'
-            )
-          }
-          margin="dense"
-          {...props}
-          inputProps={{
-            'aria-label': t(
-              'recurrenceEditor.recurringMeetingEnd.untilDateInput',
-              'Date at which the recurring meetings ends'
-            ),
-            ...props.inputProps,
-          }}
-        />
       );
     },
     [t]
@@ -205,11 +177,31 @@ export const RecurringMeetingEnd = ({
           >
             <DatePicker
               disabled={recurrenceEnd !== RecurrenceEnd.UntilDate}
-              localeText={{ openDatePickerDialogue }}
-              //minDate={moment(startDate)}
+              minDate={moment(startDate)}
               onChange={handleUntilDateChange}
-              //renderInput={renderInput}
               value={untilDate}
+              slotProps={{
+                openPickerButton: {
+                  'aria-label': openDatePickerDialogue(untilDate),
+                },
+                textField: {
+                  fullWidth: true,
+                  helperText:
+                    (!untilDate.isValid() &&
+                      t(
+                        'recurrenceEditor.recurringMeetingEnd.untilDateInputInvalid',
+                        'Invalid date'
+                      )) ||
+                    undefined,
+                  margin: 'dense',
+                  inputProps: {
+                    'aria-label': t(
+                      'recurrenceEditor.recurringMeetingEnd.untilDateInput',
+                      'Date at which the recurring meetings ends'
+                    ),
+                  },
+                },
+              }}
             />
           </Box>
         </Stack>

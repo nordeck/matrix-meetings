@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
-import { TextField, TextFieldProps } from '@mui/material';
+import { getEnvironment } from '@matrix-widget-toolkit/mui';
+import { TextFieldProps } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import { TimePicker } from '@mui/x-date-pickers';
+import { renderTimeViewClock, TimePicker } from '@mui/x-date-pickers';
 import moment, { Moment } from 'moment';
 import { Dispatch, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -56,35 +57,14 @@ export function StartTimePicker({
   const { t } = useTranslation();
   const [date, setDate] = useState(value);
 
+  const renderTimePickerDigital =
+    getEnvironment('REACT_APP_RENDER_TIME_PICKER_DIGITAL', 'true') === 'true';
+
   useEffect(() => {
     setDate(value);
   }, [value]);
 
-  const renderInput = useCallback(
-    (props: TextFieldProps) => {
-      const invalidDate = !date.isValid();
-
-      return (
-        <TextField
-          FormHelperTextProps={{
-            sx: hideHelperText ? visuallyHidden : undefined,
-          }}
-          fullWidth
-          helperText={
-            readOnly ||
-            (invalidDate &&
-              t('dateTimePickers.invalidStartTime', 'Invalid time')) ||
-            (typeof error === 'string' ? error : undefined)
-          }
-          margin="dense"
-          {...props}
-          {...TextFieldProps}
-          error={!readOnly && (invalidDate || !!error || props.error)}
-        />
-      );
-    },
-    [TextFieldProps, date, error, hideHelperText, readOnly, t]
-  );
+  const invalidDate = !date.isValid();
 
   const openDatePickerDialogue = useCallback(
     (date: Moment | null) => {
@@ -119,12 +99,44 @@ export function StartTimePicker({
 
   return (
     <TimePicker
-      localeText={{ openDatePickerDialogue }}
       label={t('dateTimePickers.startTime', 'Start time')}
       onChange={handleOnChange}
       readOnly={Boolean(readOnly)}
-      //renderInput={renderInput}
       value={date}
+      slotProps={{
+        openPickerButton: {
+          'aria-label': openDatePickerDialogue(value),
+        },
+        textField: {
+          FormHelperTextProps: {
+            sx: hideHelperText ? visuallyHidden : undefined,
+          },
+          fullWidth: true,
+          helperText:
+            readOnly ||
+            (invalidDate &&
+              t('dateTimePickers.invalidStartTime', 'Invalid time')) ||
+            (typeof error === 'string' ? error : undefined),
+          margin: 'dense',
+          ...TextFieldProps,
+          error: !readOnly && (invalidDate || !!error || undefined),
+        },
+        popper: {
+          sx: {
+            '& .MuiDialogActions-root': {
+              p: (theme) => theme.spacing(1),
+            },
+          },
+        },
+      }}
+      viewRenderers={
+        renderTimePickerDigital
+          ? undefined
+          : {
+              hours: renderTimeViewClock,
+              minutes: renderTimeViewClock,
+            }
+      }
     />
   );
 }

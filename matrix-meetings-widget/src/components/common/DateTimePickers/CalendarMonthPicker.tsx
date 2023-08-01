@@ -88,7 +88,6 @@ export const CalendarMonthPicker = ({
             ),
           },
           open,
-          setOpen,
         } as ButtonFieldProps,
       }}
       onAccept={handleRangeChange}

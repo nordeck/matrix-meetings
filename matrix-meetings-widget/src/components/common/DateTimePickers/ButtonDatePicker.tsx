@@ -17,6 +17,7 @@
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { Button, SxProps } from '@mui/material';
+import { unstable_useId as useId } from '@mui/utils';
 import {
   BaseSingleInputFieldProps,
   DatePicker,
@@ -41,22 +42,26 @@ export type ButtonFieldProps = BaseSingleInputFieldProps<
     sx?: SxProps;
   };
 
-function ButtonField(props: ButtonFieldProps) {
+type ButtonFieldPropsWithButtonId = ButtonFieldProps & {
+  buttonId?: string;
+};
+
+function ButtonField(props: ButtonFieldPropsWithButtonId) {
   const {
     open,
     onOpen,
     onClose,
     label,
-    id,
     disabled,
     InputProps: { ref } = {},
     inputProps: { 'aria-label': ariaLabel } = {},
     sx,
+    buttonId,
   } = props;
 
   return (
     <Button
-      id={id}
+      id={buttonId}
       disabled={disabled}
       ref={ref}
       aria-label={ariaLabel}
@@ -71,18 +76,24 @@ function ButtonField(props: ButtonFieldProps) {
 
 export function ButtonDatePicker(props: DatePickerProps<moment.Moment>) {
   const { open, onClose, onOpen } = props;
+  const buttonId = useId();
   return (
     <DatePicker
       {...props}
       slots={{ field: ButtonField, ...props.slots }}
       slotProps={{
         ...props.slotProps,
+        popper: {
+          ...props.slotProps?.popper,
+          'aria-labelledby': buttonId,
+        },
         field: {
           ...props.slotProps?.field,
           open,
           onOpen,
           onClose,
-        } as ButtonFieldProps,
+          buttonId,
+        } as ButtonFieldPropsWithButtonId,
       }}
     />
   );

@@ -73,7 +73,6 @@ export const CalendarWorkWeekPicker = ({
               ? ['today', 'cancel', 'accept']
               : ['today'],
         }),
-
         popper: {
           sx: {
             '& .MuiTypography-caption': {
@@ -98,7 +97,6 @@ export const CalendarWorkWeekPicker = ({
             ),
           },
           open,
-          setOpen,
         } as ButtonFieldProps,
         day: {
           startMoment,

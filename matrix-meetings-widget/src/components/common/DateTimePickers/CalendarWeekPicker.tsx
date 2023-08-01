@@ -98,7 +98,6 @@ export const CalendarWeekPicker = ({
             ),
           },
           open,
-          setOpen,
         } as ButtonFieldProps,
         day: {
           startMoment,

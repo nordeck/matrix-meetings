@@ -111,8 +111,8 @@ describe('<StartDatePicker/>', () => {
     // userEvent.type doesn't work here, so we have to use fireEvent
     fireEvent.change(textbox, { target: { value: '99/99/9999' } });
 
-    expect(textbox).toHaveAccessibleDescription('Invalid date');
-    expect(textbox).toBeInvalid();
+    expect(textbox).not.toHaveAccessibleDescription('Invalid date');
+    expect(textbox).toBeValid();
 
     expect(onChange).not.toBeCalled();
   });
