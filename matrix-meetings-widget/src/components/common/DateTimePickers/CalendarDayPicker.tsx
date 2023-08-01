@@ -19,7 +19,7 @@ import moment, { Moment } from 'moment';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateFilterRange } from '../../../lib/utils';
-import { ButtonDatePicker, ButtonFieldProps } from './ButtonDatePicker';
+import { ButtonDatePicker } from './ButtonDatePicker';
 import { longDateFormat, shortMonthDateFormat } from './dateFormat';
 import { isReduceAnimations } from './helper';
 
@@ -87,8 +87,7 @@ export const CalendarDayPicker = ({
               }
             ),
           },
-          open,
-        } as ButtonFieldProps,
+        },
       }}
       onAccept={handleRangeChange}
       onClose={onClose}

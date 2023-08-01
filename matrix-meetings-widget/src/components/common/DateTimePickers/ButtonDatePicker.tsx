@@ -16,38 +16,30 @@
 
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Button, SxProps } from '@mui/material';
-import { unstable_useId as useId } from '@mui/utils';
+import { Button } from '@mui/material';
 import {
   BaseSingleInputFieldProps,
   DatePicker,
   DatePickerProps,
-  DatePickerSlotsComponentsProps,
-  DateValidationError,
   FieldSection,
 } from '@mui/x-date-pickers';
 import moment from 'moment';
 import { DispatchWithoutAction } from 'react';
 
-export type ButtonFieldProps = BaseSingleInputFieldProps<
+type ButtonFieldProps = BaseSingleInputFieldProps<
   moment.Moment | null,
   moment.Moment,
   FieldSection,
-  DateValidationError
-> &
-  DatePickerSlotsComponentsProps<moment.Moment>['field'] & {
-    open?: boolean;
-    onOpen?: DispatchWithoutAction;
-    onClose?: DispatchWithoutAction;
-    sx?: SxProps;
-  };
-
-type ButtonFieldPropsWithButtonId = ButtonFieldProps & {
-  buttonId?: string;
+  unknown
+> & {
+  open?: boolean;
+  onOpen?: DispatchWithoutAction;
+  onClose?: DispatchWithoutAction;
 };
 
-function ButtonField(props: ButtonFieldPropsWithButtonId) {
+function ButtonField(props: ButtonFieldProps) {
   const {
+    id,
     open,
     onOpen,
     onClose,
@@ -55,19 +47,16 @@ function ButtonField(props: ButtonFieldPropsWithButtonId) {
     disabled,
     InputProps: { ref } = {},
     inputProps: { 'aria-label': ariaLabel } = {},
-    sx,
-    buttonId,
   } = props;
 
   return (
     <Button
-      id={buttonId}
+      id={`${id}-label`}
       disabled={disabled}
       ref={ref}
       aria-label={ariaLabel}
       endIcon={open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
       onClick={() => (open ? onClose?.() : onOpen?.())}
-      sx={sx}
     >
       {label}
     </Button>
@@ -76,24 +65,18 @@ function ButtonField(props: ButtonFieldPropsWithButtonId) {
 
 export function ButtonDatePicker(props: DatePickerProps<moment.Moment>) {
   const { open, onClose, onOpen } = props;
-  const buttonId = useId();
   return (
     <DatePicker
       {...props}
       slots={{ field: ButtonField, ...props.slots }}
       slotProps={{
         ...props.slotProps,
-        popper: {
-          ...props.slotProps?.popper,
-          'aria-labelledby': buttonId,
-        },
         field: {
           ...props.slotProps?.field,
           open,
           onOpen,
           onClose,
-          buttonId,
-        } as ButtonFieldPropsWithButtonId,
+        } as ButtonFieldProps,
       }}
     />
   );
