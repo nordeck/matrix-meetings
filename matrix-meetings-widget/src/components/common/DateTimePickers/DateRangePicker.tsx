@@ -84,9 +84,6 @@ export const DateRangePicker = ({
         }),
         popper: {
           sx: {
-            '& .MuiTypography-caption': {
-              margin: 0,
-            },
             '& .MuiDialogActions-root': {
               p: (theme) => theme.spacing(1),
             },

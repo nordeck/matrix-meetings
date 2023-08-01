@@ -29,8 +29,8 @@ export function HighlightedPickersDay({
 }) {
   return (
     <PickersDay
-      disableMargin
       sx={{
+        ...(isFirstDay || isBetween || isLastDay ? { px: 2.5, mx: 0 } : {}),
         ...(isFirstDay &&
           !isLastDay && {
             borderTopRightRadius: 0,
