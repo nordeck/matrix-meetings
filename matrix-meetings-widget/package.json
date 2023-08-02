@@ -18,7 +18,7 @@
     "@mui/lab": "^5.0.0-alpha.133",
     "@mui/material": "^5.13.4",
     "@mui/utils": "^5.13.1",
-    "@mui/x-date-pickers": "^5.0.20",
+    "@mui/x-date-pickers": "^6.10.2",
     "@reduxjs/toolkit": "^1.9.5",
     "i18next": "^22.5.1",
     "i18next-chained-backend": "^4.2.0",

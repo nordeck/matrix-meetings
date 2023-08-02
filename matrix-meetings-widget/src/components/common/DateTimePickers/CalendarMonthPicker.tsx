@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Button, SxProps } from '@mui/material';
-import { DatePicker } from '@mui/x-date-pickers';
+import { SxProps } from '@mui/material';
 import moment, { Moment } from 'moment';
-import { Fragment, useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateFilterRange } from '../../../lib/utils';
+import { ButtonDatePicker } from './ButtonDatePicker';
 import { withoutDayDateFormat } from './dateFormat';
 import { isReduceAnimations } from './helper';
 
@@ -43,7 +41,6 @@ export const CalendarMonthPicker = ({
 
   const onOpen = useCallback(() => setOpen(true), []);
   const onClose = useCallback(() => setOpen(false), []);
-  const onToggle = useCallback(() => setOpen((old) => !old), []);
 
   const startMoment = useMemo(() => moment(startDate), [startDate]);
 
@@ -58,65 +55,53 @@ export const CalendarMonthPicker = ({
     [onRangeChange]
   );
 
-  const renderInput = useCallback(() => <Fragment />, []);
-
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
-
   return (
-    <>
-      <Button
-        aria-label={t(
-          'calendarMonthPicker.chooseMonth',
-          'Choose month, selected month is {{date, datetime}}',
-          {
-            date: new Date(startDate),
-            formatParams: {
-              date: withoutDayDateFormat,
-            },
-          }
-        )}
-        endIcon={open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-        onClick={onToggle}
-        ref={buttonRef}
-        sx={sx}
-      >
-        {t('calendarMonthPicker.label', '{{date, datetime}}', {
-          date: new Date(startDate),
-          formatParams: {
-            date: withoutDayDateFormat,
-          },
-        })}
-      </Button>
-
-      <DatePicker
-        PopperProps={{
-          anchorEl: buttonRef.current,
+    <ButtonDatePicker
+      slotProps={{
+        actionBar: ({ wrapperVariant }) => ({
+          actions:
+            wrapperVariant === 'mobile'
+              ? ['today', 'cancel', 'accept']
+              : ['today'],
+        }),
+        popper: {
           sx: {
-            '& .MuiTypography-caption': {
-              margin: 0,
-            },
             '& .MuiDialogActions-root': {
               p: (theme) => theme.spacing(1),
             },
           },
-        }}
-        componentsProps={{
-          actionBar: {
-            actions: (v) =>
-              v === 'mobile' ? ['today', 'cancel', 'accept'] : ['today'],
+        },
+        field: {
+          inputProps: {
+            'aria-label': t(
+              'calendarMonthPicker.chooseMonth',
+              'Choose month, selected month is {{date, datetime}}',
+              {
+                date: new Date(startDate),
+                formatParams: {
+                  date: withoutDayDateFormat,
+                },
+              }
+            ),
           },
-        }}
-        onChange={handleRangeChange}
-        onClose={onClose}
-        onOpen={onOpen}
-        open={open}
-        openTo="month"
-        reduceAnimations={isReduceAnimations()}
-        renderInput={renderInput}
-        showDaysOutsideCurrentMonth
-        value={startMoment}
-        views={['year', 'month']}
-      />
-    </>
+        },
+      }}
+      onAccept={handleRangeChange}
+      onClose={onClose}
+      onOpen={onOpen}
+      open={open}
+      openTo="month"
+      sx={sx}
+      reduceAnimations={isReduceAnimations()}
+      showDaysOutsideCurrentMonth
+      value={startMoment}
+      views={['year', 'month']}
+      label={t('calendarMonthPicker.label', '{{date, datetime}}', {
+        date: new Date(startDate),
+        formatParams: {
+          date: withoutDayDateFormat,
+        },
+      })}
+    />
   );
 };

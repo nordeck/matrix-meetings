@@ -14,8 +14,14 @@
  * limitations under the License.
  */
 
+import { Fragment } from 'react';
+
 export function isReduceAnimations(): boolean {
   // We disable animation during tests in jsdom as it results in issues with
   // duplicate roles during transitions.
   return typeof navigator !== 'undefined' && /jsdom/i.test(navigator.userAgent);
+}
+
+export function NoTextField() {
+  return <Fragment />;
 }

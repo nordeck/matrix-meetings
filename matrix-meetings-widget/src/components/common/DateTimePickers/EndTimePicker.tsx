@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { TextField, TextFieldProps } from '@mui/material';
+import { TextFieldProps } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import { TimePicker } from '@mui/x-date-pickers';
 import moment, { Moment } from 'moment';
@@ -44,38 +44,15 @@ export function EndTimePicker({
     setDate(value);
   }, [value]);
 
-  const renderInput = useCallback(
-    (props: TextFieldProps) => {
-      const invalidDate = !date.isValid();
+  const invalidDate = !date.isValid();
 
-      return (
-        <TextField
-          FormHelperTextProps={{
-            sx: hideHelperText ? visuallyHidden : undefined,
-          }}
-          fullWidth
-          helperText={
-            (invalidDate &&
-              t('dateTimePickers.invalidEndTime', 'Invalid time')) ||
-            (typeof error === 'string' ? error : undefined)
-          }
-          margin="dense"
-          {...props}
-          {...TextFieldProps}
-          error={invalidDate || !!error || props.error}
-        />
-      );
-    },
-    [TextFieldProps, date, error, hideHelperText, t]
-  );
-
-  const getOpenDialogAriaText = useCallback(
-    (date: Moment) => {
+  const openDatePickerDialogue = useCallback(
+    (date: Moment | null) => {
       return t(
         'dateTimePickers.openEndTimePicker',
         'Choose end time, selected time is  {{date, datetime}}',
         {
-          date: date.toDate(),
+          date: date?.toDate(),
           formatParams: {
             date: timeOnlyDateFormat,
           },
@@ -102,11 +79,34 @@ export function EndTimePicker({
 
   return (
     <TimePicker
-      getOpenDialogAriaText={getOpenDialogAriaText}
       label={t('dateTimePickers.endTime', 'End time')}
       onChange={handleOnChange}
-      renderInput={renderInput}
       value={date}
+      slotProps={{
+        openPickerButton: {
+          'aria-label': openDatePickerDialogue(value),
+        },
+        textField: {
+          FormHelperTextProps: {
+            sx: hideHelperText ? visuallyHidden : undefined,
+          },
+          fullWidth: true,
+          helperText:
+            (invalidDate &&
+              t('dateTimePickers.invalidEndTime', 'Invalid time')) ||
+            (typeof error === 'string' ? error : undefined),
+          margin: 'dense',
+          ...TextFieldProps,
+          error: invalidDate || !!error || undefined,
+        },
+        popper: {
+          sx: {
+            '& .MuiDialogActions-root': {
+              p: (theme) => theme.spacing(1),
+            },
+          },
+        },
+      }}
     />
   );
 }

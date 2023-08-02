@@ -107,7 +107,7 @@ describe('<CalendarMonthPicker>', () => {
     await userEvent.click(within(dialog).getByRole('button', { name: '2023' }));
     await userEvent.click(within(dialog).getByRole('button', { name: 'Mar' }));
 
-    expect(onRangeChange).toBeCalledTimes(2);
+    expect(onRangeChange).toBeCalledTimes(1);
     expect(onRangeChange).toHaveBeenLastCalledWith(
       '2023-03-01T00:00:00.000+00:00',
       '2023-03-31T23:59:59.999+00:00'

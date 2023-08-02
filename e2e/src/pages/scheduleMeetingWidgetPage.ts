@@ -15,7 +15,7 @@
  */
 
 import { FrameLocator, Locator, Page } from '@playwright/test';
-import { fillDatePicker } from './helper';
+import { fillDatePicker, fillTimePicker } from './helper';
 
 export class ScheduleMeetingWidgetPage {
   public readonly submitMeetingButton: Locator;
@@ -80,7 +80,11 @@ export class ScheduleMeetingWidgetPage {
       date
     );
 
-    await this.startTimeTextbox.fill(time);
+    await fillTimePicker(
+      this.widget,
+      this.widget.getByRole('button', { name: 'Choose start time' }),
+      time
+    );
   }
 
   async addParticipant(name: string) {
