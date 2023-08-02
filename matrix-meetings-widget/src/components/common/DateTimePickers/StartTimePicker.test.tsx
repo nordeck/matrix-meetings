@@ -98,21 +98,21 @@ describe('<StartTimePicker/>', () => {
   });
 
   it('should not update on invalid value', () => {
-    render(
-      <StartTimePicker
-        onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38.123Z')}
-      />,
-      { wrapper: Wrapper }
-    );
+    render(<StartTimePicker onChange={onChange} value={moment.invalid()} />, {
+      wrapper: Wrapper,
+    });
 
-    const textbox = screen.getByRole('textbox', { name: 'Start time' });
+    const textbox = screen.getByRole('textbox', {
+      name: /start time/i,
+    }) as HTMLInputElement;
 
     // userEvent.type doesn't work here, so we have to use fireEvent
-    fireEvent.change(textbox, { target: { value: '99:99' } });
+    fireEvent.click(textbox);
+    fireEvent.change(textbox, { target: { value: '1:mm aa' } });
+    expect(textbox).toHaveValue('01:mm aa');
 
-    expect(textbox).not.toHaveAccessibleDescription('Invalid time');
-    expect(textbox).toBeValid();
+    expect(textbox).toHaveAccessibleDescription('Invalid time');
+    expect(textbox).toBeInvalid();
 
     expect(onChange).not.toBeCalled();
   });
