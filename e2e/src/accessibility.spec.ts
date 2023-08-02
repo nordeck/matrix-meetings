@@ -173,7 +173,7 @@ test.describe('Accessibility', () => {
     const meetingDetails =
       await aliceMeetingsWidgetPage.openCalendarEventDetails('My Meeting');
 
-    await meetingDetails.meetingCard.meetingTitleText.waitFor();
+    await meetingDetails.meetingDetails.meetingTitleText.waitFor();
 
     expect(await runAxeAnalysis(alicePage, 'NeoDateFix')).toMatchSnapshot();
   });

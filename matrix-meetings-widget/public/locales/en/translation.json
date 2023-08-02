@@ -26,7 +26,7 @@
   "cockpitPanel": {
     "toParentRoom": "Back to parent room"
   },
-  "copyableText": {
+  "copyableTextButton": {
     "copy-to-clipboard": "Copy to clipboard"
   },
   "dateRangePicker": {
@@ -86,15 +86,6 @@
       "membership_join": "Accepted",
       "menuTitle": "Participants"
     },
-    "editPermissions": {
-      "allowMessaging": "Allow messaging for all users",
-      "buttonTitle": "Edit permissions",
-      "menuTitle": "Permissions",
-      "updateFailed": "Please try again.",
-      "updateFailedTitle": "Failed to update the permissions",
-      "updateTimeout": "The change was submitted and will be applied soon.",
-      "updateTimeoutTitle": "The request was sent"
-    },
     "meetingRoomWillBeDeleted": "Meeting room will be automatically deleted {{remainingTime, relativetime}}.",
     "meetingRoomWillBeDeletedSoon": "Meeting room will be automatically deleted soon.",
     "moreSettings": "More settings",
@@ -137,6 +128,41 @@
     "updateFailedClose": "Close",
     "updateFailedTitle": "Failed to update the meeting"
   },
+  "meetingDetails": {
+    "content": {
+      "dateAndTime": "{{range, daterange}}",
+      "description": "Description",
+      "details": "Details",
+      "organizer": "Organizer",
+      "participants": "Participants",
+      "shareMeeting": {
+        "download": "Download",
+        "downloadIcsFile": "Download ICS File",
+        "emailCopyMessage": "Message",
+        "emailDescription": "Use the following information to forward the conference for example by email:",
+        "emailTitle": "Share the meeting invitation",
+        "icsDescription": "Download the meeting in the iCalendar format to add it to a calendar application:",
+        "icsTitle": "Download a calendar file",
+        "shareByMail": "Share by email",
+        "title": "Share meeting",
+        "warningRecurringMeetingEmail": "This is an email invitation to a meeting series. Sharing this email invitation invites users to all meetings in the series.",
+        "warningRecurringMeetingICalFile": "This is an iCal file of a meeting series. Sharing this iCal file invites users to all meetings in the series."
+      }
+    },
+    "header": {
+      "deleteConfirmButton": "Delete",
+      "deleteConfirmHeader": "Delete meeting",
+      "deleteConfirmMessage": "Are you sure you want to delete the meeting “{{title}}” on {{startTime, datetime}} and every content related to it?",
+      "deleteFailed": "Please try again.",
+      "deleteFailedTitle": "Failed to delete the meeting",
+      "deleteInOpenXchangeMenu": "Delete meeting in Open-Xchange",
+      "deleteMenu": "Delete",
+      "editInOpenXchangeMenu": "Edit meeting in Open-Xchange",
+      "editMenu": "Edit",
+      "join": "Join",
+      "joinBreakout_breakout": "Join"
+    }
+  },
   "meetingHasBreakoutSessionsWarning": {
     "message": "If you want to change start or end time of this meeting, existing breakout sessions will not be moved!",
     "title": "The meeting already has breakout sessions."
@@ -153,9 +179,6 @@
     "title": "Meetings"
   },
   "meetingsCalendar": {
-    "dialog": {
-      "close": "Close"
-    },
     "event": {
       "startTime": "{{startTime, datetime}}",
       "summary_default": "{{startTime, datetime}}–{{endTime, datetime}}: “{{title}}” by {{creator}}",
@@ -337,6 +360,7 @@
     "weekdayLabel": "Weekday"
   },
   "scheduleMeeting": {
+    "allowMessaging": "Allow messaging for all participants",
     "cannotRemoveOwnUser": "You can't remove yourself from the meeting.",
     "description": "Description",
     "endAt": "End at",

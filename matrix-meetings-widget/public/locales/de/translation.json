@@ -26,7 +26,7 @@
   "cockpitPanel": {
     "toParentRoom": "Zum übergeordneten Raum"
   },
-  "copyableText": {
+  "copyableTextButton": {
     "copy-to-clipboard": "In die Zwischenablage kopieren"
   },
   "dateRangePicker": {
@@ -57,7 +57,7 @@
   "editMeetingModal": {
     "cancel": "Abbrechen",
     "save": "Speichern",
-    "title": "Besprechung bearbeiten"
+    "title": "Bearbeiten"
   },
   "invitedMeetingList": {
     "detail": {
@@ -85,15 +85,6 @@
       "membership_invite": "Eingeladen",
       "membership_join": "Angenommen",
       "menuTitle": "Teilnehmer"
-    },
-    "editPermissions": {
-      "allowMessaging": "Alle Benutzer können den Chat nutzen",
-      "buttonTitle": "Berechtigungen bearbeiten",
-      "menuTitle": "Berechtigungen",
-      "updateFailed": "Bitte versuche es erneut.",
-      "updateFailedTitle": "Fehler beim Ändern der Berechtigungen",
-      "updateTimeout": "Die Änderung wurde erfolgreich geplant und sollte demnächst ausgeführt werden.",
-      "updateTimeoutTitle": "Die Anfrage wurde versendet"
     },
     "meetingRoomWillBeDeleted": "Die Besprechung wird {{remainingTime, relativetime}} automatisch gelöscht.",
     "meetingRoomWillBeDeletedSoon": "Die Besprechung wird in Kürze gelöscht.",
@@ -137,6 +128,41 @@
     "updateFailedClose": "Schließen",
     "updateFailedTitle": "Fehler beim Ändern der Besprechungsdetails"
   },
+  "meetingDetails": {
+    "content": {
+      "dateAndTime": "{{range, daterange}}",
+      "description": "Beschreibung",
+      "details": "Einzelheiten",
+      "organizer": "Veranstalter",
+      "participants": "Teilnehmer",
+      "shareMeeting": {
+        "download": "Herunterladen",
+        "downloadIcsFile": "ICS Datei herunterladen",
+        "emailCopyMessage": "Nachricht",
+        "emailDescription": "Nutze die folgende Nachricht um die Besprechung in einer E-Mail zu verteilen:",
+        "emailTitle": "E-Mail Einladung",
+        "icsDescription": "Lade die Besprechungsinformationen im iCalendar Format herunter um sie zu einer anderen Kalenderanwendung einzufügen:",
+        "icsTitle": "ICS Datei herunterladen",
+        "shareByMail": "E-Mail Einladung teilen",
+        "title": "Besprechung teilen",
+        "warningRecurringMeetingEmail": "Dies ist eine E-Mail Einladung zu einer Besprechungsserie. Durch das Teilen dieser E-Mail Einladung werden Benutzer zu allen Besprechungen in der Serie eingeladen.",
+        "warningRecurringMeetingICalFile": "Dies ist eine iCal Datei zu einer Besprechungsserie. Durch das Teilen dieser iCal Datei werden Benutzer zu allen Besprechungen in der Serie eingeladen."
+      }
+    },
+    "header": {
+      "deleteConfirmButton": "Löschen",
+      "deleteConfirmHeader": "Besprechung löschen",
+      "deleteConfirmMessage": "Du bist dabei die Besprechung „{{title}}“ am {{startTime, datetime}} und alles darin zu löschen. Bist du sicher?",
+      "deleteFailed": "Bitte versuche es erneut.",
+      "deleteFailedTitle": "Fehler beim Löschen der Besprechung",
+      "deleteInOpenXchangeMenu": "Besprechung in Open-Xchange löschen",
+      "deleteMenu": "Löschen",
+      "editInOpenXchangeMenu": "Besprechung in Open-Xchange bearbeiten",
+      "editMenu": "Bearbeiten",
+      "join": "Beitreten",
+      "joinBreakout_breakout": "Beitreten"
+    }
+  },
   "meetingHasBreakoutSessionsWarning": {
     "message": "Wenn Start- oder Endzeit geändert wird, werden diese nicht automatisch verschoben!",
     "title": "Die Besprechung hat bereits Breakoutsessions."
@@ -153,9 +179,6 @@
     "title": "Besprechungen"
   },
   "meetingsCalendar": {
-    "dialog": {
-      "close": "Schließen"
-    },
     "event": {
       "startTime": "{{startTime, datetime}}",
       "summary_default": "{{startTime, datetime}}–{{endTime, datetime}}: “{{title}}” von {{creator}}",
@@ -334,6 +357,7 @@
     "weekdayLabel": "Wochentag"
   },
   "scheduleMeeting": {
+    "allowMessaging": "Alle Teilnehmer können den Chat nutzen",
     "cannotRemoveOwnUser": "Du kannst dich nicht selbst aus der Besprechung entfernen.",
     "description": "Beschreibung",
     "endAt": "Endzeitpunkt",

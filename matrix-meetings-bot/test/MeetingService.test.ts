@@ -120,6 +120,7 @@ describe('test relevant functionality of MeetingService', () => {
       undefined,
       undefined,
       [],
+      0,
       true,
       undefined
     );
@@ -546,6 +547,21 @@ describe('test relevant functionality of MeetingService', () => {
     verify(clientMock.createRoom(anything())).once();
     const roomEvent = capture(clientMock.createRoom).first()[0];
     checkStandardFields(roomEvent);
+  });
+
+  test('check if messaging power level is defined', async () => {
+    appConfig.auto_deletion_offset = undefined;
+
+    await meetingService.createMeeting(userContext, {
+      ...createEvent(PARENT_MEETING_ROOM_ID),
+      messaging_power_level: 100,
+    });
+
+    verify(clientMock.createRoom(anything())).once();
+    const roomCreateOptions = capture(clientMock.createRoom).first()[0];
+    expect(
+      roomCreateOptions?.power_level_content_override?.events_default
+    ).toBe(100);
   });
 
   test('check invite sender and other users', async () => {
@@ -1790,6 +1806,58 @@ describe('test relevant functionality of MeetingService', () => {
         widgets: layout?.layouts,
       };
 
+      verify(
+        clientMock.sendStateEvent(
+          parentId,
+          StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT,
+          anything(),
+          anything()
+        )
+      ).times(1);
+
+      // event content
+      expect(
+        callInfo(0, 3, StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT)
+      ).toStrictEqual(expected);
+    });
+
+    test('update room layout when widgets change', async () => {
+      // room has a poll widget
+      // cockpit is there after the meeting room was created
+      const parentRoom: any = create_test_meeting(
+        CURRENT_USER,
+        PARENT_MEETING_ROOM_ID,
+        null,
+        ['poll', WidgetType.COCKPIT]
+      );
+      when(clientMock.getRoomState(PARENT_MEETING_ROOM_ID)).thenResolve(
+        parentRoom
+      );
+
+      // add jitsi
+      const widgets = ['jitsi'];
+      await meetingService.handleWidgets(
+        userContext,
+        new MeetingWidgetsHandleDto(parentId, true, widgets)
+      );
+
+      const e = StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT;
+      verify(
+        clientMock.sendStateEvent(parentId, e, anything(), anything())
+      ).times(2);
+
+      expect(callInfo(0, SendStateEventParameter.Content, e).type).toBe(
+        'net.nordeck.poll'
+      ); // updated poll
+      expect(callInfo(1, SendStateEventParameter.Content, e).type).toBe(
+        'jitsi'
+      ); // added jitsi
+      const expected = {
+        widgets: {
+          poll: { container: 'top', index: 0, width: 100, height: 40 },
+          jitsi: { container: 'right' },
+        },
+      };
       verify(
         clientMock.sendStateEvent(
           parentId,

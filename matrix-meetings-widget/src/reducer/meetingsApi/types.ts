@@ -107,6 +107,9 @@ export type CreateMeetingOptions = {
     calendar: CalendarEntry[];
     widgetIds: string[];
     participants: string[];
+    powerLevels?: {
+      messaging?: number;
+    };
   };
 };
 /**/

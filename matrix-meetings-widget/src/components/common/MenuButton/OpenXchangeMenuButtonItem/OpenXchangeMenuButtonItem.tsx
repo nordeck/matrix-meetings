@@ -24,7 +24,7 @@ import {
 
 type OpenXchangeMenuButtonItemProps = {
   color?: string;
-  icon: ReactElement;
+  icon?: ReactElement;
   reference: OpenXChangeExternalReference;
   onClick?: DispatchWithoutAction;
 };

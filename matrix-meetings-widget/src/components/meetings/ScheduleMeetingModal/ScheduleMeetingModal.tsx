@@ -29,6 +29,9 @@ export const ScheduleMeetingModal = () => {
   const widgetApi = useWidgetApi();
   const initialMeeting =
     widgetApi.getWidgetConfig<ScheduleMeetingModalRequest>()?.data.meeting;
+  const isMessagingEnabled =
+    widgetApi.getWidgetConfig<ScheduleMeetingModalRequest>()?.data
+      .isMessagingEnabled;
   const [meeting, setMeeting] = useState<CreateMeeting | undefined>();
   const isValid = meeting !== undefined;
 
@@ -64,6 +67,7 @@ export const ScheduleMeetingModal = () => {
   return (
     <ScheduleMeeting
       initialMeeting={initialMeeting}
+      initialIsMessagingEnabled={isMessagingEnabled}
       onMeetingChange={setMeeting}
       showParticipants
     />

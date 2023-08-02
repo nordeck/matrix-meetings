@@ -24,6 +24,7 @@ import { formatICalDate, normalizeCalendarEntry } from '../../../lib/utils';
 import { useCreateMeetingMutation } from '../../../reducer/meetingsApi';
 import {
   CancelScheduleMeetingModal,
+  ScheduleMeetingModalRequest,
   ScheduleMeetingModalResult,
   SCHEDULE_MEETING_MODAL_ROUTE,
   SubmitScheduleMeetingModal,
@@ -37,7 +38,10 @@ export function useScheduleMeeting(): {
 
   const [createMeeting] = useCreateMeetingMutation();
   const scheduleMeeting = useCallback(async () => {
-    const data = await widgetApi.openModal<ScheduleMeetingModalResult>(
+    const data = await widgetApi.openModal<
+      ScheduleMeetingModalResult,
+      ScheduleMeetingModalRequest
+    >(
       SCHEDULE_MEETING_MODAL_ROUTE,
       t('scheduleMeetingModal.scheduleTitle', 'Schedule Meeting'),
       {
@@ -77,6 +81,7 @@ export function useScheduleMeeting(): {
             }),
           ],
           participants: data.meeting.participants,
+          powerLevels: data.meeting.powerLevels,
           widgetIds: data.meeting.widgetIds,
         },
       }).unwrap();

@@ -20,9 +20,11 @@ import {
   IsArray,
   IsBoolean,
   IsISO8601,
+  IsNumber,
   IsObject,
   IsOptional,
   IsString,
+  Min,
   ValidateNested,
 } from 'class-validator';
 import { ExternalData } from '../model/ExternalData';
@@ -102,6 +104,14 @@ export class MeetingCreateDto {
   participants?: ParticipantDto[];
 
   /**
+   * power level required to send events in the room
+   */
+  @IsNumber({ maxDecimalPlaces: 0 })
+  @Min(0)
+  @IsOptional()
+  messaging_power_level?: number;
+
+  /**
    * enables meeting auto deletion
    */
   @IsBoolean()
@@ -124,6 +134,7 @@ export class MeetingCreateDto {
     calendar: CalendarEntryDto[] | undefined,
     widgetIds: string[] | undefined,
     participants: ParticipantDto[] | undefined,
+    messagingPowerLevel: number | undefined,
     enableAutoDeletion: boolean | undefined,
     externalData: ExternalData | undefined
   ) {
@@ -135,6 +146,7 @@ export class MeetingCreateDto {
     this.calendar = calendar;
     this.widget_ids = widgetIds;
     this.participants = participants;
+    this.messaging_power_level = messagingPowerLevel;
     this.enable_auto_deletion = enableAutoDeletion;
     this.external_data = externalData;
   }

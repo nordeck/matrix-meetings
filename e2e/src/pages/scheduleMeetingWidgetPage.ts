@@ -24,6 +24,7 @@ export class ScheduleMeetingWidgetPage {
   public readonly startDateTextbox: Locator;
   public readonly startTimeTextbox: Locator;
   public readonly participantsCombobox: Locator;
+  public readonly allowMessagingCheckbox: Locator;
   public readonly widgetsCombobox: Locator;
   public readonly afterMeetingCountRadio: Locator;
   public readonly afterMeetingCountSpinbutton: Locator;
@@ -48,6 +49,9 @@ export class ScheduleMeetingWidgetPage {
     this.startTimeTextbox = widget.getByRole('textbox', { name: 'Start time' });
     this.participantsCombobox = widget.getByRole('combobox', {
       name: 'Participants',
+    });
+    this.allowMessagingCheckbox = widget.getByRole('checkbox', {
+      name: 'Allow messaging for all participants',
     });
     this.widgetsCombobox = this.widget.getByRole('combobox', {
       name: 'Widgets',
@@ -88,6 +92,10 @@ export class ScheduleMeetingWidgetPage {
     await this.widget.getByRole('option', { name }).waitFor();
     await this.participantsCombobox.press('ArrowDown');
     await this.participantsCombobox.press('Enter');
+  }
+
+  async toggleChatPermission() {
+    await this.allowMessagingCheckbox.click();
   }
 
   async addWidget(widgetName: string) {

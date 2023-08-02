@@ -32,7 +32,7 @@ export class MeetingCardPage {
       .getByRole('heading')
       .locator('..')
       .locator('> span');
-    this.meetingTitleText = this.card.getByRole('heading');
+    this.meetingTitleText = this.card.getByRole('heading', { level: 3 });
     this.meetingDescriptionText = this.card.getByRole('paragraph').first();
   }
 
@@ -75,12 +75,6 @@ export class MeetingCardPage {
 
   async switchToEditPermissions() {
     await this.card.getByRole('button', { name: 'Edit permissions' }).click();
-  }
-
-  async toggleChatPermission() {
-    await this.card
-      .getByRole('checkbox', { name: 'Allow messaging for all users' })
-      .click();
   }
 
   async switchToShareMeeting() {

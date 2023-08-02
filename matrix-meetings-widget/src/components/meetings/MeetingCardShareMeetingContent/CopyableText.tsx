@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined';
-import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined';
-import { IconButton, TextField, Tooltip } from '@mui/material';
-import { ReactElement, useCallback, useState } from 'react';
-import { useTranslation } from 'react-i18next';
+import { TextField } from '@mui/material';
+import { ReactElement } from 'react';
+import { CopyableTextButton } from '../../common/CopyableTextButton';
 
 export function CopyableText({
   text,
@@ -29,29 +27,11 @@ export function CopyableText({
   label: string;
   multiline?: boolean;
 }): ReactElement {
-  const { t } = useTranslation();
-  const [hasCopied, setHasCopied] = useState(false);
-
-  const handleOnClick = useCallback(() => {
-    navigator.clipboard.writeText(text);
-    setHasCopied(true);
-  }, [text]);
-
-  const handleOnBlur = useCallback(() => setHasCopied(false), []);
-
   return (
     <TextField
       InputProps={{
         readOnly: true,
-        endAdornment: (
-          <Tooltip
-            title={t('copyableText.copy-to-clipboard', 'Copy to clipboard')}
-          >
-            <IconButton onBlur={handleOnBlur} onClick={handleOnClick}>
-              {hasCopied ? <CheckOutlinedIcon /> : <ContentCopyOutlinedIcon />}
-            </IconButton>
-          </Tooltip>
-        ),
+        endAdornment: <CopyableTextButton text={text} />,
       }}
       fullWidth
       label={label}

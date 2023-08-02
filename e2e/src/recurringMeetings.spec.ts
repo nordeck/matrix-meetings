@@ -46,11 +46,15 @@ test.describe('Recurring Meetings', () => {
 
     await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
 
+    await aliceElementWebPage.approveWidgetIdentity();
+
     await expect(
       aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
-    ).toHaveText(
-      'Oct 3, 2040, 10:30 AM – 11:30 AM. Recurrence: Every day for 5 times'
-    );
+    ).toHaveText('October 3, 2040, 10:30 – 11:30 AM');
+
+    await expect(
+      aliceCockpitWidgetPage.getMeeting().meetingRecurrenceRuleText
+    ).toHaveText('Every day for 5 times');
   });
 
   test('should show meeting recurrences in meeting list', async ({

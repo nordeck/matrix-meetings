@@ -17,7 +17,6 @@
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import GroupsIcon from '@mui/icons-material/Groups';
-import LockIcon from '@mui/icons-material/Lock';
 import ShareIcon from '@mui/icons-material/Share';
 import {
   Box,
@@ -32,7 +31,7 @@ import {
   Typography,
 } from '@mui/material';
 import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
-import React, { ReactNode, useCallback, useMemo, useState } from 'react';
+import React, { ReactNode, useCallback, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { ellipsis } from '../../../lib/ellipsis';
 import {
@@ -40,8 +39,6 @@ import {
   isMeetingSpanningMultipleYears,
   isRecurringCalendarSourceEntry,
 } from '../../../lib/utils';
-import { makeSelectRoomPermissions } from '../../../reducer/meetingsApi';
-import { useAppSelector } from '../../../store';
 import {
   fullDateFormat,
   timeOnlyDateFormat,
@@ -53,7 +50,6 @@ import {
   withRoomIdMeeting,
 } from '../../common/withRoomMeeting';
 import { MeetingCardEditParticipantsContent } from '../MeetingCardEditParticipantsContent';
-import { MeetingCardEditPermissionsContent } from '../MeetingCardEditPermissionsContent';
 import { MeetingCardShareMeetingContent } from '../MeetingCardShareMeetingContent/MeetingCardShareMeetingContent';
 import { OpenMeetingRoomButton } from '../OpenMeetingRoomButton';
 import { formatRRuleText } from '../RecurrenceEditor/utils';
@@ -64,7 +60,6 @@ enum Actions {
   None = 'none',
   ShowParticipants = 'show_participants',
   ShareMeeting = 'share_meeting',
-  EditPermissions = 'edit_permissions',
 }
 
 type MeetingCardProps = WithMeetingProps & {
@@ -114,15 +109,6 @@ export const MeetingCard = withRoomIdMeeting(
       [closeAction]
     );
 
-    const selectRoomPermissions = useMemo(makeSelectRoomPermissions, []);
-    const { canUpdateMeetingPermissions } = useAppSelector((state) =>
-      selectRoomPermissions(
-        state,
-        meeting.meetingId,
-        widgetApi.widgetParameters.userId
-      )
-    );
-
     const isMeetingInvitation = meeting.participants.some(
       (p) =>
         p.userId === widgetApi.widgetParameters.userId &&
@@ -138,7 +124,6 @@ export const MeetingCard = withRoomIdMeeting(
 
     const sectionShowParticipantsId = useId();
     const sectionShareMeetingId = useId();
-    const sectionEditPermissionsId = useId();
 
     const subheaderOpts = {
       startDate: new Date(meeting.startTime),
@@ -283,22 +268,6 @@ export const MeetingCard = withRoomIdMeeting(
               >
                 <ShareIcon />
               </TooltipToggleButton>
-
-              {!isMeetingInvitation && canUpdateMeetingPermissions && (
-                <TooltipToggleButton
-                  TooltipProps={{
-                    title: t(
-                      'meetingCard.editPermissions.buttonTitle',
-                      'Edit permissions'
-                    ),
-                  }}
-                  aria-describedby={titleId}
-                  expandedId={sectionEditPermissionsId}
-                  value={Actions.EditPermissions}
-                >
-                  <LockIcon />
-                </TooltipToggleButton>
-              )}
             </ToggleButtonGroup>
           </Stack>
 
@@ -326,21 +295,6 @@ export const MeetingCard = withRoomIdMeeting(
           >
             <Box mt={2}>
               <MeetingCardShareMeetingContent
-                aria-describedby={titleId}
-                meeting={meeting}
-              />
-            </Box>
-          </Collapse>
-
-          <Collapse
-            id={sectionEditPermissionsId}
-            in={action === Actions.EditPermissions}
-            mountOnEnter
-            onEntered={onEntered}
-            unmountOnExit
-          >
-            <Box mt={2}>
-              <MeetingCardEditPermissionsContent
                 aria-describedby={titleId}
                 meeting={meeting}
               />

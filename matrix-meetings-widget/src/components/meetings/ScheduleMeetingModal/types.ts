@@ -23,11 +23,15 @@ export type CreateMeeting = {
   endTime: string;
   widgetIds: string[];
   participants: string[];
+  powerLevels?: {
+    messaging?: number;
+  };
   rrule?: string | undefined;
 };
 
 export type ScheduleMeetingModalRequest = {
   meeting?: Meeting;
+  isMessagingEnabled?: boolean;
 };
 
 export type ScheduleMeetingModalResult = {
