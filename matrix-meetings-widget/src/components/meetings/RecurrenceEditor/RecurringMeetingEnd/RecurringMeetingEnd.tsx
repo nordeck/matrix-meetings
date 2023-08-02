@@ -186,13 +186,12 @@ export const RecurringMeetingEnd = ({
                 },
                 textField: {
                   fullWidth: true,
-                  helperText:
-                    (!untilDate.isValid() &&
-                      t(
+                  helperText: !untilDate.isValid()
+                    ? t(
                         'recurrenceEditor.recurringMeetingEnd.untilDateInputInvalid',
                         'Invalid date'
-                      )) ||
-                    undefined,
+                      )
+                    : undefined,
                   margin: 'dense',
                   inputProps: {
                     'aria-label': t(
