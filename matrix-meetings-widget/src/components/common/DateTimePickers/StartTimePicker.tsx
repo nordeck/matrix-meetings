@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-import { getEnvironment } from '@matrix-widget-toolkit/mui';
 import { TextFieldProps } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
-import { renderTimeViewClock, TimePicker } from '@mui/x-date-pickers';
+import { TimePicker } from '@mui/x-date-pickers';
 import moment, { Moment } from 'moment';
 import { Dispatch, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -56,9 +55,6 @@ export function StartTimePicker({
 }: StartTimePickerProps) {
   const { t } = useTranslation();
   const [date, setDate] = useState(value);
-
-  const renderTimePickerDigital =
-    getEnvironment('REACT_APP_RENDER_TIME_PICKER_DIGITAL', 'true') === 'true';
 
   useEffect(() => {
     setDate(value);
@@ -129,14 +125,6 @@ export function StartTimePicker({
           },
         },
       }}
-      viewRenderers={
-        renderTimePickerDigital
-          ? undefined
-          : {
-              hours: renderTimeViewClock,
-              minutes: renderTimeViewClock,
-            }
-      }
     />
   );
 }
