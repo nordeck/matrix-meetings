@@ -104,9 +104,7 @@ describe('<CalendarWorkWeekPicker>', () => {
     );
 
     await userEvent.click(within(dialog).getByRole('button', { name: '2023' }));
-    await userEvent.click(
-      await within(dialog).findByRole('button', { name: 'Jan', hidden: true })
-    );
+    await userEvent.click(within(dialog).getByRole('button', { name: 'Jan' }));
     await userEvent.click(within(dialog).getByRole('gridcell', { name: '13' }));
 
     expect(onRangeChange).toBeCalledTimes(1);
