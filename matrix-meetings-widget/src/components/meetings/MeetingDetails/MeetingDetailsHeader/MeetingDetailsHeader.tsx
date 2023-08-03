@@ -169,6 +169,12 @@ export function MeetingDetailsHeader({
     widgetApi,
   ]);
 
+  const isMeetingInvitation = meeting.participants.some(
+    (p) =>
+      p.userId === widgetApi.widgetParameters.userId &&
+      p.membership === 'invite'
+  );
+
   const joinButtonTitleId = useId();
 
   return (
@@ -198,44 +204,48 @@ export function MeetingDetailsHeader({
                 roomId={meeting.meetingId}
               />
             )}
-            {canUpdateMeeting && isExternalReference && (
-              <OpenXchangeButton reference={openXChangeReference}>
-                {t(
-                  'meetingDetails.header.editInOpenXchangeMenu',
-                  'Edit meeting in Open-Xchange'
-                )}
-              </OpenXchangeButton>
-            )}
-            {canUpdateMeeting && !isExternalReference && (
-              <Button
-                variant="outlined"
-                onClick={handleClickEditMeeting}
-                sx={{ mr: 1, mb: 1 }}
-              >
-                {t('meetingDetails.header.editMenu', 'Edit')}
-              </Button>
-            )}
 
-            {canCloseMeeting && openXChangeReference && (
-              <OpenXchangeButton
-                color="error.main"
-                reference={openXChangeReference}
-              >
-                {t(
-                  'meetingDetails.header.deleteInOpenXchangeMenu',
-                  'Delete meeting in Open-Xchange'
+            {!isMeetingInvitation && (
+              <>
+                {canUpdateMeeting && isExternalReference && (
+                  <OpenXchangeButton reference={openXChangeReference}>
+                    {t(
+                      'meetingDetails.header.editInOpenXchangeMenu',
+                      'Edit meeting in Open-Xchange'
+                    )}
+                  </OpenXchangeButton>
                 )}
-              </OpenXchangeButton>
-            )}
+                {canUpdateMeeting && !isExternalReference && (
+                  <Button
+                    variant="outlined"
+                    onClick={handleClickEditMeeting}
+                    sx={{ mr: 1, mb: 1 }}
+                  >
+                    {t('meetingDetails.header.editMenu', 'Edit')}
+                  </Button>
+                )}
 
-            {canCloseMeeting && !openXChangeReference && (
-              <Button
-                variant="outlined"
-                onClick={handleClickOpenDeleteConfirm}
-                color="error"
-              >
-                {t('meetingDetails.header.deleteMenu', 'Delete')}
-              </Button>
+                {canCloseMeeting && openXChangeReference && (
+                  <OpenXchangeButton
+                    color="error.main"
+                    reference={openXChangeReference}
+                  >
+                    {t(
+                      'meetingDetails.header.deleteInOpenXchangeMenu',
+                      'Delete meeting in Open-Xchange'
+                    )}
+                  </OpenXchangeButton>
+                )}
+                {canCloseMeeting && !openXChangeReference && (
+                  <Button
+                    variant="outlined"
+                    onClick={handleClickOpenDeleteConfirm}
+                    color="error"
+                  >
+                    {t('meetingDetails.header.deleteMenu', 'Delete')}
+                  </Button>
+                )}
+              </>
             )}
           </Box>
         </Box>

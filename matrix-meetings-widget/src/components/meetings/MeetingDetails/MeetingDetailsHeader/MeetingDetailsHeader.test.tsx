@@ -921,19 +921,131 @@ describe('<MeetingDetailsHeader/>', () => {
       }
     );
 
+    expect(
+      await screen.findByRole('button', {
+        name: /Edit meeting in Open-Xchange/i,
+      })
+    ).toBeInTheDocument();
+
+    expect(
+      screen.getByRole('button', {
+        name: /Delete meeting in Open-Xchange/i,
+      })
+    ).toBeInTheDocument();
+  });
+
+  it('should hide edit actions if meeting is an invitation', async () => {
+    const { rerender } = render(
+      <MeetingDetailsHeader
+        meeting={mockMeeting({
+          room_id: '!meeting-room-id',
+          parentRoomId: undefined,
+        })}
+        onClose={onClose}
+      />,
+      { wrapper: Wrapper }
+    );
+
+    const editButton = await screen.findByRole('button', { name: 'Edit' });
+    const deleteButton = screen.getByRole('button', { name: 'Delete' });
+
+    rerender(
+      <MeetingDetailsHeader
+        meeting={mockMeeting({
+          room_id: '!meeting-room-id',
+          parentRoomId: undefined,
+          content: {
+            participants: [
+              {
+                userId: '@user-id',
+                displayName: 'Alice',
+                membership: 'invite',
+                rawEvent: mockRoomMember({
+                  room_id: '!meeting-room-id',
+                  content: {
+                    membership: 'invite',
+                  },
+                }),
+              },
+            ],
+          },
+        })}
+        onClose={onClose}
+      />
+    );
+
     await waitFor(() => {
-      expect(
-        screen.getByRole('button', {
-          name: /Edit meeting in Open-Xchange/i,
-        })
-      ).toBeInTheDocument();
+      expect(editButton).not.toBeInTheDocument();
     });
+    expect(deleteButton).not.toBeInTheDocument();
+  });
+
+  it('should hide edit actions if meeting is an OX invitation', async () => {
+    mockConfigEndpoint(server, {
+      jitsiDialInEnabled: true,
+      openXchangeMeetingUrlTemplate:
+        'https://ox.io/appsuite/#app=io.ox/calendar&id={{id}}&folder={{folder}}',
+    });
+
+    widgetApi.mockSendStateEvent(
+      mockNordeckMeetingMetadataEvent({
+        content: {
+          external_data: {
+            'io.ox': {
+              folder: 'cal://0/31',
+              id: 'cal://0/31.1.0',
+            },
+          },
+        },
+      })
+    );
+
+    const { rerender } = render(
+      <MeetingDetailsHeader
+        meeting={mockMeeting({
+          room_id: '!meeting-room-id',
+          parentRoomId: undefined,
+        })}
+        onClose={onClose}
+      />,
+      { wrapper: Wrapper }
+    );
+
+    const editButton = await screen.findByRole('button', {
+      name: 'Edit meeting in Open-Xchange',
+    });
+    const deleteButton = screen.getByRole('button', {
+      name: 'Delete meeting in Open-Xchange',
+    });
+
+    rerender(
+      <MeetingDetailsHeader
+        meeting={mockMeeting({
+          room_id: '!meeting-room-id',
+          parentRoomId: undefined,
+          content: {
+            participants: [
+              {
+                userId: '@user-id',
+                displayName: 'Alice',
+                membership: 'invite',
+                rawEvent: mockRoomMember({
+                  room_id: '!meeting-room-id',
+                  content: {
+                    membership: 'invite',
+                  },
+                }),
+              },
+            ],
+          },
+        })}
+        onClose={onClose}
+      />
+    );
+
     await waitFor(() => {
-      expect(
-        screen.getByRole('button', {
-          name: /Delete meeting in Open-Xchange/i,
-        })
-      ).toBeInTheDocument();
+      expect(editButton).not.toBeInTheDocument();
     });
+    expect(deleteButton).not.toBeInTheDocument();
   });
 });
