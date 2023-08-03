@@ -14,13 +14,15 @@
  * limitations under the License.
  */
 
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Button, SxProps } from '@mui/material';
-import { DesktopDatePicker, PickersDayProps } from '@mui/x-date-pickers';
+import { SxProps } from '@mui/material';
+import {
+  DatePickerSlotsComponentsProps,
+  PickersDayProps,
+} from '@mui/x-date-pickers';
 import moment, { Moment } from 'moment';
-import { Fragment, useCallback, useRef, useState } from 'react';
+import React, { Dispatch, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ButtonDatePicker } from './ButtonDatePicker';
 import { longDateFormat, shortMonthDateFormat } from './dateFormat';
 import { isReduceAnimations } from './helper';
 import { HighlightedPickersDay } from './HighlightedPickersDay';
@@ -65,90 +67,99 @@ export const DateRangePicker = ({
   );
 
   const onOpen = useCallback(() => setOpen(true), []);
-  const onToggle = useCallback(() => setOpen((old) => !old), []);
   const onClose = useCallback(() => {
     setOpen(false);
     setSelectedStartDate(undefined);
   }, []);
 
-  const renderInput = useCallback(() => <Fragment />, []);
-
-  const renderDay = useCallback(
-    (day: Moment, _: Moment[], pickersDayProps: PickersDayProps<Moment>) => {
-      const isFirstDay = moment(selectedStartDate ?? startDate).isSame(
-        day,
-        'day'
-      );
-      const isLastDay =
-        !selectedStartDate && moment(endDate).isSame(day, 'day');
-      const isBetween =
-        !selectedStartDate && day.isBetween(startDate, moment(endDate), 'day');
-
-      return (
-        <HighlightedPickersDay
-          isBetween={isBetween}
-          isFirstDay={isFirstDay}
-          isLastDay={isLastDay}
-          {...pickersDayProps}
-          onDaySelect={handleDaySelect}
-        />
-      );
-    },
-    [endDate, handleDaySelect, selectedStartDate, startDate]
-  );
-
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
-
   return (
-    <>
-      <Button
-        aria-label={t(
-          'dateRangePicker.chooseDate',
-          'Choose date range, selected range is {{range, daterange}}',
-          {
-            range: [new Date(startDate), new Date(endDate)],
-            formatParams: {
-              range: longDateFormat,
-            },
-          }
-        )}
-        endIcon={open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-        onClick={onToggle}
-        ref={buttonRef}
-        sx={sx}
-      >
-        {t('dateRangePicker.dateRange', '{{range, daterange}}', {
-          range: [new Date(startDate), new Date(endDate)],
-          formatParams: {
-            range: shortMonthDateFormat,
-          },
-        })}
-      </Button>
-      <DesktopDatePicker
-        PopperProps={{
-          anchorEl: buttonRef.current,
+    <ButtonDatePicker
+      slots={{ day: Day as React.ElementType<PickersDayProps<Moment>> }}
+      slotProps={{
+        actionBar: ({ wrapperVariant }) => ({
+          actions:
+            wrapperVariant === 'mobile'
+              ? ['today', 'cancel', 'accept']
+              : ['today'],
+        }),
+        popper: {
           sx: {
-            '& .MuiTypography-caption': {
-              margin: 0,
-            },
             '& .MuiDialogActions-root': {
               p: (theme) => theme.spacing(1),
             },
           },
-        }}
-        closeOnSelect={false}
-        minDate={selectedStartDate ? moment(selectedStartDate) : undefined}
-        onChange={handleChange}
-        onClose={onClose}
-        onOpen={onOpen}
-        open={open}
-        reduceAnimations={isReduceAnimations()}
-        renderDay={renderDay}
-        renderInput={renderInput}
-        showDaysOutsideCurrentMonth
-        value={selectedStartDate ?? startDate}
-        views={['year', 'month', 'day']}
-      />
-    </>
+        },
+        field: {
+          inputProps: {
+            'aria-label': t(
+              'dateRangePicker.chooseDate',
+              'Choose date range, selected range is {{range, daterange}}',
+              {
+                range: [new Date(startDate), new Date(endDate)],
+                formatParams: {
+                  range: longDateFormat,
+                },
+              }
+            ),
+          },
+        },
+        day: {
+          selectedStartDate,
+          startDate,
+          endDate,
+          onDaySelect: handleDaySelect,
+        } as DatePickerSlotsComponentsProps<Moment>['day'] & {
+          selectedStartDate?: string;
+          startDate: string;
+          endDate: string;
+          onDaySelect: Dispatch<Moment | null>;
+        },
+      }}
+      closeOnSelect={false}
+      minDate={selectedStartDate ? moment(selectedStartDate) : undefined}
+      onChange={handleChange}
+      onClose={onClose}
+      onOpen={onOpen}
+      open={open}
+      sx={sx}
+      reduceAnimations={isReduceAnimations()}
+      showDaysOutsideCurrentMonth
+      value={moment(selectedStartDate ?? startDate)}
+      views={['year', 'month', 'day']}
+      label={t('dateRangePicker.dateRange', '{{range, daterange}}', {
+        range: [new Date(startDate), new Date(endDate)],
+        formatParams: {
+          range: shortMonthDateFormat,
+        },
+      })}
+    />
   );
 };
+
+function Day(
+  props: PickersDayProps<Moment> & {
+    selectedStartDate?: string;
+    startDate: string;
+    endDate: string;
+    onDaySelect: Dispatch<Moment | null>;
+  }
+) {
+  const { day, selectedStartDate, startDate, endDate, onDaySelect, ...other } =
+    props;
+
+  const isFirstDay = moment(selectedStartDate ?? startDate).isSame(day, 'day');
+  const isLastDay = !selectedStartDate && moment(endDate).isSame(day, 'day');
+  const isBetween =
+    !selectedStartDate && day.isBetween(startDate, moment(endDate), 'day');
+
+  return (
+    <HighlightedPickersDay
+      isBetween={isBetween}
+      isFirstDay={isFirstDay}
+      isLastDay={isLastDay}
+      onDaySelect={onDaySelect}
+      {...other}
+      day={day}
+    />
+  );
+}

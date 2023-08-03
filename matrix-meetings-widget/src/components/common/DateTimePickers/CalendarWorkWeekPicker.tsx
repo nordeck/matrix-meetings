@@ -14,14 +14,16 @@
  * limitations under the License.
  */
 
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Button, SxProps } from '@mui/material';
-import { DatePicker, PickersDayProps } from '@mui/x-date-pickers';
+import { SxProps } from '@mui/material';
+import {
+  DatePickerSlotsComponentsProps,
+  PickersDayProps,
+} from '@mui/x-date-pickers';
 import moment, { Moment } from 'moment';
-import { Fragment, useCallback, useMemo, useRef, useState } from 'react';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateFilterRange } from '../../../lib/utils';
+import { ButtonDatePicker } from './ButtonDatePicker';
 import { longDateFormat, shortMonthDateFormat } from './dateFormat';
 import { isReduceAnimations } from './helper';
 import { HighlightedPickersDay } from './HighlightedPickersDay';
@@ -45,14 +47,9 @@ export const CalendarWorkWeekPicker = ({
 
   const onOpen = useCallback(() => setOpen(true), []);
   const onClose = useCallback(() => setOpen(false), []);
-  const onToggle = useCallback(() => setOpen((old) => !old), []);
 
   const startMoment = useMemo(() => moment(startDate), [startDate]);
   const endMoment = useMemo(() => moment(endDate), [endDate]);
-
-  const handleChange = useCallback(() => {
-    // Nothing to do
-  }, []);
 
   const handleRangeChange = useCallback(
     (value: Moment | null) => {
@@ -66,84 +63,83 @@ export const CalendarWorkWeekPicker = ({
     [onRangeChange, onClose]
   );
 
-  const renderInput = useCallback(() => <Fragment />, []);
-
-  const renderDay = useCallback(
-    (day: Moment, _: Moment[], pickersDayProps: PickersDayProps<Moment>) => {
-      const isFirstDay = startMoment?.isSame(day, 'day');
-      const isLastDay = endMoment?.isSame(day, 'day');
-      const isBetween = day.isBetween(startMoment, endMoment, 'day');
-
-      return (
-        <HighlightedPickersDay
-          isBetween={isBetween}
-          isFirstDay={isFirstDay}
-          isLastDay={isLastDay}
-          {...pickersDayProps}
-          onDaySelect={handleRangeChange}
-        />
-      );
-    },
-    [startMoment, endMoment, handleRangeChange]
-  );
-
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
-
   return (
-    <>
-      <Button
-        aria-label={t(
-          'calendarWorkWeekPicker.chooseWorkWeek',
-          'Choose work week, selected work week is {{range, daterange}}',
-          {
-            range: [new Date(startDate), new Date(endDate)],
-            formatParams: {
-              range: longDateFormat,
-            },
-          }
-        )}
-        endIcon={open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-        onClick={onToggle}
-        ref={buttonRef}
-        sx={sx}
-      >
-        {t('calendarWorkWeekPicker.label', '{{range, daterange}}', {
-          range: [new Date(startDate), new Date(endDate)],
-          formatParams: {
-            range: shortMonthDateFormat,
-          },
-        })}
-      </Button>
-
-      <DatePicker
-        PopperProps={{
-          anchorEl: buttonRef.current,
+    <ButtonDatePicker
+      slots={{ day: Day }}
+      slotProps={{
+        actionBar: ({ wrapperVariant }) => ({
+          actions:
+            wrapperVariant === 'mobile'
+              ? ['today', 'cancel', 'accept']
+              : ['today'],
+        }),
+        popper: {
           sx: {
-            '& .MuiTypography-caption': {
-              margin: 0,
-            },
             '& .MuiDialogActions-root': {
               p: (theme) => theme.spacing(1),
             },
           },
-        }}
-        componentsProps={{
-          actionBar: {
-            actions: (v) =>
-              v === 'mobile' ? ['today', 'cancel', 'accept'] : ['today'],
+        },
+        field: {
+          inputProps: {
+            'aria-label': t(
+              'calendarWorkWeekPicker.chooseWorkWeek',
+              'Choose work week, selected work week is {{range, daterange}}',
+              {
+                range: [new Date(startDate), new Date(endDate)],
+                formatParams: {
+                  range: longDateFormat,
+                },
+              }
+            ),
           },
-        }}
-        onChange={handleChange}
-        onClose={onClose}
-        onOpen={onOpen}
-        open={open}
-        reduceAnimations={isReduceAnimations()}
-        renderDay={renderDay}
-        renderInput={renderInput}
-        showDaysOutsideCurrentMonth
-        value={endMoment}
-        views={['year', 'month', 'day']}
-      />
-    </>
+        },
+        day: {
+          startMoment,
+          endMoment,
+        } as DatePickerSlotsComponentsProps<moment.Moment>['day'] & {
+          startMoment?: moment.Moment;
+          endMoment?: moment.Moment;
+        },
+      }}
+      onAccept={handleRangeChange}
+      onClose={onClose}
+      onOpen={onOpen}
+      open={open}
+      sx={sx}
+      reduceAnimations={isReduceAnimations()}
+      showDaysOutsideCurrentMonth
+      value={endMoment}
+      views={['year', 'month', 'day']}
+      label={t('calendarWorkWeekPicker.label', '{{range, daterange}}', {
+        range: [new Date(startDate), new Date(endDate)],
+        formatParams: {
+          range: shortMonthDateFormat,
+        },
+      })}
+    />
   );
 };
+
+function Day(
+  props: PickersDayProps<moment.Moment> & {
+    startMoment?: moment.Moment;
+    endMoment?: moment.Moment;
+  }
+) {
+  const { day, startMoment, endMoment, ...other } = props;
+
+  const isFirstDay = startMoment?.isSame(day, 'day');
+  const isLastDay = endMoment?.isSame(day, 'day');
+  const isBetween = day.isBetween(startMoment, endMoment, 'day');
+
+  return (
+    <HighlightedPickersDay
+      isBetween={isBetween}
+      isFirstDay={isFirstDay}
+      isLastDay={isLastDay}
+      {...other}
+      day={day}
+    />
+  );
+}

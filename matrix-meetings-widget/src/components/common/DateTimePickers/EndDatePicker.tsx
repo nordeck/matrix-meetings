@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { TextField, TextFieldProps } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import moment, { Moment } from 'moment';
 import { Dispatch, useCallback, useEffect, useState } from 'react';
@@ -27,7 +26,6 @@ type EndDatePickerProps = {
   error?: boolean | string;
   enablePast?: boolean;
   onChange: Dispatch<Moment>;
-  TextFieldProps?: Partial<TextFieldProps>;
 };
 
 export function EndDatePicker({
@@ -35,7 +33,6 @@ export function EndDatePicker({
   error,
   enablePast = false,
   onChange,
-  TextFieldProps,
 }: EndDatePickerProps) {
   const { t } = useTranslation();
   const [date, setDate] = useState(value);
@@ -44,35 +41,13 @@ export function EndDatePicker({
     setDate(value);
   }, [value]);
 
-  const renderInput = useCallback(
-    (props: TextFieldProps) => {
-      const invalidDate = !date.isValid();
-
-      return (
-        <TextField
-          fullWidth
-          helperText={
-            (invalidDate &&
-              t('dateTimePickers.invalidEndDate', 'Invalid date')) ||
-            (typeof error === 'string' ? error : undefined)
-          }
-          margin="dense"
-          {...props}
-          {...TextFieldProps}
-          error={invalidDate || !!error || props.error}
-        />
-      );
-    },
-    [TextFieldProps, date, error, t]
-  );
-
-  const getOpenDialogAriaText = useCallback(
-    (date: Moment) => {
+  const openDatePickerDialogue = useCallback(
+    (date: Moment | null) => {
       return t(
         'dateTimePickers.openEndDatePicker',
         'Choose end date, selected date is {{date, datetime}}',
         {
-          date: date.toDate(),
+          date: date?.toDate(),
           formatParams: {
             date: longDateFormat,
           },
@@ -103,11 +78,23 @@ export function EndDatePicker({
   return (
     <DatePicker
       disablePast={!enablePast}
-      getOpenDialogAriaText={getOpenDialogAriaText}
       label={t('dateTimePickers.endDate', 'End date')}
       onChange={handleOnChange}
       reduceAnimations={isReduceAnimations()}
-      renderInput={renderInput}
+      slotProps={{
+        openPickerButton: {
+          'aria-label': openDatePickerDialogue(value),
+        },
+        textField: {
+          fullWidth: true,
+          helperText:
+            (!date.isValid() &&
+              t('dateTimePickers.invalidEndDate', 'Invalid date')) ||
+            (typeof error === 'string' ? error : undefined),
+          margin: 'dense',
+          error: !date.isValid() || !!error || undefined,
+        },
+      }}
       value={date}
       views={['year', 'month', 'day']}
     />

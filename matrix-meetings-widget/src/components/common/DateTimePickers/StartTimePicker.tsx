@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { TextField, TextFieldProps } from '@mui/material';
+import { TextFieldProps } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import { TimePicker } from '@mui/x-date-pickers';
 import moment, { Moment } from 'moment';
@@ -60,39 +60,15 @@ export function StartTimePicker({
     setDate(value);
   }, [value]);
 
-  const renderInput = useCallback(
-    (props: TextFieldProps) => {
-      const invalidDate = !date.isValid();
+  const invalidDate = !date.isValid();
 
-      return (
-        <TextField
-          FormHelperTextProps={{
-            sx: hideHelperText ? visuallyHidden : undefined,
-          }}
-          fullWidth
-          helperText={
-            readOnly ||
-            (invalidDate &&
-              t('dateTimePickers.invalidStartTime', 'Invalid time')) ||
-            (typeof error === 'string' ? error : undefined)
-          }
-          margin="dense"
-          {...props}
-          {...TextFieldProps}
-          error={!readOnly && (invalidDate || !!error || props.error)}
-        />
-      );
-    },
-    [TextFieldProps, date, error, hideHelperText, readOnly, t]
-  );
-
-  const getOpenDialogAriaText = useCallback(
-    (date: Moment) => {
+  const openDatePickerDialogue = useCallback(
+    (date: Moment | null) => {
       return t(
         'dateTimePickers.openStartTimePicker',
         'Choose start time, selected time is  {{date, datetime}}',
         {
-          date: date.toDate(),
+          date: date?.toDate(),
           formatParams: {
             date: timeOnlyDateFormat,
           },
@@ -119,12 +95,36 @@ export function StartTimePicker({
 
   return (
     <TimePicker
-      getOpenDialogAriaText={getOpenDialogAriaText}
       label={t('dateTimePickers.startTime', 'Start time')}
       onChange={handleOnChange}
       readOnly={Boolean(readOnly)}
-      renderInput={renderInput}
       value={date}
+      slotProps={{
+        openPickerButton: {
+          'aria-label': openDatePickerDialogue(value),
+        },
+        textField: {
+          FormHelperTextProps: {
+            sx: hideHelperText ? visuallyHidden : undefined,
+          },
+          fullWidth: true,
+          helperText:
+            readOnly ||
+            (invalidDate &&
+              t('dateTimePickers.invalidStartTime', 'Invalid time')) ||
+            (typeof error === 'string' ? error : undefined),
+          margin: 'dense',
+          ...TextFieldProps,
+          error: !readOnly && (invalidDate || !!error || undefined),
+        },
+        popper: {
+          sx: {
+            '& .MuiDialogActions-root': {
+              p: (theme) => theme.spacing(1),
+            },
+          },
+        },
+      }}
     />
   );
 }

@@ -98,18 +98,18 @@ describe('<StartDatePicker/>', () => {
   });
 
   it('should not update on invalid value', () => {
-    render(
-      <StartDatePicker
-        onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38.123Z')}
-      />,
-      { wrapper: Wrapper }
-    );
+    render(<StartDatePicker onChange={onChange} value={moment.invalid()} />, {
+      wrapper: Wrapper,
+    });
 
-    const textbox = screen.getByRole('textbox', { name: 'Start date' });
+    const textbox = screen.getByRole('textbox', {
+      name: /start date/i,
+    }) as HTMLInputElement;
 
     // userEvent.type doesn't work here, so we have to use fireEvent
-    fireEvent.change(textbox, { target: { value: '99/99/9999' } });
+    fireEvent.click(textbox);
+    fireEvent.change(textbox, { target: { value: '1/DD/YYYY' } });
+    expect(textbox).toHaveValue('01/DD/YYYY');
 
     expect(textbox).toHaveAccessibleDescription('Invalid date');
     expect(textbox).toBeInvalid();

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { TextField, TextFieldProps } from '@mui/material';
+import { TextFieldProps } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 import moment, { Moment } from 'moment';
 import { Dispatch, useCallback, useEffect, useState } from 'react';
@@ -59,13 +59,13 @@ export function StartDatePicker({
     setDate(value);
   }, [value]);
 
-  const getOpenDialogAriaText = useCallback(
-    (date: Moment) => {
+  const openDatePickerDialogue = useCallback(
+    (date: Moment | null) => {
       return t(
         'dateTimePickers.openStartDatePicker',
         'Choose start date, selected date is {{date, datetime}}',
         {
-          date: date.toDate(),
+          date: date?.toDate(),
           formatParams: {
             date: longDateFormat,
           },
@@ -75,28 +75,7 @@ export function StartDatePicker({
     [t]
   );
 
-  const renderInput = useCallback(
-    (props: TextFieldProps) => {
-      const invalidDate = !date.isValid();
-
-      return (
-        <TextField
-          fullWidth
-          helperText={
-            readOnly ||
-            (invalidDate &&
-              t('dateTimePickers.invalidStartDate', 'Invalid date')) ||
-            (typeof error === 'string' ? error : undefined)
-          }
-          margin="dense"
-          {...props}
-          {...TextFieldProps}
-          error={!readOnly && (invalidDate || !!error || props.error)}
-        />
-      );
-    },
-    [TextFieldProps, date, error, readOnly, t]
-  );
+  const invalidDate = !date.isValid();
 
   const handleOnChange = useCallback(
     (date: Moment | null) => {
@@ -118,15 +97,29 @@ export function StartDatePicker({
 
   return (
     <DatePicker
-      getOpenDialogAriaText={getOpenDialogAriaText}
       label={t('dateTimePickers.startDate', 'Start date')}
       minDate={minDate}
       onChange={handleOnChange}
       readOnly={Boolean(readOnly)}
       reduceAnimations={isReduceAnimations()}
-      renderInput={renderInput}
       value={date}
       views={['year', 'month', 'day']}
+      slotProps={{
+        openPickerButton: {
+          'aria-label': openDatePickerDialogue(value),
+        },
+        textField: {
+          fullWidth: true,
+          helperText:
+            readOnly ||
+            (invalidDate &&
+              t('dateTimePickers.invalidStartDate', 'Invalid date')) ||
+            (typeof error === 'string' ? error : undefined),
+          margin: 'dense',
+          ...TextFieldProps,
+          error: !readOnly && (invalidDate || !!error || undefined),
+        },
+      }}
     />
   );
 }

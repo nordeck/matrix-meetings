@@ -14,14 +14,12 @@
  * limitations under the License.
  */
 
-import ExpandLessIcon from '@mui/icons-material/ExpandLess';
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Button, SxProps } from '@mui/material';
-import { DatePicker, PickersDay, PickersDayProps } from '@mui/x-date-pickers';
-import { Moment } from 'moment';
-import { Fragment, useCallback, useRef, useState } from 'react';
+import { SxProps } from '@mui/material';
+import moment, { Moment } from 'moment';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateFilterRange } from '../../../lib/utils';
+import { ButtonDatePicker } from './ButtonDatePicker';
 import { longDateFormat, shortMonthDateFormat } from './dateFormat';
 import { isReduceAnimations } from './helper';
 
@@ -43,11 +41,8 @@ export const CalendarDayPicker = ({
 
   const onOpen = useCallback(() => setOpen(true), []);
   const onClose = useCallback(() => setOpen(false), []);
-  const onToggle = useCallback(() => setOpen((old) => !old), []);
 
-  const handleChange = useCallback(() => {
-    // Nothing to do
-  }, []);
+  const startMoment = useMemo(() => moment(startDate), [startDate]);
 
   const handleRangeChange = useCallback(
     (value: Moment | null) => {
@@ -55,83 +50,57 @@ export const CalendarDayPicker = ({
         const date = value.toISOString();
         const { startDate, endDate } = generateFilterRange('day', date);
         onRangeChange(startDate, endDate);
-        onClose();
       }
     },
-    [onRangeChange, onClose]
+    [onRangeChange]
   );
 
-  const renderInput = useCallback(() => <Fragment />, []);
-
-  const renderDay = useCallback(
-    (
-      _day: Moment,
-      _selectedDays: Moment[],
-      pickersDayProps: PickersDayProps<Moment>
-    ) => {
-      return (
-        <PickersDay {...pickersDayProps} onDaySelect={handleRangeChange} />
-      );
-    },
-    [handleRangeChange]
-  );
-
-  const buttonRef = useRef<HTMLButtonElement | null>(null);
   return (
-    <>
-      <Button
-        aria-label={t(
-          'calendarDayPicker.chooseDate',
-          'Choose date, selected date is {{date, datetime}}',
-          {
-            date: new Date(startDate),
-            formatParams: {
-              date: longDateFormat,
-            },
-          }
-        )}
-        endIcon={open ? <ExpandLessIcon /> : <ExpandMoreIcon />}
-        onClick={onToggle}
-        ref={buttonRef}
-        sx={sx}
-      >
-        {t('calendarDayPicker.label', '{{date, datetime}}', {
-          date: new Date(startDate),
-          formatParams: {
-            date: shortMonthDateFormat,
-          },
-        })}
-      </Button>
-
-      <DatePicker
-        PopperProps={{
-          anchorEl: buttonRef.current,
+    <ButtonDatePicker
+      slotProps={{
+        actionBar: ({ wrapperVariant }) => ({
+          actions:
+            wrapperVariant === 'mobile'
+              ? ['today', 'cancel', 'accept']
+              : ['today'],
+        }),
+        popper: {
           sx: {
-            '& .MuiTypography-caption': {
-              margin: 0,
-            },
             '& .MuiDialogActions-root': {
               p: (theme) => theme.spacing(1),
             },
           },
-        }}
-        componentsProps={{
-          actionBar: {
-            actions: (v) =>
-              v === 'mobile' ? ['today', 'cancel', 'accept'] : ['today'],
+        },
+        field: {
+          inputProps: {
+            'aria-label': t(
+              'calendarDayPicker.chooseDate',
+              'Choose date, selected date is {{date, datetime}}',
+              {
+                date: new Date(startDate),
+                formatParams: {
+                  date: longDateFormat,
+                },
+              }
+            ),
           },
-        }}
-        onChange={handleChange}
-        onClose={onClose}
-        onOpen={onOpen}
-        open={open}
-        reduceAnimations={isReduceAnimations()}
-        renderDay={renderDay}
-        renderInput={renderInput}
-        showDaysOutsideCurrentMonth
-        value={startDate}
-        views={['year', 'month', 'day']}
-      />
-    </>
+        },
+      }}
+      onAccept={handleRangeChange}
+      onClose={onClose}
+      onOpen={onOpen}
+      open={open}
+      sx={sx}
+      reduceAnimations={isReduceAnimations()}
+      showDaysOutsideCurrentMonth
+      value={startMoment}
+      views={['year', 'month', 'day']}
+      label={t('calendarDayPicker.label', '{{date, datetime}}', {
+        date: new Date(startDate),
+        formatParams: {
+          date: shortMonthDateFormat,
+        },
+      })}
+    />
   );
 };
