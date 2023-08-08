@@ -22,7 +22,7 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
-import moment from 'moment';
+import { Info } from 'luxon';
 import { Dispatch, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -61,7 +61,7 @@ export const MonthSelect = ({
         onChange={handleMonthChange}
         value={month}
       >
-        {moment.months().map((m, i) => (
+        {Info.months().map((m, i) => (
           <MenuItem key={i} value={i + 1}>
             {m}
           </MenuItem>

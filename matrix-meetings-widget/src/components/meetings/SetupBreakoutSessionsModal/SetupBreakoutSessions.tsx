@@ -23,7 +23,7 @@ import {
   TextField,
 } from '@mui/material';
 import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
-import moment, { Moment } from 'moment';
+import { DateTime } from 'luxon';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getInitialMeetingTimes } from '../../../lib/utils';
@@ -57,18 +57,18 @@ export const SetupBreakoutSessions = ({
     () => getInitialMeetingTimes({ parentMeeting }),
     [parentMeeting]
   );
-  const [startDate, setStartDate] = useState(moment(initialStartDate.toISO()));
-  const [endDate, setEndDate] = useState(moment(initialEndDate.toISO()));
+  const [startDate, setStartDate] = useState(initialStartDate);
+  const [endDate, setEndDate] = useState(initialEndDate);
   const [groups, setGroups] = useState<BreakoutSessionGroup[]>([]);
   const [description, setDescription] = useState('');
   const [widgets, setWidgets] = useState<Array<string>>([]);
 
   useEffect(() => {
-    setStartDate(moment(initialStartDate.toISO()));
+    setStartDate(initialStartDate);
   }, [initialStartDate]);
 
   useEffect(() => {
-    moment(initialEndDate.toISO());
+    setEndDate(initialEndDate);
   }, [initialEndDate]);
 
   const handleChangeDescription = useCallback(
@@ -79,18 +79,18 @@ export const SetupBreakoutSessions = ({
   );
 
   const handleStartDateChange = useCallback(
-    (value: Moment) => {
+    (value: DateTime) => {
       setStartDate(value);
       setEndDate((currentEndDate) => {
-        const currentDiff = value.diff(startDate);
+        const currentDiff = value.diff(startDate).milliseconds;
 
-        return moment(currentEndDate.toDate()).add(currentDiff);
+        return currentEndDate.plus({ millisecond: currentDiff });
       });
     },
     [startDate]
   );
 
-  const handleEndDateChange = useCallback((value: Moment) => {
+  const handleEndDateChange = useCallback((value: DateTime) => {
     setEndDate(value);
   }, []);
 
@@ -109,8 +109,8 @@ export const SetupBreakoutSessions = ({
     } else {
       onBreakoutSessionsChange({
         description,
-        startTime: startDate.toISOString(),
-        endTime: endDate.toISOString(),
+        startTime: startDate.toISO(),
+        endTime: endDate.toISO(),
         widgetIds: widgets,
         groups: groups.map((group) => ({
           title: group.title,

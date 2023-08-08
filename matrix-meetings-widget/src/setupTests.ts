@@ -20,7 +20,6 @@
 // learn more: https://github.com/testing-library/jest-dom
 import '@testing-library/jest-dom';
 import { toHaveNoViolations } from 'jest-axe';
-import * as moment from 'moment-timezone';
 import { TextDecoder, TextEncoder } from 'util';
 // Make sure to initialize i18n (see mock below)
 import './i18n';
@@ -78,30 +77,6 @@ beforeEach(() => {
     removeListener: jest.fn(),
   }));
 });
-
-// Custom matcher to compare objects containing moment values
-expect.extend({
-  // ...any other custom matchers.
-  moment(actual, expected) {
-    const pass =
-      moment.default(actual).toISOString() ===
-      moment.default(expected).toISOString();
-    return {
-      pass,
-      message: pass
-        ? () => `expected not to be ${moment.default(expected).toISOString()}`
-        : () => `expected to be ${moment.default(expected).toISOString()}`,
-    };
-  },
-});
-
-declare global {
-  namespace jest {
-    interface Expect {
-      moment(expected: moment.Moment | string | Date): moment.Moment;
-    }
-  }
-}
 
 // Polyfills required for jsdom
 global.TextEncoder = TextEncoder as typeof global.TextEncoder;

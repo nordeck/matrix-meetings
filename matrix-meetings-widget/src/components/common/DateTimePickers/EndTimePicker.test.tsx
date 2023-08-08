@@ -17,7 +17,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
-import * as moment from 'moment-timezone';
+import { DateTime } from 'luxon';
 import { ComponentType, PropsWithChildren } from 'react';
 import { LocalizationProvider } from '../LocalizationProvider';
 import { EndTimePicker } from './EndTimePicker';
@@ -36,7 +36,7 @@ describe('<EndTimePicker/>', () => {
     render(
       <EndTimePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -55,7 +55,7 @@ describe('<EndTimePicker/>', () => {
     const { container } = render(
       <EndTimePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -67,7 +67,7 @@ describe('<EndTimePicker/>', () => {
     const { container } = render(
       <EndTimePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -81,7 +81,7 @@ describe('<EndTimePicker/>', () => {
     render(
       <EndTimePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38.123Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38.123Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -92,15 +92,18 @@ describe('<EndTimePicker/>', () => {
     });
 
     expect(onChange).toBeCalled();
-    expect(onChange.mock.calls[0][0].toISOString()).toEqual(
+    expect(onChange.mock.calls[0][0].toISO()).toEqual(
       '2020-01-01T08:15:00.000Z'
     );
   });
 
   it('should not update on invalid value', () => {
-    render(<EndTimePicker onChange={onChange} value={moment.invalid()} />, {
-      wrapper: Wrapper,
-    });
+    render(
+      <EndTimePicker onChange={onChange} value={DateTime.invalid('Invalid')} />,
+      {
+        wrapper: Wrapper,
+      }
+    );
 
     const textbox = screen.getByRole('textbox', {
       name: /end time/i,
@@ -122,7 +125,7 @@ describe('<EndTimePicker/>', () => {
       <EndTimePicker
         error="This is wrong"
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -136,7 +139,7 @@ describe('<EndTimePicker/>', () => {
     const { rerender } = render(
       <EndTimePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38.123Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38.123Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -148,7 +151,7 @@ describe('<EndTimePicker/>', () => {
     rerender(
       <EndTimePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T14:15:38.123Z')}
+        value={DateTime.fromISO('2020-01-01T14:15:38.123Z')}
       />
     );
 

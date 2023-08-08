@@ -24,9 +24,9 @@ import {
 } from '@mui/material';
 import { unstable_useId as useId } from '@mui/utils';
 import { sortBy } from 'lodash';
-import moment from 'moment';
 import React, { Dispatch, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { localeWeekdays } from '../../../../lib/utils';
 import { convertWeekdayFromLocaleToRRule } from '../utils';
 
 type CustomWeeklyRecurringMeetingProps = {
@@ -70,7 +70,7 @@ export const CustomWeeklyRecurringMeeting = ({
         sx={{ mt: 1 }}
         value={byWeekday}
       >
-        {moment.weekdays(true).map((m, i) => (
+        {localeWeekdays().map((m, i) => (
           <ToggleButton key={i} value={convertWeekdayFromLocaleToRRule(i)}>
             {m}
           </ToggleButton>

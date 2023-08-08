@@ -17,7 +17,7 @@
 import SearchIcon from '@mui/icons-material/Search';
 import { InputAdornment, Stack, TextField } from '@mui/material';
 import { isEqual } from 'lodash';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import {
   ChangeEvent,
   Dispatch,
@@ -41,22 +41,24 @@ export const MeetingsFilter = ({
 }: MeetingsFilterProps) => {
   const { t } = useTranslation();
 
-  const [fromDate, setFromDate] = useState(() => moment(filters.startDate));
-  const [toDate, setToDate] = useState(() => moment(filters.endDate));
+  const [fromDate, setFromDate] = useState(() =>
+    DateTime.fromISO(filters.startDate)
+  );
+  const [toDate, setToDate] = useState(() => DateTime.fromISO(filters.endDate));
   const [filterText, setFilterText] = useState(filters.filterText);
 
   useEffect(() => {
     setFromDate((old) => {
-      const newDate = moment(filters.startDate);
-      if (!newDate.isSame(old)) {
+      const newDate = DateTime.fromISO(filters.startDate);
+      if (!newDate.hasSame(old, 'millisecond')) {
         return newDate;
       }
 
       return old;
     });
     setToDate((old) => {
-      const newDate = moment(filters.endDate);
-      if (!newDate.isSame(old)) {
+      const newDate = DateTime.fromISO(filters.endDate);
+      if (!newDate.hasSame(old, 'millisecond')) {
         return newDate;
       }
 
@@ -68,8 +70,8 @@ export const MeetingsFilter = ({
   useEffect(() => {
     onFiltersChange((oldFilters) => {
       const newFilters = {
-        startDate: fromDate.toISOString(),
-        endDate: toDate.toISOString(),
+        startDate: fromDate.toISO(),
+        endDate: toDate.toISO(),
         filterText,
       };
 
@@ -90,8 +92,8 @@ export const MeetingsFilter = ({
 
   const handleOnRangeChange = useCallback(
     (startDate: string, endDate: string) => {
-      setFromDate(moment(startDate));
-      setToDate(moment(endDate));
+      setFromDate(DateTime.fromISO(startDate));
+      setToDate(DateTime.fromISO(endDate));
     },
     []
   );
@@ -99,9 +101,9 @@ export const MeetingsFilter = ({
   return (
     <Stack spacing={1}>
       <DateRangePicker
-        endDate={toDate.toISOString()}
+        endDate={toDate.toISO()}
         onRangeChange={handleOnRangeChange}
-        startDate={fromDate.toISOString()}
+        startDate={fromDate.toISO()}
       />
 
       <TextField

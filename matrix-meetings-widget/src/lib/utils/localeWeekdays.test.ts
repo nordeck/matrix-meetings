@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2023 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,32 @@
  * limitations under the License.
  */
 
-import { Settings } from 'luxon';
-import { setLocale } from './locale';
+import { setLocale } from '../locale';
+import { localeWeekdays } from './localeWeekdays';
 
-describe('setLocale', () => {
-  it('should set luxon locale', () => {
-    setLocale('de');
-
-    expect(Settings.defaultLocale).toEqual('de');
+describe('localeWeekdays', () => {
+  it('generate weekdays for en locale', () => {
+    expect(localeWeekdays()).toEqual([
+      'Sunday',
+      'Monday',
+      'Tuesday',
+      'Wednesday',
+      'Thursday',
+      'Friday',
+      'Saturday',
+    ]);
   });
 
-  it('should set HTML lang', () => {
+  it('generate weekdays for de locale', () => {
     setLocale('de');
-
-    expect(document.documentElement.lang).toEqual('de');
+    expect(localeWeekdays()).toEqual([
+      'Montag',
+      'Dienstag',
+      'Mittwoch',
+      'Donnerstag',
+      'Freitag',
+      'Samstag',
+      'Sonntag',
+    ]);
   });
 });

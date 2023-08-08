@@ -29,7 +29,6 @@ import {
 } from '@mui/material';
 import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
 import { DateTime } from 'luxon';
-import moment, { Moment } from 'moment';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -88,17 +87,13 @@ export const ScheduleMeeting = ({
   );
   const [startDate, setStartDate] = useState(
     initialMeeting
-      ? moment(
-          parseICalDate(initialMeeting.calendarEntries[0].dtstart).toJSDate()
-        )
-      : moment(initialStartDate.toISO())
+      ? parseICalDate(initialMeeting.calendarEntries[0].dtstart)
+      : initialStartDate
   );
   const [endDate, setEndDate] = useState(
     initialMeeting
-      ? moment(
-          parseICalDate(initialMeeting.calendarEntries[0].dtend).toJSDate()
-        )
-      : moment(initialEndDate.toISO())
+      ? parseICalDate(initialMeeting.calendarEntries[0].dtend)
+      : initialEndDate
   );
 
   const [participants, setParticipants] = useState<string[]>(() => {
@@ -192,19 +187,19 @@ export const ScheduleMeeting = ({
   );
 
   const handleStartDateChange = useCallback(
-    (value: Moment) => {
+    (value: DateTime) => {
       setStartDate(value);
       setEndDate((currentEndDate) => {
-        const currentDiff = value.diff(startDate);
+        const currentDiff = value.diff(startDate).milliseconds;
 
-        return moment(currentEndDate.toDate()).add(currentDiff);
+        return currentEndDate.plus({ millisecond: currentDiff });
       });
       setIsDirty(true);
     },
     [startDate]
   );
 
-  const handleEndDateChange = useCallback((value: Moment) => {
+  const handleEndDateChange = useCallback((value: DateTime) => {
     setEndDate(value);
     setIsDirty(true);
   }, []);
@@ -346,8 +341,8 @@ export const ScheduleMeeting = ({
       onMeetingChange({
         title: title.trim(),
         description,
-        startTime: startDate.toISOString(),
-        endTime: endDate.toISOString(),
+        startTime: startDate.toISO(),
+        endTime: endDate.toISO(),
         participants,
         powerLevels,
         widgetIds: widgets,
@@ -572,7 +567,7 @@ export const ScheduleMeeting = ({
             isMeetingCreation={isMeetingCreation}
             onChange={handleChangeRecurrence}
             rule={recurrence.rrule}
-            startDate={startDate.toDate()}
+            startDate={startDate.toJSDate()}
           />
         )}
       </Stack>

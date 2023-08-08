@@ -16,15 +16,15 @@
 
 import { TextFieldProps } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
-import moment, { Moment } from 'moment';
+import { DateTime } from 'luxon';
 import { Dispatch, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { longDateFormat } from './dateFormat';
 import { isReduceAnimations } from './helper';
 
 type StartDatePickerProps = {
-  value: Moment;
-  onChange: Dispatch<Moment>;
+  value: DateTime;
+  onChange: Dispatch<DateTime>;
   TextFieldProps?: Partial<TextFieldProps>;
 
   /**
@@ -41,7 +41,7 @@ type StartDatePickerProps = {
    */
   readOnly?: string;
 
-  minDate?: Moment;
+  minDate?: DateTime;
 };
 
 export function StartDatePicker({
@@ -53,19 +53,19 @@ export function StartDatePicker({
   minDate,
 }: StartDatePickerProps) {
   const { t } = useTranslation();
-  const [date, setDate] = useState(value);
+  const [date, setDate] = useState<DateTime>(value);
 
   useEffect(() => {
     setDate(value);
   }, [value]);
 
   const openDatePickerDialogue = useCallback(
-    (date: Moment | null) => {
+    (date: DateTime | null) => {
       return t(
         'dateTimePickers.openStartDatePicker',
         'Choose start date, selected date is {{date, datetime}}',
         {
-          date: date?.toDate(),
+          date: date?.toJSDate(),
           formatParams: {
             date: longDateFormat,
           },
@@ -75,20 +75,17 @@ export function StartDatePicker({
     [t]
   );
 
-  const invalidDate = !date.isValid();
+  const invalidDate = !date.isValid;
 
   const handleOnChange = useCallback(
-    (date: Moment | null) => {
-      // It is necessary to clone the moment object
-      // (https://github.com/mui/material-ui-pickers/issues/359#issuecomment-381566442)
-      const newValue = moment(date?.toDate())
-        .hours(value.hours())
-        .minutes(value.minutes())
+    (date: DateTime | null) => {
+      const newValue = (date ?? DateTime.now())
+        .set({ hour: value.hour, minute: value.minute })
         .startOf('minute');
 
       setDate(newValue);
 
-      if (date?.isValid()) {
+      if (date?.isValid) {
         onChange(newValue);
       }
     },

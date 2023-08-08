@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-import moment from 'moment';
 import { ByWeekday, RRule, Weekday } from 'rrule';
 
 export function convertWeekdayFromLocaleToRRule(index: number): number {
-  return (moment.weekdays().indexOf(moment.weekdays(true, index)) - 1 + 7) % 7;
+  return (index - 1 + 7) % 7;
 }
 
 export function normalizeNumeric(

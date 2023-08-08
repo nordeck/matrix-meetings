@@ -15,7 +15,6 @@
  */
 
 import { Settings } from 'luxon';
-import moment from 'moment';
 
 // store original instance
 const DateTimeFormat = Intl.DateTimeFormat;
@@ -43,9 +42,6 @@ export function mockDateTimeFormatTimeZone(timeZone: string): void {
       const tzOffset = dateInTargetTZ.getTime() - dateInLocalTZ.getTime();
       return tzOffset / 1000 / 60;
     });
-
-  // Initialize moment.js
-  moment.tz.setDefault(timeZone);
 
   // We want our tests to be in a reproducible time zone, always resulting in
   // the same results, independent from where they are run.

@@ -17,7 +17,7 @@
 import { convertWeekdayFromLocaleToRRule, isWeekdays } from './helpers';
 
 describe('convertWeekdayFromLocaleToRRule', () => {
-  it('should convert the moment weekday number to the weekday rrule number', () => {
+  it('should convert the locale weekday number to the weekday rrule number', () => {
     expect(convertWeekdayFromLocaleToRRule(0)).toBe(6);
     expect(convertWeekdayFromLocaleToRRule(1)).toBe(0);
     expect(convertWeekdayFromLocaleToRRule(2)).toBe(1);

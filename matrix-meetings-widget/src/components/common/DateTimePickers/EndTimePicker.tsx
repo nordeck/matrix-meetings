@@ -17,16 +17,16 @@
 import { TextFieldProps } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import { TimePicker } from '@mui/x-date-pickers';
-import moment, { Moment } from 'moment';
+import { DateTime } from 'luxon';
 import { Dispatch, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { timeOnlyDateFormat } from './dateFormat';
 
 type EndTimePickerProps = {
-  value: Moment;
+  value: DateTime;
   error?: boolean | string;
   hideHelperText?: boolean;
-  onChange: Dispatch<Moment>;
+  onChange: Dispatch<DateTime>;
   TextFieldProps?: Partial<TextFieldProps>;
 };
 
@@ -44,15 +44,15 @@ export function EndTimePicker({
     setDate(value);
   }, [value]);
 
-  const invalidDate = !date.isValid();
+  const invalidDate = !date.isValid;
 
   const openDatePickerDialogue = useCallback(
-    (date: Moment | null) => {
+    (date: DateTime | null) => {
       return t(
         'dateTimePickers.openEndTimePicker',
         'Choose end time, selected time is  {{date, datetime}}',
         {
-          date: date?.toDate(),
+          date: date?.toJSDate(),
           formatParams: {
             date: timeOnlyDateFormat,
           },
@@ -63,14 +63,15 @@ export function EndTimePicker({
   );
 
   const handleOnChange = useCallback(
-    (date: Moment | null) => {
-      // It is necessary to clone the moment object
-      // (https://github.com/mui/material-ui-pickers/issues/359#issuecomment-381566442)
-      const newValue = moment(date?.toDate()).seconds(0).milliseconds(0);
+    (date: DateTime | null) => {
+      const newValue = (date ?? DateTime.now()).set({
+        second: 0,
+        millisecond: 0,
+      });
 
       setDate(newValue);
 
-      if (date?.isValid()) {
+      if (date?.isValid) {
         onChange(newValue);
       }
     },

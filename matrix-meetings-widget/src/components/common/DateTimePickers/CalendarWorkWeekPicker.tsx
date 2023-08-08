@@ -19,7 +19,7 @@ import {
   DatePickerSlotsComponentsProps,
   PickersDayProps,
 } from '@mui/x-date-pickers';
-import moment, { Moment } from 'moment';
+import { DateTime, Interval } from 'luxon';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateFilterRange } from '../../../lib/utils';
@@ -48,13 +48,13 @@ export const CalendarWorkWeekPicker = ({
   const onOpen = useCallback(() => setOpen(true), []);
   const onClose = useCallback(() => setOpen(false), []);
 
-  const startMoment = useMemo(() => moment(startDate), [startDate]);
-  const endMoment = useMemo(() => moment(endDate), [endDate]);
+  const startMoment = useMemo(() => DateTime.fromISO(startDate), [startDate]);
+  const endMoment = useMemo(() => DateTime.fromISO(endDate), [endDate]);
 
   const handleRangeChange = useCallback(
-    (value: Moment | null) => {
-      if (value?.isValid()) {
-        const date = value.toISOString();
+    (value: DateTime | null) => {
+      if (value?.isValid) {
+        const date = value.toISO();
         const { startDate, endDate } = generateFilterRange('workWeek', date);
         onRangeChange(startDate, endDate);
         onClose();
@@ -97,9 +97,9 @@ export const CalendarWorkWeekPicker = ({
         day: {
           startMoment,
           endMoment,
-        } as DatePickerSlotsComponentsProps<moment.Moment>['day'] & {
-          startMoment?: moment.Moment;
-          endMoment?: moment.Moment;
+        } as DatePickerSlotsComponentsProps<DateTime>['day'] & {
+          startMoment?: DateTime;
+          endMoment?: DateTime;
         },
       }}
       onAccept={handleRangeChange}
@@ -122,16 +122,22 @@ export const CalendarWorkWeekPicker = ({
 };
 
 function Day(
-  props: PickersDayProps<moment.Moment> & {
-    startMoment?: moment.Moment;
-    endMoment?: moment.Moment;
+  props: PickersDayProps<DateTime> & {
+    startMoment?: DateTime;
+    endMoment?: DateTime;
   }
 ) {
   const { day, startMoment, endMoment, ...other } = props;
 
-  const isFirstDay = startMoment?.isSame(day, 'day');
-  const isLastDay = endMoment?.isSame(day, 'day');
-  const isBetween = day.isBetween(startMoment, endMoment, 'day');
+  const isFirstDay = startMoment?.hasSame(day, 'day');
+  const isLastDay = endMoment?.hasSame(day, 'day');
+  const isBetween =
+    startMoment &&
+    endMoment &&
+    Interval.fromDateTimes(
+      startMoment.plus({ millisecond: 1 }),
+      endMoment.startOf('day')
+    ).contains(day);
 
   return (
     <HighlightedPickersDay

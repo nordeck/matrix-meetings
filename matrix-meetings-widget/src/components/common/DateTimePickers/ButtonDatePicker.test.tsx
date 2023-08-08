@@ -17,7 +17,7 @@
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { LocalizationProvider } from '../LocalizationProvider';
 import { ButtonDatePicker } from './ButtonDatePicker';
@@ -38,7 +38,7 @@ function Component() {
       onOpen={() => setOpen(true)}
       open={open}
       reduceAnimations
-      value={moment('2022-02-07T00:00:00Z')}
+      value={DateTime.fromISO('2022-02-07T00:00:00Z')}
       label="Choose date"
     />
   );

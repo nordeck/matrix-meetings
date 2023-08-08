@@ -15,17 +15,17 @@
  */
 
 import { DatePicker } from '@mui/x-date-pickers';
-import moment, { Moment } from 'moment';
+import { DateTime } from 'luxon';
 import { Dispatch, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { longDateFormat } from './dateFormat';
 import { isReduceAnimations } from './helper';
 
 type EndDatePickerProps = {
-  value: Moment;
+  value: DateTime;
   error?: boolean | string;
   enablePast?: boolean;
-  onChange: Dispatch<Moment>;
+  onChange: Dispatch<DateTime>;
 };
 
 export function EndDatePicker({
@@ -42,12 +42,12 @@ export function EndDatePicker({
   }, [value]);
 
   const openDatePickerDialogue = useCallback(
-    (date: Moment | null) => {
+    (date: DateTime | null) => {
       return t(
         'dateTimePickers.openEndDatePicker',
         'Choose end date, selected date is {{date, datetime}}',
         {
-          date: date?.toDate(),
+          date: date?.toJSDate(),
           formatParams: {
             date: longDateFormat,
           },
@@ -58,17 +58,14 @@ export function EndDatePicker({
   );
 
   const handleOnChange = useCallback(
-    (date: Moment | null) => {
-      // It is necessary to clone the moment object
-      // (https://github.com/mui/material-ui-pickers/issues/359#issuecomment-381566442)
-      const newValue = moment(date?.toDate())
-        .hours(value.hours())
-        .minutes(value.minutes())
+    (date: DateTime | null) => {
+      const newValue = (date ?? DateTime.now())
+        .set({ hour: value.hour, minute: value.minute })
         .startOf('minute');
 
       setDate(newValue);
 
-      if (date?.isValid()) {
+      if (date?.isValid) {
         onChange(newValue);
       }
     },
@@ -88,11 +85,11 @@ export function EndDatePicker({
         textField: {
           fullWidth: true,
           helperText:
-            (!date.isValid() &&
+            (!date.isValid &&
               t('dateTimePickers.invalidEndDate', 'Invalid date')) ||
             (typeof error === 'string' ? error : undefined),
           margin: 'dense',
-          error: !date.isValid() || !!error || undefined,
+          error: !date.isValid || !!error || undefined,
         },
       }}
       value={date}

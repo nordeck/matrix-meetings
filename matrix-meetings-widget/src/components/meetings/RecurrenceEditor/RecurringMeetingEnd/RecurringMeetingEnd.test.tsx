@@ -17,7 +17,7 @@
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import { ComponentType, PropsWithChildren } from 'react';
 import { RecurringMeetingEnd } from '.';
 import { LocalizationProvider } from '../../../common/LocalizationProvider';
@@ -46,7 +46,7 @@ describe('<RecurringMeetingEnd>', () => {
         onUntilDateChange={onUntilDateChange}
         recurrenceEnd={RecurrenceEnd.Never}
         startDate={startDate}
-        untilDate={moment('2022-01-02T13:10:00.000Z')}
+        untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -96,7 +96,7 @@ describe('<RecurringMeetingEnd>', () => {
         onUntilDateChange={onUntilDateChange}
         recurrenceEnd={RecurrenceEnd.UntilDate}
         startDate={startDate}
-        untilDate={moment('2022-01-02T13:10:00.000Z')}
+        untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -127,7 +127,7 @@ describe('<RecurringMeetingEnd>', () => {
         onUntilDateChange={onUntilDateChange}
         recurrenceEnd={RecurrenceEnd.AfterMeetingCount}
         startDate={startDate}
-        untilDate={moment('2022-01-02T13:10:00.000Z')}
+        untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -151,7 +151,7 @@ describe('<RecurringMeetingEnd>', () => {
         onUntilDateChange={onUntilDateChange}
         recurrenceEnd={RecurrenceEnd.Never}
         startDate={startDate}
-        untilDate={moment('2022-01-02T13:10:00.000Z')}
+        untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -168,7 +168,7 @@ describe('<RecurringMeetingEnd>', () => {
         onUntilDateChange={onUntilDateChange}
         recurrenceEnd={RecurrenceEnd.UntilDate}
         startDate={startDate}
-        untilDate={moment('2022-01-02T13:10:00.000Z')}
+        untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -189,7 +189,7 @@ describe('<RecurringMeetingEnd>', () => {
         onUntilDateChange={onUntilDateChange}
         recurrenceEnd={RecurrenceEnd.Never}
         startDate={startDate}
-        untilDate={moment('2022-01-02T13:10:00.000Z')}
+        untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -214,7 +214,7 @@ describe('<RecurringMeetingEnd>', () => {
         onUntilDateChange={onUntilDateChange}
         recurrenceEnd={RecurrenceEnd.Never}
         startDate={startDate}
-        untilDate={moment('2022-01-02T13:10:00.000Z')}
+        untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -237,7 +237,7 @@ describe('<RecurringMeetingEnd>', () => {
         onUntilDateChange={onUntilDateChange}
         recurrenceEnd={RecurrenceEnd.UntilDate}
         startDate={startDate}
-        untilDate={moment('2022-01-02T13:10:00.000Z')}
+        untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -250,7 +250,7 @@ describe('<RecurringMeetingEnd>', () => {
       { target: { value: '05/05/2022' } }
     );
 
-    expect(onUntilDateChange.mock.calls.at(-1).at(0).toDate()).toEqual(
+    expect(onUntilDateChange.mock.calls.at(-1).at(0).toJSDate()).toEqual(
       // Explicitly choose the end of the day, as until should be inclusive
       new Date('2022-05-05T23:59:59.999Z')
     );
@@ -265,7 +265,7 @@ describe('<RecurringMeetingEnd>', () => {
         onUntilDateChange={onUntilDateChange}
         recurrenceEnd={RecurrenceEnd.AfterMeetingCount}
         startDate={startDate}
-        untilDate={moment('2022-01-02T13:10:00.000Z')}
+        untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -289,7 +289,7 @@ describe('<RecurringMeetingEnd>', () => {
         onUntilDateChange={onUntilDateChange}
         recurrenceEnd={RecurrenceEnd.UntilDate}
         startDate={startDate}
-        untilDate={moment.invalid()}
+        untilDate={DateTime.invalid('Wrong')}
       />,
       { wrapper: Wrapper }
     );
@@ -313,7 +313,7 @@ describe('<RecurringMeetingEnd>', () => {
           onUntilDateChange={onUntilDateChange}
           recurrenceEnd={RecurrenceEnd.AfterMeetingCount}
           startDate={startDate}
-          untilDate={moment('2022-01-02T13:10:00.000Z')}
+          untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
         />,
         { wrapper: Wrapper }
       );

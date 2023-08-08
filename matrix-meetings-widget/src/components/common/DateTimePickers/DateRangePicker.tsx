@@ -19,7 +19,7 @@ import {
   DatePickerSlotsComponentsProps,
   PickersDayProps,
 } from '@mui/x-date-pickers';
-import moment, { Moment } from 'moment';
+import { DateTime, Interval } from 'luxon';
 import React, { Dispatch, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonDatePicker } from './ButtonDatePicker';
@@ -52,12 +52,12 @@ export const DateRangePicker = ({
   }, []);
 
   const handleDaySelect = useCallback(
-    (value: Moment | null) => {
-      if (value?.isValid()) {
+    (value: DateTime | null) => {
+      if (value?.isValid) {
         if (!selectedStartDate) {
-          setSelectedStartDate(value.startOf('day').toISOString());
+          setSelectedStartDate(value.startOf('day').toISO());
         } else {
-          onRangeChange(selectedStartDate, value.endOf('day').toISOString());
+          onRangeChange(selectedStartDate, value.endOf('day').toISO());
           setSelectedStartDate(undefined);
           setOpen(false);
         }
@@ -74,7 +74,7 @@ export const DateRangePicker = ({
 
   return (
     <ButtonDatePicker
-      slots={{ day: Day as React.ElementType<PickersDayProps<Moment>> }}
+      slots={{ day: Day as React.ElementType<PickersDayProps<DateTime>> }}
       slotProps={{
         actionBar: ({ wrapperVariant }) => ({
           actions:
@@ -108,15 +108,17 @@ export const DateRangePicker = ({
           startDate,
           endDate,
           onDaySelect: handleDaySelect,
-        } as DatePickerSlotsComponentsProps<Moment>['day'] & {
+        } as DatePickerSlotsComponentsProps<DateTime>['day'] & {
           selectedStartDate?: string;
           startDate: string;
           endDate: string;
-          onDaySelect: Dispatch<Moment | null>;
+          onDaySelect: Dispatch<DateTime | null>;
         },
       }}
       closeOnSelect={false}
-      minDate={selectedStartDate ? moment(selectedStartDate) : undefined}
+      minDate={
+        selectedStartDate ? DateTime.fromISO(selectedStartDate) : undefined
+      }
       onChange={handleChange}
       onClose={onClose}
       onOpen={onOpen}
@@ -124,7 +126,7 @@ export const DateRangePicker = ({
       sx={sx}
       reduceAnimations={isReduceAnimations()}
       showDaysOutsideCurrentMonth
-      value={moment(selectedStartDate ?? startDate)}
+      value={DateTime.fromISO(selectedStartDate ?? startDate)}
       views={['year', 'month', 'day']}
       label={t('dateRangePicker.dateRange', '{{range, daterange}}', {
         range: [new Date(startDate), new Date(endDate)],
@@ -137,20 +139,28 @@ export const DateRangePicker = ({
 };
 
 function Day(
-  props: PickersDayProps<Moment> & {
+  props: PickersDayProps<DateTime> & {
     selectedStartDate?: string;
     startDate: string;
     endDate: string;
-    onDaySelect: Dispatch<Moment | null>;
+    onDaySelect: Dispatch<DateTime | null>;
   }
 ) {
   const { day, selectedStartDate, startDate, endDate, onDaySelect, ...other } =
     props;
 
-  const isFirstDay = moment(selectedStartDate ?? startDate).isSame(day, 'day');
-  const isLastDay = !selectedStartDate && moment(endDate).isSame(day, 'day');
+  const isFirstDay = DateTime.fromISO(selectedStartDate ?? startDate).hasSame(
+    day,
+    'day'
+  );
+  const isLastDay =
+    !selectedStartDate && DateTime.fromISO(endDate).hasSame(day, 'day');
   const isBetween =
-    !selectedStartDate && day.isBetween(startDate, moment(endDate), 'day');
+    !selectedStartDate &&
+    Interval.fromDateTimes(
+      DateTime.fromISO(startDate).plus({ millisecond: 1 }),
+      DateTime.fromISO(endDate).startOf('day')
+    ).contains(day);
 
   return (
     <HighlightedPickersDay

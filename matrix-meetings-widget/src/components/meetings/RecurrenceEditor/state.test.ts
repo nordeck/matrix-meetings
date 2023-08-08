@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import { Frequency } from 'rrule';
 import {
   CustomRuleMode,
@@ -47,7 +47,7 @@ describe('storeInitializer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2027-10-07T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2027-10-07T23:59:59.999Z'),
       afterMeetingCount: '5',
     });
   });
@@ -71,7 +71,7 @@ describe('storeInitializer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2022-11-06T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2022-11-06T23:59:59.999Z'),
       afterMeetingCount: '30',
     });
   });
@@ -95,7 +95,7 @@ describe('storeInitializer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2023-01-06T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2023-01-06T23:59:59.999Z'),
       afterMeetingCount: '13',
     });
   });
@@ -119,7 +119,7 @@ describe('storeInitializer', () => {
       customNthMonthday: '7',
       customWeekday: 0,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2023-01-06T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2023-01-06T23:59:59.999Z'),
       afterMeetingCount: '13',
     });
   });
@@ -143,7 +143,7 @@ describe('storeInitializer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2023-10-07T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2023-10-07T23:59:59.999Z'),
       afterMeetingCount: '12',
     });
   });
@@ -167,7 +167,7 @@ describe('storeInitializer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2027-10-07T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2027-10-07T23:59:59.999Z'),
       afterMeetingCount: '5',
     });
   });
@@ -191,7 +191,7 @@ describe('storeInitializer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2022-11-06T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2022-11-06T23:59:59.999Z'),
       afterMeetingCount: '30',
     });
   });
@@ -215,7 +215,7 @@ describe('storeInitializer', () => {
       customNthMonthday: '7',
       customWeekday: 0,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2023-01-06T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2023-01-06T23:59:59.999Z'),
       afterMeetingCount: '13',
     });
   });
@@ -239,7 +239,7 @@ describe('storeInitializer', () => {
       customNthMonthday: '7',
       customWeekday: 0,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2022-11-06T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2022-11-06T23:59:59.999Z'),
       afterMeetingCount: '30',
     });
   });
@@ -263,7 +263,7 @@ describe('storeInitializer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2023-10-07T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2023-10-07T23:59:59.999Z'),
       afterMeetingCount: '12',
     });
   });
@@ -287,7 +287,7 @@ describe('storeInitializer', () => {
       customNthMonthday: '7',
       customWeekday: 0,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2027-10-07T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2027-10-07T23:59:59.999Z'),
       afterMeetingCount: '5',
     });
   });
@@ -311,7 +311,7 @@ describe('storeInitializer', () => {
       customNthMonthday: '24',
       customWeekday: 5,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2027-12-24T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2027-12-24T23:59:59.999Z'),
       afterMeetingCount: '5',
     });
   });
@@ -336,7 +336,7 @@ describe('storeInitializer', () => {
       customNthMonthday: '7',
       customWeekday: 1,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2023-10-07T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2023-10-07T23:59:59.999Z'),
       afterMeetingCount: '12',
     });
   });
@@ -360,7 +360,7 @@ describe('storeInitializer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.UntilDate,
-      untilDate: expect.moment('2022-10-30T14:00:00.000Z'),
+      untilDate: DateTime.fromISO('2022-10-30T14:00:00.000Z'),
       afterMeetingCount: '30',
     });
   });
@@ -384,7 +384,7 @@ describe('storeInitializer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.AfterMeetingCount,
-      untilDate: expect.moment('2022-11-06T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2022-11-06T23:59:59.999Z'),
       afterMeetingCount: '14',
     });
   });
@@ -407,7 +407,7 @@ describe('reducer', () => {
           customNthMonthday: '7',
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.Never,
-          untilDate: moment('2022-03-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
           afterMeetingCount: '10',
         },
         {
@@ -429,7 +429,7 @@ describe('reducer', () => {
       customNthMonthday: '6',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2022-06-05T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2022-06-05T23:59:59.999Z'),
       afterMeetingCount: '30',
     });
   });
@@ -450,7 +450,7 @@ describe('reducer', () => {
           customNthMonthday: '7',
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.Never,
-          untilDate: moment('2022-03-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
           afterMeetingCount: '10',
         },
         {
@@ -472,7 +472,7 @@ describe('reducer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2022-03-02T13:10:00.000Z'),
+      untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
       afterMeetingCount: '10',
     });
   });
@@ -493,7 +493,7 @@ describe('reducer', () => {
           customNthMonthday: '7',
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.Never,
-          untilDate: moment('2022-03-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
           afterMeetingCount: '10',
         },
         {
@@ -515,7 +515,7 @@ describe('reducer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2022-03-02T13:10:00.000Z'),
+      untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
       afterMeetingCount: '10',
     });
   });
@@ -536,7 +536,7 @@ describe('reducer', () => {
           customNthMonthday: '7',
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.Never,
-          untilDate: moment('2022-03-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
           afterMeetingCount: '10',
         },
         {
@@ -557,7 +557,7 @@ describe('reducer', () => {
       customNthMonthday: '2',
       customWeekday: 6,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2022-04-03T23:59:59.999Z'),
+      untilDate: DateTime.fromISO('2022-04-03T23:59:59.999Z'),
       afterMeetingCount: '13',
     });
   });
@@ -578,7 +578,7 @@ describe('reducer', () => {
           customNthMonthday: '7',
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.Never,
-          untilDate: moment('2022-03-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
           afterMeetingCount: '10',
         },
         {
@@ -599,7 +599,7 @@ describe('reducer', () => {
       customNthMonthday: '2',
       customWeekday: 6,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2022-03-02T13:10:00.000Z'),
+      untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
       afterMeetingCount: '10',
     });
   });
@@ -620,7 +620,7 @@ describe('reducer', () => {
           customNthMonthday: '7',
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.Never,
-          untilDate: moment('2022-03-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
           afterMeetingCount: '10',
         },
         {
@@ -641,7 +641,7 @@ describe('reducer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2022-03-02T13:10:00.000Z'),
+      untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
       afterMeetingCount: '10',
     });
   });
@@ -662,7 +662,7 @@ describe('reducer', () => {
           customNthMonthday: '7',
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.Never,
-          untilDate: moment('2022-03-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
           afterMeetingCount: '10',
         },
         {
@@ -683,7 +683,7 @@ describe('reducer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2022-03-02T13:10:00.000Z'),
+      untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
       afterMeetingCount: '10',
     });
   });
@@ -704,7 +704,7 @@ describe('reducer', () => {
           customNthMonthday: '7',
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.Never,
-          untilDate: moment('2022-03-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
           afterMeetingCount: '10',
         },
         {
@@ -725,7 +725,7 @@ describe('reducer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2022-03-02T13:10:00.000Z'),
+      untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
       afterMeetingCount: '10',
     });
   });
@@ -746,7 +746,7 @@ describe('reducer', () => {
           customNthMonthday: '7',
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.Never,
-          untilDate: moment('2022-03-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
           afterMeetingCount: '10',
         },
         {
@@ -767,7 +767,7 @@ describe('reducer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2022-03-02T13:10:00.000Z'),
+      untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
       afterMeetingCount: '10',
     });
   });
@@ -788,7 +788,7 @@ describe('reducer', () => {
           customNthMonthday: '7',
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.Never,
-          untilDate: moment('2022-03-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
           afterMeetingCount: '10',
         },
         {
@@ -809,7 +809,7 @@ describe('reducer', () => {
       customNthMonthday: '8',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2022-03-02T13:10:00.000Z'),
+      untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
       afterMeetingCount: '10',
     });
   });
@@ -830,7 +830,7 @@ describe('reducer', () => {
           customNthMonthday: '7',
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.Never,
-          untilDate: moment('2022-03-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
           afterMeetingCount: '10',
         },
         {
@@ -851,7 +851,7 @@ describe('reducer', () => {
       customNthMonthday: '7',
       customWeekday: 5,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2022-03-02T13:10:00.000Z'),
+      untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
       afterMeetingCount: '10',
     });
   });
@@ -872,7 +872,7 @@ describe('reducer', () => {
           customNthMonthday: '7',
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.Never,
-          untilDate: moment('2022-03-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
           afterMeetingCount: '10',
         },
         {
@@ -893,7 +893,7 @@ describe('reducer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.Never,
-      untilDate: expect.moment('2022-03-02T13:10:00.000Z'),
+      untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
       afterMeetingCount: '10',
     });
   });
@@ -914,7 +914,7 @@ describe('reducer', () => {
           customNthMonthday: '7',
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.Never,
-          untilDate: moment('2022-03-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
           afterMeetingCount: '10',
         },
         {
@@ -935,7 +935,7 @@ describe('reducer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.UntilDate,
-      untilDate: expect.moment('2022-03-02T13:10:00.000Z'),
+      untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
       afterMeetingCount: '10',
     });
   });
@@ -956,7 +956,7 @@ describe('reducer', () => {
           customNthMonthday: '7',
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.AfterMeetingCount,
-          untilDate: moment('2022-03-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
           afterMeetingCount: '10',
         },
         {
@@ -977,7 +977,7 @@ describe('reducer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.AfterMeetingCount,
-      untilDate: expect.moment('2022-03-02T13:10:00.000Z'),
+      untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
       afterMeetingCount: '15',
     });
   });
@@ -998,12 +998,12 @@ describe('reducer', () => {
           customNthMonthday: '7',
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.UntilDate,
-          untilDate: moment('2022-03-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-03-02T13:10:00.000Z'),
           afterMeetingCount: '10',
         },
         {
           type: 'updateUntilDate',
-          untilDate: moment('2022-04-02T13:10:00.000Z'),
+          untilDate: DateTime.fromISO('2022-04-02T13:10:00.000Z'),
         }
       )
     ).toEqual({
@@ -1019,7 +1019,7 @@ describe('reducer', () => {
       customNthMonthday: '7',
       customWeekday: 4,
       recurrenceEnd: RecurrenceEnd.UntilDate,
-      untilDate: expect.moment('2022-04-02T13:10:00.000Z'),
+      untilDate: DateTime.fromISO('2022-04-02T13:10:00.000Z'),
       afterMeetingCount: '10',
     });
   });
@@ -1044,7 +1044,7 @@ describe('toRule', () => {
         customWeekday: 4,
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
-        untilDate: moment('2023-10-07T14:15:00.000Z'),
+        untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
       })
     ).toEqual({
       isValid: true,
@@ -1068,7 +1068,7 @@ describe('toRule', () => {
         customWeekday: 4,
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
-        untilDate: moment('2023-10-07T14:15:00.000Z'),
+        untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
       })
     ).toEqual({
       isValid: true,
@@ -1092,7 +1092,7 @@ describe('toRule', () => {
         customWeekday: 4,
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
-        untilDate: moment('2023-10-07T14:15:00.000Z'),
+        untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
       })
     ).toEqual({
       isValid: true,
@@ -1116,7 +1116,7 @@ describe('toRule', () => {
         customWeekday: 4,
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
-        untilDate: moment('2023-10-07T14:15:00.000Z'),
+        untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
       })
     ).toEqual({
       isValid: true,
@@ -1140,7 +1140,7 @@ describe('toRule', () => {
         customWeekday: 4,
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
-        untilDate: moment('2023-10-07T14:15:00.000Z'),
+        untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
       })
     ).toEqual({
       isValid: true,
@@ -1164,7 +1164,7 @@ describe('toRule', () => {
         customWeekday: 4,
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
-        untilDate: moment('2023-10-07T14:15:00.000Z'),
+        untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
       })
     ).toEqual({
       isValid: true,
@@ -1188,7 +1188,7 @@ describe('toRule', () => {
         customWeekday: 4,
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
-        untilDate: moment('2023-10-07T14:15:00.000Z'),
+        untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
       })
     ).toEqual({
       isValid: true,
@@ -1212,7 +1212,7 @@ describe('toRule', () => {
         customWeekday: 4,
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
-        untilDate: moment('2023-10-07T14:15:00.000Z'),
+        untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
       })
     ).toEqual({
       isValid: true,
@@ -1236,7 +1236,7 @@ describe('toRule', () => {
         customWeekday: 0,
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
-        untilDate: moment('2023-10-07T14:15:00.000Z'),
+        untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
       })
     ).toEqual({
       isValid: true,
@@ -1260,7 +1260,7 @@ describe('toRule', () => {
         customWeekday: 4,
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
-        untilDate: moment('2023-10-07T14:15:00.000Z'),
+        untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
       })
     ).toEqual({
       isValid: true,
@@ -1284,7 +1284,7 @@ describe('toRule', () => {
         customWeekday: 0,
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
-        untilDate: moment('2023-10-07T14:15:00.000Z'),
+        untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
       })
     ).toEqual({
       isValid: true,
@@ -1308,7 +1308,7 @@ describe('toRule', () => {
         customWeekday: 4,
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
-        untilDate: moment('2023-10-07T14:15:00.000Z'),
+        untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
       })
     ).toEqual({
       isValid: true,
@@ -1332,7 +1332,7 @@ describe('toRule', () => {
         customWeekday: 4,
         recurrenceEnd: RecurrenceEnd.AfterMeetingCount,
         afterMeetingCount: '10',
-        untilDate: moment('2023-10-07T14:15:00.000Z'),
+        untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
       })
     ).toEqual({
       isValid: true,
@@ -1356,7 +1356,7 @@ describe('toRule', () => {
         customWeekday: 4,
         recurrenceEnd: RecurrenceEnd.UntilDate,
         afterMeetingCount: '10',
-        untilDate: moment('2023-10-07T14:15:00.000Z'),
+        untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
       })
     ).toEqual({
       isValid: true,
@@ -1382,7 +1382,7 @@ describe('toRule', () => {
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.AfterMeetingCount,
           afterMeetingCount,
-          untilDate: moment('2023-10-07T14:15:00.000Z'),
+          untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
         })
       ).toEqual({
         isValid: false,
@@ -1407,7 +1407,7 @@ describe('toRule', () => {
         customWeekday: 4,
         recurrenceEnd: RecurrenceEnd.UntilDate,
         afterMeetingCount: '10',
-        untilDate: moment(''),
+        untilDate: DateTime.fromISO(''),
       })
     ).toEqual({
       isValid: false,
@@ -1433,7 +1433,7 @@ describe('toRule', () => {
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.Never,
           afterMeetingCount: '10',
-          untilDate: moment('2023-10-07T14:15:00.000Z'),
+          untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
         })
       ).toEqual({
         isValid: false,
@@ -1460,7 +1460,7 @@ describe('toRule', () => {
           customWeekday: 4,
           recurrenceEnd: RecurrenceEnd.Never,
           afterMeetingCount: '10',
-          untilDate: moment('2023-10-07T14:15:00.000Z'),
+          untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
         })
       ).toEqual({
         isValid: false,

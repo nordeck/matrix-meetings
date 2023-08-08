@@ -15,14 +15,14 @@
  */
 
 import { PickersDay, PickersDayProps } from '@mui/x-date-pickers';
-import { Moment } from 'moment';
+import { DateTime } from 'luxon';
 
 export function HighlightedPickersDay({
   isFirstDay,
   isBetween,
   isLastDay,
   ...pickersDayProps
-}: PickersDayProps<Moment> & {
+}: PickersDayProps<DateTime> & {
   isFirstDay?: boolean;
   isBetween?: boolean;
   isLastDay?: boolean;
