@@ -172,7 +172,7 @@ export const CustomYearlyRecurringMeeting = ({
                     {
                       ordinal: getOrdinalLabel(customNth, t),
                       weekday: moment.weekdays(customWeekday + 1),
-                      month: moment.months(customMonth + 1),
+                      month: moment.months(customMonth - 1),
                     }
                   ),
                 }}
