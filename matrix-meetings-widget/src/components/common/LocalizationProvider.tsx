@@ -26,10 +26,8 @@ import { AdapterLuxonWeekday } from './AdapterLuxonWeekday';
 export function LocalizationProvider({ children }: PropsWithChildren<{}>) {
   const { i18n } = useTranslation();
   const language: string | undefined = i18n.languages?.[0];
-  const { adapterLocale, locale } =
-    language && new Intl.Locale(language).language === 'de'
-      ? { adapterLocale: 'de-DE', locale: deDE }
-      : { adapterLocale: 'en-US', locale: enUS };
+  const locale =
+    language && new Intl.Locale(language).language === 'de' ? deDE : enUS;
 
   return (
     <MuiLocalizationProvider
@@ -37,7 +35,7 @@ export function LocalizationProvider({ children }: PropsWithChildren<{}>) {
       localeText={
         locale.components.MuiLocalizationProvider.defaultProps.localeText
       }
-      adapterLocale={adapterLocale}
+      adapterLocale={language}
     >
       {children}
     </MuiLocalizationProvider>
