@@ -50,7 +50,7 @@ export const MeetingsFilter = ({
   useEffect(() => {
     setFromDate((old) => {
       const newDate = DateTime.fromISO(filters.startDate);
-      if (!newDate.hasSame(old, 'millisecond')) {
+      if (+newDate !== +old) {
         return newDate;
       }
 
@@ -58,7 +58,7 @@ export const MeetingsFilter = ({
     });
     setToDate((old) => {
       const newDate = DateTime.fromISO(filters.endDate);
-      if (!newDate.hasSame(old, 'millisecond')) {
+      if (+newDate !== +old) {
         return newDate;
       }
 

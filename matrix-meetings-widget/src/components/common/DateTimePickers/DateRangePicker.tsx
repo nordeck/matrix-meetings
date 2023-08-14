@@ -158,8 +158,8 @@ function Day(
   const isBetween =
     !selectedStartDate &&
     Interval.fromDateTimes(
-      DateTime.fromISO(startDate).plus({ millisecond: 1 }),
-      DateTime.fromISO(endDate).startOf('day')
+      DateTime.fromISO(startDate),
+      DateTime.fromISO(endDate).plus(1)
     ).contains(day);
 
   return (

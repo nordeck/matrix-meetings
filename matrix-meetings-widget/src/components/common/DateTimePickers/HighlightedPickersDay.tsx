@@ -23,43 +23,37 @@ export function HighlightedPickersDay({
   isLastDay,
   ...pickersDayProps
 }: PickersDayProps<DateTime> & {
-  isFirstDay?: boolean;
-  isBetween?: boolean;
-  isLastDay?: boolean;
+  /** If true, the selected date is part of the selection. */
+  isBetween: boolean | undefined;
+  /** If true, the selected date is the first day of the selection. */
+  isFirstDay: boolean | undefined;
+  /** If true, the selected date is the last day of the selection. */
+  isLastDay: boolean | undefined;
 }) {
   return (
     <PickersDay
       sx={{
-        ...(isFirstDay || isBetween || isLastDay ? { px: 2.5, mx: 0 } : {}),
+        ...(isBetween && {
+          px: 2.5,
+          mx: 0,
+          borderColor: 'primary.main',
+          borderRadius: 0,
+          borderWidth: 1,
+          borderTopStyle: 'solid',
+          borderBottomStyle: 'solid',
+        }),
         ...(isFirstDay &&
           !isLastDay && {
-            borderTopRightRadius: 0,
-            borderBottomRightRadius: 0,
-            borderColor: 'primary.main',
-            borderTopStyle: 'solid',
+            borderTopLeftRadius: '50%',
+            borderBottomLeftRadius: '50%',
             borderLeftStyle: 'solid',
-            borderBottomStyle: 'solid',
-            borderWidth: 1,
           }),
         ...(isLastDay &&
           !isFirstDay && {
-            borderTopLeftRadius: 0,
-            borderBottomLeftRadius: 0,
-            borderColor: 'primary.main',
-            borderTopStyle: 'solid',
+            borderTopRightRadius: '50%',
+            borderBottomRightRadius: '50%',
             borderRightStyle: 'solid',
-            borderBottomStyle: 'solid',
-            borderWidth: 1,
           }),
-        ...(isBetween && {
-          borderTopColor: 'primary.main',
-          borderBottomColor: 'primary.main',
-          borderRadius: 0,
-          borderTopStyle: 'solid',
-          borderBottomStyle: 'solid',
-          borderTopWidth: 1,
-          borderBottomWidth: 1,
-        }),
       }}
       {...pickersDayProps}
       selected={isFirstDay || isLastDay}

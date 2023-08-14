@@ -135,10 +135,7 @@ function Day(
   const isBetween =
     startMoment &&
     endMoment &&
-    Interval.fromDateTimes(
-      startMoment.plus({ millisecond: 1 }),
-      endMoment.startOf('day')
-    ).contains(day);
+    Interval.fromDateTimes(startMoment, endMoment.plus(1)).contains(day);
 
   return (
     <HighlightedPickersDay

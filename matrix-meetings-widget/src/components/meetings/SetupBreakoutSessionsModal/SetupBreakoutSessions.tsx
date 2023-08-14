@@ -82,9 +82,7 @@ export const SetupBreakoutSessions = ({
     (value: DateTime) => {
       setStartDate(value);
       setEndDate((currentEndDate) => {
-        const currentDiff = value.diff(startDate).milliseconds;
-
-        return currentEndDate.plus({ millisecond: currentDiff });
+        return currentEndDate.plus(value.diff(startDate));
       });
     },
     [startDate]

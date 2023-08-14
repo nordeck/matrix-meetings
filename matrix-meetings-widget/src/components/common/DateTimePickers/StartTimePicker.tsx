@@ -80,10 +80,7 @@ export function StartTimePicker({
 
   const handleOnChange = useCallback(
     (date: DateTime | null) => {
-      const newValue = (date ?? DateTime.now()).set({
-        second: 0,
-        millisecond: 0,
-      });
+      const newValue = (date ?? DateTime.now()).startOf('minute');
 
       setDate(newValue);
 

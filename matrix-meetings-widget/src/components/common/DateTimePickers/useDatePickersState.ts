@@ -81,14 +81,14 @@ export function useDatePickersState({
         'day'
       );
 
-      const isInvalidStartTime =
-        !Interval.fromDateTimes(getMinStartDate(), maxEndDate).contains(
-          startTime
-        ) || startTime.hasSame(maxEndDate, 'millisecond');
-      const isInvalidEndTime =
-        !Interval.fromDateTimes(getMinStartDate(), maxEndDate).contains(
-          endTime
-        ) || endTime.hasSame(maxEndDate, 'millisecond');
+      const isInvalidStartTime = !Interval.fromDateTimes(
+        getMinStartDate(),
+        maxEndDate.plus(1)
+      ).contains(startTime);
+      const isInvalidEndTime = !Interval.fromDateTimes(
+        getMinStartDate(),
+        maxEndDate.plus(1)
+      ).contains(endTime);
       const endTimeBeforeStart = endTime < startTime;
 
       const formatParams = isMeetingSpanningSingleDay

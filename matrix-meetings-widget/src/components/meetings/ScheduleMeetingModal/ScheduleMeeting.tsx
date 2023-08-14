@@ -190,9 +190,7 @@ export const ScheduleMeeting = ({
     (value: DateTime) => {
       setStartDate(value);
       setEndDate((currentEndDate) => {
-        const currentDiff = value.diff(startDate).milliseconds;
-
-        return currentEndDate.plus({ millisecond: currentDiff });
+        return currentEndDate.plus(value.diff(startDate));
       });
       setIsDirty(true);
     },
