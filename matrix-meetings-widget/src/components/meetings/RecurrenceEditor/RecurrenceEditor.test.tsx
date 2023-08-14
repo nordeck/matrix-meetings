@@ -250,12 +250,12 @@ describe('<RecurrenceEditor>', () => {
     ).toBeInTheDocument();
     expect(
       screen.getByRole('radio', {
-        name: 'The meeting is repeated yearly at first Sunday of March',
+        name: 'The meeting is repeated yearly at first Sunday of January',
       })
     ).toBeChecked();
 
     const weekdayGroup = screen.getByRole('group', {
-      name: 'The meeting is repeated yearly at first Sunday of March',
+      name: 'The meeting is repeated yearly at first Sunday of January',
     });
     expect(
       within(weekdayGroup).getByRole('button', { name: 'Ordinal first' })

@@ -432,12 +432,12 @@ describe('<CustomRecurringMeeting>', () => {
 
     expect(
       within(group).getByRole('radio', {
-        name: 'The meeting is repeated yearly at third Tuesday of December',
+        name: 'The meeting is repeated yearly at third Tuesday of October',
       })
     ).toBeChecked();
 
     const weekdayGroup = within(group).getByRole('group', {
-      name: 'The meeting is repeated yearly at third Tuesday of December',
+      name: 'The meeting is repeated yearly at third Tuesday of October',
     });
     expect(
       within(weekdayGroup).getByRole('button', { name: 'Ordinal third' })
@@ -802,7 +802,7 @@ describe('<CustomRecurringMeeting>', () => {
 
     await userEvent.click(
       screen.getByRole('radio', {
-        name: 'The meeting is repeated yearly at third Tuesday of December',
+        name: 'The meeting is repeated yearly at third Tuesday of October',
       })
     );
 
@@ -919,7 +919,7 @@ describe('<CustomRecurringMeeting>', () => {
     );
 
     const weekdayGroup = screen.getByRole('group', {
-      name: 'The meeting is repeated yearly at third Tuesday of December',
+      name: 'The meeting is repeated yearly at third Tuesday of October',
     });
 
     await userEvent.click(
@@ -963,7 +963,7 @@ describe('<CustomRecurringMeeting>', () => {
     );
 
     const weekdayGroup = screen.getByRole('group', {
-      name: 'The meeting is repeated yearly at third Tuesday of December',
+      name: 'The meeting is repeated yearly at third Tuesday of October',
     });
 
     await userEvent.click(
@@ -1007,7 +1007,7 @@ describe('<CustomRecurringMeeting>', () => {
     );
 
     const weekdayGroup = screen.getByRole('group', {
-      name: 'The meeting is repeated yearly at third Tuesday of December',
+      name: 'The meeting is repeated yearly at third Tuesday of October',
     });
 
     await userEvent.click(
