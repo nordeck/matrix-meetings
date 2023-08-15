@@ -42,7 +42,7 @@ export const CalendarMonthPicker = ({
   const onOpen = useCallback(() => setOpen(true), []);
   const onClose = useCallback(() => setOpen(false), []);
 
-  const startMoment = useMemo(() => DateTime.fromISO(startDate), [startDate]);
+  const start = useMemo(() => DateTime.fromISO(startDate), [startDate]);
 
   const handleRangeChange = useCallback(
     (value: DateTime | null) => {
@@ -94,7 +94,7 @@ export const CalendarMonthPicker = ({
       sx={sx}
       reduceAnimations={isReduceAnimations()}
       showDaysOutsideCurrentMonth
-      value={startMoment}
+      value={start}
       views={['year', 'month']}
       label={t('calendarMonthPicker.label', '{{date, datetime}}', {
         date: new Date(startDate),

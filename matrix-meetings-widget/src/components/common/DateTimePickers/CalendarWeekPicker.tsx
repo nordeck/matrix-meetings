@@ -48,8 +48,8 @@ export const CalendarWeekPicker = ({
   const onOpen = useCallback(() => setOpen(true), []);
   const onClose = useCallback(() => setOpen(false), []);
 
-  const startMoment = useMemo(() => DateTime.fromISO(startDate), [startDate]);
-  const endMoment = useMemo(() => DateTime.fromISO(endDate), [endDate]);
+  const start = useMemo(() => DateTime.fromISO(startDate), [startDate]);
+  const end = useMemo(() => DateTime.fromISO(endDate), [endDate]);
 
   const handleRangeChange = useCallback(
     (value: DateTime | null) => {
@@ -96,11 +96,11 @@ export const CalendarWeekPicker = ({
           },
         },
         day: {
-          startMoment,
-          endMoment,
+          start,
+          end,
         } as DatePickerSlotsComponentsProps<DateTime>['day'] & {
-          startMoment?: DateTime;
-          endMoment?: DateTime;
+          start?: DateTime;
+          end?: DateTime;
         },
       }}
       onAccept={handleRangeChange}
@@ -110,7 +110,7 @@ export const CalendarWeekPicker = ({
       sx={sx}
       reduceAnimations={isReduceAnimations()}
       showDaysOutsideCurrentMonth
-      value={endMoment}
+      value={end}
       views={['year', 'month', 'day']}
       label={t('calendarWeekPicker.label', '{{range, daterange}}', {
         range: [new Date(startDate), new Date(endDate)],
@@ -124,18 +124,16 @@ export const CalendarWeekPicker = ({
 
 function Day(
   props: PickersDayProps<DateTime> & {
-    startMoment?: DateTime;
-    endMoment?: DateTime;
+    start?: DateTime;
+    end?: DateTime;
   }
 ) {
-  const { day, startMoment, endMoment, ...other } = props;
+  const { day, start, end, ...other } = props;
 
-  const isFirstDay = startMoment?.hasSame(day, 'day');
-  const isLastDay = endMoment?.hasSame(day, 'day');
+  const isFirstDay = start?.hasSame(day, 'day');
+  const isLastDay = end?.hasSame(day, 'day');
   const isBetween =
-    startMoment &&
-    endMoment &&
-    Interval.fromDateTimes(startMoment, endMoment.plus(1)).contains(day);
+    start && end && Interval.fromDateTimes(start, end.plus(1)).contains(day);
 
   return (
     <HighlightedPickersDay
