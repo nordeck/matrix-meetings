@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { setLocale } from '../../../../lib/locale';
 import { convertWeekdayFromLocaleToRRule, isWeekdays } from './helpers';
 
 describe('convertWeekdayFromLocaleToRRule', () => {
@@ -26,6 +27,18 @@ describe('convertWeekdayFromLocaleToRRule', () => {
     expect(convertWeekdayFromLocaleToRRule(5)).toBe(4);
     expect(convertWeekdayFromLocaleToRRule(6)).toBe(5);
   });
+});
+
+it('should convert the locale weekday number to the weekday rrule number with german locale', () => {
+  setLocale('de');
+
+  expect(convertWeekdayFromLocaleToRRule(0)).toBe(0);
+  expect(convertWeekdayFromLocaleToRRule(1)).toBe(1);
+  expect(convertWeekdayFromLocaleToRRule(2)).toBe(2);
+  expect(convertWeekdayFromLocaleToRRule(3)).toBe(3);
+  expect(convertWeekdayFromLocaleToRRule(4)).toBe(4);
+  expect(convertWeekdayFromLocaleToRRule(5)).toBe(5);
+  expect(convertWeekdayFromLocaleToRRule(6)).toBe(6);
 });
 
 describe('isWeekdays', () => {

@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
+import { Info } from 'luxon';
 import { ByWeekday, RRule, Weekday } from 'rrule';
+import { localeWeekdays } from '../../../../lib/utils';
 
 export function convertWeekdayFromLocaleToRRule(index: number): number {
-  return (index - 1 + 7) % 7;
+  return Info.weekdays().indexOf(localeWeekdays()[index]);
 }
 
 export function normalizeNumeric(
