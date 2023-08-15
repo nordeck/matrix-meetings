@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import { DateTime } from 'luxon';
-import moment, { Moment } from 'moment';
+import { DateTime, Interval } from 'luxon';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import { getInitialMeetingTimes } from '../../../lib/utils';
@@ -24,15 +23,15 @@ import { fullLongDateFormat, timeOnlyDateFormat } from './dateFormat';
 
 type DatePickersState = {
   showDatePickers: boolean;
-  minStartDate: Moment;
+  minStartDate: DateTime;
   startDateError: false | string;
   endDateError: false | string;
 };
 
 type UseDatePickersStateProps = {
   parentMeeting?: Meeting;
-  startTime: Moment;
-  endTime: Moment;
+  startTime: DateTime;
+  endTime: DateTime;
   minStartTimeOverride?: DateTime;
 };
 
@@ -57,13 +56,13 @@ export function useDatePickersState({
     if (!parentMeeting) {
       // Meeting mode
       const startDateError =
-        startTime.isBefore(moment(getMinStartDate().toISO())) &&
+        startTime < getMinStartDate() &&
         t(
           'dateTimePickers.error.meetingStartTooEarly',
           'Meeting cannot start in the past.'
         );
       const endDateError =
-        endTime.isSameOrBefore(startTime) &&
+        endTime <= startTime &&
         t(
           'dateTimePickers.error.meetingStartBeforeEnd',
           'Meeting should start before it ends.'
@@ -73,27 +72,24 @@ export function useDatePickersState({
         showDatePickers: true,
         startDateError,
         endDateError,
-        minStartDate: moment(getMinStartDate().toISO()),
+        minStartDate: getMinStartDate(),
       };
     } else {
       // Breakout session mode
-      const isMeetingSpanningSingleDay = moment(
-        getMinStartDate().toISO()
-      ).isSame(moment(maxEndDate.toISO()), 'day');
+      const isMeetingSpanningSingleDay = getMinStartDate().hasSame(
+        maxEndDate,
+        'day'
+      );
 
-      const isInvalidStartTime = !startTime.isBetween(
-        moment(getMinStartDate().toISO()),
-        moment(maxEndDate.toISO()),
-        null,
-        '[]'
-      );
-      const isInvalidEndTime = !endTime.isBetween(
-        moment(getMinStartDate().toISO()),
-        moment(maxEndDate.toISO()),
-        null,
-        '[]'
-      );
-      const endTimeBeforeStart = endTime.isBefore(startTime);
+      const isInvalidStartTime = !Interval.fromDateTimes(
+        getMinStartDate(),
+        maxEndDate.plus(1)
+      ).contains(startTime);
+      const isInvalidEndTime = !Interval.fromDateTimes(
+        getMinStartDate(),
+        maxEndDate.plus(1)
+      ).contains(endTime);
+      const endTimeBeforeStart = endTime < startTime;
 
       const formatParams = isMeetingSpanningSingleDay
         ? timeOnlyDateFormat
@@ -105,8 +101,8 @@ export function useDatePickersState({
           'dateTimePickers.error.breakoutSessionInvalidStartTime',
           'Breakout session should start between {{minDate, datetime}} and {{maxDate, datetime}}.',
           {
-            minDate: moment(getMinStartDate().toISO()),
-            maxDate: moment(maxEndDate.toISO()),
+            minDate: getMinStartDate(),
+            maxDate: maxEndDate,
             formatParams: {
               minDate: formatParams,
               maxDate: formatParams,
@@ -125,8 +121,8 @@ export function useDatePickersState({
             'dateTimePickers.error.breakoutSessionInvalidEndTime',
             'Breakout session should end between {{minDate, datetime}} and {{maxDate, datetime}}.',
             {
-              minDate: moment(getMinStartDate().toISO()),
-              maxDate: moment(maxEndDate.toISO()),
+              minDate: getMinStartDate(),
+              maxDate: maxEndDate,
               formatParams: {
                 minDate: formatParams,
                 maxDate: formatParams,
@@ -138,7 +134,7 @@ export function useDatePickersState({
         showDatePickers: !isMeetingSpanningSingleDay,
         startDateError,
         endDateError,
-        minStartDate: moment(getMinStartDate().toISO()),
+        minStartDate: getMinStartDate(),
       };
     }
   }, [endTime, getMinStartDate, maxEndDate, parentMeeting, startTime, t]);

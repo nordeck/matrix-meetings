@@ -15,7 +15,7 @@
  */
 
 import { DateTime, Duration } from 'luxon';
-import moment from 'moment';
+import { getWeekdayShift } from './getWeekdayShift';
 
 export type CalendarViewType = 'day' | 'workWeek' | 'week' | 'month';
 
@@ -27,9 +27,7 @@ export const generateFilterRange = (
   // luxon only supports isoWeekday always returns a day-of-week=1.
   // this duration normalizes it to the configured locale
   const normalizeDuration = Duration.fromObject({
-    day:
-      DateTime.now().startOf('week').weekday -
-      moment.localeData().firstDayOfWeek(),
+    day: getWeekdayShift(),
   });
 
   // Interpret the ISO-date in local time so the startOf and endOf

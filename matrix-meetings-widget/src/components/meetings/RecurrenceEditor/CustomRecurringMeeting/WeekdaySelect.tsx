@@ -22,9 +22,9 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
-import moment from 'moment';
 import { Dispatch, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { localeWeekdays } from '../../../../lib/utils';
 import { convertWeekdayFromLocaleToRRule } from '../utils';
 
 export type WeekdaySelectProps = {
@@ -62,7 +62,7 @@ export const WeekdaySelect = ({
         onChange={handleWeekDaysChange}
         value={weekday}
       >
-        {moment.weekdays(true).map((m, i) => (
+        {localeWeekdays().map((m, i) => (
           <MenuItem key={i} value={convertWeekdayFromLocaleToRRule(i)}>
             {m}
           </MenuItem>

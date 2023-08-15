@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2023 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,19 +14,14 @@
  * limitations under the License.
  */
 
-import { Settings } from 'luxon';
-import { setLocale } from './locale';
+import { DateTime, Settings } from 'luxon';
 
-describe('setLocale', () => {
-  it('should set luxon locale', () => {
-    setLocale('de');
-
-    expect(Settings.defaultLocale).toEqual('de');
-  });
-
-  it('should set HTML lang', () => {
-    setLocale('de');
-
-    expect(document.documentElement.lang).toEqual('de');
-  });
-});
+/**
+ * Gets a value that would shift Date Picker week first day in the following order: Monday -> Sunday -> Saturday... .
+ * Negative value would shift in another direction. Zero would keep the default.
+ */
+export function getWeekdayShift(): number {
+  const firstDayOfWeek =
+    new Intl.Locale(Settings.defaultLocale).language === 'de' ? 1 : 0;
+  return DateTime.now().startOf('week').weekday - firstDayOfWeek;
+}

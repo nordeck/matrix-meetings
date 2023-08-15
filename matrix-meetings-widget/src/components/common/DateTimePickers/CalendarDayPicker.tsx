@@ -15,7 +15,7 @@
  */
 
 import { SxProps } from '@mui/material';
-import moment, { Moment } from 'moment';
+import { DateTime } from 'luxon';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateFilterRange } from '../../../lib/utils';
@@ -42,12 +42,12 @@ export const CalendarDayPicker = ({
   const onOpen = useCallback(() => setOpen(true), []);
   const onClose = useCallback(() => setOpen(false), []);
 
-  const startMoment = useMemo(() => moment(startDate), [startDate]);
+  const start = useMemo(() => DateTime.fromISO(startDate), [startDate]);
 
   const handleRangeChange = useCallback(
-    (value: Moment | null) => {
-      if (value?.isValid()) {
-        const date = value.toISOString();
+    (value: DateTime | null) => {
+      if (value?.isValid) {
+        const date = value.toISO();
         const { startDate, endDate } = generateFilterRange('day', date);
         onRangeChange(startDate, endDate);
       }
@@ -93,7 +93,7 @@ export const CalendarDayPicker = ({
       sx={sx}
       reduceAnimations={isReduceAnimations()}
       showDaysOutsideCurrentMonth
-      value={startMoment}
+      value={start}
       views={['year', 'month', 'day']}
       label={t('calendarDayPicker.label', '{{date, datetime}}', {
         date: new Date(startDate),

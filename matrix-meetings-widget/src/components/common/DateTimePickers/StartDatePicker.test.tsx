@@ -17,7 +17,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
-import * as moment from 'moment-timezone';
+import { DateTime } from 'luxon';
 import { ComponentType, PropsWithChildren } from 'react';
 import { LocalizationProvider } from '../LocalizationProvider';
 import { StartDatePicker } from './StartDatePicker';
@@ -36,7 +36,7 @@ describe('<StartDatePicker/>', () => {
     render(
       <StartDatePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -55,7 +55,7 @@ describe('<StartDatePicker/>', () => {
     const { container } = render(
       <StartDatePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -67,7 +67,7 @@ describe('<StartDatePicker/>', () => {
     const { container } = render(
       <StartDatePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -81,7 +81,7 @@ describe('<StartDatePicker/>', () => {
     render(
       <StartDatePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38.123Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38.123Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -92,15 +92,21 @@ describe('<StartDatePicker/>', () => {
     });
 
     expect(onChange).toBeCalled();
-    expect(onChange.mock.calls[0][0].toISOString()).toEqual(
+    expect(onChange.mock.calls[0][0].toISO()).toEqual(
       '2022-06-05T12:15:00.000Z'
     );
   });
 
   it('should not update on invalid value', () => {
-    render(<StartDatePicker onChange={onChange} value={moment.invalid()} />, {
-      wrapper: Wrapper,
-    });
+    render(
+      <StartDatePicker
+        onChange={onChange}
+        value={DateTime.invalid('Invalid')}
+      />,
+      {
+        wrapper: Wrapper,
+      }
+    );
 
     const textbox = screen.getByRole('textbox', {
       name: /start date/i,
@@ -122,7 +128,7 @@ describe('<StartDatePicker/>', () => {
       <StartDatePicker
         error="This is wrong"
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -141,7 +147,7 @@ describe('<StartDatePicker/>', () => {
         error="This is wrong"
         onChange={onChange}
         readOnly="This is readonly"
-        value={moment.utc('2020-01-01T12:15:38Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -159,7 +165,7 @@ describe('<StartDatePicker/>', () => {
     const { rerender } = render(
       <StartDatePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38.123Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38.123Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -171,7 +177,7 @@ describe('<StartDatePicker/>', () => {
     rerender(
       <StartDatePicker
         onChange={onChange}
-        value={moment.utc('2021-01-01T12:15:38.123Z')}
+        value={DateTime.fromISO('2021-01-01T12:15:38.123Z')}
       />
     );
 
@@ -181,9 +187,9 @@ describe('<StartDatePicker/>', () => {
   it('disallow values in the past (before min date)', () => {
     render(
       <StartDatePicker
-        minDate={moment.utc('2020-01-02T12:15:38Z')}
+        minDate={DateTime.fromISO('2020-01-02T12:15:38Z')}
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -196,9 +202,9 @@ describe('<StartDatePicker/>', () => {
   it('allow values in the past (after min date)', () => {
     render(
       <StartDatePicker
-        minDate={moment.utc('2020-01-01T12:15:38Z')}
+        minDate={DateTime.fromISO('2020-01-01T12:15:38Z')}
         onChange={onChange}
-        value={moment.utc('2020-02-01T12:17:38Z')}
+        value={DateTime.fromISO('2020-02-01T12:17:38Z')}
       />,
       { wrapper: Wrapper }
     );

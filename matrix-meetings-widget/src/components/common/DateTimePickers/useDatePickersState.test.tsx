@@ -16,7 +16,6 @@
 
 import { renderHook } from '@testing-library/react-hooks';
 import { DateTime } from 'luxon';
-import moment from 'moment';
 import { mockMeeting } from '../../../lib/testUtils';
 import { useDatePickersState } from './useDatePickersState';
 
@@ -31,8 +30,8 @@ describe('useDatePickersState', () => {
     it('should return no error if values are correct', () => {
       const { result } = renderHook(() =>
         useDatePickersState({
-          startTime: moment('2022-01-02T13:10:00Z'),
-          endTime: moment('2022-01-02T15:30:00Z'),
+          startTime: DateTime.fromISO('2022-01-02T13:10:00Z'),
+          endTime: DateTime.fromISO('2022-01-02T15:30:00Z'),
         })
       );
 
@@ -40,15 +39,15 @@ describe('useDatePickersState', () => {
         showDatePickers: true,
         startDateError: false,
         endDateError: false,
-        minStartDate: expect.moment('2022-01-02T13:10:00.000Z'),
+        minStartDate: DateTime.fromISO('2022-01-02T13:10:00.000Z'),
       });
     });
 
     it('should return error if start date is in the past', () => {
       const { result } = renderHook(() =>
         useDatePickersState({
-          startTime: moment('2022-01-02T12:15:00Z'),
-          endTime: moment('2022-01-02T13:30:00Z'),
+          startTime: DateTime.fromISO('2022-01-02T12:15:00Z'),
+          endTime: DateTime.fromISO('2022-01-02T13:30:00Z'),
         })
       );
 
@@ -56,15 +55,15 @@ describe('useDatePickersState', () => {
         showDatePickers: true,
         startDateError: 'Meeting cannot start in the past.',
         endDateError: false,
-        minStartDate: expect.moment('2022-01-02T13:10:00.000Z'),
+        minStartDate: DateTime.fromISO('2022-01-02T13:10:00.000Z'),
       });
     });
 
     it('should return error if start date is before the start of the meeting series', () => {
       const { result } = renderHook(() =>
         useDatePickersState({
-          startTime: moment('2022-01-01T12:10:00Z'),
-          endTime: moment('2022-01-02T13:30:00Z'),
+          startTime: DateTime.fromISO('2022-01-01T12:10:00Z'),
+          endTime: DateTime.fromISO('2022-01-02T13:30:00Z'),
           minStartTimeOverride: DateTime.fromISO('2022-01-01T12:15:00Z'),
         })
       );
@@ -73,15 +72,15 @@ describe('useDatePickersState', () => {
         showDatePickers: true,
         startDateError: 'Meeting cannot start in the past.',
         endDateError: false,
-        minStartDate: expect.moment('2022-01-01T12:15:00.000Z'),
+        minStartDate: DateTime.fromISO('2022-01-01T12:15:00.000Z'),
       });
     });
 
     it('should return error if end date is before start date', () => {
       const { result } = renderHook(() =>
         useDatePickersState({
-          startTime: moment('2022-01-02T14:15:00Z'),
-          endTime: moment('2022-01-02T14:00:00Z'),
+          startTime: DateTime.fromISO('2022-01-02T14:15:00Z'),
+          endTime: DateTime.fromISO('2022-01-02T14:00:00Z'),
         })
       );
 
@@ -89,7 +88,7 @@ describe('useDatePickersState', () => {
         showDatePickers: true,
         startDateError: false,
         endDateError: 'Meeting should start before it ends.',
-        minStartDate: expect.moment('2022-01-02T13:10:00.000Z'),
+        minStartDate: DateTime.fromISO('2022-01-02T13:10:00.000Z'),
       });
     });
   });
@@ -98,8 +97,8 @@ describe('useDatePickersState', () => {
     it('should hide date pickers if parent is a single day meeting', () => {
       const { result } = renderHook(() =>
         useDatePickersState({
-          startTime: moment('2022-01-02T14:15:00Z'),
-          endTime: moment('2022-01-02T14:30:00Z'),
+          startTime: DateTime.fromISO('2022-01-02T14:15:00Z'),
+          endTime: DateTime.fromISO('2022-01-02T14:30:00Z'),
           parentMeeting: mockMeeting({
             content: {
               startTime: '2022-01-02T14:00:00Z',
@@ -113,15 +112,15 @@ describe('useDatePickersState', () => {
         showDatePickers: false,
         startDateError: false,
         endDateError: false,
-        minStartDate: expect.moment('2022-01-02T14:00:00Z'),
+        minStartDate: DateTime.fromISO('2022-01-02T14:00:00Z'),
       });
     });
 
     it('should show date pickers if parent is a multi day meeting', () => {
       const { result } = renderHook(() =>
         useDatePickersState({
-          startTime: moment('2022-01-02T14:15:00Z'),
-          endTime: moment('2022-01-02T14:30:00Z'),
+          startTime: DateTime.fromISO('2022-01-02T14:15:00Z'),
+          endTime: DateTime.fromISO('2022-01-02T14:30:00Z'),
           parentMeeting: mockMeeting({
             content: {
               startTime: '2022-01-02T14:00:00Z',
@@ -135,15 +134,15 @@ describe('useDatePickersState', () => {
         showDatePickers: true,
         startDateError: false,
         endDateError: false,
-        minStartDate: expect.moment('2022-01-02T14:00:00Z'),
+        minStartDate: DateTime.fromISO('2022-01-02T14:00:00Z'),
       });
     });
 
     it('should return error if start time is too early on single day meeting', () => {
       const { result } = renderHook(() =>
         useDatePickersState({
-          startTime: moment('2022-01-02T13:55:00Z'),
-          endTime: moment('2022-01-02T14:10:00Z'),
+          startTime: DateTime.fromISO('2022-01-02T13:55:00Z'),
+          endTime: DateTime.fromISO('2022-01-02T14:10:00Z'),
           parentMeeting: mockMeeting({
             content: {
               startTime: '2022-01-02T14:00:00Z',
@@ -158,15 +157,15 @@ describe('useDatePickersState', () => {
         startDateError:
           'Breakout session should start between 2:00 PM and 3:00 PM.',
         endDateError: false,
-        minStartDate: expect.moment('2022-01-02T14:00:00Z'),
+        minStartDate: DateTime.fromISO('2022-01-02T14:00:00Z'),
       });
     });
 
     it('should return error if start time is too early on multi day meeting', () => {
       const { result } = renderHook(() =>
         useDatePickersState({
-          startTime: moment('2022-01-02T13:55:00Z'),
-          endTime: moment('2022-01-02T14:10:00Z'),
+          startTime: DateTime.fromISO('2022-01-02T13:55:00Z'),
+          endTime: DateTime.fromISO('2022-01-02T14:10:00Z'),
           parentMeeting: mockMeeting({
             content: {
               startTime: '2022-01-02T14:00:00Z',
@@ -182,15 +181,15 @@ describe('useDatePickersState', () => {
           /Breakout session should start between January 2, 2022(,| at) 2:00 PM and January 3, 2022(,| at) 3:00 PM/
         ),
         endDateError: false,
-        minStartDate: expect.moment('2022-01-02T14:00:00Z'),
+        minStartDate: DateTime.fromISO('2022-01-02T14:00:00Z'),
       });
     });
 
     it('should return error if end time is too early on single day meeting', () => {
       const { result } = renderHook(() =>
         useDatePickersState({
-          startTime: moment('2022-01-02T13:40:00Z'),
-          endTime: moment('2022-01-02T13:55:00Z'),
+          startTime: DateTime.fromISO('2022-01-02T13:40:00Z'),
+          endTime: DateTime.fromISO('2022-01-02T13:55:00Z'),
           parentMeeting: mockMeeting({
             content: {
               startTime: '2022-01-02T14:00:00Z',
@@ -206,15 +205,15 @@ describe('useDatePickersState', () => {
           'Breakout session should start between 2:00 PM and 3:00 PM.',
         endDateError:
           'Breakout session should end between 2:00 PM and 3:00 PM.',
-        minStartDate: expect.moment('2022-01-02T14:00:00Z'),
+        minStartDate: DateTime.fromISO('2022-01-02T14:00:00Z'),
       });
     });
 
     it('should return error if end time is too early on multi day meeting', () => {
       const { result } = renderHook(() =>
         useDatePickersState({
-          startTime: moment('2022-01-02T13:40:00Z'),
-          endTime: moment('2022-01-02T13:55:00Z'),
+          startTime: DateTime.fromISO('2022-01-02T13:40:00Z'),
+          endTime: DateTime.fromISO('2022-01-02T13:55:00Z'),
           parentMeeting: mockMeeting({
             content: {
               startTime: '2022-01-02T14:00:00Z',
@@ -232,15 +231,15 @@ describe('useDatePickersState', () => {
         endDateError: expect.stringMatching(
           /Breakout session should end between January 2, 2022(,| at) 2:00 PM and January 3, 2022(,| at) 3:00 PM/
         ),
-        minStartDate: expect.moment('2022-01-02T14:00:00Z'),
+        minStartDate: DateTime.fromISO('2022-01-02T14:00:00Z'),
       });
     });
 
     it('should return error if end time is too late on single day meeting', () => {
       const { result } = renderHook(() =>
         useDatePickersState({
-          startTime: moment('2022-01-02T14:15:00Z'),
-          endTime: moment('2022-01-02T15:30:00Z'),
+          startTime: DateTime.fromISO('2022-01-02T14:15:00Z'),
+          endTime: DateTime.fromISO('2022-01-02T15:30:00Z'),
           parentMeeting: mockMeeting({
             content: {
               startTime: '2022-01-02T14:00:00Z',
@@ -255,15 +254,15 @@ describe('useDatePickersState', () => {
         startDateError: false,
         endDateError:
           'Breakout session should end between 2:00 PM and 3:00 PM.',
-        minStartDate: expect.moment('2022-01-02T14:00:00Z'),
+        minStartDate: DateTime.fromISO('2022-01-02T14:00:00Z'),
       });
     });
 
     it('should return error if end time is too late on multi day meeting', () => {
       const { result } = renderHook(() =>
         useDatePickersState({
-          startTime: moment('2022-01-02T14:15:00Z'),
-          endTime: moment('2022-01-03T15:30:00Z'),
+          startTime: DateTime.fromISO('2022-01-02T14:15:00Z'),
+          endTime: DateTime.fromISO('2022-01-03T15:30:00Z'),
           parentMeeting: mockMeeting({
             content: {
               startTime: '2022-01-02T14:00:00Z',
@@ -279,15 +278,15 @@ describe('useDatePickersState', () => {
         endDateError: expect.stringMatching(
           /Breakout session should end between January 2, 2022(,| at) 2:00 PM and January 3, 2022(,| at) 3:00 PM./
         ),
-        minStartDate: expect.moment('2022-01-02T14:00:00Z'),
+        minStartDate: DateTime.fromISO('2022-01-02T14:00:00Z'),
       });
     });
 
     it('should return error if end time is before start date on single day meeting', () => {
       const { result } = renderHook(() =>
         useDatePickersState({
-          startTime: moment('2022-01-02T14:15:00Z'),
-          endTime: moment('2022-01-02T14:10:00Z'),
+          startTime: DateTime.fromISO('2022-01-02T14:15:00Z'),
+          endTime: DateTime.fromISO('2022-01-02T14:10:00Z'),
           parentMeeting: mockMeeting({
             content: {
               startTime: '2022-01-02T14:00:00Z',
@@ -301,15 +300,15 @@ describe('useDatePickersState', () => {
         showDatePickers: false,
         startDateError: false,
         endDateError: 'Breakout session should start before it ends.',
-        minStartDate: expect.moment('2022-01-02T14:00:00Z'),
+        minStartDate: DateTime.fromISO('2022-01-02T14:00:00Z'),
       });
     });
 
     it('should return error if end time is before start date on multi day meeting', () => {
       const { result } = renderHook(() =>
         useDatePickersState({
-          startTime: moment('2022-01-02T14:15:00Z'),
-          endTime: moment('2022-01-02T14:10:00Z'),
+          startTime: DateTime.fromISO('2022-01-02T14:15:00Z'),
+          endTime: DateTime.fromISO('2022-01-02T14:10:00Z'),
           parentMeeting: mockMeeting({
             content: {
               startTime: '2022-01-02T14:00:00Z',
@@ -323,7 +322,7 @@ describe('useDatePickersState', () => {
         showDatePickers: true,
         startDateError: false,
         endDateError: 'Breakout session should start before it ends.',
-        minStartDate: expect.moment('2022-01-02T14:00:00Z'),
+        minStartDate: DateTime.fromISO('2022-01-02T14:00:00Z'),
       });
     });
   });

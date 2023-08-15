@@ -17,14 +17,14 @@
 import { TextFieldProps } from '@mui/material';
 import { visuallyHidden } from '@mui/utils';
 import { TimePicker } from '@mui/x-date-pickers';
-import moment, { Moment } from 'moment';
+import { DateTime } from 'luxon';
 import { Dispatch, useCallback, useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { timeOnlyDateFormat } from './dateFormat';
 
 type StartTimePickerProps = {
-  value: Moment;
-  onChange: Dispatch<Moment>;
+  value: DateTime;
+  onChange: Dispatch<DateTime>;
   TextFieldProps?: Partial<TextFieldProps>;
 
   /** If true, all helper texts are hidden. This affects both `error` and `readOnly`. */
@@ -60,15 +60,15 @@ export function StartTimePicker({
     setDate(value);
   }, [value]);
 
-  const invalidDate = !date.isValid();
+  const invalidDate = !date.isValid;
 
   const openDatePickerDialogue = useCallback(
-    (date: Moment | null) => {
+    (date: DateTime | null) => {
       return t(
         'dateTimePickers.openStartTimePicker',
         'Choose start time, selected time is  {{date, datetime}}',
         {
-          date: date?.toDate(),
+          date: date?.toJSDate(),
           formatParams: {
             date: timeOnlyDateFormat,
           },
@@ -79,14 +79,12 @@ export function StartTimePicker({
   );
 
   const handleOnChange = useCallback(
-    (date: Moment | null) => {
-      // It is necessary to clone the moment object
-      // (https://github.com/mui/material-ui-pickers/issues/359#issuecomment-381566442)
-      const newValue = moment(date?.toDate()).seconds(0).milliseconds(0);
+    (date: DateTime | null) => {
+      const newValue = (date ?? DateTime.now()).startOf('minute');
 
       setDate(newValue);
 
-      if (date?.isValid()) {
+      if (date?.isValid) {
         onChange(newValue);
       }
     },

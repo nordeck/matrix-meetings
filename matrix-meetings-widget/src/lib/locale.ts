@@ -15,11 +15,8 @@
  */
 
 import { Settings } from 'luxon';
-import * as moment from 'moment';
-import 'moment/min/locales';
 
 export function setLocale(locale: string): void {
-  moment.locale(locale);
   Settings.defaultLocale = locale;
   document.documentElement.lang = locale;
 }

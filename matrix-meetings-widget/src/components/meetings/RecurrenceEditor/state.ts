@@ -15,7 +15,7 @@
  */
 
 import { isEqual, omit } from 'lodash';
-import moment, { Moment } from 'moment';
+import { DateTime } from 'luxon';
 import { Dispatch, useReducer } from 'react';
 import { Frequency, Options, RRule } from 'rrule';
 import {
@@ -78,7 +78,7 @@ export type State = {
   /** The n-th week that the meeting is recurring in, used in ByWeekday mode: bysetpos */
   customNth: number;
   recurrenceEnd: RecurrenceEnd;
-  untilDate: Moment;
+  untilDate: DateTime;
   afterMeetingCount: string;
 };
 
@@ -96,7 +96,7 @@ export type Action =
   | { type: 'updateCustomNth'; customNth: number }
   | { type: 'updateRecurrenceEnd'; recurrenceEnd: RecurrenceEnd }
   | { type: 'updateAfterMeetingCount'; afterMeetingCount: string }
-  | { type: 'updateUntilDate'; untilDate: Moment };
+  | { type: 'updateUntilDate'; untilDate: DateTime };
 
 export function storeInitializer({
   initialRule,
@@ -146,7 +146,7 @@ export function storeInitializer({
     : RecurrenceEnd.Never;
   const afterMeetingCount =
     ruleOptions?.count?.toString() ?? defaultAfterMeetingCount.toString();
-  const untilDate = moment(ruleOptions?.until ?? defaultUntilDate);
+  const untilDate = DateTime.fromJSDate(ruleOptions?.until ?? defaultUntilDate);
 
   return {
     isDirty: false,
@@ -206,7 +206,7 @@ function toRecurrenceEnd(ruleOptions: Partial<Options>): RecurrenceEnd {
 export function reducer(state: State, action: Action): State {
   switch (action.type) {
     case 'updateStartDate': {
-      if (moment(action.startDate).isSame(state.startDate)) {
+      if (action.startDate.getTime() === state.startDate.getTime()) {
         return state;
       }
 
@@ -237,7 +237,7 @@ export function reducer(state: State, action: Action): State {
         startDate: action.startDate,
         // Reset all fields that are based on the start date
         afterMeetingCount: defaultAfterMeetingCount.toString(),
-        untilDate: moment(defaultUntilDate),
+        untilDate: DateTime.fromJSDate(defaultUntilDate),
         customByWeekday: [defaultCustomWeekday],
         customMonth: defaultCustomMonth,
         customNth: defaultCustomNth,
@@ -368,7 +368,7 @@ export function reducer(state: State, action: Action): State {
         recurrencePreset: action.recurrencePreset,
         // Reset all fields
         afterMeetingCount: defaultAfterMeetingCount.toString(),
-        untilDate: moment(defaultUntilDate),
+        untilDate: DateTime.fromJSDate(defaultUntilDate),
         customFrequency: ruleOptions?.freq ?? Frequency.DAILY,
         customInterval: '1',
         customByWeekday: normalizeByWeekday(ruleOptions?.byweekday) ?? [
@@ -461,8 +461,8 @@ function toRuleOptions(state: State): {
       isValid = false;
     }
   } else if (state.recurrenceEnd === RecurrenceEnd.UntilDate) {
-    if (state.untilDate.isValid()) {
-      ruleOptions.until = state.untilDate.toDate();
+    if (state.untilDate.isValid) {
+      ruleOptions.until = state.untilDate.toJSDate();
     } else {
       isValid = false;
     }

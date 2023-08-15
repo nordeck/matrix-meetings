@@ -17,7 +17,7 @@
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
-import * as moment from 'moment-timezone';
+import { DateTime } from 'luxon';
 import { ComponentType, PropsWithChildren } from 'react';
 import { LocalizationProvider } from '../LocalizationProvider';
 import { StartTimePicker } from './StartTimePicker';
@@ -36,7 +36,7 @@ describe('<StartTimePicker/>', () => {
     render(
       <StartTimePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -55,7 +55,7 @@ describe('<StartTimePicker/>', () => {
     const { container } = render(
       <StartTimePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -67,7 +67,7 @@ describe('<StartTimePicker/>', () => {
     const { container } = render(
       <StartTimePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -81,7 +81,7 @@ describe('<StartTimePicker/>', () => {
     render(
       <StartTimePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38.123Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38.123Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -92,15 +92,21 @@ describe('<StartTimePicker/>', () => {
     });
 
     expect(onChange).toBeCalled();
-    expect(onChange.mock.calls[0][0].toISOString()).toEqual(
+    expect(onChange.mock.calls[0][0].toISO()).toEqual(
       '2020-01-01T08:15:00.000Z'
     );
   });
 
   it('should not update on invalid value', () => {
-    render(<StartTimePicker onChange={onChange} value={moment.invalid()} />, {
-      wrapper: Wrapper,
-    });
+    render(
+      <StartTimePicker
+        onChange={onChange}
+        value={DateTime.invalid('Invalid')}
+      />,
+      {
+        wrapper: Wrapper,
+      }
+    );
 
     const textbox = screen.getByRole('textbox', {
       name: /start time/i,
@@ -122,7 +128,7 @@ describe('<StartTimePicker/>', () => {
       <StartTimePicker
         error="This is wrong"
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -140,7 +146,7 @@ describe('<StartTimePicker/>', () => {
         error="This is wrong"
         onChange={onChange}
         readOnly="This is readonly"
-        value={moment.utc('2020-01-01T12:15:38Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -158,7 +164,7 @@ describe('<StartTimePicker/>', () => {
     const { rerender } = render(
       <StartTimePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T12:15:38.123Z')}
+        value={DateTime.fromISO('2020-01-01T12:15:38.123Z')}
       />,
       { wrapper: Wrapper }
     );
@@ -170,7 +176,7 @@ describe('<StartTimePicker/>', () => {
     rerender(
       <StartTimePicker
         onChange={onChange}
-        value={moment.utc('2020-01-01T14:15:38.123Z')}
+        value={DateTime.fromISO('2020-01-01T14:15:38.123Z')}
       />
     );
 

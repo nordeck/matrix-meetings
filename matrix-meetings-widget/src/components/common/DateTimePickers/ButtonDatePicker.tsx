@@ -23,12 +23,12 @@ import {
   DatePickerProps,
   FieldSection,
 } from '@mui/x-date-pickers';
-import moment from 'moment';
+import { DateTime } from 'luxon';
 import { DispatchWithoutAction } from 'react';
 
 type ButtonFieldProps = BaseSingleInputFieldProps<
-  moment.Moment | null,
-  moment.Moment,
+  DateTime | null,
+  DateTime,
   FieldSection,
   unknown
 > & {
@@ -66,7 +66,7 @@ function ButtonField(props: ButtonFieldProps) {
   );
 }
 
-export function ButtonDatePicker(props: DatePickerProps<moment.Moment>) {
+export function ButtonDatePicker(props: DatePickerProps<DateTime>) {
   const { open, onClose, onOpen } = props;
   return (
     <DatePicker

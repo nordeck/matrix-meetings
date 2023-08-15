@@ -19,7 +19,7 @@ import {
   DatePickerSlotsComponentsProps,
   PickersDayProps,
 } from '@mui/x-date-pickers';
-import moment, { Moment } from 'moment';
+import { DateTime, Interval } from 'luxon';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateFilterRange } from '../../../lib/utils';
@@ -48,13 +48,13 @@ export const CalendarWorkWeekPicker = ({
   const onOpen = useCallback(() => setOpen(true), []);
   const onClose = useCallback(() => setOpen(false), []);
 
-  const startMoment = useMemo(() => moment(startDate), [startDate]);
-  const endMoment = useMemo(() => moment(endDate), [endDate]);
+  const start = useMemo(() => DateTime.fromISO(startDate), [startDate]);
+  const end = useMemo(() => DateTime.fromISO(endDate), [endDate]);
 
   const handleRangeChange = useCallback(
-    (value: Moment | null) => {
-      if (value?.isValid()) {
-        const date = value.toISOString();
+    (value: DateTime | null) => {
+      if (value?.isValid) {
+        const date = value.toISO();
         const { startDate, endDate } = generateFilterRange('workWeek', date);
         onRangeChange(startDate, endDate);
         onClose();
@@ -95,11 +95,11 @@ export const CalendarWorkWeekPicker = ({
           },
         },
         day: {
-          startMoment,
-          endMoment,
-        } as DatePickerSlotsComponentsProps<moment.Moment>['day'] & {
-          startMoment?: moment.Moment;
-          endMoment?: moment.Moment;
+          start,
+          end,
+        } as DatePickerSlotsComponentsProps<DateTime>['day'] & {
+          start?: DateTime;
+          end?: DateTime;
         },
       }}
       onAccept={handleRangeChange}
@@ -109,7 +109,7 @@ export const CalendarWorkWeekPicker = ({
       sx={sx}
       reduceAnimations={isReduceAnimations()}
       showDaysOutsideCurrentMonth
-      value={endMoment}
+      value={end}
       views={['year', 'month', 'day']}
       label={t('calendarWorkWeekPicker.label', '{{range, daterange}}', {
         range: [new Date(startDate), new Date(endDate)],
@@ -122,16 +122,17 @@ export const CalendarWorkWeekPicker = ({
 };
 
 function Day(
-  props: PickersDayProps<moment.Moment> & {
-    startMoment?: moment.Moment;
-    endMoment?: moment.Moment;
+  props: PickersDayProps<DateTime> & {
+    start?: DateTime;
+    end?: DateTime;
   }
 ) {
-  const { day, startMoment, endMoment, ...other } = props;
+  const { day, start, end, ...other } = props;
 
-  const isFirstDay = startMoment?.isSame(day, 'day');
-  const isLastDay = endMoment?.isSame(day, 'day');
-  const isBetween = day.isBetween(startMoment, endMoment, 'day');
+  const isFirstDay = start?.hasSame(day, 'day');
+  const isLastDay = end?.hasSame(day, 'day');
+  const isBetween =
+    start && end && Interval.fromDateTimes(start, end.plus(1)).contains(day);
 
   return (
     <HighlightedPickersDay

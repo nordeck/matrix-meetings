@@ -19,9 +19,9 @@ import {
   enUS,
   LocalizationProvider as MuiLocalizationProvider,
 } from '@mui/x-date-pickers';
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
+import { AdapterLuxonWeekday } from './AdapterLuxonWeekday';
 
 export function LocalizationProvider({ children }: PropsWithChildren<{}>) {
   const { i18n } = useTranslation();
@@ -31,10 +31,11 @@ export function LocalizationProvider({ children }: PropsWithChildren<{}>) {
 
   return (
     <MuiLocalizationProvider
-      dateAdapter={AdapterMoment}
+      dateAdapter={AdapterLuxonWeekday}
       localeText={
         locale.components.MuiLocalizationProvider.defaultProps.localeText
       }
+      adapterLocale={language}
     >
       {children}
     </MuiLocalizationProvider>

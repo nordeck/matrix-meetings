@@ -26,7 +26,7 @@ import {
 } from '@mui/material';
 import { unstable_useId as useId } from '@mui/utils';
 import { TFunction } from 'i18next';
-import { Moment } from 'moment';
+import { DateTime } from 'luxon';
 import { useCallback, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Frequency } from 'rrule';
@@ -143,7 +143,7 @@ export const RecurrenceEditor = ({
   );
 
   const handleUntilDateChange = useCallback(
-    (untilDate: Moment) => {
+    (untilDate: DateTime) => {
       dispatch({ type: 'updateUntilDate', untilDate });
     },
     [dispatch]

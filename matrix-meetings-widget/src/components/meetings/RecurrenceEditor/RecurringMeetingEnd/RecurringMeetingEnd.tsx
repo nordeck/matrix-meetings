@@ -28,7 +28,7 @@ import {
 } from '@mui/material';
 import { unstable_useId as useId } from '@mui/utils';
 import { DatePicker } from '@mui/x-date-pickers';
-import moment, { Moment } from 'moment';
+import { DateTime } from 'luxon';
 import { ChangeEvent, Dispatch, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { longDateFormat } from '../../../common/DateTimePickers';
@@ -40,8 +40,8 @@ type RecurringMeetingEndProps = {
   onAfterMeetingCountChange: Dispatch<string>;
   recurrenceEnd: RecurrenceEnd;
   onRecurrenceEndChange: Dispatch<RecurrenceEnd>;
-  untilDate: Moment;
-  onUntilDateChange: Dispatch<Moment>;
+  untilDate: DateTime;
+  onUntilDateChange: Dispatch<DateTime>;
 };
 
 export const RecurringMeetingEnd = ({
@@ -73,21 +73,19 @@ export const RecurringMeetingEnd = ({
   );
 
   const handleUntilDateChange = useCallback(
-    (value: Moment | null) => {
-      // It is necessary to clone the moment object
-      // (https://github.com/mui/material-ui-pickers/issues/359#issuecomment-381566442)
-      onUntilDateChange(moment(value?.toDate()).endOf('day'));
+    (value: DateTime | null) => {
+      onUntilDateChange((value ?? DateTime.now()).endOf('day'));
     },
     [onUntilDateChange]
   );
 
   const openDatePickerDialogue = useCallback(
-    (date: Moment | null) => {
+    (date: DateTime | null) => {
       return t(
         'recurrenceEditor.recurringMeetingEnd.untilDateInputOpenDatePicker',
         'Choose date at which the recurring meeting ends, selected date is {{date, datetime}}',
         {
-          date: date?.toDate(),
+          date: date?.toJSDate(),
           formatParams: {
             date: longDateFormat,
           },
@@ -150,7 +148,7 @@ export const RecurringMeetingEnd = ({
                     'recurrenceEditor.recurringMeetingEnd.untilDateLong',
                     'The meeting is repeated till {{date,datetime}}',
                     {
-                      date: untilDate.toDate(),
+                      date: untilDate.toJSDate(),
                       formatParams: {
                         date: longDateFormat,
                       },
@@ -177,7 +175,7 @@ export const RecurringMeetingEnd = ({
           >
             <DatePicker
               disabled={recurrenceEnd !== RecurrenceEnd.UntilDate}
-              minDate={moment(startDate)}
+              minDate={DateTime.fromJSDate(startDate)}
               onChange={handleUntilDateChange}
               value={untilDate}
               slotProps={{
@@ -186,7 +184,7 @@ export const RecurringMeetingEnd = ({
                 },
                 textField: {
                   fullWidth: true,
-                  helperText: !untilDate.isValid()
+                  helperText: !untilDate.isValid
                     ? t(
                         'recurrenceEditor.recurringMeetingEnd.untilDateInputInvalid',
                         'Invalid date'

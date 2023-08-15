@@ -25,7 +25,7 @@ import {
   TextField,
 } from '@mui/material';
 import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
-import moment from 'moment';
+import { Info } from 'luxon';
 import { ChangeEvent, Dispatch, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CustomRuleMode } from '../state';
@@ -105,7 +105,7 @@ export const CustomYearlyRecurringMeeting = ({
                     'The meeting is repeated yearly on {{nthMonthday}} {{month}}',
                     {
                       nthMonthday: customNthMonthday,
-                      month: moment.months(customMonth - 1),
+                      month: Info.months()[customMonth - 1],
                     }
                   ),
                 }}
@@ -171,8 +171,8 @@ export const CustomYearlyRecurringMeeting = ({
                     'The meeting is repeated yearly at {{ordinal}} {{weekday}} of {{month}}',
                     {
                       ordinal: getOrdinalLabel(customNth, t),
-                      weekday: moment.weekdays(customWeekday + 1),
-                      month: moment.months(customMonth - 1),
+                      weekday: Info.weekdays()[customWeekday],
+                      month: Info.months()[customMonth - 1],
                     }
                   ),
                 }}
