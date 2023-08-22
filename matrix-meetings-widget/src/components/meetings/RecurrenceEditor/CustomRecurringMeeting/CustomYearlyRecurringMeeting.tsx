@@ -30,7 +30,7 @@ import { ChangeEvent, Dispatch, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CustomRuleMode } from '../state';
 import { MonthSelect } from './MonthSelect';
-import { getOrdinalLabel, OrdinalSelect } from './OrdinalSelect';
+import { OrdinalSelect, getOrdinalLabel } from './OrdinalSelect';
 import { WeekdaySelect } from './WeekdaySelect';
 
 type CustomYearlyRecurringMeetingProps = {

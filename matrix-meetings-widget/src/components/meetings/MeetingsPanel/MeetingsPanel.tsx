@@ -25,11 +25,11 @@ import { useTranslation } from 'react-i18next';
 import { generateFilterRange } from '../../../lib/utils';
 import {
   Filters,
+  RoomType,
   makeSelectAllInvitedMeetingIds,
   makeSelectHasBreakoutSessions,
   makeSelectRoomPermissions,
   makeSelectRoomType,
-  RoomType,
 } from '../../../reducer/meetingsApi';
 import { useAppSelector } from '../../../store';
 import { InvitedMeetingsList } from '../InvitedMeetingsList';

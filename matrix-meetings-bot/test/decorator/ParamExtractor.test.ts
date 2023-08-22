@@ -22,8 +22,8 @@ import { ExecutionContextHost } from '@nestjs/core/helpers/execution-context-hos
 import { instance, mock, reset, when } from 'ts-mockito';
 import {
   NET_NORDECK_CONTEXT,
-  paramExtractor,
   ParamName,
+  paramExtractor,
 } from '../../src/decorator/IParamExtractor';
 import { IUserContext } from '../../src/model/IUserContext';
 import { IContext } from '../../src/rpc/IContext';

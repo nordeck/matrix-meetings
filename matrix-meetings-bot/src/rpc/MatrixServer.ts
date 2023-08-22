@@ -33,12 +33,13 @@ import {
   MembershipEvent,
 } from 'matrix-bot-sdk';
 import { PinoLogger } from 'nestjs-pino';
-import { storage, Store } from 'nestjs-pino/storage';
+import { Store, storage } from 'nestjs-pino/storage';
 import * as pino from 'pino';
-import { lastValueFrom, Observable } from 'rxjs';
+import { Observable, lastValueFrom } from 'rxjs';
 import { AppRuntimeContext } from '../AppRuntimeContext';
-import { ReactionClient } from '../client/ReactionClient';
 import { IAppConfiguration } from '../IAppConfiguration';
+import { ModuleProviderToken } from '../ModuleProviderToken';
+import { ReactionClient } from '../client/ReactionClient';
 import { BotEventType } from '../matrix/BotEventType';
 import { IBotEventContent } from '../matrix/event/IBotEventContent';
 import { IRoomEvent } from '../matrix/event/IRoomEvent';
@@ -46,7 +47,6 @@ import { IStateEvent } from '../matrix/event/IStateEvent';
 import { IUserContext } from '../model/IUserContext';
 import { RoomEventName } from '../model/RoomEventName';
 import { StateEventName } from '../model/StateEventName';
-import { ModuleProviderToken } from '../ModuleProviderToken';
 import { ControlRoomMigrationService } from '../service/ControlRoomMigrationService';
 import { RoomMessageService } from '../service/RoomMessageService';
 import { IContext } from './IContext';

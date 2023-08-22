@@ -28,6 +28,9 @@ import {
   verify,
   when,
 } from 'ts-mockito';
+import { EventContentRenderer } from '../src/EventContentRenderer';
+import { IAppConfiguration } from '../src/IAppConfiguration';
+import { MatrixEndpoint } from '../src/MatrixEndpoint';
 import { JitsiClient } from '../src/client/JitsiClient';
 import { MeetingClient } from '../src/client/MeetingClient';
 import { WidgetClient } from '../src/client/WidgetClient';
@@ -45,8 +48,6 @@ import { ParticipantDto } from '../src/dto/ParticipantDto';
 import { SubMeetingsSendMessageDto } from '../src/dto/SubMeetingsSendMessageDto';
 import { PermissionError } from '../src/error/PermissionError';
 import { RoomNotCreatedError } from '../src/error/RoomNotCreatedError';
-import { EventContentRenderer } from '../src/EventContentRenderer';
-import { IAppConfiguration } from '../src/IAppConfiguration';
 import { RoomMatrixEventsReader } from '../src/io/RoomMatrixEventsReader';
 import { WidgetLayoutConfigReader } from '../src/io/WidgetLayoutConfigReader';
 import { IRoomCreate } from '../src/matrix/dto/IRoomCreate';
@@ -54,7 +55,6 @@ import {
   IStateEvent,
   iStateEventHelper,
 } from '../src/matrix/event/IStateEvent';
-import { MatrixEndpoint } from '../src/MatrixEndpoint';
 import { ExternalData } from '../src/model/ExternalData';
 import { IElementMembershipEventContent } from '../src/model/IElementMembershipEventContent';
 import { IMeetingsMetadataEventContent } from '../src/model/IMeetingsMetadataEventContent';
@@ -74,10 +74,10 @@ import { WidgetLayoutService } from '../src/service/WidgetLayoutService';
 import { create_test_meeting } from './MeetingServiceTestRooms';
 import { RoomEventsBuilder } from './RoomEventsBuilder';
 import {
+  SendStateEventParameter,
   captureSendStateEvent,
   createAppConfig,
   getArgsFromCaptor,
-  SendStateEventParameter,
 } from './util/MockUtils';
 
 describe('test relevant functionality of MeetingService', () => {

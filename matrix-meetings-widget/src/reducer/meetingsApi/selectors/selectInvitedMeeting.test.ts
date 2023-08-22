@@ -20,7 +20,7 @@ import {
   mockRoomCreate,
   mockSpaceChild,
 } from '../../../lib/testUtils';
-import { createStore, RootState } from '../../../store';
+import { RootState, createStore } from '../../../store';
 import { initializeStore } from '../../../store/store';
 import { makeSelectInvitedMeeting } from './selectInvitedMeeting';
 

@@ -25,18 +25,18 @@ import {
 } from 'matrix-bot-sdk';
 import { ArrayOps } from '../ArrayOps';
 import { DeepReadonly, DeepReadonlyArray } from '../DeepReadOnly';
+import { EventContentRenderer } from '../EventContentRenderer';
+import {
+  IEventContentParams,
+  eventContentParams,
+} from '../IEventContentParams';
+import { MatrixEndpoint } from '../MatrixEndpoint';
 import { MeetingCreateDto } from '../dto/MeetingCreateDto';
 import { Matrix404Error } from '../error/Matrix404Error';
 import { RoomNotCreatedError } from '../error/RoomNotCreatedError';
-import { EventContentRenderer } from '../EventContentRenderer';
-import {
-  eventContentParams,
-  IEventContentParams,
-} from '../IEventContentParams';
 import { ISyncParams } from '../matrix/dto/ISyncParams';
 import { EncryptionEventContent } from '../matrix/event/EncryptionEventContent';
 import { IStateEvent, iStateEventHelper } from '../matrix/event/IStateEvent';
-import { MatrixEndpoint } from '../MatrixEndpoint';
 import { IElementMembershipEventContent } from '../model/IElementMembershipEventContent';
 import { IMeetingsMetadataEventContent } from '../model/IMeetingsMetadataEventContent';
 import { IRoom } from '../model/IRoom';
@@ -52,9 +52,9 @@ import {
   getMeetingEndTime,
   getMeetingStartTime,
 } from '../shared';
+import { templateHelper } from '../util/TemplateHelper';
 import { extractOxRrule } from '../util/extractOxRrule';
 import { migrateMeetingTime } from '../util/migrateMeetingTime';
-import { templateHelper } from '../util/TemplateHelper';
 
 @Injectable()
 export class MeetingClient {

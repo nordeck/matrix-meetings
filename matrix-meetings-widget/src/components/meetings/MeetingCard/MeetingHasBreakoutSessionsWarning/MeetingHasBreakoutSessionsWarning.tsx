@@ -18,9 +18,9 @@ import { Alert, AlertTitle } from '@mui/material';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
+  Meeting,
   isMeetingRoom,
   makeSelectHasBreakoutSessions,
-  Meeting,
 } from '../../../../reducer/meetingsApi';
 import { useAppSelector } from '../../../../store';
 

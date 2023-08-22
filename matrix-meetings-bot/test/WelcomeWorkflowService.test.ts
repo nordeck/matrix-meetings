@@ -32,15 +32,15 @@ import {
   when,
 } from 'ts-mockito';
 import { AppRuntimeContext } from '../src/AppRuntimeContext';
-import { MeetingClient } from '../src/client/MeetingClient';
-import { WidgetClient } from '../src/client/WidgetClient';
 import { EventContentRenderer } from '../src/EventContentRenderer';
 import { IAppConfiguration } from '../src/IAppConfiguration';
+import { MatrixEndpoint } from '../src/MatrixEndpoint';
+import { MeetingClient } from '../src/client/MeetingClient';
+import { WidgetClient } from '../src/client/WidgetClient';
 import { RoomMatrixEventsReader } from '../src/io/RoomMatrixEventsReader';
 import { IRoomCreate } from '../src/matrix/dto/IRoomCreate';
 import { IRoomEvent } from '../src/matrix/event/IRoomEvent';
 import { IStateEvent } from '../src/matrix/event/IStateEvent';
-import { MatrixEndpoint } from '../src/MatrixEndpoint';
 import { IRoomMatrixEvents } from '../src/model/IRoomMatrixEvents';
 import { Room } from '../src/model/Room';
 import { StateEventName } from '../src/model/StateEventName';
@@ -51,9 +51,9 @@ import { RoomMessageService } from '../src/service/RoomMessageService';
 import { WelcomeWorkflowService } from '../src/service/WelcomeWorkflowService';
 import { RoomEventsBuilder } from './RoomEventsBuilder';
 import {
+  SendStateEventParameter,
   captureSendStateEvent,
   createAppConfig,
-  SendStateEventParameter,
 } from './util/MockUtils';
 
 describe('test WelcomeWorkflowService', () => {

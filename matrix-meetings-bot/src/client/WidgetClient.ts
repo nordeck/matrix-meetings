@@ -25,15 +25,15 @@ import { DeepReadonly } from '../DeepReadOnly';
 import { EventContentRenderer } from '../EventContentRenderer';
 import { IAppConfiguration } from '../IAppConfiguration';
 import {
-  eventContentParams,
   IEventContentParams,
+  eventContentParams,
 } from '../IEventContentParams';
+import { ModuleProviderToken } from '../ModuleProviderToken';
+import { StringUtil } from '../StringUtil';
 import { IRoomMatrixEvents } from '../model/IRoomMatrixEvents';
 import { IWidgetContent } from '../model/IWidgetContent';
 import { StateEventName } from '../model/StateEventName';
 import { WidgetType } from '../model/WidgetType';
-import { ModuleProviderToken } from '../ModuleProviderToken';
-import { StringUtil } from '../StringUtil';
 
 @Injectable()
 export class WidgetClient {

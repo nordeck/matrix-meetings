@@ -32,8 +32,8 @@ import { unstable_useId as useId } from '@mui/utils';
 import { Dispatch, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  makeSelectRoomPermissions,
   Meeting,
+  makeSelectRoomPermissions,
   selectNordeckMeetingMetadataEventByRoomId,
   selectRoomPowerLevelsEventByRoomId,
   useCloseMeetingMutation,
@@ -42,10 +42,10 @@ import { useAppSelector } from '../../../store';
 import { ConfirmDeleteDialog } from '../../common/ConfirmDeleteDialog';
 import { withoutYearDateFormat } from '../../common/DateTimePickers';
 import {
-  getOpenXChangeExternalReference,
   MenuButton,
   MenuButtonItem,
   OpenXchangeMenuButtonItem,
+  getOpenXChangeExternalReference,
 } from '../../common/MenuButton';
 import { useEditMeeting } from '../ScheduleMeetingModal';
 import { ScheduledDeletionWarning } from './ScheduledDeletionWarning';

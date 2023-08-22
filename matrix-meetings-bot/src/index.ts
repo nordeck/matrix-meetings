@@ -22,10 +22,10 @@ import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { useContainer } from 'class-validator';
 import { LogService } from 'matrix-bot-sdk';
 import { Logger } from 'nestjs-pino';
-import { AppModule } from './app.module';
 import { IAppConfiguration } from './IAppConfiguration';
-import { MatrixServer } from './rpc/MatrixServer';
 import { StubMatrixBotLogger } from './StubMatrixBotLogger';
+import { AppModule } from './app.module';
+import { MatrixServer } from './rpc/MatrixServer';
 
 // disables any logging in matrix bot sdk
 LogService.setLogger(new StubMatrixBotLogger());

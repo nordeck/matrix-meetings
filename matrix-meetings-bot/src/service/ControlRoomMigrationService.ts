@@ -19,9 +19,10 @@ import fs from 'fs';
 import { MatrixClient, MembershipEventContent } from 'matrix-bot-sdk';
 import path from 'path';
 import { AppRuntimeContext } from '../AppRuntimeContext';
+import { IAppConfiguration } from '../IAppConfiguration';
+import { ModuleProviderToken } from '../ModuleProviderToken';
 import { MeetingClient } from '../client/MeetingClient';
 import { WidgetClient } from '../client/WidgetClient';
-import { IAppConfiguration } from '../IAppConfiguration';
 import { IStateEvent } from '../matrix/event/IStateEvent';
 import { IControlRoomMigrationEventContent } from '../model/IControlRoomMigrationEventContent';
 import { IRoom } from '../model/IRoom';
@@ -31,7 +32,6 @@ import {
   WidgetLayoutConfigItem,
   WidgetLayoutStateEventContent,
 } from '../model/WidgetLayoutTypes';
-import { ModuleProviderToken } from '../ModuleProviderToken';
 
 @Injectable()
 export class ControlRoomMigrationService {

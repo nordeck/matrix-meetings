@@ -17,9 +17,9 @@
 import { Logger } from '@nestjs/common';
 import fs from 'fs';
 import path from 'path';
+import { StringUtil } from '../StringUtil';
 import { IRoomEvent } from '../matrix/event/IRoomEvent';
 import { IStateEvent } from '../matrix/event/IStateEvent';
-import { StringUtil } from '../StringUtil';
 import { IRoomMatrixEvents } from './IRoomMatrixEvents';
 import { IWidgetContent } from './IWidgetContent';
 import { StateEventName } from './StateEventName';
