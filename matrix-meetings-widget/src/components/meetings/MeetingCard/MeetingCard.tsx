@@ -31,7 +31,7 @@ import {
   Typography,
 } from '@mui/material';
 import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
-import React, { ReactNode, useCallback, useState } from 'react';
+import { ReactNode, useCallback, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { ellipsis } from '../../../lib/ellipsis';
 import {
@@ -72,9 +72,6 @@ type MeetingCardProps = WithMeetingProps & {
   /** Additional buttons to show in the header of the card */
   cardHeaderButtons?: ReactNode;
 
-  /** The component to use for the heading. Defaults to `h5` */
-  headingComponent?: React.ElementType;
-
   /** If true the card includes a button to go to the room */
   showOpenMeetingRoomButton?: boolean;
 
@@ -88,7 +85,6 @@ export const MeetingCard = withRoomIdMeeting(
     titleId,
     meetingTimeId,
     cardHeaderButtons,
-    headingComponent,
     showOpenMeetingRoomButton,
     shortDateFormat,
   }: MeetingCardProps) => {
@@ -218,7 +214,7 @@ export const MeetingCard = withRoomIdMeeting(
           titleTypographyProps={{
             id: titleId,
             sx: ellipsis,
-            component: headingComponent ?? 'h5',
+            component: 'h5',
           }}
         />
 
