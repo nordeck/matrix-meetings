@@ -28,7 +28,7 @@
     "test:all": "yarn workspaces run test:all",
     "lint": "yarn workspaces run lint",
     "depcheck": "yarn depcheck:root && yarn workspaces run depcheck",
-    "depcheck:root": "depcheck --ignores=@types/jest,@types/node,prettier-plugin-organize-imports,@changesets/cli",
+    "depcheck:root": "depcheck --ignores=prettier-plugin-organize-imports,@changesets/cli",
     "deduplicate": "yarn-deduplicate",
     "generate-disclaimer": "yarn workspaces run generate-disclaimer",
     "docker:build": "yarn workspaces run docker:build",

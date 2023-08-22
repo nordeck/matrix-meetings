@@ -14,7 +14,7 @@
     "docker:inspect": "docker inspect nordeck/matrix-meetings-bot",
     "prestart": "yarn build",
     "build": "nest build && yarn copyfiles && yarn copyImages",
-    "depcheck": "depcheck --ignores=express,i18next-parser",
+    "depcheck": "depcheck",
     "start": "PORT=3001 nest start",
     "start:dev": "PORT=3001 nest start --watch",
     "start:debug": "PORT=3001 nest start --debug --watch",
