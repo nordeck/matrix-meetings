@@ -14,6 +14,8 @@ updates:
     groups:
       development-dependencies:
         dependency-type: 'development'
+        exclude-patterns:
+          - '@nestjs/*'
       matrix-widget-toolkit:
         # Group all dependencies that are managed by the widget toolkit
         patterns:
@@ -27,6 +29,9 @@ updates:
           - 'rxjs'
         exclude-patterns:
           - '@mui/x-date-pickers'
+      nest-js:
+        patterns:
+          - '@nestjs/*'
   - package-ecosystem: 'github-actions'
     directory: '/'
     open-pull-requests-limit: 15

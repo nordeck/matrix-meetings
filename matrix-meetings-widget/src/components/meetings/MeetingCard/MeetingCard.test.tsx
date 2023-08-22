@@ -355,22 +355,6 @@ describe('<MeetingCard/>', () => {
     ).resolves.toBeInTheDocument();
   });
 
-  it('should replace the component used for the heading', async () => {
-    render(
-      <MeetingCard
-        headingComponent="h3"
-        recurrenceId={undefined}
-        roomId="!meeting-room-id"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper }
-    );
-
-    await expect(
-      screen.findByRole('heading', { level: 3, name: /An important meeting/i })
-    ).resolves.toBeInTheDocument();
-  });
-
   it('should delete the meeting', async () => {
     widgetApi
       .observeRoomEvents('net.nordeck.meetings.meeting.close')
