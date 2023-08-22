@@ -37,7 +37,7 @@
     "@nestjs/microservices": "^9.4.0",
     "@nestjs/platform-express": "^9.4.0",
     "@nestjs/swagger": "^6.3.0",
-    "@supercharge/promise-pool": "^2.4.0",
+    "@supercharge/promise-pool": "^3.0.0",
     "base64url": "^3.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.0",

@@ -2480,10 +2480,10 @@
   dependencies:
     "@sinonjs/commons" "^1.7.0"
 
-"@supercharge/promise-pool@^2.4.0":
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/@supercharge/promise-pool/-/promise-pool-2.4.0.tgz#6050eea8c2d7f92ddd4ddc582ee328b15c034ad3"
-  integrity sha512-O9CMipBlq5OObdt1uKJGIzm9cdjpPWfj+a+Zw9EgWKxaMNHKC7EU7X9taj3H0EGQNLOSq2jAcOa3EzxlfHsD6w==
+"@supercharge/promise-pool@^3.0.0":
+  version "3.0.0"
+  resolved "https://registry.yarnpkg.com/@supercharge/promise-pool/-/promise-pool-3.0.0.tgz#11a6a68b41a0f9a917926e007a18cbcc5b50c0d8"
+  integrity sha512-AV9k1G1r73ppq5z08zXvbFF0skvqzgR5ZAVYQy+wDqQgehe7zDLXgeEo4EisKSKS2aK+aoFi27gzYw2Eny+g7g==
 
 "@surma/rollup-plugin-off-main-thread@^2.2.3":
   version "2.2.3"
