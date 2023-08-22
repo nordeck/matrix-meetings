@@ -9,7 +9,7 @@
     "@fullcalendar/core": "^6.1.6",
     "@fullcalendar/daygrid": "^6.1.6",
     "@fullcalendar/interaction": "^6.1.6",
-    "@fullcalendar/react": "^6.1.6",
+    "@fullcalendar/react": "^6.1.8",
     "@fullcalendar/timegrid": "^6.1.6",
     "@matrix-widget-toolkit/api": "^3.2.1",
     "@matrix-widget-toolkit/mui": "^1.1.5",
