@@ -38,6 +38,9 @@ afterEach(() => widgetApi.stop());
 
 beforeEach(() => (widgetApi = mockWidgetApi()));
 
+// The DOM is quite complex and big, therefore we have to increase the timeout
+jest.setTimeout(15000);
+
 describe('<MeetingsCalendar/>', () => {
   const onShowMore = jest.fn();
 
