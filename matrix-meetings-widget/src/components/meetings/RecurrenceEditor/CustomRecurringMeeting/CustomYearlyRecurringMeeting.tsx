@@ -30,7 +30,7 @@ import { ChangeEvent, Dispatch, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CustomRuleMode } from '../state';
 import { MonthSelect } from './MonthSelect';
-import { getOrdinalLabel, OrdinalSelect } from './OrdinalSelect';
+import { OrdinalSelect, getOrdinalLabel } from './OrdinalSelect';
 import { WeekdaySelect } from './WeekdaySelect';
 
 type CustomYearlyRecurringMeetingProps = {
@@ -168,9 +168,9 @@ export const CustomYearlyRecurringMeeting = ({
                 inputProps={{
                   'aria-label': t(
                     'recurrenceEditor.custom.yearly.byWeekdayLong',
-                    'The meeting is repeated yearly at {{ordinal}} {{weekday}} of {{month}}',
+                    'The meeting is repeated yearly at {{ordinalLabel}} {{weekday}} of {{month}}',
                     {
-                      ordinal: getOrdinalLabel(customNth, t),
+                      ordinalLabel: getOrdinalLabel(customNth, t),
                       weekday: Info.weekdays()[customWeekday],
                       month: Info.months()[customMonth - 1],
                     }

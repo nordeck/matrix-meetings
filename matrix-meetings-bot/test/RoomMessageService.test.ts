@@ -25,10 +25,10 @@ import {
   verify,
   when,
 } from 'ts-mockito';
-import { MeetingClient } from '../src/client/MeetingClient';
 import { EventContentRenderer } from '../src/EventContentRenderer';
 import { IAppConfiguration } from '../src/IAppConfiguration';
 import { MatrixEndpoint } from '../src/MatrixEndpoint';
+import { MeetingClient } from '../src/client/MeetingClient';
 import { IMeeting } from '../src/model/IMeeting';
 import { IUserContext } from '../src/model/IUserContext';
 import { MeetingType } from '../src/model/MeetingType';

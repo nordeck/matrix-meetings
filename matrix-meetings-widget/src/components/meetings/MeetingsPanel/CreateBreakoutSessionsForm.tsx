@@ -19,8 +19,8 @@ import { Button } from '@mui/material';
 import { ReactElement, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  withCurrentRoomMeeting,
   WithMeetingProps,
+  withCurrentRoomMeeting,
 } from '../../common/withRoomMeeting';
 import { useSetupBreakoutSessions } from '../SetupBreakoutSessionsModal';
 

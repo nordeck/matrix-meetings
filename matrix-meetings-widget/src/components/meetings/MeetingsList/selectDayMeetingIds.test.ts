@@ -17,7 +17,7 @@
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { mockCalendar, mockCreateMeetingRoom } from '../../../lib/testUtils';
 import { createStore } from '../../../store';
-import { initializeStore, RootState } from '../../../store/store';
+import { RootState, initializeStore } from '../../../store/store';
 import { makeSelectDayMeetingIds } from './selectDayMeetingIds';
 
 let widgetApi: MockedWidgetApi;

@@ -47,8 +47,8 @@ import { unstable_useId as useId } from '@mui/utils';
 import { DispatchWithoutAction, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
-  makeSelectRoomPermissions,
   Meeting,
+  makeSelectRoomPermissions,
   selectNordeckMeetingMetadataEventByRoomId,
   selectRoomPowerLevelsEventByRoomId,
   useCloseMeetingMutation,

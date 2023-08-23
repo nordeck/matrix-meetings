@@ -18,11 +18,11 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import i18next from 'i18next';
 import { MatrixClient, MessageEventContent } from 'matrix-bot-sdk';
 import { AppRuntimeContext } from '../AppRuntimeContext';
-import { TranslatableError } from '../error/TranslatableError';
 import { IAppConfiguration } from '../IAppConfiguration';
+import { ModuleProviderToken } from '../ModuleProviderToken';
+import { TranslatableError } from '../error/TranslatableError';
 import { IRoomEvent } from '../matrix/event/IRoomEvent';
 import { StateEventName } from '../model/StateEventName';
-import { ModuleProviderToken } from '../ModuleProviderToken';
 import { WelcomeWorkflowService } from './WelcomeWorkflowService';
 
 const TRIGGER = '!meeting';

@@ -19,11 +19,11 @@ import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { configureStore, createReducer } from '@reduxjs/toolkit';
 import { render, screen } from '@testing-library/react';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import { StoreProvider } from './StoreProvider';
 import {
   createStore as createStoreMocked,
   initializeStore as initializeStoreMocked,
 } from './store';
-import { StoreProvider } from './StoreProvider';
 
 jest.mock('./store');
 

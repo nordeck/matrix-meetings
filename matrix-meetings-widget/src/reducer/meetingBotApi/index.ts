@@ -22,6 +22,6 @@ export {
 } from './meetingBotApi';
 export type {
   AvailableWidget,
-  MeetingsBotConfiguration,
   MeetingSharingInformation,
+  MeetingsBotConfiguration,
 } from './types';

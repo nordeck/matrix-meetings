@@ -23,9 +23,9 @@ import { DateTime, Interval } from 'luxon';
 import React, { Dispatch, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ButtonDatePicker } from './ButtonDatePicker';
+import { HighlightedPickersDay } from './HighlightedPickersDay';
 import { longDateFormat, shortMonthDateFormat } from './dateFormat';
 import { isReduceAnimations } from './helper';
-import { HighlightedPickersDay } from './HighlightedPickersDay';
 
 export type DateRangePickerProps = {
   startDate: string;

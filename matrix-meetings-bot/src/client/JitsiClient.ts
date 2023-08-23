@@ -17,9 +17,9 @@
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import fetch from 'node-fetch';
 import { base32 } from 'rfc4648';
-import { MeetingSharingInformationDto } from '../dto/MeetingSharingInformationDto';
 import { IAppConfiguration } from '../IAppConfiguration';
 import { ModuleProviderToken } from '../ModuleProviderToken';
+import { MeetingSharingInformationDto } from '../dto/MeetingSharingInformationDto';
 
 @Injectable()
 export class JitsiClient {

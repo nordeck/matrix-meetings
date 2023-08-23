@@ -18,11 +18,11 @@ import { Inject, Injectable, Logger, NestMiddleware } from '@nestjs/common';
 import base64url from 'base64url';
 import { NextFunction, Request, Response } from 'express';
 import fetch from 'node-fetch';
-import { NET_NORDECK_CONTEXT } from '../decorator/IParamExtractor';
 import { IAppConfiguration } from '../IAppConfiguration';
 import { MatrixEndpoint } from '../MatrixEndpoint';
-import { IUserContext } from '../model/IUserContext';
 import { ModuleProviderToken } from '../ModuleProviderToken';
+import { NET_NORDECK_CONTEXT } from '../decorator/IParamExtractor';
+import { IUserContext } from '../model/IUserContext';
 
 export const BEARER = 'Bearer';
 export const MX_IDENTITY = 'MX-Identity';

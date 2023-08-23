@@ -15,7 +15,7 @@
  */
 
 import AxeBuilder from '@axe-core/playwright';
-import { Page, test as base, TestInfo, VideoMode } from '@playwright/test';
+import { Page, TestInfo, VideoMode, test as base } from '@playwright/test';
 import {
   BreakoutSessionsPage,
   CockpitWidgetPage,
@@ -24,7 +24,7 @@ import {
   MeetingsBotApi,
   MeetingsWidgetPage,
 } from './pages';
-import { getBotUsername, registerUser, User } from './util';
+import { User, getBotUsername, registerUser } from './util';
 import { deactivateUser } from './util/deactivateUser';
 
 type Fixtures = {

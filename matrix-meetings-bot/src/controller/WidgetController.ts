@@ -17,10 +17,10 @@
 import { Controller, Get, Inject } from '@nestjs/common';
 import { ApiOkResponse, ApiResponse } from '@nestjs/swagger';
 import { DeepReadonly } from '../DeepReadOnly';
-import { WidgetIdNameDto } from '../dto/WidgetIdNameDto';
 import { EventContentRenderer } from '../EventContentRenderer';
-import { IRoomMatrixEvents } from '../model/IRoomMatrixEvents';
 import { ModuleProviderToken } from '../ModuleProviderToken';
+import { WidgetIdNameDto } from '../dto/WidgetIdNameDto';
+import { IRoomMatrixEvents } from '../model/IRoomMatrixEvents';
 
 @Controller({
   path: 'widget',

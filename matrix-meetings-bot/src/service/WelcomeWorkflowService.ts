@@ -23,16 +23,16 @@ import {
   RoomCreateOptions,
 } from 'matrix-bot-sdk';
 import { AppRuntimeContext } from '../AppRuntimeContext';
+import { IAppConfiguration } from '../IAppConfiguration';
+import { ModuleProviderToken } from '../ModuleProviderToken';
 import { MeetingClient } from '../client/MeetingClient';
 import { WidgetClient } from '../client/WidgetClient';
 import { TranslatableError } from '../error/TranslatableError';
-import { IAppConfiguration } from '../IAppConfiguration';
 import { IStateEvent, iStateEventHelper } from '../matrix/event/IStateEvent';
 import { IRoom } from '../model/IRoom';
 import { powerLevelHelper } from '../model/PowerLevelHelper';
 import { StateEventName } from '../model/StateEventName';
 import { WidgetType } from '../model/WidgetType';
-import { ModuleProviderToken } from '../ModuleProviderToken';
 import { ControlRoomMigrationService } from './ControlRoomMigrationService';
 import { RoomMessageService } from './RoomMessageService';
 

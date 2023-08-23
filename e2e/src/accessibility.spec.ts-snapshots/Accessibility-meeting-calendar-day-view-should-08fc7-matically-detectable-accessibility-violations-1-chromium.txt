@@ -8,14 +8,14 @@
           "iframe",
           ".fc-scrollgrid"
         ],
-        "failureSummary": "Fix any of the following:\n  Element has children which are not allowed (see related nodes)\n  Element has no aria-busy=\"true\" attribute"
+        "failureSummary": "Fix any of the following:\n  Element has children which are not allowed: table[aria-hidden]\n  Element uses aria-busy=\"true\" while showing a loader"
       },
       {
         "target": [
           "iframe",
           "tbody[role=\"rowgroup\"]"
         ],
-        "failureSummary": "Fix any of the following:\n  Element has children which are not allowed (see related nodes)\n  Element has no aria-busy=\"true\" attribute"
+        "failureSummary": "Fix any of the following:\n  Element has children which are not allowed: table[aria-hidden]\n  Element uses aria-busy=\"true\" while showing a loader"
       }
     ]
   }
