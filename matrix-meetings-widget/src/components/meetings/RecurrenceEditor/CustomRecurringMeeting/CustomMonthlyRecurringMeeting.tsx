@@ -155,9 +155,9 @@ export const CustomMonthlyRecurringMeeting = ({
                 inputProps={{
                   'aria-label': t(
                     'recurrenceEditor.custom.monthly.byWeekdayLong',
-                    'The meeting is repeated monthly on {{ordinal}} {{weekday}}',
+                    'The meeting is repeated monthly on {{ordinalLabel}} {{weekday}}',
                     {
-                      ordinal: getOrdinalLabel(customNth, t),
+                      ordinalLabel: getOrdinalLabel(customNth, t),
                       weekday: Info.weekdays()[customWeekday],
                     }
                   ),
