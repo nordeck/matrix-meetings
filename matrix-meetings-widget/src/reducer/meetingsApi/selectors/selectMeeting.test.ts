@@ -22,7 +22,7 @@ import {
   mockCreateMeetingRoom,
   mockRoomMember,
 } from '../../../lib/testUtils';
-import { createStore, RootState } from '../../../store';
+import { RootState, createStore } from '../../../store';
 import { initializeStore } from '../../../store/store';
 import { makeSelectMeeting } from './selectMeeting';
 

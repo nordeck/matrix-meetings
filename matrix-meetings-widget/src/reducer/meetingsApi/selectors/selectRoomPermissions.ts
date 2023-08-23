@@ -15,12 +15,12 @@
  */
 
 import {
+  PowerLevelsStateEvent,
+  STATE_EVENT_POWER_LEVELS,
+  StateEvent,
   hasActionPower,
   hasRoomEventPower,
   hasStateEventPower,
-  PowerLevelsStateEvent,
-  StateEvent,
-  STATE_EVENT_POWER_LEVELS,
 } from '@matrix-widget-toolkit/api';
 import { createSelector } from '@reduxjs/toolkit';
 import {
@@ -31,8 +31,8 @@ import {
   STATE_EVENT_WIDGETS,
 } from '../../../lib/matrix';
 import { RootState } from '../../../store';
-import { selectRoomPowerLevelsEventByRoomId } from '../meetingsApi';
 import { RoomEvents } from '../RoomEvents';
+import { selectRoomPowerLevelsEventByRoomId } from '../meetingsApi';
 
 export function hasPermissions(
   event: StateEvent<PowerLevelsStateEvent> | undefined,

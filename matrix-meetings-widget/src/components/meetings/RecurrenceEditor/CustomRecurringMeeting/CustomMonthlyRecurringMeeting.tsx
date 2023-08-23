@@ -29,7 +29,7 @@ import { Info } from 'luxon';
 import { ChangeEvent, Dispatch, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { CustomRuleMode } from '../state';
-import { getOrdinalLabel, OrdinalSelect } from './OrdinalSelect';
+import { OrdinalSelect, getOrdinalLabel } from './OrdinalSelect';
 import { WeekdaySelect } from './WeekdaySelect';
 
 type MonthlyRecurringMeetingProps = {
@@ -155,9 +155,9 @@ export const CustomMonthlyRecurringMeeting = ({
                 inputProps={{
                   'aria-label': t(
                     'recurrenceEditor.custom.monthly.byWeekdayLong',
-                    'The meeting is repeated monthly on {{ordinal}} {{weekday}}',
+                    'The meeting is repeated monthly on {{ordinalLabel}} {{weekday}}',
                     {
-                      ordinal: getOrdinalLabel(customNth, t),
+                      ordinalLabel: getOrdinalLabel(customNth, t),
                       weekday: Info.weekdays()[customWeekday],
                     }
                   ),

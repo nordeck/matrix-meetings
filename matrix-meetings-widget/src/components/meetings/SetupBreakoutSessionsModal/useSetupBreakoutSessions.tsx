@@ -24,9 +24,9 @@ import {
 } from '../../../reducer/meetingsApi';
 import {
   CancelSetupBreakoutSessionsModal,
+  SETUP_BREAKOUT_SESSIONS_MODAL_ROUTE,
   SetupBreakoutSessionsModalData,
   SetupBreakoutSessionsModalResult,
-  SETUP_BREAKOUT_SESSIONS_MODAL_ROUTE,
   SubmitSetupBreakoutSessionsModal,
 } from './types';
 

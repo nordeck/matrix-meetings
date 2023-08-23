@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
+export { StoreProvider } from './StoreProvider';
 export { createStore, useAppDispatch, useAppSelector } from './store';
 export type { AppDispatch, RootState, ThunkExtraArgument } from './store';
-export { StoreProvider } from './StoreProvider';

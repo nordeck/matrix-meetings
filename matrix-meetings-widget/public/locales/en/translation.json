@@ -269,7 +269,7 @@
         "byMonthday": "On day",
         "byMonthdayLong": "The meeting is repeated monthly on the {{nthMonthday}}",
         "byWeekday": "On the",
-        "byWeekdayLong": "The meeting is repeated monthly on {{ordinal}} {{weekday}}",
+        "byWeekdayLong": "The meeting is repeated monthly on {{ordinalLabel}} {{weekday}}",
         "customRuleMode": "Custom Rule",
         "invalidInput": "Invalid input",
         "monthdayInput": "Day"
@@ -283,7 +283,7 @@
         "byMonthday": "On day",
         "byMonthdayLong": "The meeting is repeated yearly on {{nthMonthday}} {{month}}",
         "byWeekday": "On the",
-        "byWeekdayLong": "The meeting is repeated yearly at {{ordinal}} {{weekday}} of {{month}}",
+        "byWeekdayLong": "The meeting is repeated yearly at {{ordinalLabel}} {{weekday}} of {{month}}",
         "byWeekdayOf": "of",
         "customRuleMode": "Custom Rule",
         "invalidInput": "Invalid input",

@@ -25,11 +25,11 @@ import {
 import { BaseExceptionFilter, HttpAdapterHost } from '@nestjs/core';
 import i18next from 'i18next';
 import { MatrixClient } from 'matrix-bot-sdk';
-import { ReactionClient } from '../client/ReactionClient';
 import { IAppConfiguration } from '../IAppConfiguration';
+import { ModuleProviderToken } from '../ModuleProviderToken';
+import { ReactionClient } from '../client/ReactionClient';
 import { IRoomEvent } from '../matrix/event/IRoomEvent';
 import { StateEventName } from '../model/StateEventName';
-import { ModuleProviderToken } from '../ModuleProviderToken';
 import { IHandlerArguments } from '../rpc/MatrixServer';
 import { RoomMessageService } from '../service/RoomMessageService';
 

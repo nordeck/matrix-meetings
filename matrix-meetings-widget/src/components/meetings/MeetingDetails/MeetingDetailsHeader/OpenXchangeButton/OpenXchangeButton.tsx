@@ -18,8 +18,8 @@ import { Button } from '@mui/material';
 import { DispatchWithoutAction, PropsWithChildren } from 'react';
 import { useGetConfigurationQuery } from '../../../../../reducer/meetingBotApi';
 import {
-  buildOpenXChangeLink,
   OpenXChangeExternalReference,
+  buildOpenXChangeLink,
 } from './openXchange';
 
 type OpenXchangeButtonProps = {

@@ -16,14 +16,14 @@
 
 import { Inject, Injectable } from '@nestjs/common';
 import {
-  registerDecorator,
   ValidationOptions,
   ValidatorConstraint,
   ValidatorConstraintInterface,
+  registerDecorator,
 } from 'class-validator';
 import { DeepReadonly } from '../DeepReadOnly';
-import { IRoomMatrixEvents } from '../model/IRoomMatrixEvents';
 import { ModuleProviderToken } from '../ModuleProviderToken';
+import { IRoomMatrixEvents } from '../model/IRoomMatrixEvents';
 
 @ValidatorConstraint({ async: false })
 @Injectable()

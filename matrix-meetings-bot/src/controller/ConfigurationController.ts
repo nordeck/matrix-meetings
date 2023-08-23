@@ -15,10 +15,10 @@
  */
 
 import { Controller, Get, Inject, UseGuards } from '@nestjs/common';
-import { ConfigurationDto } from '../dto/ConfigurationDto';
-import { MatrixAuthGuard } from '../guard/MatrixAuthGuard';
 import { IAppConfiguration } from '../IAppConfiguration';
 import { ModuleProviderToken } from '../ModuleProviderToken';
+import { ConfigurationDto } from '../dto/ConfigurationDto';
+import { MatrixAuthGuard } from '../guard/MatrixAuthGuard';
 
 @Controller({
   path: 'config',
