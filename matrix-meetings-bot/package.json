@@ -45,7 +45,7 @@
     "html-entities": "^2.3.3",
     "i18next": "^23.4.4",
     "i18next-fs-backend": "^2.1.1",
-    "i18next-http-middleware": "^3.3.0",
+    "i18next-http-middleware": "^3.3.2",
     "joi": "^17.9.2",
     "lodash": "^4.17.20",
     "luxon": "^3.3.0",
