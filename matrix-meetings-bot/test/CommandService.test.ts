@@ -25,8 +25,8 @@ import {
   when,
 } from 'ts-mockito';
 import { AppRuntimeContext } from '../src/AppRuntimeContext';
-import { TranslatableError } from '../src/error/TranslatableError';
 import { IAppConfiguration } from '../src/IAppConfiguration';
+import { TranslatableError } from '../src/error/TranslatableError';
 import { IRoomEvent } from '../src/matrix/event/IRoomEvent';
 import { StateEventName } from '../src/model/StateEventName';
 import { CommandService, SETUP_COMMANDS } from '../src/service/CommandService';

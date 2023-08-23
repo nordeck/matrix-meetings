@@ -22,11 +22,11 @@ import {
   mockRoomName,
   mockRoomTopic,
 } from '../../../lib/testUtils';
-import { createStore, RootState } from '../../../store';
+import { RootState, createStore } from '../../../store';
 import { initializeStore } from '../../../store/store';
 import {
-  filterMeetingByText,
   Filters,
+  filterMeetingByText,
   makeSelectAllMeetingIds,
 } from './selectAllMeetingIds';
 

@@ -18,6 +18,11 @@ export { CalendarDayPicker } from './CalendarDayPicker';
 export { CalendarMonthPicker } from './CalendarMonthPicker';
 export { CalendarWeekPicker } from './CalendarWeekPicker';
 export { CalendarWorkWeekPicker } from './CalendarWorkWeekPicker';
+export { DateRangePicker } from './DateRangePicker';
+export { EndDatePicker } from './EndDatePicker';
+export { EndTimePicker } from './EndTimePicker';
+export { StartDatePicker } from './StartDatePicker';
+export { StartTimePicker } from './StartTimePicker';
 export {
   fullDateFormat,
   fullLongDateFormat,
@@ -27,9 +32,4 @@ export {
   timeOnlyDateFormat,
   withoutYearDateFormat,
 } from './dateFormat';
-export { DateRangePicker } from './DateRangePicker';
-export { EndDatePicker } from './EndDatePicker';
-export { EndTimePicker } from './EndTimePicker';
-export { StartDatePicker } from './StartDatePicker';
-export { StartTimePicker } from './StartTimePicker';
 export { useDatePickersState } from './useDatePickersState';

@@ -18,8 +18,8 @@ import { ListItemIcon, ListItemText, MenuItem } from '@mui/material';
 import { DispatchWithoutAction, PropsWithChildren, ReactElement } from 'react';
 import { useGetConfigurationQuery } from '../../../../reducer/meetingBotApi';
 import {
-  buildOpenXChangeLink,
   OpenXChangeExternalReference,
+  buildOpenXChangeLink,
 } from './openXchange';
 
 type OpenXchangeMenuButtonItemProps = {

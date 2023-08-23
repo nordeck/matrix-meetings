@@ -19,12 +19,12 @@ import Mustache from 'mustache';
 import { DeepReadonly, DeepReadonlyArray } from './DeepReadOnly';
 import { IAppConfiguration } from './IAppConfiguration';
 import { IEventContentParams } from './IEventContentParams';
+import { ModuleProviderToken } from './ModuleProviderToken';
 import { IMatrixEvent } from './matrix/event/IMatrixEvent';
 import { IRoomEvent } from './matrix/event/IRoomEvent';
 import { IStateEvent } from './matrix/event/IStateEvent';
 import { IWidgetContent } from './model/IWidgetContent';
 import { StateEventName } from './model/StateEventName';
-import { ModuleProviderToken } from './ModuleProviderToken';
 
 @Injectable()
 export class EventContentRenderer {

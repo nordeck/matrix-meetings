@@ -16,11 +16,11 @@
 
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import _ from 'lodash';
+import { ModuleProviderToken } from '../ModuleProviderToken';
 import {
   WidgetLayoutConfig,
   WidgetLayoutStateEventContent,
 } from '../model/WidgetLayoutTypes';
-import { ModuleProviderToken } from '../ModuleProviderToken';
 
 @Injectable()
 export class WidgetLayoutService {

@@ -38,9 +38,9 @@ import {
   parseICalDate,
 } from '../../../lib/utils';
 import {
+  Meeting,
   makeSelectAllRoomMemberEventsByRoomId,
   makeSelectMeeting,
-  Meeting,
 } from '../../../reducer/meetingsApi';
 import { useAppSelector } from '../../../store';
 import {

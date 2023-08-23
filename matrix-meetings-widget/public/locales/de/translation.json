@@ -269,7 +269,7 @@
         "byMonthday": "Am",
         "byMonthdayLong": "Der Termin wird monatlich am {{nthMonthday}}. wiederholt",
         "byWeekday": "Am",
-        "byWeekdayLong": "Der Termin wird monatlich am {{ordinal}} {{weekday}} wiederholt",
+        "byWeekdayLong": "Der Termin wird monatlich am {{ordinalLabel}} {{weekday}} wiederholt",
         "customRuleMode": "Benutzerdefinierte Regel",
         "invalidInput": "Ungültige Eingabe",
         "monthdayInput": "Tag"
@@ -283,7 +283,7 @@
         "byMonthday": "Am",
         "byMonthdayLong": "Der Termin wird jährlich am {{nthMonthday}}. {{month}} wiederholt",
         "byWeekday": "Am",
-        "byWeekdayLong": "Der Termin wird jährlich am {{ordinal}} {{weekday}} in {{month}} wiederholt",
+        "byWeekdayLong": "Der Termin wird jährlich am {{ordinalLabel}} {{weekday}} in {{month}} wiederholt",
         "byWeekdayOf": "im",
         "customRuleMode": "Benutzerdefinierte Regel",
         "invalidInput": "Ungültige Eingabe",

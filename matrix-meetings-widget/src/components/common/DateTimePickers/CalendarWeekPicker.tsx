@@ -24,9 +24,9 @@ import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { generateFilterRange } from '../../../lib/utils';
 import { ButtonDatePicker } from './ButtonDatePicker';
+import { HighlightedPickersDay } from './HighlightedPickersDay';
 import { longDateFormat, shortMonthDateFormat } from './dateFormat';
 import { isReduceAnimations } from './helper';
-import { HighlightedPickersDay } from './HighlightedPickersDay';
 
 export type CalendarWeekPickerProps = {
   startDate: string;

@@ -15,18 +15,18 @@
  */
 
 import {
-  isValidPowerLevelStateEvent,
-  isValidRoomMemberStateEvent,
   PowerLevelsStateEvent,
   RoomMemberStateEventContent,
-  StateEvent,
   STATE_EVENT_POWER_LEVELS,
   STATE_EVENT_ROOM_MEMBER,
+  StateEvent,
+  isValidPowerLevelStateEvent,
+  isValidRoomMemberStateEvent,
 } from '@matrix-widget-toolkit/api';
 import {
+  EntityState,
   createEntityAdapter,
   createSelector,
-  EntityState,
 } from '@reduxjs/toolkit';
 import { QueryActionCreatorResult } from '@reduxjs/toolkit/dist/query/core/buildInitiate';
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
@@ -34,6 +34,22 @@ import { xor } from 'lodash';
 import { Symbols } from 'matrix-widget-api';
 import { bufferTime, filter } from 'rxjs/operators';
 import {
+  NordeckMeetingMetadataEvent,
+  RoomCreateEvent,
+  RoomNameEvent,
+  RoomTombstoneEvent,
+  RoomTopicEvent,
+  STATE_EVENT_NORDECK_MEETING_METADATA,
+  STATE_EVENT_ROOM_CREATE,
+  STATE_EVENT_ROOM_NAME,
+  STATE_EVENT_ROOM_TOMBSTONE,
+  STATE_EVENT_ROOM_TOPIC,
+  STATE_EVENT_SPACE_CHILD,
+  STATE_EVENT_SPACE_PARENT,
+  STATE_EVENT_WIDGETS,
+  SpaceChildEvent,
+  SpaceParentEvent,
+  WidgetsEvent,
   isValidNordeckMeetingMetadataEvent,
   isValidRoomCreateEvent,
   isValidRoomNameEvent,
@@ -43,27 +59,11 @@ import {
   isValidSpaceParentEvent,
   isValidWidgetsEvent,
   migrateNordeckMeetingMetadataEventSchema,
-  NordeckMeetingMetadataEvent,
-  RoomCreateEvent,
-  RoomNameEvent,
-  RoomTombstoneEvent,
-  RoomTopicEvent,
-  SpaceChildEvent,
-  SpaceParentEvent,
-  STATE_EVENT_NORDECK_MEETING_METADATA,
-  STATE_EVENT_ROOM_CREATE,
-  STATE_EVENT_ROOM_NAME,
-  STATE_EVENT_ROOM_TOMBSTONE,
-  STATE_EVENT_ROOM_TOPIC,
-  STATE_EVENT_SPACE_CHILD,
-  STATE_EVENT_SPACE_PARENT,
-  STATE_EVENT_WIDGETS,
-  WidgetsEvent,
 } from '../../lib/matrix';
 import { isBotUser, isDefined } from '../../lib/utils';
 import { AppDispatch, RootState, ThunkExtraArgument } from '../../store';
-import { awaitAcknowledgement, withEventContext } from './helpers';
 import { RoomEvents } from './RoomEvents';
+import { awaitAcknowledgement, withEventContext } from './helpers';
 import {
   CreateBreakoutSessionsOptions,
   CreateMeetingOptions,

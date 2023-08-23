@@ -39,8 +39,8 @@ import {
 import { useTranslation } from 'react-i18next';
 import { ellipsis } from '../../../../lib/ellipsis';
 import {
-  makeSelectAllRoomMemberEventsByRoomId,
   Meeting,
+  makeSelectAllRoomMemberEventsByRoomId,
 } from '../../../../reducer/meetingsApi';
 import { useAppSelector } from '../../../../store';
 import { HeadingDivider } from '../../../common/HeadingDivider';

@@ -20,10 +20,17 @@ import { encode } from 'html-entities';
 import i18next from 'i18next';
 import { MatrixClient, SpaceEntityMap, UserID } from 'matrix-bot-sdk';
 import { PowerLevelAction } from 'matrix-bot-sdk/lib/models/PowerLevelAction';
+import { DeepReadonly, DeepReadonlyArray } from '../DeepReadOnly';
+import { EventContentRenderer } from '../EventContentRenderer';
+import { IAppConfiguration } from '../IAppConfiguration';
+import {
+  IEventContentParams,
+  eventContentParams,
+} from '../IEventContentParams';
+import { ModuleProviderToken } from '../ModuleProviderToken';
 import { JitsiClient } from '../client/JitsiClient';
 import { MeetingClient } from '../client/MeetingClient';
 import { WidgetClient } from '../client/WidgetClient';
-import { DeepReadonly, DeepReadonlyArray } from '../DeepReadOnly';
 import { BreakoutSessionsDto } from '../dto/BreakoutSessionsDto';
 import { MeetingChangeMessagingPermissionDto } from '../dto/MeetingChangeMessagingPermissionDto';
 import { MeetingCloseDto } from '../dto/MeetingCloseDto';
@@ -38,12 +45,6 @@ import { MeetingNotFoundError } from '../error/MeetingNotFoundError';
 import { ParticipantError } from '../error/ParticipantError';
 import { PermissionError } from '../error/PermissionError';
 import { RoomNotFoundError } from '../error/RoomNotFoundError';
-import { EventContentRenderer } from '../EventContentRenderer';
-import { IAppConfiguration } from '../IAppConfiguration';
-import {
-  eventContentParams,
-  IEventContentParams,
-} from '../IEventContentParams';
 import { IRoomEvent } from '../matrix/event/IRoomEvent';
 import { IStateEvent } from '../matrix/event/IStateEvent';
 import { IElementMembershipEventContent } from '../model/IElementMembershipEventContent';
@@ -60,16 +61,15 @@ import { powerLevelHelper } from '../model/PowerLevelHelper';
 import { RoomEventName } from '../model/RoomEventName';
 import { StateEventName } from '../model/StateEventName';
 import { WidgetType } from '../model/WidgetType';
-import { ModuleProviderToken } from '../ModuleProviderToken';
 import {
   getForceDeletionTime,
   getMeetingEndTime,
   getMeetingStartTime,
 } from '../shared';
-import { extractOxRrule } from '../util/extractOxRrule';
 import { IMeetingChanges, meetingChangesHelper } from '../util/IMeetingChanges';
-import { migrateMeetingTime } from '../util/migrateMeetingTime';
 import { templateHelper } from '../util/TemplateHelper';
+import { extractOxRrule } from '../util/extractOxRrule';
+import { migrateMeetingTime } from '../util/migrateMeetingTime';
 import { RoomMessageService } from './RoomMessageService';
 import { WidgetLayoutService } from './WidgetLayoutService';
 

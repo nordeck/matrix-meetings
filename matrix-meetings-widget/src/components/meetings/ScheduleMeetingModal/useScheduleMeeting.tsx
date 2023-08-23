@@ -24,9 +24,9 @@ import { formatICalDate, normalizeCalendarEntry } from '../../../lib/utils';
 import { useCreateMeetingMutation } from '../../../reducer/meetingsApi';
 import {
   CancelScheduleMeetingModal,
+  SCHEDULE_MEETING_MODAL_ROUTE,
   ScheduleMeetingModalRequest,
   ScheduleMeetingModalResult,
-  SCHEDULE_MEETING_MODAL_ROUTE,
   SubmitScheduleMeetingModal,
 } from './types';
 

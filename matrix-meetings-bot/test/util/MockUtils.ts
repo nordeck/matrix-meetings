@@ -16,8 +16,8 @@
 
 import { MatrixClient } from 'matrix-bot-sdk';
 import { capture } from 'ts-mockito';
-import { ArgCaptor10 } from 'ts-mockito/lib/capture/ArgCaptor';
 import { MethodAction } from 'ts-mockito/lib/MethodAction';
+import { ArgCaptor10 } from 'ts-mockito/lib/capture/ArgCaptor';
 import * as util from 'util';
 import { IAppConfiguration } from '../../src/IAppConfiguration';
 import { StateEventName } from '../../src/model/StateEventName';

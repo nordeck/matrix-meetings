@@ -16,7 +16,7 @@
 
 import { WidgetApi } from '@matrix-widget-toolkit/api';
 import { constant, times } from 'lodash';
-import { firstValueFrom, Subject } from 'rxjs';
+import { Subject, firstValueFrom } from 'rxjs';
 import { filter, take, takeUntil, timeout, toArray } from 'rxjs/operators';
 import { isValidReactionEvent } from '../../lib/matrix';
 

@@ -32,6 +32,9 @@ updates:
       nest-js:
         patterns:
           - '@nestjs/*'
+      fullcalendar:
+        patterns:
+          - '@fullcalendar/*'
   - package-ecosystem: 'github-actions'
     directory: '/'
     open-pull-requests-limit: 15

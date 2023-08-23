@@ -19,12 +19,12 @@ import { Route, Routes } from 'react-router-dom';
 import { CockpitPanel } from './components/cockpit/CockpitPanel';
 import { MeetingsPanel } from './components/meetings/MeetingsPanel';
 import {
-  ScheduleMeetingModal,
   SCHEDULE_MEETING_MODAL_ROUTE,
+  ScheduleMeetingModal,
 } from './components/meetings/ScheduleMeetingModal';
 import {
-  SetupBreakoutSessionsModal,
   SETUP_BREAKOUT_SESSIONS_MODAL_ROUTE,
+  SetupBreakoutSessionsModal,
 } from './components/meetings/SetupBreakoutSessionsModal';
 
 function App() {
