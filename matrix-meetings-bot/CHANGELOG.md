@@ -1,5 +1,18 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.2.0
+
+### Minor Changes
+
+- a1dfcb8: Add a messaging permission switch into the meeting creation view.
+- d54db57: Use NeoDateFix as the product name.
+- c80bfea: Include recurrence information in the meeting update notifications.
+
+### Patch Changes
+
+- 41937a2: Enable the s390x architecture in release builds.
+- 3fc82e8: Apply the configured room layout when widgets are added or removed.
+
 ## 2.1.0
 
 ### Minor Changes

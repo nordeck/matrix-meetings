@@ -1,5 +1,23 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.4.0
+
+### Minor Changes
+
+- 77db462: Use digital time picker.
+- a1dfcb8: Add a messaging permission switch into the meeting creation view.
+- ea6a491: Add meeting expanded details view
+- d54db57: Use NeoDateFix as the product name.
+- 2d66142: Invite users during the meeting creation.
+- 72ce2ae: Add the expended meeting view to the cockpit widget
+
+### Patch Changes
+
+- 8776684: Fix layout of the copied email template on Mac OS.
+- f14c2a5: Limit the length of the meeting title and description.
+- 2416758: Include the timezone definition in the exported calendar files.
+- 86b107b: Fix month value in 'aria-label' of custom yearly recurrence.
+
 ## 1.3.1
 
 ### Patch Changes
