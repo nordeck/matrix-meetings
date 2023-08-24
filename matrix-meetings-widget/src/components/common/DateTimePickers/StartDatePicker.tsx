@@ -94,6 +94,7 @@ export function StartDatePicker({
 
   return (
     <DatePicker
+      localeText={{ openDatePickerDialogue }}
       label={t('dateTimePickers.startDate', 'Start date')}
       minDate={minDate}
       onChange={handleOnChange}
@@ -102,9 +103,6 @@ export function StartDatePicker({
       value={date}
       views={['year', 'month', 'day']}
       slotProps={{
-        openPickerButton: {
-          'aria-label': openDatePickerDialogue(value),
-        },
         textField: {
           fullWidth: true,
           helperText:

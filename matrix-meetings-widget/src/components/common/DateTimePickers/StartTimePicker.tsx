@@ -62,7 +62,7 @@ export function StartTimePicker({
 
   const invalidDate = !date.isValid;
 
-  const openDatePickerDialogue = useCallback(
+  const openTimePickerDialogue = useCallback(
     (date: DateTime | null) => {
       return t(
         'dateTimePickers.openStartTimePicker',
@@ -93,14 +93,12 @@ export function StartTimePicker({
 
   return (
     <TimePicker
+      localeText={{ openTimePickerDialogue }}
       label={t('dateTimePickers.startTime', 'Start time')}
       onChange={handleOnChange}
       readOnly={Boolean(readOnly)}
       value={date}
       slotProps={{
-        openPickerButton: {
-          'aria-label': openDatePickerDialogue(value),
-        },
         textField: {
           FormHelperTextProps: {
             sx: hideHelperText ? visuallyHidden : undefined,

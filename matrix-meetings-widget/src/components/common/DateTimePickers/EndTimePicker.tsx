@@ -46,7 +46,7 @@ export function EndTimePicker({
 
   const invalidDate = !date.isValid;
 
-  const openDatePickerDialogue = useCallback(
+  const openTimePickerDialogue = useCallback(
     (date: DateTime | null) => {
       return t(
         'dateTimePickers.openEndTimePicker',
@@ -77,13 +77,11 @@ export function EndTimePicker({
 
   return (
     <TimePicker
+      localeText={{ openTimePickerDialogue }}
       label={t('dateTimePickers.endTime', 'End time')}
       onChange={handleOnChange}
       value={date}
       slotProps={{
-        openPickerButton: {
-          'aria-label': openDatePickerDialogue(value),
-        },
         textField: {
           FormHelperTextProps: {
             sx: hideHelperText ? visuallyHidden : undefined,

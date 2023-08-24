@@ -75,13 +75,11 @@ export function EndDatePicker({
   return (
     <DatePicker
       disablePast={!enablePast}
+      localeText={{ openDatePickerDialogue }}
       label={t('dateTimePickers.endDate', 'End date')}
       onChange={handleOnChange}
       reduceAnimations={isReduceAnimations()}
       slotProps={{
-        openPickerButton: {
-          'aria-label': openDatePickerDialogue(value),
-        },
         textField: {
           fullWidth: true,
           helperText:

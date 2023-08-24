@@ -175,13 +175,11 @@ export const RecurringMeetingEnd = ({
           >
             <DatePicker
               disabled={recurrenceEnd !== RecurrenceEnd.UntilDate}
+              localeText={{ openDatePickerDialogue }}
               minDate={DateTime.fromJSDate(startDate)}
               onChange={handleUntilDateChange}
               value={untilDate}
               slotProps={{
-                openPickerButton: {
-                  'aria-label': openDatePickerDialogue(untilDate),
-                },
                 textField: {
                   fullWidth: true,
                   helperText: !untilDate.isValid
