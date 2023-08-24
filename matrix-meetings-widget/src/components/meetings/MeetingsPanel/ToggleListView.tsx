@@ -41,7 +41,7 @@ export function ToggleListView({
     (_, value: string) => {
       onChange(value === 'invitations');
     },
-    [onChange]
+    [onChange],
   );
 
   return (

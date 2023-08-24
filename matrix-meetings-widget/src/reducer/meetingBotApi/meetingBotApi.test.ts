@@ -51,7 +51,7 @@ describe('meetingBotApi', () => {
           }
 
           return res(ctx.json({}));
-        })
+        }),
       );
 
       const store = createStore({ widgetApi });
@@ -69,7 +69,7 @@ describe('meetingBotApi', () => {
           }
 
           return res(ctx.json({ jitsiDialInEnabled: true }));
-        })
+        }),
       );
 
       const store = createStore({ widgetApi });
@@ -90,9 +90,9 @@ describe('meetingBotApi', () => {
             ctx.json({
               jitsiDialInEnabled: true,
               openXchangeMeetingUrlTemplate: '--TEMPLATE--',
-            })
+            }),
           );
-        })
+        }),
       );
 
       const store = createStore({ widgetApi });
@@ -109,7 +109,7 @@ describe('meetingBotApi', () => {
       server.use(
         rest.get('http://localhost/v1/config', (_req, res, ctx) => {
           return res(ctx.json({ jitsiDialInEnabled: 'true' }));
-        })
+        }),
       );
 
       const store = createStore({ widgetApi });
@@ -121,7 +121,7 @@ describe('meetingBotApi', () => {
 
     it('should reject if token was rejected', async () => {
       widgetApi.requestOpenIDConnectToken.mockRejectedValue(
-        new Error('No token received')
+        new Error('No token received'),
       );
 
       const store = createStore({ widgetApi });
@@ -136,7 +136,7 @@ describe('meetingBotApi', () => {
       server.use(
         rest.get('http://localhost/v1/config', (_req, res, ctx) => {
           return res(ctx.status(500), ctx.json('an error occurred'));
-        })
+        }),
       );
 
       const store = createStore({ widgetApi });
@@ -159,7 +159,7 @@ describe('meetingBotApi', () => {
           }
 
           return res(ctx.json([]));
-        })
+        }),
       );
 
       const store = createStore({ widgetApi });
@@ -185,9 +185,9 @@ describe('meetingBotApi', () => {
                 name: 'Widget 2',
                 optional: true,
               },
-            ])
+            ]),
           );
-        })
+        }),
       );
 
       const store = createStore({ widgetApi });
@@ -214,9 +214,9 @@ describe('meetingBotApi', () => {
                 id: 'widget-1',
                 name: 815,
               },
-            ])
+            ]),
           );
-        })
+        }),
       );
 
       const store = createStore({ widgetApi });
@@ -230,11 +230,11 @@ describe('meetingBotApi', () => {
       server.use(
         rest.get('http://localhost/v1/widget/list', (_req, res, ctx) => {
           return res(ctx.json([]));
-        })
+        }),
       );
 
       widgetApi.requestOpenIDConnectToken.mockRejectedValue(
-        new Error('No token received')
+        new Error('No token received'),
       );
 
       const store = createStore({ widgetApi });
@@ -249,7 +249,7 @@ describe('meetingBotApi', () => {
       server.use(
         rest.get('http://localhost/v1/widget/list', (_req, res, ctx) => {
           return res(ctx.status(500), ctx.json('an error occurred'));
-        })
+        }),
       );
 
       const store = createStore({ widgetApi });
@@ -274,14 +274,14 @@ describe('meetingBotApi', () => {
             }
 
             return res(ctx.json({}));
-          }
-        )
+          },
+        ),
       );
 
       const store = createStore({ widgetApi });
 
       expect(
-        await store.dispatch(initiate({ roomId: '!roomId' })).unwrap()
+        await store.dispatch(initiate({ roomId: '!roomId' })).unwrap(),
       ).toEqual({
         jitsi: {},
       });
@@ -300,16 +300,16 @@ describe('meetingBotApi', () => {
               ctx.json({
                 jitsi_dial_in_number: '0123',
                 jitsi_pin: 1111,
-              })
+              }),
             );
-          }
-        )
+          },
+        ),
       );
 
       const store = createStore({ widgetApi });
 
       expect(
-        await store.dispatch(initiate({ roomId: '!roomId' })).unwrap()
+        await store.dispatch(initiate({ roomId: '!roomId' })).unwrap(),
       ).toEqual({
         jitsi: {
           dialInNumber: '0123',
@@ -327,16 +327,16 @@ describe('meetingBotApi', () => {
               ctx.json({
                 jitsi_dial_in_number: 123,
                 jitsi_pin: '1111',
-              })
+              }),
             );
-          }
-        )
+          },
+        ),
       );
 
       const store = createStore({ widgetApi });
 
       await expect(
-        store.dispatch(initiate({ roomId: '!roomId' })).unwrap()
+        store.dispatch(initiate({ roomId: '!roomId' })).unwrap(),
       ).rejects.toMatchObject({
         error: expect.stringMatching(/must be a/),
       });
@@ -348,18 +348,18 @@ describe('meetingBotApi', () => {
           'http://localhost/v1/meeting/!roomId/sharingInformation',
           (_req, res, ctx) => {
             return res(ctx.json({}));
-          }
-        )
+          },
+        ),
       );
 
       widgetApi.requestOpenIDConnectToken.mockRejectedValue(
-        new Error('No token received')
+        new Error('No token received'),
       );
 
       const store = createStore({ widgetApi });
 
       await expect(
-        store.dispatch(initiate({ roomId: '!roomId' })).unwrap()
+        store.dispatch(initiate({ roomId: '!roomId' })).unwrap(),
       ).rejects.toEqual({
         error: expect.stringMatching('No token received'),
         status: 'CUSTOM_ERROR',
@@ -372,14 +372,14 @@ describe('meetingBotApi', () => {
           'http://localhost/v1/meeting/!roomId/sharingInformation',
           (_req, res, ctx) => {
             return res(ctx.status(500), ctx.json('an error occurred'));
-          }
-        )
+          },
+        ),
       );
 
       const store = createStore({ widgetApi });
 
       await expect(
-        store.dispatch(initiate({ roomId: '!roomId' })).unwrap()
+        store.dispatch(initiate({ roomId: '!roomId' })).unwrap(),
       ).rejects.toMatchObject({
         status: 500,
         data: 'an error occurred',

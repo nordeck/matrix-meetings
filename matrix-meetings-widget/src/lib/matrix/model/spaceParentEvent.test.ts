@@ -29,7 +29,7 @@ describe('isValidSpaceParentEvent', () => {
         state_key: '',
         sender: '@user-id',
         type: 'm.space.parent',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -43,7 +43,7 @@ describe('isValidSpaceParentEvent', () => {
         state_key: '',
         sender: '@user-id',
         type: 'm.space.parent',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -60,7 +60,7 @@ describe('isValidSpaceParentEvent', () => {
         state_key: '',
         sender: '@user-id',
         type: 'm.space.parent',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -86,7 +86,7 @@ describe('isValidSpaceParentEvent', () => {
         state_key: '',
         sender: '@user-id',
         type: 'm.space.parent',
-      })
+      }),
     ).toBe(false);
   });
 });

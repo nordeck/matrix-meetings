@@ -72,7 +72,7 @@ export const MeetingsToolbarButtons = ({
 
 function getTitle(
   view: ViewType,
-  t: TFunction
+  t: TFunction,
 ): { previous: string; next: string } {
   switch (view) {
     case 'day':

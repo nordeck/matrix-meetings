@@ -31,7 +31,7 @@ export class PowerLevelHelper {
     for (const eventType of eventTypes) {
       if (!powerLevelHelper.userHasPowerLevelFor(room, userId, eventType)) {
         throw new PermissionError(
-          `user: ${userId} has no permission for event: ${eventType} in room: ${room.id}`
+          `user: ${userId} has no permission for event: ${eventType} in room: ${room.id}`,
         );
       }
     }
@@ -40,11 +40,11 @@ export class PowerLevelHelper {
   public assertUserHasPowerLevelForAction(
     room: IRoom,
     userId: string,
-    action: PowerLevelAction
+    action: PowerLevelAction,
   ) {
     if (!powerLevelHelper.userHasPowerLevelForAction(room, userId, action)) {
       throw new PermissionError(
-        `user: ${userId} has no permission for action: ${action} in room: ${room.id}`
+        `user: ${userId} has no permission for action: ${action} in room: ${room.id}`,
       );
     }
   }
@@ -65,12 +65,12 @@ export class PowerLevelHelper {
   public userHasPowerLevelFor(
     room: IRoom,
     userId: string,
-    eventType: StateEventName | RoomEventName
+    eventType: StateEventName | RoomEventName,
   ): boolean {
     const isState = eventTypeHelper.isState(eventType);
 
     const powerLevelsEvent = room.roomEventsByName(
-      StateEventName.M_ROOM_POWER_LEVELS_EVENT
+      StateEventName.M_ROOM_POWER_LEVELS_EVENT,
     )[0]?.content as any; // cast to any to keep original matrix bot sdk code
     if (!powerLevelsEvent) {
       // This is technically supposed to be non-fatal, but it's pretty unreasonable for a room to be missing
@@ -109,10 +109,10 @@ export class PowerLevelHelper {
   public userHasPowerLevelForAction(
     room: IRoom,
     userId: string,
-    action: PowerLevelAction
+    action: PowerLevelAction,
   ): boolean {
     const powerLevelsEvent = room.roomEventsByName(
-      StateEventName.M_ROOM_POWER_LEVELS_EVENT
+      StateEventName.M_ROOM_POWER_LEVELS_EVENT,
     )[0]?.content as any; // cast to any to keep original matrix bot sdk code
     if (!powerLevelsEvent) {
       // This is technically supposed to be non-fatal, but it's pretty unreasonable for a room to be missing
@@ -144,7 +144,7 @@ export class PowerLevelHelper {
 
   public calculateUserPowerLevel(
     powerLevelStateEvent: PowerLevelsEventContent,
-    userId?: string
+    userId?: string,
   ): number {
     // See https://github.com/matrix-org/matrix-spec/blob/203b9756f52adfc2a3b63d664f18cdbf9f8bf126/data/event-schemas/schema/m.room.power_levels.yaml#L8-L12
     return (

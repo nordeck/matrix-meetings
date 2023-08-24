@@ -160,12 +160,12 @@ export const meetingsApi = createApi({
                 user_id,
               })),
               messaging_power_level: meeting.powerLevels?.messaging,
-            })
+            }),
           );
 
           const [acknowledgement] = await awaitAcknowledgement(
             widgetApi,
-            event.event_id
+            event.event_id,
           );
 
           return {
@@ -196,18 +196,18 @@ export const meetingsApi = createApi({
                 ({ title, participants }) => ({
                   title,
                   participants: participants.map((user_id) => ({ user_id })),
-                })
+                }),
               ),
               description: breakoutSessions.description,
               start_time: breakoutSessions.startTime,
               end_time: breakoutSessions.endTime,
               widget_ids: breakoutSessions.widgetIds,
-            })
+            }),
           );
 
           const [acknowledgement] = await awaitAcknowledgement(
             widgetApi,
-            event.event_id
+            event.event_id,
           );
 
           return {
@@ -231,12 +231,12 @@ export const meetingsApi = createApi({
             RoomEvents.NET_NORDECK_MEETINGS_MEETING_CLOSE,
             withEventContext(widgetApi, {
               target_room_id: roomId,
-            })
+            }),
           );
 
           const [acknowledgement] = await awaitAcknowledgement(
             widgetApi,
-            event.event_id
+            event.event_id,
           );
 
           return {
@@ -267,12 +267,12 @@ export const meetingsApi = createApi({
             withEventContext(widgetApi, {
               target_room_id: parentRoomId,
               message,
-            })
+            }),
           );
 
           const [acknowledgement] = await awaitAcknowledgement(
             widgetApi,
-            event.event_id
+            event.event_id,
           );
 
           return {
@@ -297,7 +297,7 @@ export const meetingsApi = createApi({
     >({
       queryFn: async (
         { roomId, addWidgets = [], removeWidgets = [] },
-        { extra }
+        { extra },
       ) => {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -312,8 +312,8 @@ export const meetingsApi = createApi({
                   target_room_id: roomId,
                   add: true,
                   widget_ids: addWidgets,
-                })
-              )
+                }),
+              ),
             );
           }
 
@@ -325,14 +325,14 @@ export const meetingsApi = createApi({
                   target_room_id: roomId,
                   add: false,
                   widget_ids: removeWidgets,
-                })
-              )
+                }),
+              ),
             );
           }
 
           const acknowledgements = await awaitAcknowledgement(
             widgetApi,
-            ...events.map((e) => e.event_id)
+            ...events.map((e) => e.event_id),
           );
 
           return {
@@ -357,7 +357,7 @@ export const meetingsApi = createApi({
     >({
       queryFn: async (
         { roomId, addUserIds = [], removeUserIds = [] },
-        { extra }
+        { extra },
       ) => {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -372,8 +372,8 @@ export const meetingsApi = createApi({
                   target_room_id: roomId,
                   invite: true,
                   userIds: addUserIds,
-                })
-              )
+                }),
+              ),
             );
           }
 
@@ -385,14 +385,14 @@ export const meetingsApi = createApi({
                   target_room_id: roomId,
                   invite: false,
                   userIds: removeUserIds,
-                })
-              )
+                }),
+              ),
             );
           }
 
           const acknowledgements = await awaitAcknowledgement(
             widgetApi,
-            ...events.map((e) => e.event_id)
+            ...events.map((e) => e.event_id),
           );
 
           return {
@@ -422,12 +422,12 @@ export const meetingsApi = createApi({
               title: updates.title,
               description: updates.description,
               calendar: updates.calendar,
-            })
+            }),
           );
 
           const [acknowledgement] = await awaitAcknowledgement(
             widgetApi,
-            event.event_id
+            event.event_id,
           );
 
           return {
@@ -455,12 +455,12 @@ export const meetingsApi = createApi({
             withEventContext(widgetApi, {
               target_room_id: roomId,
               messaging_power_level: powerLevels.messaging,
-            })
+            }),
           );
 
           const [acknowledgement] = await awaitAcknowledgement(
             widgetApi,
-            event.event_id
+            event.event_id,
           );
 
           return {
@@ -484,7 +484,7 @@ export const meetingsApi = createApi({
 
         const events = await widgetApi.receiveStateEvents(
           STATE_EVENT_SPACE_CHILD,
-          { roomIds: Symbols.AnyRoom }
+          { roomIds: Symbols.AnyRoom },
         );
 
         return {
@@ -492,13 +492,13 @@ export const meetingsApi = createApi({
             roomChildEventEntityAdapter.getInitialState(),
             events
               .filter(isValidSpaceChildEvent)
-              .filter((e) => e.content.via && e.content.via.length > 0)
+              .filter((e) => e.content.via && e.content.via.length > 0),
           ),
         };
       },
       async onCacheEntryAdded(
         _,
-        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData }
+        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData },
       ) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -512,23 +512,23 @@ export const meetingsApi = createApi({
           .pipe(
             filter(isValidSpaceChildEvent),
             bufferTime(100),
-            filter((list) => list.length > 0)
+            filter((list) => list.length > 0),
           )
           .subscribe((events) => {
             updateCachedData((state) => {
               // events with `via` are proper children
               const toAdd = events.filter(
-                (event) => (event.content.via ?? []).length > 0
+                (event) => (event.content.via ?? []).length > 0,
               );
 
               // events without, are invalid
               const toRemove = xor(
                 events.map((event) =>
-                  roomChildEventEntityAdapter.selectId(event)
+                  roomChildEventEntityAdapter.selectId(event),
                 ),
                 toAdd.map((event) =>
-                  roomChildEventEntityAdapter.selectId(event)
-                )
+                  roomChildEventEntityAdapter.selectId(event),
+                ),
               );
 
               roomChildEventEntityAdapter.upsertMany(state, toAdd);
@@ -552,7 +552,7 @@ export const meetingsApi = createApi({
 
         const events = await widgetApi.receiveStateEvents(
           STATE_EVENT_SPACE_PARENT,
-          { roomIds: Symbols.AnyRoom }
+          { roomIds: Symbols.AnyRoom },
         );
 
         return {
@@ -560,13 +560,13 @@ export const meetingsApi = createApi({
             roomParentEventEntityAdapter.getInitialState(),
             events
               .filter(isValidSpaceParentEvent)
-              .filter((e) => e.content.via && e.content.via.length > 0)
+              .filter((e) => e.content.via && e.content.via.length > 0),
           ),
         };
       },
       async onCacheEntryAdded(
         _,
-        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData }
+        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData },
       ) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -580,23 +580,23 @@ export const meetingsApi = createApi({
           .pipe(
             filter(isValidSpaceParentEvent),
             bufferTime(100),
-            filter((list) => list.length > 0)
+            filter((list) => list.length > 0),
           )
           .subscribe((events) => {
             updateCachedData((state) => {
               // events with `via` are proper children
               const toAdd = events.filter(
-                (event) => (event.content.via ?? []).length > 0
+                (event) => (event.content.via ?? []).length > 0,
               );
 
               // events without, are invalid
               const toRemove = xor(
                 events.map((event) =>
-                  roomParentEventEntityAdapter.selectId(event)
+                  roomParentEventEntityAdapter.selectId(event),
                 ),
                 toAdd.map((event) =>
-                  roomParentEventEntityAdapter.selectId(event)
-                )
+                  roomParentEventEntityAdapter.selectId(event),
+                ),
               );
 
               roomParentEventEntityAdapter.upsertMany(state, toAdd);
@@ -620,19 +620,19 @@ export const meetingsApi = createApi({
 
         const events = await widgetApi.receiveStateEvents(
           STATE_EVENT_ROOM_CREATE,
-          { roomIds: Symbols.AnyRoom }
+          { roomIds: Symbols.AnyRoom },
         );
 
         return {
           data: roomCreateEventEntityAdapter.upsertMany(
             roomCreateEventEntityAdapter.getInitialState(),
-            events.filter(isValidRoomCreateEvent)
+            events.filter(isValidRoomCreateEvent),
           ),
         };
       },
       async onCacheEntryAdded(
         _,
-        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData }
+        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData },
       ) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -646,7 +646,7 @@ export const meetingsApi = createApi({
           .pipe(
             filter(isValidRoomCreateEvent),
             bufferTime(100),
-            filter((list) => list.length > 0)
+            filter((list) => list.length > 0),
           )
           .subscribe((events) => {
             updateCachedData((state) => {
@@ -670,19 +670,19 @@ export const meetingsApi = createApi({
 
         const events = await widgetApi.receiveStateEvents(
           STATE_EVENT_ROOM_TOMBSTONE,
-          { roomIds: Symbols.AnyRoom }
+          { roomIds: Symbols.AnyRoom },
         );
 
         return {
           data: roomTombstoneEventEntityAdapter.upsertMany(
             roomTombstoneEventEntityAdapter.getInitialState(),
-            events.filter(isValidRoomTombstoneEvent)
+            events.filter(isValidRoomTombstoneEvent),
           ),
         };
       },
       async onCacheEntryAdded(
         _,
-        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData }
+        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData },
       ) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -696,7 +696,7 @@ export const meetingsApi = createApi({
           .pipe(
             filter(isValidRoomTombstoneEvent),
             bufferTime(100),
-            filter((list) => list.length > 0)
+            filter((list) => list.length > 0),
           )
           .subscribe((events) => {
             updateCachedData((state) => {
@@ -720,19 +720,19 @@ export const meetingsApi = createApi({
 
         const events = await widgetApi.receiveStateEvents(
           STATE_EVENT_ROOM_NAME,
-          { roomIds: Symbols.AnyRoom }
+          { roomIds: Symbols.AnyRoom },
         );
 
         return {
           data: roomNameEventEntityAdapter.upsertMany(
             roomNameEventEntityAdapter.getInitialState(),
-            events.filter(isValidRoomNameEvent)
+            events.filter(isValidRoomNameEvent),
           ),
         };
       },
       async onCacheEntryAdded(
         _,
-        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData }
+        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData },
       ) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -746,7 +746,7 @@ export const meetingsApi = createApi({
           .pipe(
             filter(isValidRoomNameEvent),
             bufferTime(100),
-            filter((list) => list.length > 0)
+            filter((list) => list.length > 0),
           )
           .subscribe((events) => {
             updateCachedData((state) => {
@@ -770,19 +770,19 @@ export const meetingsApi = createApi({
 
         const events = await widgetApi.receiveStateEvents(
           STATE_EVENT_POWER_LEVELS,
-          { roomIds: Symbols.AnyRoom }
+          { roomIds: Symbols.AnyRoom },
         );
 
         return {
           data: roomPowerLevelsEventEntityAdapter.upsertMany(
             roomPowerLevelsEventEntityAdapter.getInitialState(),
-            events.filter(isValidPowerLevelStateEvent)
+            events.filter(isValidPowerLevelStateEvent),
           ),
         };
       },
       async onCacheEntryAdded(
         _,
-        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData }
+        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData },
       ) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -796,7 +796,7 @@ export const meetingsApi = createApi({
           .pipe(
             filter(isValidPowerLevelStateEvent),
             bufferTime(100),
-            filter((list) => list.length > 0)
+            filter((list) => list.length > 0),
           )
           .subscribe((events) => {
             updateCachedData((state) => {
@@ -820,19 +820,19 @@ export const meetingsApi = createApi({
 
         const events = await widgetApi.receiveStateEvents(
           STATE_EVENT_ROOM_TOPIC,
-          { roomIds: Symbols.AnyRoom }
+          { roomIds: Symbols.AnyRoom },
         );
 
         return {
           data: roomTopicEventEntityAdapter.upsertMany(
             roomTopicEventEntityAdapter.getInitialState(),
-            events.filter(isValidRoomTopicEvent)
+            events.filter(isValidRoomTopicEvent),
           ),
         };
       },
       async onCacheEntryAdded(
         _,
-        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData }
+        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData },
       ) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -846,7 +846,7 @@ export const meetingsApi = createApi({
           .pipe(
             filter(isValidRoomTopicEvent),
             bufferTime(100),
-            filter((list) => list.length > 0)
+            filter((list) => list.length > 0),
           )
           .subscribe((events) => {
             updateCachedData((state) => {
@@ -870,7 +870,7 @@ export const meetingsApi = createApi({
 
         const events = await widgetApi.receiveStateEvents(
           STATE_EVENT_NORDECK_MEETING_METADATA,
-          { roomIds: Symbols.AnyRoom }
+          { roomIds: Symbols.AnyRoom },
         );
 
         return {
@@ -878,13 +878,13 @@ export const meetingsApi = createApi({
             nordeckMeetingMetadataEventEntityAdapter.getInitialState(),
             events
               .filter(isValidNordeckMeetingMetadataEvent)
-              .map(migrateNordeckMeetingMetadataEventSchema)
+              .map(migrateNordeckMeetingMetadataEventSchema),
           ),
         };
       },
       async onCacheEntryAdded(
         _,
-        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData }
+        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData },
       ) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -898,13 +898,13 @@ export const meetingsApi = createApi({
           .pipe(
             filter(isValidNordeckMeetingMetadataEvent),
             bufferTime(100),
-            filter((list) => list.length > 0)
+            filter((list) => list.length > 0),
           )
           .subscribe((events) => {
             updateCachedData((state) => {
               nordeckMeetingMetadataEventEntityAdapter.upsertMany(
                 state,
-                events.map(migrateNordeckMeetingMetadataEventSchema)
+                events.map(migrateNordeckMeetingMetadataEventSchema),
               );
             });
           });
@@ -925,7 +925,7 @@ export const meetingsApi = createApi({
 
         const events = await widgetApi.receiveStateEvents(
           STATE_EVENT_ROOM_MEMBER,
-          { roomIds: Symbols.AnyRoom }
+          { roomIds: Symbols.AnyRoom },
         );
 
         return {
@@ -934,16 +934,16 @@ export const meetingsApi = createApi({
             events
               .filter(isValidRoomMemberStateEvent)
               .filter((event) =>
-                ['join', 'invite'].includes(event.content.membership)
+                ['join', 'invite'].includes(event.content.membership),
               )
               // skip the bot user
-              .filter((event) => !isBotUser(event.state_key))
+              .filter((event) => !isBotUser(event.state_key)),
           ),
         };
       },
       async onCacheEntryAdded(
         _,
-        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData }
+        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData },
       ) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -957,14 +957,14 @@ export const meetingsApi = createApi({
           .pipe(
             filter(isValidRoomMemberStateEvent),
             bufferTime(100),
-            filter((list) => list.length > 0)
+            filter((list) => list.length > 0),
           )
           .subscribe((events) => {
             updateCachedData((state) => {
               // the user is a proper member
               const toAdd = events
                 .filter((event) =>
-                  ['join', 'invite'].includes(event.content.membership)
+                  ['join', 'invite'].includes(event.content.membership),
                 )
                 // skip the bot user
                 .filter((event) => !isBotUser(event.state_key));
@@ -973,7 +973,7 @@ export const meetingsApi = createApi({
               const toRemove = events
                 .filter(
                   (event) =>
-                    !['join', 'invite'].includes(event.content.membership)
+                    !['join', 'invite'].includes(event.content.membership),
                 )
                 .map(roomMemberEventEntityAdapter.selectId);
 
@@ -1000,13 +1000,13 @@ export const meetingsApi = createApi({
         return {
           data: widgetEventEntityAdapter.upsertMany(
             widgetEventEntityAdapter.getInitialState(),
-            events.filter(isValidWidgetsEvent)
+            events.filter(isValidWidgetsEvent),
           ),
         };
       },
       async onCacheEntryAdded(
         _,
-        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData }
+        { cacheDataLoaded, cacheEntryRemoved, extra, updateCachedData },
       ) {
         const { widgetApi } = extra as ThunkExtraArgument;
 
@@ -1019,7 +1019,7 @@ export const meetingsApi = createApi({
           })
           .pipe(
             bufferTime(100),
-            filter((list) => list.length > 0)
+            filter((list) => list.length > 0),
           )
           .subscribe((events) => {
             updateCachedData((state) => {
@@ -1030,10 +1030,10 @@ export const meetingsApi = createApi({
               const toRemove = xor(
                 events.map((event) =>
                   widgetEventEntityAdapter.selectId(
-                    event as StateEvent<WidgetsEvent>
-                  )
+                    event as StateEvent<WidgetsEvent>,
+                  ),
                 ),
-                toAdd.map((event) => widgetEventEntityAdapter.selectId(event))
+                toAdd.map((event) => widgetEventEntityAdapter.selectId(event)),
               );
 
               widgetEventEntityAdapter.upsertMany(state, toAdd);
@@ -1051,22 +1051,22 @@ export const meetingsApi = createApi({
 });
 
 export async function initializeMeetingsApi(
-  dispatch: AppDispatch
+  dispatch: AppDispatch,
 ): Promise<() => void> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const actions: QueryActionCreatorResult<any>[] = [];
 
   actions.push(dispatch(meetingsApi.endpoints.getRoomCreateEvents.initiate()));
   actions.push(
-    dispatch(meetingsApi.endpoints.getRoomTombstoneEvents.initiate())
+    dispatch(meetingsApi.endpoints.getRoomTombstoneEvents.initiate()),
   );
   actions.push(
-    dispatch(meetingsApi.endpoints.getNordeckMeetingMetadataEvents.initiate())
+    dispatch(meetingsApi.endpoints.getNordeckMeetingMetadataEvents.initiate()),
   );
   actions.push(dispatch(meetingsApi.endpoints.getRoomMembers.initiate()));
   actions.push(dispatch(meetingsApi.endpoints.getRoomNameEvents.initiate()));
   actions.push(
-    dispatch(meetingsApi.endpoints.getRoomPowerLevelsEvents.initiate())
+    dispatch(meetingsApi.endpoints.getRoomPowerLevelsEvents.initiate()),
   );
   actions.push(dispatch(meetingsApi.endpoints.getRoomChildEvents.initiate()));
   actions.push(dispatch(meetingsApi.endpoints.getRoomParentEvents.initiate()));
@@ -1106,7 +1106,7 @@ export const {
 
 export function filterAllRoomParentEventsByParentRoomId(
   events: ReturnType<typeof selectRoomParentEventEntities>,
-  roomId: string
+  roomId: string,
 ): StateEvent<SpaceParentEvent>[] {
   return Object.values(events)
     .filter(isDefined)
@@ -1118,7 +1118,7 @@ export function makeSelectAllRoomParentEventsByParentRoomId() {
     (_: RootState, roomId: string | undefined) => roomId,
     selectRoomParentEventEntities,
     (roomId, events): StateEvent<SpaceParentEvent>[] =>
-      roomId ? filterAllRoomParentEventsByParentRoomId(events, roomId) : []
+      roomId ? filterAllRoomParentEventsByParentRoomId(events, roomId) : [],
   );
 }
 
@@ -1193,7 +1193,7 @@ export const {
       getNordeckMeetingMetadataEventsSelectors(rootState).data ??
       nordeckMeetingMetadataEventEntityAdapter.getInitialState()
     );
-  }
+  },
 );
 
 const getRoomMembersSelectors = meetingsApi.endpoints.getRoomMembers.select();
@@ -1207,7 +1207,7 @@ export const { selectEntities: selectRoomMemberEventEntities } =
 
 export function filterAllRoomMemberEventsByRoomId(
   events: ReturnType<typeof selectRoomMemberEventEntities>,
-  roomId: string
+  roomId: string,
 ): StateEvent<RoomMemberStateEventContent>[] {
   return Object.values(events)
     .filter(isDefined)
@@ -1219,7 +1219,7 @@ export function makeSelectAllRoomMemberEventsByRoomId() {
     (_: RootState, roomId: string | undefined) => roomId,
     selectRoomMemberEventEntities,
     (roomId, events): StateEvent<RoomMemberStateEventContent>[] =>
-      roomId ? filterAllRoomMemberEventsByRoomId(events, roomId) : []
+      roomId ? filterAllRoomMemberEventsByRoomId(events, roomId) : [],
   );
 }
 
@@ -1234,7 +1234,7 @@ export const { selectEntities: selectRoomWidgetEventEntities } =
 
 export function filterAllRoomWidgetEventsByRoomId(
   events: ReturnType<typeof selectRoomWidgetEventEntities>,
-  roomId: string
+  roomId: string,
 ): StateEvent<WidgetsEvent>[] {
   return Object.values(events)
     .filter(isDefined)
@@ -1246,7 +1246,7 @@ export function makeSelectAllRoomWidgetEventsByRoomId() {
     (_: RootState, roomId: string | undefined) => roomId,
     selectRoomWidgetEventEntities,
     (roomId, events): StateEvent<WidgetsEvent>[] =>
-      roomId ? filterAllRoomWidgetEventsByRoomId(events, roomId) : []
+      roomId ? filterAllRoomWidgetEventsByRoomId(events, roomId) : [],
   );
 }
 

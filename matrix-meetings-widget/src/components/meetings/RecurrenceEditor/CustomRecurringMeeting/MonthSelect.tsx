@@ -43,7 +43,7 @@ export const MonthSelect = ({
     (e: SelectChangeEvent<number>) => {
       onMonthChange(e.target.value as number);
     },
-    [onMonthChange]
+    [onMonthChange],
   );
 
   const labelId = useId();

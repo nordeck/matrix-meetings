@@ -201,7 +201,7 @@ describe('selectAllMeetingIds', () => {
         selectAllMeetingIds(state, {
           ...filters,
           startDate: '2020-01-01T00:59:59Z',
-        })
+        }),
       ).toEqual([
         {
           id: '!meeting-room-id',
@@ -228,7 +228,7 @@ describe('selectAllMeetingIds', () => {
         selectAllMeetingIds(state, {
           ...filters,
           startDate: '2020-01-01T01:00:00Z',
-        })
+        }),
       ).toEqual([]);
     });
 
@@ -249,7 +249,7 @@ describe('selectAllMeetingIds', () => {
           ...filters,
           startDate: '2000-01-01T00:00:00Z',
           endDate: '2020-01-01T00:00:00Z',
-        })
+        }),
       ).toEqual([
         {
           id: '!meeting-room-id',
@@ -277,7 +277,7 @@ describe('selectAllMeetingIds', () => {
           ...filters,
           startDate: '2000-01-01T00:00:00Z',
           endDate: '2019-12-31T23:59:59Z',
-        })
+        }),
       ).toEqual([]);
     });
 
@@ -328,7 +328,7 @@ describe('selectAllMeetingIds', () => {
         selectAllMeetingIds(state, {
           ...filters,
           startDate: '2000-01-01T00:00:00Z',
-        })
+        }),
       ).toEqual([
         expect.objectContaining({ id: '!roomId0' }),
         expect.objectContaining({ id: '!roomId2' }),
@@ -519,7 +519,7 @@ describe('filterMeetingByText', () => {
 
     it('should include description', () => {
       expect(filterMeetingByText({ filterText: 'description' }, events)).toBe(
-        true
+        true,
       );
     });
 
@@ -530,8 +530,8 @@ describe('filterMeetingByText', () => {
           {
             ...events,
             roomTopicEvent: undefined,
-          }
-        )
+          },
+        ),
       ).toBe(false);
     });
 

@@ -35,7 +35,7 @@ describe('selectRoomType', () => {
 
   beforeEach(async () => {
     widgetApi.mockSendStateEvent(
-      mockRoomCreate({ room_id: '!no-meeting', content: { type: undefined } })
+      mockRoomCreate({ room_id: '!no-meeting', content: { type: undefined } }),
     );
     mockCreateMeetingRoom(widgetApi, { room_id: '!meeting' });
     mockCreateBreakoutMeetingRoom(widgetApi, { room_id: '!breakout' });

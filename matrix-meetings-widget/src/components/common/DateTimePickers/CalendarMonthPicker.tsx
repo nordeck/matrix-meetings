@@ -52,7 +52,7 @@ export const CalendarMonthPicker = ({
         onRangeChange(startDate, endDate);
       }
     },
-    [onRangeChange]
+    [onRangeChange],
   );
 
   return (
@@ -81,7 +81,7 @@ export const CalendarMonthPicker = ({
                 formatParams: {
                   date: withoutDayDateFormat,
                 },
-              }
+              },
             ),
           },
         },

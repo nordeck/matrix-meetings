@@ -24,7 +24,7 @@ test.describe('Calendar View', () => {
 
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.submit();
@@ -41,16 +41,16 @@ test.describe('Calendar View', () => {
     await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 3]);
 
     await expect(
-      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting')
+      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting'),
     ).toBeVisible();
 
     const meetingDetails =
       await aliceMeetingsWidgetPage.openCalendarEventDetails('My Meeting');
     await expect(meetingDetails.meetingDetails.meetingTitleText).toHaveText(
-      'My Meeting'
+      'My Meeting',
     );
     await expect(
-      meetingDetails.meetingDetails.meetingDescriptionText
+      meetingDetails.meetingDetails.meetingDescriptionText,
     ).toHaveText('My Description');
     await meetingDetails.close();
 
@@ -64,16 +64,16 @@ test.describe('Calendar View', () => {
     await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 3]);
 
     await expect(
-      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting')
+      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting'),
     ).toBeVisible();
 
     const meetingDetails =
       await aliceMeetingsWidgetPage.openCalendarEventDetails('My Meeting');
     await expect(meetingDetails.meetingDetails.meetingTitleText).toHaveText(
-      'My Meeting'
+      'My Meeting',
     );
     await expect(
-      meetingDetails.meetingDetails.meetingDescriptionText
+      meetingDetails.meetingDetails.meetingDescriptionText,
     ).toHaveText('My Description');
     await meetingDetails.close();
 
@@ -86,16 +86,16 @@ test.describe('Calendar View', () => {
     await aliceMeetingsWidgetPage.switchView('work week');
     await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 3]);
     await expect(
-      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting')
+      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting'),
     ).toBeVisible();
 
     const meetingDetails =
       await aliceMeetingsWidgetPage.openCalendarEventDetails('My Meeting');
     await expect(meetingDetails.meetingDetails.meetingTitleText).toHaveText(
-      'My Meeting'
+      'My Meeting',
     );
     await expect(
-      meetingDetails.meetingDetails.meetingDescriptionText
+      meetingDetails.meetingDetails.meetingDescriptionText,
     ).toHaveText('My Description');
     await meetingDetails.close();
 
@@ -108,16 +108,16 @@ test.describe('Calendar View', () => {
     await aliceMeetingsWidgetPage.switchView('month');
     await aliceMeetingsWidgetPage.setDateFilter([2040, 10]);
     await expect(
-      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting')
+      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting'),
     ).toBeVisible();
 
     const meetingDetails =
       await aliceMeetingsWidgetPage.openCalendarEventDetails('My Meeting');
     await expect(meetingDetails.meetingDetails.meetingTitleText).toHaveText(
-      'My Meeting'
+      'My Meeting',
     );
     await expect(
-      meetingDetails.meetingDetails.meetingDescriptionText
+      meetingDetails.meetingDetails.meetingDescriptionText,
     ).toHaveText('My Description');
     await meetingDetails.close();
 
@@ -132,7 +132,7 @@ test.describe('Calendar View', () => {
     await aliceMeetingsWidgetPage.setDateFilter([2040, 10]);
 
     await expect(
-      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting')
+      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting'),
     ).toBeVisible();
 
     await alicePage.setViewportSize({ width: 600, height: 720 });

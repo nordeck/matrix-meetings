@@ -29,7 +29,7 @@ export class WidgetLayoutConfigReader {
       fs.readFileSync(this.path, {
         encoding: 'utf8',
         flag: 'r',
-      })
+      }),
     );
     Joi.assert(json, schema);
     const layouts = json as WidgetLayoutConfig[];
@@ -52,7 +52,7 @@ export const schema = Joi.array().items(
         index: Joi.number(),
         width: Joi.number(),
         height: Joi.number(),
-      })
+      }),
     ),
-  })
+  }),
 );

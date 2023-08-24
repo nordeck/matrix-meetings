@@ -44,9 +44,9 @@ export const CreateBreakoutSessionsForm = withCurrentRoomMeeting(
       >
         {t(
           'meetingsPanel.scheduleBreakoutSession',
-          'Schedule Breakout Session'
+          'Schedule Breakout Session',
         )}
       </Button>
     );
-  }
+  },
 );

@@ -48,7 +48,7 @@ describe('<RecurringMeetingEnd>', () => {
         startDate={startDate}
         untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const group = screen.getByRole('radiogroup', {
@@ -58,27 +58,27 @@ describe('<RecurringMeetingEnd>', () => {
     expect(
       within(group).getByRole('radio', {
         name: 'The meeting is repeated forever',
-      })
+      }),
     ).toBeChecked();
 
     expect(
       within(group).getByRole('radio', {
         name: 'The meeting is repeated till January 2, 2022',
-      })
+      }),
     ).not.toBeChecked();
     expect(
       within(group).getByRole('textbox', {
         name: 'Date at which the recurring meetings ends',
-      })
+      }),
     ).toBeDisabled();
     expect(
       within(group).getByRole('button', {
         name: 'Choose date at which the recurring meeting ends, selected date is January 2, 2022',
-      })
+      }),
     ).toBeDisabled();
 
     expect(
-      within(group).getByRole('radio', { name: 'Ends after 10 meetings' })
+      within(group).getByRole('radio', { name: 'Ends after 10 meetings' }),
     ).not.toBeChecked();
     const meetingCountTextbox = within(group).getByRole('spinbutton', {
       name: 'Count of meetings',
@@ -98,23 +98,23 @@ describe('<RecurringMeetingEnd>', () => {
         startDate={startDate}
         untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
       screen.getByRole('radio', {
         name: 'The meeting is repeated till January 2, 2022',
-      })
+      }),
     ).toBeChecked();
     expect(
       screen.getByRole('textbox', {
         name: 'Date at which the recurring meetings ends',
-      })
+      }),
     ).toBeEnabled();
     expect(
       screen.getByRole('button', {
         name: 'Choose date at which the recurring meeting ends, selected date is January 2, 2022',
-      })
+      }),
     ).toBeEnabled();
   });
 
@@ -129,11 +129,11 @@ describe('<RecurringMeetingEnd>', () => {
         startDate={startDate}
         untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
-      screen.getByRole('radio', { name: 'Ends after 10 meetings' })
+      screen.getByRole('radio', { name: 'Ends after 10 meetings' }),
     ).toBeChecked();
     const meetingCountTextbox = screen.getByRole('spinbutton', {
       name: 'Count of meetings',
@@ -153,7 +153,7 @@ describe('<RecurringMeetingEnd>', () => {
         startDate={startDate}
         untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -170,11 +170,11 @@ describe('<RecurringMeetingEnd>', () => {
         startDate={startDate}
         untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      screen.getByRole('radio', { name: 'The meeting is repeated forever' })
+      screen.getByRole('radio', { name: 'The meeting is repeated forever' }),
     );
 
     expect(onRecurrenceEndChange).toHaveBeenLastCalledWith(RecurrenceEnd.Never);
@@ -191,17 +191,17 @@ describe('<RecurringMeetingEnd>', () => {
         startDate={startDate}
         untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       screen.getByRole('radio', {
         name: 'The meeting is repeated till January 2, 2022',
-      })
+      }),
     );
 
     expect(onRecurrenceEndChange).toHaveBeenLastCalledWith(
-      RecurrenceEnd.UntilDate
+      RecurrenceEnd.UntilDate,
     );
   });
 
@@ -216,15 +216,15 @@ describe('<RecurringMeetingEnd>', () => {
         startDate={startDate}
         untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      screen.getByRole('radio', { name: 'Ends after 10 meetings' })
+      screen.getByRole('radio', { name: 'Ends after 10 meetings' }),
     );
 
     expect(onRecurrenceEndChange).toHaveBeenLastCalledWith(
-      RecurrenceEnd.AfterMeetingCount
+      RecurrenceEnd.AfterMeetingCount,
     );
   });
 
@@ -239,7 +239,7 @@ describe('<RecurringMeetingEnd>', () => {
         startDate={startDate}
         untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     // userEvent.type doesn't work here, so we have to use fireEvent
@@ -247,12 +247,12 @@ describe('<RecurringMeetingEnd>', () => {
       screen.getByRole('textbox', {
         name: 'Date at which the recurring meetings ends',
       }),
-      { target: { value: '05/05/2022' } }
+      { target: { value: '05/05/2022' } },
     );
 
     expect(onUntilDateChange.mock.calls.at(-1).at(0).toJSDate()).toEqual(
       // Explicitly choose the end of the day, as until should be inclusive
-      new Date('2022-05-05T23:59:59.999Z')
+      new Date('2022-05-05T23:59:59.999Z'),
     );
   });
 
@@ -267,14 +267,14 @@ describe('<RecurringMeetingEnd>', () => {
         startDate={startDate}
         untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     fireEvent.change(
       screen.getByRole('spinbutton', {
         name: 'Count of meetings',
       }),
-      { target: { value: '11' } }
+      { target: { value: '11' } },
     );
 
     expect(onAfterMeetingCountChange).toHaveBeenLastCalledWith('11');
@@ -291,14 +291,14 @@ describe('<RecurringMeetingEnd>', () => {
         startDate={startDate}
         untilDate={DateTime.invalid('Wrong')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
       screen.getByRole('textbox', {
         name: 'Date at which the recurring meetings ends',
         description: 'Invalid date',
-      })
+      }),
     ).toBeInvalid();
   });
 
@@ -315,15 +315,15 @@ describe('<RecurringMeetingEnd>', () => {
           startDate={startDate}
           untilDate={DateTime.fromISO('2022-01-02T13:10:00.000Z')}
         />,
-        { wrapper: Wrapper }
+        { wrapper: Wrapper },
       );
 
       expect(
         screen.getByRole('spinbutton', {
           name: 'Count of meetings',
           description: 'Invalid input',
-        })
+        }),
       ).toBeInvalid();
-    }
+    },
   );
 });

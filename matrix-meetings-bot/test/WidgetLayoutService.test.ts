@@ -23,7 +23,7 @@ describe('test WidgetLayoutService', () => {
 
   beforeEach(() => {
     layoutConfigReader = new WidgetLayoutConfigReader(
-      'test/conf/test_default_widget_layouts.json.json'
+      'test/conf/test_default_widget_layouts.json.json',
     );
     widgetLayoutService = new WidgetLayoutService(layoutConfigReader.read());
   });

@@ -26,7 +26,7 @@ type SearchResults = Array<{
 
 export function useUserSearchResults(
   input: string,
-  delay: number
+  delay: number,
 ): {
   loading: boolean;
   results: SearchResults;

@@ -72,10 +72,10 @@ export function StartTimePicker({
           formatParams: {
             date: timeOnlyDateFormat,
           },
-        }
+        },
       );
     },
-    [t]
+    [t],
   );
 
   const handleOnChange = useCallback(
@@ -88,7 +88,7 @@ export function StartTimePicker({
         onChange(newValue);
       }
     },
-    [onChange]
+    [onChange],
   );
 
   return (

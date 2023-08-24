@@ -44,7 +44,7 @@ export const WeekdaySelect = ({
     (e: SelectChangeEvent<number>) => {
       onWeekdayChange(e.target.value as number);
     },
-    [onWeekdayChange]
+    [onWeekdayChange],
   );
 
   const labelId = useId();

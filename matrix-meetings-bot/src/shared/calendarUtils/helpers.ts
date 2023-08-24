@@ -18,19 +18,19 @@ import { Options } from 'rrule';
 import { CalendarEntryDto, DateTimeEntryDto } from '../../dto/CalendarEntryDto';
 
 export function isSingleEntry(
-  entry: CalendarEntryDto
+  entry: CalendarEntryDto,
 ): entry is Omit<CalendarEntryDto, 'rrule' | 'recurrenceId' | 'exdate'> {
   return entry.rrule === undefined && entry.recurrenceId === undefined;
 }
 
 export function isRRuleEntry(
-  entry: CalendarEntryDto
+  entry: CalendarEntryDto,
 ): entry is CalendarEntryDto & { rrule: string } {
   return entry.rrule !== undefined && entry.recurrenceId === undefined;
 }
 
 export function isRRuleOverrideEntry(
-  entry: CalendarEntryDto
+  entry: CalendarEntryDto,
 ): entry is CalendarEntryDto & {
   recurrenceId: DateTimeEntryDto;
 } {
@@ -42,12 +42,12 @@ export function isFiniteSeries(rruleOptions: Partial<Options>): boolean {
 }
 
 export function isRecurringCalendarSourceEntry(
-  entries?: CalendarEntryDto[]
+  entries?: CalendarEntryDto[],
 ): entries is
   | [CalendarEntryDto & { rrule: string }]
   | [
       CalendarEntryDto & { rrule: string },
-      Required<Omit<CalendarEntryDto, 'rrule' | 'exdate'>>
+      Required<Omit<CalendarEntryDto, 'rrule' | 'exdate'>>,
     ] {
   return (
     typeof entries?.[0].rrule === 'string' &&

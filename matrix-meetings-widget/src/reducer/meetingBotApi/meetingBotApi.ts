@@ -47,7 +47,7 @@ const availableWidgetsReponseSchema =
       id: Joi.string().required(),
       name: Joi.string().required(),
       optional: Joi.boolean(),
-    }).unknown()
+    }).unknown(),
   );
 
 type MeetingSharingInformationResponse = {
@@ -98,7 +98,7 @@ export const meetingBotApi = createApi({
           if (response.data) {
             try {
               const data = await configurationResponseSchema.validateAsync(
-                response.data
+                response.data,
               );
 
               return {
@@ -140,7 +140,7 @@ export const meetingBotApi = createApi({
           if (response.data) {
             try {
               const data = await availableWidgetsReponseSchema.validateAsync(
-                response.data
+                response.data,
               );
 
               return { data };
@@ -177,7 +177,7 @@ export const meetingBotApi = createApi({
             try {
               const data =
                 await meetingSharingInformationResponseSchema.validateAsync(
-                  response.data
+                  response.data,
                 );
 
               return {

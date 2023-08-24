@@ -420,7 +420,7 @@ export function mockWidgetEvent({
 
 export function mockWidgetEndpoint(
   server: SetupServer,
-  { widgets }: { widgets?: AvailableWidget[] } = {}
+  { widgets }: { widgets?: AvailableWidget[] } = {},
 ) {
   server.use(
     rest.get('http://localhost/v1/widget/list', (_, res, ctx) =>
@@ -435,10 +435,10 @@ export function mockWidgetEndpoint(
               id: 'widget-2',
               name: 'Widget 2',
             },
-          ]
-        )
-      )
-    )
+          ],
+        ),
+      ),
+    ),
   );
 }
 
@@ -450,12 +450,12 @@ export function mockConfigEndpoint(
   }: {
     jitsiDialInEnabled?: boolean;
     openXchangeMeetingUrlTemplate?: string;
-  } = {}
+  } = {},
 ) {
   server.use(
     rest.get('http://localhost/v1/config', (_, res, ctx) =>
-      res(ctx.json({ jitsiDialInEnabled, openXchangeMeetingUrlTemplate }))
-    )
+      res(ctx.json({ jitsiDialInEnabled, openXchangeMeetingUrlTemplate })),
+    ),
   );
 }
 
@@ -464,13 +464,13 @@ export function mockMeetingSharingInformationEndpoint(
   {
     jitsi_dial_in_number,
     jitsi_pin,
-  }: { jitsi_dial_in_number?: string; jitsi_pin?: number } = {}
+  }: { jitsi_dial_in_number?: string; jitsi_pin?: number } = {},
 ) {
   server.use(
     rest.get(
       'http://localhost/v1/meeting/:room/sharingInformation',
-      (_, res, ctx) => res(ctx.json({ jitsi_dial_in_number, jitsi_pin }))
-    )
+      (_, res, ctx) => res(ctx.json({ jitsi_dial_in_number, jitsi_pin })),
+    ),
   );
 }
 
@@ -483,7 +483,7 @@ export function mockMeetingSharingInformationEndpoint(
  */
 export function acknowledgeAllEvents(
   widgetApi: MockedWidgetApi,
-  opts?: { key?: string }
+  opts?: { key?: string },
 ) {
   return (event: RoomEvent<unknown>) => {
     widgetApi.mockSendRoomEvent(
@@ -496,7 +496,7 @@ export function acknowledgeAllEvents(
             key: opts?.key ?? '✅',
           },
         },
-      })
+      }),
     );
   };
 }
@@ -531,7 +531,7 @@ export function mockCreateMeetingRoom(
       withTombstoneEvent?: boolean;
       withWidgetEvents?: boolean;
     };
-  } = {}
+  } = {},
 ) {
   if (!roomOptions?.skipCreateEvent) {
     widgetApi.mockSendStateEvent(mockRoomCreate({ room_id }));
@@ -543,7 +543,7 @@ export function mockCreateMeetingRoom(
 
   if (!roomOptions?.skipMetadataEvent) {
     widgetApi.mockSendStateEvent(
-      mockNordeckMeetingMetadataEvent({ room_id, content: metadata })
+      mockNordeckMeetingMetadataEvent({ room_id, content: metadata }),
     );
   }
 
@@ -557,7 +557,7 @@ export function mockCreateMeetingRoom(
 
   if (!roomOptions?.skipParentEvent) {
     widgetApi.mockSendStateEvent(
-      mockSpaceParent({ room_id, state_key: parentRoomId })
+      mockSpaceParent({ room_id, state_key: parentRoomId }),
     );
   }
 
@@ -567,10 +567,10 @@ export function mockCreateMeetingRoom(
 
   if (roomOptions?.withWidgetEvents) {
     widgetApi.mockSendStateEvent(
-      mockWidgetEvent({ room_id, state_key: 'widget-1' })
+      mockWidgetEvent({ room_id, state_key: 'widget-1' }),
     );
     widgetApi.mockSendStateEvent(
-      mockWidgetEvent({ room_id, state_key: 'widget-2' })
+      mockWidgetEvent({ room_id, state_key: 'widget-2' }),
     );
   }
 }
@@ -594,22 +594,22 @@ export function mockCreateBreakoutMeetingRoom(
       Omit<NordeckMeetingMetadataEvent, 'start_time' | 'end_time'>
     >;
     name?: Partial<RoomNameEvent>;
-  } = {}
+  } = {},
 ) {
   widgetApi.mockSendStateEvent(
     mockRoomCreate({
       room_id,
       content: { type: 'net.nordeck.meetings.breakoutsession' },
-    })
+    }),
   );
   widgetApi.mockSendStateEvent(mockRoomName({ room_id, content: name }));
   widgetApi.mockSendStateEvent(
-    mockNordeckMeetingMetadataEvent({ room_id, content: metadata })
+    mockNordeckMeetingMetadataEvent({ room_id, content: metadata }),
   );
   widgetApi.mockSendStateEvent(mockRoomTopic({ room_id }));
   widgetApi.mockSendStateEvent(mockRoomMember({ room_id }));
   widgetApi.mockSendStateEvent(
-    mockSpaceParent({ room_id, state_key: meeting_room_id })
+    mockSpaceParent({ room_id, state_key: meeting_room_id }),
   );
 }
 
@@ -633,7 +633,7 @@ export function mockCreateMeetingInvitation(
       skipTopicEvent?: boolean;
       skipRoomMemberEvents?: boolean;
     };
-  } = {}
+  } = {},
 ) {
   if (!roomOptions?.skipCreateEvent) {
     widgetApi.mockSendStateEvent(mockRoomCreate({ room_id, content: create }));
@@ -649,7 +649,7 @@ export function mockCreateMeetingInvitation(
 
   if (!roomOptions?.skipRoomMemberEvents) {
     widgetApi.mockSendStateEvent(
-      mockRoomMember({ room_id, content: { membership: 'invite' } })
+      mockRoomMember({ room_id, content: { membership: 'invite' } }),
     );
   }
 }

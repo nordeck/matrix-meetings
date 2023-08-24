@@ -30,7 +30,7 @@ const spaceChildEventSchema = Joi.object<SpaceChildEvent, true>({
 }).unknown();
 
 export function isValidSpaceChildEvent(
-  event: StateEvent<unknown>
+  event: StateEvent<unknown>,
 ): event is StateEvent<SpaceChildEvent> {
   return isValidEvent(event, STATE_EVENT_SPACE_CHILD, spaceChildEventSchema);
 }

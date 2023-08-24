@@ -70,12 +70,12 @@ export function MeetingCardShareMeetingContent({
     if (dialInInformationError) {
       return t(
         'meetingCard.share.shareDialInNumberError',
-        'Error while requesting the dial-in information.'
+        'Error while requesting the dial-in information.',
       );
     } else if (!dialInInformationLoading && !dialInInformation?.dialInNumber) {
       return t(
         'meetingCard.share.shareDialInNumberNotPresent',
-        'No dial-in information available'
+        'No dial-in information available',
       );
     }
 
@@ -137,7 +137,7 @@ export function MeetingCardShareMeetingContent({
             <ListItemText
               primary={t(
                 'meetingCard.share.shareDialInNumber',
-                'Share dial-in number'
+                'Share dial-in number',
               )}
               secondary={shareDialInSecondary}
             ></ListItemText>
@@ -172,7 +172,7 @@ export function MeetingCardShareMeetingContent({
             <ListItemText
               primary={t(
                 'meetingCard.share.downloadIcsFile',
-                'Download ICS File'
+                'Download ICS File',
               )}
               secondary={icsError}
               secondaryTypographyProps={{ color: 'inherit' }}
@@ -184,20 +184,20 @@ export function MeetingCardShareMeetingContent({
       <ShareDialog
         description={t(
           'meetingCard.share.linkDescription',
-          'Use the following link to join the meeting:'
+          'Use the following link to join the meeting:',
         )}
         onClose={linkDialog.onClose}
         open={linkDialog.open}
         title={t(
           'meetingCard.share.linkTitle',
-          'Share the link to the meeting room'
+          'Share the link to the meeting room',
         )}
       >
         {isRecurringCalendarSourceEntry(meeting.calendarEntries) && (
           <Alert role="status" severity="warning" sx={{ my: 1 }}>
             {t(
               'meetingCard.share.warningRecurringMeetingLink',
-              'This is a link to a meeting series. Sharing this link invites users to all meetings in the series.'
+              'This is a link to a meeting series. Sharing this link invites users to all meetings in the series.',
             )}
           </Alert>
         )}
@@ -210,20 +210,20 @@ export function MeetingCardShareMeetingContent({
       <ShareDialog
         description={t(
           'meetingCard.share.emailDescription',
-          'Use the following information to forward the conference for example by email:'
+          'Use the following information to forward the conference for example by email:',
         )}
         onClose={emailDialog.onClose}
         open={emailDialog.open}
         title={t(
           'meetingCard.share.emailTitle',
-          'Share the meeting invitation'
+          'Share the meeting invitation',
         )}
       >
         {isRecurringCalendarSourceEntry(meeting.calendarEntries) && (
           <Alert role="status" severity="warning" sx={{ my: 1 }}>
             {t(
               'meetingCard.share.warningRecurringMeetingEmail',
-              'This is an email invitation to a meeting series. Sharing this email invitation invites users to all meetings in the series.'
+              'This is an email invitation to a meeting series. Sharing this email invitation invites users to all meetings in the series.',
             )}
           </Alert>
         )}
@@ -238,7 +238,7 @@ export function MeetingCardShareMeetingContent({
         <ShareDialog
           description={t(
             'meetingCard.share.dialInDescription',
-            'Use the following information to dial into the conference by phone:'
+            'Use the following information to dial into the conference by phone:',
           )}
           onClose={dialInDialog.onClose}
           open={dialInDialog.open}
@@ -248,7 +248,7 @@ export function MeetingCardShareMeetingContent({
             <Alert role="status" severity="warning" sx={{ my: 1 }}>
               {t(
                 'meetingCard.share.warningRecurringMeetingDialInNumber',
-                'This is a dial-in number to a meeting series. Sharing this dail-in number invites users to all meetings in the series.'
+                'This is a dial-in number to a meeting series. Sharing this dail-in number invites users to all meetings in the series.',
               )}
             </Alert>
           )}
@@ -268,7 +268,7 @@ export function MeetingCardShareMeetingContent({
       <ShareDialog
         description={t(
           'meetingCard.share.icsDescription',
-          'Download the meeting in the iCalendar format to add it to a calendar application:'
+          'Download the meeting in the iCalendar format to add it to a calendar application:',
         )}
         onClose={icsDialog.onClose}
         open={icsDialog.open}
@@ -278,7 +278,7 @@ export function MeetingCardShareMeetingContent({
           <Alert role="status" severity="warning" sx={{ my: 1 }}>
             {t(
               'meetingCard.share.warningRecurringMeetingICalFile',
-              'This is an iCal file of a meeting series. Sharing this iCal file invites users to all meetings in the series.'
+              'This is an iCal file of a meeting series. Sharing this iCal file invites users to all meetings in the series.',
             )}
           </Alert>
         )}

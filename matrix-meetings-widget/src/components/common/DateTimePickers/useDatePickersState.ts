@@ -49,7 +49,7 @@ export function useDatePickersState({
         parentMeeting,
         minStartDateOverride: minStartTimeOverride,
       }),
-    [parentMeeting, minStartTimeOverride]
+    [parentMeeting, minStartTimeOverride],
   );
 
   return useMemo(() => {
@@ -59,13 +59,13 @@ export function useDatePickersState({
         startTime < getMinStartDate() &&
         t(
           'dateTimePickers.error.meetingStartTooEarly',
-          'Meeting cannot start in the past.'
+          'Meeting cannot start in the past.',
         );
       const endDateError =
         endTime <= startTime &&
         t(
           'dateTimePickers.error.meetingStartBeforeEnd',
-          'Meeting should start before it ends.'
+          'Meeting should start before it ends.',
         );
 
       return {
@@ -78,16 +78,16 @@ export function useDatePickersState({
       // Breakout session mode
       const isMeetingSpanningSingleDay = getMinStartDate().hasSame(
         maxEndDate,
-        'day'
+        'day',
       );
 
       const isInvalidStartTime = !Interval.fromDateTimes(
         getMinStartDate(),
-        maxEndDate.plus(1)
+        maxEndDate.plus(1),
       ).contains(startTime);
       const isInvalidEndTime = !Interval.fromDateTimes(
         getMinStartDate(),
-        maxEndDate.plus(1)
+        maxEndDate.plus(1),
       ).contains(endTime);
       const endTimeBeforeStart = endTime < startTime;
 
@@ -107,14 +107,14 @@ export function useDatePickersState({
               minDate: formatParams,
               maxDate: formatParams,
             },
-          }
+          },
         );
 
       const endDateError =
         (endTimeBeforeStart &&
           t(
             'dateTimePickers.error.breakoutSessionStartBeforeEnd',
-            'Breakout session should start before it ends.'
+            'Breakout session should start before it ends.',
           )) ||
         (isInvalidEndTime &&
           (t(
@@ -127,7 +127,7 @@ export function useDatePickersState({
                 minDate: formatParams,
                 maxDate: formatParams,
               },
-            }
+            },
           ) as string));
 
       return {

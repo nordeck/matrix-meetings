@@ -45,14 +45,14 @@ export function makeSelectMeeting(): (
   state: RootState,
   roomId: string,
   uid: string,
-  recurrenceId: string | undefined
+  recurrenceId: string | undefined,
 ) => Meeting | undefined {
   return createDeepEqualSelector(
     (
       _state: RootState,
       _roomId: string,
       uid: string,
-      recurrenceId: string | undefined
+      recurrenceId: string | undefined,
     ) => ({ uid, recurrenceId }),
     selectRoomParentEventByRoomId,
     selectRoomTombstoneEventByRoomId,
@@ -71,7 +71,7 @@ export function makeSelectMeeting(): (
       meetingMetadataEvent,
       topicEvent,
       widgetEvents,
-      roomMemberEvents
+      roomMemberEvents,
     ) => {
       // check if the room has a tombstone
       const hasTombstone = tombstoneEvent !== undefined;
@@ -99,19 +99,19 @@ export function makeSelectMeeting(): (
 
       const widgets = filterAllRoomWidgetEventsByRoomId(
         widgetEvents,
-        createEvent.room_id
+        createEvent.room_id,
       ).map((e) => e.state_key);
 
       const participants = filterAllRoomMemberEventsByRoomId(
         roomMemberEvents,
-        createEvent.room_id
+        createEvent.room_id,
       ).map(
         (e, _, all): MeetingParticipant => ({
           userId: e.state_key,
           displayName: getRoomMemberDisplayName(e, all),
           membership: e.content.membership === 'join' ? 'join' : 'invite',
           rawEvent: e,
-        })
+        }),
       );
 
       const deletionTime = generateDeletionTime(meetingMetadataEvent);
@@ -119,7 +119,7 @@ export function makeSelectMeeting(): (
       const calendarEvent = getCalendarEvent(
         meetingMetadataEvent.content.calendar,
         uid,
-        recurrenceId
+        recurrenceId,
       );
 
       if (!calendarEvent) {
@@ -144,16 +144,16 @@ export function makeSelectMeeting(): (
       };
 
       return meeting;
-    }
+    },
   );
 }
 
 function generateDeletionTime(
-  meetingMetadataEvent: StateEvent<NordeckMeetingMetadataEvent>
+  meetingMetadataEvent: StateEvent<NordeckMeetingMetadataEvent>,
 ): string | undefined {
   if (meetingMetadataEvent.content.force_deletion_at) {
     return DateTime.fromMillis(
-      meetingMetadataEvent.content.force_deletion_at
+      meetingMetadataEvent.content.force_deletion_at,
     ).toISO();
   }
 

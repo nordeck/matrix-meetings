@@ -40,7 +40,7 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
 }));
 
 const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked
+  extractWidgetApiParametersMocked,
 );
 
 const server = setupServer();
@@ -92,10 +92,10 @@ describe('<MeetingDetailsShare/>', () => {
     const list = screen.getByRole('list', { name: /share meeting/i });
 
     expect(
-      within(list).getByRole('button', { name: /share by email/i })
+      within(list).getByRole('button', { name: /share by email/i }),
     ).toBeInTheDocument();
     expect(
-      within(list).getByRole('button', { name: /download ics file/i })
+      within(list).getByRole('button', { name: /download ics file/i }),
     ).toBeInTheDocument();
   });
 
@@ -115,7 +115,7 @@ describe('<MeetingDetailsShare/>', () => {
     const list = screen.getByRole('list', { name: /share meeting/i });
 
     await userEvent.click(
-      within(list).getByRole('button', { name: /share by email/i })
+      within(list).getByRole('button', { name: /share by email/i }),
     );
 
     const dialog = screen.getByRole('dialog', {
@@ -123,7 +123,7 @@ describe('<MeetingDetailsShare/>', () => {
     });
 
     expect(
-      within(dialog).getByRole('textbox', { name: /message/i })
+      within(dialog).getByRole('textbox', { name: /message/i }),
     ).toBeInTheDocument();
 
     expect(within(dialog).queryByRole('status')).not.toBeInTheDocument();
@@ -144,7 +144,7 @@ describe('<MeetingDetailsShare/>', () => {
     const list = screen.getByRole('list', { name: /share meeting/i });
 
     await userEvent.click(
-      within(list).getByRole('button', { name: /share by email/i })
+      within(list).getByRole('button', { name: /share by email/i }),
     );
 
     const dialog = screen.getByRole('dialog', {
@@ -152,7 +152,7 @@ describe('<MeetingDetailsShare/>', () => {
     });
 
     expect(within(dialog).getByRole('status')).toHaveTextContent(
-      /This is an email invitation to a meeting series. Sharing this email invitation invites users to all meetings in the series./i
+      /This is an email invitation to a meeting series. Sharing this email invitation invites users to all meetings in the series./i,
     );
   });
 
@@ -164,7 +164,7 @@ describe('<MeetingDetailsShare/>', () => {
     const list = screen.getByRole('list', { name: /share meeting/i });
 
     await userEvent.click(
-      within(list).getByRole('button', { name: /download ics file/i })
+      within(list).getByRole('button', { name: /download ics file/i }),
     );
 
     const dialog = screen.getByRole('dialog', {
@@ -172,7 +172,7 @@ describe('<MeetingDetailsShare/>', () => {
     });
 
     expect(
-      within(dialog).getByRole('button', { name: /download/i })
+      within(dialog).getByRole('button', { name: /download/i }),
     ).toBeInTheDocument();
   });
 
@@ -191,7 +191,7 @@ describe('<MeetingDetailsShare/>', () => {
     const list = screen.getByRole('list', { name: /share meeting/i });
 
     await userEvent.click(
-      within(list).getByRole('button', { name: /download ics file/i })
+      within(list).getByRole('button', { name: /download ics file/i }),
     );
 
     const dialog = screen.getByRole('dialog', {
@@ -199,7 +199,7 @@ describe('<MeetingDetailsShare/>', () => {
     });
 
     expect(within(dialog).getByRole('status')).toHaveTextContent(
-      /This is an iCal file of a meeting series. Sharing this iCal file invites users to all meetings in the series./i
+      /This is an iCal file of a meeting series. Sharing this iCal file invites users to all meetings in the series./i,
     );
   });
 });

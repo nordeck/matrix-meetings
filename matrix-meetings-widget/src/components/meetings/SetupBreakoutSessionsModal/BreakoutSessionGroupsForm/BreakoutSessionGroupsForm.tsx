@@ -69,15 +69,15 @@ export function BreakoutSessionGroupsForm({
       t,
       ownUserId: widgetApi.widgetParameters.userId,
     },
-    initializer
+    initializer,
   );
 
   const selectAllRoomMemberEventsByRoomId = useMemo(
     makeSelectAllRoomMemberEventsByRoomId,
-    []
+    [],
   );
   const allRoomMembers = useAppSelector((state) =>
-    selectAllRoomMemberEventsByRoomId(state, parentMeeting.meetingId)
+    selectAllRoomMemberEventsByRoomId(state, parentMeeting.meetingId),
   );
 
   const tooManyGroupsError = groupsCount > validMemberEvents.length;
@@ -106,7 +106,7 @@ export function BreakoutSessionGroupsForm({
         count: Number.parseInt(e.target.value) || 1,
       });
     },
-    []
+    [],
   );
 
   const handleGroupChange = useCallback((groupIndex: number) => {
@@ -145,7 +145,7 @@ export function BreakoutSessionGroupsForm({
               groupsCount > validMemberEvents.length &&
               t(
                 'setupBreakoutSessions.groupNumberErrorMessage',
-                'There are not enough participants for the number of groups you have entered.'
+                'There are not enough participants for the number of groups you have entered.',
               )
             }
             id={groupCountId}
@@ -157,7 +157,7 @@ export function BreakoutSessionGroupsForm({
             }}
             label={t(
               'setupBreakoutSessions.groupNumber',
-              'Number of groups (required)'
+              'Number of groups (required)',
             )}
             margin="dense"
             onChange={handleChangeGroupNumber}
@@ -198,7 +198,7 @@ export function BreakoutSessionGroupsForm({
 
           {t(
             'setupBreakoutSessions.notAssignedMessage',
-            'Some participants are not assigned to a group.'
+            'Some participants are not assigned to a group.',
           )}
         </Alert>
       ) : null}

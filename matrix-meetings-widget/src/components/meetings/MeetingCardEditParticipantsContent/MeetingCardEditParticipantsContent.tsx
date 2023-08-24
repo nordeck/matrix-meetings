@@ -59,7 +59,7 @@ export function MeetingCardEditParticipantsContent({
 
 export function sortByNameAndStatus(
   a: MeetingParticipant,
-  b: MeetingParticipant
+  b: MeetingParticipant,
 ) {
   if (a.membership === b.membership) {
     return a.displayName.localeCompare(b.displayName);

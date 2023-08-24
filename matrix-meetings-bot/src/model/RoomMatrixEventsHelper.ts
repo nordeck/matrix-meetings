@@ -31,10 +31,10 @@ export class RoomMatrixEventsHelper {
 
   public buildRoomMatrixEvents(
     stateEvents: readonly IStateEvent<unknown>[],
-    roomEvents: readonly IRoomEvent<unknown>[]
+    roomEvents: readonly IRoomEvent<unknown>[],
   ): IRoomMatrixEvents {
     const allWidgetEvents = stateEvents.filter(
-      (se) => se.type === StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT
+      (se) => se.type === StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
     );
 
     const widgetContents = allWidgetEvents.map<IWidgetContent>((se) => {
@@ -51,7 +51,7 @@ export class RoomMatrixEventsHelper {
           if (avatarUrl.protocol !== 'mxc:') {
             widgetContent.avatar_url = undefined; // ignore avatar path
             this.logger.warn(
-              `only 'mxc:' protocol can be used in avatar url, widget ${widgetId} has '${avatarUrl.protocol}' in url ${avatarUrlString}, avatar url is ignored`
+              `only 'mxc:' protocol can be used in avatar url, widget ${widgetId} has '${avatarUrl.protocol}' in url ${avatarUrlString}, avatar url is ignored`,
             );
           }
         } else {
@@ -59,7 +59,7 @@ export class RoomMatrixEventsHelper {
           // use default_events.json path to create avatar path relative to working directory or absolute path
           const newAvatarPath = path.join(
             path.dirname(this.defaultEventsPath),
-            avatarUrlString
+            avatarUrlString,
           );
           if (fs.existsSync(newAvatarPath)) {
             widgetContent.avatar_url = newAvatarPath; // override avatar path
@@ -67,7 +67,7 @@ export class RoomMatrixEventsHelper {
             widgetContent.avatar_url = undefined; // ignore avatar path
             const avatarPathAbsolute = path.resolve(newAvatarPath);
             this.logger.warn(
-              `cannot find avatar ${avatarUrlString} for ${widgetId} widget, icon doesn't exists: ${avatarPathAbsolute}`
+              `cannot find avatar ${avatarUrlString} for ${widgetId} widget, icon doesn't exists: ${avatarPathAbsolute}`,
             );
           }
         }

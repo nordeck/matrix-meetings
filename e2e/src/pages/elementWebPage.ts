@@ -40,7 +40,7 @@ export class ElementWebPage {
     this.headerRegion = page.getByRole('main').locator('header');
     this.sendMessageTextbox = page.getByRole('textbox', { name: /message…/ });
     this.noChatPermissionText = page.getByText(
-      'You do not have permission to post to this room'
+      'You do not have permission to post to this room',
     );
     this.roomNameText = this.headerRegion.getByRole('heading');
     this.roomTopicText = this.headerRegion.locator('.mx_RoomTopic');
@@ -75,7 +75,7 @@ export class ElementWebPage {
 
   async approveWidgetIdentity() {
     const approveWidgetIdentityDialogLocator = this.page.getByRole(
-      'dialog' // TODO: We can't use [name="Allow this widget to verify your identity"] here as Element is reusing the same dialog name if multiple dialogs are open at once.
+      'dialog', // TODO: We can't use [name="Allow this widget to verify your identity"] here as Element is reusing the same dialog name if multiple dialogs are open at once.
     );
 
     // We don't select the "Remember this" option, so that we are always asked
@@ -108,7 +108,7 @@ export class ElementWebPage {
 
   async createRoom(
     name: string,
-    { encrypted = false }: { encrypted?: boolean } = {}
+    { encrypted = false }: { encrypted?: boolean } = {},
   ) {
     // Instead of controling the UI, we use the matrix client as it is faster.
     await this.page.evaluate(
@@ -126,7 +126,7 @@ export class ElementWebPage {
           name,
         });
       },
-      { name, encrypted }
+      { name, encrypted },
     );
 
     await this.switchToRoom(name);
@@ -258,7 +258,7 @@ export class ElementWebPage {
 
         await client.invite(roomId, `@${username}:localhost`);
       },
-      { roomId, username }
+      { roomId, username },
     );
   }
 
@@ -268,7 +268,7 @@ export class ElementWebPage {
 
   async waitForUserMembership(
     username: string,
-    membership: 'join' | 'leave' | 'ban' | 'invite'
+    membership: 'join' | 'leave' | 'ban' | 'invite',
   ) {
     // Instead of controling the UI, we use the matrix client as it is faster.
     await expect
@@ -284,7 +284,7 @@ export class ElementWebPage {
               const memberEvent = await client.getStateEvent(
                 roomId,
                 'm.room.member',
-                `@${username}:localhost`
+                `@${username}:localhost`,
               );
 
               return memberEvent.membership;
@@ -292,7 +292,7 @@ export class ElementWebPage {
               return undefined;
             }
           },
-          { roomId, username }
+          { roomId, username },
         );
       })
       .toEqual(membership);
@@ -309,7 +309,7 @@ export class ElementWebPage {
 
         await client.kick(roomId, `@${username}:localhost`);
       },
-      { roomId, username }
+      { roomId, username },
     );
   }
 
@@ -324,7 +324,7 @@ export class ElementWebPage {
         const powerLevelsEvent = await client.getStateEvent(
           roomId,
           'm.room.power_levels',
-          ''
+          '',
         );
 
         const newPowerLevels = {
@@ -339,10 +339,10 @@ export class ElementWebPage {
           roomId,
           'm.room.power_levels',
           newPowerLevels,
-          ''
+          '',
         );
       },
-      { roomId, username }
+      { roomId, username },
     );
   }
 
@@ -366,7 +366,7 @@ export class ElementWebPage {
 
   locateTombstone(): Locator {
     return this.page.getByText(
-      'This room has been replaced and is no longer active.'
+      'This room has been replaced and is no longer active.',
     );
   }
 
@@ -393,7 +393,7 @@ export class ElementWebPage {
 
         return widgets.map((w) => w.name);
       },
-      { roomId }
+      { roomId },
     );
   }
 
@@ -408,7 +408,7 @@ export class ElementWebPage {
         try {
           const metadataEvent = await client.getStateEvent(
             roomId,
-            'net.nordeck.meetings.metadata'
+            'net.nordeck.meetings.metadata',
           );
 
           if (metadataEvent?.force_deletion_at) {
@@ -420,7 +420,7 @@ export class ElementWebPage {
           return undefined;
         }
       },
-      { roomId }
+      { roomId },
     );
   }
 
@@ -469,7 +469,7 @@ export class ElementWebPage {
         window.localStorage.setItem('mx_user_id', credentials.user_id);
         window.localStorage.setItem(
           'mx_access_token',
-          credentials.access_token
+          credentials.access_token,
         );
         window.localStorage.setItem('mx_device_id', credentials.device_id);
         window.localStorage.setItem('mx_is_guest', 'false');
@@ -485,14 +485,14 @@ export class ElementWebPage {
             language: 'en',
             // Always test in high contrast mode
             theme: 'light-high-contrast',
-          })
+          }),
         );
         // Don't ask the user if he wants to enable notifications
         window.localStorage.setItem('notifications_hidden', 'true');
         // Disable audio notifications, they can be annoying during tests
         window.localStorage.setItem('audio_notifications_enabled', 'false');
       },
-      { synapseUrl, credentials }
+      { synapseUrl, credentials },
     );
 
     // Reload and use the credentials

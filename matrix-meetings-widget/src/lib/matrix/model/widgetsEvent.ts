@@ -31,7 +31,7 @@ const widgetsEventSchema = Joi.object<WidgetsEvent, true>({
 }).unknown();
 
 export function isValidWidgetsEvent(
-  event: StateEvent<unknown>
+  event: StateEvent<unknown>,
 ): event is StateEvent<WidgetsEvent> {
   return isValidEvent(event, STATE_EVENT_WIDGETS, widgetsEventSchema);
 }

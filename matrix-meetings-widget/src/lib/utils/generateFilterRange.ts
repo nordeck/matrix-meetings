@@ -22,7 +22,7 @@ export type CalendarViewType = 'day' | 'workWeek' | 'week' | 'month';
 export const generateFilterRange = (
   view: CalendarViewType,
   date: string,
-  previousView?: CalendarViewType
+  previousView?: CalendarViewType,
 ): { startDate: string; endDate: string } => {
   // luxon only supports isoWeekday always returns a day-of-week=1.
   // this duration normalizes it to the configured locale

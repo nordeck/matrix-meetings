@@ -31,7 +31,7 @@ describe('<ShareDialog/>', () => {
         onClose={onClose}
         open
         title="Title"
-      />
+      />,
     );
 
     const dialog = screen.getByRole('dialog', { name: /title/i });
@@ -39,12 +39,12 @@ describe('<ShareDialog/>', () => {
     expect(dialog).toHaveAccessibleDescription(/description/i);
 
     expect(
-      within(dialog).getByRole('heading', { level: 3, name: /title/i })
+      within(dialog).getByRole('heading', { level: 3, name: /title/i }),
     ).toBeInTheDocument();
     expect(within(dialog).getByText(/description/i)).toBeInTheDocument();
 
     expect(
-      within(dialog).getByRole('button', { name: /close/i })
+      within(dialog).getByRole('button', { name: /close/i }),
     ).toBeInTheDocument();
   });
 
@@ -55,7 +55,7 @@ describe('<ShareDialog/>', () => {
         onClose={onClose}
         open
         title="Title"
-      />
+      />,
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -70,7 +70,7 @@ describe('<ShareDialog/>', () => {
         title="Title"
       >
         Children
-      </ShareDialog>
+      </ShareDialog>,
     );
 
     const dialog = screen.getByRole('dialog', { name: /title/i });
@@ -85,13 +85,13 @@ describe('<ShareDialog/>', () => {
         onClose={onClose}
         open
         title="Title"
-      />
+      />,
     );
 
     const dialog = screen.getByRole('dialog', { name: /title/i });
 
     await userEvent.click(
-      within(dialog).getByRole('button', { name: /close/i })
+      within(dialog).getByRole('button', { name: /close/i }),
     );
 
     expect(onClose).toBeCalled();

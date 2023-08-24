@@ -65,7 +65,7 @@ describe('reducer', () => {
               allMemberEvents: events,
               ownUserId: '@my-user',
             },
-          })
+          }),
         ).toEqual({
           ctx: { t: i18next.t, allMemberEvents: events, ownUserId: '@my-user' },
           groups: [{ title: 'Group 1', members: ['@my-user'] }],
@@ -92,7 +92,7 @@ describe('reducer', () => {
           reducer(state, {
             type: 'updateCount',
             count: 2,
-          })
+          }),
         ).toEqual({
           ctx: { t: i18next.t, allMemberEvents: members, ownUserId: undefined },
           groups: [
@@ -120,7 +120,7 @@ describe('reducer', () => {
           reducer(state, {
             type: 'updateCount',
             count: 1,
-          })
+          }),
         ).toEqual(state);
       });
 
@@ -137,7 +137,7 @@ describe('reducer', () => {
           reducer(state, {
             type: 'updateCount',
             count: -1,
-          })
+          }),
         ).toEqual(state);
       });
 
@@ -154,7 +154,7 @@ describe('reducer', () => {
           reducer(state, {
             type: 'updateCount',
             count: 0,
-          })
+          }),
         ).toEqual({
           ctx: { t: i18next.t, allMemberEvents: [], ownUserId: undefined },
           groups: [{ title: 'Group 1', members: [] }],
@@ -179,7 +179,7 @@ describe('reducer', () => {
           reducer(state, {
             type: 'updateCount',
             count: 5,
-          })
+          }),
         ).toEqual({
           ctx: { t: i18next.t, allMemberEvents: members, ownUserId: undefined },
           groups: [
@@ -215,7 +215,7 @@ describe('reducer', () => {
               title: 'New Title',
               members: ['@my-user'],
             },
-          })
+          }),
         ).toEqual({
           ctx: { t: i18next.t, allMemberEvents: events, ownUserId: undefined },
           groups: [
@@ -245,7 +245,7 @@ describe('reducer', () => {
             group: {
               members: [],
             },
-          })
+          }),
         ).toEqual(state);
       });
 
@@ -265,7 +265,7 @@ describe('reducer', () => {
             group: {
               title: 'New Title',
             },
-          })
+          }),
         ).toEqual(state);
       });
     });
@@ -287,7 +287,7 @@ describe('reducer', () => {
         expect(
           reducer(state, {
             type: 'distributeAll',
-          })
+          }),
         ).toEqual({
           ctx: {
             t: i18next.t,

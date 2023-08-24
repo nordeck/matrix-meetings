@@ -60,7 +60,7 @@ describe('hasPermissions', () => {
         roomEventTypes: ['room-1', 'room-2'],
         stateEventTypes: ['state-1', 'state-2'],
         actions: ['invite'],
-      })
+      }),
     ).toBe(true);
 
     expect(hasRoomEventPower).toBeCalledWith({}, '@user', 'room-1');
@@ -78,7 +78,7 @@ describe('hasPermissions', () => {
         roomEventTypes: ['room-1', 'room-2'],
         stateEventTypes: ['state-1', 'state-2'],
         actions: ['invite'],
-      })
+      }),
     ).toBe(false);
 
     expect(hasRoomEventPower).toBeCalledTimes(1);
@@ -94,7 +94,7 @@ describe('hasPermissions', () => {
       hasPermissions(event, '@user', {
         stateEventTypes: ['state-1', 'state-2'],
         actions: ['invite'],
-      })
+      }),
     ).toBe(false);
 
     expect(hasRoomEventPower).not.toBeCalled();
@@ -109,7 +109,7 @@ describe('hasPermissions', () => {
     expect(
       hasPermissions(event, '@user', {
         actions: ['invite', 'kick'],
-      })
+      }),
     ).toBe(false);
 
     expect(hasRoomEventPower).not.toBeCalled();
@@ -157,7 +157,7 @@ describe('selectRoomPermissions', () => {
           },
           kick: 20,
         },
-      })
+      }),
     );
 
     widgetApi.mockSendStateEvent(
@@ -167,7 +167,7 @@ describe('selectRoomPermissions', () => {
           users_default: 0,
           events_default: 100,
         },
-      })
+      }),
     );
 
     const store = createStore({ widgetApi });

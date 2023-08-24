@@ -56,10 +56,10 @@ export function EndTimePicker({
           formatParams: {
             date: timeOnlyDateFormat,
           },
-        }
+        },
       );
     },
-    [t]
+    [t],
   );
 
   const handleOnChange = useCallback(
@@ -72,7 +72,7 @@ export function EndTimePicker({
         onChange(newValue);
       }
     },
-    [onChange]
+    [onChange],
   );
 
   return (

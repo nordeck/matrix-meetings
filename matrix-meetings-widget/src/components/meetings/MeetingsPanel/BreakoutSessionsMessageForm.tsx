@@ -85,7 +85,7 @@ export function BreakoutSessionsMessageForm(): ReactElement {
       // clear all errors
       reset();
     },
-    [reset]
+    [reset],
   );
 
   const handleOnKeyDown = useCallback(
@@ -95,12 +95,12 @@ export function BreakoutSessionsMessageForm(): ReactElement {
         onClickSendMessage();
       }
     },
-    [onClickSendMessage]
+    [onClickSendMessage],
   );
 
   const sendMessageLabel = t(
     'meetingsPanel.messageToAllBreakoutRoom.sendLabel',
-    'Send message to all rooms'
+    'Send message to all rooms',
   );
 
   const id = useId();
@@ -110,7 +110,7 @@ export function BreakoutSessionsMessageForm(): ReactElement {
       <Typography component="h3" id={id} variant="h6">
         {t(
           'meetingsPanel.messageToAllBreakoutRoom.title',
-          'Send message to all breakout session rooms'
+          'Send message to all breakout session rooms',
         )}
       </Typography>
 
@@ -131,7 +131,7 @@ export function BreakoutSessionsMessageForm(): ReactElement {
           onKeyDown={handleOnKeyDown}
           placeholder={t(
             'meetingsPanel.messageToAllBreakoutRoom.placeholder',
-            'Send a message...'
+            'Send a message...',
           )}
           value={message}
         />
@@ -162,12 +162,12 @@ export function BreakoutSessionsMessageForm(): ReactElement {
           <AlertTitle>
             {t(
               'meetingsPanel.messageToAllBreakoutRoom.sendFailedTitle',
-              'Failed to send the message'
+              'Failed to send the message',
             )}
           </AlertTitle>
           {t(
             'meetingsPanel.messageToAllBreakoutRoom.sendFailed',
-            'Please try again.'
+            'Please try again.',
           )}
         </Alert>
       )}
@@ -177,12 +177,12 @@ export function BreakoutSessionsMessageForm(): ReactElement {
           <AlertTitle>
             {t(
               'meetingsPanel.messageToAllBreakoutRoom.sendTimeoutTitle',
-              'The request was sent'
+              'The request was sent',
             )}
           </AlertTitle>
           {t(
             'meetingsPanel.messageToAllBreakoutRoom.sendTimeout',
-            'The change was submitted and will be applied soon.'
+            'The change was submitted and will be applied soon.',
           )}
         </Alert>
       )}

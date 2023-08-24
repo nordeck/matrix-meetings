@@ -74,7 +74,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
   it('should render nothing if no meeting is passed', async () => {
     const { baseElement } = render(
       <MeetingsCalendarDetailsDialog meetingId={undefined} onClose={onClose} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(baseElement).toMatchInlineSnapshot(`
@@ -94,7 +94,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
         }}
         onClose={onClose}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const dialog = await screen.findByRole('dialog', {
@@ -106,41 +106,41 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
       within(dialog).getByRole('heading', {
         name: 'An important meeting',
         level: 3,
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(
-      within(dialog).getByText(/^January 1, 2999, 10:00 AM – 2:00 PM$/)
+      within(dialog).getByText(/^January 1, 2999, 10:00 AM – 2:00 PM$/),
     ).toBeInTheDocument();
 
     expect(
-      within(dialog).getByRole('button', { name: 'Join' })
+      within(dialog).getByRole('button', { name: 'Join' }),
     ).toBeInTheDocument();
 
     expect(
-      within(dialog).getByRole('button', { name: 'Edit' })
+      within(dialog).getByRole('button', { name: 'Edit' }),
     ).toBeInTheDocument();
 
     expect(
-      within(dialog).getByRole('button', { name: 'Delete' })
+      within(dialog).getByRole('button', { name: 'Delete' }),
     ).toBeInTheDocument();
 
     expect(
-      within(dialog).getByRole('button', { name: 'Share by email' })
+      within(dialog).getByRole('button', { name: 'Share by email' }),
     ).toBeInTheDocument();
 
     expect(
-      within(dialog).getByRole('button', { name: 'Download ICS File' })
+      within(dialog).getByRole('button', { name: 'Download ICS File' }),
     ).toBeInTheDocument();
 
     expect(
-      within(dialog).getByRole('listitem', { name: 'Alice' })
+      within(dialog).getByRole('listitem', { name: 'Alice' }),
     ).toBeInTheDocument();
 
     expect(
       within(dialog).getByRole('link', {
         name: 'http://element.local/#/room/!meeting-room-id',
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -154,14 +154,14 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
         }}
         onClose={onClose}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
       screen.findByRole('dialog', {
         name: 'An important meeting',
         description: 'January 1, 2999, 10:00 AM – 2:00 PM',
-      })
+      }),
     ).resolves.toBeInTheDocument();
 
     expect(await axe(container)).toHaveNoViolations();
@@ -187,7 +187,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
         }}
         onClose={onClose}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const dialog = await screen.findByRole('dialog', {
@@ -199,11 +199,11 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
       within(dialog).getByRole('heading', {
         name: 'An important meeting',
         level: 3,
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(
-      within(dialog).getByText(/^January 10, 2999, 10:00 AM – 2:00 PM$/)
+      within(dialog).getByText(/^January 10, 2999, 10:00 AM – 2:00 PM$/),
     ).toBeInTheDocument();
 
     expect(within(dialog).getByText('Every day')).toBeInTheDocument();
@@ -219,7 +219,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
         }}
         onClose={onClose}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const dialog = await screen.findByRole('dialog', {
@@ -228,7 +228,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     });
 
     await userEvent.click(
-      within(dialog).getByRole('button', { name: 'Close' })
+      within(dialog).getByRole('button', { name: 'Close' }),
     );
 
     expect(onClose).toBeCalled();
@@ -244,7 +244,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
         }}
         onClose={onClose}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await screen.findByRole('dialog', {
@@ -253,7 +253,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     });
 
     widgetApi.mockSendStateEvent(
-      mockRoomTombstone({ room_id: '!meeting-room-id' })
+      mockRoomTombstone({ room_id: '!meeting-room-id' }),
     );
 
     await waitFor(() => {

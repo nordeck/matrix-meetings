@@ -68,7 +68,7 @@ export const MeetingsNavigation = ({
         onViewChange(value);
       }
     },
-    [isBigDevice, onViewChange]
+    [isBigDevice, onViewChange],
   );
 
   const selectInputLabelId = useId();
@@ -89,7 +89,7 @@ export const MeetingsNavigation = ({
         >
           {t(
             'meetingsNavigation.increaseWidthToShowMore',
-            'Increase widget width to enable more views.'
+            'Increase widget width to enable more views.',
           )}
         </InputLabel>
       )}

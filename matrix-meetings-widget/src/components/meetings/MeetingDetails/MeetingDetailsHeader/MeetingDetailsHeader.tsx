@@ -90,8 +90,8 @@ export function MeetingDetailsHeader({
     selectRoomPermissions(
       state,
       meeting.meetingId,
-      widgetApi.widgetParameters.userId
-    )
+      widgetApi.widgetParameters.userId,
+    ),
   );
   const canUpdateMeeting =
     canUpdateMeetingDetails &&
@@ -107,7 +107,7 @@ export function MeetingDetailsHeader({
   const metadataEvent = useAppSelector((state) => {
     const event = selectNordeckMeetingMetadataEventByRoomId(
       state,
-      meeting.meetingId
+      meeting.meetingId,
     );
 
     return event;
@@ -120,7 +120,7 @@ export function MeetingDetailsHeader({
 
   const openXChangeReference = useMemo(
     () => metadataEvent && getOpenXChangeExternalReference(metadataEvent),
-    [metadataEvent]
+    [metadataEvent],
   );
   const isExternalReference = openXChangeReference !== undefined;
 
@@ -172,7 +172,7 @@ export function MeetingDetailsHeader({
   const isMeetingInvitation = meeting.participants.some(
     (p) =>
       p.userId === widgetApi.widgetParameters.userId &&
-      p.membership === 'invite'
+      p.membership === 'invite',
   );
 
   const joinButtonTitleId = useId();
@@ -211,7 +211,7 @@ export function MeetingDetailsHeader({
                   <OpenXchangeButton reference={openXChangeReference}>
                     {t(
                       'meetingDetails.header.editInOpenXchangeMenu',
-                      'Edit meeting in Open-Xchange'
+                      'Edit meeting in Open-Xchange',
                     )}
                   </OpenXchangeButton>
                 )}
@@ -232,7 +232,7 @@ export function MeetingDetailsHeader({
                   >
                     {t(
                       'meetingDetails.header.deleteInOpenXchangeMenu',
-                      'Delete meeting in Open-Xchange'
+                      'Delete meeting in Open-Xchange',
                     )}
                   </OpenXchangeButton>
                 )}
@@ -271,7 +271,7 @@ export function MeetingDetailsHeader({
             formatParams: {
               startTime: withoutYearDateFormat,
             },
-          }
+          },
         )}
         loading={
           isDeleting ||
@@ -292,7 +292,7 @@ export function MeetingDetailsHeader({
             <AlertTitle>
               {t(
                 'meetingDetails.header..deleteFailedTitle',
-                'Failed to delete the meeting'
+                'Failed to delete the meeting',
               )}
             </AlertTitle>
             {t('meetingDetails.header..deleteFailed', 'Please try again.')}

@@ -32,7 +32,7 @@ export class DoesWidgetWithIdExistConstraint
 {
   constructor(
     @Inject(ModuleProviderToken.ROOM_MATRIX_EVENTS)
-    private roomMatrixEvents: DeepReadonly<IRoomMatrixEvents>
+    private roomMatrixEvents: DeepReadonly<IRoomMatrixEvents>,
   ) {}
 
   validate(value: any) {

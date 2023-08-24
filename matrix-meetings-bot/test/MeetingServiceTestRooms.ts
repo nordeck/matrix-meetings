@@ -21,13 +21,13 @@ export function create_test_meeting(
   room_id: string,
   parent_room_id: string | null,
   widgetTypes: string[] = ['jitsi', 'etherpad', 'whiteboard'],
-  isMeeting = true
+  isMeeting = true,
 ) {
   const builder = new RoomEventsBuilder(
     creator,
     room_id,
     parent_room_id,
-    isMeeting
+    isMeeting,
   );
   for (const widgetType of widgetTypes) {
     builder.withWidgetType(widgetType);

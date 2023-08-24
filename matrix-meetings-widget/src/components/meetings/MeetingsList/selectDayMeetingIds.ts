@@ -24,10 +24,10 @@ import {
 import { RootState } from '../../../store';
 
 export function makeSelectDayMeetingIds(
-  opts?: SelectAllMeetingIdsOpts
+  opts?: SelectAllMeetingIdsOpts,
 ): (
   state: RootState,
-  filters: Filters
+  filters: Filters,
 ) => Array<{ day: string; meetingIds: MeetingIdEntry[] }> {
   const selectAllMeetingIds = makeSelectAllMeetingIds(opts);
 
@@ -44,7 +44,7 @@ export function makeSelectDayMeetingIds(
           !entry ||
           !DateTime.fromISO(entry.day).hasSame(
             DateTime.fromISO(idEntry.startTime),
-            'day'
+            'day',
           )
         ) {
           entry = { day: idEntry.startTime, meetingIds: [idEntry] };

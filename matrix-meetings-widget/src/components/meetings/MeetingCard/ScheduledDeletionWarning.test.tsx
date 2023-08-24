@@ -41,14 +41,14 @@ describe('<ScheduledDeletionWarning>', () => {
       render(<ScheduledDeletionWarning deletionTime={deletionDate} />);
 
       expect(screen.getByRole('status')).toHaveTextContent(
-        `Meeting room will be automatically deleted ${format}.`
+        `Meeting room will be automatically deleted ${format}.`,
       );
-    }
+    },
   );
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
-      <ScheduledDeletionWarning deletionTime="2022-02-01T12:00:00Z" />
+      <ScheduledDeletionWarning deletionTime="2022-02-01T12:00:00Z" />,
     );
 
     expect(await axe(container)).toHaveNoViolations();

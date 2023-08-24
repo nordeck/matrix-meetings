@@ -134,7 +134,7 @@ export function getTimeDistanceState({
         {
           duration: Math.floor(endHours),
           formatParams: { duration: { range: 'hour' } },
-        }
+        },
       ),
       labelColor: 'primary',
       rotateIcon: true,
@@ -153,7 +153,7 @@ export function getTimeDistanceState({
         {
           duration: Math.floor(endMinutes),
           formatParams: { duration: { range: 'minutes' } },
-        }
+        },
       ),
       labelColor: 'primary',
       rotateIcon: true,

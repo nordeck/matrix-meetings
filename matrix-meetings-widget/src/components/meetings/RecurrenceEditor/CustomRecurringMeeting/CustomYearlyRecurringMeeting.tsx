@@ -69,14 +69,14 @@ export const CustomYearlyRecurringMeeting = ({
     (e: SelectChangeEvent<CustomRuleMode>) => {
       onCustomRuleModeChange(e.target.value as CustomRuleMode);
     },
-    [onCustomRuleModeChange]
+    [onCustomRuleModeChange],
   );
 
   const handleCustomNthMonthdayChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       onCustomNthMonthdayChange(e.target.value);
     },
-    [onCustomNthMonthdayChange]
+    [onCustomNthMonthdayChange],
   );
 
   const radioGroupLabelId = useId();
@@ -106,7 +106,7 @@ export const CustomYearlyRecurringMeeting = ({
                     {
                       nthMonthday: customNthMonthday,
                       month: Info.months()[customMonth - 1],
-                    }
+                    },
                   ),
                 }}
               />
@@ -135,13 +135,13 @@ export const CustomYearlyRecurringMeeting = ({
                 isCustomNthMonthdayInvalid &&
                 t(
                   'recurrenceEditor.custom.yearly.invalidInput',
-                  'Invalid input'
+                  'Invalid input',
                 )
               }
               inputProps={{
                 'aria-label': t(
                   'recurrenceEditor.custom.yearly.monthdayInput',
-                  'Day'
+                  'Day',
                 ),
                 inputMode: 'numeric',
                 type: 'number',
@@ -173,7 +173,7 @@ export const CustomYearlyRecurringMeeting = ({
                       ordinalLabel: getOrdinalLabel(customNth, t),
                       weekday: Info.weekdays()[customWeekday],
                       month: Info.months()[customMonth - 1],
-                    }
+                    },
                   ),
                 }}
               />

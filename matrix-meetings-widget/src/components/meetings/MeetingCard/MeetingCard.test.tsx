@@ -51,7 +51,7 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
 }));
 
 const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked
+  extractWidgetApiParametersMocked,
 );
 
 const server = setupServer();
@@ -114,33 +114,33 @@ describe('<MeetingCard/>', () => {
         roomId="!meeting-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
-      screen.findByRole('heading', { level: 5, name: /An important meeting/i })
+      screen.findByRole('heading', { level: 5, name: /An important meeting/i }),
     ).resolves.toBeInTheDocument();
 
     expect(
-      screen.getByText(/^Jan 1, 2999(,| at) 10:00 AM – 2:00 PM$/)
+      screen.getByText(/^Jan 1, 2999(,| at) 10:00 AM – 2:00 PM$/),
     ).toBeInTheDocument();
     expect(screen.getByText('A brief description')).toBeInTheDocument();
 
     expect(
       screen.getByRole('button', {
         name: /more settings/i,
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(
       screen.getByRole('button', {
         name: /show participants/i,
         expanded: false,
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('button', { name: /share meeting/i, expanded: false })
+      screen.getByRole('button', { name: /share meeting/i, expanded: false }),
     ).toBeInTheDocument();
   });
 
@@ -153,7 +153,7 @@ describe('<MeetingCard/>', () => {
         titleId="title-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(screen.findByRole('heading')).resolves.toBeInTheDocument();
@@ -180,7 +180,7 @@ describe('<MeetingCard/>', () => {
         titleId="title-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(screen.findByText(/Recurrence:/)).resolves.toBeInTheDocument();
@@ -197,21 +197,21 @@ describe('<MeetingCard/>', () => {
         titleId="title-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
-      screen.findByRole('button', { name: /open the meeting room/i })
+      screen.findByRole('button', { name: /open the meeting room/i }),
     ).resolves.toHaveAccessibleDescription(/an important meeting/i);
     expect(
-      screen.getByRole('button', { name: /more settings/i })
+      screen.getByRole('button', { name: /more settings/i }),
     ).toHaveAccessibleDescription(/an important meeting/i);
 
     expect(
-      screen.getByRole('button', { name: /show participants/i })
+      screen.getByRole('button', { name: /show participants/i }),
     ).toHaveAccessibleDescription(/an important meeting/i);
     expect(
-      screen.getByRole('button', { name: /share meeting/i })
+      screen.getByRole('button', { name: /share meeting/i }),
     ).toHaveAccessibleDescription(/an important meeting/i);
   });
 
@@ -223,11 +223,11 @@ describe('<MeetingCard/>', () => {
         shortDateFormat
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
-      screen.findByText('10:00 AM – 2:00 PM')
+      screen.findByText('10:00 AM – 2:00 PM'),
     ).resolves.toBeInTheDocument();
   });
 
@@ -240,7 +240,7 @@ describe('<MeetingCard/>', () => {
             dtend: '20200102T140000',
           }),
         },
-      })
+      }),
     );
 
     render(
@@ -249,11 +249,11 @@ describe('<MeetingCard/>', () => {
         roomId="!meeting-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
-      screen.findByText(/^Jan 1, 2020(,| at) 10:00 AM – Jan 2, 2:00 PM$/)
+      screen.findByText(/^Jan 1, 2020(,| at) 10:00 AM – Jan 2, 2:00 PM$/),
     ).resolves.toBeInTheDocument();
   });
 
@@ -266,7 +266,7 @@ describe('<MeetingCard/>', () => {
             dtend: '20200102T140000',
           }),
         },
-      })
+      }),
     );
 
     render(
@@ -276,11 +276,11 @@ describe('<MeetingCard/>', () => {
         shortDateFormat
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
-      screen.findByText('10:00 AM – Jan 2, 2:00 PM')
+      screen.findByText('10:00 AM – Jan 2, 2:00 PM'),
     ).resolves.toBeInTheDocument();
   });
 
@@ -293,7 +293,7 @@ describe('<MeetingCard/>', () => {
             dtend: '20210101T140000',
           }),
         },
-      })
+      }),
     );
 
     render(
@@ -302,13 +302,13 @@ describe('<MeetingCard/>', () => {
         roomId="!meeting-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
       screen.findByText(
-        /^Jan 1, 2020(,| at) 10:00 AM – Jan 1, 2021(,| at) 2:00 PM$/
-      )
+        /^Jan 1, 2020(,| at) 10:00 AM – Jan 1, 2021(,| at) 2:00 PM$/,
+      ),
     ).resolves.toBeInTheDocument();
   });
 
@@ -321,7 +321,7 @@ describe('<MeetingCard/>', () => {
             dtend: '20210101T140000',
           }),
         },
-      })
+      }),
     );
 
     render(
@@ -331,11 +331,11 @@ describe('<MeetingCard/>', () => {
         shortDateFormat
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
-      screen.findByText(/^10:00 AM – Jan 1, 2021(,| at) 2:00 PM$/)
+      screen.findByText(/^10:00 AM – Jan 1, 2021(,| at) 2:00 PM$/),
     ).resolves.toBeInTheDocument();
   });
 
@@ -347,11 +347,11 @@ describe('<MeetingCard/>', () => {
         showOpenMeetingRoomButton
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
-      screen.findByRole('button', { name: /open the meeting room/i })
+      screen.findByRole('button', { name: /open the meeting room/i }),
     ).resolves.toBeInTheDocument();
   });
 
@@ -366,17 +366,17 @@ describe('<MeetingCard/>', () => {
         roomId="!meeting-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i })
+      await screen.findByRole('button', { name: /more settings/i }),
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
     await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /delete meeting/i })
+      within(menu).getByRole('menuitem', { name: /delete meeting/i }),
     );
 
     const deleteModal = screen.getByRole('dialog', {
@@ -384,7 +384,7 @@ describe('<MeetingCard/>', () => {
     });
 
     await userEvent.click(
-      within(deleteModal).getByRole('button', { name: 'Delete' })
+      within(deleteModal).getByRole('button', { name: 'Delete' }),
     );
 
     await waitFor(() => {
@@ -393,7 +393,7 @@ describe('<MeetingCard/>', () => {
         {
           context: { locale: 'en', timezone: 'UTC' },
           data: { target_room_id: '!meeting-room-id' },
-        }
+        },
       );
     });
 
@@ -417,19 +417,19 @@ describe('<MeetingCard/>', () => {
       mockRoomMember({
         state_key: '@user-id-2',
         content: { displayname: 'Bob', membership: 'invite' },
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
         room_id: '!meeting-room-id',
         state_key: 'widget-1',
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
         room_id: '!meeting-room-id',
         content: { events_default: 0 },
-      })
+      }),
     );
 
     const newMeeting: CreateMeeting = {
@@ -451,17 +451,17 @@ describe('<MeetingCard/>', () => {
         roomId="!meeting-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i })
+      await screen.findByRole('button', { name: /more settings/i }),
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
     await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /edit meeting/i })
+      within(menu).getByRole('menuitem', { name: /edit meeting/i }),
     );
 
     expect(widgetApi.openModal).toBeCalledWith(
@@ -488,7 +488,7 @@ describe('<MeetingCard/>', () => {
           }),
           isMessagingEnabled: true,
         },
-      }
+      },
     );
 
     await waitFor(() => {
@@ -508,7 +508,7 @@ describe('<MeetingCard/>', () => {
               },
             ],
           },
-        }
+        },
       );
     });
 
@@ -522,7 +522,7 @@ describe('<MeetingCard/>', () => {
             invite: true,
             userIds: ['@user-id-2'],
           },
-        }
+        },
       );
     });
 
@@ -536,7 +536,7 @@ describe('<MeetingCard/>', () => {
             target_room_id: '!meeting-room-id',
             widget_ids: ['widget-2'],
           },
-        }
+        },
       );
     });
 
@@ -550,7 +550,7 @@ describe('<MeetingCard/>', () => {
             target_room_id: '!meeting-room-id',
             widget_ids: ['widget-1'],
           },
-        }
+        },
       );
     });
   });
@@ -570,13 +570,13 @@ describe('<MeetingCard/>', () => {
       mockRoomMember({
         state_key: '@user-id-2',
         content: { displayname: 'Bob', membership: 'invite' },
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
         room_id: '!meeting-room-id',
         state_key: 'widget-1',
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockNordeckMeetingMetadataEvent({
@@ -587,13 +587,13 @@ describe('<MeetingCard/>', () => {
             rrule: 'FREQ=DAILY',
           }),
         },
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
         room_id: '!meeting-room-id',
         content: { events_default: 0 },
-      })
+      }),
     );
 
     const newMeeting: CreateMeeting = {
@@ -617,17 +617,17 @@ describe('<MeetingCard/>', () => {
         roomId="!meeting-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i })
+      await screen.findByRole('button', { name: /more settings/i }),
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
     await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /edit meeting/i })
+      within(menu).getByRole('menuitem', { name: /edit meeting/i }),
     );
 
     expect(widgetApi.openModal).toBeCalledWith(
@@ -664,7 +664,7 @@ describe('<MeetingCard/>', () => {
           }),
           isMessagingEnabled: true,
         },
-      }
+      },
     );
 
     await waitFor(() => {
@@ -685,7 +685,7 @@ describe('<MeetingCard/>', () => {
               },
             ],
           },
-        }
+        },
       );
     });
   });
@@ -695,7 +695,7 @@ describe('<MeetingCard/>', () => {
       mockPowerLevelsEvent({
         room_id: '!meeting-room-id',
         content: { events_default: 0 },
-      })
+      }),
     );
 
     render(
@@ -704,17 +704,17 @@ describe('<MeetingCard/>', () => {
         roomId="!meeting-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i })
+      await screen.findByRole('button', { name: /more settings/i }),
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
     await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /edit meeting/i })
+      within(menu).getByRole('menuitem', { name: /edit meeting/i }),
     );
 
     expect(widgetApi.openModal).toBeCalledWith(
@@ -738,7 +738,7 @@ describe('<MeetingCard/>', () => {
           meeting: mockMeeting({ parentRoomId: '!room-id' }),
           isMessagingEnabled: true,
         },
-      }
+      },
     );
 
     expect(widgetApi.sendRoomEvent).not.toBeCalled();
@@ -746,20 +746,20 @@ describe('<MeetingCard/>', () => {
 
   it('should show error dialog when loading the widgets failed because the user rejected the oidc token', async () => {
     widgetApi.requestOpenIDConnectToken.mockRejectedValue(
-      new Error('some error')
+      new Error('some error'),
     );
 
     widgetApi.mockSendStateEvent(
       mockRoomMember({
         state_key: '@user-id-2',
         content: { displayname: 'Bob', membership: 'invite' },
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
         room_id: '!meeting-room-id',
         state_key: 'widget-1',
-      })
+      }),
     );
 
     const newMeeting: CreateMeeting = {
@@ -781,17 +781,17 @@ describe('<MeetingCard/>', () => {
         roomId="!meeting-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i })
+      await screen.findByRole('button', { name: /more settings/i }),
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
     await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /edit meeting/i })
+      within(menu).getByRole('menuitem', { name: /edit meeting/i }),
     );
 
     const dialog = await screen.findByRole('dialog', {
@@ -801,7 +801,7 @@ describe('<MeetingCard/>', () => {
     expect(dialog).toHaveTextContent('Please try again');
 
     await userEvent.click(
-      await within(dialog).findByRole('button', { name: 'Close' })
+      await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
     expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
@@ -826,13 +826,13 @@ describe('<MeetingCard/>', () => {
       mockRoomMember({
         state_key: '@user-id-2',
         content: { displayname: 'Bob', membership: 'invite' },
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
         room_id: '!meeting-room-id',
         state_key: 'widget-1',
-      })
+      }),
     );
 
     const newMeeting: CreateMeeting = {
@@ -854,17 +854,17 @@ describe('<MeetingCard/>', () => {
         roomId="!meeting-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i })
+      await screen.findByRole('button', { name: /more settings/i }),
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
     await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /edit meeting/i })
+      within(menu).getByRole('menuitem', { name: /edit meeting/i }),
     );
 
     const dialog = await screen.findByRole('dialog', {
@@ -874,7 +874,7 @@ describe('<MeetingCard/>', () => {
     expect(dialog).toHaveTextContent('Please try again');
 
     await userEvent.click(
-      await within(dialog).findByRole('button', { name: 'Close' })
+      await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
     expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
@@ -899,13 +899,13 @@ describe('<MeetingCard/>', () => {
       mockRoomMember({
         state_key: '@user-id-2',
         content: { displayname: 'Bob', membership: 'invite' },
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
         room_id: '!meeting-room-id',
         state_key: 'widget-1',
-      })
+      }),
     );
 
     const newMeeting: CreateMeeting = {
@@ -927,17 +927,17 @@ describe('<MeetingCard/>', () => {
         roomId="!meeting-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i })
+      await screen.findByRole('button', { name: /more settings/i }),
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
     await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /edit meeting/i })
+      within(menu).getByRole('menuitem', { name: /edit meeting/i }),
     );
 
     const dialog = await screen.findByRole('dialog', {
@@ -947,7 +947,7 @@ describe('<MeetingCard/>', () => {
     expect(dialog).toHaveTextContent('Please try again');
 
     await userEvent.click(
-      await within(dialog).findByRole('button', { name: 'Close' })
+      await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
     expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
@@ -971,13 +971,13 @@ describe('<MeetingCard/>', () => {
       mockRoomMember({
         state_key: '@user-id-2',
         content: { displayname: 'Bob', membership: 'invite' },
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
         room_id: '!meeting-room-id',
         state_key: 'widget-1',
-      })
+      }),
     );
 
     const newMeeting: CreateMeeting = {
@@ -999,17 +999,17 @@ describe('<MeetingCard/>', () => {
         roomId="!meeting-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i })
+      await screen.findByRole('button', { name: /more settings/i }),
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
     await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /edit meeting/i })
+      within(menu).getByRole('menuitem', { name: /edit meeting/i }),
     );
 
     const dialog = await screen.findByRole('dialog', {
@@ -1019,7 +1019,7 @@ describe('<MeetingCard/>', () => {
     expect(dialog).toHaveTextContent('Please try again');
 
     await userEvent.click(
-      await within(dialog).findByRole('button', { name: 'Close' })
+      await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
     expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
@@ -1039,17 +1039,17 @@ describe('<MeetingCard/>', () => {
 
     render(
       <MeetingCard recurrenceId={undefined} roomId="!room-id" uid="entry-0" />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i })
+      await screen.findByRole('button', { name: /more settings/i }),
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
     await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /delete meeting/i })
+      within(menu).getByRole('menuitem', { name: /delete meeting/i }),
     );
 
     const deleteModal = screen.getByRole('dialog', {
@@ -1057,7 +1057,7 @@ describe('<MeetingCard/>', () => {
     });
 
     await userEvent.click(
-      within(deleteModal).getByRole('button', { name: 'Delete' })
+      within(deleteModal).getByRole('button', { name: 'Delete' }),
     );
 
     await waitFor(() => {
@@ -1066,13 +1066,13 @@ describe('<MeetingCard/>', () => {
         {
           context: { locale: 'en', timezone: 'UTC' },
           data: { target_room_id: '!room-id' },
-        }
+        },
       );
     });
 
     await waitFor(() => {
       expect(widgetApi.navigateTo).toBeCalledWith(
-        'https://matrix.to/#/!parent-room-id'
+        'https://matrix.to/#/!parent-room-id',
       );
     });
 
@@ -1096,17 +1096,17 @@ describe('<MeetingCard/>', () => {
 
     render(
       <MeetingCard recurrenceId={undefined} roomId="!room-id" uid="entry-0" />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i })
+      await screen.findByRole('button', { name: /more settings/i }),
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
 
     await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /delete meeting/i })
+      within(menu).getByRole('menuitem', { name: /delete meeting/i }),
     );
 
     const deleteModal = screen.getByRole('dialog', {
@@ -1114,7 +1114,7 @@ describe('<MeetingCard/>', () => {
     });
 
     expect(within(deleteModal).getByRole('status')).toHaveTextContent(
-      /meeting room will be automatically deleted in 365 days/i
+      /meeting room will be automatically deleted in 365 days/i,
     );
   });
 
@@ -1129,16 +1129,16 @@ describe('<MeetingCard/>', () => {
         roomId="!meeting-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i })
+      await screen.findByRole('button', { name: /more settings/i }),
     );
 
     const menu = screen.getByRole('menu', { name: /more settings/i });
     await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /delete meeting/i })
+      within(menu).getByRole('menuitem', { name: /delete meeting/i }),
     );
 
     const deleteModal = screen.getByRole('dialog', {
@@ -1153,7 +1153,7 @@ describe('<MeetingCard/>', () => {
 
     const alert = await screen.findByRole('alert');
     expect(
-      within(alert).getByText(/failed to delete the meeting/i)
+      within(alert).getByText(/failed to delete the meeting/i),
     ).toBeInTheDocument();
     expect(within(alert).getByText(/please try again/i)).toBeInTheDocument();
 
@@ -1172,7 +1172,7 @@ describe('<MeetingCard/>', () => {
         mockPowerLevelsEvent({
           room_id: '!meeting-room-id',
           content: { events: { [eventType]: 101 } },
-        })
+        }),
       );
 
       render(
@@ -1181,19 +1181,19 @@ describe('<MeetingCard/>', () => {
           roomId="!meeting-room-id"
           uid="entry-0"
         />,
-        { wrapper: Wrapper }
+        { wrapper: Wrapper },
       );
 
       await expect(
-        screen.findByRole('button', { name: /show participants/i })
+        screen.findByRole('button', { name: /show participants/i }),
       ).resolves.toBeInTheDocument();
       expect(
-        screen.getByRole('button', { name: /share meeting/i })
+        screen.getByRole('button', { name: /share meeting/i }),
       ).toBeInTheDocument();
       expect(
-        screen.queryByRole('button', { name: /more settings/i })
+        screen.queryByRole('button', { name: /more settings/i }),
       ).not.toBeInTheDocument();
-    }
+    },
   );
 
   it('should hide edit actions if meeting is an invitation', async () => {
@@ -1203,7 +1203,7 @@ describe('<MeetingCard/>', () => {
         content: {
           membership: 'invite',
         },
-      })
+      }),
     );
 
     render(
@@ -1212,17 +1212,17 @@ describe('<MeetingCard/>', () => {
         roomId="!meeting-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
-      screen.findByRole('button', { name: /show participants/i })
+      screen.findByRole('button', { name: /show participants/i }),
     ).resolves.toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: /share meeting/i })
+      screen.getByRole('button', { name: /share meeting/i }),
     ).toBeInTheDocument();
     expect(
-      screen.queryByRole('button', { name: /more settings/i })
+      screen.queryByRole('button', { name: /more settings/i }),
     ).not.toBeInTheDocument();
   });
 
@@ -1243,7 +1243,7 @@ describe('<MeetingCard/>', () => {
             },
           },
         },
-      })
+      }),
     );
 
     render(
@@ -1253,11 +1253,11 @@ describe('<MeetingCard/>', () => {
         titleId="title-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i })
+      await screen.findByRole('button', { name: /more settings/i }),
     );
 
     const menu = screen.getByRole('menu');
@@ -1265,12 +1265,12 @@ describe('<MeetingCard/>', () => {
     expect(
       within(menu).getByRole('menuitem', {
         name: /edit meeting in open-xchange/i,
-      })
+      }),
     ).toBeInTheDocument();
     expect(
       within(menu).getByRole('menuitem', {
         name: /delete meeting in open-xchange/i,
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -1282,11 +1282,11 @@ describe('<MeetingCard/>', () => {
         titleId="title-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /share meeting/i })
+      await screen.findByRole('button', { name: /share meeting/i }),
     );
 
     const list = screen.getByRole('list', { name: /share meeting/i });
@@ -1316,11 +1316,11 @@ describe('<MeetingCard/>', () => {
         titleId="title-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
-      screen.findByTestId('EventRepeatIcon')
+      screen.findByTestId('EventRepeatIcon'),
     ).resolves.toBeInTheDocument();
 
     expect(screen.getByText('. Recurrence: Every day')).toBeInTheDocument();

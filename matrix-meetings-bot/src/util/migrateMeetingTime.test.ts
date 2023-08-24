@@ -26,8 +26,8 @@ describe('migrateMeetingTime', () => {
           end_time: '2022-01-03T00:00:00.000Z',
           calendar: undefined,
         },
-        'FREQ=DAILY;COUNT=1'
-      )
+        'FREQ=DAILY;COUNT=1',
+      ),
     ).toEqual({
       start_time: undefined,
       end_time: undefined,
@@ -70,6 +70,6 @@ describe('migrateMeetingTime', () => {
       };
 
       expect(meetingTime).toBe(migrateMeetingTime(meetingTime, externalRrule));
-    }
+    },
   );
 });

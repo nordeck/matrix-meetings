@@ -30,7 +30,7 @@ const roomCreateEventSchema = Joi.object<RoomCreateEvent, true>({
 }).unknown();
 
 export function isValidRoomCreateEvent(
-  event: StateEvent<unknown>
+  event: StateEvent<unknown>,
 ): event is StateEvent<RoomCreateEvent> {
   return isValidEvent(event, STATE_EVENT_ROOM_CREATE, roomCreateEventSchema);
 }

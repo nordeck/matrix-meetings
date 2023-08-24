@@ -177,19 +177,19 @@ describe('<MeetingsCalendar/>', () => {
         onShowMore={onShowMore}
         view="day"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const weekDays = screen.getAllByRole('gridcell');
 
     expect(weekDays).toHaveLength(1);
     expect(
-      await within(weekDays[0]).findByText('Meeting 5')
+      await within(weekDays[0]).findByText('Meeting 5'),
     ).toBeInTheDocument();
     expect(
       within(weekDays[0]).getByRole('button', {
         name: /January 2, 2021(,| at) 2:00 PM–3:00 PM: “Meeting 5” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -205,28 +205,28 @@ describe('<MeetingsCalendar/>', () => {
         onShowMore={onShowMore}
         view="day"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const weekDays = screen.getAllByRole('gridcell');
 
     expect(weekDays).toHaveLength(1);
     expect(
-      await within(weekDays[0]).findByText('Meeting 5')
+      await within(weekDays[0]).findByText('Meeting 5'),
     ).toBeInTheDocument();
     expect(
       within(weekDays[0]).getByRole('button', {
         name: /January 2, 2021(,| at) 2:00 PM–3:00 PM: “Meeting 5” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(
-      await within(weekDays[0]).findByText('Meeting 6')
+      await within(weekDays[0]).findByText('Meeting 6'),
     ).toBeInTheDocument();
     expect(
       within(weekDays[0]).getByRole('button', {
         name: /January 2, 2021(,| at) 10:00 AM–2:00 PM: “Meeting 6” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(within(weekDays[0]).getAllByRole('button')).toHaveLength(2);
@@ -243,11 +243,11 @@ describe('<MeetingsCalendar/>', () => {
         onShowMore={onShowMore}
         view="day"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
-      await screen.findByRole('button', { name: /Meeting 5/ })
+      await screen.findByRole('button', { name: /Meeting 5/ }),
     ).toBeInTheDocument();
 
     // disabled aria-required-children because structure of roles is not correct
@@ -257,7 +257,7 @@ describe('<MeetingsCalendar/>', () => {
         rules: {
           'aria-required-children': { enabled: false },
         },
-      })
+      }),
     ).toHaveNoViolations();
   });
 
@@ -272,43 +272,43 @@ describe('<MeetingsCalendar/>', () => {
         onShowMore={onShowMore}
         view="workWeek"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const weekDays = screen.getAllByRole('gridcell');
 
     expect(weekDays).toHaveLength(5);
     expect(
-      await within(weekDays[0]).findByText('Meeting 0')
+      await within(weekDays[0]).findByText('Meeting 0'),
     ).toBeInTheDocument();
     expect(
       within(weekDays[0]).getByRole('button', {
         name: /December 28, 2020(,| at) 8:00 AM–9:00 AM: “Meeting 0” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
     expect(within(weekDays[4]).getByText('Meeting 1')).toBeInTheDocument();
     expect(
       within(weekDays[4]).getByRole('button', {
         name: /January 1, 2021(,| at) 8:00 AM–9:00 AM: “Meeting 1” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
     expect(within(weekDays[4]).getByText('Meeting 2')).toBeInTheDocument();
     expect(
       within(weekDays[4]).getByRole('button', {
         name: /January 1, 2021(,| at) 10:00 AM–2:00 PM: “Meeting 2” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
     expect(within(weekDays[4]).getByText('Meeting 3')).toBeInTheDocument();
     expect(
       within(weekDays[4]).getByRole('button', {
         name: /January 1, 2021(,| at) 12:00 PM–1:00 PM: “Meeting 3” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
     expect(within(weekDays[4]).getByText('Meeting 4')).toBeInTheDocument();
     expect(
       within(weekDays[4]).getByRole('button', {
         name: /January 1, 2021(,| at) 2:00 PM–3:00 PM: “Meeting 4” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -323,7 +323,7 @@ describe('<MeetingsCalendar/>', () => {
         onShowMore={onShowMore}
         view="workWeek"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await screen.findByText('Meeting 0')).toBeInTheDocument();
@@ -335,7 +335,7 @@ describe('<MeetingsCalendar/>', () => {
         rules: {
           'aria-required-children': { enabled: false },
         },
-      })
+      }),
     ).toHaveNoViolations();
   });
 
@@ -350,49 +350,49 @@ describe('<MeetingsCalendar/>', () => {
         onShowMore={onShowMore}
         view="week"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const weekDays = screen.getAllByRole('gridcell');
 
     expect(weekDays).toHaveLength(7);
     expect(
-      await within(weekDays[1]).findByText('Meeting 0')
+      await within(weekDays[1]).findByText('Meeting 0'),
     ).toBeInTheDocument();
     expect(
       within(weekDays[1]).getByRole('button', {
         name: /December 28, 2020(,| at) 8:00 AM–9:00 AM: “Meeting 0” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
     expect(within(weekDays[5]).getByText('Meeting 1')).toBeInTheDocument();
     expect(
       within(weekDays[5]).getByRole('button', {
         name: /January 1, 2021(,| at) 8:00 AM–9:00 AM: “Meeting 1” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
     expect(within(weekDays[5]).getByText('Meeting 2')).toBeInTheDocument();
     expect(
       within(weekDays[5]).getByRole('button', {
         name: /January 1, 2021(,| at) 10:00 AM–2:00 PM: “Meeting 2” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
     expect(within(weekDays[5]).getByText('Meeting 3')).toBeInTheDocument();
     expect(
       within(weekDays[5]).getByRole('button', {
         name: /January 1, 2021(,| at) 12:00 PM–1:00 PM: “Meeting 3” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
     expect(within(weekDays[5]).getByText('Meeting 4')).toBeInTheDocument();
     expect(
       within(weekDays[5]).getByRole('button', {
         name: /January 1, 2021(,| at) 2:00 PM–3:00 PM: “Meeting 4” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
     expect(within(weekDays[6]).getByText('Meeting 5')).toBeInTheDocument();
     expect(
       within(weekDays[6]).getByRole('button', {
         name: /January 2, 2021(,| at) 2:00 PM–3:00 PM: “Meeting 5” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -407,7 +407,7 @@ describe('<MeetingsCalendar/>', () => {
         onShowMore={onShowMore}
         view="week"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await screen.findByText('Meeting 0')).toBeInTheDocument();
@@ -419,7 +419,7 @@ describe('<MeetingsCalendar/>', () => {
         rules: {
           'aria-required-children': { enabled: false },
         },
-      })
+      }),
     ).toHaveNoViolations();
   });
 
@@ -434,7 +434,7 @@ describe('<MeetingsCalendar/>', () => {
         onShowMore={onShowMore}
         view="month"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(5 * 7);
@@ -446,30 +446,30 @@ describe('<MeetingsCalendar/>', () => {
     expect(
       within(day28).getByRole('button', {
         name: /December 28, 2020(,| at) 8:00 AM–9:00 AM: “Meeting 0” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
     expect(within(day1).getByText('Meeting 1')).toBeInTheDocument();
     expect(
       within(day1).getByRole('button', {
         name: /January 1, 2021(,| at) 8:00 AM–9:00 AM: “Meeting 1” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
     expect(within(day1).getByText('Meeting 2')).toBeInTheDocument();
     expect(
       within(day1).getByRole('button', {
         name: /January 1, 2021(,| at) 10:00 AM–2:00 PM: “Meeting 2” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
     expect(
       within(day1).getByRole('button', {
         name: 'Show 2 more events',
-      })
+      }),
     ).toBeInTheDocument();
     expect(within(day2).getByText('Meeting 5')).toBeInTheDocument();
     expect(
       within(day2).getByRole('button', {
         name: /January 2, 2021(,| at) 2:00 PM–3:00 PM: “Meeting 5” by Alice/,
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -484,7 +484,7 @@ describe('<MeetingsCalendar/>', () => {
         onShowMore={onShowMore}
         view="month"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await screen.findByText('Meeting 0')).toBeInTheDocument();
@@ -496,7 +496,7 @@ describe('<MeetingsCalendar/>', () => {
         rules: {
           'aria-required-children': { enabled: false },
         },
-      })
+      }),
     ).toHaveNoViolations();
   });
 
@@ -511,14 +511,14 @@ describe('<MeetingsCalendar/>', () => {
         onShowMore={onShowMore}
         view="month"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const day1 = screen.getByRole('gridcell', { name: /^january 1, 2021/i });
     await userEvent.click(
       await within(day1).findByRole('button', {
         name: 'Show 2 more events',
-      })
+      }),
     );
 
     expect(onShowMore).toBeCalledWith(new Date('2021-01-01T00:00:00.000Z'));
@@ -535,7 +535,7 @@ describe('<MeetingsCalendar/>', () => {
         onShowMore={onShowMore}
         view="day"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(1);
@@ -550,7 +550,7 @@ describe('<MeetingsCalendar/>', () => {
         }}
         onShowMore={onShowMore}
         view="workWeek"
-      />
+      />,
     );
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(5);
@@ -568,7 +568,7 @@ describe('<MeetingsCalendar/>', () => {
         onShowMore={onShowMore}
         view="day"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await screen.findByText('Meeting 5')).toBeInTheDocument();
@@ -598,13 +598,13 @@ describe('<MeetingsCalendar/>', () => {
         onShowMore={onShowMore}
         view="day"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       await screen.findByRole('button', {
         name: /January 2, 2021(,| at) 2:00 PM–3:00 PM: “Meeting 5” by Alice/,
-      })
+      }),
     );
 
     const dialog = await screen.findByRole('dialog', {
@@ -616,7 +616,7 @@ describe('<MeetingsCalendar/>', () => {
     expect(within(dialog).getByText('A brief description')).toBeInTheDocument();
 
     await userEvent.click(
-      within(dialog).getByRole('button', { name: /close/i })
+      within(dialog).getByRole('button', { name: /close/i }),
     );
 
     // There is an animation closing the dialog

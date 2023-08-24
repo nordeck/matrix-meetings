@@ -35,7 +35,7 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
 }));
 
 const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked
+  extractWidgetApiParametersMocked,
 );
 
 let widgetApi: MockedWidgetApi;
@@ -78,11 +78,11 @@ describe('<InvitedMeetingCard/>', () => {
     });
 
     await expect(
-      screen.findByRole('heading', { level: 4, name: /An important meeting/i })
+      screen.findByRole('heading', { level: 4, name: /An important meeting/i }),
     ).resolves.toBeInTheDocument();
 
     expect(
-      screen.getByRole('button', { name: /open the meeting room/i })
+      screen.getByRole('button', { name: /open the meeting room/i }),
     ).toBeInTheDocument();
 
     expect(screen.queryByText(/invited by/i)).not.toBeInTheDocument();
@@ -94,7 +94,7 @@ describe('<InvitedMeetingCard/>', () => {
         state_key: '@inviter-id',
         room_id: '!meeting-room-id',
         content: { displayname: 'Inviter' },
-      })
+      }),
     );
 
     render(<InvitedMeetingCard roomId="!meeting-room-id" />, {
@@ -102,11 +102,11 @@ describe('<InvitedMeetingCard/>', () => {
     });
 
     await expect(
-      screen.findByRole('heading', { level: 4, name: /An important meeting/i })
+      screen.findByRole('heading', { level: 4, name: /An important meeting/i }),
     ).resolves.toBeInTheDocument();
 
     expect(
-      screen.getByRole('button', { name: /open the meeting room/i })
+      screen.getByRole('button', { name: /open the meeting room/i }),
     ).toBeInTheDocument();
 
     expect(screen.getByText(/invited by: inviter/i)).toBeInTheDocument();
@@ -115,7 +115,7 @@ describe('<InvitedMeetingCard/>', () => {
   it('should have no accessibility violations', async () => {
     const { container } = render(
       <InvitedMeetingCard roomId="!meeting-room-id" />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(screen.findByRole('heading')).resolves.toBeInTheDocument();

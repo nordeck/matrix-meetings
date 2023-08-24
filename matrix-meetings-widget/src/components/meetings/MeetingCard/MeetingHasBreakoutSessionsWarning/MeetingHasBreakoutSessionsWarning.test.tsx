@@ -51,7 +51,7 @@ describe('<MeetingHasBreakoutSessionsWarning/>', () => {
   it('should have no accessibility violations', async () => {
     const { container } = render(
       <MeetingHasBreakoutSessionsWarning meeting={mockMeeting()} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -60,7 +60,7 @@ describe('<MeetingHasBreakoutSessionsWarning/>', () => {
   it('should skip warning', async () => {
     const { container } = render(
       <MeetingHasBreakoutSessionsWarning meeting={mockMeeting()} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(container).toBeEmptyDOMElement();
@@ -75,7 +75,7 @@ describe('<MeetingHasBreakoutSessionsWarning/>', () => {
     });
 
     await expect(
-      screen.findByText(/The meeting already has breakout sessions/)
+      screen.findByText(/The meeting already has breakout sessions/),
     ).resolves.toBeInTheDocument();
   });
 });

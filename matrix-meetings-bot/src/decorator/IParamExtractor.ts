@@ -36,7 +36,7 @@ interface IParamExtractor {
  */
 export const paramExtractor: IParamExtractor = (
   executionContext: ExecutionContext,
-  paramName: ParamName
+  paramName: ParamName,
 ): unknown => {
   switch (executionContext.getType()) {
     case 'http': {
@@ -48,7 +48,7 @@ export const paramExtractor: IParamExtractor = (
           return request[NET_NORDECK_CONTEXT] as IUserContext;
         default:
           throw new Error(
-            `param ${paramName} not supported in context: ${executionContext.getType()}`
+            `param ${paramName} not supported in context: ${executionContext.getType()}`,
           );
       }
     }
@@ -62,14 +62,14 @@ export const paramExtractor: IParamExtractor = (
           return context.userContext;
         default:
           throw new Error(
-            `param ${paramName} not supported in context: ${executionContext.getType()}`
+            `param ${paramName} not supported in context: ${executionContext.getType()}`,
           );
       }
     }
 
     default:
       throw new Error(
-        `unsupported context type: ${executionContext.getType()}`
+        `unsupported context type: ${executionContext.getType()}`,
       );
   }
 };

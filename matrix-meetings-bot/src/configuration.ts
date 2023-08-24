@@ -19,7 +19,7 @@ import { IAppConfiguration } from './IAppConfiguration';
 
 const toBoolean = (
   value: string | undefined,
-  defaultValue: boolean
+  defaultValue: boolean,
 ): boolean => {
   switch (value && value.toLowerCase()) {
     case 'true':
@@ -36,7 +36,7 @@ function toNumber(value: string | undefined): number | undefined;
 function toNumber(value: string | undefined, defaultValue: number): number;
 function toNumber(
   value: string | undefined,
-  defaultValue?: number
+  defaultValue?: number,
 ): number | undefined {
   return Number.isNaN(Number(value)) ? defaultValue : Number(value);
 }
@@ -73,15 +73,15 @@ function createConfiguration() {
 
     enable_welcome_workflow: toBoolean(
       process.env.ENABLE_WELCOME_WORKFLOW,
-      true
+      true,
     ),
     enable_control_room_migration: toBoolean(
       process.env.ENABLE_CONTROL_ROOM_MIGRATION,
-      false
+      false,
     ),
     enable_private_room_error_sending: toBoolean(
       process.env.ENABLE_PRIVATE_ROOM_ERROR_SENDING,
-      true
+      true,
     ),
     default_events_config:
       process.env.DEFAULT_EVENTS_CONFIG ?? 'conf/default_events.json',
@@ -101,7 +101,7 @@ function createConfiguration() {
     matrix_filter_apply: toBoolean(process.env.MATRIX_FILTER_APPLY, true),
     matrix_filter_timeline_limit: toNumber(
       process.env.MATRIX_FILTER_TIMELINE_LIMIT,
-      50
+      50,
     ),
   };
 
@@ -160,7 +160,7 @@ export const ValidationSchema = Joi.object({
     'info',
     'debug',
     'trace',
-    'silent'
+    'silent',
   ),
 });
 

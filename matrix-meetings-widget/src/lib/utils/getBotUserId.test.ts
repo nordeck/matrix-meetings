@@ -31,7 +31,7 @@ describe('getBotUserId', () => {
 
   it('should return user id', () => {
     getEnvironment.mockImplementation((name, defaultValue) =>
-      name === 'REACT_APP_BOT_USER_ID' ? '@bot:matrix.org' : defaultValue
+      name === 'REACT_APP_BOT_USER_ID' ? '@bot:matrix.org' : defaultValue,
     );
 
     expect(getBotUserId()).toBe('@bot:matrix.org');

@@ -45,51 +45,51 @@ export const widgetCapabilities = [
   ...generateRoomTimelineCapabilities(Symbols.AnyRoom),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,
-    STATE_EVENT_POWER_LEVELS
+    STATE_EVENT_POWER_LEVELS,
   ),
   WidgetEventCapability.forRoomEvent(
     EventDirection.Receive,
-    ROOM_EVENT_REACTION
+    ROOM_EVENT_REACTION,
   ),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,
-    STATE_EVENT_ROOM_CREATE
+    STATE_EVENT_ROOM_CREATE,
   ),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,
-    STATE_EVENT_ROOM_TOMBSTONE
+    STATE_EVENT_ROOM_TOMBSTONE,
   ),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,
-    STATE_EVENT_ROOM_MEMBER
+    STATE_EVENT_ROOM_MEMBER,
   ),
   WidgetEventCapability.forStateEvent(
     EventDirection.Send,
-    STATE_EVENT_ROOM_MEMBER
+    STATE_EVENT_ROOM_MEMBER,
   ),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,
-    STATE_EVENT_ROOM_NAME
+    STATE_EVENT_ROOM_NAME,
   ),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,
-    STATE_EVENT_ROOM_TOPIC
+    STATE_EVENT_ROOM_TOPIC,
   ),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,
-    STATE_EVENT_SPACE_PARENT
+    STATE_EVENT_SPACE_PARENT,
   ),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,
-    STATE_EVENT_SPACE_CHILD
+    STATE_EVENT_SPACE_CHILD,
   ),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,
-    STATE_EVENT_NORDECK_MEETING_METADATA
+    STATE_EVENT_NORDECK_MEETING_METADATA,
   ),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,
-    STATE_EVENT_WIDGETS
+    STATE_EVENT_WIDGETS,
   ),
 
   // request the permission to send and receive all room events that the bot supports

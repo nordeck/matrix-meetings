@@ -39,6 +39,6 @@ export interface IRoom {
   roomMemberMap(toIgnore: string[]): Map<string, IRoomMember>;
   readonly powerLevelContent: PowerLevelsEventContent;
   widgetEventByType(
-    widgetType: WidgetType
+    widgetType: WidgetType,
   ): IStateEvent<IWidgetContent> | undefined;
 }

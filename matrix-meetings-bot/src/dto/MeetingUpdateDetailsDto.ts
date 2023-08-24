@@ -98,7 +98,7 @@ export class MeetingUpdateDetailsDto {
     calendar: CalendarEntryDto[] | undefined,
     title: string | undefined,
     description: string | undefined,
-    externalData: ExternalData | undefined
+    externalData: ExternalData | undefined,
   ) {
     this.target_room_id = target_room_id;
     this.start_time = start_time;

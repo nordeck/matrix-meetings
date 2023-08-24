@@ -25,7 +25,7 @@ describe('<MeetingNotEndedGuard/>', () => {
     render(
       <MeetingNotEndedGuard meeting={mockMeeting()} withMessage>
         <p>My Content</p>
-      </MeetingNotEndedGuard>
+      </MeetingNotEndedGuard>,
     );
 
     expect(screen.getByText(/My Content/)).toBeInTheDocument();
@@ -51,7 +51,7 @@ describe('<MeetingNotEndedGuard/>', () => {
         withMessage
       >
         <p>My Content</p>
-      </MeetingNotEndedGuard>
+      </MeetingNotEndedGuard>,
     );
 
     expect(screen.getByText(/My Content/)).toBeInTheDocument();
@@ -77,7 +77,7 @@ describe('<MeetingNotEndedGuard/>', () => {
         withMessage
       >
         <p>My Content</p>
-      </MeetingNotEndedGuard>
+      </MeetingNotEndedGuard>,
     );
 
     expect(screen.getByText(/My Content/)).toBeInTheDocument();
@@ -87,7 +87,7 @@ describe('<MeetingNotEndedGuard/>', () => {
     render(
       <MeetingNotEndedGuard meeting={undefined} withMessage>
         <p>My Content</p>
-      </MeetingNotEndedGuard>
+      </MeetingNotEndedGuard>,
     );
 
     expect(screen.getByText(/My Content/)).toBeInTheDocument();
@@ -100,11 +100,11 @@ describe('<MeetingNotEndedGuard/>', () => {
         withMessage
       >
         <p>My Content</p>
-      </MeetingNotEndedGuard>
+      </MeetingNotEndedGuard>,
     );
 
     expect(screen.getByRole('status')).toHaveTextContent(
-      /The meeting is already over/
+      /The meeting is already over/,
     );
   });
 
@@ -128,11 +128,11 @@ describe('<MeetingNotEndedGuard/>', () => {
         withMessage
       >
         <p>My Content</p>
-      </MeetingNotEndedGuard>
+      </MeetingNotEndedGuard>,
     );
 
     expect(screen.getByRole('status')).toHaveTextContent(
-      /The meeting is already over/
+      /The meeting is already over/,
     );
   });
 
@@ -148,12 +148,12 @@ describe('<MeetingNotEndedGuard/>', () => {
         withMessage
       >
         <p>My Content</p>
-      </MeetingNotEndedGuard>
+      </MeetingNotEndedGuard>,
     );
 
     const alert = screen.getByRole('status');
     expect(
-      within(alert).getByText(/The breakout session is already over/)
+      within(alert).getByText(/The breakout session is already over/),
     ).toBeInTheDocument();
   });
 
@@ -164,7 +164,7 @@ describe('<MeetingNotEndedGuard/>', () => {
         withMessage="My Custom Message"
       >
         <p>My Content</p>
-      </MeetingNotEndedGuard>
+      </MeetingNotEndedGuard>,
     );
 
     const alert = screen.getByRole('status');
@@ -178,12 +178,12 @@ describe('<MeetingNotEndedGuard/>', () => {
         withMessage={<button>My Button</button>}
       >
         <p>My Content</p>
-      </MeetingNotEndedGuard>
+      </MeetingNotEndedGuard>,
     );
 
     const alert = screen.getByRole('status');
     expect(
-      within(alert).getByRole('button', { name: /My Button/ })
+      within(alert).getByRole('button', { name: /My Button/ }),
     ).toBeInTheDocument();
   });
 
@@ -193,7 +193,7 @@ describe('<MeetingNotEndedGuard/>', () => {
         meeting={mockMeeting({ content: { endTime: '2000-01-01T00:00:00Z' } })}
       >
         <p>My Content</p>
-      </MeetingNotEndedGuard>
+      </MeetingNotEndedGuard>,
     );
 
     expect(container).toBeEmptyDOMElement();
@@ -214,7 +214,7 @@ describe('<MeetingNotEndedGuard/>', () => {
         withMessage
       >
         <p>My Content</p>
-      </MeetingNotEndedGuard>
+      </MeetingNotEndedGuard>,
     );
 
     expect(screen.getByText(/My Content/)).toBeInTheDocument();

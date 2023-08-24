@@ -20,7 +20,7 @@ import { formatICalDate, parseICalDate } from '../dateTimeUtils';
 import { calculateCalendarEvents } from './calculateCalendarEvents';
 
 export function normalizeCalendarEntry(
-  calendarEntry: CalendarEntry
+  calendarEntry: CalendarEntry,
 ): CalendarEntry {
   const events = calculateCalendarEvents({
     calendar: [calendarEntry],
@@ -38,11 +38,11 @@ export function normalizeCalendarEntry(
     ...calendarEntry,
     dtstart: formatICalDate(
       DateTime.fromISO(firstEvent.startTime),
-      calendarEntry.dtstart.tzid
+      calendarEntry.dtstart.tzid,
     ),
     dtend: formatICalDate(
       DateTime.fromISO(firstEvent.endTime),
-      calendarEntry.dtend.tzid
+      calendarEntry.dtend.tzid,
     ),
   };
 }

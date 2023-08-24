@@ -20,19 +20,19 @@ import { CalendarEntry, DateTimeEntry } from '../../matrix';
 import { CalendarSourceEntries } from './calculateCalendarEvents';
 
 export function isSingleEntry(
-  entry: CalendarEntry
+  entry: CalendarEntry,
 ): entry is Omit<CalendarEntry, 'rrule' | 'recurrenceId' | 'exdate'> {
   return entry.rrule === undefined && entry.recurrenceId === undefined;
 }
 
 export function isRRuleEntry(
-  entry: CalendarEntry
+  entry: CalendarEntry,
 ): entry is CalendarEntry & { rrule: string } {
   return entry.rrule !== undefined && entry.recurrenceId === undefined;
 }
 
 export function isRRuleOverrideEntry(
-  entry: CalendarEntry
+  entry: CalendarEntry,
 ): entry is CalendarEntry & {
   recurrenceId: DateTimeEntry;
 } {
@@ -44,18 +44,18 @@ export function isFiniteSeries(rruleOptions: Partial<Options>): boolean {
 }
 
 export function isSingleCalendarSourceEntry(
-  entries?: CalendarSourceEntries
+  entries?: CalendarSourceEntries,
 ): entries is [Omit<CalendarEntry, 'rrule' | 'exdate' | 'recurrenceId'>] {
   return entries?.length === 1 && entries[0].rrule === undefined;
 }
 
 export function isRecurringCalendarSourceEntry(
-  entries?: CalendarSourceEntries
+  entries?: CalendarSourceEntries,
 ): entries is
   | [CalendarEntry & { rrule: string }]
   | [
       CalendarEntry & { rrule: string },
-      Required<Omit<CalendarEntry, 'rrule' | 'exdate'>>
+      Required<Omit<CalendarEntry, 'rrule' | 'exdate'>>,
     ] {
   return (
     typeof entries?.[0].rrule === 'string' &&

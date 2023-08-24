@@ -69,13 +69,13 @@ export class Room implements IRoom {
 
     try {
       const roomCreate = this.roomEventsByName(
-        StateEventName.M_ROOM_CREATION_EVENT
+        StateEventName.M_ROOM_CREATION_EVENT,
       )[0] as IStateEvent<ICreationContent>;
       const content = this.roomEventsByName(
-        StateEventName.NIC_MEETINGS_METADATA_EVENT
+        StateEventName.NIC_MEETINGS_METADATA_EVENT,
       )[0]?.content as IMeetingsMetadataEventContent;
       const spaceParent = this.roomEventsByName(
-        StateEventName.M_SPACE_PARENT_EVENT
+        StateEventName.M_SPACE_PARENT_EVENT,
       )[0];
       if (roomCreate && content) {
         const meetingType = roomCreate.content?.type;
@@ -123,7 +123,7 @@ export class Room implements IRoom {
 
   public roomMemberEvents(): IStateEvent<MembershipEventContent>[] {
     return this.roomEventsByName(
-      StateEventName.M_ROOM_MEMBER_EVENT
+      StateEventName.M_ROOM_MEMBER_EVENT,
     ) as IStateEvent<MembershipEventContent>[];
   }
 
@@ -139,7 +139,7 @@ export class Room implements IRoom {
     const levels = fetchPowerLevel ? this.powerLevels() : undefined;
     const members: IRoomMember[] = [];
     const memberEvents: any[] = this.roomEventsByName(
-      StateEventName.M_ROOM_MEMBER_EVENT
+      StateEventName.M_ROOM_MEMBER_EVENT,
     );
     for (const event of memberEvents) {
       const content = event.content as MembershipEventContent;
@@ -164,10 +164,10 @@ export class Room implements IRoom {
   }
 
   public widgetEvents(
-    removeEventsWithoutContentType: boolean
+    removeEventsWithoutContentType: boolean,
   ): IStateEvent<IWidgetContent>[] {
     let events = this.roomEventsByName(
-      StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT
+      StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
     ) as IStateEvent<IWidgetContent>[];
     if (removeEventsWithoutContentType) {
       events = events.filter((event) => event.content.type !== undefined);
@@ -175,7 +175,7 @@ export class Room implements IRoom {
     for (const event of events) {
       if (event.content.id !== event.state_key) {
         this.logger.warn(
-          `Mismatch for widget content.id: ${event.content.id}, state_key: ${event.state_key}, eventId: ${event.event_id}`
+          `Mismatch for widget content.id: ${event.content.id}, state_key: ${event.state_key}, eventId: ${event.event_id}`,
         );
       }
       event.content.id = event.state_key;
@@ -187,27 +187,27 @@ export class Room implements IRoom {
     | IStateEvent<EncryptionEventContent>
     | undefined {
     return this.roomEventsByName(
-      StateEventName.M_ROOM_ENCRYPTION
+      StateEventName.M_ROOM_ENCRYPTION,
     )[0] as IStateEvent<EncryptionEventContent>;
   }
 
   private findWidgetEvent(
-    predicate: (event: IStateEvent<IWidgetContent>) => boolean
+    predicate: (event: IStateEvent<IWidgetContent>) => boolean,
   ): IStateEvent<IWidgetContent> | undefined {
     return this.widgetEvents(true).find(predicate);
   }
 
   public widgetEventById(
-    widgetId: string
+    widgetId: string,
   ): IStateEvent<IWidgetContent> | undefined {
     return this.findWidgetEvent(
-      (event: IStateEvent<IWidgetContent>) => event.content?.id === widgetId
+      (event: IStateEvent<IWidgetContent>) => event.content?.id === widgetId,
     );
   }
 
   private participants(toIgnore: string[]): string[] {
     const memberEvents: any[] = this.roomEventsByName(
-      StateEventName.M_ROOM_MEMBER_EVENT
+      StateEventName.M_ROOM_MEMBER_EVENT,
     );
     const participants = memberEvents.filter((event) => {
       return (
@@ -233,7 +233,7 @@ export class Room implements IRoom {
         result.set(roomMember.user, roomMember);
       } else {
         this.logger.verbose(
-          `roomMemberMap: leave out ${JSON.stringify(roomMember)}`
+          `roomMemberMap: leave out ${JSON.stringify(roomMember)}`,
         );
       }
     });
@@ -246,11 +246,11 @@ export class Room implements IRoom {
   }
 
   public widgetEventByType(
-    widgetType: WidgetType
+    widgetType: WidgetType,
   ): IStateEvent<IWidgetContent> | undefined {
     return this.findWidgetEvent(
       (event: IStateEvent<IWidgetContent>) =>
-        event?.content?.type === widgetType
+        event?.content?.type === widgetType,
     );
   }
 }

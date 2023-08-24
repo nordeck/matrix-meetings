@@ -32,7 +32,7 @@ import { withRoomIdMeeting } from './withRoomIdMeeting';
  * @returns the given component without the props of {@link WithMeetingProps} or an error state if the room contains no meeting.
  */
 export function withCurrentRoomMeeting<T>(
-  WrappedComponent: ComponentType<T & WithMeetingProps>
+  WrappedComponent: ComponentType<T & WithMeetingProps>,
 ): ComponentType<T> {
   return (props: T) => {
     const widgetApi = useWidgetApi();
@@ -41,7 +41,7 @@ export function withCurrentRoomMeeting<T>(
       if (widgetApi.widgetParameters.roomId) {
         const metadata = selectNordeckMeetingMetadataEventByRoomId(
           state,
-          widgetApi.widgetParameters.roomId
+          widgetApi.widgetParameters.roomId,
         );
 
         return metadata

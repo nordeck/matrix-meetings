@@ -119,7 +119,7 @@ export class CalendarEntryDto {
     dtend: DateTimeEntryDto,
     rrule?: string,
     exdate?: DateTimeEntryDto[],
-    recurrenceId?: DateTimeEntryDto
+    recurrenceId?: DateTimeEntryDto,
   ) {
     this.uid = uid;
     this.dtstart = dtstart;

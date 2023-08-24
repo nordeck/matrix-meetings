@@ -61,7 +61,7 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-1', undefined)
+      selectMeeting(state, '!meeting-room-id', 'entry-1', undefined),
     ).toEqual({
       type: 'net.nordeck.meetings.meeting',
       meetingId: '!meeting-room-id',
@@ -118,8 +118,8 @@ describe('selectMeeting', () => {
         state,
         '!meeting-room-id',
         'entry-1',
-        '2999-02-15T10:00:00Z'
-      )
+        '2999-02-15T10:00:00Z',
+      ),
     ).toEqual({
       type: 'net.nordeck.meetings.meeting',
       meetingId: '!meeting-room-id',
@@ -152,7 +152,7 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined)
+      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
     ).toEqual({
       type: 'net.nordeck.meetings.breakoutsession',
       meetingId: '!meeting-room-id',
@@ -189,7 +189,7 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined)
+      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
     ).toEqual({
       type: 'net.nordeck.meetings.meeting',
       meetingId: '!meeting-room-id',
@@ -229,7 +229,7 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined)
+      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
     ).toEqual({
       type: 'net.nordeck.meetings.meeting',
       meetingId: '!meeting-room-id',
@@ -257,7 +257,7 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined)
+      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
     ).toEqual({
       type: 'net.nordeck.meetings.meeting',
       meetingId: '!meeting-room-id',
@@ -298,13 +298,13 @@ describe('selectMeeting', () => {
           displayname: 'Bob',
           membership: 'invite',
         },
-      })
+      }),
     );
 
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined)
+      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
     ).toEqual({
       type: 'net.nordeck.meetings.meeting',
       meetingId: '!meeting-room-id',
@@ -349,7 +349,7 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined)
+      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
     ).toBeUndefined();
   });
 
@@ -361,7 +361,7 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined)
+      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
     ).toBeUndefined();
   });
 
@@ -373,7 +373,7 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined)
+      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
     ).toBeUndefined();
   });
 
@@ -385,7 +385,7 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined)
+      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
     ).toBeUndefined();
   });
 
@@ -395,7 +395,7 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-1', undefined)
+      selectMeeting(state, '!meeting-room-id', 'entry-1', undefined),
     ).toBeUndefined();
   });
 
@@ -417,8 +417,8 @@ describe('selectMeeting', () => {
         state,
         '!meeting-room-id',
         'entry-0',
-        '2999-02-15T10:00:01Z'
-      )
+        '2999-02-15T10:00:01Z',
+      ),
     ).toBeUndefined();
   });
 });

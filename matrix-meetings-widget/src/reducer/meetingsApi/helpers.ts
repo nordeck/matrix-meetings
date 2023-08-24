@@ -21,19 +21,19 @@ import { filter, take, takeUntil, timeout, toArray } from 'rxjs/operators';
 import { isValidReactionEvent } from '../../lib/matrix';
 
 export function isMeetingRoom(
-  roomType: string | undefined
+  roomType: string | undefined,
 ): roomType is string {
   return roomType === 'net.nordeck.meetings.meeting';
 }
 
 export function isMeetingBreakOutRoom(
-  roomType: string | undefined
+  roomType: string | undefined,
 ): roomType is string {
   return roomType === 'net.nordeck.meetings.breakoutsession';
 }
 
 export function isMeetingRoomOrBreakOutRoom(
-  roomType: string | undefined
+  roomType: string | undefined,
 ): roomType is string {
   return isMeetingRoom(roomType) || isMeetingBreakOutRoom(roomType);
 }
@@ -95,7 +95,7 @@ export async function awaitAcknowledgement(
     filter(
       (event) =>
         event.content['m.relates_to'].rel_type === 'm.annotation' &&
-        eventIds.includes(event.content['m.relates_to'].event_id)
+        eventIds.includes(event.content['m.relates_to'].event_id),
     ),
     take(eventIds.length),
     toArray(),
@@ -104,7 +104,7 @@ export async function awaitAcknowledgement(
     timeout(2_000),
 
     // cancel in tests
-    takeUntil(timeoutAcknowledgementSubject)
+    takeUntil(timeoutAcknowledgementSubject),
   );
 
   try {
@@ -118,7 +118,7 @@ export async function awaitAcknowledgement(
           .sort(
             (a, b) =>
               eventIds.indexOf(a.content['m.relates_to'].event_id) -
-              eventIds.indexOf(b.content['m.relates_to'].event_id)
+              eventIds.indexOf(b.content['m.relates_to'].event_id),
           )
 
           .map((event) => {
@@ -144,7 +144,7 @@ export async function awaitAcknowledgement(
     eventIds.length,
     constant({
       timeout: true,
-    })
+    }),
   );
 }
 

@@ -26,7 +26,7 @@ describe('<MenuButton/>', () => {
     render(
       <MenuButton buttonLabel="Settings">
         <MenuButtonItem icon={<DeleteIcon />}>Delete</MenuButtonItem>
-      </MenuButton>
+      </MenuButton>,
     );
 
     const button = screen.getByRole('button', { name: /settings/i });
@@ -38,7 +38,7 @@ describe('<MenuButton/>', () => {
     const { container } = render(
       <MenuButton buttonLabel="Settings">
         <MenuButtonItem icon={<DeleteIcon />}>Delete</MenuButtonItem>
-      </MenuButton>
+      </MenuButton>,
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -48,7 +48,7 @@ describe('<MenuButton/>', () => {
     const { container } = render(
       <MenuButton buttonLabel="Settings">
         <MenuButtonItem icon={<DeleteIcon />}>Delete</MenuButtonItem>
-      </MenuButton>
+      </MenuButton>,
     );
 
     await userEvent.click(screen.getByRole('button', { name: /settings/i }));
@@ -60,7 +60,7 @@ describe('<MenuButton/>', () => {
     render(
       <MenuButton buttonLabel="Settings">
         <MenuButtonItem icon={<DeleteIcon />}>Delete</MenuButtonItem>
-      </MenuButton>
+      </MenuButton>,
     );
 
     await userEvent.click(screen.getByRole('button', { name: /settings/i }));
@@ -84,7 +84,7 @@ describe('<MenuButton/>', () => {
     render(
       <MenuButton buttonLabel="Settings" onOpen={onOpen}>
         <MenuButtonItem icon={<DeleteIcon />}>Delete</MenuButtonItem>
-      </MenuButton>
+      </MenuButton>,
     );
 
     await userEvent.click(screen.getByRole('button', { name: /settings/i }));
@@ -96,7 +96,7 @@ describe('<MenuButton/>', () => {
     render(
       <MenuButton buttonLabel="Settings">
         <MenuButtonItem icon={<DeleteIcon />}>Delete</MenuButtonItem>
-      </MenuButton>
+      </MenuButton>,
     );
 
     await userEvent.click(screen.getByRole('button', { name: /settings/i }));
@@ -104,7 +104,7 @@ describe('<MenuButton/>', () => {
     const menu = screen.getByRole('menu', { name: /settings/i });
 
     await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /delete/i })
+      within(menu).getByRole('menuitem', { name: /delete/i }),
     );
 
     await waitFor(() => {
@@ -121,7 +121,7 @@ describe('<MenuButton/>', () => {
         <MenuButton aria-describedby="id" buttonLabel="Settings">
           <MenuButtonItem icon={<DeleteIcon />}>Delete</MenuButtonItem>
         </MenuButton>
-      </>
+      </>,
     );
 
     const button = screen.getByRole('button', { name: /settings/i });

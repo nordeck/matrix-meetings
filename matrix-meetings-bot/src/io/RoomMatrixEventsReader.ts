@@ -31,7 +31,7 @@ export class RoomMatrixEventsReader {
     const stateEvents = json.state_events as IStateEvent<unknown>[];
     const roomEvents = json.room_events as IRoomEvent<unknown>[];
     return new RoomMatrixEventsHelper(
-      this.defaultEventsPath
+      this.defaultEventsPath,
     ).buildRoomMatrixEvents(stateEvents, roomEvents);
   }
 }
@@ -68,12 +68,12 @@ export const schema = Joi.object({
           .required(),
         otherwise: Joi.object().required(),
       }),
-    }).unknown()
+    }).unknown(),
   ),
   room_events: Joi.array().items(
     Joi.object({
       type: Joi.string().required(),
       content: Joi.object().required(),
-    }).unknown()
+    }).unknown(),
   ),
 }).unknown();

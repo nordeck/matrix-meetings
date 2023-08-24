@@ -136,7 +136,7 @@ export class MeetingCreateDto {
     participants: ParticipantDto[] | undefined,
     messagingPowerLevel: number | undefined,
     enableAutoDeletion: boolean | undefined,
-    externalData: ExternalData | undefined
+    externalData: ExternalData | undefined,
   ) {
     this.parent_room_id = parent_room_id;
     this.title = title;

@@ -29,7 +29,7 @@ describe('isValidRoomTopicEvent', () => {
         state_key: '',
         sender: '@user-id',
         type: 'm.room.topic',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -46,7 +46,7 @@ describe('isValidRoomTopicEvent', () => {
         state_key: '',
         sender: '@user-id',
         type: 'm.room.topic',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -62,7 +62,7 @@ describe('isValidRoomTopicEvent', () => {
         state_key: '',
         sender: '@user-id',
         type: 'm.room.topic',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -81,8 +81,8 @@ describe('isValidRoomTopicEvent', () => {
           state_key: '',
           sender: '@user-id',
           type: 'm.room.topic',
-        })
+        }),
       ).toBe(false);
-    }
+    },
   );
 });

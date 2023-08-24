@@ -78,7 +78,7 @@ export class BreakoutSessionsDto {
     start_time: string,
     end_time: string,
     widget_ids: string[],
-    enable_auto_deletion: boolean | undefined
+    enable_auto_deletion: boolean | undefined,
   ) {
     this.groups = groups;
     this.description = description;

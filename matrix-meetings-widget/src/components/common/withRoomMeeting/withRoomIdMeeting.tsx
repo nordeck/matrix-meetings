@@ -40,7 +40,7 @@ type WithMeetingRoomIdProps = {
  * @returns the given component with the additional {@link WithMeetingRoomIdProps} and without the props of {@link WithMeetingProps}, or an error state if the room contains no meeting.
  */
 export function withRoomIdMeeting<T>(
-  WrappedComponent: ComponentType<T & WithMeetingProps>
+  WrappedComponent: ComponentType<T & WithMeetingProps>,
 ): ComponentType<T & (WithMeetingRoomIdProps | WithMeetingProps)> {
   return (props: T & (WithMeetingRoomIdProps | WithMeetingProps)) => {
     const selectMeeting = useMemo(makeSelectMeeting, []);

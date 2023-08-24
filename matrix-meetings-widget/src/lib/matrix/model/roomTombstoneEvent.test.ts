@@ -27,7 +27,7 @@ describe('isValidRoomTombstoneEvent', () => {
         sender: '@sender',
         state_key: '',
         type: 'm.room.tombstone',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -43,7 +43,7 @@ describe('isValidRoomTombstoneEvent', () => {
         sender: '@sender',
         state_key: '',
         type: 'm.room.tombstone',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -57,7 +57,7 @@ describe('isValidRoomTombstoneEvent', () => {
         sender: '@sender',
         state_key: '',
         type: 'any.other.type',
-      })
+      }),
     ).toBe(false);
   });
 });

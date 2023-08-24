@@ -88,12 +88,12 @@ export class MeetingService {
     @Inject(ModuleProviderToken.ROOM_MATRIX_EVENTS)
     private roomMatrixEvents: DeepReadonly<IRoomMatrixEvents>,
     private eventContentRenderer: EventContentRenderer,
-    private widgetLayoutService: WidgetLayoutService
+    private widgetLayoutService: WidgetLayoutService,
   ) {}
 
   private static getBodyError(
     msg: string,
-    error: any
+    error: any,
   ): { message: string; errcode: any; error: any } {
     const body = error?.body;
     return {
@@ -105,14 +105,14 @@ export class MeetingService {
 
   public async changeMessagingPermissions(
     userContext: IUserContext,
-    messagingPermission: MeetingChangeMessagingPermissionDto
+    messagingPermission: MeetingChangeMessagingPermissionDto,
   ): Promise<void> {
     const roomId = messagingPermission.target_room_id;
     const room: IRoom = await this.meetingClient.fetchRoomAsync(roomId);
     powerLevelHelper.assertUserHasPowerLevelFor(
       room,
       userContext.userId,
-      StateEventName.M_ROOM_POWER_LEVELS_EVENT
+      StateEventName.M_ROOM_POWER_LEVELS_EVENT,
     );
     const power_event = room.powerLevelContent;
     power_event.events_default = messagingPermission.messaging_power_level;
@@ -120,14 +120,14 @@ export class MeetingService {
       roomId,
       StateEventName.M_ROOM_POWER_LEVELS_EVENT,
       '',
-      power_event
+      power_event,
     );
   }
 
   public async createBreakOutSessions(
     userContext: IUserContext,
     parentRoomId: string,
-    breakoutSessionsCreate: BreakoutSessionsDto
+    breakoutSessionsCreate: BreakoutSessionsDto,
   ): Promise<void> {
     for (const group of breakoutSessionsCreate.groups) {
       const meetingCreate: MeetingCreateDto = {
@@ -139,7 +139,7 @@ export class MeetingService {
       await this.createMeeting(
         userContext,
         meetingCreate,
-        MeetingType.BREAKOUT_SESSION
+        MeetingType.BREAKOUT_SESSION,
       );
     }
   }
@@ -147,7 +147,7 @@ export class MeetingService {
   public async createMeeting(
     userContext: IUserContext,
     meetingCreate: MeetingCreateDto,
-    meetingType: MeetingType = MeetingType.MEETING
+    meetingType: MeetingType = MeetingType.MEETING,
   ): Promise<MeetingCreateResponseDto> {
     const parentRoomId: string | undefined = meetingCreate.parent_room_id;
 
@@ -170,7 +170,7 @@ export class MeetingService {
 
     const [roomId, renderedMemberEventsWithReason]: [
       string,
-      DeepReadonlyArray<IStateEvent<IElementMembershipEventContent>>
+      DeepReadonlyArray<IStateEvent<IElementMembershipEventContent>>,
     ] = await this.meetingClient.createMeeting(
       parentRoom,
       botUser,
@@ -180,7 +180,7 @@ export class MeetingService {
       this.roomMatrixEvents,
       userContext,
       autoDeletionOffset,
-      meetingCreate.messaging_power_level
+      meetingCreate.messaging_power_level,
     );
 
     const promises: Promise<any>[] = [];
@@ -190,8 +190,8 @@ export class MeetingService {
           roomId,
           me.type,
           me.state_key,
-          me.content
-        )
+          me.content,
+        ),
       );
     }
 
@@ -199,18 +199,18 @@ export class MeetingService {
       ...this.roomMatrixEvents.defaultWidgetIds,
     ];
     promises.push(
-      this.setupWidgets(meetingType, roomId, meetingCreate, widgetIds)
+      this.setupWidgets(meetingType, roomId, meetingCreate, widgetIds),
     );
 
     promises.push(this.setUpWidgetLayoutConfiguration(roomId, widgetIds));
 
     const newParams: IEventContentParams = eventContentParams.newInstance(
       roomId,
-      meetingCreate.title
+      meetingCreate.title,
     );
     const renderedRoomEvents = this.eventContentRenderer.renderRoomEvents(
       this.roomMatrixEvents.roomEvents,
-      newParams
+      newParams,
     );
     promises.push(this.sendRoomEvents(renderedRoomEvents, roomId));
 
@@ -221,7 +221,7 @@ export class MeetingService {
       powerLevelHelper.userHasPowerLevelFor(
         parentRoom,
         botUser,
-        StateEventName.M_SPACE_CHILD_EVENT
+        StateEventName.M_SPACE_CHILD_EVENT,
       )
     ) {
       await this.meetingClient.parentAddChildRoom(parentRoom.id, roomId);
@@ -229,19 +229,19 @@ export class MeetingService {
 
     return new MeetingCreateResponseDto(
       roomId,
-      `${this.appConfig.matrix_link_share}${roomId}`
+      `${this.appConfig.matrix_link_share}${roomId}`,
     );
   }
 
   private async sendRoomEvents(
     renderedRoomEvents: ReadonlyArray<DeepReadonly<IRoomEvent<unknown>>>,
-    roomId: string
+    roomId: string,
   ) {
     for (const roomEvent of renderedRoomEvents) {
       await this.matrixClient.sendEvent(
         roomId,
         roomEvent.type,
-        roomEvent.content
+        roomEvent.content,
       );
     }
   }
@@ -255,7 +255,7 @@ export class MeetingService {
    */
   private async setUpWidgetLayoutConfiguration(
     roomId: string,
-    widgetIds?: string[]
+    widgetIds?: string[],
   ): Promise<void> {
     if (!widgetIds || widgetIds.length === 0) return;
 
@@ -266,7 +266,7 @@ export class MeetingService {
         roomId,
         StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT,
         '',
-        content
+        content,
       );
     }
   }
@@ -275,7 +275,7 @@ export class MeetingService {
     meetingType: MeetingType,
     roomId: string,
     meetingCreate: MeetingCreateDto,
-    widgetIds: string[]
+    widgetIds: string[],
   ): Promise<void> {
     // add the Breakout Session widget
     if (meetingType === MeetingType.MEETING) {
@@ -290,7 +290,7 @@ export class MeetingService {
         roomId,
         meetingCreate.title,
         widgetId,
-        undefined
+        undefined,
       );
     }
   }
@@ -298,7 +298,7 @@ export class MeetingService {
   private async cleanupWidgets(
     widgetIds: string[] | undefined,
     room: IRoom,
-    userContext: IUserContext
+    userContext: IUserContext,
   ): Promise<void> {
     const promises: Promise<any>[] = [];
     const unClearableWidgets: string[] = [];
@@ -313,8 +313,8 @@ export class MeetingService {
                 room.id,
                 StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
                 widgetContent.state_key,
-                {}
-              )
+                {},
+              ),
             );
           } catch (err) {
             unClearableWidgets.push(widgetContent.state_key);
@@ -323,7 +323,7 @@ export class MeetingService {
               'could not delete widget in room %s with state_key %s %s %o ',
               room.id,
               widgetContent.state_key,
-              userContext
+              userContext,
             );
           }
         }
@@ -332,8 +332,8 @@ export class MeetingService {
     if (unClearableWidgets.length > 0) {
       throw new Error(
         `Could not clear the following widgets: ${unClearableWidgets.join(
-          ', '
-        )}`
+          ', ',
+        )}`,
       );
     }
     await Promise.all(promises);
@@ -341,7 +341,7 @@ export class MeetingService {
 
   public async updateMeetingDetails(
     userContext: IUserContext,
-    meetingDetails: MeetingUpdateDetailsDto
+    meetingDetails: MeetingUpdateDetailsDto,
   ): Promise<void> {
     const roomId = meetingDetails.target_room_id;
     const room = await this.meetingClient.fetchRoomAsync(roomId);
@@ -360,7 +360,7 @@ export class MeetingService {
       StateEventName.M_ROOM_TOPIC_EVENT,
       RoomEventName.M_ROOM_MESSAGE,
       StateEventName.NIC_MEETINGS_METADATA_EVENT,
-      StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT
+      StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
     );
 
     const oldMeeting = room.meeting;
@@ -369,7 +369,7 @@ export class MeetingService {
     // change data model if meeting is OX with non-empty rrules
     const { start_time, end_time, calendar } = migrateMeetingTime(
       meetingDetails,
-      extractOxRrule(meetingDetails)
+      extractOxRrule(meetingDetails),
     );
 
     newMeeting.calendar =
@@ -389,7 +389,7 @@ export class MeetingService {
 
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
-      newMeeting
+      newMeeting,
     );
 
     // The newMeeting.creator is the sender... the room.creator is often the bot. therefore remember the sender as creator
@@ -408,7 +408,7 @@ export class MeetingService {
           : undefined,
       force_deletion_at: getForceDeletionTime(
         this.appConfig.auto_deletion_offset,
-        newMeeting.calendar
+        newMeeting.calendar,
       ),
       external_data: newMeeting.externalData,
     };
@@ -417,14 +417,14 @@ export class MeetingService {
       room.id,
       StateEventName.NIC_MEETINGS_METADATA_EVENT,
       '',
-      content
+      content,
     );
 
     await this.updateTitleAndInvitations(
       userContext,
       meetingChanges,
       room,
-      newMeeting
+      newMeeting,
     );
 
     const promises: Promise<any>[] = [];
@@ -438,8 +438,8 @@ export class MeetingService {
           room.id,
           StateEventName.M_ROOM_TOPIC_EVENT,
           '',
-          { topic: newMeeting.description }
-        )
+          { topic: newMeeting.description },
+        ),
       );
     }
 
@@ -450,8 +450,8 @@ export class MeetingService {
           room.id,
           newMeeting.title,
           widgetId,
-          widgetEventContent
-        )
+          widgetEventContent,
+        ),
       );
     }
 
@@ -463,7 +463,7 @@ export class MeetingService {
       powerLevelHelper.userHasPowerLevelFor(
         room,
         botUser,
-        RoomEventName.M_ROOM_MESSAGE
+        RoomEventName.M_ROOM_MESSAGE,
       )
     ) {
       await this.roomMessageService.notifyMeetingTimeChangedAsync(
@@ -471,7 +471,7 @@ export class MeetingService {
         oldMeeting,
         newMeeting,
         meetingChanges,
-        roomId
+        roomId,
       );
     }
     this.logger.debug(`updated a room with id ${room.id}`);
@@ -481,14 +481,14 @@ export class MeetingService {
     userContext: IUserContext,
     meetingChanges: IMeetingChanges,
     room: IRoom,
-    newMeeting: IMeeting
+    newMeeting: IMeeting,
   ): Promise<void> {
     if (meetingChanges.titleChanged) {
       await this.matrixClient.sendStateEvent(
         room.id,
         StateEventName.M_ROOM_NAME_EVENT,
         '',
-        { name: newMeeting.title }
+        { name: newMeeting.title },
       );
     }
 
@@ -503,9 +503,8 @@ export class MeetingService {
       room.meeting
     ) {
       const meetingCreator = room.meeting.creator;
-      const { displayname } = await this.matrixClient.getUserProfile(
-        meetingCreator
-      );
+      const { displayname } =
+        await this.matrixClient.getUserProfile(meetingCreator);
 
       await Promise.all(
         memberInviteEvents.map((me) => {
@@ -517,7 +516,7 @@ export class MeetingService {
             },
             userContext,
             displayname,
-            me.state_key === meetingCreator
+            me.state_key === meetingCreator,
           );
 
           const mec = me.content as IElementMembershipEventContent;
@@ -539,16 +538,16 @@ export class MeetingService {
             room.id,
             StateEventName.M_ROOM_MEMBER_EVENT,
             me.state_key,
-            newEventContent
+            newEventContent,
           );
-        })
+        }),
       );
     }
   }
 
   public async handleWidgets(
     userContext: IUserContext,
-    data: MeetingWidgetsHandleDto
+    data: MeetingWidgetsHandleDto,
   ): Promise<void> {
     const { target_room_id: roomId, widget_ids: eventWidgetIds, add } = data;
 
@@ -564,7 +563,7 @@ export class MeetingService {
       room,
       userContext.userId,
       StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
-      StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT
+      StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT,
     );
 
     const widgetIdsSet = new Set(room.meeting.widgetIds);
@@ -601,8 +600,8 @@ export class MeetingService {
             roomId,
             room.meeting.title,
             widgetId,
-            widgetEventContent
-          )
+            widgetEventContent,
+          ),
         );
       }
 
@@ -610,10 +609,10 @@ export class MeetingService {
       const filteredWidgetIds = widgetIds.filter(
         (widget) =>
           !widget.startsWith(WidgetType.COCKPIT) &&
-          !widget.startsWith(WidgetType.BREAKOUT_SESSIONS)
+          !widget.startsWith(WidgetType.BREAKOUT_SESSIONS),
       );
       promises.push(
-        this.setUpWidgetLayoutConfiguration(roomId, filteredWidgetIds)
+        this.setUpWidgetLayoutConfiguration(roomId, filteredWidgetIds),
       );
       await Promise.all(promises);
     }
@@ -621,7 +620,7 @@ export class MeetingService {
 
   public async handleParticipants(
     userContext: IUserContext,
-    data: MeetingParticipantsHandleDto
+    data: MeetingParticipantsHandleDto,
   ): Promise<void> {
     const { target_room_id: roomId, invite, userIds } = data;
 
@@ -636,31 +635,31 @@ export class MeetingService {
     powerLevelHelper.assertUserHasPowerLevelFor(
       room,
       userContext.userId,
-      RoomEventName.NIC_MEETINGS_MEETING_PARTICIPANTS_HANDLE
+      RoomEventName.NIC_MEETINGS_MEETING_PARTICIPANTS_HANDLE,
     );
     const action = invite ? PowerLevelAction.Invite : PowerLevelAction.Kick;
     powerLevelHelper.assertUserHasPowerLevelForAction(
       room,
       userContext.userId,
-      action
+      action,
     );
 
     if (action === PowerLevelAction.Kick) {
       const userContextPowerLevel = powerLevelHelper.calculateUserPowerLevel(
         room.powerLevelContent,
-        userContext.userId
+        userContext.userId,
       );
       const powerUserId = userIds.find((userId) => {
         const userPowerLevel = powerLevelHelper.calculateUserPowerLevel(
           room.powerLevelContent,
-          userId
+          userId,
         );
         return userContextPowerLevel <= userPowerLevel;
       });
 
       if (powerUserId) {
         throw new PermissionError(
-          `User ${userContext.userId} has not enough power level to kick ${powerUserId}`
+          `User ${userContext.userId} has not enough power level to kick ${powerUserId}`,
         );
       }
     }
@@ -676,7 +675,7 @@ export class MeetingService {
           promises.push(
             this.matrixClient
               .inviteUser(userId, room.id)
-              .catch(() => failedUserIds.push(userId))
+              .catch(() => failedUserIds.push(userId)),
           );
         } else {
           const message = i18next.t(
@@ -686,12 +685,12 @@ export class MeetingService {
               lng: userContext.locale,
               userId,
               sender: userContext.userId,
-            }
+            },
           );
           promises.push(
             this.matrixClient
               .kickUser(userId, room.id, message)
-              .catch(() => failedUserIds.push(userId))
+              .catch(() => failedUserIds.push(userId)),
           );
         }
       }
@@ -706,24 +705,24 @@ export class MeetingService {
 
   public async closeMeeting(
     userContext: IUserContext,
-    meetingClose: MeetingCloseDto
+    meetingClose: MeetingCloseDto,
   ) {
     const meetingCloseMethod =
       meetingClose.method ?? MeetingCloseMethod.TOMBSTONE;
     const currentRoom: IRoom = await this.meetingClient.fetchRoomAsync(
-      meetingClose.target_room_id
+      meetingClose.target_room_id,
     );
 
     powerLevelHelper.assertUserHasPowerLevelFor(
       currentRoom,
       userContext.userId,
-      StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT
+      StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
     );
     if (meetingCloseMethod === MeetingCloseMethod.TOMBSTONE) {
       powerLevelHelper.assertUserHasPowerLevelFor(
         currentRoom,
         userContext.userId,
-        StateEventName.M_ROOM_TOMBSTONE_EVENT
+        StateEventName.M_ROOM_TOMBSTONE_EVENT,
       );
     } else if (
       meetingCloseMethod === MeetingCloseMethod.KICK_ALL_PARTICIPANTS
@@ -731,23 +730,22 @@ export class MeetingService {
       powerLevelHelper.assertUserHasPowerLevelForAction(
         currentRoom,
         userContext.userId,
-        PowerLevelAction.Kick
+        PowerLevelAction.Kick,
       );
     } else {
       throw new Error(`unexpected meeting close method: ${meetingCloseMethod}`);
     }
 
     if (currentRoom && currentRoom.meeting) {
-      const subRooms: IRoom[] = await this.meetingClient.traverseRoomChildren(
-        currentRoom
-      );
+      const subRooms: IRoom[] =
+        await this.meetingClient.traverseRoomChildren(currentRoom);
       await this.closeRooms(
         userContext,
         subRooms.map((sr) => sr.id),
         currentRoom,
         meetingCloseMethod,
         currentRoom.meeting.parentRoomId,
-        userContext.locale
+        userContext.locale,
       );
     } else {
       throw new MeetingNotFoundError(meetingClose.target_room_id);
@@ -760,14 +758,14 @@ export class MeetingService {
     currentRoom: IRoom,
     meetingCloseMethod: MeetingCloseMethod,
     replacementRoomId: string | undefined,
-    locale: string
+    locale: string,
   ): Promise<void> {
     const botUser: string = await this.matrixClient.getUserId();
     const totalRoomIds = [...childrenRoomIds, currentRoom.id];
     const concurrentThreads: number = Math.min(totalRoomIds.length, 20);
     if (concurrentThreads <= 0) {
       this.logger.verbose(
-        `No rooms to remove user ${userContext.userId} replacementRoomId ${replacementRoomId}`
+        `No rooms to remove user ${userContext.userId} replacementRoomId ${replacementRoomId}`,
       );
     } else {
       const errors: Error[] = [];
@@ -790,13 +788,13 @@ export class MeetingService {
         const canManipulateWidgets = powerLevelHelper.userHasPowerLevelFor(
           room,
           userContext.userId,
-          StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT
+          StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
         );
         if (meetingCloseMethod === MeetingCloseMethod.TOMBSTONE) {
           powerLevelHelper.assertUserHasPowerLevelFor(
             room,
             userContext.userId,
-            StateEventName.M_ROOM_TOMBSTONE_EVENT
+            StateEventName.M_ROOM_TOMBSTONE_EVENT,
           );
         } else if (
           meetingCloseMethod === MeetingCloseMethod.KICK_ALL_PARTICIPANTS
@@ -804,11 +802,11 @@ export class MeetingService {
           powerLevelHelper.assertUserHasPowerLevelForAction(
             room,
             userContext.userId,
-            PowerLevelAction.Kick
+            PowerLevelAction.Kick,
           );
         } else {
           throw new Error(
-            `unexpected meeting close method: ${meetingCloseMethod}`
+            `unexpected meeting close method: ${meetingCloseMethod}`,
           );
         }
 
@@ -820,23 +818,23 @@ export class MeetingService {
                   room.id,
                   StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
                   widgetEvent.content.id,
-                  {}
+                  {},
                 );
               } catch (err) {
                 errorsInRoom.push(
                   MeetingService.getBodyError(
                     `closeRooms: can not remove widget of type ${widgetEvent.content.type} for room ${room.id}`,
-                    err
-                  )
+                    err,
+                  ),
                 );
               }
-            })
+            }),
           );
 
           const message = i18next.t(
             'meeting.room.notification.closed.message',
             'Room was closed by administrator',
-            { locale }
+            { locale },
           );
 
           try {
@@ -846,20 +844,20 @@ export class MeetingService {
               const participants: string[] = room.meeting?.participants ?? [];
               const uniqueParticipants = [...new Set<string>(participants)];
               const uniqueParticipantsWithoutBot = uniqueParticipants.filter(
-                (p) => p !== botUser
+                (p) => p !== botUser,
               );
               await Promise.all(
                 uniqueParticipantsWithoutBot.map(async (userId) => {
                   await this.matrixClient.kickUser(userId, room.id, message);
-                })
+                }),
               );
             }
           } catch (err) {
             errorsInRoom.push(
               MeetingService.getBodyError(
                 'closeRooms: error during users kicking',
-                err
-              )
+                err,
+              ),
             );
           }
 
@@ -872,15 +870,15 @@ export class MeetingService {
                 {
                   body: message,
                   replacement_room: replacementRoomId,
-                }
+                },
               );
             }
           } catch (err) {
             errorsInRoom.push(
               MeetingService.getBodyError(
                 `closeRooms: can not tombstone room ${room.id} with replacementRoomId ${replacementRoomId}`,
-                err
-              )
+                err,
+              ),
             );
           }
         }
@@ -898,12 +896,11 @@ export class MeetingService {
 
   public async subMeetingsSendMessage(
     userContext: IUserContext,
-    data: SubMeetingsSendMessageDto
+    data: SubMeetingsSendMessageDto,
   ): Promise<void> {
     const { target_room_id: parentRoomId, message } = data;
-    const parentRoom: IRoom = await this.meetingClient.fetchRoomAsync(
-      parentRoomId
-    );
+    const parentRoom: IRoom =
+      await this.meetingClient.fetchRoomAsync(parentRoomId);
 
     const childRoomMap: SpaceEntityMap = parentRoom.spaceSubRooms;
     const childRoomIds = Object.keys(childRoomMap);
@@ -914,48 +911,49 @@ export class MeetingService {
     const childRooms = await this.meetingClient.loadPartialRooms(
       childRoomIds,
       parentRoomId,
-      additionalFilters
+      additionalFilters,
     );
 
     if (childRooms.length <= 0) return;
 
     const { displayname } = await this.matrixClient.getUserProfile(
-      userContext.userId
+      userContext.userId,
     );
     const encodedMessage = encode(message);
     const pool = PromisePool.withConcurrency(
-      Math.min(childRooms.length, 20)
+      Math.min(childRooms.length, 20),
     ).for(childRooms);
     const { errors } = await pool.process(async (room) => {
       if (
         powerLevelHelper.userHasPowerLevelFor(
           room,
           userContext.userId,
-          RoomEventName.M_ROOM_MESSAGE
+          RoomEventName.M_ROOM_MESSAGE,
         )
       ) {
         return await this.matrixClient.sendHtmlNotice(
           room.id,
-          `<b>${displayname}:</b> ${encodedMessage}`
+          `<b>${displayname}:</b> ${encodedMessage}`,
         );
       }
     });
     if (errors.length) {
       const messages: string[] = errors.map(
-        (err) => `Can not send message to roomId ${err.item.id}  ${err.message}`
+        (err) =>
+          `Can not send message to roomId ${err.item.id}  ${err.message}`,
       );
       this.logger.error(
         `Unable to send messages to sub rooms. Finished with ${
           errors.length
         } errors. Wanted to send a message to ${
           childRooms.length
-        } rooms. Errors:  ${messages.toString()}`
+        } rooms. Errors:  ${messages.toString()}`,
       );
     }
   }
 
   public async getSharingInformationAsync(
-    room_id: string
+    room_id: string,
   ): Promise<MeetingSharingInformationDto> {
     const room = await this.meetingClient.fetchRoomAsync(room_id);
     if (!room || !room.meeting) {

@@ -129,14 +129,15 @@ export function MemberSelectionDropdown({
       meetingId
         ? filterAllRoomMemberEventsByRoomId(
             selectRoomMemberEventEntities(state),
-            meetingId
+            meetingId,
           ).map((e) => e.state_key)
         : [],
-    shallowEqual
+    shallowEqual,
   );
 
   const powerLevelsEvent = useAppSelector(
-    (state) => meetingId && selectRoomPowerLevelsEventByRoomId(state, meetingId)
+    (state) =>
+      meetingId && selectRoomPowerLevelsEventByRoomId(state, meetingId),
   );
 
   const hasPowerToRemove = useCallback(
@@ -155,7 +156,7 @@ export function MemberSelectionDropdown({
       const ownUserPowerLevel = powerLevelsEvent
         ? calculateUserPowerLevel(
             powerLevelsEvent.content,
-            widgetApi.widgetParameters.userId
+            widgetApi.widgetParameters.userId,
           )
         : 0;
 
@@ -165,7 +166,7 @@ export function MemberSelectionDropdown({
 
       return userPowerLevel < ownUserPowerLevel;
     },
-    [allMembersInTheRoom, powerLevelsEvent, widgetApi.widgetParameters.userId]
+    [allMembersInTheRoom, powerLevelsEvent, widgetApi.widgetParameters.userId],
   );
 
   const ensureUsers = useCallback(
@@ -173,14 +174,15 @@ export function MemberSelectionDropdown({
       const newMembers = members
         .map((m) => m.userId)
         .filter(
-          (m) => m !== widgetApi.widgetParameters.userId && hasPowerToRemove(m)
+          (m) => m !== widgetApi.widgetParameters.userId && hasPowerToRemove(m),
         );
 
       // add all users that are not kickable
       const notKickableUsers = selectedMembers
         .map((m) => m.userId)
         .filter(
-          (m) => m !== widgetApi.widgetParameters.userId && !hasPowerToRemove(m)
+          (m) =>
+            m !== widgetApi.widgetParameters.userId && !hasPowerToRemove(m),
         );
 
       // the own user should always be the first entry
@@ -189,7 +191,7 @@ export function MemberSelectionDropdown({
       if (
         widgetApi.widgetParameters.userId &&
         availableMembers.some(
-          (e) => e.userId === widgetApi.widgetParameters.userId
+          (e) => e.userId === widgetApi.widgetParameters.userId,
         )
       ) {
         newMembers.unshift(widgetApi.widgetParameters.userId);
@@ -202,14 +204,14 @@ export function MemberSelectionDropdown({
       hasPowerToRemove,
       selectedMembers,
       widgetApi.widgetParameters.userId,
-    ]
+    ],
   );
 
   const noResultsMessage = useMemo(() => {
     if (error) {
       return t(
         'memberSelectionDropdown.loadingError',
-        'Error while loading available users.'
+        'Error while loading available users.',
       );
     }
 
@@ -218,21 +220,21 @@ export function MemberSelectionDropdown({
 
   const loadingText = t(
     'memberSelectionDropdown.loadingUsers',
-    'Loading users…'
+    'Loading users…',
   );
 
   const handleOnChange = useCallback(
     (_: React.SyntheticEvent<Element, Event>, value: MemberSelection[]) => {
       onSelectedMembersUpdated(ensureUsers(value));
     },
-    [ensureUsers, onSelectedMembersUpdated]
+    [ensureUsers, onSelectedMembersUpdated],
   );
 
   const handleInputChange = useCallback(
     (_: React.SyntheticEvent<Element, Event>, value: string) => {
       onInputChange?.(value);
     },
-    [onInputChange]
+    [onInputChange],
   );
 
   const renderInput = useCallback(
@@ -264,12 +266,12 @@ export function MemberSelectionDropdown({
         />
       );
     },
-    [instructionId, loading, loadingText, label]
+    [instructionId, loading, loadingText, label],
   );
 
   const getOptionLabel = useCallback(
     (o: MemberSelection) => o.displayName ?? o.userId,
-    []
+    [],
   );
 
   const filterOptionsDisabled = useCallback((x: MemberSelection[]) => x, []);
@@ -345,14 +347,14 @@ export function MemberSelectionDropdown({
       ownUserPopupContent,
       tagInstructionId,
       widgetApi.widgetParameters.userId,
-    ]
+    ],
   );
 
   const renderOption = useCallback(
     (props: HTMLAttributes<HTMLLIElement>, option: MemberSelection) => (
       <MemberOption ListItemProps={props} key={option.userId} member={option} />
     ),
-    []
+    [],
   );
 
   const id = useId();
@@ -373,14 +375,14 @@ export function MemberSelectionDropdown({
           {
             selectedCount: selectedMembers.length,
             count: availableMembers.length,
-          }
+          },
         )}
       </Typography>
 
       <Typography aria-hidden id={tagInstructionId} sx={visuallyHidden}>
         {t(
           'memberSelectionDropdown.tagInstructions',
-          'Use the backspace key to delete the entry.'
+          'Use the backspace key to delete the entry.',
         )}
       </Typography>
 

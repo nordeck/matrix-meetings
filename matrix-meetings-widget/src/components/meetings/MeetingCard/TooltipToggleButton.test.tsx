@@ -23,11 +23,11 @@ import { TooltipToggleButton } from './TooltipToggleButton';
 describe('<TooltipToggleButton/>', () => {
   it('should render without exploding', () => {
     render(
-      <TooltipToggleButton TooltipProps={{ title: 'Example' }} value="test" />
+      <TooltipToggleButton TooltipProps={{ title: 'Example' }} value="test" />,
     );
 
     expect(
-      screen.getByRole('button', { name: /example/i })
+      screen.getByRole('button', { name: /example/i }),
     ).toBeInTheDocument();
   });
 
@@ -40,7 +40,7 @@ describe('<TooltipToggleButton/>', () => {
           value="test"
         />
         <div id="expanded-id">Test</div>
-      </>
+      </>,
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -56,7 +56,7 @@ describe('<TooltipToggleButton/>', () => {
           value="test"
         />
         <div id="expanded-id">Test</div>
-      </>
+      </>,
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -71,7 +71,7 @@ describe('<TooltipToggleButton/>', () => {
           value="test"
         />
         <div id="expanded-id">Test</div>
-      </>
+      </>,
     );
 
     const button1 = screen.getByRole('button', { name: /example/i });
@@ -87,7 +87,7 @@ describe('<TooltipToggleButton/>', () => {
           value="test"
         />
         <div id="expanded-id">Test</div>
-      </>
+      </>,
     );
 
     const button2 = screen.getByRole('button', {
@@ -104,11 +104,11 @@ describe('<TooltipToggleButton/>', () => {
       <ToggleButtonGroup exclusive onChange={onChange}>
         <TooltipToggleButton TooltipProps={{ title: 'Option A' }} value="a" />
         <TooltipToggleButton TooltipProps={{ title: 'Option B' }} value="b" />
-      </ToggleButtonGroup>
+      </ToggleButtonGroup>,
     );
 
     await userEvent.click(
-      screen.getByRole('button', { pressed: false, name: 'Option A' })
+      screen.getByRole('button', { pressed: false, name: 'Option A' }),
     );
 
     expect(onChange).toBeCalledWith(expect.anything(), 'a');
@@ -116,15 +116,15 @@ describe('<TooltipToggleButton/>', () => {
       <ToggleButtonGroup exclusive onChange={onChange} value="a">
         <TooltipToggleButton TooltipProps={{ title: 'Option A' }} value="a" />
         <TooltipToggleButton TooltipProps={{ title: 'Option B' }} value="b" />
-      </ToggleButtonGroup>
+      </ToggleButtonGroup>,
     );
 
     expect(
-      screen.getByRole('button', { pressed: true, name: 'Option A' })
+      screen.getByRole('button', { pressed: true, name: 'Option A' }),
     ).toBeInTheDocument();
 
     await userEvent.click(
-      screen.getByRole('button', { pressed: false, name: 'Option B' })
+      screen.getByRole('button', { pressed: false, name: 'Option B' }),
     );
 
     expect(onChange).toBeCalledWith(expect.anything(), 'b');
@@ -132,14 +132,14 @@ describe('<TooltipToggleButton/>', () => {
       <ToggleButtonGroup exclusive onChange={onChange} value="b">
         <TooltipToggleButton TooltipProps={{ title: 'Option A' }} value="a" />
         <TooltipToggleButton TooltipProps={{ title: 'Option B' }} value="b" />
-      </ToggleButtonGroup>
+      </ToggleButtonGroup>,
     );
 
     expect(
-      screen.getByRole('button', { pressed: false, name: 'Option A' })
+      screen.getByRole('button', { pressed: false, name: 'Option A' }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { pressed: true, name: 'Option B' })
+      screen.getByRole('button', { pressed: true, name: 'Option B' }),
     ).toBeInTheDocument();
   });
 });

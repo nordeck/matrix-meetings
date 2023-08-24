@@ -46,8 +46,8 @@ describe('getOpenXChangeExternalReference', () => {
         createEvent({
           folder: 'cal://0/31',
           id: 'cal://0/31.1.0',
-        })
-      )
+        }),
+      ),
     ).toEqual({
       folder: 'cal://0/31',
       id: 'cal://0/31.1.0',
@@ -60,8 +60,8 @@ describe('getOpenXChangeExternalReference', () => {
         createEvent({
           folder: 555,
           id: 'cal://0/31.1.0',
-        })
-      )
+        }),
+      ),
     ).toBeUndefined();
   });
 
@@ -71,14 +71,14 @@ describe('getOpenXChangeExternalReference', () => {
         createEvent({
           folder: 'cal://0/31',
           id: 555,
-        })
-      )
+        }),
+      ),
     ).toBeUndefined();
   });
 
   it('should return undefined if missing', () => {
     expect(
-      getOpenXChangeExternalReference(mockNordeckMeetingMetadataEvent())
+      getOpenXChangeExternalReference(mockNordeckMeetingMetadataEvent()),
     ).toBeUndefined();
   });
 });
@@ -91,10 +91,10 @@ describe('buildOpenXChangeLink', () => {
           folder: 'cal://0/31',
           id: 'cal://0/31.1.0',
         },
-        'https://ox.io/appsuite/#app=io.ox/calendar&id={{id}}&folder={{folder}}'
-      )
+        'https://ox.io/appsuite/#app=io.ox/calendar&id={{id}}&folder={{folder}}',
+      ),
     ).toEqual(
-      'https://ox.io/appsuite/#app=io.ox/calendar&id=cal://0/31.1.0&folder=cal://0/31'
+      'https://ox.io/appsuite/#app=io.ox/calendar&id=cal://0/31.1.0&folder=cal://0/31',
     );
   });
 });

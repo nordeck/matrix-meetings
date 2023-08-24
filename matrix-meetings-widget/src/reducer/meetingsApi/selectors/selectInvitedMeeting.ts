@@ -33,7 +33,7 @@ const createDeepEqualSelector = createSelectorCreator(defaultMemoize, isEqual);
 
 export function makeSelectInvitedMeeting(): (
   state: RootState,
-  roomId: string
+  roomId: string,
 ) => MeetingInvitation | undefined {
   return createDeepEqualSelector(
     (_: RootState, roomId: string) => roomId,
@@ -48,7 +48,7 @@ export function makeSelectInvitedMeeting(): (
       createEvents,
       nameEvent,
       topicEvent,
-      roomMemberEvents
+      roomMemberEvents,
     ) => {
       // check the type of the event
       const createEvent = createEvents[roomId];
@@ -66,14 +66,14 @@ export function makeSelectInvitedMeeting(): (
 
       const participants = filterAllRoomMemberEventsByRoomId(
         roomMemberEvents,
-        createEvent.room_id
+        createEvent.room_id,
       ).map(
         (e, _, all): MeetingParticipant => ({
           userId: e.state_key,
           displayName: getRoomMemberDisplayName(e, all),
           membership: e.content.membership === 'join' ? 'join' : 'invite',
           rawEvent: e,
-        })
+        }),
       );
 
       const { room_id: parentRoomId } =
@@ -94,6 +94,6 @@ export function makeSelectInvitedMeeting(): (
       };
 
       return meeting;
-    }
+    },
   );
 }

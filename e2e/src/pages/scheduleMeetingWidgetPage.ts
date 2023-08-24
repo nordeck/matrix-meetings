@@ -32,7 +32,7 @@ export class ScheduleMeetingWidgetPage {
 
   constructor(
     private readonly page: Page,
-    private readonly widget: FrameLocator
+    private readonly widget: FrameLocator,
   ) {
     const dialog = this.page.getByRole('dialog', {
       name: /Schedule Meeting|Edit Meeting/,
@@ -77,13 +77,13 @@ export class ScheduleMeetingWidgetPage {
     await fillDatePicker(
       this.widget,
       this.widget.getByRole('button', { name: /Choose start date/ }),
-      date
+      date,
     );
 
     await fillTimePicker(
       this.widget,
       this.widget.getByRole('button', { name: 'Choose start time' }),
-      time
+      time,
     );
   }
 
@@ -115,7 +115,7 @@ export class ScheduleMeetingWidgetPage {
   }
 
   async selectRecurrence(
-    name: 'no repetition' | 'daily' | 'weekly' | 'montly' | 'yearly' | 'custom'
+    name: 'no repetition' | 'daily' | 'weekly' | 'montly' | 'yearly' | 'custom',
   ) {
     await this.widget.getByRole('button', { name: /^Repeat meeting/ }).click();
     await this.widget
@@ -141,11 +141,11 @@ export class ScheduleMeetingWidgetPage {
       | 'Wednesday'
       | 'Thursday'
       | 'Friday'
-      | 'Saturday'
+      | 'Saturday',
   ): Locator {
     const repeatOnWeekdayGroup = this.customRecurrenceRuleGroup.getByRole(
       'group',
-      { name: 'Repeat on weekday' }
+      { name: 'Repeat on weekday' },
     );
     return repeatOnWeekdayGroup.getByRole('button', { name });
   }

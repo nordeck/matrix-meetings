@@ -85,11 +85,11 @@ export function MeetingNotEndedGuard({
         {isBreakOutRoom
           ? t(
               'meetingViewEditMeeting.breakoutSessionIsOver',
-              'The breakout session is already over and cannot be changed.'
+              'The breakout session is already over and cannot be changed.',
             )
           : t(
               'meetingViewEditMeeting.meetingIsOver',
-              'The meeting is already over and cannot be changed.'
+              'The meeting is already over and cannot be changed.',
             )}
       </Alert>
     );

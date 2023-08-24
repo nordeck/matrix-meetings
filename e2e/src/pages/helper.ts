@@ -20,7 +20,7 @@ export async function fillDatePicker(
   frame: FrameLocator,
   datePickerButton: Locator,
   startDate: [number, number] | [number, number, number],
-  endDate?: [number, number] | [number, number, number]
+  endDate?: [number, number] | [number, number, number],
 ) {
   await datePickerButton.click();
 
@@ -36,7 +36,7 @@ export async function fillDatePicker(
 export async function fillTimePicker(
   frame: FrameLocator,
   timePickerButton: Locator,
-  time: string
+  time: string,
 ) {
   await timePickerButton.click();
 
@@ -46,7 +46,7 @@ export async function fillTimePicker(
 
 export async function fillDate(
   pickerModal: Locator,
-  date: [number, number] | [number, number, number]
+  date: [number, number] | [number, number, number],
 ) {
   const [year, month, day] = date;
   const monthLabel = new Intl.DateTimeFormat('en', {

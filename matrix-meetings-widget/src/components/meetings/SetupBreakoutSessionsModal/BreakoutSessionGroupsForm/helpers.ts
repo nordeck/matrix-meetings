@@ -37,7 +37,7 @@ export function initializeGroups(
   t: TFunction,
   originalGroups: BreakoutSessionGroup[],
   expectedCount: number,
-  ownUserId: string | undefined
+  ownUserId: string | undefined,
 ): BreakoutSessionGroup[] {
   let groups = originalGroups;
 
@@ -62,7 +62,7 @@ export function initializeGroups(
           defaultValue: 'Group {{index}}',
         }),
         members: ownUserId ? [ownUserId] : [],
-      }))
+      })),
     );
   }
 
@@ -79,7 +79,7 @@ export function initializeGroups(
  */
 export function calculateSelectableMembers(
   memberEvents: StateEvent<RoomMemberStateEventContent>[],
-  groups: BreakoutSessionGroup[]
+  groups: BreakoutSessionGroup[],
 ): StateEvent<RoomMemberStateEventContent>[] {
   const all = new Set(memberEvents.map((m) => m.state_key));
   groups.forEach((g) => g.members.forEach((m) => all.delete(m)));
@@ -99,7 +99,7 @@ export function calculateSelectableMembers(
 export function distributeAllRoomMembers(
   groups: BreakoutSessionGroup[],
   memberEvents: StateEvent<RoomMemberStateEventContent>[],
-  ownUserId: string | undefined
+  ownUserId: string | undefined,
 ): BreakoutSessionGroup[] {
   const shuffled = shuffle(memberEvents.slice());
 

@@ -37,7 +37,7 @@ describe('MeetingClient', () => {
       async (messagingPowerLevel) => {
         const client = new MeetingClient(
           new MatrixClient('', ''),
-          new EventContentRenderer({} as any)
+          new EventContentRenderer({} as any),
         );
 
         await expect(
@@ -70,8 +70,8 @@ describe('MeetingClient', () => {
               userId: '@user-id:example',
             },
             60,
-            messagingPowerLevel
-          )
+            messagingPowerLevel,
+          ),
         ).resolves.toEqual([
           '!new-room-id',
           [
@@ -81,10 +81,10 @@ describe('MeetingClient', () => {
               content: {
                 membership: 'invite',
                 'io.element.html_reason': expect.stringMatching(
-                  /It will take place on <b>05\/07\/2020 at 10:00 AM CEST<\/b>.*<hr><div><i>My Description<\/i><\/div>$/
+                  /It will take place on <b>05\/07\/2020 at 10:00 AM CEST<\/b>.*<hr><div><i>My Description<\/i><\/div>$/,
                 ),
                 reason: expect.stringMatching(
-                  /It will take place on 05\/07\/2020 at 10:00 AM CEST/
+                  /It will take place on 05\/07\/2020 at 10:00 AM CEST/,
                 ),
               },
             },
@@ -125,19 +125,19 @@ describe('MeetingClient', () => {
                 end_time: undefined,
                 auto_deletion_offset: undefined,
                 force_deletion_at: new Date(
-                  '2020-05-07T12:00:00+02:00'
+                  '2020-05-07T12:00:00+02:00',
                 ).getTime(),
               },
             },
           ],
         });
-      }
+      },
     );
 
     it('should create a meeting with the legacy data format', async () => {
       const client = new MeetingClient(
         new MatrixClient('', ''),
-        new EventContentRenderer({} as any)
+        new EventContentRenderer({} as any),
       );
 
       await expect(
@@ -164,8 +164,8 @@ describe('MeetingClient', () => {
             timezone: 'Europe/Berlin',
             userId: '@user-id:example',
           },
-          60
-        )
+          60,
+        ),
       ).resolves.toEqual([
         '!new-room-id',
         [
@@ -175,10 +175,10 @@ describe('MeetingClient', () => {
             content: {
               membership: 'invite',
               'io.element.html_reason': expect.stringMatching(
-                /It will take place on <b>05\/07\/2020 at 10:00 AM CEST<\/b>.*<hr><div><i>My Description<\/i><\/div>$/
+                /It will take place on <b>05\/07\/2020 at 10:00 AM CEST<\/b>.*<hr><div><i>My Description<\/i><\/div>$/,
               ),
               reason: expect.stringMatching(
-                /It will take place on 05\/07\/2020 at 10:00 AM CEST/
+                /It will take place on 05\/07\/2020 at 10:00 AM CEST/,
               ),
             },
           },

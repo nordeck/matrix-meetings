@@ -45,7 +45,7 @@ describe('test IMeetingChanges', () => {
       anythingChanged: false,
     };
     expect(
-      meetingChangesHelper.calculate(meeting, { ...meeting, title: 'new' })
+      meetingChangesHelper.calculate(meeting, { ...meeting, title: 'new' }),
     ).toEqual({
       ...nothingChanged,
       titleChanged: true,
@@ -56,7 +56,7 @@ describe('test IMeetingChanges', () => {
       meetingChangesHelper.calculate(meeting, {
         ...meeting,
         startTime: 'some time',
-      })
+      }),
     ).toEqual({
       ...nothingChanged,
       startTimeChanged: true,
@@ -75,7 +75,7 @@ describe('test IMeetingChanges', () => {
             rrule: 'FREQ=DAILY',
           },
         ],
-      })
+      }),
     ).toEqual({
       ...nothingChanged,
       calendarChanged: true,

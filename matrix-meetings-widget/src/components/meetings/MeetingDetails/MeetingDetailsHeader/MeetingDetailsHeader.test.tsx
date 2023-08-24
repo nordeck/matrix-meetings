@@ -49,7 +49,7 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
 }));
 
 const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked
+  extractWidgetApiParametersMocked,
 );
 
 const server = setupServer();
@@ -105,7 +105,7 @@ describe('<MeetingDetailsHeader/>', () => {
     });
 
     expect(
-      screen.getByRole('heading', { level: 3, name: /An important meeting/i })
+      screen.getByRole('heading', { level: 3, name: /An important meeting/i }),
     ).toBeInTheDocument();
 
     expect(screen.getByRole('button', { name: 'Join' })).toBeInTheDocument();
@@ -117,7 +117,7 @@ describe('<MeetingDetailsHeader/>', () => {
   it('should have no accessibility violations', async () => {
     const { container } = render(
       <MeetingDetailsHeader meeting={mockMeeting()} onClose={onClose} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -130,7 +130,7 @@ describe('<MeetingDetailsHeader/>', () => {
 
     await userEvent.click(
       await screen.findByRole('button', { name: /Close/i }),
-      { skipHover: true }
+      { skipHover: true },
     );
 
     expect(onClose).toBeCalled();
@@ -142,10 +142,10 @@ describe('<MeetingDetailsHeader/>', () => {
     });
 
     expect(
-      screen.queryByRole('button', { name: 'Join' })
+      screen.queryByRole('button', { name: 'Join' }),
     ).not.toBeInTheDocument();
     expect(
-      screen.queryByRole('button', { name: 'Close' })
+      screen.queryByRole('button', { name: 'Close' }),
     ).not.toBeInTheDocument();
   });
 
@@ -164,13 +164,13 @@ describe('<MeetingDetailsHeader/>', () => {
       mockRoomMember({
         state_key: '@user-id-2',
         content: { displayname: 'Bob', membership: 'invite' },
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
         room_id: '!meeting-room-id',
         state_key: 'widget-1',
-      })
+      }),
     );
 
     const newMeeting: CreateMeeting = {
@@ -197,9 +197,7 @@ describe('<MeetingDetailsHeader/>', () => {
         })}
         onClose={onClose}
       />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(await screen.findByRole('button', { name: /Edit/i }));
@@ -228,7 +226,7 @@ describe('<MeetingDetailsHeader/>', () => {
           }),
           isMessagingEnabled: false,
         },
-      }
+      },
     );
 
     await waitFor(() => {
@@ -248,7 +246,7 @@ describe('<MeetingDetailsHeader/>', () => {
               },
             ],
           },
-        }
+        },
       );
     });
 
@@ -262,7 +260,7 @@ describe('<MeetingDetailsHeader/>', () => {
             invite: true,
             userIds: ['@user-id-2'],
           },
-        }
+        },
       );
     });
 
@@ -276,7 +274,7 @@ describe('<MeetingDetailsHeader/>', () => {
             target_room_id: '!meeting-room-id',
             widget_ids: ['widget-2'],
           },
-        }
+        },
       );
     });
 
@@ -290,7 +288,7 @@ describe('<MeetingDetailsHeader/>', () => {
             target_room_id: '!meeting-room-id',
             widget_ids: ['widget-1'],
           },
-        }
+        },
       );
     });
   });
@@ -310,13 +308,13 @@ describe('<MeetingDetailsHeader/>', () => {
       mockRoomMember({
         state_key: '@user-id-2',
         content: { displayname: 'Bob', membership: 'invite' },
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
         room_id: '!meeting-room-id',
         state_key: 'widget-1',
-      })
+      }),
     );
 
     const newMeeting: CreateMeeting = {
@@ -349,9 +347,7 @@ describe('<MeetingDetailsHeader/>', () => {
         })}
         onClose={onClose}
       />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(await screen.findByRole('button', { name: /Edit/i }));
@@ -390,7 +386,7 @@ describe('<MeetingDetailsHeader/>', () => {
           }),
           isMessagingEnabled: false,
         },
-      }
+      },
     );
 
     await waitFor(() => {
@@ -411,7 +407,7 @@ describe('<MeetingDetailsHeader/>', () => {
               },
             ],
           },
-        }
+        },
       );
     });
   });
@@ -425,9 +421,7 @@ describe('<MeetingDetailsHeader/>', () => {
         })}
         onClose={onClose}
       />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(await screen.findByRole('button', { name: /Edit/i }));
@@ -453,7 +447,7 @@ describe('<MeetingDetailsHeader/>', () => {
           meeting: mockMeeting({ parentRoomId: '!room-id' }),
           isMessagingEnabled: false,
         },
-      }
+      },
     );
 
     expect(widgetApi.sendRoomEvent).not.toBeCalled();
@@ -461,20 +455,20 @@ describe('<MeetingDetailsHeader/>', () => {
 
   it('should show error dialog when loading the widgets failed because the user rejected the oidc token', async () => {
     widgetApi.requestOpenIDConnectToken.mockRejectedValue(
-      new Error('some error')
+      new Error('some error'),
     );
 
     widgetApi.mockSendStateEvent(
       mockRoomMember({
         state_key: '@user-id-2',
         content: { displayname: 'Bob', membership: 'invite' },
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
         room_id: '!meeting-room-id',
         state_key: 'widget-1',
-      })
+      }),
     );
 
     const newMeeting: CreateMeeting = {
@@ -501,9 +495,7 @@ describe('<MeetingDetailsHeader/>', () => {
         })}
         onClose={onClose}
       />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
     await userEvent.click(await screen.findByRole('button', { name: /Edit/i }));
 
@@ -514,7 +506,7 @@ describe('<MeetingDetailsHeader/>', () => {
     expect(dialog).toHaveTextContent('Please try again');
 
     await userEvent.click(
-      await within(dialog).findByRole('button', { name: 'Close' })
+      await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
     expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
@@ -539,13 +531,13 @@ describe('<MeetingDetailsHeader/>', () => {
       mockRoomMember({
         state_key: '@user-id-2',
         content: { displayname: 'Bob', membership: 'invite' },
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
         room_id: '!meeting-room-id',
         state_key: 'widget-1',
-      })
+      }),
     );
 
     const newMeeting: CreateMeeting = {
@@ -572,9 +564,7 @@ describe('<MeetingDetailsHeader/>', () => {
         })}
         onClose={onClose}
       />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(await screen.findByRole('button', { name: /Edit/i }));
@@ -586,7 +576,7 @@ describe('<MeetingDetailsHeader/>', () => {
     expect(dialog).toHaveTextContent('Please try again');
 
     await userEvent.click(
-      await within(dialog).findByRole('button', { name: 'Close' })
+      await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
     expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
@@ -611,13 +601,13 @@ describe('<MeetingDetailsHeader/>', () => {
       mockRoomMember({
         state_key: '@user-id-2',
         content: { displayname: 'Bob', membership: 'invite' },
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
         room_id: '!meeting-room-id',
         state_key: 'widget-1',
-      })
+      }),
     );
 
     const newMeeting: CreateMeeting = {
@@ -644,9 +634,7 @@ describe('<MeetingDetailsHeader/>', () => {
         })}
         onClose={onClose}
       />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(await screen.findByRole('button', { name: /Edit/i }));
@@ -658,7 +646,7 @@ describe('<MeetingDetailsHeader/>', () => {
     expect(dialog).toHaveTextContent('Please try again');
 
     await userEvent.click(
-      await within(dialog).findByRole('button', { name: 'Close' })
+      await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
     expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
@@ -682,13 +670,13 @@ describe('<MeetingDetailsHeader/>', () => {
       mockRoomMember({
         state_key: '@user-id-2',
         content: { displayname: 'Bob', membership: 'invite' },
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
         room_id: '!meeting-room-id',
         state_key: 'widget-1',
-      })
+      }),
     );
 
     const newMeeting: CreateMeeting = {
@@ -715,9 +703,7 @@ describe('<MeetingDetailsHeader/>', () => {
         })}
         onClose={onClose}
       />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(await screen.findByRole('button', { name: /Edit/i }));
@@ -729,7 +715,7 @@ describe('<MeetingDetailsHeader/>', () => {
     expect(dialog).toHaveTextContent('Please try again');
 
     await userEvent.click(
-      await within(dialog).findByRole('button', { name: 'Close' })
+      await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
     expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
@@ -756,7 +742,7 @@ describe('<MeetingDetailsHeader/>', () => {
             rrule: 'FREQ=DAILY',
           }),
         },
-      })
+      }),
     );
 
     render(
@@ -770,13 +756,11 @@ describe('<MeetingDetailsHeader/>', () => {
         })}
         onClose={onClose}
       />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /Delete/i })
+      await screen.findByRole('button', { name: /Delete/i }),
     );
 
     const deleteModal = screen.getByRole('dialog', {
@@ -784,7 +768,7 @@ describe('<MeetingDetailsHeader/>', () => {
     });
 
     await userEvent.click(
-      within(deleteModal).getByRole('button', { name: 'Delete' })
+      within(deleteModal).getByRole('button', { name: 'Delete' }),
     );
 
     await waitFor(() => {
@@ -793,13 +777,13 @@ describe('<MeetingDetailsHeader/>', () => {
         {
           context: { locale: 'en', timezone: 'UTC' },
           data: { target_room_id: '!room-id' },
-        }
+        },
       );
     });
 
     await waitFor(() => {
       expect(widgetApi.navigateTo).toBeCalledWith(
-        'https://matrix.to/#/!parent-room-id'
+        'https://matrix.to/#/!parent-room-id',
       );
     });
 
@@ -818,7 +802,7 @@ describe('<MeetingDetailsHeader/>', () => {
     });
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /Delete/i })
+      await screen.findByRole('button', { name: /Delete/i }),
     );
 
     const deleteModal = screen.getByRole('dialog', {
@@ -826,7 +810,7 @@ describe('<MeetingDetailsHeader/>', () => {
     });
 
     await userEvent.click(
-      within(deleteModal).getByRole('button', { name: 'Delete' })
+      within(deleteModal).getByRole('button', { name: 'Delete' }),
     );
 
     await waitFor(() => {
@@ -835,7 +819,7 @@ describe('<MeetingDetailsHeader/>', () => {
         {
           context: { locale: 'en', timezone: 'UTC' },
           data: { target_room_id: '!meeting-room-id' },
-        }
+        },
       );
     });
 
@@ -860,13 +844,11 @@ describe('<MeetingDetailsHeader/>', () => {
         })}
         onClose={onClose}
       />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      await screen.findByRole('button', { name: /Delete/i })
+      await screen.findByRole('button', { name: /Delete/i }),
     );
 
     const deleteModal = screen.getByRole('dialog', {
@@ -881,7 +863,7 @@ describe('<MeetingDetailsHeader/>', () => {
 
     const alert = await screen.findByRole('alert');
     expect(
-      within(alert).getByText(/failed to delete the meeting/i)
+      within(alert).getByText(/failed to delete the meeting/i),
     ).toBeInTheDocument();
     expect(within(alert).getByText(/please try again/i)).toBeInTheDocument();
 
@@ -905,7 +887,7 @@ describe('<MeetingDetailsHeader/>', () => {
             },
           },
         },
-      })
+      }),
     );
 
     render(
@@ -916,21 +898,19 @@ describe('<MeetingDetailsHeader/>', () => {
         })}
         onClose={onClose}
       />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     expect(
       await screen.findByRole('button', {
         name: /Edit meeting in Open-Xchange/i,
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(
       screen.getByRole('button', {
         name: /Delete meeting in Open-Xchange/i,
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -943,7 +923,7 @@ describe('<MeetingDetailsHeader/>', () => {
         })}
         onClose={onClose}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const editButton = await screen.findByRole('button', { name: 'Edit' });
@@ -971,7 +951,7 @@ describe('<MeetingDetailsHeader/>', () => {
           },
         })}
         onClose={onClose}
-      />
+      />,
     );
 
     await waitFor(() => {
@@ -997,7 +977,7 @@ describe('<MeetingDetailsHeader/>', () => {
             },
           },
         },
-      })
+      }),
     );
 
     const { rerender } = render(
@@ -1008,7 +988,7 @@ describe('<MeetingDetailsHeader/>', () => {
         })}
         onClose={onClose}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const editButton = await screen.findByRole('button', {
@@ -1040,7 +1020,7 @@ describe('<MeetingDetailsHeader/>', () => {
           },
         })}
         onClose={onClose}
-      />
+      />,
     );
 
     await waitFor(() => {

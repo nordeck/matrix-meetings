@@ -25,7 +25,7 @@ describe('ArrayOps suite', () => {
       [1, [1, 3, 5]],
     ]);
     expect(new ArrayOps(arr).groupBy((item) => item % 2)).toStrictEqual(
-      expected
+      expected,
     );
   });
 });

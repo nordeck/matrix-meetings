@@ -167,7 +167,7 @@ export function storeInitializer({
 }
 
 function toRecurrencePreset(
-  ruleOptions: Partial<Options> | undefined
+  ruleOptions: Partial<Options> | undefined,
 ): RecurrencePreset {
   const simpleRuleOptions = omit(ruleOptions, 'until', 'count', 'dtstart');
 
@@ -488,7 +488,7 @@ export function toRule(state: State): {
 
 export function useRecurrenceEditorState(
   initialRule: string | undefined,
-  initialStartDate: Date
+  initialStartDate: Date,
 ): {
   state: State;
   rrule: string | undefined;
@@ -498,7 +498,7 @@ export function useRecurrenceEditorState(
   const [state, dispatch] = useReducer(
     reducer,
     { initialRule, initialStartDate },
-    storeInitializer
+    storeInitializer,
   );
   const { rrule, isValid } = toRule(state);
   return { state, rrule, isValid, dispatch };

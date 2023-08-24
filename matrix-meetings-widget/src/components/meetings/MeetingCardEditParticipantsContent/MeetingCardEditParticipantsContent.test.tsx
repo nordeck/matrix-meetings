@@ -53,7 +53,7 @@ describe('<MeetingCardEditParticipantsContent/>', () => {
 
   beforeEach(() => {
     getEnvironment.mockImplementation(
-      jest.requireActual('@matrix-widget-toolkit/mui').getEnvironment
+      jest.requireActual('@matrix-widget-toolkit/mui').getEnvironment,
     );
 
     widgetApi.mockSendStateEvent(
@@ -63,20 +63,20 @@ describe('<MeetingCardEditParticipantsContent/>', () => {
           users_default: 0,
         },
         room_id: '!meeting-room-id',
-      })
+      }),
     );
 
     const user1 = widgetApi.mockSendStateEvent(
       mockRoomMember({
         state_key: '@user-id',
         content: { displayname: 'User 1', membership: 'join' },
-      })
+      }),
     );
     const user2 = widgetApi.mockSendStateEvent(
       mockRoomMember({
         state_key: '@user-id-2',
         content: { displayname: 'User 2', membership: 'invite' },
-      })
+      }),
     );
 
     meeting = mockMeeting({
@@ -137,7 +137,7 @@ describe('<MeetingCardEditParticipantsContent/>', () => {
   it('should have no accessibility violations', async () => {
     const { container } = render(
       <MeetingCardEditParticipantsContent meeting={meeting} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();

@@ -55,17 +55,18 @@ export async function acceptMeetingInvitations({
 
     // get all meeting objects
     .map((roomId) =>
-      makeSelectMeeting()(state, roomId.id, roomId.uid, roomId.recurrenceId)
+      makeSelectMeeting()(state, roomId.id, roomId.uid, roomId.recurrenceId),
     )
 
     // discard all meetings that are not created by the own user
     .filter((m) => m?.creator === userId)
 
     // discard all meetings without invitations
-    .map((m) =>
-      m?.participants.find(
-        (p) => p.userId === userId && p.membership === 'invite'
-      )
+    .map(
+      (m) =>
+        m?.participants.find(
+          (p) => p.userId === userId && p.membership === 'invite',
+        ),
     )
     .filter(isDefined)
 
@@ -85,7 +86,7 @@ export async function acceptMeetingInvitations({
         {
           roomId: member.rawEvent.room_id,
           stateKey: member.rawEvent.state_key,
-        }
+        },
       );
     } catch (_) {
       acceptedMeetingIds.delete(member.rawEvent.room_id);

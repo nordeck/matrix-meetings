@@ -59,12 +59,12 @@ const nordeckMeetingMetadataEventSchema = Joi.object<
   .unknown();
 
 export function isValidNordeckMeetingMetadataEvent(
-  event: StateEvent<unknown>
+  event: StateEvent<unknown>,
 ): event is StateEvent<NordeckMeetingMetadataEvent> {
   return isValidEvent(
     event,
     STATE_EVENT_NORDECK_MEETING_METADATA,
-    nordeckMeetingMetadataEventSchema
+    nordeckMeetingMetadataEventSchema,
   );
 }
 
@@ -74,7 +74,7 @@ export function isValidNordeckMeetingMetadataEvent(
  * Should be done on every read from the room.
  */
 export function migrateNordeckMeetingMetadataEventSchema(
-  metadataEvent: StateEvent<NordeckMeetingMetadataEvent>
+  metadataEvent: StateEvent<NordeckMeetingMetadataEvent>,
 ): StateEvent<NordeckMeetingMetadataEvent> {
   if (
     metadataEvent.content.start_time &&

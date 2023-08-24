@@ -21,7 +21,7 @@ import { StateEventName } from '../src/model/StateEventName';
 describe('EventTypeHelper suite', () => {
   test('isState', async () => {
     expect(eventTypeHelper.isState(StateEventName.M_ROOM_NAME_EVENT)).toBe(
-      true
+      true,
     );
     expect(eventTypeHelper.isState(RoomEventName.M_ROOM_MESSAGE)).toBe(false);
     expect(eventTypeHelper.isState('other_event_type')).toBeUndefined();

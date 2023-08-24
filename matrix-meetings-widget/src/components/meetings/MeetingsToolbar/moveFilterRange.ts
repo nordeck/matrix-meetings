@@ -24,11 +24,11 @@ export const moveFilterRange = (
   startDate: string,
   endDate: string,
   view: ViewType,
-  direction: Direction
+  direction: Direction,
 ): { startDate: string; endDate: string } => {
   let diff: DurationLike = {};
   const days = Math.ceil(
-    DateTime.fromISO(endDate).diff(DateTime.fromISO(startDate), 'day').days
+    DateTime.fromISO(endDate).diff(DateTime.fromISO(startDate), 'day').days,
   );
 
   if (view === 'day') {

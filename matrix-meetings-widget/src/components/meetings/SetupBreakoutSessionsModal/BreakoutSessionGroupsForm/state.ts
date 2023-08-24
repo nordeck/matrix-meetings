@@ -49,7 +49,7 @@ export function initializer(opts: {
  */
 export function reducer(
   state: BreakoutSessionGroupsFormState,
-  action: BreakoutSessionGroupsFormActions
+  action: BreakoutSessionGroupsFormActions,
 ): BreakoutSessionGroupsFormState {
   switch (action.type) {
     case 'replaceCtx': {
@@ -57,7 +57,7 @@ export function reducer(
         action.ctx.t,
         state.groups,
         state.groupsCount,
-        action.ctx.ownUserId
+        action.ctx.ownUserId,
       );
 
       return {
@@ -66,10 +66,10 @@ export function reducer(
         groups,
         selectableMemberEvents: calculateSelectableMembers(
           action.ctx.allMemberEvents,
-          groups
+          groups,
         ),
         validMemberEvents: action.ctx.allMemberEvents.filter(
-          (e) => e.state_key !== action.ctx.ownUserId
+          (e) => e.state_key !== action.ctx.ownUserId,
         ),
       };
     }
@@ -77,7 +77,7 @@ export function reducer(
     case 'updateCount': {
       const groupsCount = Math.max(
         1,
-        Math.min(action.count, state.validMemberEvents.length)
+        Math.min(action.count, state.validMemberEvents.length),
       );
 
       if (state.groupsCount !== groupsCount) {
@@ -85,7 +85,7 @@ export function reducer(
           state.ctx.t,
           state.groups,
           groupsCount,
-          state.ctx.ownUserId
+          state.ctx.ownUserId,
         );
 
         return {
@@ -94,7 +94,7 @@ export function reducer(
           groups,
           selectableMemberEvents: calculateSelectableMembers(
             state.validMemberEvents,
-            groups
+            groups,
           ),
         };
       }
@@ -125,7 +125,7 @@ export function reducer(
         groups,
         selectableMemberEvents: calculateSelectableMembers(
           state.validMemberEvents,
-          groups
+          groups,
         ),
       };
     }
@@ -134,7 +134,7 @@ export function reducer(
       const groups = distributeAllRoomMembers(
         state.groups,
         state.validMemberEvents,
-        state.ctx.ownUserId
+        state.ctx.ownUserId,
       );
 
       return {
@@ -142,7 +142,7 @@ export function reducer(
         groups,
         selectableMemberEvents: calculateSelectableMembers(
           state.validMemberEvents,
-          groups
+          groups,
         ),
       };
     }

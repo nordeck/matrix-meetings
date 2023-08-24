@@ -28,7 +28,7 @@ describe('<MeetingsToolbarSearch/>', () => {
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
-      <MeetingsToolbarSearch onSearchChange={jest.fn()} search="" />
+      <MeetingsToolbarSearch onSearchChange={jest.fn()} search="" />,
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -47,18 +47,18 @@ describe('<MeetingsToolbarSearch/>', () => {
 
   it('should update the search when the filter changes', () => {
     const { rerender } = render(
-      <MeetingsToolbarSearch onSearchChange={jest.fn()} search="Meeting" />
+      <MeetingsToolbarSearch onSearchChange={jest.fn()} search="Meeting" />,
     );
 
     expect(screen.getByRole('textbox', { name: 'Search' })).toHaveValue(
-      'Meeting'
+      'Meeting',
     );
 
     rerender(
-      <MeetingsToolbarSearch onSearchChange={jest.fn()} search="Other text" />
+      <MeetingsToolbarSearch onSearchChange={jest.fn()} search="Other text" />,
     );
     expect(screen.getByRole('textbox', { name: 'Search' })).toHaveValue(
-      'Other text'
+      'Other text',
     );
   });
 });

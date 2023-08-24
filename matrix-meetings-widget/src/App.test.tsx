@@ -39,7 +39,7 @@ describe('App', () => {
             </BrowserRouter>
           </StoreProvider>
         </WidgetApiMockProvider>
-      </LocalizationProvider>
+      </LocalizationProvider>,
     );
   });
 });

@@ -27,7 +27,7 @@ describe('calendarEntrySchema', () => {
         uid: 'uuid',
         dtstart: { tzid: 'Europe/Berlin', value: '20200101T000000' },
         dtend: { tzid: 'Europe/Berlin', value: '20200101T000000' },
-      } as CalendarEntry).error
+      } as CalendarEntry).error,
     ).toBeUndefined();
   });
 
@@ -40,7 +40,7 @@ describe('calendarEntrySchema', () => {
         rrule: 'FREQ=DAILY',
         exdate: [{ tzid: 'Europe/Berlin', value: '20200101T000000' }],
         recurrenceId: { tzid: 'Europe/Berlin', value: '20200101T000000' },
-      } as CalendarEntry).error
+      } as CalendarEntry).error,
     ).toBeUndefined();
   });
 
@@ -72,7 +72,7 @@ describe('calendarEntrySchema', () => {
           additional: 'tmp',
         },
         additional: 'tmp',
-      } as CalendarEntry).error
+      } as CalendarEntry).error,
     ).toBeUndefined();
   });
 
@@ -133,7 +133,7 @@ describe('calendarEntrySchema', () => {
         exdate: [{ tzid: 'Europe/Berlin', value: '20200101T000000' }],
         recurrenceId: { tzid: 'Europe/Berlin', value: '20200101T000000' },
         ...patch,
-      } as CalendarEntry).error
+      } as CalendarEntry).error,
     ).not.toBeUndefined();
   });
 });

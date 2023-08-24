@@ -23,5 +23,5 @@ import { paramExtractor, ParamName } from './IParamExtractor';
 export const UserContextParam = createParamDecorator(
   (data: unknown, executionContext: ExecutionContext) => {
     return paramExtractor(executionContext, ParamName.USER_CONTEXT);
-  }
+  },
 );

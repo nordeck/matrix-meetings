@@ -65,13 +65,13 @@ describe('test CommandService', () => {
         msgtype: 'm.text',
       },
       origin_server_ts: Date.now(),
-    } as IRoomEvent<MessageEventContent>);
+    }) as IRoomEvent<MessageEventContent>;
 
   const appRuntimeContext: AppRuntimeContext = new AppRuntimeContext(
     BOT_ID,
     '',
     '',
-    ['en']
+    ['en'],
   );
 
   const captureSendHtmlText = () => {
@@ -83,8 +83,8 @@ describe('test CommandService', () => {
       matrixClientMock.getRoomStateEvent(
         roomId,
         StateEventName.NIC_MEETINGS_WELCOME_ROOM,
-        appRuntimeContext.botUserId
-      )
+        appRuntimeContext.botUserId,
+      ),
     ).thenThrow(new Error('no NIC_MEETINGS_WELCOME_ROOM event'));
   };
 
@@ -93,8 +93,8 @@ describe('test CommandService', () => {
       matrixClientMock.getRoomStateEvent(
         roomId,
         StateEventName.NIC_MEETINGS_WELCOME_ROOM,
-        appRuntimeContext.botUserId
-      )
+        appRuntimeContext.botUserId,
+      ),
     ).thenResolve(privateRoomMarkerEvent);
   };
 
@@ -104,7 +104,7 @@ describe('test CommandService', () => {
       instance(matrixClientMock),
       instance(welcomeWorkflowService),
       appConfig,
-      appRuntimeContext
+      appRuntimeContext,
     );
 
     when(matrixClientMock.getUserProfile(BOT_ID)).thenResolve({
@@ -158,7 +158,7 @@ describe('test CommandService', () => {
 
     const txt = capture(matrixClientMock.replyText).last()[2];
     expect(txt).toEqual(
-      'Der Befehl steht nicht zur Verfügung. Schreibe !meeting help'
+      'Der Befehl steht nicht zur Verfügung. Schreibe !meeting help',
     );
   });
 
@@ -171,7 +171,7 @@ describe('test CommandService', () => {
 
     const txt = capture(matrixClientMock.replyText).last()[2];
     expect(txt).toEqual(
-      'Der Hilfe-Befehl ist leider nicht richtig. Schreibe !meeting help'
+      'Der Hilfe-Befehl ist leider nicht richtig. Schreibe !meeting help',
     );
   });
 
@@ -181,13 +181,13 @@ describe('test CommandService', () => {
     when(welcomeWorkflowService.handleAddWidgetCommand(ROOM_ID)).thenThrow(
       new TranslatableError('commandErrors.generic', {
         message: 'example',
-      })
+      }),
     );
     await commandService.handleRoomMessage(ROOM_ID, event);
 
     const txt = capture(matrixClientMock.replyText).last()[2];
     expect(txt).toEqual(
-      'Leider konnte Dein Befehl nicht korrekt ausgeführt werden: example'
+      'Leider konnte Dein Befehl nicht korrekt ausgeführt werden: example',
     );
   });
 
@@ -197,13 +197,13 @@ describe('test CommandService', () => {
 
     const errMsg = 'Error';
     when(welcomeWorkflowService.handleAddWidgetCommand(ROOM_ID)).thenThrow(
-      new Error(errMsg)
+      new Error(errMsg),
     );
     await commandService.handleRoomMessage(ROOM_ID, event);
 
     const txt = capture(matrixClientMock.replyText).last()[2];
     expect(txt).toEqual(
-      'Leider konnte Dein Befehl nicht korrekt ausgeführt werden: Error'
+      'Leider konnte Dein Befehl nicht korrekt ausgeführt werden: Error',
     );
   });
 

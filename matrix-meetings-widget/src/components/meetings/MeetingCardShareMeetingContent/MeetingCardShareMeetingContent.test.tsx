@@ -40,7 +40,7 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
 }));
 
 const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked
+  extractWidgetApiParametersMocked,
 );
 
 const server = setupServer();
@@ -90,27 +90,27 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     const list = screen.getByRole('list', { name: /share meeting/i });
 
     expect(
-      within(list).getByRole('button', { name: /share meeting link/i })
+      within(list).getByRole('button', { name: /share meeting link/i }),
     ).toBeInTheDocument();
     expect(
-      within(list).getByRole('button', { name: /share by email/i })
+      within(list).getByRole('button', { name: /share by email/i }),
     ).toBeInTheDocument();
     expect(
-      within(list).getByRole('button', { name: /download ics file/i })
+      within(list).getByRole('button', { name: /download ics file/i }),
     ).toBeInTheDocument();
 
     const dialInItem = within(list).getByRole('button', {
       name: /share dial-in number/i,
     });
     await expect(
-      within(dialInItem).findByText(/No dial-in information available/i)
+      within(dialInItem).findByText(/No dial-in information available/i),
     ).resolves.toBeInTheDocument();
   });
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
       <MeetingCardShareMeetingContent meeting={meeting} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -125,20 +125,20 @@ describe('<MeetingCardShareMeetingContent/>', () => {
           meeting={meeting}
         />
       </>,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
-      screen.getByRole('button', { name: /share meeting link/i })
+      screen.getByRole('button', { name: /share meeting link/i }),
     ).toHaveAccessibleDescription(/example context/i);
     expect(
-      screen.getByRole('button', { name: /share dial-in number/i })
+      screen.getByRole('button', { name: /share dial-in number/i }),
     ).toHaveAccessibleDescription(/example context/i);
     expect(
-      screen.getByRole('button', { name: /share by email/i })
+      screen.getByRole('button', { name: /share by email/i }),
     ).toHaveAccessibleDescription(/example context/i);
     expect(
-      screen.getByRole('button', { name: /download ics file/i })
+      screen.getByRole('button', { name: /download ics file/i }),
     ).toHaveAccessibleDescription(/example context/i);
   });
 
@@ -150,7 +150,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     });
 
     expect(screen.getByRole('status')).toHaveTextContent(
-      /please accept the meeting invitation to see all the details/i
+      /please accept the meeting invitation to see all the details/i,
     );
   });
 
@@ -162,7 +162,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     const list = screen.getByRole('list', { name: /share meeting/i });
 
     await userEvent.click(
-      within(list).getByRole('button', { name: /share meeting link/i })
+      within(list).getByRole('button', { name: /share meeting link/i }),
     );
 
     const dialog = screen.getByRole('dialog', {
@@ -170,7 +170,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     });
 
     expect(
-      within(dialog).getByRole('textbox', { name: /meeting link/i })
+      within(dialog).getByRole('textbox', { name: /meeting link/i }),
     ).toBeInTheDocument();
 
     expect(within(dialog).queryByRole('status')).not.toBeInTheDocument();
@@ -191,7 +191,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     const list = screen.getByRole('list', { name: /share meeting/i });
 
     await userEvent.click(
-      within(list).getByRole('button', { name: /share meeting link/i })
+      within(list).getByRole('button', { name: /share meeting link/i }),
     );
 
     const dialog = screen.getByRole('dialog', {
@@ -199,7 +199,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     });
 
     expect(within(dialog).getByRole('status')).toHaveTextContent(
-      /This is a link to a meeting series. Sharing this link invites users to all meetings in the series./i
+      /This is a link to a meeting series. Sharing this link invites users to all meetings in the series./i,
     );
   });
 
@@ -227,7 +227,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     await userEvent.click(
       await within(list).findByRole('button', {
         name: /share dial-in number/i,
-      })
+      }),
     );
 
     const dialog = screen.getByRole('dialog', {
@@ -235,10 +235,10 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     });
 
     expect(
-      within(dialog).getByRole('textbox', { name: /dial-in number/i })
+      within(dialog).getByRole('textbox', { name: /dial-in number/i }),
     ).toBeInTheDocument();
     expect(
-      within(dialog).getByRole('textbox', { name: /dial-in pin/i })
+      within(dialog).getByRole('textbox', { name: /dial-in pin/i }),
     ).toBeInTheDocument();
 
     expect(within(dialog).queryByRole('status')).not.toBeInTheDocument();
@@ -275,7 +275,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     await userEvent.click(
       await within(list).findByRole('button', {
         name: /share dial-in number/i,
-      })
+      }),
     );
 
     const dialog = screen.getByRole('dialog', {
@@ -283,15 +283,15 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     });
 
     expect(within(dialog).getByRole('status')).toHaveTextContent(
-      /This is a dial-in number to a meeting series. Sharing this dail-in number invites users to all meetings in the series./i
+      /This is a dial-in number to a meeting series. Sharing this dail-in number invites users to all meetings in the series./i,
     );
   });
 
   it('should show error for the dial in number', async () => {
     server.use(
       rest.get('http://localhost/v1/config', (_, res, ctx) =>
-        res(ctx.status(500))
-      )
+        res(ctx.status(500)),
+      ),
     );
 
     render(<MeetingCardShareMeetingContent meeting={meeting} />, {
@@ -306,8 +306,8 @@ describe('<MeetingCardShareMeetingContent/>', () => {
 
     await expect(
       within(listItem).findByText(
-        /error while requesting the dial-in information/i
-      )
+        /error while requesting the dial-in information/i,
+      ),
     ).resolves.toBeInTheDocument();
 
     expect(listItem).toHaveAttribute('aria-disabled', 'true');
@@ -321,7 +321,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     const list = screen.getByRole('list', { name: /share meeting/i });
 
     await userEvent.click(
-      within(list).getByRole('button', { name: /share by email/i })
+      within(list).getByRole('button', { name: /share by email/i }),
     );
 
     const dialog = screen.getByRole('dialog', {
@@ -329,7 +329,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     });
 
     expect(
-      within(dialog).getByRole('textbox', { name: /message/i })
+      within(dialog).getByRole('textbox', { name: /message/i }),
     ).toBeInTheDocument();
 
     expect(within(dialog).queryByRole('status')).not.toBeInTheDocument();
@@ -350,7 +350,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     const list = screen.getByRole('list', { name: /share meeting/i });
 
     await userEvent.click(
-      within(list).getByRole('button', { name: /share by email/i })
+      within(list).getByRole('button', { name: /share by email/i }),
     );
 
     const dialog = screen.getByRole('dialog', {
@@ -358,7 +358,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     });
 
     expect(within(dialog).getByRole('status')).toHaveTextContent(
-      /This is an email invitation to a meeting series. Sharing this email invitation invites users to all meetings in the series./i
+      /This is an email invitation to a meeting series. Sharing this email invitation invites users to all meetings in the series./i,
     );
   });
 
@@ -370,7 +370,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     const list = screen.getByRole('list', { name: /share meeting/i });
 
     await userEvent.click(
-      within(list).getByRole('button', { name: /download ics file/i })
+      within(list).getByRole('button', { name: /download ics file/i }),
     );
 
     const dialog = screen.getByRole('dialog', {
@@ -378,7 +378,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     });
 
     expect(
-      within(dialog).getByRole('button', { name: /download/i })
+      within(dialog).getByRole('button', { name: /download/i }),
     ).toBeInTheDocument();
   });
 
@@ -397,7 +397,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     const list = screen.getByRole('list', { name: /share meeting/i });
 
     await userEvent.click(
-      within(list).getByRole('button', { name: /download ics file/i })
+      within(list).getByRole('button', { name: /download ics file/i }),
     );
 
     const dialog = screen.getByRole('dialog', {
@@ -405,7 +405,7 @@ describe('<MeetingCardShareMeetingContent/>', () => {
     });
 
     expect(within(dialog).getByRole('status')).toHaveTextContent(
-      /This is an iCal file of a meeting series. Sharing this iCal file invites users to all meetings in the series./i
+      /This is an iCal file of a meeting series. Sharing this iCal file invites users to all meetings in the series./i,
     );
   });
 });

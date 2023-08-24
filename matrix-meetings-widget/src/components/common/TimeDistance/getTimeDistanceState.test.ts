@@ -25,12 +25,12 @@ describe('getTimeDistanceState', () => {
           now,
           startDate: '2020-01-01T10:00:00Z',
           endDate: '2020-01-01T12:00:00Z',
-        })
+        }),
       ).toEqual({
         renderLabel: false,
         updateInterval: 1_800_000,
       });
-    }
+    },
   );
 
   it.each([
@@ -44,7 +44,7 @@ describe('getTimeDistanceState', () => {
         now,
         startDate: '2020-01-01T10:00:00Z',
         endDate: '2020-01-01T12:00:00Z',
-      })
+      }),
     ).toEqual({
       renderLabel: true,
       updateInterval: 300_000,
@@ -65,7 +65,7 @@ describe('getTimeDistanceState', () => {
         now,
         startDate: '2020-01-01T10:00:00Z',
         endDate: '2020-01-01T12:00:00Z',
-      })
+      }),
     ).toEqual({
       renderLabel: true,
       updateInterval: 60_000,
@@ -90,7 +90,7 @@ describe('getTimeDistanceState', () => {
           now,
           startDate: '2020-01-01T10:00:00Z',
           endDate: '2020-01-01T12:00:00Z',
-        })
+        }),
       ).toEqual({
         renderLabel: true,
         updateInterval: 1_000,
@@ -99,7 +99,7 @@ describe('getTimeDistanceState', () => {
         labelText,
         rotateIcon: false,
       });
-    }
+    },
   );
 
   it.each([
@@ -117,7 +117,7 @@ describe('getTimeDistanceState', () => {
         now,
         startDate: '2020-01-01T10:00:00Z',
         endDate: '2020-01-01T12:00:00Z',
-      })
+      }),
     ).toEqual({
       renderLabel: true,
       updateInterval: 1_000,

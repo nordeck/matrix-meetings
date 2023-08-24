@@ -62,21 +62,21 @@ export const RecurringMeetingEnd = ({
     (e: ChangeEvent<HTMLInputElement>) => {
       onAfterMeetingCountChange(e.target.value);
     },
-    [onAfterMeetingCountChange]
+    [onAfterMeetingCountChange],
   );
 
   const handleRecurrenceEndChange = useCallback(
     (e: SelectChangeEvent<RecurrenceEnd>) => {
       onRecurrenceEndChange(e.target.value as RecurrenceEnd);
     },
-    [onRecurrenceEndChange]
+    [onRecurrenceEndChange],
   );
 
   const handleUntilDateChange = useCallback(
     (value: DateTime | null) => {
       onUntilDateChange((value ?? DateTime.now()).endOf('day'));
     },
-    [onUntilDateChange]
+    [onUntilDateChange],
   );
 
   const openDatePickerDialogue = useCallback(
@@ -89,10 +89,10 @@ export const RecurringMeetingEnd = ({
           formatParams: {
             date: longDateFormat,
           },
-        }
+        },
       );
     },
-    [t]
+    [t],
   );
 
   const radioGroupLabelId = useId();
@@ -108,7 +108,7 @@ export const RecurringMeetingEnd = ({
       <FormLabel component="legend" id={radioGroupLabelId}>
         {t(
           'recurrenceEditor.recurringMeetingEnd.endOfRecurringMeeting',
-          'End of the recurring meeting'
+          'End of the recurring meeting',
         )}
       </FormLabel>
       <RadioGroup
@@ -123,7 +123,7 @@ export const RecurringMeetingEnd = ({
               inputProps={{
                 'aria-label': t(
                   'recurrenceEditor.recurringMeetingEnd.neverLong',
-                  'The meeting is repeated forever'
+                  'The meeting is repeated forever',
                 ),
               }}
             />
@@ -152,7 +152,7 @@ export const RecurringMeetingEnd = ({
                       formatParams: {
                         date: longDateFormat,
                       },
-                    }
+                    },
                   ),
                 }}
               />
@@ -185,14 +185,14 @@ export const RecurringMeetingEnd = ({
                   helperText: !untilDate.isValid
                     ? t(
                         'recurrenceEditor.recurringMeetingEnd.untilDateInputInvalid',
-                        'Invalid date'
+                        'Invalid date',
                       )
                     : undefined,
                   margin: 'dense',
                   inputProps: {
                     'aria-label': t(
                       'recurrenceEditor.recurringMeetingEnd.untilDateInput',
-                      'Date at which the recurring meetings ends'
+                      'Date at which the recurring meetings ends',
                     ),
                   },
                 },
@@ -210,7 +210,7 @@ export const RecurringMeetingEnd = ({
                   'aria-label': t(
                     'recurrenceEditor.recurringMeetingEnd.afterMeetingCountLong',
                     'Ends after {{count}} meetings',
-                    { count: parseInt(afterMeetingCount) }
+                    { count: parseInt(afterMeetingCount) },
                   ),
                 }}
               />
@@ -221,7 +221,7 @@ export const RecurringMeetingEnd = ({
               <span aria-hidden>
                 {t(
                   'recurrenceEditor.recurringMeetingEnd.afterMeetingCount',
-                  'After'
+                  'After',
                 )}
               </span>
             }
@@ -238,7 +238,7 @@ export const RecurringMeetingEnd = ({
                   <InputAdornment position="end">
                     {t(
                       'recurrenceEditor.recurringMeetingEnd.afterMeetingCountInputUnit',
-                      'Meetings'
+                      'Meetings',
                     )}
                   </InputAdornment>
                 ),
@@ -249,7 +249,7 @@ export const RecurringMeetingEnd = ({
                 isAfterMeetingCountInvalid &&
                 t(
                   'recurrenceEditor.recurringMeetingEnd.invalidInput',
-                  'Invalid input'
+                  'Invalid input',
                 )
               }
               inputProps={{
@@ -260,7 +260,7 @@ export const RecurringMeetingEnd = ({
                 max: 9999,
                 'aria-label': t(
                   'recurrenceEditor.recurringMeetingEnd.afterMeetingCountInput',
-                  'Count of meetings'
+                  'Count of meetings',
                 ),
               }}
               onChange={handleAfterMeetingCountChange}

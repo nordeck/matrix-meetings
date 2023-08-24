@@ -40,7 +40,7 @@ describe('isValidNordeckMeetingMetadataEvent', () => {
         sender: '@sender',
         state_key: '',
         type: 'net.nordeck.meetings.metadata',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -71,7 +71,7 @@ describe('isValidNordeckMeetingMetadataEvent', () => {
         sender: '@sender',
         state_key: '',
         type: 'net.nordeck.meetings.metadata',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -104,7 +104,7 @@ describe('isValidNordeckMeetingMetadataEvent', () => {
         sender: '@sender',
         state_key: '',
         type: 'net.nordeck.meetings.metadata',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -127,7 +127,7 @@ describe('isValidNordeckMeetingMetadataEvent', () => {
         sender: '@sender',
         state_key: '',
         type: 'any.other.type',
-      })
+      }),
     ).toBe(false);
   });
 
@@ -174,7 +174,7 @@ describe('isValidNordeckMeetingMetadataEvent', () => {
         sender: '@sender',
         state_key: '',
         type: 'net.nordeck.meetings.metadata',
-      })
+      }),
     ).toBe(false);
   });
 
@@ -192,7 +192,7 @@ describe('isValidNordeckMeetingMetadataEvent', () => {
         sender: '@sender',
         state_key: '',
         type: 'net.nordeck.meetings.metadata',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -244,7 +244,7 @@ describe('isValidNordeckMeetingMetadataEvent', () => {
         sender: '@sender',
         state_key: '',
         type: 'net.nordeck.meetings.metadata',
-      })
+      }),
     ).toBe(false);
   });
 });
@@ -269,7 +269,7 @@ describe('migrateNordeckMeetingMetadataEventSchema', () => {
           ],
           force_deletion_at: undefined,
         },
-      })
+      }),
     );
   });
 
@@ -292,7 +292,7 @@ describe('migrateNordeckMeetingMetadataEventSchema', () => {
           ],
           force_deletion_at: new Date('2020-01-01T02:00:00Z').getTime(),
         },
-      })
+      }),
     );
   });
 
@@ -315,7 +315,7 @@ describe('migrateNordeckMeetingMetadataEventSchema', () => {
           ],
           force_deletion_at: new Date('2020-01-01T01:00:00Z').getTime(),
         },
-      })
+      }),
     );
   });
 
@@ -344,16 +344,16 @@ describe('migrateNordeckMeetingMetadataEventSchema', () => {
             ],
             force_deletion_at,
           },
-        })
+        }),
       );
-    }
+    },
   );
 
   it('should skip events that already fulfil the newest schema', () => {
     const metadata = mockNordeckMeetingMetadataEvent();
 
     expect(migrateNordeckMeetingMetadataEventSchema(metadata)).toEqual(
-      metadata
+      metadata,
     );
   });
 });

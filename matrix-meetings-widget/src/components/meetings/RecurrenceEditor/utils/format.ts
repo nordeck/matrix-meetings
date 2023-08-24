@@ -162,7 +162,7 @@ export const formatRRuleText = (rule: string, t: TFunction): string => {
         afterMeetingCount,
         recurrenceEnd,
         byweekday: formatWeekdayAsLocaleString(
-          normalizeNumeric(byweekday) ?? 0
+          normalizeNumeric(byweekday) ?? 0,
         ),
         ordinalLabel: getOrdinalLabel(bysetpos, t),
         context: 'byweekday',
@@ -217,7 +217,7 @@ export const formatRRuleText = (rule: string, t: TFunction): string => {
         recurrenceEnd,
         monthLabel,
         byweekday: formatWeekdayAsLocaleString(
-          normalizeNumeric(byweekday) ?? 0
+          normalizeNumeric(byweekday) ?? 0,
         ),
         ordinalLabel: getOrdinalLabel(bysetpos, t),
         context: 'byweekday',

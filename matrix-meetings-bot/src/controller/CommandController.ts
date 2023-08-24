@@ -31,7 +31,7 @@ export class CommandController {
   @EventPattern(matrixPattern.roomMessage)
   async roomMessage(
     @RoomIdParam() roomId: string,
-    @Payload() event: IStateEvent<MessageEventContent>
+    @Payload() event: IStateEvent<MessageEventContent>,
   ) {
     await this.commandService.handleRoomMessage(roomId, event);
   }

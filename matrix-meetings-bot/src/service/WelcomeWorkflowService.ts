@@ -85,7 +85,7 @@ export class WelcomeWorkflowService {
     private readonly roomMessageService: RoomMessageService,
     @Inject(ModuleProviderToken.APP_CONFIGURATION)
     private readonly appConfig: IAppConfiguration,
-    appRuntimeContext: AppRuntimeContext
+    appRuntimeContext: AppRuntimeContext,
   ) {
     this.botId = appRuntimeContext.botUserId;
     this.supportedLanguages = appRuntimeContext.supportedLngs;
@@ -99,7 +99,7 @@ export class WelcomeWorkflowService {
    */
   public async processRoomInvite(
     roomId: string,
-    event: IStateEvent<MembershipEventContent>
+    event: IStateEvent<MembershipEventContent>,
   ): Promise<void> {
     if (!this.appConfig.enable_welcome_workflow) return;
 
@@ -114,10 +114,10 @@ export class WelcomeWorkflowService {
 
     const room: IRoom = await this.meetingClient.fetchRoomAsync(roomId);
     const roomMemberEvents = room.roomEventsByName(
-      StateEventName.M_ROOM_MEMBER_EVENT
+      StateEventName.M_ROOM_MEMBER_EVENT,
     ) as IStateEvent<MembershipEventContent>[];
     const botIsDirect = !!roomMemberEvents.find(
-      (e) => e.state_key === this.botId && e.unsigned?.prev_content?.is_direct
+      (e) => e.state_key === this.botId && e.unsigned?.prev_content?.is_direct,
     );
 
     const roomType: RoomType = botIsDirect
@@ -149,24 +149,24 @@ export class WelcomeWorkflowService {
       const privateRoomName = i18next.t(
         'welcome.privateRoom.name',
         'Help for {{originalRoomName}}',
-        this.i18nOptions(translationContext)
+        this.i18nOptions(translationContext),
       );
       const topic = i18next.t(
         'welcome.privateRoom.topic',
         'How to use this bot to setup the widget bot in the room {{originalRoomName}}.',
-        this.i18nOptions(translationContext)
+        this.i18nOptions(translationContext),
       );
 
       const directMessageRooms =
         await this.roomMessageService.findDirectMessageRoomsForUser(
           sender,
-          StateEventName.NIC_MEETINGS_WELCOME_ROOM
+          StateEventName.NIC_MEETINGS_WELCOME_ROOM,
         );
       for (const room of directMessageRooms) {
         if (room.content.originalRoomId === roomId) {
           // don't continue with the new private chat and introductions
           this.logger.debug(
-            `processRoomInvite: welcome room already exists: ${directMessageRooms[0].roomId}`
+            `processRoomInvite: welcome room already exists: ${directMessageRooms[0].roomId}`,
           );
           return;
         }
@@ -178,20 +178,20 @@ export class WelcomeWorkflowService {
         sender,
         roomId,
         privateRoomName,
-        topic
+        topic,
       );
 
       // invite the user and provide a reason
       await this.inviteUser(privateRoomId, roomType, sender, roomId);
 
       this.logger.debug(
-        `invite to private room originalroom: ${roomId}, sender: ${sender}, privateRoomId:${privateRoomId}`
+        `invite to private room originalroom: ${roomId}, sender: ${sender}, privateRoomId:${privateRoomId}`,
       );
     } else if (roomType === RoomType.CALENDAR_ROOM) {
       await this.controlRoomMigrationService.migrateSingleRoom(
         room,
         1,
-        undefined
+        undefined,
       );
     } else {
       throw new Error(`roomType not supported: ${roomType}`);
@@ -201,7 +201,7 @@ export class WelcomeWorkflowService {
   // person joined the bot's private room for the first time directly after an invite
   public async processUserJoinedPrivateRoom(
     roomId: string,
-    event: IStateEvent<MembershipEventContent>
+    event: IStateEvent<MembershipEventContent>,
   ): Promise<void> {
     if (!this.appConfig.enable_welcome_workflow) return;
 
@@ -222,9 +222,8 @@ export class WelcomeWorkflowService {
 
     this.logger.debug(`show first welcome: room: ${roomId}, sender: ${sender}`);
 
-    const context: TranslationContext = await this.getTranslationContext(
-      roomId
-    );
+    const context: TranslationContext =
+      await this.getTranslationContext(roomId);
     await this.updateTopic(roomId, context);
     await this.sendIntroductionMessage(roomId, true, context);
   }
@@ -232,7 +231,7 @@ export class WelcomeWorkflowService {
   // check the powerlevel change in case we got administrator rights
   public async processPowerlevelChange(
     roomId: string,
-    event: IStateEvent<PowerLevelsEventContent>
+    event: IStateEvent<PowerLevelsEventContent>,
   ): Promise<void> {
     if (!this.appConfig.enable_welcome_workflow) return;
 
@@ -268,14 +267,14 @@ export class WelcomeWorkflowService {
     return powerLevelHelper.userHasPowerLevelFor(
       room,
       this.botId,
-      StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT
+      StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
     );
   }
 
   // bot will leave the private room if the person leaves
   public async processUserLeavePrivateRoom(
     roomId: string,
-    event: IStateEvent<MembershipEventContent>
+    event: IStateEvent<MembershipEventContent>,
   ): Promise<void> {
     if (!this.appConfig.enable_welcome_workflow) return;
 
@@ -306,13 +305,13 @@ export class WelcomeWorkflowService {
       _context ?? (await this.getTranslationContext(roomId));
     const name = i18next.t(
       'welcome.privateRoom.name',
-      this.i18nOptions(context)
+      this.i18nOptions(context),
     );
     await this.client.sendStateEvent(
       roomId,
       StateEventName.M_ROOM_NAME_EVENT,
       '',
-      { name }
+      { name },
     );
   }
 
@@ -321,13 +320,13 @@ export class WelcomeWorkflowService {
       _context ?? (await this.getTranslationContext(roomId));
     const topic = i18next.t(
       'welcome.privateRoom.topic',
-      this.i18nOptions(context)
+      this.i18nOptions(context),
     );
     await this.client.sendStateEvent(
       roomId,
       StateEventName.M_ROOM_TOPIC_EVENT,
       '',
-      { topic }
+      { topic },
     );
   }
 
@@ -347,7 +346,7 @@ export class WelcomeWorkflowService {
 
     // context is never null because we already know that this is a known private room
     const context: IPrivateRoomContext = (await this.getPrivateRoomContext(
-      roomId
+      roomId,
     )) as IPrivateRoomContext;
     const translationContext: TranslationContext =
       await this.getTranslationContext(roomId);
@@ -358,28 +357,28 @@ export class WelcomeWorkflowService {
       const html = i18next.t(
         'welcome.errors.notEnoughPermissions',
         "Unfortunately, I cannot add the calendar function. I don't have the right authorisation. Please give me moderator rights in your room <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>.",
-        this.i18nOptions(translationContext)
+        this.i18nOptions(translationContext),
       );
       await this.client.sendHtmlText(roomId, html);
       this.logger.warn(
-        `Can't add NeoDateFix widget to room, welcome.errors.notEnoughPermissions ${context.originalRoomId}`
+        `Can't add NeoDateFix widget to room, welcome.errors.notEnoughPermissions ${context.originalRoomId}`,
       );
       return;
     }
 
     // prevent adding several meeting widgets
     const exists: boolean = await this.checkMeetingWidgetExists(
-      context.originalRoomId
+      context.originalRoomId,
     );
     if (exists) {
       const html = i18next.t(
         'welcome.errors.meetingWidgetExists',
         "Can't add a new widget because it already exists.",
-        this.i18nOptions(translationContext)
+        this.i18nOptions(translationContext),
       );
       await this.client.sendHtmlText(roomId, html);
       this.logger.warn(
-        `Can't add NeoDateFix widget to room, welcome.errors.meetingWidgetExists ${context.originalRoomId}`
+        `Can't add NeoDateFix widget to room, welcome.errors.meetingWidgetExists ${context.originalRoomId}`,
       );
       return;
     }
@@ -389,27 +388,27 @@ export class WelcomeWorkflowService {
     const html = i18next.t(
       'welcome.meetingWidgetAdded',
       '<p>My job is done.</p><p>The calendar is already successfully installed into your room. You can leave this private chat-room.</p>',
-      this.i18nOptions(translationContext)
+      this.i18nOptions(translationContext),
     );
     await this.client.sendHtmlText(roomId, html);
   }
 
   private async sendPowerlevelStatusMessage(
     roomId: string,
-    context: TranslationContext
+    context: TranslationContext,
   ) {
     if (!context.originalRoomId) return;
     const isWidgetAdmin = await this.canManipulateWidgets(
-      context.originalRoomId
+      context.originalRoomId,
     );
     const htmls: string[] = [];
 
     const meetingWidgetExists: boolean = await this.checkMeetingWidgetExists(
-      context.originalRoomId
+      context.originalRoomId,
     );
     if (meetingWidgetExists) {
       htmls.push(
-        i18next.t('welcome.meetingWidgetAdded', this.i18nOptions(context))
+        i18next.t('welcome.meetingWidgetAdded', this.i18nOptions(context)),
       );
     } else {
       // display different messages for admin and non-admin bots
@@ -418,16 +417,16 @@ export class WelcomeWorkflowService {
           i18next.t(
             'welcome.botIsAdmin',
             "The bot is a moderator in the room <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>. If you enter the command <code>!meeting setup</code> NeoDateFix widget will be added to that room.",
-            this.i18nOptions(context)
-          )
+            this.i18nOptions(context),
+          ),
         );
       } else {
         htmls.push(
           i18next.t(
             'welcome.botNotAdmin',
             "The bot is not a moderator in the room <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>.",
-            this.i18nOptions(context)
-          )
+            this.i18nOptions(context),
+          ),
         );
       }
 
@@ -437,22 +436,22 @@ export class WelcomeWorkflowService {
           i18next.t(
             'welcome.helpWhenNotAdmin',
             "Unfortunately, I cannot add the calendar function. I don't have the right authorisation. Please give me moderator rights in your room <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>.",
-            this.i18nOptions(context)
-          )
+            this.i18nOptions(context),
+          ),
         );
       }
     }
 
     await this.client.sendHtmlText(
       roomId,
-      htmls.map((txt) => `<p>${txt}</p>`).join('')
+      htmls.map((txt) => `<p>${txt}</p>`).join(''),
     );
   }
 
   public async handleLanguageChange(
     roomId: string,
     event: any,
-    args: string[]
+    args: string[],
   ) {
     const locale: string = args[0];
 
@@ -484,19 +483,18 @@ export class WelcomeWorkflowService {
       roomId,
       StateEventName.NIC_MEETINGS_WELCOME_ROOM,
       this.botId,
-      newContent
+      newContent,
     );
 
     const html = i18next.t(
       'welcome.languageWasChanged',
       'The language was changed to <b>{{locale}}</b>.',
-      { lng: locale, locale }
+      { lng: locale, locale },
     );
     await this.client.sendHtmlText(roomId, html);
 
-    const context: TranslationContext = await this.getTranslationContext(
-      roomId
-    );
+    const context: TranslationContext =
+      await this.getTranslationContext(roomId);
     await this.updateTopic(roomId, context);
     await this.updateRoomName(roomId, context);
     await this.sendIntroductionMessage(roomId, false, context);
@@ -505,24 +503,24 @@ export class WelcomeWorkflowService {
   private async sendIntroductionMessage(
     roomId: string,
     showLanguageIntro: boolean,
-    _context?: TranslationContext
+    _context?: TranslationContext,
   ): Promise<void> {
     const context: TranslationContext =
       _context ?? (await this.getTranslationContext(roomId));
 
     if (!context.originalRoomId) return;
     const meetingWidgetExists: boolean = await this.checkMeetingWidgetExists(
-      context.originalRoomId
+      context.originalRoomId,
     );
 
     const translated: string[] = [];
     if (showLanguageIntro)
       translated.push(
-        i18next.t('welcome.introLanguage', this.i18nOptions(context))
+        i18next.t('welcome.introLanguage', this.i18nOptions(context)),
       );
     if (meetingWidgetExists) {
       translated.push(
-        i18next.t('welcome.introDone', this.i18nOptions(context))
+        i18next.t('welcome.introDone', this.i18nOptions(context)),
       );
     } else {
       translated.push(i18next.t('welcome.intro', this.i18nOptions(context)));
@@ -540,15 +538,14 @@ export class WelcomeWorkflowService {
     if (privateRoom) return;
 
     const state_key = `meetingwidget-${WidgetClient.createUUID()}`;
-    const content = await this.widgetClient.getMeetingWidgetEventContentAsync(
-      state_key
-    );
+    const content =
+      await this.widgetClient.getMeetingWidgetEventContentAsync(state_key);
 
     await this.client.sendStateEvent(
       roomId,
       StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
       state_key,
-      content
+      content,
     );
 
     const layout = {
@@ -566,11 +563,11 @@ export class WelcomeWorkflowService {
       roomId,
       StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT,
       '',
-      layout
+      layout,
     );
 
     this.logger.verbose(
-      `added NeoDateFix widget to room ${roomId}, stateKey = ${state_key}`
+      `added NeoDateFix widget to room ${roomId}, stateKey = ${state_key}`,
     );
   }
 
@@ -579,7 +576,7 @@ export class WelcomeWorkflowService {
       return await this.client.getRoomStateEvent(
         roomId,
         StateEventName.NIC_MEETINGS_WELCOME_ROOM,
-        this.botId
+        this.botId,
       );
     } catch (e) {
       return null;
@@ -587,7 +584,7 @@ export class WelcomeWorkflowService {
   }
 
   public async getPrivateRoomContext(
-    roomId: string
+    roomId: string,
   ): Promise<IPrivateRoomContext | null> {
     const res = await this.fetchContextStateEvent(roomId);
     if (!res) return null;
@@ -616,7 +613,7 @@ export class WelcomeWorkflowService {
   private async checkMeetingWidgetExists(roomId: string): Promise<boolean> {
     const room = await this.meetingClient.fetchRoomAsync(roomId);
     const events: any[] = room.roomEventsByName(
-      StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT
+      StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
     );
     const exists = events.find((e) => e?.content?.type === WidgetType.MEETINGS);
     return !!exists;
@@ -627,13 +624,13 @@ export class WelcomeWorkflowService {
       (await this.client.getRoomStateEvent(
         roomId,
         StateEventName.M_ROOM_NAME_EVENT,
-        ''
+        '',
       )) || {};
     return name;
   }
 
   private i18nOptions(
-    translationContext: TranslationContext
+    translationContext: TranslationContext,
   ): TranslationOptions {
     return {
       lng: translationContext.locale,
@@ -644,7 +641,7 @@ export class WelcomeWorkflowService {
 
   // Try to retrieve all variables that may be useful for i18n translations
   private async getTranslationContext(
-    roomId: string
+    roomId: string,
   ): Promise<TranslationContext> {
     const ctx = await this.getPrivateRoomContext(roomId);
 
@@ -662,9 +659,8 @@ export class WelcomeWorkflowService {
     const userDisplayName = ctx.userDisplayName || '';
     const locale = ctx.locale || this.appConfig.welcome_workflow_default_locale;
 
-    const originalRoom: IRoom = await this.meetingClient.fetchRoomAsync(
-      originalRoomId
-    );
+    const originalRoom: IRoom =
+      await this.meetingClient.fetchRoomAsync(originalRoomId);
     const originalRoomLink = `${this.appConfig.matrix_link_share}${originalRoom.id}`;
 
     return {
@@ -693,7 +689,7 @@ export class WelcomeWorkflowService {
     userId: string,
     originalRoomId: string | undefined,
     roomName: string | undefined,
-    topic: string | undefined
+    topic: string | undefined,
   ): Promise<string> {
     const initialState: any[] = [
       {
@@ -728,7 +724,7 @@ export class WelcomeWorkflowService {
           type: StateEventName.M_ROOM_AVATAR,
           state_key: '',
           content: { url: avatarUrl },
-        })
+        }),
       );
     }
 
@@ -752,25 +748,25 @@ export class WelcomeWorkflowService {
     privateRoomId: string,
     roomType: RoomType,
     userId: string,
-    originalRoomId: string | undefined
+    originalRoomId: string | undefined,
   ) {
     const ctx = await this.getTranslationContext(privateRoomId);
 
     const reason = i18next.t(
       'welcome.privateRoom.inviteReason',
       "In this private room bot can help with adding a NeoDateFix widget to the room '{{originalRoomName}}'.",
-      this.i18nOptions(ctx)
+      this.i18nOptions(ctx),
     );
     const htmlReason = `<table><tr><td><b>${reason}</b></td></tr></table>`;
     await this.meetingClient.inviteUserToPrivateRoom(
       userId,
       privateRoomId,
       reason,
-      htmlReason
+      htmlReason,
     );
 
     this.logger.debug(
-      `inviteToPrivateRoom: ${privateRoomId}, userId: ${userId} for original room: ${originalRoomId}`
+      `inviteToPrivateRoom: ${privateRoomId}, userId: ${userId} for original room: ${originalRoomId}`,
     );
   }
 

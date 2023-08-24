@@ -38,13 +38,13 @@ describe('<DateRangePicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
       screen.getByRole('button', {
         name: /Choose date range, selected range is February 1 – 7, 2022/i,
-      })
+      }),
     ).toHaveTextContent('Feb 1 – 7, 2022');
   });
 
@@ -55,7 +55,7 @@ describe('<DateRangePicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -68,13 +68,13 @@ describe('<DateRangePicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is February 1 – 7, 2022/i,
-      })
+      }),
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -87,13 +87,13 @@ describe('<DateRangePicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
       screen.getByRole('button', {
         name: /Choose date range, selected range is February 1 – 7, 2022/i,
-      })
+      }),
     ).toHaveTextContent('Feb 1 – 7, 2022');
 
     rerender(
@@ -101,13 +101,13 @@ describe('<DateRangePicker>', () => {
         endDate="2022-02-08T23:59:59Z"
         onRangeChange={onRangeChange}
         startDate="2022-02-03T00:00:00Z"
-      />
+      />,
     );
 
     expect(
       screen.getByRole('button', {
         name: /Choose date range, selected range is February 3 – 8, 2022/i,
-      })
+      }),
     ).toHaveTextContent('Feb 3 – 8, 2022');
   });
 
@@ -118,18 +118,18 @@ describe('<DateRangePicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is February 1 – 7, 2022/i,
-      })
+      }),
     );
     await userEvent.click(
       screen.getByRole('button', {
         name: 'calendar view is open, switch to year view',
-      })
+      }),
     );
 
     await userEvent.click(screen.getByRole('button', { name: '2022' }));
@@ -141,7 +141,7 @@ describe('<DateRangePicker>', () => {
     expect(onRangeChange).toBeCalledTimes(1);
     expect(onRangeChange).toHaveBeenLastCalledWith(
       '2022-01-13T00:00:00.000Z',
-      '2022-01-20T23:59:59.999Z'
+      '2022-01-20T23:59:59.999Z',
     );
   }, 10000);
 
@@ -152,18 +152,18 @@ describe('<DateRangePicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is February 1 – 7, 2022/i,
-      })
+      }),
     );
     await userEvent.click(
       screen.getByRole('button', {
         name: 'calendar view is open, switch to year view',
-      })
+      }),
     );
 
     await userEvent.click(screen.getByRole('button', { name: '2022' }));
@@ -175,11 +175,11 @@ describe('<DateRangePicker>', () => {
     await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is February 1 – 7, 2022/i,
-      })
+      }),
     );
 
     expect(
-      screen.getByRole('gridcell', { name: '1', selected: true })
+      screen.getByRole('gridcell', { name: '1', selected: true }),
     ).toBeInTheDocument();
     expect(onRangeChange).not.toBeCalled();
   }, 10000);
@@ -191,18 +191,18 @@ describe('<DateRangePicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is February 1 – 7, 2022/i,
-      })
+      }),
     );
     await userEvent.click(
       screen.getByRole('button', {
         name: 'calendar view is open, switch to year view',
-      })
+      }),
     );
 
     await userEvent.click(screen.getByRole('button', { name: '2022' }));
@@ -214,7 +214,7 @@ describe('<DateRangePicker>', () => {
     expect(onRangeChange).toBeCalledTimes(1);
     expect(onRangeChange).toHaveBeenLastCalledWith(
       '2022-01-15T00:00:00.000Z',
-      '2022-01-15T23:59:59.999Z'
+      '2022-01-15T23:59:59.999Z',
     );
   }, 10000);
 
@@ -225,18 +225,18 @@ describe('<DateRangePicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is February 1 – 7, 2022/i,
-      })
+      }),
     );
     await userEvent.click(
       screen.getByRole('button', {
         name: 'calendar view is open, switch to year view',
-      })
+      }),
     );
 
     await userEvent.click(screen.getByRole('button', { name: '2022' }));

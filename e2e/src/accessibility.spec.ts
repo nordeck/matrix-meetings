@@ -45,7 +45,7 @@ test.describe('Accessibility', () => {
       await aliceMeetingsWidgetPage.scheduleMeeting();
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.submit();
@@ -66,7 +66,7 @@ test.describe('Accessibility', () => {
       await aliceMeetingsWidgetPage.scheduleMeeting();
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.submit();
@@ -75,7 +75,7 @@ test.describe('Accessibility', () => {
     await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 3]);
 
     await expect(
-      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting')
+      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting'),
     ).toBeVisible();
 
     expect(await runAxeAnalysis(alicePage, 'NeoDateFix')).toMatchSnapshot();
@@ -90,7 +90,7 @@ test.describe('Accessibility', () => {
       await aliceMeetingsWidgetPage.scheduleMeeting();
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.submit();
@@ -99,7 +99,7 @@ test.describe('Accessibility', () => {
     await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 3]);
 
     await expect(
-      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting')
+      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting'),
     ).toBeVisible();
 
     expect(await runAxeAnalysis(alicePage, 'NeoDateFix')).toMatchSnapshot();
@@ -114,7 +114,7 @@ test.describe('Accessibility', () => {
       await aliceMeetingsWidgetPage.scheduleMeeting();
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.submit();
@@ -123,7 +123,7 @@ test.describe('Accessibility', () => {
     await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 3]);
 
     await expect(
-      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting')
+      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting'),
     ).toBeVisible();
 
     expect(await runAxeAnalysis(alicePage, 'NeoDateFix')).toMatchSnapshot();
@@ -138,7 +138,7 @@ test.describe('Accessibility', () => {
       await aliceMeetingsWidgetPage.scheduleMeeting();
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.submit();
@@ -147,7 +147,7 @@ test.describe('Accessibility', () => {
     await aliceMeetingsWidgetPage.setDateFilter([2040, 10]);
 
     await expect(
-      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting')
+      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting'),
     ).toBeVisible();
 
     expect(await runAxeAnalysis(alicePage, 'NeoDateFix')).toMatchSnapshot();
@@ -162,7 +162,7 @@ test.describe('Accessibility', () => {
       await aliceMeetingsWidgetPage.scheduleMeeting();
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.submit();
@@ -186,7 +186,7 @@ test.describe('Accessibility', () => {
     await aliceMeetingsWidgetPage.scheduleMeeting();
 
     expect(
-      await runAxeAnalysis(alicePage, 'Schedule Meeting')
+      await runAxeAnalysis(alicePage, 'Schedule Meeting'),
     ).toMatchSnapshot();
   });
 
@@ -203,7 +203,7 @@ test.describe('Accessibility', () => {
       await aliceMeetingsWidgetPage.scheduleMeeting();
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.submit();
@@ -217,7 +217,7 @@ test.describe('Accessibility', () => {
     const meetingCard = aliceCockpitWidgetPage.getMeeting();
     await meetingCard.meetingTitleText.waitFor();
     expect(
-      await runAxeAnalysis(alicePage, 'NeoDateFix Details')
+      await runAxeAnalysis(alicePage, 'NeoDateFix Details'),
     ).toMatchSnapshot();
   });
 
@@ -234,7 +234,7 @@ test.describe('Accessibility', () => {
       await aliceMeetingsWidgetPage.scheduleMeeting();
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.submit();
@@ -248,7 +248,7 @@ test.describe('Accessibility', () => {
     await aliceBreakoutSessionsPage.scheduleBreakoutSessionsButton.waitFor();
 
     expect(
-      await runAxeAnalysis(alicePage, 'Breakout Sessions')
+      await runAxeAnalysis(alicePage, 'Breakout Sessions'),
     ).toMatchSnapshot();
   });
 
@@ -267,7 +267,7 @@ test.describe('Accessibility', () => {
       await aliceMeetingsWidgetPage.scheduleMeeting();
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.addParticipant(bob.displayName);
@@ -288,23 +288,23 @@ test.describe('Accessibility', () => {
       await aliceBreakoutSessionsPage.scheduleBreakoutSession();
     await aliceScheduleBreakoutSessionWidgetPage.setStartAndEndTime(
       '10:30 AM',
-      '10:40 AM'
+      '10:40 AM',
     );
     // For some reason the test fails to enter the description if we enter it
     // first (firefox only?)
     await aliceScheduleBreakoutSessionWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleBreakoutSessionWidgetPage.groupNumberSnipButton.fill(
-      '2'
+      '2',
     );
     await aliceScheduleBreakoutSessionWidgetPage.addParticipantToGroup(
       bob.displayName,
-      'Group 1'
+      'Group 1',
     );
     await aliceScheduleBreakoutSessionWidgetPage.addParticipantToGroup(
       charlie.displayName,
-      'Group 2'
+      'Group 2',
     );
     await aliceScheduleBreakoutSessionWidgetPage.createBreakoutSessions();
 
@@ -315,7 +315,7 @@ test.describe('Accessibility', () => {
       .card.waitFor();
 
     expect(
-      await runAxeAnalysis(alicePage, 'Breakout Sessions')
+      await runAxeAnalysis(alicePage, 'Breakout Sessions'),
     ).toMatchSnapshot();
   });
 
@@ -334,7 +334,7 @@ test.describe('Accessibility', () => {
       await aliceMeetingsWidgetPage.scheduleMeeting();
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.addParticipant(bob.displayName);
@@ -355,7 +355,7 @@ test.describe('Accessibility', () => {
     await aliceBreakoutSessionsPage.scheduleBreakoutSession();
 
     expect(
-      await runAxeAnalysis(alicePage, 'Schedule Breakout Session')
+      await runAxeAnalysis(alicePage, 'Schedule Breakout Session'),
     ).toMatchSnapshot();
   });
 });

@@ -19,7 +19,7 @@ import { Frequency, Options } from 'rrule';
 
 export function getDefaultRecurringMeetingEnd(
   frequency: Options['freq'] | undefined,
-  dtstart: Date
+  dtstart: Date,
 ): {
   defaultUntilDate: Date;
   defaultAfterMeetingCount: number;

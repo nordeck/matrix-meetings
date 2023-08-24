@@ -226,8 +226,8 @@ describe('meetingsApi', () => {
           initiate({
             parentRoomId: '!roomId',
             message: 'Hi!',
-          })
-        )
+          }),
+        ),
       ).toEqual({
         data: {
           acknowledgement: { success: true },
@@ -254,8 +254,8 @@ describe('meetingsApi', () => {
           initiate({
             parentRoomId: '!roomId',
             message: 'Hi!',
-          })
-        )
+          }),
+        ),
       ).toEqual({
         error: expect.objectContaining({ message: 'invalid' }),
       });
@@ -286,8 +286,8 @@ describe('meetingsApi', () => {
             roomId: '!roomId',
             addWidgets: ['widget-1'],
             removeWidgets: ['widget-2'],
-          })
-        )
+          }),
+        ),
       ).toEqual({
         data: {
           acknowledgements: [
@@ -328,8 +328,8 @@ describe('meetingsApi', () => {
         await dispatch(
           initiate({
             roomId: '!roomId',
-          })
-        )
+          }),
+        ),
       ).toEqual({
         data: {
           acknowledgements: [],
@@ -350,8 +350,8 @@ describe('meetingsApi', () => {
           initiate({
             roomId: '!roomId',
             addWidgets: ['widget-1'],
-          })
-        )
+          }),
+        ),
       ).toEqual({
         error: expect.objectContaining({ message: 'invalid' }),
       });
@@ -382,8 +382,8 @@ describe('meetingsApi', () => {
             roomId: '!roomId',
             addUserIds: ['@user-1:matrix'],
             removeUserIds: ['@user-2:matrix'],
-          })
-        )
+          }),
+        ),
       ).toEqual({
         data: {
           acknowledgements: [
@@ -426,8 +426,8 @@ describe('meetingsApi', () => {
         await dispatch(
           initiate({
             roomId: '!roomId',
-          })
-        )
+          }),
+        ),
       ).toEqual({
         data: {
           acknowledgements: [],
@@ -448,8 +448,8 @@ describe('meetingsApi', () => {
           initiate({
             roomId: '!roomId',
             addUserIds: ['@user-1:matrix'],
-          })
-        )
+          }),
+        ),
       ).toEqual({
         error: expect.objectContaining({ message: 'invalid' }),
       });
@@ -528,7 +528,7 @@ describe('meetingsApi', () => {
     it('should emit event', async () => {
       widgetApi
         .observeRoomEvents(
-          'net.nordeck.meetings.meeting.change.message_permissions'
+          'net.nordeck.meetings.meeting.change.message_permissions',
         )
         .subscribe(acknowledgeAllEvents(widgetApi));
 
@@ -566,7 +566,7 @@ describe('meetingsApi', () => {
 
     it('should load events', async () => {
       const event = widgetApi.mockSendStateEvent(
-        mockSpaceChild({ room_id: '!parent-room' })
+        mockSpaceChild({ room_id: '!parent-room' }),
       );
 
       const { dispatch } = createStore({ widgetApi });
@@ -579,7 +579,7 @@ describe('meetingsApi', () => {
             },
             ids: [expect.stringContaining(event.room_id)],
           },
-        })
+        }),
       );
     });
 
@@ -589,7 +589,7 @@ describe('meetingsApi', () => {
       dispatch(initiate());
 
       const event = widgetApi.mockSendStateEvent(
-        mockSpaceChild({ room_id: '!parent-room' })
+        mockSpaceChild({ room_id: '!parent-room' }),
       );
 
       await waitFor(() => {
@@ -601,7 +601,7 @@ describe('meetingsApi', () => {
               },
               ids: [expect.stringContaining(event.room_id)],
             },
-          })
+          }),
         );
       });
     });
@@ -614,7 +614,10 @@ describe('meetingsApi', () => {
       dispatch(initiate());
 
       widgetApi.mockSendStateEvent(
-        mockSpaceChild({ room_id: '!parent-room', content: { via: undefined } })
+        mockSpaceChild({
+          room_id: '!parent-room',
+          content: { via: undefined },
+        }),
       );
 
       await waitFor(() => {
@@ -624,7 +627,7 @@ describe('meetingsApi', () => {
               entities: {},
               ids: [],
             },
-          })
+          }),
         );
       });
     });
@@ -635,7 +638,7 @@ describe('meetingsApi', () => {
 
     it('should load events', async () => {
       const event = widgetApi.mockSendStateEvent(
-        mockSpaceParent({ room_id: '!roomId1' })
+        mockSpaceParent({ room_id: '!roomId1' }),
       );
 
       const { dispatch } = createStore({ widgetApi });
@@ -648,7 +651,7 @@ describe('meetingsApi', () => {
             },
             ids: [event.room_id],
           },
-        })
+        }),
       );
     });
 
@@ -658,7 +661,7 @@ describe('meetingsApi', () => {
       dispatch(initiate());
 
       const event = widgetApi.mockSendStateEvent(
-        mockSpaceParent({ room_id: '!roomId1' })
+        mockSpaceParent({ room_id: '!roomId1' }),
       );
 
       await waitFor(() => {
@@ -670,7 +673,7 @@ describe('meetingsApi', () => {
               },
               ids: [event.room_id],
             },
-          })
+          }),
         );
       });
     });
@@ -683,7 +686,7 @@ describe('meetingsApi', () => {
       dispatch(initiate());
 
       widgetApi.mockSendStateEvent(
-        mockSpaceParent({ room_id: '!roomId1', content: { via: undefined } })
+        mockSpaceParent({ room_id: '!roomId1', content: { via: undefined } }),
       );
 
       await waitFor(() => {
@@ -693,7 +696,7 @@ describe('meetingsApi', () => {
               entities: {},
               ids: [],
             },
-          })
+          }),
         );
       });
     });
@@ -707,7 +710,7 @@ describe('meetingsApi', () => {
         widgetApi.mockSendStateEvent(
           mockRoomCreate({
             room_id: '!roomId1',
-          })
+          }),
         ),
         widgetApi.mockSendStateEvent(
           mockRoomCreate({
@@ -715,13 +718,13 @@ describe('meetingsApi', () => {
             content: {
               type: 'net.nordeck.meetings.breakoutsession',
             },
-          })
+          }),
         ),
         widgetApi.mockSendStateEvent(
           mockRoomCreate({
             room_id: '!roomId3',
             content: { type: undefined },
-          })
+          }),
         ),
       ];
 
@@ -737,7 +740,7 @@ describe('meetingsApi', () => {
             },
             ids: [events[0].room_id, events[1].room_id, events[2].room_id],
           },
-        })
+        }),
       );
     });
 
@@ -750,7 +753,7 @@ describe('meetingsApi', () => {
         widgetApi.mockSendStateEvent(
           mockRoomCreate({
             room_id: '!roomId1',
-          })
+          }),
         ),
         widgetApi.mockSendStateEvent(
           mockRoomCreate({
@@ -758,13 +761,13 @@ describe('meetingsApi', () => {
             content: {
               type: 'net.nordeck.meetings.breakoutsession',
             },
-          })
+          }),
         ),
         widgetApi.mockSendStateEvent(
           mockRoomCreate({
             room_id: '!roomId3',
             content: { type: undefined },
-          })
+          }),
         ),
       ];
 
@@ -779,7 +782,7 @@ describe('meetingsApi', () => {
               },
               ids: [events[0].room_id, events[1].room_id, events[2].room_id],
             },
-          })
+          }),
         );
       });
     });
@@ -801,7 +804,7 @@ describe('meetingsApi', () => {
             },
             ids: [event.room_id],
           },
-        })
+        }),
       );
     });
 
@@ -821,7 +824,7 @@ describe('meetingsApi', () => {
               },
               ids: [event.room_id],
             },
-          })
+          }),
         );
       });
     });
@@ -843,7 +846,7 @@ describe('meetingsApi', () => {
             },
             ids: [event.room_id],
           },
-        })
+        }),
       );
     });
 
@@ -863,7 +866,7 @@ describe('meetingsApi', () => {
               },
               ids: [event.room_id],
             },
-          })
+          }),
         );
       });
     });
@@ -885,7 +888,7 @@ describe('meetingsApi', () => {
             },
             ids: [event.room_id],
           },
-        })
+        }),
       );
     });
 
@@ -905,7 +908,7 @@ describe('meetingsApi', () => {
               },
               ids: [event.room_id],
             },
-          })
+          }),
         );
       });
     });
@@ -927,7 +930,7 @@ describe('meetingsApi', () => {
             },
             ids: [event.room_id],
           },
-        })
+        }),
       );
     });
 
@@ -947,7 +950,7 @@ describe('meetingsApi', () => {
               },
               ids: [event.room_id],
             },
-          })
+          }),
         );
       });
     });
@@ -979,7 +982,7 @@ describe('meetingsApi', () => {
 
     it('should load events', async () => {
       const event = widgetApi.mockSendStateEvent(
-        mockNordeckMeetingMetadataEvent()
+        mockNordeckMeetingMetadataEvent(),
       );
       widgetApi.mockSendStateEvent(legacyEvent);
 
@@ -994,7 +997,7 @@ describe('meetingsApi', () => {
             },
             ids: [event.room_id, legacyEvent.room_id],
           },
-        })
+        }),
       );
     });
 
@@ -1004,7 +1007,7 @@ describe('meetingsApi', () => {
       dispatch(initiate());
 
       const event = widgetApi.mockSendStateEvent(
-        mockNordeckMeetingMetadataEvent()
+        mockNordeckMeetingMetadataEvent(),
       );
       widgetApi.mockSendStateEvent(legacyEvent);
 
@@ -1018,7 +1021,7 @@ describe('meetingsApi', () => {
               },
               ids: [event.room_id, legacyEvent.room_id],
             },
-          })
+          }),
         );
       });
     });
@@ -1033,13 +1036,13 @@ describe('meetingsApi', () => {
           mockRoomMember({
             state_key: '@user1:matrix',
             content: { membership: 'join' },
-          })
+          }),
         ),
         widgetApi.mockSendStateEvent(
           mockRoomMember({
             state_key: '@user2:matrix',
             content: { membership: 'invite' },
-          })
+          }),
         ),
       ];
 
@@ -1057,7 +1060,7 @@ describe('meetingsApi', () => {
               expect.stringContaining(events[1].room_id),
             ],
           },
-        })
+        }),
       );
     });
 
@@ -1071,13 +1074,13 @@ describe('meetingsApi', () => {
           mockRoomMember({
             state_key: '@user1:matrix',
             content: { membership: 'join' },
-          })
+          }),
         ),
         widgetApi.mockSendStateEvent(
           mockRoomMember({
             state_key: '@user2:matrix',
             content: { membership: 'invite' },
-          })
+          }),
         ),
       ];
 
@@ -1094,7 +1097,7 @@ describe('meetingsApi', () => {
                 expect.stringContaining(events[1].room_id),
               ],
             },
-          })
+          }),
         );
       });
     });
@@ -1104,7 +1107,7 @@ describe('meetingsApi', () => {
         mockRoomMember({
           state_key: '@user1:matrix',
           content: { membership: 'join' },
-        })
+        }),
       );
 
       const { dispatch, getState } = createStore({ widgetApi });
@@ -1115,7 +1118,7 @@ describe('meetingsApi', () => {
         mockRoomMember({
           state_key: '@user1:matrix',
           content: { membership: 'leave' },
-        })
+        }),
       );
 
       await waitFor(() => {
@@ -1125,7 +1128,7 @@ describe('meetingsApi', () => {
               entities: {},
               ids: [],
             },
-          })
+          }),
         );
       });
     });
@@ -1135,7 +1138,7 @@ describe('meetingsApi', () => {
         mockRoomMember({
           state_key: '@user1:matrix',
           content: { membership: 'join' },
-        })
+        }),
       );
 
       isBotUser.mockImplementation((id) => id === botUser.state_key);
@@ -1150,14 +1153,14 @@ describe('meetingsApi', () => {
             entities: {},
             ids: [],
           },
-        })
+        }),
       );
 
       const event = widgetApi.mockSendStateEvent(
         mockRoomMember({
           state_key: '@user2:matrix',
           content: { membership: 'invite' },
-        })
+        }),
       );
 
       await waitFor(() => {
@@ -1169,7 +1172,7 @@ describe('meetingsApi', () => {
               },
               ids: [expect.stringContaining(event.room_id)],
             },
-          })
+          }),
         );
       });
     });
@@ -1191,7 +1194,7 @@ describe('meetingsApi', () => {
             },
             ids: [expect.stringContaining(events[0].room_id)],
           },
-        })
+        }),
       );
     });
 
@@ -1211,7 +1214,7 @@ describe('meetingsApi', () => {
               },
               ids: [expect.stringContaining(events[0].room_id)],
             },
-          })
+          }),
         );
       });
     });
@@ -1224,7 +1227,7 @@ describe('meetingsApi', () => {
       dispatch(initiate());
 
       widgetApi.mockSendStateEvent(
-        mockWidgetEvent({ content: { type: undefined, url: undefined } })
+        mockWidgetEvent({ content: { type: undefined, url: undefined } }),
       );
 
       await waitFor(() => {
@@ -1234,7 +1237,7 @@ describe('meetingsApi', () => {
               entities: {},
               ids: [],
             },
-          })
+          }),
         );
       });
     });
@@ -1251,19 +1254,19 @@ describe('selectAllRoomParentEventsByParentRoomId', () => {
         mockSpaceParent({
           room_id: '!roomId1',
           state_key: '!roomId1',
-        })
+        }),
       ),
       widgetApi.mockSendStateEvent(
         mockSpaceParent({
           room_id: '!roomId2',
           state_key: '!roomId1',
-        })
+        }),
       ),
       widgetApi.mockSendStateEvent(
         mockSpaceParent({
           room_id: '!roomId3',
           state_key: '!roomId2',
-        })
+        }),
       ),
     ];
 
@@ -1272,10 +1275,10 @@ describe('selectAllRoomParentEventsByParentRoomId', () => {
     await initializeMeetingsApi(dispatch);
 
     expect(
-      selectAllRoomParentEventsByParentRoomId(getState(), '!roomId1')
+      selectAllRoomParentEventsByParentRoomId(getState(), '!roomId1'),
     ).toEqual([events[0], events[1]]);
     expect(
-      selectAllRoomParentEventsByParentRoomId(getState(), '!roomId2')
+      selectAllRoomParentEventsByParentRoomId(getState(), '!roomId2'),
     ).toEqual([events[2]]);
   });
 });
@@ -1291,21 +1294,21 @@ describe('selectAllRoomMemberEventsByRoomId', () => {
           room_id: '!roomId1',
           state_key: '@user1:matrix',
           content: { membership: 'join' },
-        })
+        }),
       ),
       widgetApi.mockSendStateEvent(
         mockRoomMember({
           room_id: '!roomId1',
           state_key: '@user2:matrix',
           content: { membership: 'invite' },
-        })
+        }),
       ),
       widgetApi.mockSendStateEvent(
         mockRoomMember({
           room_id: '!roomId2',
           state_key: '@user3:matrix',
           content: { membership: 'invite' },
-        })
+        }),
       ),
     ];
 
@@ -1333,19 +1336,19 @@ describe('selectAllRoomWidgetEventsByRoomId', () => {
         mockWidgetEvent({
           room_id: '!roomId1',
           state_key: 'widget-1',
-        })
+        }),
       ),
       widgetApi.mockSendStateEvent(
         mockWidgetEvent({
           room_id: '!roomId1',
           state_key: 'widget-2',
-        })
+        }),
       ),
       widgetApi.mockSendStateEvent(
         mockWidgetEvent({
           room_id: '!roomId2',
           state_key: 'widget-3',
-        })
+        }),
       ),
     ];
 

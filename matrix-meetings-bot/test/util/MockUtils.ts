@@ -67,7 +67,7 @@ export function captureSendStateEvent(
   clientMock: MatrixClient,
   callIndex: number,
   paramIndex: SendStateEventParameter,
-  name: StateEventName
+  name: StateEventName,
 ): any {
   if (!util.types.isProxy(clientMock))
     throw new Error('clientMock probably is not mocked');
@@ -89,11 +89,11 @@ export function captureSendStateEvent(
  * @returns a correctly typed array of mock calls.
  */
 export function getArgsFromCaptor<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>(
-  captureResult: ArgCaptor10<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>
+  captureResult: ArgCaptor10<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>,
 ): Array<[T0, T1, T2, T3, T4, T5, T6, T7, T8, T9]> {
   const result = captureResult as unknown as { actions: MethodAction[] };
 
   return result.actions.map(
-    (a) => a.args as [T0, T1, T2, T3, T4, T5, T6, T7, T8, T9]
+    (a) => a.args as [T0, T1, T2, T3, T4, T5, T6, T7, T8, T9],
   );
 }

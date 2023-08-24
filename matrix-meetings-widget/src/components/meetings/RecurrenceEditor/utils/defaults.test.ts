@@ -36,13 +36,13 @@ describe('getDefaultRecurringMeetingEnd', () => {
       expect(
         getDefaultRecurringMeetingEnd(
           Frequency[frequency as keyof typeof Frequency],
-          startDate
-        )
+          startDate,
+        ),
       ).toEqual({
         defaultUntilDate,
         defaultAfterMeetingCount,
       });
-    }
+    },
   );
 });
 
@@ -71,6 +71,6 @@ describe('getDefaultCustomRuleProperties', () => {
         defaultCustomWeekday,
         defaultCustomNth,
       });
-    }
+    },
   );
 });

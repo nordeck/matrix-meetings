@@ -31,7 +31,7 @@ describe('<HeadingDivider/>', () => {
         <div>
           <h1>Hallo</h1>
         </div>
-      </HeadingDivider>
+      </HeadingDivider>,
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -43,11 +43,11 @@ describe('<HeadingDivider/>', () => {
         <div>
           <h1>Hello</h1>
         </div>
-      </HeadingDivider>
+      </HeadingDivider>,
     );
 
     expect(
-      screen.getByRole('heading', { level: 1, name: /hello/i })
+      screen.getByRole('heading', { level: 1, name: /hello/i }),
     ).toBeInTheDocument();
   });
 });

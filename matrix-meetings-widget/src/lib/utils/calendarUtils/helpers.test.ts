@@ -29,7 +29,7 @@ describe('isFiniteSeries', () => {
 
   it('should detect finite series with until date', () => {
     expect(isFiniteSeries({ until: new Date('2021-01-01T10:00:00Z') })).toBe(
-      true
+      true,
     );
   });
 
@@ -50,7 +50,7 @@ describe('isSingleCalendarSourceEntry', () => {
           dtstart: '20200109T100000',
           dtend: '20200109T110000',
         }),
-      ])
+      ]),
     ).toBe(true);
   });
 
@@ -62,7 +62,7 @@ describe('isSingleCalendarSourceEntry', () => {
           dtend: '20200109T110000',
           rrule: 'FREQ=DAILY',
         }),
-      ])
+      ]),
     ).toBe(false);
   });
 
@@ -79,7 +79,7 @@ describe('isSingleCalendarSourceEntry', () => {
           dtend: '20200110T113000',
           recurrenceId: '20200110T100000',
         }),
-      ])
+      ]),
     ).toBe(false);
   });
 });
@@ -96,7 +96,7 @@ describe('isRecurringCalendarSourceEntry', () => {
           dtstart: '20200109T100000',
           dtend: '20200109T110000',
         }),
-      ])
+      ]),
     ).toBe(false);
   });
 
@@ -108,7 +108,7 @@ describe('isRecurringCalendarSourceEntry', () => {
           dtend: '20200109T110000',
           rrule: 'FREQ=DAILY',
         }),
-      ])
+      ]),
     ).toBe(true);
   });
 
@@ -125,7 +125,7 @@ describe('isRecurringCalendarSourceEntry', () => {
           dtend: '20200110T113000',
           recurrenceId: '20200110T100000',
         }),
-      ])
+      ]),
     ).toBe(true);
   });
 });
@@ -133,7 +133,7 @@ describe('isRecurringCalendarSourceEntry', () => {
 describe('createTimeFilter', () => {
   const filter = createTimeFilter(
     '2020-01-10T00:00:00Z',
-    '2020-01-10T23:59:59Z'
+    '2020-01-10T23:59:59Z',
   );
 
   it('should skip meeting before filter', () => {
@@ -141,7 +141,7 @@ describe('createTimeFilter', () => {
       filter({
         startTime: '2020-01-09T10:00:00Z',
         endTime: '2020-01-09T23:59:59.999Z',
-      })
+      }),
     ).toBe(false);
   });
 
@@ -150,7 +150,7 @@ describe('createTimeFilter', () => {
       filter({
         startTime: '2020-01-09T10:00:00Z',
         endTime: '2020-01-10T00:00:00Z',
-      })
+      }),
     ).toBe(false);
   });
 
@@ -159,7 +159,7 @@ describe('createTimeFilter', () => {
       filter({
         startTime: '2020-01-09T10:00:00Z',
         endTime: '2020-01-10T00:00:00.001Z',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -168,7 +168,7 @@ describe('createTimeFilter', () => {
       filter({
         startTime: '2020-01-10T10:00:00Z',
         endTime: '2020-01-10T11:00:00Z',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -177,7 +177,7 @@ describe('createTimeFilter', () => {
       filter({
         startTime: '2020-01-10T23:59:58.999Z',
         endTime: '2020-01-11T11:00:00Z',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -186,7 +186,7 @@ describe('createTimeFilter', () => {
       filter({
         startTime: '2020-01-10T23:59:59Z',
         endTime: '2020-01-11T11:00:00Z',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -195,7 +195,7 @@ describe('createTimeFilter', () => {
       filter({
         startTime: '2020-01-11T00:00:00Z',
         endTime: '2020-01-11T11:00:00Z',
-      })
+      }),
     ).toBe(false);
   });
 });

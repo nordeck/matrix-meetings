@@ -83,7 +83,7 @@ export function MeetingDetailsContent({
                     formatParams: {
                       range: fullLongDateFormat,
                     },
-                  }
+                  },
                 )}
               </Typography>
             </Box>

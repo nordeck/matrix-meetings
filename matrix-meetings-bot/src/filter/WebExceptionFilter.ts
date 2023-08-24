@@ -43,7 +43,7 @@ export class WebExceptionFilter extends BaseExceptionFilter {
     private adapterHost: HttpAdapterHost,
     private matrixClient: MatrixClient,
     private roomMessageService: RoomMessageService,
-    private reactionClient: ReactionClient
+    private reactionClient: ReactionClient,
   ) {
     super(adapterHost.httpAdapter.getHttpServer());
   }
@@ -72,7 +72,7 @@ export class WebExceptionFilter extends BaseExceptionFilter {
     } else {
       exceptionPropagate = new HttpException(
         (exception as Error).message,
-        HttpStatus.INTERNAL_SERVER_ERROR
+        HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
 
@@ -100,12 +100,12 @@ export class WebExceptionFilter extends BaseExceptionFilter {
         const nameEvent = await this.matrixClient.getRoomStateEvent(
           roomId,
           StateEventName.M_ROOM_NAME_EVENT,
-          ''
+          '',
         );
         roomName = nameEvent?.name;
       } catch (err) {
         this.logger.warn(
-          `Can not fetch room name for ${roomId} while sending a message`
+          `Can not fetch room name for ${roomId} while sending a message`,
         );
       }
 
@@ -120,7 +120,7 @@ export class WebExceptionFilter extends BaseExceptionFilter {
             roomId,
             roomName,
             errorName,
-          }
+          },
         );
         const eventString = event ? JSON.stringify(event) : '';
         this.logger.error(
@@ -130,20 +130,20 @@ export class WebExceptionFilter extends BaseExceptionFilter {
           errorName,
           errorMessage,
           eventString,
-          error.stack
+          error.stack,
         );
 
         if (this.appConfig.enable_private_room_error_sending) {
           privateRoomId =
             await this.roomMessageService.sendHtmlMessageToErrorPrivateRoom(
               context.userContext.userId,
-              errorMessage
+              errorMessage,
             );
         }
       } catch (e) {
         this.logger.error(
           e,
-          `Could not send message to private room for user ${context.userContext.userId}`
+          `Could not send message to private room for user ${context.userContext.userId}`,
         );
       }
 
@@ -151,11 +151,11 @@ export class WebExceptionFilter extends BaseExceptionFilter {
         await this.reactionClient.sendFailure(
           roomId,
           privateRoomId,
-          event.event_id
+          event.event_id,
         );
       } catch (e) {
         this.logger.warn(
-          `Could not send failure for user ${context.userContext.userId} and room : ${roomId}`
+          `Could not send failure for user ${context.userContext.userId} and room : ${roomId}`,
         );
       }
     }

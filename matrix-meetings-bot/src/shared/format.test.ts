@@ -30,8 +30,8 @@ describe('parseRRule', () => {
   it('should fail if a RRULE with a dtstart is passed', () => {
     expect(() =>
       parseRRule(
-        'DTSTART:29990101T100000Z\nRRULE:FREQ=DAILY;INTERVAL=2;COUNT=5'
-      )
+        'DTSTART:29990101T100000Z\nRRULE:FREQ=DAILY;INTERVAL=2;COUNT=5',
+      ),
     ).toThrow('rule should not include DTSTART or similar');
   });
 });
@@ -48,14 +48,14 @@ describe('parseRRuleSafe', () => {
   it('should return undefined if a RRULE with a dtstart is passed', () => {
     expect(
       parseRRuleSafe(
-        'DTSTART:29990101T100000Z\nRRULE:FREQ=DAILY;INTERVAL=2;COUNT=5'
-      )
+        'DTSTART:29990101T100000Z\nRRULE:FREQ=DAILY;INTERVAL=2;COUNT=5',
+      ),
     ).toBeUndefined();
   });
 
   it('should return undefined if a RRULE parsing fails', () => {
     expect(
-      parseRRuleSafe('frequency=DAILY;INTERVAL=2;COUNT=5')
+      parseRRuleSafe('frequency=DAILY;INTERVAL=2;COUNT=5'),
     ).toBeUndefined();
   });
 });

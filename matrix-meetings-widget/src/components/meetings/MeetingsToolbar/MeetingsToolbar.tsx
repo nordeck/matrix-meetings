@@ -50,8 +50,8 @@ export const MeetingsToolbar = ({
     selectRoomPermissions(
       state,
       widgetApi.widgetParameters.roomId ?? '',
-      widgetApi.widgetParameters.userId
-    )
+      widgetApi.widgetParameters.userId,
+    ),
   );
 
   const theme = useTheme();

@@ -32,7 +32,7 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
 }));
 
 const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked
+  extractWidgetApiParametersMocked,
 );
 
 let widgetApi: MockedWidgetApi;
@@ -72,7 +72,7 @@ describe('<InvitedMeetingsList/>', () => {
     const region = screen.getByRole('region', { name: /invitations/i });
 
     expect(
-      within(region).getByRole('heading', { level: 3, name: /invitations/i })
+      within(region).getByRole('heading', { level: 3, name: /invitations/i }),
     ).toBeInTheDocument();
 
     const list = within(region).getByRole('list', { name: /invitations/i });
@@ -84,7 +84,7 @@ describe('<InvitedMeetingsList/>', () => {
       within(item).getByRole('heading', {
         level: 4,
         name: /an important meeting/i,
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -92,7 +92,7 @@ describe('<InvitedMeetingsList/>', () => {
     const { container } = render(<InvitedMeetingsList />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('listitem', { name: /an important meeting/i })
+      screen.findByRole('listitem', { name: /an important meeting/i }),
     ).resolves.toBeInTheDocument();
 
     expect(await axe(container)).toHaveNoViolations();
@@ -108,7 +108,7 @@ describe('<InvitedMeetingsList/>', () => {
     });
 
     await expect(
-      screen.findByRole('listitem', { name: /an important meeting/i })
+      screen.findByRole('listitem', { name: /an important meeting/i }),
     ).resolves.toBeInTheDocument();
 
     expect(await axe(container)).toHaveNoViolations();
@@ -122,7 +122,7 @@ describe('<InvitedMeetingsList/>', () => {
     render(<InvitedMeetingsList breakoutSessionMode />, { wrapper: Wrapper });
 
     expect(
-      screen.getByRole('heading', { level: 3, name: /invitations/i })
+      screen.getByRole('heading', { level: 3, name: /invitations/i }),
     ).toBeInTheDocument();
 
     const list = screen.getByRole('list', { name: /invitations/i });
@@ -134,7 +134,7 @@ describe('<InvitedMeetingsList/>', () => {
       within(item).getByRole('heading', {
         level: 4,
         name: /an important meeting/i,
-      })
+      }),
     ).toBeInTheDocument();
   });
 });

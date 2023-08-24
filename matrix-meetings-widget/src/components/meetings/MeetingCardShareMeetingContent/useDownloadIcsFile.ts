@@ -37,9 +37,9 @@ export function useDownloadIcsFile(meeting: Meeting): UseDownloadIcsFile {
   const filename = useMemo(
     () =>
       `${meeting.title}_${DateTime.fromISO(meeting.startTime).toFormat(
-        'yyyyLLdd_HHmm'
+        'yyyyLLdd_HHmm',
       )}.ics`,
-    [meeting.startTime, meeting.title]
+    [meeting.startTime, meeting.title],
   );
 
   const [blobUrl, setBlobUrl] = useState<string | undefined>();
@@ -69,14 +69,14 @@ export function useDownloadIcsFile(meeting: Meeting): UseDownloadIcsFile {
       filename,
       error: undefined,
     }),
-    [blobUrl, filename]
+    [blobUrl, filename],
   );
 }
 
 export function createIcsFile(
   meeting: Meeting,
   meetingUrl: string,
-  message: string
+  message: string,
 ): string | undefined {
   const cal = ical();
 

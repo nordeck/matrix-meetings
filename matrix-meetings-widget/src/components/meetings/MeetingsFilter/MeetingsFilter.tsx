@@ -42,7 +42,7 @@ export const MeetingsFilter = ({
   const { t } = useTranslation();
 
   const [fromDate, setFromDate] = useState(() =>
-    DateTime.fromISO(filters.startDate)
+    DateTime.fromISO(filters.startDate),
   );
   const [toDate, setToDate] = useState(() => DateTime.fromISO(filters.endDate));
   const [filterText, setFilterText] = useState(filters.filterText);
@@ -87,7 +87,7 @@ export const MeetingsFilter = ({
     (event: ChangeEvent<HTMLInputElement>) => {
       setFilterText(event.target.value);
     },
-    []
+    [],
   );
 
   const handleOnRangeChange = useCallback(
@@ -95,7 +95,7 @@ export const MeetingsFilter = ({
       setFromDate(DateTime.fromISO(startDate));
       setToDate(DateTime.fromISO(endDate));
     },
-    []
+    [],
   );
 
   return (

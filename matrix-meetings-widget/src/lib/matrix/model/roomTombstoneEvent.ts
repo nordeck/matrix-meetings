@@ -24,15 +24,15 @@ export type RoomTombstoneEvent = {};
 
 // based on https://github.com/matrix-org/matrix-spec/blob/03cdea4b57320926a6da73ad3b3f6c7f4fd0a7c2/data/event-schemas/schema/m.room.tombstone.yaml
 const roomTombstoneEventSchema = Joi.object<RoomTombstoneEvent, true>(
-  {}
+  {},
 ).unknown();
 
 export function isValidRoomTombstoneEvent(
-  event: StateEvent<unknown>
+  event: StateEvent<unknown>,
 ): event is StateEvent<RoomTombstoneEvent> {
   return isValidEvent(
     event,
     STATE_EVENT_ROOM_TOMBSTONE,
-    roomTombstoneEventSchema
+    roomTombstoneEventSchema,
   );
 }

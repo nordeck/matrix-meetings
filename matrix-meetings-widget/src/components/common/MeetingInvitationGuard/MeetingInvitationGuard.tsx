@@ -47,7 +47,7 @@ export function MeetingInvitationGuard({
   const isMeetingInvitation = meeting.participants.some(
     (p) =>
       p.userId === widgetApi.widgetParameters.userId &&
-      p.membership === 'invite'
+      p.membership === 'invite',
   );
 
   if (isMeetingInvitation) {
@@ -55,7 +55,7 @@ export function MeetingInvitationGuard({
       <Alert icon={false} role="status" severity="info">
         {t(
           'meetingInvitationGuard.meetingInvitation',
-          'Please accept the meeting invitation to see all the details.'
+          'Please accept the meeting invitation to see all the details.',
         )}
       </Alert>
     );

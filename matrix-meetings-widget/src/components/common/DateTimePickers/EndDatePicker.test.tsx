@@ -38,16 +38,16 @@ describe('<EndDatePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByRole('textbox', { name: /end date/i })).toHaveValue(
-      '01/01/2020'
+      '01/01/2020',
     );
     expect(
       screen.getByRole('button', {
         name: 'Choose end date, selected date is January 1, 2020',
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -57,7 +57,7 @@ describe('<EndDatePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -69,13 +69,13 @@ describe('<EndDatePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       screen.getByLabelText(
-        /choose end date, selected date is January 1, 2020/i
-      )
+        /choose end date, selected date is January 1, 2020/i,
+      ),
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -87,7 +87,7 @@ describe('<EndDatePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38.123Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     // userEvent.type doesn't work here, so we have to use fireEvent
@@ -97,16 +97,14 @@ describe('<EndDatePicker/>', () => {
 
     expect(onChange).toBeCalled();
     expect(onChange.mock.calls[0][0].toISO()).toEqual(
-      '2022-06-05T12:15:00.000Z'
+      '2022-06-05T12:15:00.000Z',
     );
   });
 
   it('should not update on invalid value', () => {
     render(
       <EndDatePicker onChange={onChange} value={DateTime.invalid('Invalid')} />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     const textbox = screen.getByRole('textbox', {
@@ -131,7 +129,7 @@ describe('<EndDatePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const input = screen.getByRole('textbox', { name: /end date/i });
@@ -146,7 +144,7 @@ describe('<EndDatePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38.123Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const input = screen.getByRole('textbox', { name: /end date/i });
@@ -157,7 +155,7 @@ describe('<EndDatePicker/>', () => {
       <EndDatePicker
         onChange={onChange}
         value={DateTime.fromISO('2021-01-01T12:15:38.123Z')}
-      />
+      />,
     );
 
     expect(input).toHaveValue('01/01/2021');
@@ -169,7 +167,7 @@ describe('<EndDatePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38.123Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const input = screen.getByRole('textbox', { name: /end date/i });
@@ -183,7 +181,7 @@ describe('<EndDatePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38.123Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const input = screen.getByRole('textbox', { name: /end date/i });

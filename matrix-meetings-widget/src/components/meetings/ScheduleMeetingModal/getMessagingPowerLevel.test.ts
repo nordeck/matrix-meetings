@@ -36,10 +36,10 @@ describe('getMessagingPowerLevel', () => {
       getEnvironment.mockImplementation((name, defaultValue) =>
         name === 'REACT_APP_MESSAGING_NOT_ALLOWED_POWER_LEVEL'
           ? input
-          : defaultValue
+          : defaultValue,
       );
 
       expect(getMessagingPowerLevel()).toEqual(expectedPowerLevel);
-    }
+    },
   );
 });

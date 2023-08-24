@@ -23,7 +23,7 @@ describe('isFiniteSeries', () => {
 
   it('should detect finite series with until date', () => {
     expect(isFiniteSeries({ until: new Date('2021-01-01T10:00:00Z') })).toBe(
-      true
+      true,
     );
   });
 

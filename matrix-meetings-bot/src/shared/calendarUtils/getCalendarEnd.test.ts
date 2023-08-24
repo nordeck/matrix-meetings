@@ -29,7 +29,7 @@ describe('getCalendarEnd', () => {
           exdate: undefined,
           recurrenceId: undefined,
         },
-      ])
+      ]),
     ).toEqual(DateTime.fromISO('2020-01-09T11:00:00Z'));
   });
 
@@ -47,7 +47,7 @@ describe('getCalendarEnd', () => {
           dtend: { tzid: 'UTC', value: '20200109T110000' },
           rrule: 'FREQ=DAILY',
         },
-      ])
+      ]),
     ).toEqual(undefined);
   });
 
@@ -60,7 +60,7 @@ describe('getCalendarEnd', () => {
           dtend: { tzid: 'UTC', value: '20200109T110000' },
           rrule: 'FREQ=DAILY;COUNT=3',
         },
-      ])
+      ]),
     ).toEqual(DateTime.fromISO('2020-01-11T11:00:00Z'));
   });
 
@@ -81,7 +81,7 @@ describe('getCalendarEnd', () => {
           exdate: undefined,
           recurrenceId: { tzid: 'UTC', value: '20200111T100000' },
         },
-      ])
+      ]),
     ).toEqual(DateTime.fromISO('2020-01-31T16:30:00Z'));
   });
 
@@ -102,7 +102,7 @@ describe('getCalendarEnd', () => {
           exdate: undefined,
           recurrenceId: { tzid: 'UTC', value: '20200128T100000' },
         },
-      ])
+      ]),
     ).toEqual(DateTime.fromISO('2020-01-11T11:00:00Z'));
   });
 });

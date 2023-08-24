@@ -38,13 +38,13 @@ describe('<CalendarMonthPicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-01-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
       screen.getByRole('button', {
         name: 'Choose month, selected month is January 2022',
-      })
+      }),
     ).toHaveTextContent('January 2022');
   });
 
@@ -55,7 +55,7 @@ describe('<CalendarMonthPicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-01-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -68,13 +68,13 @@ describe('<CalendarMonthPicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-01-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: 'Choose month, selected month is January 2022',
-      })
+      }),
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -87,13 +87,13 @@ describe('<CalendarMonthPicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-01-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: 'Choose month, selected month is January 2022',
-      })
+      }),
     );
 
     const dialog = screen.getByRole('dialog');
@@ -101,7 +101,7 @@ describe('<CalendarMonthPicker>', () => {
     await userEvent.click(
       within(dialog).getByRole('button', {
         name: 'calendar view is open, switch to year view',
-      })
+      }),
     );
 
     await userEvent.click(within(dialog).getByRole('button', { name: '2023' }));
@@ -110,7 +110,7 @@ describe('<CalendarMonthPicker>', () => {
     expect(onRangeChange).toBeCalledTimes(1);
     expect(onRangeChange).toHaveBeenLastCalledWith(
       '2023-03-01T00:00:00.000+00:00',
-      '2023-03-31T23:59:59.999+00:00'
+      '2023-03-31T23:59:59.999+00:00',
     );
 
     await waitFor(() => {

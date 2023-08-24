@@ -130,11 +130,11 @@ describe('<MeetingDetailsParticipants/>', () => {
         participants={participants}
         creator="@user-id"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
-      screen.getByRole('heading', { level: 4, name: /Participants/i })
+      screen.getByRole('heading', { level: 4, name: /Participants/i }),
     ).toBeInTheDocument();
 
     const list = screen.getByRole('list', { name: 'Participants' });
@@ -162,7 +162,7 @@ describe('<MeetingDetailsParticipants/>', () => {
         participants={mockMeeting().participants}
         creator="@user-id"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -174,7 +174,7 @@ describe('<MeetingDetailsParticipants/>', () => {
         participants={participants}
         creator="@user-id-3"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.queryByText('Organizer')).not.toBeInTheDocument();

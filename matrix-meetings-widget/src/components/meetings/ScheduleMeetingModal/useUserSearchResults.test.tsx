@@ -60,9 +60,7 @@ describe('useUserSearchResults', () => {
 
     const { result, waitForValueToChange } = renderHook(
       () => useUserSearchResults('user', 10),
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     expect(result.current).toEqual({
@@ -100,7 +98,7 @@ describe('useUserSearchResults', () => {
       });
 
       expect(widgetApi.searchUserDirectory).toBeCalledTimes(0);
-    }
+    },
   );
 
   it('should return error', async () => {
@@ -108,9 +106,7 @@ describe('useUserSearchResults', () => {
 
     const { result, waitForValueToChange } = renderHook(
       () => useUserSearchResults('user', 10),
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     expect(result.current).toEqual({

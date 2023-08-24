@@ -15,7 +15,10 @@
  */
 
 export class Matrix404Error extends Error {
-  constructor(readonly errcode: string, readonly error: string) {
+  constructor(
+    readonly errcode: string,
+    readonly error: string,
+  ) {
     super(`Error Code: ${errcode}, Error: ${error}`);
   }
 }

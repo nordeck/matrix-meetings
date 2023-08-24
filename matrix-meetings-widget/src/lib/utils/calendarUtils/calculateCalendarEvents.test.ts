@@ -29,7 +29,7 @@ describe('calculateCalendarEvents', () => {
         calendar,
         fromDate: '2020-01-01T00:00:00Z',
         toDate: '2021-01-31T23:59:59Z',
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -52,7 +52,7 @@ describe('calculateCalendarEvents', () => {
         calendar: [rruleEntry],
         fromDate: '2020-01-01T00:00:00Z',
         toDate: '2020-01-12T23:59:59Z',
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -98,7 +98,7 @@ describe('calculateCalendarEvents', () => {
         calendar: [rruleEntry],
         fromDate: '2020-01-01T00:00:00Z',
         toDate: '2020-01-12T23:59:59Z',
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -137,7 +137,7 @@ describe('calculateCalendarEvents', () => {
         calendar: [rruleEntry],
         fromDate: '2020-01-01T00:00:00Z',
         toDate: '2020-01-12T23:59:59Z',
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -180,7 +180,7 @@ describe('calculateCalendarEvents', () => {
         calendar: [rruleEntry, overrideEntry],
         fromDate: '2020-01-01T00:00:00Z',
         toDate: '2020-01-12T23:59:59Z',
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -230,7 +230,7 @@ describe('calculateCalendarEvents', () => {
         calendar: [rruleEntry, overrideEntry],
         fromDate: '2020-01-01T00:00:00Z',
         toDate: '2020-01-12T23:59:59Z',
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -281,7 +281,7 @@ describe('calculateCalendarEvents', () => {
         calendar: [rruleEntry0, rruleEntry1],
         fromDate: '2020-01-01T00:00:00Z',
         toDate: '2020-01-18T23:59:59Z',
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -326,7 +326,7 @@ describe('calculateCalendarEvents', () => {
         calendar: [rruleEntry],
         fromDate: '2020-01-08T10:59:59Z',
         toDate: '2020-01-31T23:59:59Z',
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -357,7 +357,7 @@ describe('calculateCalendarEvents', () => {
         calendar: [rruleEntry],
         fromDate: '2020-01-08T11:00:00Z',
         toDate: '2020-01-31T23:59:59Z',
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -386,7 +386,7 @@ describe('calculateCalendarEvents', () => {
         calendar: [rruleEntry, overrideEntry],
         fromDate: '2020-01-01T00:00:00Z',
         toDate: '2020-01-10T10:00:00Z',
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -418,7 +418,7 @@ describe('calculateCalendarEvents', () => {
         fromDate: '2020-01-01T00:00:00Z',
         toDate: '2020-01-10T10:00:00Z',
         limit: 3,
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -450,7 +450,7 @@ describe('calculateCalendarEvents', () => {
         fromDate: '2020-01-01T00:00:00Z',
         toDate: '2020-01-10T10:00:00Z',
         limit: 1,
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -474,7 +474,7 @@ describe('calculateCalendarEvents', () => {
         calendar: [rruleEntry],
         fromDate: '2020-01-01T00:00:00Z',
         limit: 2,
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -522,7 +522,7 @@ describe('calculateCalendarEvents', () => {
         calendar: [entry0, entry1, entry1Override, entry2],
         fromDate: '2020-01-01T00:00:00Z',
         toDate: '2020-01-12T23:59:59Z',
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-1',
@@ -578,7 +578,7 @@ describe('calculateCalendarEvents', () => {
         calendar: [rruleEntry, overrideEntry],
         fromDate: '2020-01-10T00:00:00Z',
         toDate: '2020-01-11T23:59:59Z',
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -621,7 +621,7 @@ describe('calculateCalendarEvents', () => {
         calendar: [rruleEntry, overrideEntry],
         fromDate: '2020-01-10T00:00:00Z',
         toDate: '2020-01-11T23:59:59Z',
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -665,7 +665,7 @@ describe('calculateCalendarEvents', () => {
         fromDate: '2020-01-10T00:00:00Z',
         toDate: '2020-01-19T23:59:59Z',
         limit: 3,
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',
@@ -728,7 +728,7 @@ describe('calculateCalendarEvents', () => {
         ],
         fromDate: '2020-01-10T00:00:00Z',
         limit: 3,
-      })
+      }),
     ).toEqual([
       {
         uid: 'entry-0',

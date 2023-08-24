@@ -42,7 +42,7 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
 }));
 
 const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked
+  extractWidgetApiParametersMocked,
 );
 
 let widgetApi: MockedWidgetApi;
@@ -99,11 +99,11 @@ describe('<CockpitPanel>', () => {
     render(<CockpitPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('heading', { name: 'An important meeting', level: 3 })
+      screen.findByRole('heading', { name: 'An important meeting', level: 3 }),
     ).resolves.toBeInTheDocument();
 
     expect(
-      screen.getByText('January 1, 2999, 10:00 AM – 2:00 PM')
+      screen.getByText('January 1, 2999, 10:00 AM – 2:00 PM'),
     ).toBeInTheDocument();
   });
 
@@ -111,7 +111,7 @@ describe('<CockpitPanel>', () => {
     const { container } = render(<CockpitPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('heading', { name: 'An important meeting' })
+      screen.findByRole('heading', { name: 'An important meeting' }),
     ).resolves.toBeInTheDocument();
 
     expect(await axe(container)).toHaveNoViolations();
@@ -127,17 +127,17 @@ describe('<CockpitPanel>', () => {
             rrule: 'FREQ=DAILY',
           }),
         },
-      })
+      }),
     );
 
     render(<CockpitPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('heading', { name: 'An important meeting', level: 3 })
+      screen.findByRole('heading', { name: 'An important meeting', level: 3 }),
     ).resolves.toBeInTheDocument();
 
     expect(
-      screen.getByText('January 2, 2022, 3:00 – 4:00 PM')
+      screen.getByText('January 2, 2022, 3:00 – 4:00 PM'),
     ).toBeInTheDocument();
 
     expect(screen.getByText('Every day')).toBeInTheDocument();
@@ -153,17 +153,17 @@ describe('<CockpitPanel>', () => {
             rrule: 'FREQ=DAILY',
           }),
         },
-      })
+      }),
     );
 
     render(<CockpitPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('heading', { name: 'An important meeting', level: 3 })
+      screen.findByRole('heading', { name: 'An important meeting', level: 3 }),
     ).resolves.toBeInTheDocument();
 
     expect(
-      screen.getByText('January 2, 2022, 1:00 – 2:00 PM')
+      screen.getByText('January 2, 2022, 1:00 – 2:00 PM'),
     ).toBeInTheDocument();
   });
 
@@ -177,17 +177,17 @@ describe('<CockpitPanel>', () => {
             rrule: 'FREQ=DAILY;COUNT=5',
           }),
         },
-      })
+      }),
     );
 
     render(<CockpitPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('heading', { name: 'An important meeting', level: 3 })
+      screen.findByRole('heading', { name: 'An important meeting', level: 3 }),
     ).resolves.toBeInTheDocument();
 
     expect(
-      screen.getByText('January 5, 2021, 1:00 – 2:00 PM')
+      screen.getByText('January 5, 2021, 1:00 – 2:00 PM'),
     ).toBeInTheDocument();
   });
 
@@ -195,11 +195,11 @@ describe('<CockpitPanel>', () => {
     render(<CockpitPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('heading', { name: 'An important meeting' })
+      screen.findByRole('heading', { name: 'An important meeting' }),
     ).resolves.toBeInTheDocument();
 
     await userEvent.click(
-      screen.getByRole('button', { name: /back to parent room/i })
+      screen.getByRole('button', { name: /back to parent room/i }),
     );
 
     expect(widgetApi.navigateTo).toBeCalledWith('https://matrix.to/#/!room-id');

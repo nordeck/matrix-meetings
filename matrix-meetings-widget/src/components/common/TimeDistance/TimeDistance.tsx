@@ -52,7 +52,7 @@ export const TimeDistance = ({
         startDate: date,
         endDate,
       }),
-    [date, endDate]
+    [date, endDate],
   );
 
   const [timeDistance, setTimeDistance] = useState(update);

@@ -67,7 +67,7 @@ describe('paramExtractor suite', () => {
     when(exMock.switchToHttp()).thenReturn(httpArgumentsHost);
 
     expect(paramExtractor(ex, ParamName.USER_CONTEXT)).toBe(
-      context.userContext
+      context.userContext,
     );
   });
 
@@ -86,7 +86,7 @@ describe('paramExtractor suite', () => {
 
     expect(paramExtractor(ex, ParamName.ROOM_ID)).toBe(context.roomId);
     expect(paramExtractor(ex, ParamName.USER_CONTEXT)).toBe(
-      context.userContext
+      context.userContext,
     );
   });
 

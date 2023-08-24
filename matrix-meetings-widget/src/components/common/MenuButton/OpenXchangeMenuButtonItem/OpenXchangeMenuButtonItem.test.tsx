@@ -77,7 +77,7 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
       >
         Edit
       </OpenXchangeMenuButtonItem>,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(screen.getByRole('button', { name: 'Menu' }));
@@ -87,8 +87,8 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
     await waitFor(() =>
       expect(linkEl).toHaveAttribute(
         'href',
-        'https://ox.io/appsuite/#app=io.ox/calendar&id=cal://0/31.1.0&folder=cal://0/31'
-      )
+        'https://ox.io/appsuite/#app=io.ox/calendar&id=cal://0/31.1.0&folder=cal://0/31',
+      ),
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -102,13 +102,13 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
       >
         Edit
       </OpenXchangeMenuButtonItem>,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(screen.getByRole('button', { name: 'Menu' }));
 
     await expect(
-      screen.findByRole('menuitem', { name: /edit/i })
+      screen.findByRole('menuitem', { name: /edit/i }),
     ).resolves.toBeInTheDocument();
 
     expect(await axe(container)).toHaveNoViolations();
@@ -128,7 +128,7 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
       >
         Edit
       </OpenXchangeMenuButtonItem>,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(screen.getByRole('button', { name: 'Menu' }));
@@ -138,8 +138,8 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
     await waitFor(() =>
       expect(linkEl).toHaveAttribute(
         'href',
-        'https://ox.io/appsuite/#app=io.ox/calendar&id=cal://0/31.1.0&folder=cal://0/31'
-      )
+        'https://ox.io/appsuite/#app=io.ox/calendar&id=cal://0/31.1.0&folder=cal://0/31',
+      ),
     );
     expect(linkEl).not.toBeDisabled();
   });
@@ -155,7 +155,7 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
       >
         Edit
       </OpenXchangeMenuButtonItem>,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(screen.getByRole('button', { name: 'Menu' }));

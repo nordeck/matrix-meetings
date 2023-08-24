@@ -29,7 +29,7 @@ type useJitsiDialInInformationResponse =
     };
 
 export function useJitsiDialInInformation(
-  roomId: string
+  roomId: string,
 ): useJitsiDialInInformationResponse {
   const {
     data: configuration,

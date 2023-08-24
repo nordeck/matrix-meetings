@@ -20,7 +20,7 @@
 export class TranslatableError extends Error {
   constructor(
     public readonly errorKey: string,
-    public readonly translationParams: any = {}
+    public readonly translationParams: any = {},
   ) {
     /*
      * IMPORTANT: This comment defines the keys used for this error and is used to extract them via i18next-parser

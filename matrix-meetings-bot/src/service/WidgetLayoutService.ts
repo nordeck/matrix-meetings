@@ -28,7 +28,7 @@ export class WidgetLayoutService {
 
   constructor(
     @Inject(ModuleProviderToken.WIDGET_LAYOUTS)
-    private readonly layouts: WidgetLayoutConfig[]
+    private readonly layouts: WidgetLayoutConfig[],
   ) {}
 
   /**
@@ -37,12 +37,12 @@ export class WidgetLayoutService {
    * @return the event **content**, null if there's no custom config for the provided widget ids
    */
   public renderWidgetLayoutEventContent(
-    widgetIds: string[]
+    widgetIds: string[],
   ): WidgetLayoutStateEventContent | null {
     // find a config for provided widget ids
     const widgetIdsSorted = _.sortBy(widgetIds);
     const config: WidgetLayoutConfig | undefined = this.layouts.find((o) =>
-      _.isEqual(o.widgetIds, widgetIdsSorted)
+      _.isEqual(o.widgetIds, widgetIdsSorted),
     );
     if (!config) {
       this.logger.debug(`Can't find widget layout config for [${widgetIds}]`);

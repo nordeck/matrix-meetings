@@ -81,14 +81,14 @@ export function MeetingCardMenu({
     selectRoomPermissions(
       state,
       meeting.meetingId,
-      widgetApi.widgetParameters.userId
-    )
+      widgetApi.widgetParameters.userId,
+    ),
   );
 
   const metadataEvent = useAppSelector((state) => {
     const event = selectNordeckMeetingMetadataEventByRoomId(
       state,
-      meeting.meetingId
+      meeting.meetingId,
     );
 
     return event;
@@ -96,7 +96,7 @@ export function MeetingCardMenu({
 
   const openXChangeReference = useMemo(
     () => metadataEvent && getOpenXChangeExternalReference(metadataEvent),
-    [metadataEvent]
+    [metadataEvent],
   );
   const isExternalReference = openXChangeReference !== undefined;
   const canUpdateMeeting =
@@ -177,7 +177,7 @@ export function MeetingCardMenu({
           >
             {t(
               'meetingCard.editInOpenXchangeMenu',
-              'Edit meeting in Open-Xchange'
+              'Edit meeting in Open-Xchange',
             )}
           </OpenXchangeMenuButtonItem>
         )}
@@ -196,7 +196,7 @@ export function MeetingCardMenu({
           >
             {t(
               'meetingCard.deleteInOpenXchangeMenu',
-              'Delete meeting in Open-Xchange'
+              'Delete meeting in Open-Xchange',
             )}
           </OpenXchangeMenuButtonItem>
         )}
@@ -225,7 +225,7 @@ export function MeetingCardMenu({
             formatParams: {
               startTime: withoutYearDateFormat,
             },
-          }
+          },
         )}
         loading={
           isDeleting ||
@@ -246,7 +246,7 @@ export function MeetingCardMenu({
             <AlertTitle>
               {t(
                 'meetingCard.deleteFailedTitle',
-                'Failed to delete the meeting'
+                'Failed to delete the meeting',
               )}
             </AlertTitle>
             {t('meetingCard.deleteFailed', 'Please try again.')}

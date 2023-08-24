@@ -26,7 +26,7 @@ export type OpenXChangeExternalReference = {
 };
 
 export function getOpenXChangeExternalReference(
-  event: StateEvent<NordeckMeetingMetadataEvent>
+  event: StateEvent<NordeckMeetingMetadataEvent>,
 ): OpenXChangeExternalReference | undefined {
   const externalData = event.content.external_data?.[OPEN_XCHANGE_TYPE];
 
@@ -50,7 +50,7 @@ export function getOpenXChangeExternalReference(
 
 export function buildOpenXChangeLink(
   reference: OpenXChangeExternalReference,
-  urlTemplate: string
+  urlTemplate: string,
 ): string {
   return Mustache.render(urlTemplate, reference, undefined, {
     escape: (t) => t,

@@ -58,7 +58,7 @@ describe('selectHasBreakoutSessions', () => {
       mockRoomCreate({
         room_id: '!breakout-room-id',
         content: { type: undefined },
-      })
+      }),
     );
 
     const store = createStore({ widgetApi });
@@ -79,7 +79,7 @@ describe('selectHasBreakoutSessions', () => {
       mockRoomCreate({
         room_id: '!meeting-room-id',
         content: { type: undefined },
-      })
+      }),
     );
 
     const store = createStore({ widgetApi });

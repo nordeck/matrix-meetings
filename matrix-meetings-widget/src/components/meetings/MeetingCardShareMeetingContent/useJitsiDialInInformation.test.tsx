@@ -69,7 +69,7 @@ describe('useJitsiDialInInformation', () => {
 
     const { result, waitForValueToChange } = renderHook(
       () => useJitsiDialInInformation('!room'),
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(result.current).toEqual({
@@ -89,7 +89,7 @@ describe('useJitsiDialInInformation', () => {
   it('should return jitsi information', async () => {
     const { result, waitForValueToChange } = renderHook(
       () => useJitsiDialInInformation('!room'),
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(result.current).toEqual({
@@ -111,13 +111,13 @@ describe('useJitsiDialInInformation', () => {
   it('should return error from config', async () => {
     server.use(
       rest.get('http://localhost/v1/config', (_, res, ctx) =>
-        res(ctx.status(500))
-      )
+        res(ctx.status(500)),
+      ),
     );
 
     const { result, waitForValueToChange } = renderHook(
       () => useJitsiDialInInformation('!room'),
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(result.current).toEqual({
@@ -137,13 +137,13 @@ describe('useJitsiDialInInformation', () => {
     server.use(
       rest.get(
         'http://localhost/v1/meeting/:room/sharingInformation',
-        (_, res, ctx) => res(ctx.status(500))
-      )
+        (_, res, ctx) => res(ctx.status(500)),
+      ),
     );
 
     const { result, waitForValueToChange } = renderHook(
       () => useJitsiDialInInformation('!room'),
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(result.current).toEqual({

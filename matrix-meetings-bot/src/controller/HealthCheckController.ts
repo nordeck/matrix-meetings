@@ -26,7 +26,7 @@ import { ModuleProviderToken } from '../ModuleProviderToken';
 export class HealthCheckController {
   constructor(
     @Inject(ModuleProviderToken.APP_CONFIGURATION)
-    private appConfig: IAppConfiguration
+    private appConfig: IAppConfiguration,
   ) {}
 
   //TODO: PB-2420 put jsdoc here with description

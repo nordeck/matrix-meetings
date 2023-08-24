@@ -43,7 +43,7 @@ export const OrdinalSelect = ({
     (e: SelectChangeEvent<number>) => {
       onOrdinalChange(e.target.value as number);
     },
-    [onOrdinalChange]
+    [onOrdinalChange],
   );
 
   const labelId = useId();

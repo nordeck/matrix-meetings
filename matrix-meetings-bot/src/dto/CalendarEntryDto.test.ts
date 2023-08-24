@@ -48,7 +48,7 @@ describe('CalendarEntryDto', () => {
     const input = new CalendarEntryDto(
       'uuid',
       new DateTimeEntryDto('Europe/Berlin', '20200101T000000'),
-      new DateTimeEntryDto('Europe/Berlin', '20200101T000000')
+      new DateTimeEntryDto('Europe/Berlin', '20200101T000000'),
     );
 
     await expect(validate(input)).resolves.toHaveLength(0);
@@ -61,7 +61,7 @@ describe('CalendarEntryDto', () => {
       new DateTimeEntryDto('Europe/Berlin', '20200101T000000'),
       'FREQ=DAILY',
       [new DateTimeEntryDto('Europe/Berlin', '20200101T000000')],
-      new DateTimeEntryDto('Europe/Berlin', '20200101T000000')
+      new DateTimeEntryDto('Europe/Berlin', '20200101T000000'),
     );
 
     await expect(validate(input)).resolves.toHaveLength(0);
@@ -90,7 +90,7 @@ describe('CalendarEntryDto', () => {
       new DateTimeEntryDto('Europe/Berlin', '20200101T000000'),
       'FREQ=DAILY',
       [new DateTimeEntryDto('Europe/Berlin', '20200101T000000')],
-      new DateTimeEntryDto('Europe/Berlin', '20200101T000000')
+      new DateTimeEntryDto('Europe/Berlin', '20200101T000000'),
     );
 
     Object.entries(patch).forEach(([key, value]) => {

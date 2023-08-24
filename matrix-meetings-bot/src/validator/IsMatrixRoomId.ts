@@ -32,7 +32,7 @@ export function isMatrixRoomId(value: unknown): boolean {
 }
 
 export function IsMatrixRoomId(
-  validationOptions?: ValidationOptions
+  validationOptions?: ValidationOptions,
 ): PropertyDecorator {
   return ValidateBy(
     {
@@ -42,10 +42,10 @@ export function IsMatrixRoomId(
         defaultMessage: buildMessage(
           (eachPrefix) =>
             `${eachPrefix}$property must be a matrix room id starting with !`,
-          validationOptions
+          validationOptions,
         ),
       },
     },
-    validationOptions
+    validationOptions,
   );
 }

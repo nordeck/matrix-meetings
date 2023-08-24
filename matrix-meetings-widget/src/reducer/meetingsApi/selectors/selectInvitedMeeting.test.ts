@@ -96,7 +96,7 @@ describe('selectInvitedMeeting', () => {
       mockSpaceChild({
         room_id: '!parentRoomId',
         state_key: '!meeting-room-id',
-      })
+      }),
     );
 
     const state = await generateRootState();
@@ -124,13 +124,16 @@ describe('selectInvitedMeeting', () => {
     mockCreateMeetingInvitation(widgetApi);
 
     widgetApi.mockSendStateEvent(
-      mockRoomCreate({ room_id: '!parentRoomId', content: { type: 'm.space' } })
+      mockRoomCreate({
+        room_id: '!parentRoomId',
+        content: { type: 'm.space' },
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockSpaceChild({
         room_id: '!parentRoomId',
         state_key: '!meeting-room-id',
-      })
+      }),
     );
 
     const state = await generateRootState();

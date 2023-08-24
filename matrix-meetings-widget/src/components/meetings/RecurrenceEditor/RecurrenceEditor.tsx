@@ -45,7 +45,7 @@ type RecurrenceEditorProps = {
   onChange: (
     rrule: string | undefined,
     isValid: boolean,
-    isDirty: boolean
+    isDirty: boolean,
   ) => void;
   rule: string | undefined;
   isMeetingCreation?: boolean;
@@ -60,7 +60,7 @@ export const RecurrenceEditor = ({
   const { t } = useTranslation();
   const { state, rrule, isValid, dispatch } = useRecurrenceEditorState(
     rule,
-    startDate
+    startDate,
   );
 
   useEffect(() => {
@@ -76,84 +76,84 @@ export const RecurrenceEditor = ({
       const recurrencePreset = event.target.value as RecurrencePreset;
       dispatch({ type: 'updateRecurrencePreset', recurrencePreset });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleCustomFrequencyChange = useCallback(
     (customFrequency: Frequency) => {
       dispatch({ type: 'updateCustomFrequency', customFrequency });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleCustomIntervalChange = useCallback(
     (customInterval: string) => {
       dispatch({ type: 'updateCustomInterval', customInterval });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleCustomByWeekdayChange = useCallback(
     (customByWeekday: number[]) => {
       dispatch({ type: 'updateCustomByWeekday', customByWeekday });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleCustomRuleModeChange = useCallback(
     (customRuleMode: CustomRuleMode) => {
       dispatch({ type: 'updateCustomRuleMode', customRuleMode });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleCustomMonthChange = useCallback(
     (customMonth: number) => {
       dispatch({ type: 'updateCustomMonth', customMonth });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleCustomNthMonthdayChange = useCallback(
     (customNthMonthday: string) => {
       dispatch({ type: 'updateCustomNthMonthday', customNthMonthday });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleCustomWeekdayChange = useCallback(
     (customWeekday: number) => {
       dispatch({ type: 'updateCustomWeekday', customWeekday });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleCustomNthChange = useCallback(
     (customNth: number) => {
       dispatch({ type: 'updateCustomNth', customNth });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleRecurrenceEndChange = useCallback(
     (recurrenceEnd: RecurrenceEnd) => {
       dispatch({ type: 'updateRecurrenceEnd', recurrenceEnd });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleUntilDateChange = useCallback(
     (untilDate: DateTime) => {
       dispatch({ type: 'updateUntilDate', untilDate });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleAfterMeetingCountChange = useCallback(
     (afterMeetingCount: string) => {
       dispatch({ type: 'updateAfterMeetingCount', afterMeetingCount });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const renderValue = useCallback(
@@ -164,14 +164,14 @@ export const RecurrenceEditor = ({
 
       return formatRepetitionType(value, t);
     },
-    [rrule, t]
+    [rrule, t],
   );
 
   const repetitionLabelId = useId();
   const selectId = useId();
   const repetitionLabelText = t(
     'recurrenceEditor.repeatMeeting',
-    'Repeat meeting'
+    'Repeat meeting',
   );
 
   return (
@@ -250,7 +250,7 @@ function formatRepetitionType(preset: RecurrencePreset, t: TFunction): string {
     case RecurrencePreset.MondayToFriday:
       return t(
         'recurrenceEditor.recurrencePreset.mondayToFriday',
-        'Monday to Friday'
+        'Monday to Friday',
       );
     case RecurrencePreset.Yearly:
       return t('recurrenceEditor.recurrencePreset.yearly', 'Yearly');

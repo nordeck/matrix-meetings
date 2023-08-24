@@ -60,17 +60,17 @@ describe('<BreakoutSessionsMessageForm/>', () => {
       screen.getByRole('heading', {
         level: 3,
         name: /send message to all breakout session rooms/i,
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(
       screen.getByRole('textbox', {
         name: /send message to all breakout session rooms/i,
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('button', { name: /send message to all rooms/i })
+      screen.getByRole('button', { name: /send message to all rooms/i }),
     ).toBeInTheDocument();
   });
 
@@ -115,7 +115,7 @@ describe('<BreakoutSessionsMessageForm/>', () => {
           target_room_id: '!room-id',
           message: 'Hello folks',
         },
-      }
+      },
     );
   });
 
@@ -132,7 +132,7 @@ describe('<BreakoutSessionsMessageForm/>', () => {
 
     await userEvent.type(
       textbox,
-      'Hello folks{Shift>}{enter}{/Shift}Whats up?{enter}'
+      'Hello folks{Shift>}{enter}{/Shift}Whats up?{enter}',
     );
 
     await waitFor(() => {
@@ -147,7 +147,7 @@ describe('<BreakoutSessionsMessageForm/>', () => {
           target_room_id: '!room-id',
           message: 'Hello folks\nWhats up?',
         },
-      }
+      },
     );
   });
 
@@ -166,7 +166,7 @@ describe('<BreakoutSessionsMessageForm/>', () => {
 
     const alert = await screen.findByRole('alert');
     expect(
-      within(alert).getByText(/failed to send the message/i)
+      within(alert).getByText(/failed to send the message/i),
     ).toBeInTheDocument();
     expect(within(alert).getByText(/please try again/i)).toBeInTheDocument();
 
@@ -186,7 +186,7 @@ describe('<BreakoutSessionsMessageForm/>', () => {
     await waitFor(() => {
       expect(widgetApi.sendRoomEvent).toBeCalledWith(
         expect.any(String),
-        expect.anything()
+        expect.anything(),
       );
     });
 
@@ -194,12 +194,12 @@ describe('<BreakoutSessionsMessageForm/>', () => {
 
     const alert = await screen.findByRole('status');
     expect(
-      within(alert).getByText(/the request was sent/i)
+      within(alert).getByText(/the request was sent/i),
     ).toBeInTheDocument();
     expect(
       within(alert).getByText(
-        /the change was submitted and will be applied soon/i
-      )
+        /the change was submitted and will be applied soon/i,
+      ),
     ).toBeInTheDocument();
 
     expect(textbox).toHaveValue('');
