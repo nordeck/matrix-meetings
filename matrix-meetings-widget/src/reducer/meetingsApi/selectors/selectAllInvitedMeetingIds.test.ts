@@ -72,13 +72,13 @@ describe('selectAllInvitedMeetingIds', () => {
       mockCreateMeetingInvitation(widgetApi);
 
       widgetApi.mockSendStateEvent(
-        mockRoomCreate({ room_id: '!parentRoomId' })
+        mockRoomCreate({ room_id: '!parentRoomId' }),
       );
       widgetApi.mockSendStateEvent(
         mockSpaceChild({
           room_id: '!parentRoomId',
           state_key: '!meeting-room-id',
-        })
+        }),
       );
 
       const state = await generateRootState();
@@ -126,13 +126,13 @@ describe('selectAllInvitedMeetingIds', () => {
       mockCreateMeetingInvitation(widgetApi);
 
       widgetApi.mockSendStateEvent(
-        mockRoomCreate({ room_id: '!parentRoomId' })
+        mockRoomCreate({ room_id: '!parentRoomId' }),
       );
       widgetApi.mockSendStateEvent(
         mockSpaceChild({
           room_id: '!parentRoomId',
           state_key: '!meeting-room-id',
-        })
+        }),
       );
 
       const state = await generateRootState();
@@ -155,13 +155,13 @@ describe('selectAllInvitedMeetingIds', () => {
         mockRoomCreate({
           room_id: '!another-room-id',
           content: { type: 'm.space' },
-        })
+        }),
       );
       widgetApi.mockSendStateEvent(
         mockSpaceChild({
           room_id: '!another-room-id',
           state_key: '!meeting-room-id',
-        })
+        }),
       );
 
       const state = await generateRootState();
@@ -175,13 +175,13 @@ describe('selectAllInvitedMeetingIds', () => {
       widgetApi.mockSendStateEvent(
         mockRoomCreate({
           room_id: '!another-room-id',
-        })
+        }),
       );
       widgetApi.mockSendStateEvent(
         mockSpaceChild({
           room_id: '!another-room-id',
           state_key: '!meeting-room-id',
-        })
+        }),
       );
 
       const state = await generateRootState();
@@ -254,7 +254,7 @@ describe('selectAllInvitedMeetingIds', () => {
     it('should skip meeting if joined', async () => {
       mockCreateMeetingInvitation(widgetApi);
       widgetApi.mockSendStateEvent(
-        mockRoomMember({ room_id: '!meeting-room-id' })
+        mockRoomMember({ room_id: '!meeting-room-id' }),
       );
 
       const state = await generateRootState();

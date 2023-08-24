@@ -43,11 +43,11 @@ describe('<RecurrenceEditor>', () => {
         rule={undefined}
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' })
+      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
     );
 
     expect(screen.getAllByRole('option').map((o) => o.textContent)).toEqual([
@@ -68,11 +68,11 @@ describe('<RecurrenceEditor>', () => {
         rule={undefined}
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' })
+      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
     ).toBeInTheDocument();
   });
 
@@ -83,7 +83,7 @@ describe('<RecurrenceEditor>', () => {
         rule={undefined}
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -96,14 +96,14 @@ describe('<RecurrenceEditor>', () => {
         rule="FREQ=DAILY"
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
-      screen.getByRole('button', { name: 'Repeat meeting Every day' })
+      screen.getByRole('button', { name: 'Repeat meeting Every day' }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('radio', { name: 'The meeting is repeated forever' })
+      screen.getByRole('radio', { name: 'The meeting is repeated forever' }),
     ).toBeChecked();
   });
 
@@ -114,7 +114,7 @@ describe('<RecurrenceEditor>', () => {
         rule="FREQ=DAILY"
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -127,14 +127,14 @@ describe('<RecurrenceEditor>', () => {
         rule="FREQ=DAILY"
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
-      screen.getByRole('button', { name: 'Repeat meeting Every day' })
+      screen.getByRole('button', { name: 'Repeat meeting Every day' }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('radio', { name: 'The meeting is repeated forever' })
+      screen.getByRole('radio', { name: 'The meeting is repeated forever' }),
     ).toBeChecked();
   });
 
@@ -145,19 +145,19 @@ describe('<RecurrenceEditor>', () => {
         rule="FREQ=DAILY;INTERVAL=2"
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
-      screen.getByRole('button', { name: 'Repeat meeting Every 2 days' })
+      screen.getByRole('button', { name: 'Repeat meeting Every 2 days' }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole('spinbutton', {
         name: 'Days until the appointment is repeated',
-      })
+      }),
     ).toHaveValue(2);
     expect(
-      screen.getByRole('button', { name: 'Repeat Days' })
+      screen.getByRole('button', { name: 'Repeat Days' }),
     ).toBeInTheDocument();
   });
 
@@ -168,24 +168,24 @@ describe('<RecurrenceEditor>', () => {
         rule="FREQ=WEEKLY;INTERVAL=2"
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
       screen.getByRole('button', {
         name: 'Repeat meeting Every 2 weeks on Sunday',
-      })
+      }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole('spinbutton', {
         name: 'Weeks until the appointment is repeated',
-      })
+      }),
     ).toHaveValue(2);
     expect(
-      screen.getByRole('button', { name: 'Repeat Weeks' })
+      screen.getByRole('button', { name: 'Repeat Weeks' }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Sunday', pressed: true })
+      screen.getByRole('button', { name: 'Sunday', pressed: true }),
     ).toBeInTheDocument();
   });
 
@@ -196,32 +196,32 @@ describe('<RecurrenceEditor>', () => {
         rule="FREQ=MONTHLY;INTERVAL=4;BYMONTHDAY=2"
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
       screen.getByRole('button', {
         name: 'Repeat meeting Every 4 months on the 2nd',
-      })
+      }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole('spinbutton', {
         name: 'Months until the appointment is repeated',
-      })
+      }),
     ).toHaveValue(4);
     expect(
-      screen.getByRole('button', { name: 'Repeat Months' })
+      screen.getByRole('button', { name: 'Repeat Months' }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole('radio', {
         name: 'The meeting is repeated monthly on the 2',
-      })
+      }),
     ).toBeChecked();
     const monthdayGroup = screen.getByRole('group', {
       name: 'The meeting is repeated monthly on the 2',
     });
     expect(
-      within(monthdayGroup).getByRole('spinbutton', { name: 'Day' })
+      within(monthdayGroup).getByRole('spinbutton', { name: 'Day' }),
     ).toHaveValue(2);
   });
 
@@ -232,39 +232,39 @@ describe('<RecurrenceEditor>', () => {
         rule="FREQ=YEARLY;INTERVAL=1;BYDAY=SU;BYMONTH=1;BYSETPOS=1"
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
       screen.getByRole('button', {
         name: 'Repeat meeting Every January on the first Sunday',
-      })
+      }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole('spinbutton', {
         name: 'Years until the appointment is repeated',
-      })
+      }),
     ).toHaveValue(1);
     expect(
-      screen.getByRole('button', { name: 'Repeat Years' })
+      screen.getByRole('button', { name: 'Repeat Years' }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole('radio', {
         name: 'The meeting is repeated yearly at first Sunday of January',
-      })
+      }),
     ).toBeChecked();
 
     const weekdayGroup = screen.getByRole('group', {
       name: 'The meeting is repeated yearly at first Sunday of January',
     });
     expect(
-      within(weekdayGroup).getByRole('button', { name: 'Ordinal first' })
+      within(weekdayGroup).getByRole('button', { name: 'Ordinal first' }),
     ).toBeInTheDocument();
     expect(
-      within(weekdayGroup).getByRole('button', { name: 'Weekday Sunday' })
+      within(weekdayGroup).getByRole('button', { name: 'Weekday Sunday' }),
     ).toBeInTheDocument();
     expect(
-      within(weekdayGroup).getByRole('button', { name: 'Month January' })
+      within(weekdayGroup).getByRole('button', { name: 'Month January' }),
     ).toBeInTheDocument();
   });
 
@@ -275,7 +275,7 @@ describe('<RecurrenceEditor>', () => {
         rule="FREQ=DAILY;INTERVAL=1"
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -288,14 +288,14 @@ describe('<RecurrenceEditor>', () => {
         rule="FREQ=DAILY"
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Repeat meeting Every day' })
+      screen.getByRole('button', { name: 'Repeat meeting Every day' }),
     );
     await userEvent.click(
-      screen.getByRole('option', { name: 'No repetition' })
+      screen.getByRole('option', { name: 'No repetition' }),
     );
 
     expect(onChange).toHaveBeenLastCalledWith(undefined, true, true);
@@ -308,11 +308,11 @@ describe('<RecurrenceEditor>', () => {
         rule={undefined}
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' })
+      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
     );
     await userEvent.click(screen.getByRole('option', { name: 'Weekly' }));
 
@@ -326,11 +326,11 @@ describe('<RecurrenceEditor>', () => {
         rule={undefined}
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' })
+      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
     );
     await userEvent.click(screen.getByRole('option', { name: 'Custom' }));
 
@@ -339,7 +339,7 @@ describe('<RecurrenceEditor>', () => {
     });
 
     await userEvent.click(
-      within(customGroup).getByRole('button', { name: 'Repeat Days' })
+      within(customGroup).getByRole('button', { name: 'Repeat Days' }),
     );
     await userEvent.click(screen.getByRole('option', { name: 'Months' }));
 
@@ -348,26 +348,26 @@ describe('<RecurrenceEditor>', () => {
         name: 'Months until the appointment is repeated',
       }),
       '2',
-      { initialSelectionStart: 0, initialSelectionEnd: 1 }
+      { initialSelectionStart: 0, initialSelectionEnd: 1 },
     );
 
     await userEvent.click(
       within(customGroup).getByRole('radio', {
         name: 'The meeting is repeated monthly on first Sunday',
-      })
+      }),
     );
 
     await userEvent.click(
       within(customGroup).getByRole('button', {
         name: 'Ordinal first',
-      })
+      }),
     );
     await userEvent.click(screen.getByRole('option', { name: 'last' }));
 
     expect(onChange).toHaveBeenLastCalledWith(
       'FREQ=MONTHLY;INTERVAL=2;BYSETPOS=-1;BYDAY=SU',
       true,
-      true
+      true,
     );
   });
 
@@ -378,17 +378,17 @@ describe('<RecurrenceEditor>', () => {
         rule="FREQ=DAILY"
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      screen.getByRole('radio', { name: 'Ends after 30 meetings' })
+      screen.getByRole('radio', { name: 'Ends after 30 meetings' }),
     );
 
     expect(onChange).toHaveBeenLastCalledWith(
       'FREQ=DAILY;COUNT=30',
       true,
-      true
+      true,
     );
   });
 
@@ -399,16 +399,16 @@ describe('<RecurrenceEditor>', () => {
         rule="FREQ=DAILY"
         startDate={startDate}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      screen.getByRole('radio', { name: 'Ends after 30 meetings' })
+      screen.getByRole('radio', { name: 'Ends after 30 meetings' }),
     );
     // Get the spinbutton into an invalid state
     fireEvent.change(
       screen.getByRole('spinbutton', { name: 'Count of meetings' }),
-      { target: { value: '' } }
+      { target: { value: '' } },
     );
 
     expect(onChange).toHaveBeenLastCalledWith('FREQ=DAILY', false, true);

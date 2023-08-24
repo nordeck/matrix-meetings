@@ -27,7 +27,7 @@ export interface IEventContentParams {
 class EventContentParamsHelper {
   public newInstance(
     roomId: string | undefined,
-    title: string | undefined
+    title: string | undefined,
   ): IEventContentParams {
     const base32RoomId = roomId
       ? base32.stringify(Buffer.from(roomId), { pad: false })

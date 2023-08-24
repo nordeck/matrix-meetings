@@ -26,7 +26,7 @@ export interface ExternalData {
 }
 
 export function extractOpenXChangeExternalReference(
-  externalData: ExternalData | undefined
+  externalData: ExternalData | undefined,
 ): OpenXChangeExternalReference | undefined {
   const value = externalData?.[OPEN_XCHANGE_TYPE];
 

@@ -195,8 +195,8 @@ describe('roundToNextMinutes', () => {
     'should round $value to $result (10 minute blocks)',
     ({ value, result }) => {
       expect(roundToNextMinutes(DateTime.fromISO(value), 10).toISO()).toEqual(
-        result
+        result,
       );
-    }
+    },
   );
 });

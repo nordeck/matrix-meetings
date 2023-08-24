@@ -36,7 +36,7 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
 }));
 
 const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked
+  extractWidgetApiParametersMocked,
 );
 
 const server = setupServer();
@@ -104,11 +104,9 @@ Room: http://element.local/#/room/!meeting-room-id
                 }),
               ],
             },
-          })
+          }),
         ),
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     expect(result.current).toEqual({
@@ -129,9 +127,9 @@ Room: http://element.local/#/room/!meeting-room-id
     const { result } = renderHook(
       () =>
         useMeetingEmail(
-          mockMeeting({ content: { endTime: '2999-01-02T00:00:00Z' } })
+          mockMeeting({ content: { endTime: '2999-01-02T00:00:00Z' } }),
         ),
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(result.current).toEqual({
@@ -155,9 +153,9 @@ Room: http://element.local/#/room/!meeting-room-id
             content: {
               description: undefined,
             },
-          })
+          }),
         ),
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(result.current).toEqual({

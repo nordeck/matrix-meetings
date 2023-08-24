@@ -76,7 +76,7 @@ describe('diffMeeting', () => {
           title: 'My new Meeting',
         },
         powerLevels: {},
-      }
+      },
     );
   });
 });

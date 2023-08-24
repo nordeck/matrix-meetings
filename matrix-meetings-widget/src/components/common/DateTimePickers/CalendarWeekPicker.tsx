@@ -60,7 +60,7 @@ export const CalendarWeekPicker = ({
         onClose();
       }
     },
-    [onRangeChange, onClose]
+    [onRangeChange, onClose],
   );
 
   return (
@@ -91,7 +91,7 @@ export const CalendarWeekPicker = ({
                 formatParams: {
                   range: longDateFormat,
                 },
-              }
+              },
             ),
           },
         },
@@ -126,7 +126,7 @@ function Day(
   props: PickersDayProps<DateTime> & {
     start?: DateTime;
     end?: DateTime;
-  }
+  },
 ) {
   const { day, start, end, ...other } = props;
 

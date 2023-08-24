@@ -32,7 +32,7 @@ export interface IMeetingTime {
  */
 export function migrateMeetingTime(
   meetingTime: IMeetingTime,
-  externalRrule?: string
+  externalRrule?: string,
 ): IMeetingTime {
   if (
     meetingTime.start_time &&

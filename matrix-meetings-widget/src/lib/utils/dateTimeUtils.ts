@@ -40,7 +40,7 @@ export function parseICalDate(dateTimeEntry: DateTimeEntry): DateTime {
 
 export function formatICalDate(
   date: Date | DateTime,
-  targetTzId: string = 'UTC'
+  targetTzId: string = 'UTC',
 ): DateTimeEntry {
   const dateTime = DateTime.isDateTime(date) ? date : DateTime.fromJSDate(date);
   return {

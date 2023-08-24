@@ -56,14 +56,14 @@ describe('<SetupBreakoutSessions>', () => {
   beforeEach(() => {
     mockWidgetEndpoint(server);
     widgetApi.mockSendStateEvent(
-      mockRoomMember({ room_id: '!meeting-room-id' })
+      mockRoomMember({ room_id: '!meeting-room-id' }),
     );
     widgetApi.mockSendStateEvent(
       mockRoomMember({
         room_id: '!meeting-room-id',
         state_key: '@user-1',
         content: { displayname: undefined },
-      })
+      }),
     );
 
     jest
@@ -98,36 +98,36 @@ describe('<SetupBreakoutSessions>', () => {
           },
         })}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await waitFor(() =>
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
     );
 
     const startAtGroup = screen.getByRole('group', { name: 'Start at' });
 
     expect(
-      within(startAtGroup).getByRole('textbox', { name: 'Start time' })
+      within(startAtGroup).getByRole('textbox', { name: 'Start time' }),
     ).toHaveValue('01:15 PM');
 
     const endAtGroup = screen.getByRole('group', { name: 'End at' });
 
     expect(
-      within(endAtGroup).getByRole('textbox', { name: 'End time' })
+      within(endAtGroup).getByRole('textbox', { name: 'End time' }),
     ).toHaveValue('01:30 PM');
 
     expect(
-      screen.getByRole('spinbutton', { name: 'Number of groups (required)' })
+      screen.getByRole('spinbutton', { name: 'Number of groups (required)' }),
     ).toHaveValue(1);
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Description' }),
-      'My description'
+      'My description',
     );
     await userEvent.type(
       screen.getByRole('button', { name: 'Widget 2' }),
-      '{Backspace}'
+      '{Backspace}',
     );
 
     expect(onBreakoutSessionsChange).toHaveBeenLastCalledWith({
@@ -145,7 +145,7 @@ describe('<SetupBreakoutSessions>', () => {
         onBreakoutSessionsChange={jest.fn()}
         parentMeeting={mockMeeting()}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -162,28 +162,28 @@ describe('<SetupBreakoutSessions>', () => {
           },
         })}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await waitFor(
       () => expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
-      { timeout: 10000 }
+      { timeout: 10000 },
     );
 
     const startAtGroup = screen.getByRole('group', { name: 'Start at' });
     expect(
-      within(startAtGroup).getByRole('textbox', { name: 'Start date' })
+      within(startAtGroup).getByRole('textbox', { name: 'Start date' }),
     ).toHaveValue('01/02/2022');
     expect(
-      within(startAtGroup).getByRole('textbox', { name: 'Start time' })
+      within(startAtGroup).getByRole('textbox', { name: 'Start time' }),
     ).toHaveValue('01:15 PM');
 
     const endAtGroup = screen.getByRole('group', { name: 'End at' });
     expect(
-      within(endAtGroup).getByRole('textbox', { name: 'End date' })
+      within(endAtGroup).getByRole('textbox', { name: 'End date' }),
     ).toHaveValue('01/02/2022');
     expect(
-      within(endAtGroup).getByRole('textbox', { name: 'End time' })
+      within(endAtGroup).getByRole('textbox', { name: 'End time' }),
     ).toHaveValue('01:30 PM');
   }, 10000);
 
@@ -199,11 +199,11 @@ describe('<SetupBreakoutSessions>', () => {
           },
         })}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await waitFor(() =>
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
     );
 
     // userEvent.type doesn't work here, so we have to use fireEvent
@@ -212,10 +212,10 @@ describe('<SetupBreakoutSessions>', () => {
     });
 
     expect(screen.getByRole('textbox', { name: /start time/i })).toHaveValue(
-      '01:30 PM'
+      '01:30 PM',
     );
     expect(screen.getByRole('textbox', { name: /end time/i })).toHaveValue(
-      '01:45 PM'
+      '01:45 PM',
     );
 
     expect(onBreakoutSessionsChange).toHaveBeenLastCalledWith({
@@ -239,11 +239,11 @@ describe('<SetupBreakoutSessions>', () => {
           },
         })}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.clear(
-      screen.getByRole('textbox', { name: 'Group title (required)' })
+      screen.getByRole('textbox', { name: 'Group title (required)' }),
     );
 
     expect(onBreakoutSessionsChange).toHaveBeenLastCalledWith(undefined);
@@ -261,7 +261,7 @@ describe('<SetupBreakoutSessions>', () => {
           },
         })}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const startTimeTextbox = screen.getByRole('textbox', {
@@ -272,7 +272,7 @@ describe('<SetupBreakoutSessions>', () => {
     fireEvent.change(startTimeTextbox, { target: { value: '01:00 PM' } });
 
     expect(startTimeTextbox).toHaveAccessibleDescription(
-      'Breakout session should start between 1:10 PM and 2:00 PM.'
+      'Breakout session should start between 1:10 PM and 2:00 PM.',
     );
     expect(startTimeTextbox).toBeInvalid();
 
@@ -291,7 +291,7 @@ describe('<SetupBreakoutSessions>', () => {
           },
         })}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const startTimeTextbox = screen.getByRole('textbox', {
@@ -302,7 +302,7 @@ describe('<SetupBreakoutSessions>', () => {
     fireEvent.change(startTimeTextbox, { target: { value: '03:00 PM' } });
 
     expect(startTimeTextbox).toHaveAccessibleDescription(
-      'Breakout session should start between 1:10 PM and 2:00 PM.'
+      'Breakout session should start between 1:10 PM and 2:00 PM.',
     );
     expect(startTimeTextbox).toBeInvalid();
 
@@ -321,7 +321,7 @@ describe('<SetupBreakoutSessions>', () => {
           },
         })}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const startDateTextbox = screen.getByRole('textbox', {
@@ -332,7 +332,7 @@ describe('<SetupBreakoutSessions>', () => {
     fireEvent.change(startDateTextbox, { target: { value: '01/01/2022' } });
 
     expect(startDateTextbox).toHaveAccessibleDescription(
-      /Breakout session should start between January 2, 2022(,| at) 1:10 PM and January 3, 2022(,| at) 2:00 PM/
+      /Breakout session should start between January 2, 2022(,| at) 1:10 PM and January 3, 2022(,| at) 2:00 PM/,
     );
     expect(startDateTextbox).toBeInvalid();
     expect(screen.getByRole('textbox', { name: /start time/i })).toBeInvalid();
@@ -352,7 +352,7 @@ describe('<SetupBreakoutSessions>', () => {
           },
         })}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const endTimeTextbox = screen.getByRole('textbox', {
@@ -366,7 +366,7 @@ describe('<SetupBreakoutSessions>', () => {
     fireEvent.change(endTimeTextbox, { target: { value: '01:00 PM' } });
 
     expect(endTimeTextbox).toHaveAccessibleDescription(
-      'Breakout session should end between 1:10 PM and 2:00 PM.'
+      'Breakout session should end between 1:10 PM and 2:00 PM.',
     );
     expect(endTimeTextbox).toBeInvalid();
 
@@ -385,7 +385,7 @@ describe('<SetupBreakoutSessions>', () => {
           },
         })}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const endTimeTextbox = screen.getByRole('textbox', {
@@ -396,7 +396,7 @@ describe('<SetupBreakoutSessions>', () => {
     fireEvent.change(endTimeTextbox, { target: { value: '03:00 PM' } });
 
     expect(endTimeTextbox).toHaveAccessibleDescription(
-      'Breakout session should end between 1:10 PM and 2:00 PM.'
+      'Breakout session should end between 1:10 PM and 2:00 PM.',
     );
     expect(endTimeTextbox).toBeInvalid();
 
@@ -415,7 +415,7 @@ describe('<SetupBreakoutSessions>', () => {
           },
         })}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const endTimeTextbox = screen.getByRole('textbox', {
@@ -426,7 +426,7 @@ describe('<SetupBreakoutSessions>', () => {
     fireEvent.change(endTimeTextbox, { target: { value: '01:10 PM' } });
 
     expect(endTimeTextbox).toHaveAccessibleDescription(
-      'Breakout session should start before it ends.'
+      'Breakout session should start before it ends.',
     );
     expect(endTimeTextbox).toBeInvalid();
 
@@ -445,7 +445,7 @@ describe('<SetupBreakoutSessions>', () => {
           },
         })}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const endDateTextbox = screen.getByRole('textbox', {
@@ -460,7 +460,7 @@ describe('<SetupBreakoutSessions>', () => {
 
     expect(endDateTextbox).toBeInvalid();
     expect(endDateTextbox).toHaveAccessibleDescription(
-      /Breakout session should end between January 2, 2022(,| at) 1:10 PM and January 3, 2022(,| at) 2:00 PM/
+      /Breakout session should end between January 2, 2022(,| at) 1:10 PM and January 3, 2022(,| at) 2:00 PM/,
     );
     expect(screen.getByRole('textbox', { name: /end time/i })).toBeInvalid();
 
@@ -480,11 +480,11 @@ describe('<SetupBreakoutSessions>', () => {
           },
         })}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      screen.getByRole('textbox', { name: 'Group title (required)' })
+      screen.getByRole('textbox', { name: 'Group title (required)' }),
     );
     await userEvent.paste(repeat('+', 255));
 

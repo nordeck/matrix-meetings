@@ -102,13 +102,13 @@ export const MeetingCard = withRoomIdMeeting(
           closeAction();
         }
       },
-      [closeAction]
+      [closeAction],
     );
 
     const isMeetingInvitation = meeting.participants.some(
       (p) =>
         p.userId === widgetApi.widgetParameters.userId &&
-        p.membership === 'invite'
+        p.membership === 'invite',
     );
 
     const spansMultipleDays = isMeetingSpanningMultipleDays(meeting);
@@ -138,7 +138,7 @@ export const MeetingCard = withRoomIdMeeting(
     };
 
     const subheader = isRecurringCalendarSourceEntry(
-      meeting.calendarEntries
+      meeting.calendarEntries,
     ) ? (
       <Trans
         components={[
@@ -157,7 +157,7 @@ export const MeetingCard = withRoomIdMeeting(
         {
           ...subheaderOpts,
           context: 'default',
-        }
+        },
       )
     );
 
@@ -195,9 +195,9 @@ export const MeetingCard = withRoomIdMeeting(
                           {
                             recurrence: formatRRuleText(
                               meeting.calendarEntries[0].rrule,
-                              t
+                              t,
                             ),
-                          }
+                          },
                         )}
                       </>
                     }
@@ -244,7 +244,7 @@ export const MeetingCard = withRoomIdMeeting(
                 TooltipProps={{
                   title: t(
                     'meetingCard.editParticipants.buttonTitle',
-                    'Show participants'
+                    'Show participants',
                   ),
                 }}
                 aria-describedby={titleId}
@@ -299,5 +299,5 @@ export const MeetingCard = withRoomIdMeeting(
         </CardContent>
       </Card>
     );
-  }
+  },
 );

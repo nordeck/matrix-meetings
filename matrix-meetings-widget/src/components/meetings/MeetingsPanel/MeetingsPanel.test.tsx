@@ -147,35 +147,37 @@ describe('<MeetingsPanel/>', () => {
 
     const filters = screen.getByRole('navigation', { name: 'Filters' });
     expect(
-      within(filters).getByRole('heading', { level: 3, name: 'Filters' })
+      within(filters).getByRole('heading', { level: 3, name: 'Filters' }),
     ).toBeInTheDocument();
     expect(
-      within(filters).getByRole('textbox', { name: 'Search' })
+      within(filters).getByRole('textbox', { name: 'Search' }),
     ).toBeInTheDocument();
 
     expect(
       within(filters).getByRole('button', {
         name: 'Choose date range, selected range is March 1 – 7, 2022',
-      })
+      }),
     ).toHaveTextContent('Mar 1 – 7, 2022');
     expect(
-      within(filters).getByRole('textbox', { name: 'Search' })
+      within(filters).getByRole('textbox', { name: 'Search' }),
     ).toBeInTheDocument();
 
     const list = screen.getByRole('list', { name: 'Meetings' });
     expect(
-      screen.getByRole('heading', { level: 3, name: 'Meetings' })
+      screen.getByRole('heading', { level: 3, name: 'Meetings' }),
     ).toBeInTheDocument();
     await expect(
-      within(list).findByRole('listitem', { name: 'My Breakout Session' })
+      within(list).findByRole('listitem', { name: 'My Breakout Session' }),
     ).resolves.toBeInTheDocument();
 
     const actions = screen.getByRole('navigation', { name: 'Actions' });
     expect(
-      within(actions).getByRole('heading', { level: 3, name: 'Actions' })
+      within(actions).getByRole('heading', { level: 3, name: 'Actions' }),
     ).toBeInTheDocument();
     expect(
-      within(actions).getByRole('button', { name: 'Schedule Breakout Session' })
+      within(actions).getByRole('button', {
+        name: 'Schedule Breakout Session',
+      }),
     ).toBeInTheDocument();
   });
 
@@ -185,7 +187,7 @@ describe('<MeetingsPanel/>', () => {
     const { container } = render(<MeetingsPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('listitem', { name: /my breakout session/i })
+      screen.findByRole('listitem', { name: /my breakout session/i }),
     ).resolves.toBeInTheDocument();
 
     expect(await axe(container)).toHaveNoViolations();
@@ -195,7 +197,7 @@ describe('<MeetingsPanel/>', () => {
     const { container } = render(<MeetingsPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('listitem', { name: /an important meeting/i })
+      screen.findByRole('listitem', { name: /an important meeting/i }),
     ).resolves.toBeInTheDocument();
 
     expect(await axe(container)).toHaveNoViolations();
@@ -209,7 +211,7 @@ describe('<MeetingsPanel/>', () => {
     const { container } = render(<MeetingsPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('button', { name: /invitations/i })
+      screen.findByRole('button', { name: /invitations/i }),
     ).resolves.toBeInTheDocument();
 
     expect(await axe(container)).toHaveNoViolations();
@@ -230,7 +232,7 @@ describe('<MeetingsPanel/>', () => {
         rules: {
           'aria-required-children': { enabled: false },
         },
-      })
+      }),
     ).toHaveNoViolations();
   });
 
@@ -249,7 +251,7 @@ describe('<MeetingsPanel/>', () => {
         rules: {
           'aria-required-children': { enabled: false },
         },
-      })
+      }),
     ).toHaveNoViolations();
   });
 
@@ -268,7 +270,7 @@ describe('<MeetingsPanel/>', () => {
         rules: {
           'aria-required-children': { enabled: false },
         },
-      })
+      }),
     ).toHaveNoViolations();
   });
 
@@ -287,7 +289,7 @@ describe('<MeetingsPanel/>', () => {
         rules: {
           'aria-required-children': { enabled: false },
         },
-      })
+      }),
     ).toHaveNoViolations();
   });
 
@@ -295,33 +297,33 @@ describe('<MeetingsPanel/>', () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
     expect(
-      screen.getByRole('button', { name: 'Schedule Meeting' })
+      screen.getByRole('button', { name: 'Schedule Meeting' }),
     ).toBeInTheDocument();
 
     expect(screen.getByRole('button', { name: 'Today' })).toBeInTheDocument();
 
     expect(
-      screen.getByRole('button', { name: 'Previous period' })
+      screen.getByRole('button', { name: 'Previous period' }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('button', { name: 'Next period' })
+      screen.getByRole('button', { name: 'Next period' }),
     ).toBeInTheDocument();
 
     expect(
       screen.getByRole('button', {
         name: 'Choose date range, selected range is March 1 – 7, 2022',
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(screen.getByLabelText('Search')).toBeInTheDocument();
 
     expect(
-      screen.getByRole('button', { name: 'View List' })
+      screen.getByRole('button', { name: 'View List' }),
     ).toBeInTheDocument();
 
     expect(
-      await screen.findByRole('listitem', { name: /an important meeting/i })
+      await screen.findByRole('listitem', { name: /an important meeting/i }),
     ).toBeInTheDocument();
   });
 
@@ -337,7 +339,7 @@ describe('<MeetingsPanel/>', () => {
     expect(
       screen.getByRole('button', {
         name: 'Choose date, selected date is March 1, 2022',
-      })
+      }),
     ).toHaveTextContent('Mar 1, 2022');
   });
 
@@ -350,7 +352,7 @@ describe('<MeetingsPanel/>', () => {
     await userEvent.click(screen.getByRole('option', { name: 'Month' }));
 
     expect(
-      screen.getByRole('button', { name: 'View Month' })
+      screen.getByRole('button', { name: 'View Month' }),
     ).toBeInTheDocument();
 
     expect(localStorage.getItem(localStorageKey)).toMatch('month');
@@ -363,7 +365,7 @@ describe('<MeetingsPanel/>', () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
     expect(
-      screen.getByRole('button', { name: 'View Month' })
+      screen.getByRole('button', { name: 'View Month' }),
     ).toBeInTheDocument();
   });
 
@@ -374,7 +376,7 @@ describe('<MeetingsPanel/>', () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
     expect(
-      screen.getByRole('button', { name: 'View List' })
+      screen.getByRole('button', { name: 'View List' }),
     ).toBeInTheDocument();
   });
 
@@ -390,7 +392,7 @@ describe('<MeetingsPanel/>', () => {
     expect(
       screen.getByRole('button', {
         name: 'Choose work week, selected work week is February 28 – March 4, 2022',
-      })
+      }),
     ).toHaveTextContent('Feb 28 – Mar 4, 2022');
   });
 
@@ -406,7 +408,7 @@ describe('<MeetingsPanel/>', () => {
     expect(
       screen.getByRole('button', {
         name: 'Choose week, selected week is February 27 – March 5, 2022',
-      })
+      }),
     ).toHaveTextContent('Feb 27 – Mar 5, 2022');
   });
 
@@ -422,7 +424,7 @@ describe('<MeetingsPanel/>', () => {
     expect(
       screen.getByRole('button', {
         name: 'Choose month, selected month is March 2022',
-      })
+      }),
     ).toHaveTextContent('March 2022');
   });
 
@@ -468,7 +470,7 @@ describe('<MeetingsPanel/>', () => {
     expect(screen.getByText('Meeting 1')).toBeInTheDocument();
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Show 2 more events' })
+      screen.getByRole('button', { name: 'Show 2 more events' }),
     );
 
     await waitFor(() => {
@@ -482,7 +484,7 @@ describe('<MeetingsPanel/>', () => {
     expect(
       screen.getByRole('button', {
         name: 'Choose date, selected date is March 1, 2022',
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -495,7 +497,7 @@ describe('<MeetingsPanel/>', () => {
     expect(
       screen.getByRole('button', {
         name: 'Choose month, selected month is March 2022',
-      })
+      }),
     ).toHaveTextContent('March 2022');
 
     await userEvent.click(screen.getByRole('button', { name: 'View Month' }));
@@ -504,7 +506,7 @@ describe('<MeetingsPanel/>', () => {
     expect(
       screen.getByRole('button', {
         name: 'Choose week, selected week is March 6 – 12, 2022',
-      })
+      }),
     ).toHaveTextContent('Mar 6 – 12, 2022');
 
     await userEvent.click(screen.getByRole('button', { name: 'View Week' }));
@@ -513,7 +515,7 @@ describe('<MeetingsPanel/>', () => {
     expect(
       screen.getByRole('button', {
         name: 'Choose month, selected month is March 2022',
-      })
+      }),
     ).toHaveTextContent('March 2022');
   });
 
@@ -529,23 +531,23 @@ describe('<MeetingsPanel/>', () => {
       within(navGroup).getByRole('button', {
         name: /meetings/i,
         expanded: true,
-      })
+      }),
     ).toBeInTheDocument();
 
     await userEvent.click(
       within(navGroup).getByRole('button', {
         name: /invitations/i,
         expanded: false,
-      })
+      }),
     );
 
     expect(
-      screen.getByRole('heading', { level: 3, name: /invitations/i })
+      screen.getByRole('heading', { level: 3, name: /invitations/i }),
     ).toBeInTheDocument();
 
     const list = screen.getByRole('list', { name: /invitations/i });
     expect(
-      within(list).getByRole('listitem', { name: /an important meeting/i })
+      within(list).getByRole('listitem', { name: /an important meeting/i }),
     ).toBeInTheDocument();
   });
 
@@ -554,7 +556,7 @@ describe('<MeetingsPanel/>', () => {
 
     const list = screen.getByRole('list', { name: /meetings/i });
     expect(
-      within(list).getByRole('listitem', { name: /no meetings scheduled/i })
+      within(list).getByRole('listitem', { name: /no meetings scheduled/i }),
     ).toBeInTheDocument();
 
     // change to be a meeting room
@@ -563,7 +565,7 @@ describe('<MeetingsPanel/>', () => {
     await expect(
       within(list).findByRole('listitem', {
         name: /no breakout sessions scheduled/i,
-      })
+      }),
     ).resolves.toBeInTheDocument();
   });
 
@@ -571,13 +573,13 @@ describe('<MeetingsPanel/>', () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('listitem', { name: /an important meeting/i })
+      screen.findByRole('listitem', { name: /an important meeting/i }),
     ).resolves.toBeInTheDocument();
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is March 1 – 7, 2022/i,
-      })
+      }),
     );
 
     await userEvent.click(screen.getByRole('gridcell', { name: '7' }));
@@ -586,11 +588,11 @@ describe('<MeetingsPanel/>', () => {
     expect(
       screen.getByRole('button', {
         name: /Choose date range, selected range is March 7 – 13, 2022/i,
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('listitem', { name: /no meetings scheduled/i })
+      screen.getByRole('listitem', { name: /no meetings scheduled/i }),
     ).toBeInTheDocument();
   });
 
@@ -598,7 +600,7 @@ describe('<MeetingsPanel/>', () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('listitem', { name: /an important meeting/i })
+      screen.findByRole('listitem', { name: /an important meeting/i }),
     ).resolves.toBeInTheDocument();
 
     await userEvent.click(screen.getByRole('button', { name: 'View List' }));
@@ -611,7 +613,7 @@ describe('<MeetingsPanel/>', () => {
     await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date, selected date is March 1, 2022/i,
-      })
+      }),
     );
 
     await userEvent.click(screen.getByRole('gridcell', { name: '7' }));
@@ -625,13 +627,13 @@ describe('<MeetingsPanel/>', () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('listitem', { name: /my breakout session/i })
+      screen.findByRole('listitem', { name: /my breakout session/i }),
     ).resolves.toBeInTheDocument();
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is March 1 – 7, 2022/i,
-      })
+      }),
     );
 
     await userEvent.click(screen.getByRole('gridcell', { name: '7' }));
@@ -640,13 +642,13 @@ describe('<MeetingsPanel/>', () => {
     expect(
       screen.getByRole('button', {
         name: /Choose date range, selected range is March 7 – 13, 2022/i,
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(
       screen.getByRole('listitem', {
         name: /No breakout sessions scheduled that match the selected filters./i,
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -654,16 +656,16 @@ describe('<MeetingsPanel/>', () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('listitem', { name: /an important meeting/i })
+      screen.findByRole('listitem', { name: /an important meeting/i }),
     ).resolves.toBeInTheDocument();
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Search' }),
-      'something'
+      'something',
     );
 
     expect(
-      screen.getByRole('listitem', { name: /no meetings scheduled/i })
+      screen.getByRole('listitem', { name: /no meetings scheduled/i }),
     ).toBeInTheDocument();
   });
 
@@ -678,7 +680,7 @@ describe('<MeetingsPanel/>', () => {
 
     await userEvent.type(
       screen.getByRole('textbox', { name: /search/i }),
-      'something'
+      'something',
     );
 
     expect(meeting).not.toBeInTheDocument();
@@ -690,18 +692,18 @@ describe('<MeetingsPanel/>', () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('listitem', { name: /my breakout session/i })
+      screen.findByRole('listitem', { name: /my breakout session/i }),
     ).resolves.toBeInTheDocument();
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Search' }),
-      'something'
+      'something',
     );
 
     expect(
       screen.getByRole('listitem', {
         name: /No breakout sessions scheduled that match the selected filters./i,
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -715,7 +717,7 @@ describe('<MeetingsPanel/>', () => {
     await userEvent.click(
       await within(nav).findByRole('button', {
         name: /schedule breakout session/i,
-      })
+      }),
     );
 
     expect(widgetApi.openModal).toBeCalledWith(
@@ -741,7 +743,7 @@ describe('<MeetingsPanel/>', () => {
             parentRoomId: '!room-id',
           }),
         },
-      }
+      },
     );
 
     expect(widgetApi.sendRoomEvent).not.toBeCalled();
@@ -768,7 +770,7 @@ describe('<MeetingsPanel/>', () => {
     await userEvent.click(
       within(nav).getByRole('button', {
         name: /schedule breakout session/i,
-      })
+      }),
     );
 
     expect(widgetApi.openModal).toBeCalledWith(
@@ -794,7 +796,7 @@ describe('<MeetingsPanel/>', () => {
             parentRoomId: '!room-id',
           }),
         },
-      }
+      },
     );
 
     await waitFor(() => {
@@ -811,7 +813,7 @@ describe('<MeetingsPanel/>', () => {
             end_time: '2999-01-01T11:30:00Z',
             widget_ids: [],
           },
-        }
+        },
       );
     });
   });
@@ -826,7 +828,7 @@ describe('<MeetingsPanel/>', () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('listitem', { name: /my breakout session/i })
+      screen.findByRole('listitem', { name: /my breakout session/i }),
     ).resolves.toBeInTheDocument();
 
     const actions = screen.getByRole('navigation', { name: /actions/i });
@@ -850,20 +852,20 @@ describe('<MeetingsPanel/>', () => {
         content: {
           events: { 'net.nordeck.meetings.breakoutsessions.create': 101 },
         },
-      })
+      }),
     );
 
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('listitem', { name: /my breakout session/i })
+      screen.findByRole('listitem', { name: /my breakout session/i }),
     ).resolves.toBeInTheDocument();
 
     const actions = screen.getByRole('navigation', { name: /actions/i });
     expect(
       within(actions).getByRole('textbox', {
         name: /send message to all breakout session rooms/i,
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -876,7 +878,7 @@ describe('<MeetingsPanel/>', () => {
     expect(
       within(actions).getByRole('button', {
         name: /schedule breakout session/i,
-      })
+      }),
     ).toBeInTheDocument();
 
     widgetApi.mockSendStateEvent(
@@ -885,7 +887,7 @@ describe('<MeetingsPanel/>', () => {
         content: {
           events: { 'net.nordeck.meetings.breakoutsessions.create': 101 },
         },
-      })
+      }),
     );
 
     await waitFor(() => {

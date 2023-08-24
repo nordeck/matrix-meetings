@@ -24,7 +24,7 @@ export class ReactionClient {
 
   public async sendSuccess(
     sendingRoomId: string,
-    eventId: string
+    eventId: string,
   ): Promise<void> {
     if (!sendingRoomId) throw new RoomNotFoundError(sendingRoomId);
 
@@ -40,7 +40,7 @@ export class ReactionClient {
   public async sendFailure(
     sendingRoomId: string,
     privateRoomId: string | undefined,
-    eventId: string
+    eventId: string,
   ): Promise<void> {
     if (!sendingRoomId) throw new RoomNotFoundError(sendingRoomId);
 

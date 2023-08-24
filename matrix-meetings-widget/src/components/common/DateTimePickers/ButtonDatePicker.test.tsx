@@ -59,7 +59,7 @@ describe('<CalendarDayPicker>', () => {
     expect(
       screen.getByRole('button', {
         name: 'Choose date, selected date is February 7, 2022',
-      })
+      }),
     ).toHaveTextContent('Choose date');
   });
 
@@ -69,7 +69,7 @@ describe('<CalendarDayPicker>', () => {
     await userEvent.click(
       screen.getByRole('button', {
         name: 'Choose date, selected date is February 7, 2022',
-      })
+      }),
     );
 
     const dialog = screen.getByRole('dialog', {
@@ -77,7 +77,7 @@ describe('<CalendarDayPicker>', () => {
     });
 
     expect(
-      within(dialog).getByRole('grid', { name: 'February 2022' })
+      within(dialog).getByRole('grid', { name: 'February 2022' }),
     ).toBeInTheDocument();
   });
 

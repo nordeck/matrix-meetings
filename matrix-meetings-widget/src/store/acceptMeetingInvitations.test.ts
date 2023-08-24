@@ -39,11 +39,11 @@ describe('acceptMeetingInvitations', () => {
       mockRoomMember({
         room_id: '!meeting-room-id',
         content: { membership: 'invite' },
-      })
+      }),
     );
 
     widgetApi.mockSendStateEvent(
-      mockSpaceParent({ room_id: '!meeting-room-id' })
+      mockSpaceParent({ room_id: '!meeting-room-id' }),
     );
   });
 
@@ -59,7 +59,7 @@ describe('acceptMeetingInvitations', () => {
         userId: '@user-id',
         widgetApi,
         acceptedMeetingIds,
-      })
+      }),
     ).resolves.toBeUndefined();
 
     // the second call shouldn't update it again
@@ -69,7 +69,7 @@ describe('acceptMeetingInvitations', () => {
         userId: '@user-id',
         widgetApi,
         acceptedMeetingIds,
-      })
+      }),
     ).resolves.toBeUndefined();
 
     expect(widgetApi.sendStateEvent).toBeCalledTimes(1);
@@ -80,7 +80,7 @@ describe('acceptMeetingInvitations', () => {
         membership: 'join',
         avatar_url: expect.any(String),
       },
-      { stateKey: '@user-id', roomId: '!meeting-room-id' }
+      { stateKey: '@user-id', roomId: '!meeting-room-id' },
     );
   });
 
@@ -95,7 +95,7 @@ describe('acceptMeetingInvitations', () => {
         content: {
           type: 'net.nordeck.meetings.breakoutsession',
         },
-      })
+      }),
     );
 
     await expect(
@@ -104,7 +104,7 @@ describe('acceptMeetingInvitations', () => {
         userId: '@user-id',
         widgetApi,
         acceptedMeetingIds,
-      })
+      }),
     ).resolves.toBeUndefined();
 
     expect(widgetApi.sendStateEvent).toBeCalledTimes(1);
@@ -115,7 +115,7 @@ describe('acceptMeetingInvitations', () => {
         membership: 'join',
         avatar_url: expect.any(String),
       },
-      { stateKey: '@user-id', roomId: '!meeting-room-id' }
+      { stateKey: '@user-id', roomId: '!meeting-room-id' },
     );
   });
 
@@ -123,7 +123,9 @@ describe('acceptMeetingInvitations', () => {
     const acceptedMeetingIds = new Set<string>();
 
     widgetApi.mockSendStateEvent(
-      mockNordeckMeetingMetadataEvent({ content: { creator: '@another-user' } })
+      mockNordeckMeetingMetadataEvent({
+        content: { creator: '@another-user' },
+      }),
     );
 
     const store = createStore({ widgetApi });
@@ -135,7 +137,7 @@ describe('acceptMeetingInvitations', () => {
         userId: '@user-id',
         widgetApi,
         acceptedMeetingIds,
-      })
+      }),
     ).resolves.toBeUndefined();
 
     expect(widgetApi.sendStateEvent).toBeCalledTimes(0);
@@ -149,7 +151,7 @@ describe('acceptMeetingInvitations', () => {
         room_id: '!meeting-room-id',
         state_key: widgetApi.widgetParameters.roomId,
         content: { via: [] },
-      })
+      }),
     );
 
     widgetApi.mockSendStateEvent(
@@ -157,7 +159,7 @@ describe('acceptMeetingInvitations', () => {
         room_id: '!meeting-room-id',
         state_key: '!anotherRoomId',
         content: { via: ['matrix.to'] },
-      })
+      }),
     );
 
     const store = createStore({ widgetApi });
@@ -169,7 +171,7 @@ describe('acceptMeetingInvitations', () => {
         userId: '@user-id',
         widgetApi,
         acceptedMeetingIds,
-      })
+      }),
     ).resolves.toBeUndefined();
 
     expect(widgetApi.sendStateEvent).toBeCalledTimes(0);
@@ -190,7 +192,7 @@ describe('acceptMeetingInvitations', () => {
         userId: '@user-id',
         widgetApi,
         acceptedMeetingIds,
-      })
+      }),
     ).resolves.toBeUndefined();
 
     // this call will update it
@@ -200,7 +202,7 @@ describe('acceptMeetingInvitations', () => {
         userId: '@user-id',
         widgetApi,
         acceptedMeetingIds,
-      })
+      }),
     ).resolves.toBeUndefined();
 
     expect(widgetApi.sendStateEvent).toBeCalledTimes(2);
@@ -211,7 +213,7 @@ describe('acceptMeetingInvitations', () => {
         membership: 'join',
         avatar_url: expect.any(String),
       },
-      { stateKey: '@user-id', roomId: '!meeting-room-id' }
+      { stateKey: '@user-id', roomId: '!meeting-room-id' },
     );
   });
 });

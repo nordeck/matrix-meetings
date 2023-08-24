@@ -26,7 +26,7 @@ export class MeetingCardPage {
   constructor(
     private readonly page: Page,
     private readonly widget: FrameLocator,
-    public readonly card: Locator
+    public readonly card: Locator,
   ) {
     this.meetingTimeRangeText = this.card
       .getByRole('heading')
@@ -59,7 +59,7 @@ export class MeetingCardPage {
     const elementWebPage = new ElementWebPage(this.page);
     const editMeetingWidgetPage = new ScheduleMeetingWidgetPage(
       this.page,
-      elementWebPage.widgetByTitle('Edit Meeting')
+      elementWebPage.widgetByTitle('Edit Meeting'),
     );
 
     await elementWebPage.approveWidgetCapabilities();

@@ -86,7 +86,7 @@ describe('MatrixServer suite', () => {
       matrixClient,
       reactionClient,
       roomMessageService,
-      appConfiguration
+      appConfiguration,
     );
   });
 
@@ -131,12 +131,12 @@ describe('MatrixServer suite', () => {
     };
 
     const pattern = matrixPattern.roomEvent(
-      RoomEventName.NIC_MEETINGS_MEETING_CREATE
+      RoomEventName.NIC_MEETINGS_MEETING_CREATE,
     );
     matrixServer.addHandler(pattern, handler, true);
 
     expect(
-      matrixServer.getHandlerByPattern(matrixServer.normalizePattern(pattern))
+      matrixServer.getHandlerByPattern(matrixServer.normalizePattern(pattern)),
     ).toBe(handler);
 
     /**
@@ -151,7 +151,7 @@ describe('MatrixServer suite', () => {
     await matrixServer.processEvent(
       BotEventType.ROOM_EVENT,
       roomId,
-      roomStateEvent
+      roomStateEvent,
     );
     verify(matrixClientMock.getRoomMembers(roomId)).never(); // normal state event should not trigger room state loading
 
@@ -178,7 +178,7 @@ describe('MatrixServer suite', () => {
     await matrixServer.processEvent(
       BotEventType.ROOM_EVENT,
       roomId,
-      roomEvent1
+      roomEvent1,
     );
     expect(count).toBe(0); // event before membership must be ignored
     verify(matrixClientMock.getRoomMembers(roomId)).times(1);
@@ -191,7 +191,7 @@ describe('MatrixServer suite', () => {
     await matrixServer.processEvent(
       BotEventType.ROOM_EVENT,
       roomId,
-      roomEvent2
+      roomEvent2,
     );
     expect(count).toBe(1); // event after membership must be processed
     verify(matrixClientMock.getRoomMembers(roomId)).times(1); // no room state loading
@@ -203,7 +203,7 @@ describe('MatrixServer suite', () => {
     await matrixServer.processEvent(
       BotEventType.ROOM_LEAVE,
       roomId,
-      roomEvent(StateEventName.M_ROOM_MEMBER_EVENT)
+      roomEvent(StateEventName.M_ROOM_MEMBER_EVENT),
     );
 
     const botMemberInviteEvent: IStateEvent<MembershipEventContent> = {
@@ -219,7 +219,7 @@ describe('MatrixServer suite', () => {
     await matrixServer.processEvent(
       BotEventType.ROOM_INVITE,
       roomId,
-      botMemberInviteEvent
+      botMemberInviteEvent,
     );
 
     // synapse sends events after invite
@@ -228,7 +228,7 @@ describe('MatrixServer suite', () => {
     await matrixServer.processEvent(
       BotEventType.ROOM_EVENT,
       roomId,
-      roomEvent1
+      roomEvent1,
     );
     verify(matrixClientMock.getRoomMembers(roomId)).times(1); // no room state loading, origin_server_ts is taken from invite event sent before
     expect(count).toBe(1); // event is skipped because it is old
@@ -237,7 +237,7 @@ describe('MatrixServer suite', () => {
     await matrixServer.processEvent(
       BotEventType.ROOM_EVENT,
       roomId,
-      roomEvent2
+      roomEvent2,
     );
     verify(matrixClientMock.getRoomMembers(roomId)).times(1); // no room state loading, origin_server_ts is taken from invite event sent before
     expect(count).toBe(1); // event is skipped because it is old
@@ -250,7 +250,7 @@ describe('MatrixServer suite', () => {
     await matrixServer.processEvent(
       BotEventType.ROOM_EVENT,
       roomId,
-      roomEvent3
+      roomEvent3,
     );
     expect(count).toBe(2); // event must be processed because it is after invite
     verify(matrixClientMock.getRoomMembers(roomId)).times(1); // no room state loading, origin_server_ts is taken from invite event sent before
@@ -268,16 +268,16 @@ describe('MatrixServer suite', () => {
     const pattern = matrixPattern.roomEvent(StateEventName.M_ROOM_MEMBER_EVENT);
     matrixServer.addHandler(pattern, handler, true);
     const otherPattern = matrixPattern.roomEvent(
-      StateEventName.M_ROOM_NAME_EVENT
+      StateEventName.M_ROOM_NAME_EVENT,
     );
 
     expect(
-      matrixServer.getHandlerByPattern(matrixServer.normalizePattern(pattern))
+      matrixServer.getHandlerByPattern(matrixServer.normalizePattern(pattern)),
     ).toBe(handler);
     expect(
       matrixServer.getHandlerByPattern(
-        matrixServer.normalizePattern(otherPattern)
-      )
+        matrixServer.normalizePattern(otherPattern),
+      ),
     ).toBeNull();
 
     const roomEvent1 = {
@@ -298,7 +298,7 @@ describe('MatrixServer suite', () => {
       throw new Error();
     };
     const pattern1 = matrixPattern.roomEvent(
-      StateEventName.M_ROOM_POWER_LEVELS_EVENT
+      StateEventName.M_ROOM_POWER_LEVELS_EVENT,
     );
     matrixServer.addHandler(pattern1, handler1, true);
 
@@ -307,7 +307,7 @@ describe('MatrixServer suite', () => {
       origin_server_ts: Date.now(), //event happened just now
     };
     await expect(
-      matrixServer.processEvent(pattern1.botEventType, roomId, roomEvent11)
+      matrixServer.processEvent(pattern1.botEventType, roomId, roomEvent11),
     ).rejects.toThrowError();
   });
 
@@ -353,7 +353,7 @@ describe('MatrixServer suite', () => {
     args = matrixServer.extractHandlerArguments(
       BotEventType.ROOM_EVENT,
       roomId,
-      event
+      event,
     );
 
     expect(args.data).toStrictEqual(createMeetingContent.data); // data should be taken from bot event content
@@ -368,7 +368,7 @@ describe('MatrixServer suite', () => {
       args = matrixServer.extractHandlerArguments(
         botEventType,
         roomId,
-        stubEvent
+        stubEvent,
       );
 
       expect(args.data).toStrictEqual(stubEvent); // event is data for handler

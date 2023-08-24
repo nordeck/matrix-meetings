@@ -31,8 +31,8 @@ describe('parseRRule', () => {
   it('should fail if a RRULE with a dtstart is passed', () => {
     expect(() =>
       parseRRule(
-        'DTSTART:29990101T100000Z\nRRULE:FREQ=DAILY;INTERVAL=2;COUNT=5'
-      )
+        'DTSTART:29990101T100000Z\nRRULE:FREQ=DAILY;INTERVAL=2;COUNT=5',
+      ),
     ).toThrow();
   });
 });
@@ -44,7 +44,7 @@ describe('stringifyRRule', () => {
         freq: Frequency.DAILY,
         interval: 2,
         count: 5,
-      })
+      }),
     ).toEqual('FREQ=DAILY;INTERVAL=2;COUNT=5');
   });
 });

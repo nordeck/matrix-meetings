@@ -55,7 +55,7 @@ describe('<SetupBreakoutSessionsModal>', () => {
       mockRoomMember({
         room_id: '!meeting-room-id',
         state_key: '@another-user-id',
-      })
+      }),
     );
 
     jest
@@ -97,7 +97,7 @@ describe('<SetupBreakoutSessionsModal>', () => {
 
     await waitFor(
       () => expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
-      { timeout: 10000 }
+      { timeout: 10000 },
     );
 
     subject.next('nic.schedule.breakoutsessions.submit');
@@ -120,7 +120,7 @@ describe('<SetupBreakoutSessionsModal>', () => {
     render(<SetupBreakoutSessionsModal />, { wrapper: Wrapper });
 
     await waitFor(() =>
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
     );
 
     const groupTitleTextbox = screen.getByRole('textbox', {
@@ -131,7 +131,7 @@ describe('<SetupBreakoutSessionsModal>', () => {
 
     expect(widgetApi.setModalButtonEnabled).toHaveBeenLastCalledWith(
       'nic.schedule.breakoutsessions.submit',
-      false
+      false,
     );
 
     // should enable button when required fields are available again
@@ -139,7 +139,7 @@ describe('<SetupBreakoutSessionsModal>', () => {
 
     expect(widgetApi.setModalButtonEnabled).toHaveBeenLastCalledWith(
       'nic.schedule.breakoutsessions.submit',
-      true
+      true,
     );
   });
 

@@ -87,7 +87,7 @@ $t(meetingCard.share.messageDialIn, {"context": "{{dialInContext}}" })`,
       formatParams: {
         date: fullNumericDateFormat,
       },
-    }
+    },
   );
 
   return useMemo(() => ({ message }), [message]);

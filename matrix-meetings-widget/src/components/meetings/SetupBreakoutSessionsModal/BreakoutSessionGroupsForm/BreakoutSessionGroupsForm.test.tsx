@@ -36,21 +36,21 @@ describe('<BreakoutSessionGroupsForm>', () => {
 
   beforeEach(() => {
     widgetApi.mockSendStateEvent(
-      mockRoomMember({ room_id: '!meeting-room-id' })
+      mockRoomMember({ room_id: '!meeting-room-id' }),
     );
     widgetApi.mockSendStateEvent(
       mockRoomMember({
         room_id: '!meeting-room-id',
         state_key: '@user-1',
         content: { displayname: undefined },
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockRoomMember({
         room_id: '!meeting-room-id',
         state_key: '@user-2',
         content: { displayname: undefined },
-      })
+      }),
     );
 
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
@@ -73,7 +73,7 @@ describe('<BreakoutSessionGroupsForm>', () => {
         onGroupsChange={jest.fn()}
         parentMeeting={mockMeeting()}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const section = screen.getByRole('region', { name: 'Groups' });
@@ -81,14 +81,14 @@ describe('<BreakoutSessionGroupsForm>', () => {
     expect(
       within(section).getByRole('spinbutton', {
         name: 'Number of groups (required)',
-      })
+      }),
     ).toHaveValue(1);
 
     const groupList = within(section).getByRole('list', { name: 'Groups' });
     expect(
       within(groupList).getByRole('listitem', {
         name: 'Group 1',
-      })
+      }),
     ).toBeInTheDocument();
     expect(within(groupList).getAllByRole('listitem')).toHaveLength(1);
   });
@@ -99,7 +99,7 @@ describe('<BreakoutSessionGroupsForm>', () => {
         onGroupsChange={jest.fn()}
         parentMeeting={mockMeeting()}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -112,41 +112,41 @@ describe('<BreakoutSessionGroupsForm>', () => {
         onGroupsChange={onGroupsChange}
         parentMeeting={mockMeeting()}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const section = screen.getByRole('region', { name: 'Groups' });
 
     // Wait first the loading is completed
     await expect(
-      within(section).findByRole('status')
+      within(section).findByRole('status'),
     ).resolves.toHaveTextContent(
-      /Some participants are not assigned to a group/
+      /Some participants are not assigned to a group/,
     );
 
     await userEvent.type(
       within(section).getByRole('spinbutton', {
         name: 'Number of groups (required)',
       }),
-      '{selectall}2'
+      '{selectall}2',
     );
 
     expect(
       within(section).getByRole('spinbutton', {
         name: 'Number of groups (required)',
-      })
+      }),
     ).toHaveValue(2);
 
     const groupList = within(section).getByRole('list', { name: 'Groups' });
     expect(
       within(groupList).getByRole('listitem', {
         name: 'Group 1',
-      })
+      }),
     ).toBeInTheDocument();
     expect(
       within(groupList).getByRole('listitem', {
         name: 'Group 2',
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(onGroupsChange).toHaveBeenLastCalledWith([
@@ -162,7 +162,7 @@ describe('<BreakoutSessionGroupsForm>', () => {
         onGroupsChange={onGroupsChange}
         parentMeeting={mockMeeting()}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const section = screen.getByRole('region', { name: 'Groups' });
@@ -170,13 +170,13 @@ describe('<BreakoutSessionGroupsForm>', () => {
     // Wait first the loading is completed
     const alert = await within(section).findByRole('status');
     expect(alert).toHaveTextContent(
-      /Some participants are not assigned to a group/
+      /Some participants are not assigned to a group/,
     );
 
     await userEvent.click(
       within(section).getByRole('button', {
         name: 'Distribute all 2 participants',
-      })
+      }),
     );
 
     expect(alert).not.toBeInTheDocument();
@@ -198,7 +198,7 @@ describe('<BreakoutSessionGroupsForm>', () => {
         onGroupsChange={onGroupsChange}
         parentMeeting={mockMeeting()}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
@@ -206,7 +206,7 @@ describe('<BreakoutSessionGroupsForm>', () => {
         name: 'Number of groups (required)',
         description:
           'There are not enough participants for the number of groups you have entered.',
-      })
+      }),
     ).toBeInvalid();
 
     expect(onGroupsChange).toHaveBeenLastCalledWith([]);

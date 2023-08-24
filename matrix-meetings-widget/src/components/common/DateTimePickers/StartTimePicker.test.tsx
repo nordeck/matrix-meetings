@@ -38,16 +38,16 @@ describe('<StartTimePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByRole('textbox', { name: 'Start time' })).toHaveValue(
-      '12:15 PM'
+      '12:15 PM',
     );
     expect(
       screen.getByRole('button', {
         name: /choose start time, selected time is 12:15 PM/i,
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -57,7 +57,7 @@ describe('<StartTimePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -69,7 +69,7 @@ describe('<StartTimePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(screen.getByLabelText(/choose start time/i));
@@ -83,7 +83,7 @@ describe('<StartTimePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38.123Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     // userEvent.type doesn't work here, so we have to use fireEvent
@@ -93,7 +93,7 @@ describe('<StartTimePicker/>', () => {
 
     expect(onChange).toBeCalled();
     expect(onChange.mock.calls[0][0].toISO()).toEqual(
-      '2020-01-01T08:15:00.000Z'
+      '2020-01-01T08:15:00.000Z',
     );
   });
 
@@ -103,9 +103,7 @@ describe('<StartTimePicker/>', () => {
         onChange={onChange}
         value={DateTime.invalid('Invalid')}
       />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     const textbox = screen.getByRole('textbox', {
@@ -130,7 +128,7 @@ describe('<StartTimePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const input = screen.getByRole('textbox', {
@@ -148,7 +146,7 @@ describe('<StartTimePicker/>', () => {
         readOnly="This is readonly"
         value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const input = screen.getByRole('textbox', {
@@ -166,7 +164,7 @@ describe('<StartTimePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38.123Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const input = screen.getByRole('textbox', { name: 'Start time' });
@@ -177,7 +175,7 @@ describe('<StartTimePicker/>', () => {
       <StartTimePicker
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T14:15:38.123Z')}
-      />
+      />,
     );
 
     expect(input).toHaveValue('02:15 PM');

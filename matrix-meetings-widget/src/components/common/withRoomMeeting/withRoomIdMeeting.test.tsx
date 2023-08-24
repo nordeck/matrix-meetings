@@ -66,11 +66,11 @@ describe('withRoomIdMeeting', () => {
         roomId="!meeting-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
-      screen.findByRole('heading', { name: /an important meeting/i })
+      screen.findByRole('heading', { name: /an important meeting/i }),
     ).resolves.toBeInTheDocument();
 
     expect(screen.getByText('Start: 2999-01-01T10:00:00Z')).toBeInTheDocument();
@@ -95,11 +95,11 @@ describe('withRoomIdMeeting', () => {
         roomId="!meeting-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
-      screen.findByRole('heading', { name: /an important meeting/i })
+      screen.findByRole('heading', { name: /an important meeting/i }),
     ).resolves.toBeInTheDocument();
 
     expect(screen.getByText('Start: 2999-01-10T10:00:00Z')).toBeInTheDocument();
@@ -111,7 +111,7 @@ describe('withRoomIdMeeting', () => {
     render(<Component meeting={mockMeeting()} />, { wrapper: Wrapper });
 
     expect(
-      screen.getByRole('heading', { name: /an important meeting/i })
+      screen.getByRole('heading', { name: /an important meeting/i }),
     ).toBeInTheDocument();
     expect(screen.getByText('My Content')).toBeInTheDocument();
   });
@@ -123,7 +123,7 @@ describe('withRoomIdMeeting', () => {
         roomId="!another-room-id"
         uid="entry-0"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByTestId('skeleton')).toBeInTheDocument();
@@ -132,7 +132,7 @@ describe('withRoomIdMeeting', () => {
   it('should handle undefined roomId', () => {
     render(
       <Component recurrenceId={undefined} roomId={undefined} uid={undefined} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByTestId('skeleton')).toBeInTheDocument();

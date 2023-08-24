@@ -75,7 +75,7 @@ describe('<ScheduleMeetingModal>', () => {
 
     await userEvent.type(
       screen.getByRole('textbox', { name: /title/i }),
-      'My Meeting'
+      'My Meeting',
     );
 
     subject.next('nic.schedule.meeting.submit');
@@ -133,12 +133,12 @@ describe('<ScheduleMeetingModal>', () => {
 
     await userEvent.type(
       screen.getByRole('textbox', { name: /title/i }),
-      'My Meeting'
+      'My Meeting',
     );
 
     expect(widgetApi.setModalButtonEnabled).toHaveBeenLastCalledWith(
       'nic.schedule.meeting.submit',
-      true
+      true,
     );
 
     // should disable button when required fields are missing
@@ -146,7 +146,7 @@ describe('<ScheduleMeetingModal>', () => {
 
     expect(widgetApi.setModalButtonEnabled).toHaveBeenLastCalledWith(
       'nic.schedule.meeting.submit',
-      false
+      false,
     );
   });
 

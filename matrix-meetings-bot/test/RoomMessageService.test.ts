@@ -109,16 +109,16 @@ describe('test RoomMessageService', () => {
       matrixClientMock.doRequest(
         'GET',
         MatrixEndpoint.MATRIX_CLIENT_SYNC,
-        anything()
-      )
+        anything(),
+      ),
     ).thenResolve(fetchResult);
     when(matrixClientMock.sendHtmlText(anyString(), anything())).thenResolve(
-      eventId
+      eventId,
     );
     when(matrixClientMock.createRoom(anything())).thenResolve(roomId);
     when(matrixClientMock.getUserId()).thenResolve(userId);
     when(matrixClientMock.sendMessage(anyString(), anything())).thenResolve(
-      eventId
+      eventId,
     );
     when(matrixClientMock.getUserProfile(anyString())).thenResolve('username');
   });
@@ -126,7 +126,7 @@ describe('test RoomMessageService', () => {
   it('test that a private message causes a room to be created when there is none', async () => {
     await roomMessageService.sendHtmlMessageToErrorPrivateRoom(
       userId,
-      'asdfasdf'
+      'asdfasdf',
     );
     verify(matrixClientMock.createRoom(anything())).times(1);
     verify(matrixClientMock.sendHtmlText(roomId, anything())).times(1);
@@ -139,19 +139,19 @@ describe('test RoomMessageService', () => {
       matrixClientMock.doRequest(
         'GET',
         MatrixEndpoint.MATRIX_CLIENT_SYNC,
-        anything()
-      )
+        anything(),
+      ),
     ).thenResolve(fetchResultWithRightUser);
     await roomMessageService.sendHtmlMessageToErrorPrivateRoom(
       userId,
-      'asdfasdf'
+      'asdfasdf',
     );
     verify(matrixClientMock.createRoom(anything())).times(0);
     verify(
       matrixClientMock.sendHtmlText(
         '!CzfdAmuKWDLHyIwzTu:synapse.dev.nordeck.systems',
-        anything()
-      )
+        anything(),
+      ),
     ).times(1);
     const msg = capture(matrixClientMock.sendHtmlText).first()[1];
     expect(msg).toEqual('asdfasdf');
@@ -162,14 +162,14 @@ describe('test RoomMessageService', () => {
     const newMeeting = initMeeting();
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
-      newMeeting
+      newMeeting,
     );
     await roomMessageService.notifyMeetingTimeChangedAsync(
       userContext,
       oldMeeting,
       newMeeting,
       meetingChanges,
-      roomId
+      roomId,
     );
     verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(0);
   });
@@ -180,14 +180,14 @@ describe('test RoomMessageService', () => {
     oldMeeting.title = 'changed';
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
-      newMeeting
+      newMeeting,
     );
     await roomMessageService.notifyMeetingTimeChangedAsync(
       userContext,
       oldMeeting,
       newMeeting,
       meetingChanges,
-      roomId
+      roomId,
     );
     verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
     const msg = capture(matrixClientMock.sendHtmlText).first()[1];
@@ -203,14 +203,14 @@ describe('test RoomMessageService', () => {
     oldMeeting.description = 'changed';
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
-      newMeeting
+      newMeeting,
     );
     await roomMessageService.notifyMeetingTimeChangedAsync(
       userContext,
       oldMeeting,
       newMeeting,
       meetingChanges,
-      roomId
+      roomId,
     );
     verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
     const msg = capture(matrixClientMock.sendHtmlText).first()[1];
@@ -226,22 +226,22 @@ describe('test RoomMessageService', () => {
     oldMeeting.startTime = '2024-01-16T22:07:21.488Z';
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
-      newMeeting
+      newMeeting,
     );
     await roomMessageService.notifyMeetingTimeChangedAsync(
       userContext,
       oldMeeting,
       newMeeting,
       meetingChanges,
-      roomId
+      roomId,
     );
     verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
     const msg = capture(matrixClientMock.sendHtmlText).first()[1];
     expect(msg).toContain(
-      'Date: 01/16/2022 10:07 PM UTC to 12/16/3022 10:07 PM UTC'
+      'Date: 01/16/2022 10:07 PM UTC to 12/16/3022 10:07 PM UTC',
     );
     expect(msg).toContain(
-      '(previously: 01/16/2024 10:07 PM UTC to 12/16/3022 10:07 PM UTC)'
+      '(previously: 01/16/2024 10:07 PM UTC to 12/16/3022 10:07 PM UTC)',
     );
     expect(msg).not.toContain('Title: title');
     expect(msg).not.toContain('Description: description');
@@ -254,22 +254,22 @@ describe('test RoomMessageService', () => {
     oldMeeting.endTime = '3024-12-16T22:07:21.488Z';
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
-      newMeeting
+      newMeeting,
     );
     await roomMessageService.notifyMeetingTimeChangedAsync(
       userContext,
       oldMeeting,
       newMeeting,
       meetingChanges,
-      roomId
+      roomId,
     );
     verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
     const msg = capture(matrixClientMock.sendHtmlText).first()[1];
     expect(msg).toContain(
-      'Date: 01/16/2022 10:07 PM UTC to 12/16/3022 10:07 PM UTC'
+      'Date: 01/16/2022 10:07 PM UTC to 12/16/3022 10:07 PM UTC',
     );
     expect(msg).toContain(
-      '(previously: 01/16/2022 10:07 PM UTC to 12/16/3024 10:07 PM UTC)'
+      '(previously: 01/16/2022 10:07 PM UTC to 12/16/3024 10:07 PM UTC)',
     );
     expect(msg).not.toContain('Title: title');
     expect(msg).not.toContain('Description: description');
@@ -281,14 +281,14 @@ describe('test RoomMessageService', () => {
     const newMeeting = initMeeting('FREQ=MONTHLY');
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
-      newMeeting
+      newMeeting,
     );
     await roomMessageService.notifyMeetingTimeChangedAsync(
       userContext,
       oldMeeting,
       newMeeting,
       meetingChanges,
-      roomId
+      roomId,
     );
     verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
     const msg = capture(matrixClientMock.sendHtmlText).first()[1];
@@ -304,14 +304,14 @@ describe('test RoomMessageService', () => {
     const newMeeting = initMeeting('FREQ=MONTHLY');
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
-      newMeeting
+      newMeeting,
     );
     await roomMessageService.notifyMeetingTimeChangedAsync(
       userContext,
       oldMeeting,
       newMeeting,
       meetingChanges,
-      roomId
+      roomId,
     );
     verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
     const msg = capture(matrixClientMock.sendHtmlText).first()[1];
@@ -327,14 +327,14 @@ describe('test RoomMessageService', () => {
     const newMeeting = initMeeting();
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
-      newMeeting
+      newMeeting,
     );
     await roomMessageService.notifyMeetingTimeChangedAsync(
       userContext,
       oldMeeting,
       newMeeting,
       meetingChanges,
-      roomId
+      roomId,
     );
     verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
     const msg = capture(matrixClientMock.sendHtmlText).first()[1];

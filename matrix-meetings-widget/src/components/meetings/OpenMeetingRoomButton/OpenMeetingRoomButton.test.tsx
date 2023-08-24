@@ -29,7 +29,7 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
 }));
 
 const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked
+  extractWidgetApiParametersMocked,
 );
 
 let widgetApi: MockedWidgetApi;
@@ -70,7 +70,7 @@ describe('<OpenMeetingRoomButton/>', () => {
         meetingType="net.nordeck.meetings.breakoutsession"
         roomId="!room-id"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -82,7 +82,7 @@ describe('<OpenMeetingRoomButton/>', () => {
         meetingType="net.nordeck.meetings.meeting"
         roomId="!room-id"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const button = screen.getByRole('button', {
@@ -100,7 +100,7 @@ describe('<OpenMeetingRoomButton/>', () => {
         meetingType="net.nordeck.meetings.breakoutsession"
         roomId="!room-id"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const button = screen.getByRole('link', {
@@ -110,7 +110,7 @@ describe('<OpenMeetingRoomButton/>', () => {
     expect(button).toHaveAttribute('target', '_blank');
     expect(button).toHaveAttribute(
       'href',
-      'http://element.local/#/room/!room-id'
+      'http://element.local/#/room/!room-id',
     );
   });
 
@@ -120,7 +120,7 @@ describe('<OpenMeetingRoomButton/>', () => {
         <p id="title-id">Example context</p>
         <OpenMeetingRoomButton aria-describedby="title-id" roomId="!room-id" />
       </>,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const button = screen.getByRole('button', {

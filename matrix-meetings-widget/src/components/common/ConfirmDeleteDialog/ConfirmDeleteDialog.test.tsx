@@ -32,7 +32,7 @@ describe('<ConfirmDeleteDialog/>', () => {
         onConfirm={onConfirm}
         open={false}
         title="Confirm the deletion"
-      />
+      />,
     );
 
     expect(container).toBeEmptyDOMElement();
@@ -47,7 +47,7 @@ describe('<ConfirmDeleteDialog/>', () => {
         onConfirm={onConfirm}
         open
         title="Confirm the deletion"
-      />
+      />,
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -63,7 +63,7 @@ describe('<ConfirmDeleteDialog/>', () => {
         onConfirm={onConfirm}
         open
         title="Confirm the deletion"
-      />
+      />,
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -78,7 +78,7 @@ describe('<ConfirmDeleteDialog/>', () => {
         onConfirm={onConfirm}
         open
         title="Confirm the deletion"
-      />
+      />,
     );
 
     const deleteModal = screen.getByRole('dialog', {
@@ -86,19 +86,19 @@ describe('<ConfirmDeleteDialog/>', () => {
     });
 
     expect(
-      within(deleteModal).getByText(/confirm the deletion/i)
+      within(deleteModal).getByText(/confirm the deletion/i),
     ).toBeInTheDocument();
 
     expect(deleteModal).toHaveAccessibleDescription(
-      /the description of the modal/i
+      /the description of the modal/i,
     );
 
     expect(
-      within(deleteModal).getByText(/the description of the modal/i)
+      within(deleteModal).getByText(/the description of the modal/i),
     ).toBeInTheDocument();
 
     await userEvent.click(
-      within(deleteModal).getByRole('button', { name: 'Confirm' })
+      within(deleteModal).getByRole('button', { name: 'Confirm' }),
     );
 
     expect(onConfirm).toBeCalledTimes(1);
@@ -114,7 +114,7 @@ describe('<ConfirmDeleteDialog/>', () => {
         onConfirm={onConfirm}
         open
         title="Confirm the deletion"
-      />
+      />,
     );
 
     const deleteModal = screen.getByRole('dialog', {
@@ -122,19 +122,19 @@ describe('<ConfirmDeleteDialog/>', () => {
     });
 
     expect(
-      within(deleteModal).getByText(/confirm the deletion/i)
+      within(deleteModal).getByText(/confirm the deletion/i),
     ).toBeInTheDocument();
 
     expect(deleteModal).toHaveAccessibleDescription(
-      /the description of the modal/i
+      /the description of the modal/i,
     );
 
     expect(
-      within(deleteModal).getByText(/the description of the modal/i)
+      within(deleteModal).getByText(/the description of the modal/i),
     ).toBeInTheDocument();
 
     await userEvent.click(
-      within(deleteModal).getByRole('button', { name: 'Cancel' })
+      within(deleteModal).getByRole('button', { name: 'Cancel' }),
     );
 
     expect(onConfirm).not.toBeCalled();

@@ -20,7 +20,7 @@ import { MeetingUpdateDetailsDto } from '../dto/MeetingUpdateDetailsDto';
 import { extractOpenXChangeExternalReference } from '../model/ExternalData';
 
 export function extractOxRrule(
-  dto: MeetingCreateDto | MeetingUpdateDetailsDto
+  dto: MeetingCreateDto | MeetingUpdateDetailsDto,
 ): string | undefined {
   return first(extractOpenXChangeExternalReference(dto.external_data)?.rrules);
 }

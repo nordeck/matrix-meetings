@@ -58,7 +58,7 @@ describe('generateFilterRange', () => {
         startDate: '2020-08-10T00:00:00.000+02:00',
         endDate: '2020-08-10T23:59:59.999+02:00',
       });
-    }
+    },
   );
 
   it.each([
@@ -100,12 +100,12 @@ describe('generateFilterRange', () => {
         startDate: '2020-08-03T00:00:00.000+02:00',
         endDate: '2020-08-09T23:59:59.999+02:00',
       });
-    }
+    },
   );
 
   it('should select first full week when switching from the month view for august 2023', () => {
     expect(
-      generateFilterRange('week', '2023-08-01T00:00:00Z', 'month')
+      generateFilterRange('week', '2023-08-01T00:00:00Z', 'month'),
     ).toEqual({
       startDate: '2023-08-06T00:00:00.000+00:00',
       endDate: '2023-08-12T23:59:59.999+00:00',
@@ -117,7 +117,7 @@ describe('generateFilterRange', () => {
     mockDateTimeFormatTimeZone('Europe/Berlin');
 
     expect(
-      generateFilterRange('week', '2023-08-01T00:00:00Z', 'month')
+      generateFilterRange('week', '2023-08-01T00:00:00Z', 'month'),
     ).toEqual({
       startDate: '2023-08-07T00:00:00.000+02:00',
       endDate: '2023-08-13T23:59:59.999+02:00',
@@ -149,7 +149,7 @@ describe('generateFilterRange', () => {
         startDate: '2020-01-06T00:00:00.000+01:00',
         endDate: '2020-01-10T23:59:59.999+01:00',
       });
-    }
+    },
   );
 
   it.each([
@@ -166,12 +166,12 @@ describe('generateFilterRange', () => {
         startDate: '2020-08-03T00:00:00.000+02:00',
         endDate: '2020-08-07T23:59:59.999+02:00',
       });
-    }
+    },
   );
 
   it('should select first full work week when switching from the month view for august 2023', () => {
     expect(
-      generateFilterRange('workWeek', '2023-08-01T00:00:00Z', 'month')
+      generateFilterRange('workWeek', '2023-08-01T00:00:00Z', 'month'),
     ).toEqual({
       startDate: '2023-08-07T00:00:00.000+00:00',
       endDate: '2023-08-11T23:59:59.999+00:00',
@@ -183,7 +183,7 @@ describe('generateFilterRange', () => {
     mockDateTimeFormatTimeZone('Europe/Berlin');
 
     expect(
-      generateFilterRange('workWeek', '2023-08-01T00:00:00Z', 'month')
+      generateFilterRange('workWeek', '2023-08-01T00:00:00Z', 'month'),
     ).toEqual({
       startDate: '2023-08-07T00:00:00.000+02:00',
       endDate: '2023-08-11T23:59:59.999+02:00',

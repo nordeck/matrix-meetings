@@ -33,7 +33,7 @@ beforeEach(() => {
     new CalendarEntryDto(
       'uuid',
       new DateTimeEntryDto('Europe/Berlin', '20200102T000000'),
-      new DateTimeEntryDto('Europe/Berlin', '20200102T010000')
+      new DateTimeEntryDto('Europe/Berlin', '20200102T010000'),
     ),
   ];
   calendarWithRRule = [
@@ -41,7 +41,7 @@ beforeEach(() => {
       'uuid',
       new DateTimeEntryDto('Europe/Berlin', '20200102T000000'),
       new DateTimeEntryDto('Europe/Berlin', '20200102T010000'),
-      'FREQ=DAILY;COUNT=3'
+      'FREQ=DAILY;COUNT=3',
     ),
   ];
 });
@@ -49,25 +49,25 @@ beforeEach(() => {
 describe('getMeetingStartTime', () => {
   it('should use start_time', () => {
     expect(getMeetingStartTime(startTime, undefined)).toBe(
-      '2020-01-01T00:00:00Z'
+      '2020-01-01T00:00:00Z',
     );
   });
 
   it('should use calendar', () => {
     expect(getMeetingStartTime(undefined, calendar)).toBe(
-      '2020-01-02T00:00:00+01:00'
+      '2020-01-02T00:00:00+01:00',
     );
   });
 
   it('should prefer calendar if both values are defined', () => {
     expect(getMeetingStartTime(startTime, calendar)).toBe(
-      '2020-01-02T00:00:00+01:00'
+      '2020-01-02T00:00:00+01:00',
     );
   });
 
   it('should throw if both values are undefined', () => {
     expect(() => getMeetingStartTime(undefined, undefined)).toThrowError(
-      'Unexpected input: Both start_time and calendar are undefined'
+      'Unexpected input: Both start_time and calendar are undefined',
     );
   });
 });
@@ -79,19 +79,19 @@ describe('getMeetingEndTime', () => {
 
   it('should use calendar', () => {
     expect(getMeetingEndTime(undefined, calendar)).toBe(
-      '2020-01-02T01:00:00+01:00'
+      '2020-01-02T01:00:00+01:00',
     );
   });
 
   it('should prefer calendar if both values are defined', () => {
     expect(getMeetingEndTime(endTime, calendar)).toBe(
-      '2020-01-02T01:00:00+01:00'
+      '2020-01-02T01:00:00+01:00',
     );
   });
 
   it('should throw if both values are undefined', () => {
     expect(() => getMeetingEndTime(undefined, undefined)).toThrowError(
-      'Unexpected input: Both end_time and calendar are undefined'
+      'Unexpected input: Both end_time and calendar are undefined',
     );
   });
 });
@@ -99,25 +99,25 @@ describe('getMeetingEndTime', () => {
 describe('getForceDeletionTime', () => {
   it('should generate force_deletion_time', () => {
     expect(getForceDeletionTime(60, calendar)).toBe(
-      new Date('2020-01-02T02:00:00+01:00').getTime()
+      new Date('2020-01-02T02:00:00+01:00').getTime(),
     );
   });
 
   it('should generate force_deletion_time for calendar with rrule', () => {
     expect(getForceDeletionTime(60, calendarWithRRule)).toBe(
-      new Date('2020-01-04T02:00:00+01:00').getTime()
+      new Date('2020-01-04T02:00:00+01:00').getTime(),
     );
   });
 
   it('should generate force_deletion_time with offset 0', () => {
     expect(getForceDeletionTime(0, calendar)).toBe(
-      new Date('2020-01-02T01:00:00+01:00').getTime()
+      new Date('2020-01-02T01:00:00+01:00').getTime(),
     );
   });
 
   it('should generate force_deletion_time with negative offset that falls back to 0', () => {
     expect(getForceDeletionTime(-1, calendar)).toBe(
-      new Date('2020-01-02T01:00:00+01:00').getTime()
+      new Date('2020-01-02T01:00:00+01:00').getTime(),
     );
   });
 

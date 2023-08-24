@@ -29,7 +29,7 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
 }));
 
 const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked
+  extractWidgetApiParametersMocked,
 );
 
 let widgetApi: MockedWidgetApi;
@@ -59,9 +59,7 @@ describe('<MeetingDetailsJoinButton/>', () => {
   it('should have no accessibility violations', async () => {
     const { container } = render(
       <MeetingDetailsJoinButton roomId="!room-id" />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -73,7 +71,7 @@ describe('<MeetingDetailsJoinButton/>', () => {
         meetingType="net.nordeck.meetings.breakoutsession"
         roomId="!room-id"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -85,7 +83,7 @@ describe('<MeetingDetailsJoinButton/>', () => {
         meetingType="net.nordeck.meetings.meeting"
         roomId="!room-id"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const button = screen.getByRole('button', {
@@ -103,7 +101,7 @@ describe('<MeetingDetailsJoinButton/>', () => {
         meetingType="net.nordeck.meetings.breakoutsession"
         roomId="!room-id"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const button = screen.getByRole('link', {
@@ -113,7 +111,7 @@ describe('<MeetingDetailsJoinButton/>', () => {
     expect(button).toHaveAttribute('target', '_blank');
     expect(button).toHaveAttribute(
       'href',
-      'http://element.local/#/room/!room-id'
+      'http://element.local/#/room/!room-id',
     );
   });
 
@@ -126,7 +124,7 @@ describe('<MeetingDetailsJoinButton/>', () => {
           roomId="!room-id"
         />
       </>,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const button = screen.getByRole('button', {

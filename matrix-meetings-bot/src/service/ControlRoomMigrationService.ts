@@ -46,11 +46,11 @@ export class ControlRoomMigrationService {
     private readonly widgetClient: WidgetClient,
     @Inject(ModuleProviderToken.APP_CONFIGURATION)
     private readonly appConfig: IAppConfiguration,
-    appRuntimeContext: AppRuntimeContext
+    appRuntimeContext: AppRuntimeContext,
   ) {
     this.botId = appRuntimeContext.botUserId;
     this.meetingsWidgetHostname = new URL(
-      this.appConfig.meetingwidget_url
+      this.appConfig.meetingwidget_url,
     ).hostname;
   }
 
@@ -58,11 +58,11 @@ export class ControlRoomMigrationService {
     if (!this.appConfig.enable_control_room_migration) return;
 
     this.logger.log(
-      `Starting migration of control rooms for the given Bot  ${this.botId}`
+      `Starting migration of control rooms for the given Bot  ${this.botId}`,
     );
     const allRooms: IRoom[] = await this.meetingClient.loadRooms(false);
     this.logger.log(
-      `Loading rooms for the bot ${this.botId}.  Room Count == ${allRooms.length}`
+      `Loading rooms for the bot ${this.botId}.  Room Count == ${allRooms.length}`,
     );
     for (const room of allRooms) {
       try {
@@ -72,18 +72,18 @@ export class ControlRoomMigrationService {
 
         if (directRoomWith2Persons && roomMeetingWidgetStateKey) {
           this.logger.log(
-            `yes try migrate room id : ${room.id} directRoomWith2Persons:  ${directRoomWith2Persons} roomMeetingWidgetStateKey:  ${roomMeetingWidgetStateKey}`
+            `yes try migrate room id : ${room.id} directRoomWith2Persons:  ${directRoomWith2Persons} roomMeetingWidgetStateKey:  ${roomMeetingWidgetStateKey}`,
           );
           await this.migrateSingleRoom(room, 1, roomMeetingWidgetStateKey);
         } else {
           this.logger.log(
-            `not to migrate room id : ${room.id} directRoomWith2Persons:  ${directRoomWith2Persons}  roomMeetingWidgetStateKey:  ${roomMeetingWidgetStateKey}`
+            `not to migrate room id : ${room.id} directRoomWith2Persons:  ${directRoomWith2Persons}  roomMeetingWidgetStateKey:  ${roomMeetingWidgetStateKey}`,
           );
         }
       } catch (err) {
         this.logger.error(
           err,
-          `Failure on room-migration. room.id : ${room.id}`
+          `Failure on room-migration. room.id : ${room.id}`,
         );
       }
     }
@@ -94,9 +94,9 @@ export class ControlRoomMigrationService {
       try {
         this.roomAvatarUrl = await this.client.uploadContent(
           fs.readFileSync(
-            path.join(__dirname, '../static/images/calendar_avatar.png')
+            path.join(__dirname, '../static/images/calendar_avatar.png'),
           ),
-          'image/png'
+          'image/png',
         );
       } catch (err) {
         this.logger.error(err, 'Unable to set bot-help-room avatar image.');
@@ -108,11 +108,11 @@ export class ControlRoomMigrationService {
   public async migrateSingleRoom(
     room: IRoom,
     version: number | undefined,
-    meetingsWidgetStateKey: string | undefined
+    meetingsWidgetStateKey: string | undefined,
   ) {
     if (version && this.isAlreadyMigrated(room, version)) {
       this.logger.log(
-        `migrateSingleRoom room id : ${room.id} .... skip - already migrated`
+        `migrateSingleRoom room id : ${room.id} .... skip - already migrated`,
       );
       return;
     }
@@ -126,7 +126,7 @@ export class ControlRoomMigrationService {
       room.id,
       StateEventName.M_ROOM_AVATAR,
       '',
-      avatarUrl
+      avatarUrl,
     );
 
     // Change the name of the room. bevor there was non of dataport site
@@ -137,18 +137,18 @@ export class ControlRoomMigrationService {
       room.id,
       StateEventName.M_ROOM_NAME_EVENT,
       '',
-      nameContent
+      nameContent,
     );
 
     // change the meeting-widget
     const content = await this.widgetClient.getMeetingWidgetEventContentAsync(
-      meetingsWidgetStateKey
+      meetingsWidgetStateKey,
     );
     await this.client.sendStateEvent(
       room.id,
       StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
       content.id,
-      content
+      content,
     );
 
     const widgetLayoutConfigItem: WidgetLayoutConfigItem = {
@@ -164,7 +164,7 @@ export class ControlRoomMigrationService {
       room.id,
       StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT,
       '',
-      widgetLayoutContent
+      widgetLayoutContent,
     );
 
     // set the version of migration
@@ -176,7 +176,7 @@ export class ControlRoomMigrationService {
         room.id,
         StateEventName.NIC_CONTROLROOM_MIGRATION_VERSION,
         '',
-        migrationContent
+        migrationContent,
       );
     }
   }
@@ -192,14 +192,14 @@ export class ControlRoomMigrationService {
    */
   private isADirectRoomWithTwoPersons(room: IRoom) {
     const memberEvent = room.roomEventsByName(
-      StateEventName.M_ROOM_MEMBER_EVENT
+      StateEventName.M_ROOM_MEMBER_EVENT,
     ) as IStateEvent<MembershipEventContent>[];
 
     if (!(memberEvent && memberEvent.length === 2)) {
       return false;
     }
     const bot_member_event = memberEvent.find(
-      (se) => se.state_key === this.botId
+      (se) => se.state_key === this.botId,
     );
     if (!bot_member_event) {
       return false;
@@ -213,7 +213,7 @@ export class ControlRoomMigrationService {
 
   private isAlreadyMigrated(room: IRoom, version: number): boolean {
     const migration = room.roomEventsByName(
-      StateEventName.NIC_CONTROLROOM_MIGRATION_VERSION
+      StateEventName.NIC_CONTROLROOM_MIGRATION_VERSION,
     ) as IStateEvent<IControlRoomMigrationEventContent>[];
     if (migration && migration.length === 1) {
       return migration[0].content?.room_version >= version;

@@ -36,7 +36,7 @@ export class MatrixAuthMiddleware implements NestMiddleware {
 
   constructor(
     @Inject(ModuleProviderToken.APP_CONFIGURATION)
-    private appConfig: IAppConfiguration
+    private appConfig: IAppConfiguration,
   ) {}
 
   /**
@@ -59,7 +59,7 @@ export class MatrixAuthMiddleware implements NestMiddleware {
   }
 
   async extractUserContext(
-    request: Request
+    request: Request,
   ): Promise<IUserContext | undefined> {
     if (!request.headers?.authorization) {
       return undefined;
@@ -73,8 +73,8 @@ export class MatrixAuthMiddleware implements NestMiddleware {
         try {
           json = JSON.parse(
             base64url.decode(
-              request.headers.authorization.substring(MX_IDENTITY.length + 1)
-            )
+              request.headers.authorization.substring(MX_IDENTITY.length + 1),
+            ),
           );
         } catch (err) {
           throw new Error('Could not parse Json');
@@ -105,7 +105,7 @@ export class MatrixAuthMiddleware implements NestMiddleware {
    * @return The Matrix User ID who generated the token.
    */
   private async loginByOpenIdToken(
-    openIdTokenFromWidget: any
+    openIdTokenFromWidget: any,
   ): Promise<string> {
     if (
       !openIdTokenFromWidget.matrix_server_name ||
@@ -122,7 +122,7 @@ export class MatrixAuthMiddleware implements NestMiddleware {
     } catch (err) {
       const ex: any = err;
       throw new Error(
-        `Client was not able to connect to the needed address: ${ex.code} ${ex.message}`
+        `Client was not able to connect to the needed address: ${ex.code} ${ex.message}`,
       );
     }
 
@@ -147,12 +147,12 @@ export class MatrixAuthMiddleware implements NestMiddleware {
             Authorization: authorizationHeader,
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
     } catch (err) {
       const ex: any = err;
       throw new Error(
-        `Client was not able to connect to the needed address ${ex.code} ${ex.message}`
+        `Client was not able to connect to the needed address ${ex.code} ${ex.message}`,
       );
     }
     if (response.ok) {

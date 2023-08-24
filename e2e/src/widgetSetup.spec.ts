@@ -42,7 +42,7 @@ test.describe('Meeting Widget Setup', () => {
     // the bot to setup the page
     const widget = new MeetingsWidgetPage(
       alicePage,
-      aliceElementWebPage.widgetByTitle('NeoDateFix')
+      aliceElementWebPage.widgetByTitle('NeoDateFix'),
     );
 
     await expect(widget.scheduleMeetingButton).toBeVisible();
@@ -59,8 +59,8 @@ test.describe('Meeting Widget Setup', () => {
     await aliceElementWebPage.acceptPrivateChatInvitation();
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
-        /Hello Alice, thank you for inviting me to the/
-      )
+        /Hello Alice, thank you for inviting me to the/,
+      ),
     ).toBeVisible();
   });
 

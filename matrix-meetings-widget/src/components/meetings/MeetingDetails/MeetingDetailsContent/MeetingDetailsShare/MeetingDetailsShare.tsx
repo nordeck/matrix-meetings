@@ -74,7 +74,7 @@ export function MeetingDetailsShare({ meeting }: { meeting: Meeting }) {
               <ListItemText>
                 {t(
                   'meetingDetails.content.shareMeeting.shareByMail',
-                  'Share by email'
+                  'Share by email',
                 )}
               </ListItemText>
             </ListItemButton>
@@ -97,7 +97,7 @@ export function MeetingDetailsShare({ meeting }: { meeting: Meeting }) {
               <ListItemText
                 primary={t(
                   'meetingDetails.content.shareMeeting.downloadIcsFile',
-                  'Download ICS File'
+                  'Download ICS File',
                 )}
                 secondary={icsError}
                 secondaryTypographyProps={{ color: 'inherit' }}
@@ -109,27 +109,27 @@ export function MeetingDetailsShare({ meeting }: { meeting: Meeting }) {
       <ShareDialog
         description={t(
           'meetingDetails.content.shareMeeting.emailDescription',
-          'Use the following information to forward the conference for example by email:'
+          'Use the following information to forward the conference for example by email:',
         )}
         onClose={emailDialog.onClose}
         open={emailDialog.open}
         title={t(
           'meetingDetails.content.shareMeeting.emailTitle',
-          'Share the meeting invitation'
+          'Share the meeting invitation',
         )}
       >
         {isRecurringCalendarSourceEntry(meeting.calendarEntries) && (
           <Alert role="status" severity="warning" sx={{ my: 1 }}>
             {t(
               'meetingDetails.content.shareMeeting.warningRecurringMeetingEmail',
-              'This is an email invitation to a meeting series. Sharing this email invitation invites users to all meetings in the series.'
+              'This is an email invitation to a meeting series. Sharing this email invitation invites users to all meetings in the series.',
             )}
           </Alert>
         )}
         <CopyableText
           label={t(
             'meetingDetails.content.shareMeeting.emailCopyMessage',
-            'Message'
+            'Message',
           )}
           multiline
           text={message}
@@ -139,20 +139,20 @@ export function MeetingDetailsShare({ meeting }: { meeting: Meeting }) {
       <ShareDialog
         description={t(
           'meetingDetails.content.shareMeeting.icsDescription',
-          'Download the meeting in the iCalendar format to add it to a calendar application:'
+          'Download the meeting in the iCalendar format to add it to a calendar application:',
         )}
         onClose={icsDialog.onClose}
         open={icsDialog.open}
         title={t(
           'meetingDetails.content.shareMeeting.icsTitle',
-          'Download a calendar file'
+          'Download a calendar file',
         )}
       >
         {isRecurringCalendarSourceEntry(meeting.calendarEntries) && (
           <Alert role="status" severity="warning" sx={{ my: 1 }}>
             {t(
               'meetingDetails.content.shareMeeting.warningRecurringMeetingICalFile',
-              'This is an iCal file of a meeting series. Sharing this iCal file invites users to all meetings in the series.'
+              'This is an iCal file of a meeting series. Sharing this iCal file invites users to all meetings in the series.',
             )}
           </Alert>
         )}

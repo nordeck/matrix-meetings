@@ -29,11 +29,11 @@ export async function startElementWeb({
   console.log(`Starting element web… (${containerImage})`);
   const elementWebConfigTemplate = await readFile(
     require.resolve('./config.json'),
-    'utf-8'
+    'utf-8',
   );
   const elementWebConfig = elementWebConfigTemplate.replace(
     /{{HOMESERVER_URL}}/g,
-    homeserverUrl
+    homeserverUrl,
   );
 
   container = await new GenericContainer(containerImage)
@@ -45,7 +45,7 @@ export async function startElementWeb({
     .start();
 
   const elementWebUrl = `http://${container.getHost()}:${container.getMappedPort(
-    80
+    80,
   )}`;
 
   console.log('Element web running at', elementWebUrl);

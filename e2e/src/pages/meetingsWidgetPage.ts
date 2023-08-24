@@ -30,7 +30,7 @@ export class MeetingsWidgetPage {
 
   constructor(
     private readonly page: Page,
-    private readonly widget: FrameLocator
+    private readonly widget: FrameLocator,
   ) {
     this.scheduleMeetingButton = widget.getByRole('button', {
       name: 'Schedule Meeting',
@@ -61,7 +61,7 @@ export class MeetingsWidgetPage {
     const elementWebPage = new ElementWebPage(this.page);
     const scheduleMeetingWidgetPage = new ScheduleMeetingWidgetPage(
       this.page,
-      elementWebPage.widgetByTitle('Schedule Meeting')
+      elementWebPage.widgetByTitle('Schedule Meeting'),
     );
 
     await elementWebPage.approveWidgetCapabilities();
@@ -77,7 +77,7 @@ export class MeetingsWidgetPage {
 
   async setDateFilter(
     fromDate: [number, number] | [number, number, number],
-    toDate?: [number, number, number]
+    toDate?: [number, number, number],
   ) {
     await fillDatePicker(
       this.widget,
@@ -85,7 +85,7 @@ export class MeetingsWidgetPage {
         name: /Choose (date range|date|work week|week|month), selected/,
       }),
       fromDate,
-      toDate
+      toDate,
     );
   }
 
@@ -96,7 +96,7 @@ export class MeetingsWidgetPage {
     return new MeetingCardPage(
       this.page,
       this.widget,
-      target.getByRole('listitem', { name: title })
+      target.getByRole('listitem', { name: title }),
     );
   }
 
@@ -105,7 +105,7 @@ export class MeetingsWidgetPage {
   }
 
   async openCalendarEventDetails(
-    title: string
+    title: string,
   ): Promise<CalendarEventDetailsPage> {
     const elementWebPage = new ElementWebPage(this.page);
     await this.getCalendarEvent(title).click();
@@ -115,7 +115,7 @@ export class MeetingsWidgetPage {
     return new CalendarEventDetailsPage(
       this.page,
       this.widget,
-      this.widget.getByRole('dialog', { name: title })
+      this.widget.getByRole('dialog', { name: title }),
     );
   }
 }
@@ -126,12 +126,12 @@ class CalendarEventDetailsPage {
   constructor(
     private readonly page: Page,
     private readonly widget: FrameLocator,
-    private readonly dialog: Locator
+    private readonly dialog: Locator,
   ) {
     this.meetingDetails = new MeetingDetailsPage(
       this.page,
       this.widget,
-      this.widget.getByRole('region', { name: 'Meeting details' })
+      this.widget.getByRole('region', { name: 'Meeting details' }),
     );
   }
 

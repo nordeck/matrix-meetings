@@ -25,23 +25,21 @@ export function mockDateTimeFormatTimeZone(timeZone: string): void {
       new DateTimeFormat(locale, {
         ...options,
         timeZone: options?.timeZone ?? timeZone,
-      })
+      }),
   );
 
   // make sure getTimezoneOffset is based on the provided timezone and
   // not the system
-  jest
-    .spyOn(Date.prototype, 'getTimezoneOffset')
-    .mockImplementation(function (this: Date) {
-      const dateInLocalTZ = new Date(
-        this.toLocaleString('en-US', { timeZone })
-      );
-      const dateInTargetTZ = new Date(
-        this.toLocaleString('en-US', { timeZone: 'UTC' })
-      );
-      const tzOffset = dateInTargetTZ.getTime() - dateInLocalTZ.getTime();
-      return tzOffset / 1000 / 60;
-    });
+  jest.spyOn(Date.prototype, 'getTimezoneOffset').mockImplementation(function (
+    this: Date,
+  ) {
+    const dateInLocalTZ = new Date(this.toLocaleString('en-US', { timeZone }));
+    const dateInTargetTZ = new Date(
+      this.toLocaleString('en-US', { timeZone: 'UTC' }),
+    );
+    const tzOffset = dateInTargetTZ.getTime() - dateInLocalTZ.getTime();
+    return tzOffset / 1000 / 60;
+  });
 
   // We want our tests to be in a reproducible time zone, always resulting in
   // the same results, independent from where they are run.

@@ -116,14 +116,14 @@ export const MeetingsCalendar = ({
       widgetApi.widgetParameters.roomId,
       widgetApi.widgetParameters.userId,
       displayAllMeetings,
-    ]
+    ],
   );
 
   const buttonsId = useId();
   const events: EventInput[] = useAppSelector((state) => {
     const meetingIds = selectAllMeetingIds(
       state,
-      generateFilters(filters, view)
+      generateFilters(filters, view),
     );
 
     return meetingIds.flatMap((meetingId) => ({
@@ -134,7 +134,7 @@ export const MeetingsCalendar = ({
       end: meetingId.endTime,
       recurrenceId: meetingId.recurrenceId,
       buttonLabelId: `${buttonsId}-${normalizeId(
-        `${meetingId.id}${meetingId.uid}${meetingId.recurrenceId}`
+        `${meetingId.id}${meetingId.uid}${meetingId.recurrenceId}`,
       )}`,
     }));
   }, isEqual);
@@ -169,7 +169,7 @@ export const MeetingsCalendar = ({
         />
       );
     },
-    [view]
+    [view],
   );
 
   const handleEventClick = useCallback((arg: EventClickArg) => {
@@ -197,7 +197,7 @@ export const MeetingsCalendar = ({
       // We handled the click, don't show the dialog
       return 'stop';
     },
-    [onShowMore]
+    [onShowMore],
   );
 
   const handleOnClose = useCallback(() => {

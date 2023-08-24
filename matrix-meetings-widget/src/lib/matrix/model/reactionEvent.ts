@@ -48,7 +48,7 @@ const reactionEventSchema = Joi.object<ReactionEvent, true>({
 }).unknown();
 
 export function isValidReactionEvent(
-  event: RoomEvent<unknown>
+  event: RoomEvent<unknown>,
 ): event is StateEvent<ReactionEvent> {
   return isValidEvent(event, ROOM_EVENT_REACTION, reactionEventSchema);
 }

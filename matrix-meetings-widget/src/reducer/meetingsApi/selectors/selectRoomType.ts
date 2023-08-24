@@ -23,7 +23,7 @@ export type RoomType = 'meeting' | 'breakout' | 'management';
 
 export function makeSelectRoomType(): (
   state: RootState,
-  roomId: string
+  roomId: string,
 ) => RoomType {
   return createSelector(selectRoomCreateEventByRoomId, (roomCreateEvent) => {
     if (!roomCreateEvent) {

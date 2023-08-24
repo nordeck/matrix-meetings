@@ -32,7 +32,7 @@ describe('validateReactionEvent', () => {
         room_id: '!room',
         sender: '@sender',
         type: 'm.reaction',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -54,7 +54,7 @@ describe('validateReactionEvent', () => {
         room_id: '!room',
         sender: '@sender',
         type: 'm.reaction',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -79,7 +79,7 @@ describe('validateReactionEvent', () => {
         room_id: '!room',
         sender: '@sender',
         type: 'm.reaction',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -98,7 +98,7 @@ describe('validateReactionEvent', () => {
         room_id: '!room',
         sender: '@sender',
         type: 'any.other.type',
-      })
+      }),
     ).toBe(false);
   });
 
@@ -194,7 +194,7 @@ describe('validateReactionEvent', () => {
         room_id: '!room',
         sender: '@sender',
         type: 'm.reaction',
-      })
+      }),
     ).toBe(false);
   });
 });

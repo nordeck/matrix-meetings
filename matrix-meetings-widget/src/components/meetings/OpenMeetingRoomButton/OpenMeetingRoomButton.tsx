@@ -54,7 +54,7 @@ export function OpenMeetingRoomButton({
     ? t(
         'openMeetingRoomButton.openMeetingRoom',
         'Open the breakout session room',
-        { context: 'breakout' }
+        { context: 'breakout' },
       )
     : t('openMeetingRoomButton.openMeetingRoom', 'Open the meeting room');
 

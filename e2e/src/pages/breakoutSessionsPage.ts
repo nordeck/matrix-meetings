@@ -27,7 +27,7 @@ export class BreakoutSessionsPage {
 
   constructor(
     private readonly page: Page,
-    private readonly widget: FrameLocator
+    private readonly widget: FrameLocator,
   ) {
     this.scheduleBreakoutSessionsButton = widget.getByRole('button', {
       name: 'Schedule Breakout Session',
@@ -46,7 +46,7 @@ export class BreakoutSessionsPage {
     const scheduleBreakoutSessionWidgetPage =
       new ScheduleBreakoutSessionsWidgetPage(
         this.page,
-        elementWebPage.widgetByTitle('Schedule Breakout Session')
+        elementWebPage.widgetByTitle('Schedule Breakout Session'),
       );
 
     await elementWebPage.approveWidgetCapabilities();
@@ -60,7 +60,7 @@ export class BreakoutSessionsPage {
 
   async setDateFilter(
     fromDate: [number, number, number],
-    toDate?: [number, number, number]
+    toDate?: [number, number, number],
   ) {
     await fillDatePicker(
       this.widget,
@@ -68,7 +68,7 @@ export class BreakoutSessionsPage {
         name: /Choose (date range|date|work week|week|month), selected/,
       }),
       fromDate,
-      toDate
+      toDate,
     );
   }
 
@@ -84,7 +84,7 @@ export class BreakoutSessionsPage {
     return new MeetingCardPage(
       this.page,
       this.widget,
-      target.getByRole('listitem', { name: title })
+      target.getByRole('listitem', { name: title }),
     );
   }
 }

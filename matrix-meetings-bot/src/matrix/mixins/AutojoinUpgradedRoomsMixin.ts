@@ -43,7 +43,7 @@ export class AutojoinUpgradedRoomsMixin {
       } catch (e) {
         logger.error(
           e,
-          `Could not automatically join replacement room ${tombstoneEvent['content']['replacement_room']} for ${roomId}`
+          `Could not automatically join replacement room ${tombstoneEvent['content']['replacement_room']} for ${roomId}`,
         );
       }
     });

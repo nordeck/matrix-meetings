@@ -22,7 +22,7 @@ import {
 describe('RoomMatrixEventsReader', () => {
   test('read test', async () => {
     const events = new RoomMatrixEventsReader(
-      'test/conf/test_default_events.json'
+      'test/conf/test_default_events.json',
     ).read();
     expect(events.stateEvents.length).toBe(8);
     expect(events.roomEvents).toStrictEqual([]);
@@ -55,7 +55,7 @@ describe('schema', () => {
       schema.validate({
         state_events: [],
         room_events: [],
-      }).error
+      }).error,
     ).toBeUndefined();
   });
 
@@ -113,7 +113,7 @@ describe('schema', () => {
             content: { msgtype: 'm.text', body: 'My message' },
           },
         ],
-      }).error
+      }).error,
     ).toBeUndefined();
   });
 
@@ -146,7 +146,7 @@ describe('schema', () => {
           },
         ],
         additional: 'tmp',
-      }).error
+      }).error,
     ).toBeUndefined();
   });
 
@@ -203,7 +203,7 @@ describe('schema', () => {
     expect(
       schema.validate({
         ...patch,
-      }).error
+      }).error,
     ).toBeDefined();
   });
 
@@ -236,7 +236,7 @@ describe('schema', () => {
             content: { type: 'i', url: 'i', name: 'n', ...patch },
           },
         ],
-      }).error
+      }).error,
     ).toBeDefined();
   });
 });

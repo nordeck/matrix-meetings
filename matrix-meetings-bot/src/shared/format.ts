@@ -46,7 +46,7 @@ export function parseRRuleSafe(rule: string): Partial<Options> | undefined {
 export const formatRRuleText = (
   rule: string,
   t: TFunction,
-  lng: string
+  lng: string,
 ): string => {
   const formatWeekdayAsLocaleString = (byWeekday: number) =>
     Info.weekdays(undefined, { locale: lng })[byWeekday];
@@ -176,7 +176,7 @@ export const formatRRuleText = (
         afterMeetingCount,
         recurrenceEnd,
         byweekday: formatWeekdayAsLocaleString(
-          normalizeNumeric(byweekday) ?? 0
+          normalizeNumeric(byweekday) ?? 0,
         ),
         ordinalLabel: getOrdinalLabel(bysetpos, t, lng),
         context: 'byweekday',
@@ -234,7 +234,7 @@ export const formatRRuleText = (
         recurrenceEnd,
         monthLabel,
         byweekday: formatWeekdayAsLocaleString(
-          normalizeNumeric(byweekday) ?? 0
+          normalizeNumeric(byweekday) ?? 0,
         ),
         ordinalLabel: getOrdinalLabel(bysetpos, t, lng),
         context: 'byweekday',

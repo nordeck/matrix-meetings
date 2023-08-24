@@ -61,13 +61,15 @@ export function WidgetsSelectionDropdown({
           availableWidgets: data,
         };
       },
-    }
+    },
   );
 
   useEffect(() => {
     if (autoSelectAllWidgets && !isDirty && availableWidgets.length > 0) {
       onChange(
-        availableWidgets.filter(({ optional }) => !optional).map(({ id }) => id)
+        availableWidgets
+          .filter(({ optional }) => !optional)
+          .map(({ id }) => id),
       );
       setDirty(true);
     }
@@ -84,21 +86,21 @@ export function WidgetsSelectionDropdown({
       setDirty(true);
       onChange(value.map((w) => w.id));
     },
-    [onChange]
+    [onChange],
   );
 
   const noResultsMessage = useMemo(() => {
     if (isError) {
       return t(
         'widgetSelectionDropdown.loadingError',
-        'Error while loading available Widgets.'
+        'Error while loading available Widgets.',
       );
     }
 
     if (availableWidgets.length > 0) {
       return t(
         'widgetSelectionDropdown.allActive',
-        'All available widgets are already active.'
+        'All available widgets are already active.',
       );
     }
 
@@ -121,7 +123,7 @@ export function WidgetsSelectionDropdown({
                     <CircularProgress
                       aria-label={t(
                         'widgetSelectionDropdown.loading',
-                        'Loading widgets…'
+                        'Loading widgets…',
                       )}
                       color="inherit"
                       size={20}
@@ -137,7 +139,7 @@ export function WidgetsSelectionDropdown({
         />
       );
     },
-    [instructionId, isLoading, t]
+    [instructionId, isLoading, t],
   );
 
   const renderTags = useCallback(
@@ -154,7 +156,7 @@ export function WidgetsSelectionDropdown({
           />
         );
       }),
-    [tagInstructionId]
+    [tagInstructionId],
   );
 
   const getOptionLabel = useCallback((o: AvailableWidget) => o.name, []);
@@ -173,14 +175,14 @@ export function WidgetsSelectionDropdown({
           {
             selectedCount: availableSelectedWidgets.length,
             count: availableWidgets.length,
-          }
+          },
         )}
       </Typography>
 
       <Typography aria-hidden id={tagInstructionId} sx={visuallyHidden}>
         {t(
           'widgetSelectionDropdown.tagInstructions',
-          'Use the backspace key to delete the entry.'
+          'Use the backspace key to delete the entry.',
         )}
       </Typography>
 

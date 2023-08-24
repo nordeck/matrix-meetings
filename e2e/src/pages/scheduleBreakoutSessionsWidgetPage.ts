@@ -25,7 +25,7 @@ export class ScheduleBreakoutSessionsWidgetPage {
 
   constructor(
     private readonly page: Page,
-    private readonly widget: FrameLocator
+    private readonly widget: FrameLocator,
   ) {
     const dialog = this.page.getByRole('dialog', {
       name: 'Schedule Breakout Session',

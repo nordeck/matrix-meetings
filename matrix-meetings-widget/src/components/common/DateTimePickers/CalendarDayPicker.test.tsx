@@ -38,13 +38,13 @@ describe('<CalendarDayPicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-07T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
       screen.getByRole('button', {
         name: 'Choose date, selected date is February 7, 2022',
-      })
+      }),
     ).toHaveTextContent('Feb 7, 2022');
   });
 
@@ -55,7 +55,7 @@ describe('<CalendarDayPicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-07T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -68,13 +68,13 @@ describe('<CalendarDayPicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-07T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: 'Choose date, selected date is February 7, 2022',
-      })
+      }),
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -87,13 +87,13 @@ describe('<CalendarDayPicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-07T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: 'Choose date, selected date is February 7, 2022',
-      })
+      }),
     );
 
     const dialog = screen.getByRole('dialog');
@@ -101,7 +101,7 @@ describe('<CalendarDayPicker>', () => {
     await userEvent.click(
       within(dialog).getByRole('button', {
         name: 'calendar view is open, switch to year view',
-      })
+      }),
     );
 
     await userEvent.click(within(dialog).getByRole('button', { name: '2023' }));
@@ -111,7 +111,7 @@ describe('<CalendarDayPicker>', () => {
     expect(onRangeChange).toBeCalledTimes(1);
     expect(onRangeChange).toHaveBeenLastCalledWith(
       '2023-01-13T00:00:00.000+00:00',
-      '2023-01-13T23:59:59.999+00:00'
+      '2023-01-13T23:59:59.999+00:00',
     );
 
     await waitFor(() => {

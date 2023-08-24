@@ -73,7 +73,7 @@ export class StubMatrixClient extends AbstractMatrixClient {
     roomId: string,
     type: string,
     stateKey: string,
-    content: any
+    content: any,
   ): Promise<string> {
     const roomState = this.roomStateMap[roomId];
     roomState.push({
@@ -99,7 +99,7 @@ export class StubMatrixClient extends AbstractMatrixClient {
         : Math.max(
             ...this.roomIds
               .map((idx) => parseInt(idx))
-              .filter((idx) => !isNaN(idx))
+              .filter((idx) => !isNaN(idx)),
           );
     return roomIdNumberMax + 1;
   }

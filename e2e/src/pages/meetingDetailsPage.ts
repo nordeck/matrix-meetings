@@ -31,7 +31,7 @@ export class MeetingDetailsPage {
   constructor(
     private readonly page: Page,
     private readonly widget: FrameLocator,
-    public readonly meetingDetailsView: Locator
+    public readonly meetingDetailsView: Locator,
   ) {
     this.meetingTitleText = this.meetingDetailsView.getByRole('heading', {
       level: 3,
@@ -75,7 +75,7 @@ export class MeetingDetailsPage {
     const elementWebPage = new ElementWebPage(this.page);
     const editMeetingWidgetPage = new ScheduleMeetingWidgetPage(
       this.page,
-      elementWebPage.widgetByTitle('Edit Meeting')
+      elementWebPage.widgetByTitle('Edit Meeting'),
     );
 
     await elementWebPage.approveWidgetCapabilities();

@@ -29,15 +29,15 @@ export class JitsiClient {
 
   constructor(
     @Inject(ModuleProviderToken.APP_CONFIGURATION)
-    private appConfig: IAppConfiguration
+    private appConfig: IAppConfiguration,
   ) {}
 
   public async getSharingInformationAsync(
-    room_id: string
+    room_id: string,
   ): Promise<MeetingSharingInformationDto> {
     return {
       jitsi_dial_in_number: this.getDefaultPhoneNumber(
-        await this.getJitsiDialInNumberAsync()
+        await this.getJitsiDialInNumberAsync(),
       ),
       jitsi_pin: await this.getJitsiPinAsync(room_id),
     };
@@ -58,19 +58,19 @@ export class JitsiClient {
           this.logger.error(
             `Could not fetch jitsi_dial_in_json_url ${
               this.appConfig.jitsi_dial_in_json_url
-            } ${response.status}  ${await response.text()}`
+            } ${response.status}  ${await response.text()}`,
           );
         }
       } catch (err) {
         if (err instanceof Error) {
           this.logger.error(
             err,
-            `Could not fetch jitsi_dial_in_json_url ${this.appConfig.jitsi_dial_in_json_url} error: ${err.message}, stack: ${err.stack}`
+            `Could not fetch jitsi_dial_in_json_url ${this.appConfig.jitsi_dial_in_json_url} error: ${err.message}, stack: ${err.stack}`,
           );
         } else {
           this.logger.error(
             err,
-            `Could not fetch jitsi_dial_in_json_url ${this.appConfig.jitsi_dial_in_json_url} error: ${err}`
+            `Could not fetch jitsi_dial_in_json_url ${this.appConfig.jitsi_dial_in_json_url} error: ${err}`,
           );
         }
       }
@@ -107,7 +107,7 @@ export class JitsiClient {
         });
         const url = this.appConfig.jitsi_pin_url.replace(
           '{base32_room_name}',
-          base32_room_name
+          base32_room_name,
         );
         const response = await fetch(url, { method: 'get' });
         if (response.ok) {
@@ -116,19 +116,19 @@ export class JitsiClient {
           this.logger.error(
             `Could not fetch jitsi_pin_url ${this.appConfig.jitsi_pin_url} ${
               response.status
-            }  ${await response.text()}`
+            }  ${await response.text()}`,
           );
         }
       } catch (err) {
         if (err instanceof Error) {
           this.logger.error(
             err,
-            `Could not fetch jitsi_pin_url ${this.appConfig.jitsi_pin_url} error: ${err.message}, stack: ${err.stack}`
+            `Could not fetch jitsi_pin_url ${this.appConfig.jitsi_pin_url} error: ${err.message}, stack: ${err.stack}`,
           );
         } else {
           this.logger.error(
             err,
-            `Could not fetch jitsi_pin_url ${this.appConfig.jitsi_pin_url}`
+            `Could not fetch jitsi_pin_url ${this.appConfig.jitsi_pin_url}`,
           );
         }
       }

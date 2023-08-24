@@ -31,7 +31,7 @@ export interface IMeetingChanges {
 class MeetingChangesHelper {
   public calculate(
     oldMeeting: IMeeting,
-    newMeeting: IMeeting
+    newMeeting: IMeeting,
   ): IMeetingChanges {
     const titleChanged = newMeeting.title !== oldMeeting.title;
     const descriptionChanged =

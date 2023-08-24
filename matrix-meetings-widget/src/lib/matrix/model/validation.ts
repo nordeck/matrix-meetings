@@ -20,7 +20,7 @@ import Joi from 'joi';
 export function isValidEvent(
   event: RoomEvent<unknown> | StateEvent<unknown>,
   eventType: string,
-  schema: Joi.AnySchema
+  schema: Joi.AnySchema,
 ): boolean {
   if (event.type !== eventType) {
     return false;

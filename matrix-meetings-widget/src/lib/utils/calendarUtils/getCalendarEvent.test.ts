@@ -59,7 +59,7 @@ describe('getCalendarEvent', () => {
     });
 
     expect(
-      getCalendarEvent(calendar, 'not-existent-entry', undefined)
+      getCalendarEvent(calendar, 'not-existent-entry', undefined),
     ).toBeUndefined();
   });
 
@@ -70,7 +70,7 @@ describe('getCalendarEvent', () => {
     });
 
     expect(
-      getCalendarEvent(calendar, 'entry-0', '2020-01-09T10:00:00Z')
+      getCalendarEvent(calendar, 'entry-0', '2020-01-09T10:00:00Z'),
     ).toBeUndefined();
   });
 
@@ -82,7 +82,7 @@ describe('getCalendarEvent', () => {
     });
 
     expect(
-      getCalendarEvent([rruleEntry], 'entry-0', '2020-01-23T10:00:00Z')
+      getCalendarEvent([rruleEntry], 'entry-0', '2020-01-23T10:00:00Z'),
     ).toEqual({
       uid: 'entry-0',
       startTime: '2020-01-23T10:00:00Z',
@@ -100,7 +100,7 @@ describe('getCalendarEvent', () => {
     });
 
     expect(
-      getCalendarEvent([rruleEntry], 'entry-0', '2020-01-23T10:00:00Z')
+      getCalendarEvent([rruleEntry], 'entry-0', '2020-01-23T10:00:00Z'),
     ).toEqual({
       uid: 'entry-0',
       startTime: '2020-01-23T10:00:00Z',
@@ -190,8 +190,8 @@ describe('getCalendarEvent', () => {
       getCalendarEvent(
         [rruleEntry, overrideEntry],
         'entry-0',
-        '2020-01-23T10:00:00Z'
-      )
+        '2020-01-23T10:00:00Z',
+      ),
     ).toEqual({
       uid: 'entry-0',
       startTime: '2020-01-23T14:00:00Z',
@@ -210,8 +210,8 @@ describe('getCalendarEvent', () => {
           rrule: 'FREQ=DAILY',
         }),
         'entry-0',
-        '2020-01-23T11:00:00Z'
-      )
+        '2020-01-23T11:00:00Z',
+      ),
     ).toBeUndefined();
   });
 });

@@ -73,7 +73,7 @@ export function useEditMeeting(): {
             },
           ],
           data: { meeting, isMessagingEnabled },
-        }
+        },
       );
 
       if (
@@ -82,7 +82,7 @@ export function useEditMeeting(): {
       ) {
         try {
           const availableWidgets = await dispatch(
-            meetingBotApi.endpoints.getAvailableWidgets.initiate()
+            meetingBotApi.endpoints.getAvailableWidgets.initiate(),
           ).unwrap();
 
           const {
@@ -96,7 +96,7 @@ export function useEditMeeting(): {
             meeting,
             isMessagingEnabled,
             updatedMeeting.meeting,
-            availableWidgets.map((w) => w.id)
+            availableWidgets.map((w) => w.id),
           );
 
           const detailsResult = await updateMeetingDetails({
@@ -147,7 +147,7 @@ export function useEditMeeting(): {
       updateMeetingParticipants,
       updateMeetingPermissions,
       updateWidget,
-    ]
+    ],
   );
 
   return { editMeeting };
@@ -156,7 +156,7 @@ export function useEditMeeting(): {
 function diffActiveWidgets(
   oldActiveWidgets: string[],
   newActiveWidget: string[],
-  availableWidgets: string[]
+  availableWidgets: string[],
 ) {
   const addWidgets = new Array<string>();
   const removeWidgets = new Array<string>();
@@ -177,13 +177,13 @@ function diffActiveWidgets(
 
 function diffParticipants(
   oldParticipants: string[],
-  newParticipants: string[]
+  newParticipants: string[],
 ) {
   const addUserIds = newParticipants.filter(
-    (id) => !oldParticipants.includes(id)
+    (id) => !oldParticipants.includes(id),
   );
   const removeUserIds = oldParticipants.filter(
-    (id) => !newParticipants.includes(id)
+    (id) => !newParticipants.includes(id),
   );
 
   return { addUserIds, removeUserIds };
@@ -193,16 +193,16 @@ export const diffMeeting = (
   oldMeeting: Meeting,
   isMessagingEnabled: boolean,
   newMeeting: CreateMeeting,
-  availableWidgets: string[]
+  availableWidgets: string[],
 ) => {
   const { addWidgets, removeWidgets } = diffActiveWidgets(
     oldMeeting.widgets,
     newMeeting.widgetIds,
-    availableWidgets
+    availableWidgets,
   );
   const { addUserIds, removeUserIds } = diffParticipants(
     oldMeeting.participants.map((p) => p.userId),
-    newMeeting.participants
+    newMeeting.participants,
   );
   const meetingDetails: UpdateMeetingDetailsOptions['updates'] = {
     title: newMeeting.title,
@@ -212,11 +212,11 @@ export const diffMeeting = (
         uid: oldMeeting.calendarUid,
         dtstart: formatICalDate(
           DateTime.fromISO(newMeeting.startTime),
-          new Intl.DateTimeFormat().resolvedOptions().timeZone
+          new Intl.DateTimeFormat().resolvedOptions().timeZone,
         ),
         dtend: formatICalDate(
           DateTime.fromISO(newMeeting.endTime),
-          new Intl.DateTimeFormat().resolvedOptions().timeZone
+          new Intl.DateTimeFormat().resolvedOptions().timeZone,
         ),
         rrule: newMeeting.rrule,
       }),

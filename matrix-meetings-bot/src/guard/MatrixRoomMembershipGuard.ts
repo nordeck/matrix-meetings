@@ -46,11 +46,11 @@ export class MatrixRoomMembershipGuard implements CanActivate {
           const joinedRoomMembers =
             await this.matrixClient.getJoinedRoomMembers(roomId);
           const userIsInRoom = joinedRoomMembers.find(
-            (userId) => userId === userContext.userId
+            (userId) => userId === userContext.userId,
           );
           if (userIsInRoom) return true;
           this.logger.warn(
-            `User ${userContext.userId} is not a joined room-member of room ${roomId}`
+            `User ${userContext.userId} is not a joined room-member of room ${roomId}`,
           );
           return false;
         }

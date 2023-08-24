@@ -35,17 +35,17 @@ export class WelcomeWorkflowController {
   @EventPattern(matrixPattern.roomInvite)
   async roomInvite(
     @RoomIdParam() roomId: string,
-    @Payload() event: IStateEvent<MembershipEventContent>
+    @Payload() event: IStateEvent<MembershipEventContent>,
   ) {
     await this.welcomeWorkflowService.processRoomInvite(roomId, event);
   }
 
   @EventPattern(
-    matrixPattern.roomEvent(StateEventName.M_ROOM_POWER_LEVELS_EVENT)
+    matrixPattern.roomEvent(StateEventName.M_ROOM_POWER_LEVELS_EVENT),
   )
   async powerLevels(
     @RoomIdParam() roomId: string,
-    @Payload() event: IStateEvent<PowerLevelsEventContent>
+    @Payload() event: IStateEvent<PowerLevelsEventContent>,
   ) {
     await this.welcomeWorkflowService.processPowerlevelChange(roomId, event);
   }
@@ -53,15 +53,15 @@ export class WelcomeWorkflowController {
   @EventPattern(matrixPattern.roomEvent(StateEventName.M_ROOM_MEMBER_EVENT))
   async member(
     @RoomIdParam() roomId: string,
-    @Payload() event: IStateEvent<MembershipEventContent>
+    @Payload() event: IStateEvent<MembershipEventContent>,
   ) {
     await this.welcomeWorkflowService.processUserJoinedPrivateRoom(
       roomId,
-      event
+      event,
     );
     await this.welcomeWorkflowService.processUserLeavePrivateRoom(
       roomId,
-      event
+      event,
     );
   }
 }

@@ -51,10 +51,10 @@ export function EndDatePicker({
           formatParams: {
             date: longDateFormat,
           },
-        }
+        },
       );
     },
-    [t]
+    [t],
   );
 
   const handleOnChange = useCallback(
@@ -69,7 +69,7 @@ export function EndDatePicker({
         onChange(newValue);
       }
     },
-    [onChange, value]
+    [onChange, value],
   );
 
   return (

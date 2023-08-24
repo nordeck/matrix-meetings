@@ -32,7 +32,7 @@ const Component = withCurrentRoomMeeting(
       <p>Start: {meeting.startTime}</p>
       <p>My Content</p>
     </>
-  )
+  ),
 );
 
 let widgetApi: MockedWidgetApi;
@@ -69,7 +69,7 @@ describe('withCurrentRoomMeeting', () => {
     render(<Component />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('heading', { name: /an important meeting/i })
+      screen.findByRole('heading', { name: /an important meeting/i }),
     ).resolves.toBeInTheDocument();
     expect(screen.getByText('My Content')).toBeInTheDocument();
   });
@@ -98,7 +98,7 @@ describe('withCurrentRoomMeeting', () => {
     render(<Component />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('heading', { name: /an important meeting/i })
+      screen.findByRole('heading', { name: /an important meeting/i }),
     ).resolves.toBeInTheDocument();
 
     expect(screen.getByText('Start: 2023-01-01T10:00:00Z')).toBeInTheDocument();

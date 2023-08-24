@@ -39,7 +39,7 @@ export class ConfigurationDto {
   constructor(
     homeServer: string,
     jitsiDialInEnabled: boolean,
-    openXchangeMeetingUrlTemplate: string | undefined
+    openXchangeMeetingUrlTemplate: string | undefined,
   ) {
     this.homeServer = homeServer;
     this.jitsiDialInEnabled = jitsiDialInEnabled;

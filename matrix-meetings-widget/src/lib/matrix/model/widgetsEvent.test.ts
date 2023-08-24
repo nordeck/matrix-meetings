@@ -30,7 +30,7 @@ describe('isValidWidgetsEvent', () => {
         sender: '@sender',
         state_key: '',
         type: 'im.vector.modular.widgets',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -48,7 +48,7 @@ describe('isValidWidgetsEvent', () => {
         sender: '@sender',
         state_key: '',
         type: 'im.vector.modular.widgets',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -65,7 +65,7 @@ describe('isValidWidgetsEvent', () => {
         sender: '@sender',
         state_key: '',
         type: 'any.other.type',
-      })
+      }),
     ).toBe(false);
   });
 
@@ -90,7 +90,7 @@ describe('isValidWidgetsEvent', () => {
         sender: '@sender',
         state_key: '',
         type: 'im.vector.modular.widgets',
-      })
+      }),
     ).toBe(false);
   });
 });

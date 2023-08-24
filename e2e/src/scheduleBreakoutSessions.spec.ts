@@ -28,7 +28,7 @@ test.describe('Schedule Breakout Sessions', () => {
 
       await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
       await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-        'My Description'
+        'My Description',
       );
       await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
       await aliceScheduleMeetingWidgetPage.addParticipant(bob.displayName);
@@ -44,7 +44,7 @@ test.describe('Schedule Breakout Sessions', () => {
         .joinMeeting();
       await aliceElementWebPage.waitForRoom('My Meeting');
       await aliceElementWebPage.showWidgetInSidebar('Breakout Sessions');
-    }
+    },
   );
 
   test('should create breakout sessions for the meeting', async ({
@@ -75,23 +75,23 @@ test.describe('Schedule Breakout Sessions', () => {
 
     await aliceScheduleBreakoutSessionWidgetPage.setStartAndEndTime(
       '10:30 AM',
-      '10:40 AM'
+      '10:40 AM',
     );
     // For some reason the test fails to enter the description if we enter it
     // first (firefox only?)
     await aliceScheduleBreakoutSessionWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleBreakoutSessionWidgetPage.groupNumberSnipButton.fill(
-      '2'
+      '2',
     );
     await aliceScheduleBreakoutSessionWidgetPage.addParticipantToGroup(
       bob.displayName,
-      'Group 1'
+      'Group 1',
     );
     await aliceScheduleBreakoutSessionWidgetPage.addParticipantToGroup(
       charlie.displayName,
-      'Group 2'
+      'Group 2',
     );
     await aliceScheduleBreakoutSessionWidgetPage.createBreakoutSessions();
 
@@ -99,12 +99,12 @@ test.describe('Schedule Breakout Sessions', () => {
 
     await expect(
       aliceBreakoutSessionsPage.getBreakoutSession('Group 1')
-        .meetingDescriptionText
+        .meetingDescriptionText,
     ).toHaveText('My Description');
 
     await expect(
       aliceBreakoutSessionsPage.getBreakoutSession('Group 2')
-        .meetingDescriptionText
+        .meetingDescriptionText,
     ).toHaveText('My Description');
 
     await aliceElementWebPage.switchToRoom('Group 1');
@@ -119,7 +119,7 @@ test.describe('Schedule Breakout Sessions', () => {
     const meetingCard = aliceCockpitWidgetPage.getMeeting();
     await expect(meetingCard.meetingTitleText).toHaveText('Group 1');
     await expect(meetingCard.meetingDescriptionText).toHaveText(
-      'My Description'
+      'My Description',
     );
 
     await bobElementWebPage.showWidgetInSidebar('Breakout Sessions');
@@ -145,23 +145,23 @@ test.describe('Schedule Breakout Sessions', () => {
 
     await aliceScheduleBreakoutSessionWidgetPage.setStartAndEndTime(
       '10:30 AM',
-      '10:40 AM'
+      '10:40 AM',
     );
     // For some reason the test fails to enter the description if we enter it
     // first (firefox only?)
     await aliceScheduleBreakoutSessionWidgetPage.descriptionTextbox.fill(
-      'My Description' + repeat('+', 100000)
+      'My Description' + repeat('+', 100000),
     );
     await aliceScheduleBreakoutSessionWidgetPage.groupNumberSnipButton.fill(
-      '2'
+      '2',
     );
     await aliceScheduleBreakoutSessionWidgetPage.addParticipantToGroup(
       bob.displayName,
-      'Group 1'
+      'Group 1',
     );
     await aliceScheduleBreakoutSessionWidgetPage.addParticipantToGroup(
       charlie.displayName,
-      'Group 2'
+      'Group 2',
     );
     await aliceScheduleBreakoutSessionWidgetPage
       .getGroupTitleTextbox('Group 1')
@@ -175,18 +175,18 @@ test.describe('Schedule Breakout Sessions', () => {
 
     await expect(
       aliceBreakoutSessionsPage.getBreakoutSession(
-        'Group 1' + repeat('+', 255 - 'Group 1'.length)
-      ).meetingDescriptionText
+        'Group 1' + repeat('+', 255 - 'Group 1'.length),
+      ).meetingDescriptionText,
     ).toHaveText(
-      'My Description' + repeat('+', 20000 - 'My Description'.length)
+      'My Description' + repeat('+', 20000 - 'My Description'.length),
     );
 
     await expect(
       aliceBreakoutSessionsPage.getBreakoutSession(
-        'Group 2' + repeat('+', 255 - 'Group 2'.length)
-      ).meetingDescriptionText
+        'Group 2' + repeat('+', 255 - 'Group 2'.length),
+      ).meetingDescriptionText,
     ).toHaveText(
-      'My Description' + repeat('+', 20000 - 'My Description'.length)
+      'My Description' + repeat('+', 20000 - 'My Description'.length),
     );
   });
 
@@ -200,53 +200,53 @@ test.describe('Schedule Breakout Sessions', () => {
       await aliceBreakoutSessionsPage.scheduleBreakoutSession();
     await aliceScheduleBreakoutSessionWidgetPage.setStartAndEndTime(
       '10:30 AM',
-      '10:40 AM'
+      '10:40 AM',
     );
     // For some reason the test fails to enter the description if we enter it
     // first (firefox only?)
     await aliceScheduleBreakoutSessionWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleBreakoutSessionWidgetPage.groupNumberSnipButton.fill(
-      '2'
+      '2',
     );
     await aliceScheduleBreakoutSessionWidgetPage.addParticipantToGroup(
       charlie.displayName,
-      'Group 1'
+      'Group 1',
     );
     await aliceScheduleBreakoutSessionWidgetPage.addParticipantToGroup(
       bob.displayName,
-      'Group 2'
+      'Group 2',
     );
     await aliceScheduleBreakoutSessionWidgetPage.createBreakoutSessions();
 
     await aliceBreakoutSessionsPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
     await expect(
       aliceBreakoutSessionsPage.getBreakoutSession('Group 1')
-        .meetingDescriptionText
+        .meetingDescriptionText,
     ).toHaveText('My Description');
     await expect(
       aliceBreakoutSessionsPage.getBreakoutSession('Group 2')
-        .meetingDescriptionText
+        .meetingDescriptionText,
     ).toHaveText('My Description');
 
     await aliceBreakoutSessionsPage.sendMessageToAllBreakoutSession(
-      'Alice says hi to all breakout session rooms'
+      'Alice says hi to all breakout session rooms',
     );
     await aliceElementWebPage.switchToRoom('Group 1');
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
-        /Alice says hi to all breakout session rooms/
-      )
+        /Alice says hi to all breakout session rooms/,
+      ),
     ).toBeVisible();
 
     await aliceElementWebPage.switchToRoom('Group 2');
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
-        /Alice says hi to all breakout session rooms/
-      )
+        /Alice says hi to all breakout session rooms/,
+      ),
     ).toBeVisible();
   });
 });

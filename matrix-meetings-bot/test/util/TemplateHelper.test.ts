@@ -30,7 +30,7 @@ describe('test TemplateHelper', () => {
       },
       userContext,
       'inviteName',
-      true
+      true,
     );
 
     expect(invites.htmlReason).toContain('<b>11.11.2020 um 14:07 UTC</b>');

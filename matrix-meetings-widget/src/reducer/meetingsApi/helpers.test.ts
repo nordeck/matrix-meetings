@@ -40,7 +40,7 @@ describe('isMeetingRoom', () => {
     'should reject %s',
     (roomType) => {
       expect(isMeetingRoom(roomType)).toBe(false);
-    }
+    },
   );
 });
 
@@ -49,14 +49,14 @@ describe('isMeetingBreakOutRoom', () => {
     'should accept %s',
     (roomType) => {
       expect(isMeetingBreakOutRoom(roomType)).toBe(true);
-    }
+    },
   );
 
   it.each([undefined, 'm.space', 'net.nordeck.meetings.meeting'])(
     'should reject %s',
     (roomType) => {
       expect(isMeetingBreakOutRoom(roomType)).toBe(false);
-    }
+    },
   );
 });
 
@@ -84,7 +84,7 @@ describe('awaitAcknowledgement', () => {
             key: '✅',
           },
         },
-      })
+      }),
     );
 
     const result = awaitAcknowledgement(widgetApi, '$my-id');
@@ -104,7 +104,7 @@ describe('awaitAcknowledgement', () => {
             key: '❌',
           },
         },
-      })
+      }),
     );
 
     const result = awaitAcknowledgement(widgetApi, '$my-id');
@@ -127,7 +127,7 @@ describe('awaitAcknowledgement', () => {
             room_id: '!some-room:matrix',
           },
         },
-      })
+      }),
     );
 
     const result = awaitAcknowledgement(widgetApi, '$my-id');
@@ -152,7 +152,7 @@ describe('awaitAcknowledgement', () => {
             key: '✅',
           },
         },
-      })
+      }),
     );
 
     const result = awaitAcknowledgement(widgetApi, '$my-id');
@@ -172,7 +172,7 @@ describe('awaitAcknowledgement', () => {
             key: '❌',
           },
         },
-      })
+      }),
     );
 
     widgetApi.mockSendRoomEvent(
@@ -184,7 +184,7 @@ describe('awaitAcknowledgement', () => {
             key: '✅',
           },
         },
-      })
+      }),
     );
 
     const result = awaitAcknowledgement(widgetApi, '$my-id-1', '$my-id-2');
@@ -212,7 +212,7 @@ describe('awaitAcknowledgement', () => {
             key: '✅',
           },
         },
-      })
+      }),
     );
 
     const result = awaitAcknowledgement(widgetApi, '$my-id-1', '$my-id-2');
@@ -234,7 +234,7 @@ describe('withEventContext', () => {
       () =>
         ({
           resolvedOptions: () => ({ timeZone: 'UTC+11' }),
-        } as Intl.DateTimeFormat)
+        }) as Intl.DateTimeFormat,
     );
   });
 
@@ -258,8 +258,8 @@ describe('withEventContext', () => {
             clientLanguage: 'es',
           },
         },
-        data
-      )
+        data,
+      ),
     ).toEqual({
       data,
       context: {

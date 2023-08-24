@@ -38,16 +38,16 @@ describe('<EndTimePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByRole('textbox', { name: /end time/i })).toHaveValue(
-      '12:15 PM'
+      '12:15 PM',
     );
     expect(
       screen.getByRole('button', {
         name: /choose end time, selected time is 12:15 PM/i,
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -57,7 +57,7 @@ describe('<EndTimePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -69,7 +69,7 @@ describe('<EndTimePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(screen.getByLabelText(/choose end time/i));
@@ -83,7 +83,7 @@ describe('<EndTimePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38.123Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     // userEvent.type doesn't work here, so we have to use fireEvent
@@ -93,16 +93,14 @@ describe('<EndTimePicker/>', () => {
 
     expect(onChange).toBeCalled();
     expect(onChange.mock.calls[0][0].toISO()).toEqual(
-      '2020-01-01T08:15:00.000Z'
+      '2020-01-01T08:15:00.000Z',
     );
   });
 
   it('should not update on invalid value', () => {
     render(
       <EndTimePicker onChange={onChange} value={DateTime.invalid('Invalid')} />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     const textbox = screen.getByRole('textbox', {
@@ -127,7 +125,7 @@ describe('<EndTimePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const input = screen.getByRole('textbox', { name: /end time/i });
@@ -141,7 +139,7 @@ describe('<EndTimePicker/>', () => {
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T12:15:38.123Z')}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const input = screen.getByRole('textbox', { name: /end time/i });
@@ -152,7 +150,7 @@ describe('<EndTimePicker/>', () => {
       <EndTimePicker
         onChange={onChange}
         value={DateTime.fromISO('2020-01-01T14:15:38.123Z')}
-      />
+      />,
     );
 
     expect(input).toHaveValue('02:15 PM');

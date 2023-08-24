@@ -61,7 +61,7 @@ export const MeetingsList = ({
       widgetApi.widgetParameters.roomId,
       widgetApi.widgetParameters.userId,
       displayAllMeetings,
-    ]
+    ],
   );
 
   const days = useAppSelector((state) => selectDayMeetingIds(state, filters));
@@ -84,12 +84,12 @@ export const MeetingsList = ({
           <AlertTitle>
             {t(
               'meetingList.openInvitationsTitle',
-              'You have open invitations.'
+              'You have open invitations.',
             )}
           </AlertTitle>
           {t(
             'meetingList.openInvitationsDetail',
-            'Please join all meeting rooms.'
+            'Please join all meeting rooms.',
           )}
         </Alert>
       )}
@@ -131,11 +131,11 @@ export const MeetingsList = ({
               breakoutSessionMode
                 ? t(
                     'meetingList.noBreakoutSessionsScheduled',
-                    'No breakout sessions scheduled that match the selected filters.'
+                    'No breakout sessions scheduled that match the selected filters.',
                   )
                 : t(
                     'meetingList.noMeetingsScheduled',
-                    'No meetings scheduled that match the selected filters.'
+                    'No meetings scheduled that match the selected filters.',
                   )
             }
           />

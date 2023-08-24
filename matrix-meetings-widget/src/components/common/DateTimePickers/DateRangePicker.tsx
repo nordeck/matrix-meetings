@@ -63,7 +63,7 @@ export const DateRangePicker = ({
         }
       }
     },
-    [onRangeChange, selectedStartDate]
+    [onRangeChange, selectedStartDate],
   );
 
   const onOpen = useCallback(() => setOpen(true), []);
@@ -99,7 +99,7 @@ export const DateRangePicker = ({
                 formatParams: {
                   range: longDateFormat,
                 },
-              }
+              },
             ),
           },
         },
@@ -144,14 +144,14 @@ function Day(
     startDate: string;
     endDate: string;
     onDaySelect: Dispatch<DateTime | null>;
-  }
+  },
 ) {
   const { day, selectedStartDate, startDate, endDate, onDaySelect, ...other } =
     props;
 
   const isFirstDay = DateTime.fromISO(selectedStartDate ?? startDate).hasSame(
     day,
-    'day'
+    'day',
   );
   const isLastDay =
     !selectedStartDate && DateTime.fromISO(endDate).hasSame(day, 'day');
@@ -159,7 +159,7 @@ function Day(
     !selectedStartDate &&
     Interval.fromDateTimes(
       DateTime.fromISO(startDate),
-      DateTime.fromISO(endDate).plus(1)
+      DateTime.fromISO(endDate).plus(1),
     ).contains(day);
 
   return (

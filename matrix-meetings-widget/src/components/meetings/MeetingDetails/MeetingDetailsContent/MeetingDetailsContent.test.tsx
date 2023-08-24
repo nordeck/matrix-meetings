@@ -83,31 +83,29 @@ describe('<MeetingDetailsContent/>', () => {
         meeting={mockMeeting()}
         meetingTimeId="meeting-id"
       />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     expect(
-      screen.getByRole('heading', { level: 4, name: /Details/i })
+      screen.getByRole('heading', { level: 4, name: /Details/i }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('heading', { level: 4, name: /Description/i })
+      screen.getByRole('heading', { level: 4, name: /Description/i }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('heading', { level: 4, name: /Share meeting/i })
+      screen.getByRole('heading', { level: 4, name: /Share meeting/i }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('heading', { level: 4, name: /Participants/i })
+      screen.getByRole('heading', { level: 4, name: /Participants/i }),
     ).toBeInTheDocument();
 
     expect(
       screen.getByRole('link', {
         name: 'http://element.local/#/room/!meeting-room-id',
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(screen.getByText('A brief description')).toBeInTheDocument();
@@ -119,7 +117,7 @@ describe('<MeetingDetailsContent/>', () => {
         meeting={mockMeeting()}
         meetingTimeId="meeting-id"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -141,9 +139,7 @@ describe('<MeetingDetailsContent/>', () => {
         })}
         meetingTimeId="meeting-id"
       />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByText('Every day')).toBeInTheDocument();
@@ -155,9 +151,7 @@ describe('<MeetingDetailsContent/>', () => {
         meeting={mockMeeting({ content: { description: '' } })}
         meetingTimeId="meeting-id"
       />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
 
     expect(screen.queryByText('Description')).not.toBeInTheDocument();
@@ -169,9 +163,7 @@ describe('<MeetingDetailsContent/>', () => {
         meeting={mockMeeting({ content: { description: '' } })}
         meetingTimeId="meeting-id"
       />,
-      {
-        wrapper: Wrapper,
-      }
+      { wrapper: Wrapper },
     );
     const link = screen.getByRole('link', {
       name: 'http://element.local/#/room/!meeting-room-id',
@@ -180,7 +172,7 @@ describe('<MeetingDetailsContent/>', () => {
     expect(link).toHaveAttribute('target', '_blank');
     expect(link).toHaveAttribute(
       'href',
-      'http://element.local/#/room/!meeting-room-id'
+      'http://element.local/#/room/!meeting-room-id',
     );
   });
 });

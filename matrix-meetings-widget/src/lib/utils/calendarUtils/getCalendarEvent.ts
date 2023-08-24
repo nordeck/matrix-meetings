@@ -34,7 +34,7 @@ import { isRRuleOverrideEntry } from './helpers';
  * @returns the event in the room, or undefined
  */
 export function getCalendarEvent(
-  calendar: CalendarEntry[]
+  calendar: CalendarEntry[],
 ): CalendarEvent | undefined;
 
 /**
@@ -48,7 +48,7 @@ export function getCalendarEvent(
 export function getCalendarEvent(
   calendar: CalendarEntry[],
   uid: string,
-  recurrenceId: string | undefined
+  recurrenceId: string | undefined,
 ): CalendarEvent | undefined;
 
 /**
@@ -64,7 +64,7 @@ export function getCalendarEvent(
 export function getCalendarEvent(
   calendar: CalendarEntry[],
   uid?: string,
-  recurrenceId?: string
+  recurrenceId?: string,
 ): CalendarEvent | undefined {
   const relatedCalendar =
     uid === undefined ? calendar : calendar.filter((c) => c.uid === uid);
@@ -76,7 +76,7 @@ export function getCalendarEvent(
       .find(
         (c) =>
           c.uid === uid &&
-          +parseICalDate(c.recurrenceId) === +DateTime.fromISO(recurrenceId)
+          +parseICalDate(c.recurrenceId) === +DateTime.fromISO(recurrenceId),
       );
 
     // find a recurrence entry by recurrence id

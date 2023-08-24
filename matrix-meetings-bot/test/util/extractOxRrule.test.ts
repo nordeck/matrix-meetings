@@ -37,7 +37,7 @@ describe('extractOxRrule', () => {
           id: '1',
           rrules: ['FREQ=DAILY;COUNT=1'],
         },
-      }
+      },
     );
 
     expect(extractOxRrule(meetingCreate)).toEqual('FREQ=DAILY;COUNT=1');
@@ -57,7 +57,7 @@ describe('extractOxRrule', () => {
           id: '1',
           rrules: ['FREQ=DAILY;COUNT=1'],
         },
-      }
+      },
     );
 
     expect(extractOxRrule(meetingUpdate)).toEqual('FREQ=DAILY;COUNT=1');
@@ -81,7 +81,7 @@ describe('extractOxRrule', () => {
           id: '1',
           rrules: ['FREQ=DAILY;COUNT=1', 'FREQ=DAILY;UNTIL=20220103T000000Z'],
         },
-      }
+      },
     );
 
     expect(extractOxRrule(meetingCreate)).toEqual('FREQ=DAILY;COUNT=1');

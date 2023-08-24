@@ -33,7 +33,7 @@ export class RoomEventsBuilder {
     creator: string,
     room_id: string,
     parent_room_id: string | undefined | null,
-    isMeeting = true
+    isMeeting = true,
   ) {
     this.room_id = room_id;
     this.parent_room_id = parent_room_id;

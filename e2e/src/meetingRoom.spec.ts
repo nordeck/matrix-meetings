@@ -32,7 +32,7 @@ test.describe('Meeting Room', () => {
 
       await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
       await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-        'My Description'
+        'My Description',
       );
       await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
       await aliceScheduleMeetingWidgetPage.addParticipant(bob.displayName);
@@ -45,7 +45,7 @@ test.describe('Meeting Room', () => {
         .getMeeting('My Meeting', '10/03/2040')
         .joinMeeting();
       await aliceJitsiWidgetPage.joinConferenceButton.waitFor();
-    }
+    },
   );
 
   test('should have jitsi, breakout sessions, and settings widget setup in the room', async ({
@@ -60,18 +60,18 @@ test.describe('Meeting Room', () => {
 
     await expect(aliceElementWebPage.roomNameText).toHaveText('My Meeting');
     await expect(aliceElementWebPage.roomTopicText).toHaveText(
-      'My Description'
+      'My Description',
     );
 
     await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
     const meetingDetails = aliceCockpitWidgetPage.getMeeting();
     await aliceElementWebPage.approveWidgetIdentity();
     await expect(meetingDetails.meetingDescriptionText).toHaveText(
-      'My Description'
+      'My Description',
     );
     await expect(meetingDetails.meetingTitleText).toHaveText('My Meeting');
     await expect(meetingDetails.meetingTimeRangeText).toHaveText(
-      'October 3, 2040, 10:30 – 11:30 AM'
+      'October 3, 2040, 10:30 – 11:30 AM',
     );
   });
 
@@ -90,7 +90,7 @@ test.describe('Meeting Room', () => {
     await expect(meetingDetails.meetingTitleText).toHaveText('New Meeting');
     await expect(aliceElementWebPage.roomNameText).toHaveText('New Meeting');
     await expect(
-      aliceElementWebPage.locateChatMessageInRoom(/Title: New Meeting/)
+      aliceElementWebPage.locateChatMessageInRoom(/Title: New Meeting/),
     ).toBeVisible();
   });
 

@@ -69,10 +69,10 @@ export function StartDatePicker({
           formatParams: {
             date: longDateFormat,
           },
-        }
+        },
       );
     },
-    [t]
+    [t],
   );
 
   const invalidDate = !date.isValid;
@@ -89,7 +89,7 @@ export function StartDatePicker({
         onChange(newValue);
       }
     },
-    [onChange, value]
+    [onChange, value],
   );
 
   return (

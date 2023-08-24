@@ -25,7 +25,7 @@ describe('extractOpenXChangeExternalReference', () => {
           id: 'cal://0/31.1.0',
           rrules: ['FREQ=DAILY;COUNT=10'],
         },
-      })
+      }),
     ).toEqual({
       folder: 'cal://0/31',
       id: 'cal://0/31.1.0',
@@ -41,7 +41,7 @@ describe('extractOpenXChangeExternalReference', () => {
           id: undefined,
           rrules: ['FREQ=DAILY;COUNT=10'],
         },
-      })
+      }),
     ).toEqual({
       folder: 'cal://0/31',
       id: undefined,
@@ -57,7 +57,7 @@ describe('extractOpenXChangeExternalReference', () => {
           id: 'cal://0/31.1.0',
           rrules: ['FREQ=DAILY;COUNT=10'],
         },
-      })
+      }),
     ).toBeUndefined();
   });
 
@@ -69,7 +69,7 @@ describe('extractOpenXChangeExternalReference', () => {
           id: 555,
           rrules: ['FREQ=DAILY;COUNT=10'],
         },
-      })
+      }),
     ).toBeUndefined();
   });
 
@@ -89,7 +89,7 @@ describe('extractOpenXChangeExternalReference', () => {
           id: 'cal://0/31.1.0',
           rrules,
         },
-      })
+      }),
     ).toBeUndefined();
   });
 
@@ -105,7 +105,7 @@ describe('extractOpenXChangeExternalReference', () => {
           id: 'cal://0/31.1.0',
           rrules: ['FREQ=DAILY;COUNT=10'],
         },
-      })
+      }),
     ).toBeUndefined();
   });
 });

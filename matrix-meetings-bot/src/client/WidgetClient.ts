@@ -45,7 +45,7 @@ export class WidgetClient {
     private readonly appConfig: IAppConfiguration,
     private readonly eventContentRenderer: EventContentRenderer,
     @Inject(ModuleProviderToken.ROOM_MATRIX_EVENTS)
-    private readonly roomMatrixEvents: DeepReadonly<IRoomMatrixEvents>
+    private readonly roomMatrixEvents: DeepReadonly<IRoomMatrixEvents>,
   ) {}
 
   public static createUUID(): string {
@@ -53,7 +53,7 @@ export class WidgetClient {
   }
 
   public async createOrUpdateMeetingCockpitWidget(
-    roomId: string
+    roomId: string,
   ): Promise<string> {
     const event_content = {
       id: `${WidgetType.COCKPIT}-${WidgetClient.createUUID()}`,
@@ -66,12 +66,12 @@ export class WidgetClient {
       roomId,
       StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
       event_content.id,
-      event_content
+      event_content,
     );
   }
 
   public async createBreakoutSessionWidgetAsync(
-    roomId: string
+    roomId: string,
   ): Promise<string> {
     const event_content = {
       id: `${WidgetType.BREAKOUT_SESSIONS}-${WidgetClient.createUUID()}`,
@@ -85,12 +85,12 @@ export class WidgetClient {
       roomId,
       StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
       stateKey,
-      event_content
+      event_content,
     );
   }
 
   public async getMeetingWidgetEventContentAsync(
-    id?: string
+    id?: string,
   ): Promise<IWidgetContent> {
     return {
       id: id || `${WidgetType.MEETINGS}-${WidgetClient.createUUID()}`,
@@ -107,14 +107,14 @@ export class WidgetClient {
       return Promise.resolve(url);
     } else {
       const mimeContentType: string | false = mime.contentType(
-        path.basename(avatarPath)
+        path.basename(avatarPath),
       );
       const avatarContentType: string | undefined = mimeContentType
         ? mimeContentType
         : undefined;
       const newUrl = await this.client.uploadContent(
         fs.readFileSync(avatarPath),
-        avatarContentType
+        avatarContentType,
       );
       this.avatarPathToUrlMap.set(avatarPath, newUrl);
       return Promise.resolve(newUrl);
@@ -133,17 +133,17 @@ export class WidgetClient {
     roomId: string,
     roomTitle: string | undefined,
     widgetId: string,
-    eventContent: IWidgetContent | undefined
+    eventContent: IWidgetContent | undefined,
   ): Promise<void> {
     if (!this.isCustomConfiguredWidget(widgetId)) return;
 
     const params: IEventContentParams = eventContentParams.newInstance(
       roomId,
-      roomTitle
+      roomTitle,
     );
 
     let widgetContent = this.roomMatrixEvents.widgetContents.find(
-      (w) => w.id === widgetId
+      (w) => w.id === widgetId,
     );
     if (!widgetContent) {
       throw new Error(`Cannot find template for widget id: ${widgetId}`);
@@ -162,7 +162,7 @@ export class WidgetClient {
     const newEventContent = this.eventContentRenderer.renderEventContent(
       StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
       widgetContent,
-      params
+      params,
     );
 
     if (!_.isEqual(eventContent, newEventContent)) {
@@ -170,20 +170,20 @@ export class WidgetClient {
         roomId,
         StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
         widgetId,
-        newEventContent
+        newEventContent,
       );
     }
   }
 
   private async uploadCalendarAvatar(): Promise<string> {
     return await this.uploadAvatar(
-      path.join(__dirname, '../static/images/calendar.png')
+      path.join(__dirname, '../static/images/calendar.png'),
     );
   }
 
   private async uploadCalendarSettingsAvatar(): Promise<string> {
     return await this.uploadAvatar(
-      path.join(__dirname, '../static/images/calendar_settings.png')
+      path.join(__dirname, '../static/images/calendar_settings.png'),
     );
   }
 }

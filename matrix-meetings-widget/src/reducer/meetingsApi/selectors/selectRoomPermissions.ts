@@ -45,7 +45,7 @@ export function hasPermissions(
     roomEventTypes?: string[];
     stateEventTypes?: string[];
     actions?: Array<'invite' | 'kick'>;
-  }
+  },
 ): boolean {
   for (const eventType of roomEventTypes) {
     if (!hasRoomEventPower(event?.content, userId, eventType)) {
@@ -82,7 +82,7 @@ export type RoomPermissions = {
 export function makeSelectRoomPermissions(): (
   state: RootState,
   roomId: string,
-  userId: string | undefined
+  userId: string | undefined,
 ) => RoomPermissions {
   return createSelector(
     (_: RootState, __: string, userId: string | undefined) => userId,
@@ -99,7 +99,7 @@ export function makeSelectRoomPermissions(): (
           roomEventTypes: [
             RoomEvents.NET_NORDECK_MEETINGS_BREAKOUTSESSIONS_CREATE,
           ],
-        }
+        },
       );
 
       const canUpdateMeetingDetails = hasPermissions(
@@ -116,7 +116,7 @@ export function makeSelectRoomPermissions(): (
             STATE_EVENT_NORDECK_MEETING_METADATA,
             STATE_EVENT_WIDGETS,
           ],
-        }
+        },
       );
 
       const canUpdateMeetingParticipantsInvite = hasPermissions(
@@ -127,7 +127,7 @@ export function makeSelectRoomPermissions(): (
             RoomEvents.NET_NORDECK_MEETINGS_MEETING_PARTICIPANTS_HANDLE,
           ],
           actions: ['invite'],
-        }
+        },
       );
 
       const canUpdateMeetingParticipantsKick = hasPermissions(
@@ -138,7 +138,7 @@ export function makeSelectRoomPermissions(): (
             RoomEvents.NET_NORDECK_MEETINGS_MEETING_PARTICIPANTS_HANDLE,
           ],
           actions: ['kick'],
-        }
+        },
       );
 
       const canUpdateMeetingWidgets = hasPermissions(
@@ -149,7 +149,7 @@ export function makeSelectRoomPermissions(): (
             RoomEvents.NET_NORDECK_MEETINGS_MEETING_WIDGETS_HANDLE,
           ],
           stateEventTypes: [STATE_EVENT_WIDGETS, 'io.element.widgets.layout'],
-        }
+        },
       );
 
       const canUpdateMeetingPermissions = hasPermissions(
@@ -160,7 +160,7 @@ export function makeSelectRoomPermissions(): (
             RoomEvents.NET_NORDECK_MEETINGS_MEETING_CHANGE_MESSAGE_PERMISSIONS,
           ],
           stateEventTypes: [STATE_EVENT_POWER_LEVELS],
-        }
+        },
       );
 
       const canCloseMeeting = hasPermissions(roomPowerLevelsEvent, userId, {
@@ -178,6 +178,6 @@ export function makeSelectRoomPermissions(): (
         canUpdateMeetingPermissions,
         canCloseMeeting,
       };
-    }
+    },
   );
 }

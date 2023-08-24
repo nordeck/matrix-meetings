@@ -59,7 +59,7 @@ describe('<CreateMeetingForm/>', () => {
     render(<CreateMeetingForm />, { wrapper: Wrapper });
 
     expect(
-      screen.getByRole('button', { name: 'Schedule Meeting' })
+      screen.getByRole('button', { name: 'Schedule Meeting' }),
     ).toBeInTheDocument();
   });
 
@@ -108,7 +108,7 @@ describe('<CreateMeetingForm/>', () => {
             label: 'Cancel',
           },
         ],
-      }
+      },
     );
 
     await waitFor(() => {
@@ -130,7 +130,7 @@ describe('<CreateMeetingForm/>', () => {
             participants: [],
             widget_ids: [],
           },
-        }
+        },
       );
     });
   });
@@ -161,7 +161,7 @@ describe('<CreateMeetingForm/>', () => {
             label: 'Cancel',
           },
         ],
-      }
+      },
     );
 
     expect(widgetApi.sendRoomEvent).not.toBeCalled();

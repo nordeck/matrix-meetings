@@ -85,7 +85,7 @@ describe('selectDayMeetingIds', () => {
       selectDayMeetingIds(state, {
         startDate: '2022-01-01T00:00:00Z',
         endDate: '2022-01-31T23:59:59Z',
-      })
+      }),
     ).toEqual([
       {
         day: '2022-01-01T10:00:00Z',
@@ -134,7 +134,7 @@ describe('selectDayMeetingIds', () => {
       selectDayMeetingIds(state, {
         startDate: '2022-01-02T00:00:00Z',
         endDate: '2022-01-02T23:59:59Z',
-      })
+      }),
     ).toEqual([
       {
         day: '2022-01-02T10:00:00Z',

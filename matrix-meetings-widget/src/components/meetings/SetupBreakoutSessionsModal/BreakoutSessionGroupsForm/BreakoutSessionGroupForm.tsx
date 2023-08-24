@@ -48,14 +48,14 @@ export function BreakoutSessionGroupForm({
         title: e.target.value,
       });
     },
-    [onGroupChange]
+    [onGroupChange],
   );
 
   const handleChangeMembers = useCallback(
     (members: string[]) => {
       onGroupChange({ members });
     },
-    [onGroupChange]
+    [onGroupChange],
   );
 
   const titleId = useId();
@@ -68,7 +68,7 @@ export function BreakoutSessionGroupForm({
         displayName: m.content.displayname ?? undefined,
         avatarUrl: m.content.avatar_url ?? undefined,
       })),
-    [allMemberEvents]
+    [allMemberEvents],
   );
 
   const selectableMembers: MemberSelection[] = useMemo(
@@ -78,7 +78,7 @@ export function BreakoutSessionGroupForm({
         displayName: m.content.displayname ?? undefined,
         avatarUrl: m.content.avatar_url ?? undefined,
       })),
-    [selectableMemberEvents]
+    [selectableMemberEvents],
   );
 
   const availableMembers = useMemo(
@@ -86,10 +86,10 @@ export function BreakoutSessionGroupForm({
       selectableMembers.concat(
         allMembers.filter(
           (m) =>
-            group.members.includes(m.userId) && !selectableMembers.includes(m)
-        )
+            group.members.includes(m.userId) && !selectableMembers.includes(m),
+        ),
       ),
-    [selectableMembers, allMembers, group.members]
+    [selectableMembers, allMembers, group.members],
   );
 
   const selectedMembers = useMemo(
@@ -98,9 +98,9 @@ export function BreakoutSessionGroupForm({
         .filter((m) => group.members.includes(m.userId))
         .sort(
           (a, b) =>
-            group.members.indexOf(a.userId) - group.members.indexOf(b.userId)
+            group.members.indexOf(a.userId) - group.members.indexOf(b.userId),
         ),
-    [group.members, allMembers]
+    [group.members, allMembers],
   );
 
   return (
@@ -122,7 +122,7 @@ export function BreakoutSessionGroupForm({
             isTitleEmpty &&
             t(
               'breakoutSessionGroup.groupTitleHelperText',
-              'A title is required'
+              'A title is required',
             )
           }
           id={titleId}
@@ -139,11 +139,11 @@ export function BreakoutSessionGroupForm({
           onSelectedMembersUpdated={handleChangeMembers}
           ownUserPopupContent={t(
             'breakoutSessionGroup.youAreAlwaysMember',
-            'The organizer will always join all breakout sessions.'
+            'The organizer will always join all breakout sessions.',
           )}
           noOptionsText={t(
             'memberSelectionDropdown.noMembers',
-            'No further members.'
+            'No further members.',
           )}
         />
       </CardContent>

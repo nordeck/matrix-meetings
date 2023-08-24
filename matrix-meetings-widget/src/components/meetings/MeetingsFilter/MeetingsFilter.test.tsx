@@ -46,7 +46,7 @@ describe('<MeetingsFilter/>', () => {
     expect(
       screen.getByRole('button', {
         name: /Choose date range, selected range is January 1 – 8, 2020/i,
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(screen.getByRole('textbox', { name: 'Search' })).toHaveValue('');
@@ -55,7 +55,7 @@ describe('<MeetingsFilter/>', () => {
   it('should have no accessibility violations', async () => {
     const { container } = render(
       <MeetingsFilter filters={filters} onFiltersChange={jest.fn()} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -66,19 +66,19 @@ describe('<MeetingsFilter/>', () => {
 
     render(
       <MeetingsFilter filters={filters} onFiltersChange={onFiltersChange} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: /Choose date range, selected range is January 1 – 8, 2020/i,
-      })
+      }),
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: 'calendar view is open, switch to year view',
-      })
+      }),
     );
 
     await userEvent.click(screen.getByRole('button', { name: '2022' }));
@@ -99,7 +99,7 @@ describe('<MeetingsFilter/>', () => {
 
     render(
       <MeetingsFilter filters={filters} onFiltersChange={onFiltersChange} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const textbox = screen.getByRole('textbox', { name: 'Search' });
@@ -124,7 +124,7 @@ describe('<MeetingsFilter/>', () => {
 
     render(
       <MeetingsFilter filters={filters} onFiltersChange={onFiltersChange} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const textbox = screen.getByRole('textbox', { name: 'Search' });
@@ -150,29 +150,29 @@ describe('<MeetingsFilter/>', () => {
 
     const { rerender } = render(
       <MeetingsFilter filters={filters} onFiltersChange={onFiltersChange} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
       screen.getByRole('button', {
         name: /Choose date range, selected range is January 1 – 8, 2020/i,
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(screen.getByRole('textbox', { name: 'Search' })).toHaveValue('');
 
     rerender(
-      <MeetingsFilter filters={filters1} onFiltersChange={onFiltersChange} />
+      <MeetingsFilter filters={filters1} onFiltersChange={onFiltersChange} />,
     );
 
     expect(
       screen.getByRole('button', {
         name: /Choose date range, selected range is January 1 – 8, 2021/i,
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(screen.getByRole('textbox', { name: 'Search' })).toHaveValue(
-      'A filter'
+      'A filter',
     );
 
     // should return the same filters instance to not run into infinite loops

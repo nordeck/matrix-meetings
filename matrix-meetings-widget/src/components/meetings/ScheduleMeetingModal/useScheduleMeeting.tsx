@@ -58,7 +58,7 @@ export function useScheduleMeeting(): {
             label: t('scheduleMeetingModal.cancel', 'Cancel'),
           },
         ],
-      }
+      },
     );
 
     if (data && data.type === SubmitScheduleMeetingModal) {
@@ -71,11 +71,11 @@ export function useScheduleMeeting(): {
               uid: nanoid(),
               dtstart: formatICalDate(
                 DateTime.fromISO(data.meeting.startTime),
-                new Intl.DateTimeFormat().resolvedOptions().timeZone
+                new Intl.DateTimeFormat().resolvedOptions().timeZone,
               ),
               dtend: formatICalDate(
                 DateTime.fromISO(data.meeting.endTime),
-                new Intl.DateTimeFormat().resolvedOptions().timeZone
+                new Intl.DateTimeFormat().resolvedOptions().timeZone,
               ),
               rrule: data.meeting.rrule,
             }),

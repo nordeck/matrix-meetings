@@ -102,7 +102,7 @@ export class MatrixServer
     private roomMessageService: RoomMessageService,
     @Inject(ModuleProviderToken.APP_CONFIGURATION)
     private appConfig: IAppConfiguration,
-    private controlRoomMigrationService?: ControlRoomMigrationService
+    private controlRoomMigrationService?: ControlRoomMigrationService,
   ) {
     super();
   }
@@ -112,7 +112,7 @@ export class MatrixServer
 
     if (!PinoLogger.root) {
       throw new Error(
-        'pino logger root is undefined, make sure nestjs-pino LoggerModule is configured'
+        'pino logger root is undefined, make sure nestjs-pino LoggerModule is configured',
       );
     }
     this.pinoLoggerRoot = PinoLogger.root;
@@ -164,7 +164,7 @@ export class MatrixServer
       'Bot is running as %s %s %s ',
       this.appRuntimeContext.botUserId,
       this.appRuntimeContext.displayName,
-      this.appRuntimeContext.localpart
+      this.appRuntimeContext.localpart,
     );
 
     if (
@@ -187,7 +187,7 @@ export class MatrixServer
   async botInitialize() {
     try {
       const botUserProfile = (await this.matrixClient.getUserProfile(
-        this.appRuntimeContext.botUserId
+        this.appRuntimeContext.botUserId,
       )) as MatrixProfileInfo;
 
       const envBotDisplayName = this.appConfig.bot_displayname;
@@ -220,7 +220,7 @@ export class MatrixServer
   }
 
   getHandlerByPattern(
-    pattern: string
+    pattern: string,
   ): MessageHandler<HandlerData, IContext, void> | null {
     return super.getHandlerByPattern(pattern);
   }
@@ -256,7 +256,7 @@ export class MatrixServer
   async processEvent(
     botEventType: BotEventType,
     roomId: string,
-    event: IRoomEvent<unknown>
+    event: IRoomEvent<unknown>,
   ): Promise<void> {
     if (!event || !event.content || !event.type) return;
 
@@ -271,7 +271,7 @@ export class MatrixServer
        */
       this.roomIdToBotMemberTimestampMap.set(
         roomId,
-        Promise.resolve(event.origin_server_ts)
+        Promise.resolve(event.origin_server_ts),
       );
     } else if (botEventType === BotEventType.ROOM_LEAVE) {
       // delete the entry to fetch origin_server_ts later when events will come again from this room
@@ -281,7 +281,7 @@ export class MatrixServer
     // apply timestamp check to NIC room events that are handled by Bot
     const applyFilterByOriginServer: boolean = this.eventIsRegisteredByBot(
       botEventType,
-      event
+      event,
     );
 
     let botMemberTs: number | undefined;
@@ -309,7 +309,7 @@ export class MatrixServer
               return botFetchedMemberTs;
             } else {
               this.logger.error(
-                `failed to load origin_server_ts for the room: ${roomId} triggered by event: ${event.event_id}, bot will not process events of this room!`
+                `failed to load origin_server_ts for the room: ${roomId} triggered by event: ${event.event_id}, bot will not process events of this room!`,
               );
               return undefined; // should not happen
             }
@@ -324,18 +324,18 @@ export class MatrixServer
 
     if (eventAgeMinutes > this.appConfig.matrix_server_event_max_age_minutes) {
       this.logger.verbose(
-        `old event is ignored: ${event.event_id} from room: ${roomId}`
+        `old event is ignored: ${event.event_id} from room: ${roomId}`,
       );
       return;
     } else if (applyFilterByOriginServer) {
       if (!botMemberTs) {
         this.logger.verbose(
-          `bot's member invite event not loaded, event is ignored: ${event.event_id} from room: ${roomId}`
+          `bot's member invite event not loaded, event is ignored: ${event.event_id} from room: ${roomId}`,
         );
         return;
       } else if (event.origin_server_ts < botMemberTs) {
         this.logger.verbose(
-          `event before bot membership is ignored: ${event.event_id} from room: ${roomId}`
+          `event before bot membership is ignored: ${event.event_id} from room: ${roomId}`,
         );
         return;
       }
@@ -359,8 +359,8 @@ export class MatrixServer
       const result: Observable<any> = this.transformToObservable(
         // execute handler, exceptions are handled by nest exception filter
         await storage.run(new Store(childLogger), () =>
-          handler(args.data, args.context)
-        )
+          handler(args.data, args.context),
+        ),
       );
       await lastValueFrom(result);
       if (this.eventIsRegisteredByBot(botEventType, event)) {
@@ -368,7 +368,7 @@ export class MatrixServer
           await this.reactionClient.sendSuccess(roomId, event.event_id);
         } catch (e) {
           this.logger.warn(
-            `Could not send success to user ${args.context?.userContext?.userId} and room : ${roomId}`
+            `Could not send success to user ${args.context?.userContext?.userId} and room : ${roomId}`,
           );
         }
       }
@@ -377,7 +377,7 @@ export class MatrixServer
 
   public eventIsRegisteredByBot(
     botEventType: BotEventType,
-    event: IRoomEvent<unknown>
+    event: IRoomEvent<unknown>,
   ) {
     return (
       botEventType === BotEventType.ROOM_EVENT &&
@@ -392,7 +392,7 @@ export class MatrixServer
   extractHandlerArguments(
     botEventType: BotEventType,
     roomId: string,
-    event: IRoomEvent<unknown>
+    event: IRoomEvent<unknown>,
   ): IHandlerArguments {
     if (this.eventIsRegisteredByBot(botEventType, event)) {
       // content of nordeck room events contain wrapped Dto

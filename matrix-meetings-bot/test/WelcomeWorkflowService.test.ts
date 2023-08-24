@@ -96,7 +96,7 @@ describe('test WelcomeWorkflowService', () => {
   };
 
   const createPowerLevelsEvent = (
-    botPower: number
+    botPower: number,
   ): IStateEvent<PowerLevelsEventContent> => {
     return {
       ...createStateEvent(StateEventName.M_ROOM_POWER_LEVELS_EVENT, 'stateKey'),
@@ -149,7 +149,7 @@ describe('test WelcomeWorkflowService', () => {
   const buildWelcomeWorkflowService = (
     client: MatrixClient,
     appConfig: IAppConfiguration,
-    dependencies?: IDeps
+    dependencies?: IDeps,
   ) => {
     const roomMatrixEvents: IRoomMatrixEvents =
       dependencies?.roomMatrixEvents ||
@@ -162,7 +162,7 @@ describe('test WelcomeWorkflowService', () => {
         client,
         appConfig,
         eventContentRenderer,
-        roomMatrixEvents
+        roomMatrixEvents,
       );
     const meetingClient: MeetingClient =
       dependencies?.meetingClient ||
@@ -174,7 +174,7 @@ describe('test WelcomeWorkflowService', () => {
         meetingClient,
         widgetClient,
         appConfig,
-        appRuntimeContext
+        appRuntimeContext,
       );
     const roomMessageService: RoomMessageService =
       dependencies?.roomMessageService ||
@@ -187,7 +187,7 @@ describe('test WelcomeWorkflowService', () => {
       controlRoomMigrationService,
       roomMessageService,
       appConfig,
-      appRuntimeContext
+      appRuntimeContext,
     );
   };
 
@@ -196,8 +196,8 @@ describe('test WelcomeWorkflowService', () => {
       clientMock.getRoomStateEvent(
         roomId,
         StateEventName.NIC_MEETINGS_WELCOME_ROOM,
-        BOT_ID
-      )
+        BOT_ID,
+      ),
     ).thenResolve(null);
   };
 
@@ -206,8 +206,8 @@ describe('test WelcomeWorkflowService', () => {
       clientMock.getRoomStateEvent(
         roomId,
         StateEventName.NIC_MEETINGS_WELCOME_ROOM,
-        BOT_ID
-      )
+        BOT_ID,
+      ),
     ).thenResolve(privateRoomMarkerEvent);
   };
 
@@ -218,7 +218,11 @@ describe('test WelcomeWorkflowService', () => {
   beforeEach(() => {
     reset(clientMock);
     when(
-      clientMock.doRequest('GET', MatrixEndpoint.MATRIX_CLIENT_SYNC, anything())
+      clientMock.doRequest(
+        'GET',
+        MatrixEndpoint.MATRIX_CLIENT_SYNC,
+        anything(),
+      ),
     ).thenResolve({
       rooms: {
         join: {
@@ -247,7 +251,7 @@ describe('test WelcomeWorkflowService', () => {
     await service.processUserLeavePrivateRoom(ROOM_ID, createMembershipEvent());
     await service.processUserJoinedPrivateRoom(
       ROOM_ID,
-      createMembershipEvent()
+      createMembershipEvent(),
     );
 
     verify(clientMock.on(anything(), anything)).never();
@@ -260,7 +264,7 @@ describe('test WelcomeWorkflowService', () => {
     when(clientMock.getRoomState(ROOM_ID)).thenResolve([]);
     const service = buildWelcomeWorkflowService(
       instance(clientMock),
-      appConfig
+      appConfig,
     );
     await service.processRoomInvite(ROOM_ID, createMembershipEvent());
     verify(clientMock.joinRoom(ROOM_ID)).once(); // autojoin
@@ -270,14 +274,14 @@ describe('test WelcomeWorkflowService', () => {
   test('fetchContextStateEvent for public room', async () => {
     const service = buildWelcomeWorkflowService(
       instance(clientMock),
-      appConfig
+      appConfig,
     );
     when(
       clientMock.getRoomStateEvent(
         ROOM_ID,
         StateEventName.NIC_MEETINGS_WELCOME_ROOM,
-        BOT_ID
-      )
+        BOT_ID,
+      ),
     ).thenThrow(new Error('NIC_MEETINGS_WELCOME_ROOM state event not found'));
     const result = await service.fetchContextStateEvent(ROOM_ID);
     expect(result).toBeNull();
@@ -287,7 +291,7 @@ describe('test WelcomeWorkflowService', () => {
     when(clientMock.getRoomState(ROOM_ID)).thenResolve([]);
     const service = buildWelcomeWorkflowService(
       instance(clientMock),
-      appConfig
+      appConfig,
     );
     const privateRoomId = 'new_room_id';
     const e = {
@@ -302,13 +306,13 @@ describe('test WelcomeWorkflowService', () => {
 
     // create a private chat room
     const { preset, initial_state } = capture(
-      clientMock.createRoom
+      clientMock.createRoom,
     ).first()[0] as IRoomCreate;
     expect(preset).toBe('trusted_private_chat');
     expect(
       initial_state.some(
-        (o) => o.type === StateEventName.NIC_MEETINGS_WELCOME_ROOM
-      )
+        (o) => o.type === StateEventName.NIC_MEETINGS_WELCOME_ROOM,
+      ),
     ).toBe(true);
 
     // invite the sender
@@ -317,11 +321,11 @@ describe('test WelcomeWorkflowService', () => {
         privateRoomId,
         'm.room.member',
         USER_ID,
-        anything()
-      )
+        anything(),
+      ),
     ).once();
     const { membership }: { membership: string } = capture(
-      clientMock.sendStateEvent
+      clientMock.sendStateEvent,
     ).last()[3] as any;
     expect(membership).toBe('invite');
   });
@@ -329,7 +333,7 @@ describe('test WelcomeWorkflowService', () => {
   test('processUserLeavePrivateRoom - undefined membership', async () => {
     const service = buildWelcomeWorkflowService(
       instance(clientMock),
-      appConfig
+      appConfig,
     );
     const event: any = {
       ...createMembershipEvent(),
@@ -345,14 +349,14 @@ describe('test WelcomeWorkflowService', () => {
     // do nothing if membership is undefined
     verify(clientMock.leaveRoom(ROOM_ID)).never();
     verify(
-      clientMock.getRoomStateEvent(anything(), anything(), anything())
+      clientMock.getRoomStateEvent(anything(), anything(), anything()),
     ).never();
   });
 
   test('processUserLeavePrivateRoom - in a public room', async () => {
     const service = buildWelcomeWorkflowService(
       instance(clientMock),
-      appConfig
+      appConfig,
     );
     const event: IStateEvent<MembershipEventContent> = {
       ...createMembershipEvent(),
@@ -371,7 +375,7 @@ describe('test WelcomeWorkflowService', () => {
   it('processUserLeavePrivateRoom - normal flow', async () => {
     const service = buildWelcomeWorkflowService(
       instance(clientMock),
-      appConfig
+      appConfig,
     );
     const event: IStateEvent<MembershipEventContent> = {
       ...createMembershipEvent(),
@@ -421,7 +425,7 @@ describe('test WelcomeWorkflowService', () => {
 
       // prepare the initial room state
       when(meetingClientMock.fetchRoomAsync(ROOM_ID)).thenResolve(
-        new Room(ROOM_ID, buildRoomStateEvents())
+        new Room(ROOM_ID, buildRoomStateEvents()),
       );
     });
 
@@ -434,15 +438,15 @@ describe('test WelcomeWorkflowService', () => {
           ROOM_ID,
           StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
           anything(),
-          anything()
-        )
+          anything(),
+        ),
       ).never();
     });
 
     it('processPowerlevelChange - widget already exists', async () => {
       // assume that widget already exists in the room
       when(meetingClientMock.fetchRoomAsync(ROOM_ID)).thenResolve(
-        new Room(ROOM_ID, [createWidgetEvent()])
+        new Room(ROOM_ID, [createWidgetEvent()]),
       );
 
       await service.processPowerlevelChange(ROOM_ID, makePowEvent());
@@ -451,8 +455,8 @@ describe('test WelcomeWorkflowService', () => {
           ROOM_ID,
           StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
           anything(),
-          anything()
-        )
+          anything(),
+        ),
       ).never();
     });
 
@@ -467,8 +471,8 @@ describe('test WelcomeWorkflowService', () => {
           ROOM_ID,
           StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
           anything(),
-          anything()
-        )
+          anything(),
+        ),
       ).never();
     });
 
@@ -479,7 +483,7 @@ describe('test WelcomeWorkflowService', () => {
       const events = buildRoomStateEvents();
       events[0].content.users[BOT_ID] = 80;
       when(meetingClientMock.fetchRoomAsync(ROOM_ID)).thenResolve(
-        new Room(ROOM_ID, events)
+        new Room(ROOM_ID, events),
       );
 
       // test it
@@ -491,8 +495,8 @@ describe('test WelcomeWorkflowService', () => {
           ROOM_ID,
           StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
           anything(),
-          anything()
-        )
+          anything(),
+        ),
       ).once();
     });
   });
@@ -524,7 +528,7 @@ describe('test WelcomeWorkflowService', () => {
       // needed to construct the room link in the translated messages for the original room
       // ROOM_ID is the private room
       when(
-        meetingClientMock.fetchRoomAsync(privateRoomMarkerEvent.originalRoomId)
+        meetingClientMock.fetchRoomAsync(privateRoomMarkerEvent.originalRoomId),
       ).thenResolve(new Room(privateRoomMarkerEvent.originalRoomId, []));
     });
 
@@ -537,8 +541,8 @@ describe('test WelcomeWorkflowService', () => {
           ROOM_ID,
           StateEventName.M_ROOM_TOPIC_EVENT,
           anything(),
-          anything()
-        )
+          anything(),
+        ),
       ).once();
       //verify info messages were sent
       verify(clientMock.sendHtmlText(ROOM_ID, anyString())).called();
@@ -549,9 +553,9 @@ describe('test WelcomeWorkflowService', () => {
 
     it('processUserJoinedPrivateRoom - normal flow, widget exists', async () => {
       when(
-        meetingClientMock.fetchRoomAsync(privateRoomMarkerEvent.originalRoomId)
+        meetingClientMock.fetchRoomAsync(privateRoomMarkerEvent.originalRoomId),
       ).thenResolve(
-        new Room(privateRoomMarkerEvent.originalRoomId, [createWidgetEvent()])
+        new Room(privateRoomMarkerEvent.originalRoomId, [createWidgetEvent()]),
       );
 
       await service.processUserJoinedPrivateRoom(ROOM_ID, membershipEvent);
@@ -559,7 +563,7 @@ describe('test WelcomeWorkflowService', () => {
       const txt = capture(clientMock.sendHtmlText).first()[1] as string;
       expect(txt).toMatch(/Information on the language setting/);
       expect(txt).toMatch(
-        /Hello displayname, thank you for inviting me to the/
+        /Hello displayname, thank you for inviting me to the/,
       );
     });
 
@@ -574,8 +578,8 @@ describe('test WelcomeWorkflowService', () => {
           ROOM_ID,
           StateEventName.M_ROOM_TOPIC_EVENT,
           anything(),
-          anything()
-        )
+          anything(),
+        ),
       ).never();
       verify(clientMock.sendHtmlText(ROOM_ID, anyString())).never();
     });
@@ -587,7 +591,7 @@ describe('test WelcomeWorkflowService', () => {
 
     const setBotPowerlevelInRoom = (roomId: string, power: number) => {
       when(meetingClientMock.fetchRoomAsync(roomId)).thenResolve(
-        new Room(roomId, [createPowerLevelsEvent(power)])
+        new Room(roomId, [createPowerLevelsEvent(power)]),
       );
     };
 
@@ -612,24 +616,24 @@ describe('test WelcomeWorkflowService', () => {
           ROOM_ID,
           StateEventName.NIC_MEETINGS_WELCOME_ROOM,
           BOT_ID,
-          anything()
-        )
+          anything(),
+        ),
       ).once();
       verify(
         clientMock.sendStateEvent(
           ROOM_ID,
           StateEventName.M_ROOM_TOPIC_EVENT,
           anything(),
-          anything()
-        )
+          anything(),
+        ),
       ).once();
       verify(
         clientMock.sendStateEvent(
           ROOM_ID,
           StateEventName.M_ROOM_NAME_EVENT,
           anything(),
-          anything()
-        )
+          anything(),
+        ),
       ).once();
 
       // first state event should change the locale
@@ -643,24 +647,24 @@ describe('test WelcomeWorkflowService', () => {
       verify(clientMock.sendHtmlText(ROOM_ID, anyString())).once();
       const txt = captureSendHtmlText();
       expect(txt).toEqual(
-        "<p>The bot is a moderator in the room <a href='originalRoomId'></a>. If you enter the command <code>!meeting setup</code> NeoDateFix widget will be added to that room.</p>"
+        "<p>The bot is a moderator in the room <a href='originalRoomId'></a>. If you enter the command <code>!meeting setup</code> NeoDateFix widget will be added to that room.</p>",
       );
     });
 
     it('commands - StatusCommand - widget exists in the public room', async () => {
       when(
-        meetingClientMock.fetchRoomAsync(privateRoomMarkerEvent.originalRoomId)
+        meetingClientMock.fetchRoomAsync(privateRoomMarkerEvent.originalRoomId),
       ).thenResolve(
         new Room(privateRoomMarkerEvent.originalRoomId, [
           createPowerLevelsEvent(100),
           createWidgetEvent(),
-        ])
+        ]),
       );
       await service.handleStatusCommand(ROOM_ID);
       verify(clientMock.sendHtmlText(ROOM_ID, anyString())).once();
       const txt = captureSendHtmlText();
       expect(txt).toEqual(
-        '<p><p>My job is done.</p><p>The calendar is already successfully installed into your room. You can leave this private chat-room.</p></p>'
+        '<p><p>My job is done.</p><p>The calendar is already successfully installed into your room. You can leave this private chat-room.</p></p>',
       );
     });
 
@@ -682,40 +686,40 @@ describe('test WelcomeWorkflowService', () => {
           privateRoomMarkerEvent.originalRoomId,
           StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
           anything(),
-          anything()
-        )
+          anything(),
+        ),
       ).once();
 
       const content = captureSendStateEvent(
         clientMock,
         0,
         SendStateEventParameter.Content,
-        StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT
+        StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
       );
       const state_key = captureSendStateEvent(
         clientMock,
         0,
         SendStateEventParameter.StateKey,
-        StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT
+        StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
       );
       expect(content.id).toBe(state_key); // widget content.id === state_key
 
       verify(clientMock.sendHtmlText(ROOM_ID, anyString())).once();
       const txt = captureSendHtmlText();
       expect(txt).toEqual(
-        '<p>My job is done.</p><p>The calendar is already successfully installed into your room. You can leave this private chat-room.</p>'
+        '<p>My job is done.</p><p>The calendar is already successfully installed into your room. You can leave this private chat-room.</p>',
       );
     });
 
     it('commands - SetupCommand - meeting widget already exists -> error', async () => {
       resetCalls(clientMock);
       when(
-        meetingClientMock.fetchRoomAsync(privateRoomMarkerEvent.originalRoomId)
+        meetingClientMock.fetchRoomAsync(privateRoomMarkerEvent.originalRoomId),
       ).thenResolve(
         new Room(privateRoomMarkerEvent.originalRoomId, [
           createPowerLevelsEvent(100),
           createWidgetEvent(),
-        ])
+        ]),
       );
       await service.handleAddWidgetCommand(ROOM_ID);
       verify(clientMock.sendHtmlText(ROOM_ID, anyString())).once();
@@ -729,7 +733,7 @@ describe('test WelcomeWorkflowService', () => {
       verify(clientMock.sendHtmlText(ROOM_ID, anyString())).once();
       const txt = captureSendHtmlText();
       expect(txt).toMatch(
-        /Unfortunately, I cannot add the calendar function. I don't have the right authorisation./
+        /Unfortunately, I cannot add the calendar function. I don't have the right authorisation./,
       );
     });
   });

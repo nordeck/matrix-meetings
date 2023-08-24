@@ -78,22 +78,22 @@ export const ScheduleMeeting = ({
 
   const { initialStartDate, initialEndDate } = useMemo(
     getInitialMeetingTimes,
-    []
+    [],
   );
   const [isDirty, setIsDirty] = useState(false);
   const [title, setTitle] = useState(initialMeeting?.title ?? '');
   const [description, setDescription] = useState(
-    initialMeeting?.description ?? ''
+    initialMeeting?.description ?? '',
   );
   const [startDate, setStartDate] = useState(
     initialMeeting
       ? parseICalDate(initialMeeting.calendarEntries[0].dtstart)
-      : initialStartDate
+      : initialStartDate,
   );
   const [endDate, setEndDate] = useState(
     initialMeeting
       ? parseICalDate(initialMeeting.calendarEntries[0].dtend)
-      : initialEndDate
+      : initialEndDate,
   );
 
   const [participants, setParticipants] = useState<string[]>(() => {
@@ -116,7 +116,7 @@ export const ScheduleMeeting = ({
     isMessagingEnabledState ?? initialIsMessagingEnabled;
 
   const [widgets, setWidgets] = useState<string[]>(
-    () => initialMeeting?.widgets ?? []
+    () => initialMeeting?.widgets ?? [],
   );
   const [recurrence, setRecurrence] = useState<{
     rrule: string | undefined;
@@ -137,7 +137,7 @@ export const ScheduleMeeting = ({
       state,
       initialMeeting.parentRoomId,
       initialMeeting.calendarUid,
-      initialMeeting.recurrenceId
+      initialMeeting.recurrenceId,
     );
   });
 
@@ -151,20 +151,20 @@ export const ScheduleMeeting = ({
     parseICalDate(initialMeeting.calendarEntries[0].dtstart) <= DateTime.now()
       ? t(
           'scheduleMeeting.meetingAlreadyStarted',
-          'The meeting already started.'
+          'The meeting already started.',
         )
       : undefined;
 
   const selectAllRoomMemberEventsByRoomId = useMemo(
     makeSelectAllRoomMemberEventsByRoomId,
-    []
+    [],
   );
 
   const roomMemberEvents = useAppSelector((state) =>
     selectAllRoomMemberEventsByRoomId(
       state,
-      initialMeeting?.meetingId ?? widgetApi.widgetParameters.roomId
-    )
+      initialMeeting?.meetingId ?? widgetApi.widgetParameters.roomId,
+    ),
   );
 
   // keeps users that were found via users directory search and selected
@@ -175,7 +175,7 @@ export const ScheduleMeeting = ({
       setIsDirty(true);
       setTitle(e.target.value);
     },
-    [setTitle]
+    [setTitle],
   );
 
   const handleChangeDescription = useCallback(
@@ -183,7 +183,7 @@ export const ScheduleMeeting = ({
       setIsDirty(true);
       setDescription(e.target.value);
     },
-    [setDescription]
+    [setDescription],
   );
 
   const handleStartDateChange = useCallback(
@@ -194,7 +194,7 @@ export const ScheduleMeeting = ({
       });
       setIsDirty(true);
     },
-    [startDate]
+    [startDate],
   );
 
   const handleEndDateChange = useCallback((value: DateTime) => {
@@ -204,7 +204,7 @@ export const ScheduleMeeting = ({
 
   const { loading, results, error } = useUserSearchResults(
     participantTerm,
-    100
+    100,
   );
 
   const userResults: MemberSelection[] = useMemo(
@@ -216,7 +216,7 @@ export const ScheduleMeeting = ({
           displayName: r.displayName,
           avatarUrl: r.avatarUrl,
         })),
-    [results, participants]
+    [results, participants],
   );
 
   const selectedRoomMembers: MemberSelection[] = useMemo(
@@ -228,32 +228,32 @@ export const ScheduleMeeting = ({
           displayName: m.content.displayname ?? undefined,
           avatarUrl: m.content.avatar_url ?? undefined,
         })),
-    [roomMemberEvents, participants]
+    [roomMemberEvents, participants],
   );
 
   const availableMembers = useMemo(
     () => [...selectedRoomMembers, ...selectedUsers, ...userResults],
-    [selectedRoomMembers, selectedUsers, userResults]
+    [selectedRoomMembers, selectedUsers, userResults],
   );
 
   const selectedMembers = useMemo(
     () =>
       [...selectedRoomMembers, ...selectedUsers].sort(
         (a, b) =>
-          participants.indexOf(a.userId) - participants.indexOf(b.userId)
+          participants.indexOf(a.userId) - participants.indexOf(b.userId),
       ),
-    [selectedRoomMembers, selectedUsers, participants]
+    [selectedRoomMembers, selectedUsers, participants],
   );
 
   const handleChangeParticipants = useCallback(
     (participants: string[]) => {
       const roomMemberIds = roomMemberEvents.map((m) => m.state_key);
       const userParticipants = participants.filter(
-        (p) => !roomMemberIds.includes(p)
+        (p) => !roomMemberIds.includes(p),
       );
 
       const newSelectedUsers = selectedUsers.filter((u) =>
-        userParticipants.includes(u.userId)
+        userParticipants.includes(u.userId),
       );
 
       const newSelectedUsersIds = newSelectedUsers.map((u) => u.userId);
@@ -270,7 +270,7 @@ export const ScheduleMeeting = ({
       setParticipants(participants);
       setSelectedUsers(newSelectedUsers);
     },
-    [roomMemberEvents, userResults, selectedUsers]
+    [roomMemberEvents, userResults, selectedUsers],
   );
 
   const handleInputChange = useCallback((value: string) => {
@@ -282,7 +282,7 @@ export const ScheduleMeeting = ({
       setIsDirty(true);
       setIsMessagingEnabled(checked);
     },
-    []
+    [],
   );
 
   const handleChangeWidgets = useCallback(
@@ -295,14 +295,14 @@ export const ScheduleMeeting = ({
         setIsDirty(true);
       }
     },
-    [widgets.length]
+    [widgets.length],
   );
 
   const handleChangeRecurrence = useCallback(
     (rrule: string | undefined, isValid: boolean, isDirty: boolean) => {
       setRecurrence({ rrule, isValid, isDirty });
     },
-    []
+    [],
   );
 
   const minStartTimeOverride = isEditingRecurringMeeting
@@ -388,12 +388,12 @@ export const ScheduleMeeting = ({
           <AlertTitle>
             {t(
               'scheduleMeeting.recurringMeetingMessage.title',
-              'You are editing a recurring meeting'
+              'You are editing a recurring meeting',
             )}
           </AlertTitle>
           {t(
             'scheduleMeeting.recurringMeetingMessage.message',
-            'All instances of the recurring meeting are edited'
+            'All instances of the recurring meeting are edited',
           )}
         </Alert>
       )}
@@ -504,7 +504,7 @@ export const ScheduleMeeting = ({
           selectedMembers={selectedMembers}
           hasPowerToKickPopupContent={t(
             'scheduleMeeting.hasPowerToKickUser',
-            "You don't have the permission to remove this participant."
+            "You don't have the permission to remove this participant.",
           )}
           label={t('scheduleMeeting.participants', 'Participants')}
           meetingId={initialMeeting?.meetingId}
@@ -514,11 +514,11 @@ export const ScheduleMeeting = ({
             initialMeeting
               ? t(
                   'scheduleMeeting.cannotRemoveOwnUser',
-                  "You can't remove yourself from the meeting."
+                  "You can't remove yourself from the meeting.",
                 )
               : t(
                   'scheduleMeeting.youAreAlwaysMember',
-                  'The organizer will always join the meeting.'
+                  'The organizer will always join the meeting.',
                 )
           }
           disableFilterOptions
@@ -546,7 +546,7 @@ export const ScheduleMeeting = ({
               }
               label={t(
                 'scheduleMeeting.allowMessaging',
-                'Allow messaging for all participants'
+                'Allow messaging for all participants',
               )}
               sx={{ mx: 0 }}
               labelPlacement="start"

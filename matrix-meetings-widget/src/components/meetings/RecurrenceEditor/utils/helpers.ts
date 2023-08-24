@@ -23,7 +23,7 @@ export function convertWeekdayFromLocaleToRRule(index: number): number {
 }
 
 export function normalizeNumeric(
-  bymonth: number | number[] | null | undefined
+  bymonth: number | number[] | null | undefined,
 ): number | undefined {
   if (bymonth === null || bymonth === undefined) {
     return undefined;
@@ -40,7 +40,7 @@ export function normalizeNumeric(
 }
 
 export function normalizeByWeekday(
-  byweekday: ByWeekday | ByWeekday[] | null | undefined
+  byweekday: ByWeekday | ByWeekday[] | null | undefined,
 ): number[] | undefined {
   if (byweekday === null || byweekday === undefined) {
     return undefined;

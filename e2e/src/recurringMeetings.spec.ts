@@ -30,7 +30,7 @@ test.describe('Recurring Meetings', () => {
 
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.selectRecurrence('daily');
@@ -39,7 +39,7 @@ test.describe('Recurring Meetings', () => {
 
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/03/2040')
-        .meetingTimeRangeText
+        .meetingTimeRangeText,
     ).toHaveText('10:30 AM – 11:30 AM. Recurrence: Every day for 5 times');
 
     await aliceElementWebPage.switchToRoom('My Meeting');
@@ -49,11 +49,11 @@ test.describe('Recurring Meetings', () => {
     await aliceElementWebPage.approveWidgetIdentity();
 
     await expect(
-      aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText
+      aliceCockpitWidgetPage.getMeeting().meetingTimeRangeText,
     ).toHaveText('October 3, 2040, 10:30 – 11:30 AM');
 
     await expect(
-      aliceCockpitWidgetPage.getMeeting().meetingRecurrenceRuleText
+      aliceCockpitWidgetPage.getMeeting().meetingRecurrenceRuleText,
     ).toHaveText('Every day for 5 times');
   });
 
@@ -67,7 +67,7 @@ test.describe('Recurring Meetings', () => {
 
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.selectRecurrence('daily');
@@ -75,27 +75,27 @@ test.describe('Recurring Meetings', () => {
     await aliceScheduleMeetingWidgetPage.submit();
 
     await expect(
-      aliceMeetingsWidgetPage.getMeeting('My Meeting').card
+      aliceMeetingsWidgetPage.getMeeting('My Meeting').card,
     ).toHaveCount(5);
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/03/2040')
-        .meetingTimeRangeText
+        .meetingTimeRangeText,
     ).toHaveText('10:30 AM – 11:30 AM. Recurrence: Every day for 5 times');
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/04/2040')
-        .meetingTimeRangeText
+        .meetingTimeRangeText,
     ).toHaveText('10:30 AM – 11:30 AM. Recurrence: Every day for 5 times');
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/05/2040')
-        .meetingTimeRangeText
+        .meetingTimeRangeText,
     ).toHaveText('10:30 AM – 11:30 AM. Recurrence: Every day for 5 times');
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/06/2040')
-        .meetingTimeRangeText
+        .meetingTimeRangeText,
     ).toHaveText('10:30 AM – 11:30 AM. Recurrence: Every day for 5 times');
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/07/2040')
-        .meetingTimeRangeText
+        .meetingTimeRangeText,
     ).toHaveText('10:30 AM – 11:30 AM. Recurrence: Every day for 5 times');
   });
 
@@ -110,7 +110,7 @@ test.describe('Recurring Meetings', () => {
 
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.selectRecurrence('daily');
@@ -118,7 +118,7 @@ test.describe('Recurring Meetings', () => {
     await aliceScheduleMeetingWidgetPage.submit();
 
     await expect(
-      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting')
+      aliceMeetingsWidgetPage.getCalendarEvent('My Meeting'),
     ).toHaveCount(5);
   });
 
@@ -133,7 +133,7 @@ test.describe('Recurring Meetings', () => {
 
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.selectRecurrence('daily');
@@ -142,10 +142,10 @@ test.describe('Recurring Meetings', () => {
 
     const meeting = aliceMeetingsWidgetPage.getMeeting(
       'My Meeting',
-      '10/03/2040'
+      '10/03/2040',
     );
     await expect(meeting.meetingTimeRangeText).toHaveText(
-      '10:30 AM – 11:30 AM. Recurrence: Every day for 5 times'
+      '10:30 AM – 11:30 AM. Recurrence: Every day for 5 times',
     );
 
     const aliceEditMeetingWidgetPage = await meeting.editMeeting();
@@ -163,27 +163,27 @@ test.describe('Recurring Meetings', () => {
 
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/04/2040')
-        .meetingTimeRangeText
+        .meetingTimeRangeText,
     ).toHaveText(
-      '11:00 AM – 12:00 PM. Recurrence: Every week on Monday, Tuesday, and Thursday for 30 times'
+      '11:00 AM – 12:00 PM. Recurrence: Every week on Monday, Tuesday, and Thursday for 30 times',
     );
 
     await expect(
-      aliceMeetingsWidgetPage.getMeeting('My Meeting').card
+      aliceMeetingsWidgetPage.getMeeting('My Meeting').card,
     ).toHaveCount(3);
 
     await aliceElementWebPage.navigateToRoomOrInvitation('My Meeting');
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
-        /Repeat meeting: Every week on Monday, Tuesday, and Thursday for 30 times/
-      )
+        /Repeat meeting: Every week on Monday, Tuesday, and Thursday for 30 times/,
+      ),
     ).toBeVisible();
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
-        /\(previously: Every day for 5 times\)/
-      )
+        /\(previously: Every day for 5 times\)/,
+      ),
     ).toBeVisible();
   });
 
@@ -198,7 +198,7 @@ test.describe('Recurring Meetings', () => {
 
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.selectRecurrence('daily');
@@ -207,10 +207,10 @@ test.describe('Recurring Meetings', () => {
 
     const meeting = aliceMeetingsWidgetPage.getMeeting(
       'My Meeting',
-      '10/03/2040'
+      '10/03/2040',
     );
     await expect(meeting.meetingTimeRangeText).toHaveText(
-      '10:30 AM – 11:30 AM. Recurrence: Every day for 5 times'
+      '10:30 AM – 11:30 AM. Recurrence: Every day for 5 times',
     );
 
     const aliceEditMeetingWidgetPage = await meeting.editMeeting();
@@ -220,24 +220,24 @@ test.describe('Recurring Meetings', () => {
 
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/03/2040')
-        .meetingTimeRangeText
+        .meetingTimeRangeText,
     ).toHaveText('10:30 AM – 11:30 AM');
     await expect(
-      aliceMeetingsWidgetPage.getMeeting('My Meeting').card
+      aliceMeetingsWidgetPage.getMeeting('My Meeting').card,
     ).toHaveCount(1);
 
     await aliceElementWebPage.navigateToRoomOrInvitation('My Meeting');
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
-        /Repeat meeting: No repetition/
-      )
+        /Repeat meeting: No repetition/,
+      ),
     ).toBeVisible();
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
-        /\(previously: Every day for 5 times\)/
-      )
+        /\(previously: Every day for 5 times\)/,
+      ),
     ).toBeVisible();
   });
 
@@ -252,17 +252,17 @@ test.describe('Recurring Meetings', () => {
 
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.submit();
 
     const meeting = aliceMeetingsWidgetPage.getMeeting(
       'My Meeting',
-      '10/03/2040'
+      '10/03/2040',
     );
     await expect(meeting.meetingTimeRangeText).toHaveText(
-      '10:30 AM – 11:30 AM'
+      '10:30 AM – 11:30 AM',
     );
 
     const aliceEditMeetingWidgetPage = await meeting.editMeeting();
@@ -273,24 +273,24 @@ test.describe('Recurring Meetings', () => {
 
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/03/2040')
-        .meetingTimeRangeText
+        .meetingTimeRangeText,
     ).toHaveText('10:30 AM – 11:30 AM');
     await expect(
-      aliceMeetingsWidgetPage.getMeeting('My Meeting').card
+      aliceMeetingsWidgetPage.getMeeting('My Meeting').card,
     ).toHaveCount(5);
 
     await aliceElementWebPage.navigateToRoomOrInvitation('My Meeting');
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
-        /Repeat meeting: Every day for 5 times/
-      )
+        /Repeat meeting: Every day for 5 times/,
+      ),
     ).toBeVisible();
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
-        /\(previously: No repetition\)/
-      )
+        /\(previously: No repetition\)/,
+      ),
     ).toBeVisible();
   });
 
@@ -308,7 +308,7 @@ test.describe('Recurring Meetings', () => {
 
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.selectRecurrence('daily');
@@ -317,15 +317,15 @@ test.describe('Recurring Meetings', () => {
 
     const meeting = aliceMeetingsWidgetPage.getMeeting(
       'My Meeting',
-      '10/03/2040'
+      '10/03/2040',
     );
     await expect(meeting.meetingTimeRangeText).toHaveText(
-      '10:30 AM – 11:30 AM. Recurrence: Every day for 5 times'
+      '10:30 AM – 11:30 AM. Recurrence: Every day for 5 times',
     );
     await meeting.deleteMeeting();
 
     await expect(
-      aliceMeetingsWidgetPage.getMeeting('My Meeting').card
+      aliceMeetingsWidgetPage.getMeeting('My Meeting').card,
     ).toHaveCount(0);
   });
 

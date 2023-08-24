@@ -25,8 +25,8 @@ describe('getCalendarEnd', () => {
         mockCalendar({
           dtstart: '20200109T100000',
           dtend: '20200109T110000',
-        })
-      )
+        }),
+      ),
     ).toEqual(DateTime.fromISO('2020-01-09T11:00:00Z'));
   });
 
@@ -43,7 +43,7 @@ describe('getCalendarEnd', () => {
           dtend: '20200109T110000',
           rrule: 'FREQ=DAILY',
         }),
-      ])
+      ]),
     ).toEqual(undefined);
   });
 
@@ -55,7 +55,7 @@ describe('getCalendarEnd', () => {
           dtend: '20200109T110000',
           rrule: 'FREQ=DAILY;COUNT=3',
         }),
-      ])
+      ]),
     ).toEqual(DateTime.fromISO('2020-01-11T11:00:00Z'));
   });
 
@@ -72,7 +72,7 @@ describe('getCalendarEnd', () => {
           dtend: '20200131T163000',
           recurrenceId: '20200111T100000',
         }),
-      ])
+      ]),
     ).toEqual(DateTime.fromISO('2020-01-31T16:30:00Z'));
   });
 
@@ -89,7 +89,7 @@ describe('getCalendarEnd', () => {
           dtend: '20200131T163000',
           recurrenceId: '20200128T100000',
         }),
-      ])
+      ]),
     ).toEqual(DateTime.fromISO('2020-01-11T11:00:00Z'));
   });
 });

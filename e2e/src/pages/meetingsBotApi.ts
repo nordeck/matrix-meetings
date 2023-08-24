@@ -64,7 +64,7 @@ export class MeetingsBotApi {
             },
           },
         },
-      }
+      },
     );
 
     if (!response.ok()) {
@@ -114,7 +114,7 @@ export class MeetingsBotApi {
             },
           },
         },
-      }
+      },
     );
 
     if (!response.ok()) {
@@ -139,7 +139,7 @@ export class MeetingsBotApi {
           target_room_id: roomId,
           method,
         },
-      }
+      },
     );
 
     if (!response.ok()) {

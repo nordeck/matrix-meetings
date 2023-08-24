@@ -40,7 +40,7 @@ export async function startSynapse({
 
   const homeserverConfigTemplate = await readFile(
     require.resolve('./homeserver.yaml'),
-    'utf-8'
+    'utf-8',
   );
   const homeserverConfig = homeserverConfigTemplate
     .replace(/{{REGISTRATION_SECRET}}/g, registrationSecret)
@@ -77,7 +77,7 @@ export async function startSynapse({
     .start();
 
   const synapseUrl = `http://${container.getHost()}:${container.getMappedPort(
-    8008
+    8008,
   )}`;
   const synapseHostUrl = `http://${container.getIpAddress('bridge')}:8008`;
 

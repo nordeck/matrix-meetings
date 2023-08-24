@@ -19,13 +19,13 @@ import { DateTime } from 'luxon';
 import { Meeting } from '../../reducer/meetingsApi';
 
 const defaultMinutesToRound = parseInt(
-  getEnvironment('REACT_APP_DEFAULT_MINUTES_TO_ROUND', '15')
+  getEnvironment('REACT_APP_DEFAULT_MINUTES_TO_ROUND', '15'),
 );
 const defaultBreakoutSessionMinutes = parseInt(
-  getEnvironment('REACT_APP_DEFAULT_BREAKOUT_SESSION_MINUTES', '15')
+  getEnvironment('REACT_APP_DEFAULT_BREAKOUT_SESSION_MINUTES', '15'),
 );
 const defaultMeetingMinutes = parseInt(
-  getEnvironment('REACT_APP_DEFAULT_MEETING_MINUTES', '60')
+  getEnvironment('REACT_APP_DEFAULT_MEETING_MINUTES', '60'),
 );
 
 export function getInitialMeetingTimes({
@@ -84,7 +84,7 @@ export function getInitialMeetingTimes({
 
 export function roundToNextMinutes(
   value: DateTime,
-  minutesToRound: number
+  minutesToRound: number,
 ): DateTime {
   // Always rounds up to the next block
   const result = value.startOf('minute').plus({ minute: minutesToRound });

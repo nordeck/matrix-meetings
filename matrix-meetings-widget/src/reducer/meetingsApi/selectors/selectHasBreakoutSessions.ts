@@ -44,6 +44,6 @@ export function makeSelectHasBreakoutSessions() {
         const room = roomCreateEvents[event.room_id];
         return isMeetingBreakOutRoom(room?.content?.type);
       });
-    }
+    },
   );
 }

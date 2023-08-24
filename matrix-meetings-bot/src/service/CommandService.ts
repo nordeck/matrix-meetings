@@ -43,14 +43,14 @@ export class CommandService {
     private readonly welcomeWorkflowService: WelcomeWorkflowService,
     @Inject(ModuleProviderToken.APP_CONFIGURATION)
     private readonly appConfig: IAppConfiguration,
-    appRuntimeContext: AppRuntimeContext
+    appRuntimeContext: AppRuntimeContext,
   ) {
     this.botUserId = appRuntimeContext.botUserId;
   }
 
   public async handleRoomMessage(
     roomId: string,
-    event: IRoomEvent<MessageEventContent>
+    event: IRoomEvent<MessageEventContent>,
   ) {
     if (!this.appConfig.enable_welcome_workflow) return;
 
@@ -68,13 +68,13 @@ export class CommandService {
 
     if (withoutTrigger.length === 0) {
       this.logger.verbose(
-        `commandErrors.noCommandProvided triggered: ${triggered}`
+        `commandErrors.noCommandProvided triggered: ${triggered}`,
       );
       return this.replyWithError(
         roomId,
         event,
         'commandErrors.noCommandProvided',
-        { trigger: TRIGGER }
+        { trigger: TRIGGER },
       );
     }
 
@@ -86,24 +86,24 @@ export class CommandService {
     } catch (e) {
       if (e instanceof TranslatableError) {
         this.logger.debug(
-          `TranslatableError errorKey: ${e.errorKey} commandName: ${commandName}`
+          `TranslatableError errorKey: ${e.errorKey} commandName: ${commandName}`,
         );
         await this.replyWithError(
           roomId,
           event,
           e.errorKey,
-          e.translationParams
+          e.translationParams,
         );
       } else if (e instanceof Error) {
         this.logger.debug(
-          `commandErrors.generic commandName: ${commandName} error: ${e.message}`
+          `commandErrors.generic commandName: ${commandName} error: ${e.message}`,
         );
         await this.replyWithError(roomId, event, 'commandErrors.generic', {
           message: e.message,
         });
       } else {
         this.logger.debug(
-          `commandErrors.generic commandName: ${commandName} error: ${e}`
+          `commandErrors.generic commandName: ${commandName} error: ${e}`,
         );
         await this.replyWithError(roomId, event, 'commandErrors.generic', {
           message: 'internal error',
@@ -116,7 +116,7 @@ export class CommandService {
     commandName: string,
     roomId: string,
     event: IRoomEvent<MessageEventContent>,
-    cmdArgs: string[]
+    cmdArgs: string[],
   ) {
     const sender = event.sender;
     this.logger.debug(`${sender} is running command: ${commandName}`);
@@ -136,7 +136,7 @@ export class CommandService {
       await this.welcomeWorkflowService.handleLanguageChange(
         roomId,
         event,
-        cmdArgs
+        cmdArgs,
       );
     } else if (SETUP_COMMANDS.includes(commandName)) {
       await this.welcomeWorkflowService.handleAddWidgetCommand(roomId);
@@ -144,7 +144,7 @@ export class CommandService {
       await this.welcomeWorkflowService.handleStatusCommand(roomId);
     } else {
       this.logger.verbose(
-        `commandErrors.badCommand commandName: ${commandName}`
+        `commandErrors.badCommand commandName: ${commandName}`,
       );
       await this.replyWithError(roomId, event, 'commandErrors.badCommand', {
         trigger: TRIGGER,
@@ -156,7 +156,7 @@ export class CommandService {
     roomId: string,
     event: any,
     errorKey: string,
-    params: any
+    params: any,
   ) {
     const lng: string = await this.detectLocale(roomId);
     /*
@@ -183,12 +183,12 @@ export class CommandService {
       const ctx = await this.matrixClient.getRoomStateEvent(
         roomId,
         StateEventName.NIC_MEETINGS_WELCOME_ROOM,
-        this.botUserId
+        this.botUserId,
       );
       return ctx?.locale ?? this.appConfig.welcome_workflow_default_locale;
     } catch (e) {
       this.logger.warn(
-        `Can't detect locale in room: ${roomId} using ${StateEventName.NIC_MEETINGS_WELCOME_ROOM} event.`
+        `Can't detect locale in room: ${roomId} using ${StateEventName.NIC_MEETINGS_WELCOME_ROOM} event.`,
       );
     }
     // default

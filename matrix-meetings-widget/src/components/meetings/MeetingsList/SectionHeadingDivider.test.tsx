@@ -23,7 +23,7 @@ describe('<SectionHeadingDivider/>', () => {
     render(<SectionHeadingDivider title="Meetings" />);
 
     expect(
-      screen.getByRole('heading', { level: 4, name: /meetings/i })
+      screen.getByRole('heading', { level: 4, name: /meetings/i }),
     ).toBeInTheDocument();
   });
 

@@ -42,7 +42,7 @@ describe('<MeetingsNavigation/>', () => {
     });
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'View List', description: '' })
+      screen.getByRole('button', { name: 'View List', description: '' }),
     );
 
     const listbox = screen.getByRole('listbox', { name: 'View' });
@@ -60,7 +60,7 @@ describe('<MeetingsNavigation/>', () => {
 
     const { container } = render(
       <MeetingsNavigation onViewChange={jest.fn()} view="list" />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(screen.getByRole('button', { name: 'View List' }));
@@ -73,7 +73,7 @@ describe('<MeetingsNavigation/>', () => {
 
     const { container } = render(
       <MeetingsNavigation onViewChange={jest.fn()} view="list" />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(screen.getByRole('button', { name: 'View List' }));
@@ -107,31 +107,31 @@ describe('<MeetingsNavigation/>', () => {
       screen.getByRole('button', {
         name: 'View List',
         description: 'Increase widget width to enable more views.',
-      })
+      }),
     );
 
     const listbox = screen.getByRole('listbox', { name: 'View' });
 
     expect(
-      within(listbox).getByRole('option', { name: 'List' })
+      within(listbox).getByRole('option', { name: 'List' }),
     ).not.toHaveAttribute('aria-disabled');
     expect(
-      within(listbox).getByRole('option', { name: 'Day' })
+      within(listbox).getByRole('option', { name: 'Day' }),
     ).not.toHaveAttribute('aria-disabled');
     expect(
       within(listbox).getByRole('option', {
         name: 'Work Week Increase widget width',
-      })
+      }),
     ).toHaveAttribute('aria-disabled', 'true');
     expect(
       within(listbox).getByRole('option', {
         name: 'Week Increase widget width',
-      })
+      }),
     ).toHaveAttribute('aria-disabled', 'true');
     expect(
       within(listbox).getByRole('option', {
         name: 'Month Increase widget width',
-      })
+      }),
     ).toHaveAttribute('aria-disabled', 'true');
   });
 

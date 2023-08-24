@@ -56,7 +56,7 @@ export function generateRruleSet(entry: CalendarEntry & { rrule: string }): {
     new RRule({
       ...rruleOptions,
       dtstart: toRruleSetDate(parseICalDate(entry.dtstart)),
-    })
+    }),
   );
 
   entry.exdate?.forEach((exdate) => {

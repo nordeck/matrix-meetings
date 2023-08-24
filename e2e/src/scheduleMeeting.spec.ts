@@ -31,14 +31,14 @@ test.describe('Schedule Meeting', () => {
 
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.submit();
 
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/03/2040')
-        .meetingTimeRangeText
+        .meetingTimeRangeText,
     ).toHaveText('10:30 AM – 11:30 AM');
 
     await aliceElementWebPage.switchToRoom('My Meeting');
@@ -55,10 +55,10 @@ test.describe('Schedule Meeting', () => {
       await aliceMeetingsWidgetPage.scheduleMeeting();
 
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill(
-      'My Meeting' + repeat('+', 100000)
+      'My Meeting' + repeat('+', 100000),
     );
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description' + repeat('+', 100000)
+      'My Description' + repeat('+', 100000),
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.submit();
@@ -66,10 +66,10 @@ test.describe('Schedule Meeting', () => {
     await expect(
       aliceMeetingsWidgetPage.getMeeting(
         'My Meeting' + repeat('+', 255 - 'My Meeting'.length),
-        '10/03/2040'
-      ).meetingDescriptionText
+        '10/03/2040',
+      ).meetingDescriptionText,
     ).toHaveText(
-      'My Description' + repeat('+', 20000 - 'My Description'.length)
+      'My Description' + repeat('+', 20000 - 'My Description'.length),
     );
   });
 
@@ -84,14 +84,14 @@ test.describe('Schedule Meeting', () => {
 
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.submit();
 
     const meetingCardPage = aliceMeetingsWidgetPage.getMeeting(
       'My Meeting',
-      '10/03/2040'
+      '10/03/2040',
     );
     await expect(meetingCardPage.card).toBeVisible();
 
@@ -104,7 +104,7 @@ test.describe('Schedule Meeting', () => {
     await aliceMeetingsWidgetPage.setDateFilter([2040, 8, 24], [2040, 9, 1]);
 
     await expect(
-      aliceMeetingsWidgetPage.getMeeting('My Meeting', '08/24/2040').card
+      aliceMeetingsWidgetPage.getMeeting('My Meeting', '08/24/2040').card,
     ).toBeVisible();
   });
 
@@ -122,7 +122,7 @@ test.describe('Schedule Meeting', () => {
 
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.addParticipant(bob.displayName);
@@ -132,7 +132,7 @@ test.describe('Schedule Meeting', () => {
 
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/03/2040')
-        .meetingTimeRangeText
+        .meetingTimeRangeText,
     ).toHaveText('10:30 AM – 11:30 AM');
 
     await bobElementWebPage.navigateToRoomOrInvitation('Calendar');
@@ -172,18 +172,18 @@ test.describe('Schedule Meeting', () => {
 
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description'
+      'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.submit();
 
     const aliceMeeting = aliceMeetingsWidgetPage.getMeeting(
       'My Meeting',
-      '10/03/2040'
+      '10/03/2040',
     );
 
     await expect(aliceMeeting.meetingTimeRangeText).toHaveText(
-      '10:30 AM – 11:30 AM'
+      '10:30 AM – 11:30 AM',
     );
 
     await aliceMeeting.switchToShareMeeting();

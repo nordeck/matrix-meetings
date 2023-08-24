@@ -66,7 +66,7 @@ describe('StoreProvider', () => {
         <StoreProvider>
           <ExampleWidget />
         </StoreProvider>
-      </WidgetApiMockProvider>
+      </WidgetApiMockProvider>,
     );
 
     expect(screen.getByText(/example/i)).toBeInTheDocument();
@@ -78,7 +78,7 @@ describe('StoreProvider', () => {
     const { unmount } = render(
       <WidgetApiMockProvider value={{} as WidgetApi}>
         <StoreProvider />
-      </WidgetApiMockProvider>
+      </WidgetApiMockProvider>,
     );
 
     // flush promises

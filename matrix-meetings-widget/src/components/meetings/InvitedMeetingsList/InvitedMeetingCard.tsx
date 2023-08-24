@@ -34,10 +34,10 @@ export const InvitedMeetingCard = withRoomIdInvitedMeeting(
     const { t } = useTranslation();
 
     const invitationEvent = meeting.participants.find(
-      (p) => p.userId === widgetApi.widgetParameters.userId
+      (p) => p.userId === widgetApi.widgetParameters.userId,
     );
     const inviterEvent = meeting.participants.find(
-      (p) => p.userId === invitationEvent?.rawEvent?.sender
+      (p) => p.userId === invitationEvent?.rawEvent?.sender,
     );
 
     return (
@@ -54,7 +54,7 @@ export const InvitedMeetingCard = withRoomIdInvitedMeeting(
               ? t(
                   'invitedMeetingList.detail.invitedBy',
                   'Invited By: {{name}}',
-                  { name: inviterEvent?.displayName }
+                  { name: inviterEvent?.displayName },
                 )
               : undefined
           }
@@ -67,5 +67,5 @@ export const InvitedMeetingCard = withRoomIdInvitedMeeting(
         />
       </Card>
     );
-  }
+  },
 );

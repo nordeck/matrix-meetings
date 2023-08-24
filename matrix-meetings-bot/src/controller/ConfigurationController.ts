@@ -28,7 +28,7 @@ import { MatrixAuthGuard } from '../guard/MatrixAuthGuard';
 export class ConfigurationController {
   constructor(
     @Inject(ModuleProviderToken.APP_CONFIGURATION)
-    private appConfig: IAppConfiguration
+    private appConfig: IAppConfiguration,
   ) {}
 
   @Get()
@@ -36,7 +36,7 @@ export class ConfigurationController {
     return new ConfigurationDto(
       this.appConfig.homeserver_url,
       !!this.appConfig.jitsi_dial_in_json_url,
-      this.appConfig.open_xchange_meeting_url_template
+      this.appConfig.open_xchange_meeting_url_template,
     );
   }
 }

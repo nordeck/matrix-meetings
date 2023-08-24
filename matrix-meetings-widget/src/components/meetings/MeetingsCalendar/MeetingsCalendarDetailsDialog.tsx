@@ -37,7 +37,7 @@ export function MeetingsCalendarDetailsDialog({
         state,
         meetingId.meetingId,
         meetingId.uid,
-        meetingId.recurrenceId
+        meetingId.recurrenceId,
       );
       if (!meeting) {
         onClose();

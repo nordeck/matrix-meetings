@@ -47,7 +47,7 @@ export const CustomWeeklyRecurringMeeting = ({
     (_event: React.MouseEvent<HTMLElement>, newWeekdays: number[]) => {
       onByWeekdayChange(sortBy(newWeekdays));
     },
-    [onByWeekdayChange]
+    [onByWeekdayChange],
   );
 
   const toggleButtonGroupLabelId = useId();
@@ -57,7 +57,7 @@ export const CustomWeeklyRecurringMeeting = ({
       <FormLabel id={toggleButtonGroupLabelId}>
         {t(
           'recurrenceEditor.custom.weekly.repeatOnWeekday',
-          'Repeat on weekday'
+          'Repeat on weekday',
         )}
       </FormLabel>
       <ToggleButtonGroup

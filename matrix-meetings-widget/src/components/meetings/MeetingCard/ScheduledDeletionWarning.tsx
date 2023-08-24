@@ -31,7 +31,7 @@ export function ScheduledDeletionWarning({
       {range === 'soon'
         ? t(
             'meetingCard.meetingRoomWillBeDeletedSoon',
-            'Meeting room will be automatically deleted soon.'
+            'Meeting room will be automatically deleted soon.',
           )
         : t(
             'meetingCard.meetingRoomWillBeDeleted',
@@ -39,7 +39,7 @@ export function ScheduledDeletionWarning({
             {
               remainingTime,
               formatParams: { remainingTime: { range } },
-            }
+            },
           )}
     </Alert>
   );

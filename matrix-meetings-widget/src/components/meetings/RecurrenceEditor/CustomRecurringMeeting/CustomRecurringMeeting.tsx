@@ -80,14 +80,14 @@ export const CustomRecurringMeeting = ({
     (e: SelectChangeEvent<Frequency>) => {
       onCustomFrequencyChange(e.target.value as Frequency);
     },
-    [onCustomFrequencyChange]
+    [onCustomFrequencyChange],
   );
 
   const handleIntervalChange = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
       onCustomIntervalChange(e.target.value);
     },
-    [onCustomIntervalChange]
+    [onCustomIntervalChange],
   );
 
   const repetitionLabelId = useId();
@@ -110,7 +110,7 @@ export const CustomRecurringMeeting = ({
             'aria-label': t(
               'recurrenceEditor.custom.intervalLabel',
               '{{frequencyLabel}} until the appointment is repeated',
-              { frequencyLabel: formatFrequency(customFrequency, t) }
+              { frequencyLabel: formatFrequency(customFrequency, t) },
             ),
             inputMode: 'numeric',
             type: 'number',

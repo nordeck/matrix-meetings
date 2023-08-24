@@ -64,7 +64,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const group = screen.getByRole('group', {
@@ -74,10 +74,10 @@ describe('<CustomRecurringMeeting>', () => {
     expect(
       within(group).getByRole('spinbutton', {
         name: 'Days until the appointment is repeated',
-      })
+      }),
     ).toHaveValue(2);
     expect(
-      within(group).getByRole('button', { name: 'Repeat Days' })
+      within(group).getByRole('button', { name: 'Repeat Days' }),
     ).toBeInTheDocument();
   });
 
@@ -101,7 +101,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -127,7 +127,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const group = screen.getByRole('group', {
@@ -137,10 +137,10 @@ describe('<CustomRecurringMeeting>', () => {
     expect(
       within(group).getByRole('spinbutton', {
         name: 'Weeks until the appointment is repeated',
-      })
+      }),
     ).toHaveValue(2);
     expect(
-      within(group).getByRole('button', { name: 'Repeat Weeks' })
+      within(group).getByRole('button', { name: 'Repeat Weeks' }),
     ).toBeInTheDocument();
 
     const weekdaysGroup = within(group).getByRole('group', {
@@ -150,7 +150,7 @@ describe('<CustomRecurringMeeting>', () => {
     expect(
       within(weekdaysGroup)
         .getAllByRole('button', { pressed: true })
-        .map((b) => b.textContent)
+        .map((b) => b.textContent),
     ).toEqual(['Monday']);
   });
 
@@ -174,7 +174,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -200,7 +200,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const group = screen.getByRole('group', {
@@ -210,16 +210,16 @@ describe('<CustomRecurringMeeting>', () => {
     expect(
       within(group).getByRole('spinbutton', {
         name: 'Months until the appointment is repeated',
-      })
+      }),
     ).toHaveValue(2);
     expect(
-      within(group).getByRole('button', { name: 'Repeat Months' })
+      within(group).getByRole('button', { name: 'Repeat Months' }),
     ).toBeInTheDocument();
 
     expect(
       within(group).getByRole('radio', {
         name: 'The meeting is repeated monthly on the 19',
-      })
+      }),
     ).toBeChecked();
 
     const monthdayGroup = within(group).getByRole('group', {
@@ -252,7 +252,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const group = screen.getByRole('group', {
@@ -262,16 +262,16 @@ describe('<CustomRecurringMeeting>', () => {
     expect(
       within(group).getByRole('spinbutton', {
         name: 'Months until the appointment is repeated',
-      })
+      }),
     ).toHaveValue(2);
     expect(
-      within(group).getByRole('button', { name: 'Repeat Months' })
+      within(group).getByRole('button', { name: 'Repeat Months' }),
     ).toBeInTheDocument();
 
     expect(
       within(group).getByRole('radio', {
         name: 'The meeting is repeated monthly on third Tuesday',
-      })
+      }),
     ).toBeChecked();
 
     const weekdayGroup = within(group).getByRole('group', {
@@ -280,10 +280,10 @@ describe('<CustomRecurringMeeting>', () => {
     expect(
       within(weekdayGroup).getByRole('button', {
         name: 'Ordinal third',
-      })
+      }),
     ).toBeEnabled();
     expect(
-      within(weekdayGroup).getByRole('button', { name: 'Weekday Tuesday' })
+      within(weekdayGroup).getByRole('button', { name: 'Weekday Tuesday' }),
     ).toBeEnabled();
   });
 
@@ -307,7 +307,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -333,7 +333,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -359,7 +359,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const group = screen.getByRole('group', {
@@ -369,16 +369,16 @@ describe('<CustomRecurringMeeting>', () => {
     expect(
       within(group).getByRole('spinbutton', {
         name: 'Years until the appointment is repeated',
-      })
+      }),
     ).toHaveValue(1);
     expect(
-      within(group).getByRole('button', { name: 'Repeat Years' })
+      within(group).getByRole('button', { name: 'Repeat Years' }),
     ).toBeInTheDocument();
 
     expect(
       within(group).getByRole('radio', {
         name: 'The meeting is repeated yearly on 19 October',
-      })
+      }),
     ).toBeChecked();
 
     const monthdayGroup = within(group).getByRole('group', {
@@ -390,7 +390,7 @@ describe('<CustomRecurringMeeting>', () => {
     expect(daySpinButton).toBeEnabled();
     expect(daySpinButton).toHaveValue(19);
     expect(
-      within(monthdayGroup).getByRole('button', { name: 'Month October' })
+      within(monthdayGroup).getByRole('button', { name: 'Month October' }),
     ).toBeEnabled();
   });
 
@@ -414,7 +414,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const group = screen.getByRole('group', {
@@ -424,29 +424,29 @@ describe('<CustomRecurringMeeting>', () => {
     expect(
       within(group).getByRole('spinbutton', {
         name: 'Years until the appointment is repeated',
-      })
+      }),
     ).toHaveValue(1);
     expect(
-      within(group).getByRole('button', { name: 'Repeat Years' })
+      within(group).getByRole('button', { name: 'Repeat Years' }),
     ).toBeInTheDocument();
 
     expect(
       within(group).getByRole('radio', {
         name: 'The meeting is repeated yearly at third Tuesday of October',
-      })
+      }),
     ).toBeChecked();
 
     const weekdayGroup = within(group).getByRole('group', {
       name: 'The meeting is repeated yearly at third Tuesday of October',
     });
     expect(
-      within(weekdayGroup).getByRole('button', { name: 'Ordinal third' })
+      within(weekdayGroup).getByRole('button', { name: 'Ordinal third' }),
     ).toBeEnabled();
     expect(
-      within(weekdayGroup).getByRole('button', { name: 'Weekday Tuesday' })
+      within(weekdayGroup).getByRole('button', { name: 'Weekday Tuesday' }),
     ).toBeEnabled();
     expect(
-      within(weekdayGroup).getByRole('button', { name: 'Month October' })
+      within(weekdayGroup).getByRole('button', { name: 'Month October' }),
     ).toBeEnabled();
   });
 
@@ -470,7 +470,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -496,7 +496,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -522,14 +522,14 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     fireEvent.change(
       screen.getByRole('spinbutton', {
         name: 'Days until the appointment is repeated',
       }),
-      { target: { value: '7' } }
+      { target: { value: '7' } },
     );
 
     expect(onCustomIntervalChange).toHaveBeenLastCalledWith('7');
@@ -555,7 +555,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(screen.getByRole('button', { name: 'Repeat Days' }));
@@ -592,7 +592,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const weekdaysGroup = screen.getByRole('group', {
@@ -602,7 +602,7 @@ describe('<CustomRecurringMeeting>', () => {
     expect(
       within(weekdaysGroup)
         .getAllByRole('button')
-        .map((b) => b.textContent)
+        .map((b) => b.textContent),
     ).toEqual([
       'Sunday',
       'Monday',
@@ -614,7 +614,7 @@ describe('<CustomRecurringMeeting>', () => {
     ]);
 
     await userEvent.click(
-      within(weekdaysGroup).getByRole('button', { name: 'Tuesday' })
+      within(weekdaysGroup).getByRole('button', { name: 'Tuesday' }),
     );
 
     expect(onCustomByWeekdayChange).toHaveBeenLastCalledWith([1, 5]);
@@ -640,17 +640,17 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       screen.getByRole('radio', {
         name: 'The meeting is repeated monthly on third Tuesday',
-      })
+      }),
     );
 
     expect(onCustomRuleModeChange).toHaveBeenLastCalledWith(
-      CustomRuleMode.ByWeekday
+      CustomRuleMode.ByWeekday,
     );
   });
 
@@ -674,7 +674,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const monthdayGroup = screen.getByRole('group', {
@@ -683,7 +683,7 @@ describe('<CustomRecurringMeeting>', () => {
 
     fireEvent.change(
       within(monthdayGroup).getByRole('spinbutton', { name: 'Day' }),
-      { target: { value: '10' } }
+      { target: { value: '10' } },
     );
 
     expect(onCustomNthMonthdayChange).toHaveBeenLastCalledWith('10');
@@ -709,7 +709,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const weekdayGroup = screen.getByRole('group', {
@@ -719,7 +719,7 @@ describe('<CustomRecurringMeeting>', () => {
     await userEvent.click(
       within(weekdayGroup).getByRole('button', {
         name: 'Ordinal third',
-      })
+      }),
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
       'first',
@@ -753,7 +753,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const weekdayGroup = screen.getByRole('group', {
@@ -761,7 +761,7 @@ describe('<CustomRecurringMeeting>', () => {
     });
 
     await userEvent.click(
-      within(weekdayGroup).getByRole('button', { name: 'Weekday Tuesday' })
+      within(weekdayGroup).getByRole('button', { name: 'Weekday Tuesday' }),
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
       'Sunday',
@@ -797,17 +797,17 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       screen.getByRole('radio', {
         name: 'The meeting is repeated yearly at third Tuesday of October',
-      })
+      }),
     );
 
     expect(onCustomRuleModeChange).toHaveBeenLastCalledWith(
-      CustomRuleMode.ByWeekday
+      CustomRuleMode.ByWeekday,
     );
   });
 
@@ -831,7 +831,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const monthdayGroup = screen.getByRole('group', {
@@ -840,7 +840,7 @@ describe('<CustomRecurringMeeting>', () => {
 
     fireEvent.change(
       within(monthdayGroup).getByRole('spinbutton', { name: 'Day' }),
-      { target: { value: '10' } }
+      { target: { value: '10' } },
     );
 
     expect(onCustomNthMonthdayChange).toHaveBeenLastCalledWith('10');
@@ -866,7 +866,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const monthdayGroup = screen.getByRole('group', {
@@ -874,7 +874,7 @@ describe('<CustomRecurringMeeting>', () => {
     });
 
     await userEvent.click(
-      within(monthdayGroup).getByRole('button', { name: 'Month October' })
+      within(monthdayGroup).getByRole('button', { name: 'Month October' }),
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
       'January',
@@ -915,7 +915,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const weekdayGroup = screen.getByRole('group', {
@@ -925,7 +925,7 @@ describe('<CustomRecurringMeeting>', () => {
     await userEvent.click(
       within(weekdayGroup).getByRole('button', {
         name: 'Ordinal third',
-      })
+      }),
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
       'first',
@@ -959,7 +959,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const weekdayGroup = screen.getByRole('group', {
@@ -967,7 +967,7 @@ describe('<CustomRecurringMeeting>', () => {
     });
 
     await userEvent.click(
-      within(weekdayGroup).getByRole('button', { name: 'Weekday Tuesday' })
+      within(weekdayGroup).getByRole('button', { name: 'Weekday Tuesday' }),
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
       'Sunday',
@@ -1003,7 +1003,7 @@ describe('<CustomRecurringMeeting>', () => {
         onCustomRuleModeChange={onCustomRuleModeChange}
         onCustomWeekdayChange={onCustomWeekdayChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const weekdayGroup = screen.getByRole('group', {
@@ -1011,7 +1011,7 @@ describe('<CustomRecurringMeeting>', () => {
     });
 
     await userEvent.click(
-      within(weekdayGroup).getByRole('button', { name: 'Month October' })
+      within(weekdayGroup).getByRole('button', { name: 'Month October' }),
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
       'January',
@@ -1054,16 +1054,16 @@ describe('<CustomRecurringMeeting>', () => {
           onCustomRuleModeChange={onCustomRuleModeChange}
           onCustomWeekdayChange={onCustomWeekdayChange}
         />,
-        { wrapper: Wrapper }
+        { wrapper: Wrapper },
       );
 
       expect(
         screen.getByRole('spinbutton', {
           name: 'Days until the appointment is repeated',
           description: 'Invalid input',
-        })
+        }),
       ).toBeInvalid();
-    }
+    },
   );
 
   it.each(['', '0', '32'])(
@@ -1088,16 +1088,16 @@ describe('<CustomRecurringMeeting>', () => {
           onCustomRuleModeChange={onCustomRuleModeChange}
           onCustomWeekdayChange={onCustomWeekdayChange}
         />,
-        { wrapper: Wrapper }
+        { wrapper: Wrapper },
       );
 
       expect(
         screen.getByRole('spinbutton', {
           name: 'Day',
           description: 'Invalid input',
-        })
+        }),
       ).toBeInvalid();
-    }
+    },
   );
 
   it.each(['', '0', '32'])(
@@ -1122,15 +1122,15 @@ describe('<CustomRecurringMeeting>', () => {
           onCustomRuleModeChange={onCustomRuleModeChange}
           onCustomWeekdayChange={onCustomWeekdayChange}
         />,
-        { wrapper: Wrapper }
+        { wrapper: Wrapper },
       );
 
       expect(
         screen.getByRole('spinbutton', {
           name: 'Day',
           description: 'Invalid input',
-        })
+        }),
       ).toBeInvalid();
-    }
+    },
   );
 });

@@ -37,10 +37,11 @@ export class AdapterLuxonWeekday extends AdapterLuxon {
     }
 
     const normStartOfMonth = DateTime.fromISO(
-      generateFilterRange('week', cleanValue.startOf('month').toISO()).startDate
+      generateFilterRange('week', cleanValue.startOf('month').toISO())
+        .startDate,
     );
     const normEndOfMonth = DateTime.fromISO(
-      generateFilterRange('week', cleanValue.endOf('month').toISO()).endDate
+      generateFilterRange('week', cleanValue.endOf('month').toISO()).endDate,
     );
 
     const { days } = normEndOfMonth.diff(normStartOfMonth, 'days').toObject();

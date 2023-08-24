@@ -59,12 +59,12 @@ export class MeetingController {
 
   @Post('create')
   @EventPattern(
-    matrixPattern.roomEvent(RoomEventName.NIC_MEETINGS_MEETING_CREATE)
+    matrixPattern.roomEvent(RoomEventName.NIC_MEETINGS_MEETING_CREATE),
   )
   async create(
     @RoomIdParam() roomId: string | undefined,
     @UserContextParam() userContext: IUserContext,
-    @Payload() data: MeetingCreateDto
+    @Payload() data: MeetingCreateDto,
   ): Promise<MeetingCreateResponseDto> {
     const newData: MeetingCreateDto = roomId
       ? {
@@ -75,92 +75,92 @@ export class MeetingController {
     return await this.meetingService.createMeeting(
       userContext,
       newData,
-      MeetingType.MEETING
+      MeetingType.MEETING,
     );
   }
 
   @EventPattern(
-    matrixPattern.roomEvent(RoomEventName.NIC_MEETINGS_BREAKOUTSESSIONS_CREATE)
+    matrixPattern.roomEvent(RoomEventName.NIC_MEETINGS_BREAKOUTSESSIONS_CREATE),
   )
   async createBreakoutSessions(
     @RoomIdParam() roomId: string,
     @UserContextParam() userContext: IUserContext,
-    @Payload() data: BreakoutSessionsDto
+    @Payload() data: BreakoutSessionsDto,
   ) {
     await this.meetingService.createBreakOutSessions(userContext, roomId, data);
   }
 
   @Put('update')
   @EventPattern(
-    matrixPattern.roomEvent(RoomEventName.NIC_MEETINGS_MEETING_UPDATE_DETAILS)
+    matrixPattern.roomEvent(RoomEventName.NIC_MEETINGS_MEETING_UPDATE_DETAILS),
   )
   async update(
     @UserContextParam() userContext: IUserContext,
-    @Payload() data: MeetingUpdateDetailsDto
+    @Payload() data: MeetingUpdateDetailsDto,
   ) {
     await this.meetingService.updateMeetingDetails(userContext, data);
   }
 
   @EventPattern(
     matrixPattern.roomEvent(
-      RoomEventName.NIC_MEETING_MEETING_CHANGE_MESSAGING_PERMISSIONS
-    )
+      RoomEventName.NIC_MEETING_MEETING_CHANGE_MESSAGING_PERMISSIONS,
+    ),
   )
   async changeMessagingPermissions(
     @UserContextParam() userContext: IUserContext,
-    @Payload() data: MeetingChangeMessagingPermissionDto
+    @Payload() data: MeetingChangeMessagingPermissionDto,
   ) {
     await this.meetingService.changeMessagingPermissions(userContext, data);
   }
 
   @Post('close')
   @EventPattern(
-    matrixPattern.roomEvent(RoomEventName.NIC_MEETINGS_MEETING_CLOSE)
+    matrixPattern.roomEvent(RoomEventName.NIC_MEETINGS_MEETING_CLOSE),
   )
   async close(
     @UserContextParam() userContext: IUserContext,
-    @Payload() data: MeetingCloseDto
+    @Payload() data: MeetingCloseDto,
   ) {
     await this.meetingService.closeMeeting(userContext, data);
   }
 
   @EventPattern(
     matrixPattern.roomEvent(
-      RoomEventName.NIC_MEETINGS_SUB_MEETINGS_SEND_MESSAGE
-    )
+      RoomEventName.NIC_MEETINGS_SUB_MEETINGS_SEND_MESSAGE,
+    ),
   )
   async subMeetingsSendMessage(
     @UserContextParam() userContext: IUserContext,
-    @Payload() data: SubMeetingsSendMessageDto
+    @Payload() data: SubMeetingsSendMessageDto,
   ) {
     await this.meetingService.subMeetingsSendMessage(userContext, data);
   }
 
   @EventPattern(
     matrixPattern.roomEvent(
-      RoomEventName.NIC_MEETINGS_MEETING_PARTICIPANTS_HANDLE
-    )
+      RoomEventName.NIC_MEETINGS_MEETING_PARTICIPANTS_HANDLE,
+    ),
   )
   async participantsHandle(
     @UserContextParam() userContext: IUserContext,
-    @Payload() data: MeetingParticipantsHandleDto
+    @Payload() data: MeetingParticipantsHandleDto,
   ) {
     await this.meetingService.handleParticipants(userContext, data);
   }
 
   @EventPattern(
-    matrixPattern.roomEvent(RoomEventName.NIC_MEETINGS_MEETING_WIDGETS_HANDLE)
+    matrixPattern.roomEvent(RoomEventName.NIC_MEETINGS_MEETING_WIDGETS_HANDLE),
   )
   async widgetsHandle(
     @UserContextParam() userContext: IUserContext,
-    @Payload() data: MeetingWidgetsHandleDto
+    @Payload() data: MeetingWidgetsHandleDto,
   ) {
     await this.meetingService.handleWidgets(userContext, data);
   }
 
   @Get(':roomId/sharingInformation')
   async sharingInformation(
-    @Param('roomId') room_id: string
+    @Param('roomId') room_id: string,
   ): Promise<MeetingSharingInformationDto> {
     return await this.meetingService.getSharingInformationAsync(room_id);
   }

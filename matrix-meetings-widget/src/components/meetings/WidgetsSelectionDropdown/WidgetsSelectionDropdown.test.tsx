@@ -60,38 +60,38 @@ describe('<WidgetsSelectionDropdown>', () => {
         onChange={jest.fn()}
         selectedWidgets={['widget-1']}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
       screen.getByRole('combobox', {
         name: 'Widgets',
         description: /0 of 0 entries selected./,
-      })
+      }),
     ).toBeInTheDocument();
 
     await waitFor(() =>
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
     );
 
     expect(
       screen.getByRole('combobox', {
         name: 'Widgets',
         description: /1 of 2 entries selected./,
-      })
+      }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole('button', {
         name: 'Widget 1',
         description: /Use the backspace key/,
-      })
+      }),
     ).toBeInTheDocument();
   });
 
   it('should have no accessibility violations, while loading', async () => {
     const { container } = render(
       <WidgetsSelectionDropdown onChange={jest.fn()} selectedWidgets={[]} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -100,11 +100,11 @@ describe('<WidgetsSelectionDropdown>', () => {
   it('should have no accessibility violations, after load', async () => {
     const { container } = render(
       <WidgetsSelectionDropdown onChange={jest.fn()} selectedWidgets={[]} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await waitFor(() =>
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -115,11 +115,11 @@ describe('<WidgetsSelectionDropdown>', () => {
 
     render(
       <WidgetsSelectionDropdown onChange={onChange} selectedWidgets={[]} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await waitFor(() =>
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
     );
 
     expect(onChange).not.toBeCalled();
@@ -134,11 +134,11 @@ describe('<WidgetsSelectionDropdown>', () => {
         onChange={onChange}
         selectedWidgets={[]}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await waitFor(() =>
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
     );
 
     expect(onChange).toBeCalledWith(['widget-1', 'widget-2']);
@@ -160,11 +160,11 @@ describe('<WidgetsSelectionDropdown>', () => {
         onChange={onChange}
         selectedWidgets={[]}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await waitFor(() =>
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
     );
 
     expect(onChange).toBeCalledWith(['widget-1']);
@@ -175,15 +175,15 @@ describe('<WidgetsSelectionDropdown>', () => {
 
     render(
       <WidgetsSelectionDropdown onChange={onChange} selectedWidgets={[]} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await waitFor(() =>
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
     );
 
     await userEvent.click(
-      screen.getByRole('combobox', { name: 'Widgets', expanded: false })
+      screen.getByRole('combobox', { name: 'Widgets', expanded: false }),
     );
     await userEvent.click(screen.getByRole('option', { name: 'Widget 1' }));
 
@@ -196,26 +196,26 @@ describe('<WidgetsSelectionDropdown>', () => {
         onChange={jest.fn()}
         selectedWidgets={['widget-1', 'widget-2']}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await waitFor(() =>
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
     );
 
     await userEvent.click(
-      screen.getByRole('combobox', { name: 'Widgets', expanded: false })
+      screen.getByRole('combobox', { name: 'Widgets', expanded: false }),
     );
     expect(
-      screen.getByText(/All available widgets are already active/)
+      screen.getByText(/All available widgets are already active/),
     ).toBeInTheDocument();
   });
 
   it('should show a message if no widgets are available', async () => {
     server.use(
       rest.get('http://localhost/v1/widget/list', (_, res, ctx) =>
-        res(ctx.json([]))
-      )
+        res(ctx.json([])),
+      ),
     );
 
     render(
@@ -223,15 +223,15 @@ describe('<WidgetsSelectionDropdown>', () => {
         onChange={jest.fn()}
         selectedWidgets={['widget-1', 'widget-2']}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await waitFor(() =>
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
     );
 
     await userEvent.click(
-      screen.getByRole('combobox', { name: 'Widgets', expanded: false })
+      screen.getByRole('combobox', { name: 'Widgets', expanded: false }),
     );
     expect(screen.getByText(/No Widgets/)).toBeInTheDocument();
   });
@@ -239,8 +239,8 @@ describe('<WidgetsSelectionDropdown>', () => {
   it('should show a message if widgets could not be loaded', async () => {
     server.use(
       rest.get('http://localhost/v1/widget/list', (_, res, ctx) =>
-        res(ctx.status(500))
-      )
+        res(ctx.status(500)),
+      ),
     );
 
     render(
@@ -248,18 +248,18 @@ describe('<WidgetsSelectionDropdown>', () => {
         onChange={jest.fn()}
         selectedWidgets={['widget-1', 'widget-2']}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await waitFor(() =>
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
     );
 
     await userEvent.click(
-      screen.getByRole('combobox', { name: 'Widgets', expanded: false })
+      screen.getByRole('combobox', { name: 'Widgets', expanded: false }),
     );
     expect(
-      screen.getByText(/Error while loading available Widgets/)
+      screen.getByText(/Error while loading available Widgets/),
     ).toBeInTheDocument();
   });
 });

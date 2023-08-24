@@ -34,12 +34,12 @@ export class RoomMessageService {
 
   constructor(
     readonly client: MatrixClient,
-    readonly meetingClient: MeetingClient
+    readonly meetingClient: MeetingClient,
   ) {}
 
   public async sendHtmlMessageToErrorPrivateRoom(
     userId: string,
-    message: string
+    message: string,
   ) {
     const privateRoomId = await this.setupErrorPrivateRoom(userId);
     await this.client.sendHtmlText(privateRoomId, message);
@@ -49,18 +49,18 @@ export class RoomMessageService {
   private async setupErrorPrivateRoom(userId: string): Promise<string> {
     const roomName = i18next.t(
       'bot.private.errorRoom.create.message',
-      'Error messages from NeoDateFix-Bot'
+      'Error messages from NeoDateFix-Bot',
     );
     const topic = i18next.t(
       'bot.private.errorRoom.create.topic',
-      'More details'
+      'More details',
     );
     const htmlReason = `<table><tr><td><b>${topic}</b></td></tr></table>`;
 
     // only create one private room per userId
     const directMessageRoomIds = await this.findDirectMessageRoomsForUser(
       userId,
-      StateEventName.NIC_MEETINGS_PRIVATE_BOT_MESSAGES_ROOM_TYPE
+      StateEventName.NIC_MEETINGS_PRIVATE_BOT_MESSAGES_ROOM_TYPE,
     );
 
     if (directMessageRoomIds.length > 0) {
@@ -71,13 +71,13 @@ export class RoomMessageService {
           userId,
           privateRoomId,
           topic,
-          htmlReason
+          htmlReason,
         );
       } catch (e) {
         // Do not throw an exception if invite fails (user is in the room)
         this.logger.debug(
           `setupErrorPrivateRoom: failed to invite to room ${privateRoomId}`,
-          e
+          e,
         );
       }
       return privateRoomId;
@@ -86,14 +86,14 @@ export class RoomMessageService {
     return await this.createAndInviteToErrorPrivateChatRoom(
       userId,
       roomName,
-      topic
+      topic,
     );
   }
 
   private async createAndInviteToErrorPrivateChatRoom(
     userId: string,
     roomName: string,
-    topic: string
+    topic: string,
   ): Promise<string> {
     const privateRoomId = await this.client.createRoom({
       name: roomName,
@@ -126,14 +126,14 @@ export class RoomMessageService {
       userId,
       privateRoomId,
       topic,
-      htmlReason
+      htmlReason,
     );
     return privateRoomId;
   }
 
   public async findDirectMessageRoomsForUser(
     userId: string,
-    markerStateEvent: StateEventName
+    markerStateEvent: StateEventName,
   ): Promise<{ roomId: string; content: any }[]> {
     const NO_EVENTS = { not_types: ['*'] };
     const filter = {
@@ -162,7 +162,7 @@ export class RoomMessageService {
     const syncResponse = await this.client.doRequest(
       'GET',
       MatrixEndpoint.MATRIX_CLIENT_SYNC,
-      qs
+      qs,
     );
     if (!syncResponse.rooms) return [];
 
@@ -179,7 +179,7 @@ export class RoomMessageService {
           privateRoomIds.push({
             roomId,
             content: o.content || {},
-          })
+          }),
         );
     }
     return privateRoomIds;
@@ -188,7 +188,7 @@ export class RoomMessageService {
   private static formatDateTime(
     timezone: string,
     locale: string,
-    date: string | number | Date
+    date: string | number | Date,
   ): string {
     return moment(new Date(date)).tz(timezone).locale(locale).format('L LT z');
   }
@@ -209,16 +209,16 @@ export class RoomMessageService {
         i18next.t(
           'meeting.room.notification.changed.title.previous',
           '(previously: {{title}})',
-          { lng, title }
-        )
+          { lng, title },
+        ),
       );
     } else {
       return this.formatCurrent(
         i18next.t(
           'meeting.room.notification.changed.title.current',
           'Title: {{title}}',
-          { lng, title }
-        )
+          { lng, title },
+        ),
       );
     }
   }
@@ -226,46 +226,46 @@ export class RoomMessageService {
     lng: string,
     start: string,
     end: string,
-    previous?: boolean
+    previous?: boolean,
   ) {
     if (previous) {
       return this.formatPrevious(
         i18next.t(
           'meeting.room.notification.changed.date.previous',
           '(previously: {{start}} to {{end}})',
-          { lng, start, end }
-        )
+          { lng, start, end },
+        ),
       );
     } else {
       return this.formatCurrent(
         i18next.t(
           'meeting.room.notification.changed.date.current',
           'Date: {{start}} to {{end}}',
-          { lng, start, end }
-        )
+          { lng, start, end },
+        ),
       );
     }
   }
   private createDescriptionLine(
     lng: string,
     description: string,
-    previous?: boolean
+    previous?: boolean,
   ) {
     if (previous) {
       return this.formatPrevious(
         i18next.t(
           'meeting.room.notification.changed.description.previous',
           '(previously: {{description}})',
-          { lng, description }
-        )
+          { lng, description },
+        ),
       );
     } else {
       return this.formatCurrent(
         i18next.t(
           'meeting.room.notification.changed.description.current',
           'Description: {{description}}',
-          { lng, description }
-        )
+          { lng, description },
+        ),
       );
     }
   }
@@ -273,23 +273,23 @@ export class RoomMessageService {
   private createRepetitionLine(
     lng: string,
     repetitionText: string,
-    previous?: boolean
+    previous?: boolean,
   ) {
     if (previous) {
       return this.formatPrevious(
         i18next.t(
           'meeting.room.notification.changed.repetition.previous',
           '(previously: {{repetitionText}})',
-          { lng, repetitionText }
-        )
+          { lng, repetitionText },
+        ),
       );
     } else {
       return this.formatCurrent(
         i18next.t(
           'meeting.room.notification.changed.repetition.current',
           'Repeat meeting: {{repetitionText}}',
-          { lng, repetitionText }
-        )
+          { lng, repetitionText },
+        ),
       );
     }
   }
@@ -299,7 +299,7 @@ export class RoomMessageService {
     oldMeeting: IMeeting,
     newMeeting: IMeeting,
     meetingChanges: IMeetingChanges,
-    toRoomId: string
+    toRoomId: string,
   ): Promise<void> {
     const lng = userContext.locale ? userContext.locale : 'en';
     const timeZone = userContext.timezone ? userContext.timezone : 'UTC';
@@ -309,7 +309,7 @@ export class RoomMessageService {
     let notification = this.formatHeader(
       i18next.t('meeting.room.notification.changed.headLine', 'CHANGES', {
         lng,
-      })
+      }),
     );
     if (meetingChanges.titleChanged) {
       const newTitle = newMeeting.title;
@@ -323,22 +323,22 @@ export class RoomMessageService {
       const newStart = RoomMessageService.formatDateTime(
         timeZone,
         lng,
-        newMeeting.startTime
+        newMeeting.startTime,
       );
       const newEnd = RoomMessageService.formatDateTime(
         timeZone,
         lng,
-        newMeeting.endTime
+        newMeeting.endTime,
       );
       const oldStart = RoomMessageService.formatDateTime(
         timeZone,
         lng,
-        oldMeeting.startTime
+        oldMeeting.startTime,
       );
       const oldEnd = RoomMessageService.formatDateTime(
         timeZone,
         lng,
-        oldMeeting.endTime
+        oldMeeting.endTime,
       );
       notification += this.createStartEndTimesLine(lng, newStart, newEnd);
       notification += this.createStartEndTimesLine(lng, oldStart, oldEnd, true);

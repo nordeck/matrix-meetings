@@ -75,33 +75,33 @@ describe('<MeetingsToolbar/>', () => {
         onViewChange={jest.fn()}
         view="day"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
-      screen.getByRole('button', { name: 'Schedule Meeting' })
+      screen.getByRole('button', { name: 'Schedule Meeting' }),
     ).toBeInTheDocument();
 
     expect(screen.getByRole('button', { name: 'Today' })).toBeInTheDocument();
 
     expect(
-      screen.getByRole('button', { name: 'Next day' })
+      screen.getByRole('button', { name: 'Next day' }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('button', { name: 'Previous day' })
+      screen.getByRole('button', { name: 'Previous day' }),
     ).toBeInTheDocument();
 
     expect(
       screen.getByRole('button', {
         name: 'Choose date, selected date is June 7, 2020',
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(screen.getByRole('textbox', { name: 'Search' })).toBeInTheDocument();
 
     expect(
-      screen.getByRole('button', { name: 'View Day' })
+      screen.getByRole('button', { name: 'View Day' }),
     ).toBeInTheDocument();
   });
 
@@ -114,7 +114,7 @@ describe('<MeetingsToolbar/>', () => {
         onViewChange={jest.fn()}
         view="day"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -129,7 +129,7 @@ describe('<MeetingsToolbar/>', () => {
         onViewChange={jest.fn()}
         view="day"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const todayButton = screen.getByRole('button', { name: 'Today' });
@@ -147,7 +147,7 @@ describe('<MeetingsToolbar/>', () => {
         onSearchChange={jest.fn()}
         onViewChange={jest.fn()}
         view="day"
-      />
+      />,
     );
 
     expect(todayButton).not.toBeInTheDocument();
@@ -164,7 +164,7 @@ describe('<MeetingsToolbar/>', () => {
         onViewChange={jest.fn()}
         view="day"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const scheduleButton = screen.getByRole('button', {
@@ -175,7 +175,7 @@ describe('<MeetingsToolbar/>', () => {
       mockPowerLevelsEvent({
         room_id: '!room-id',
         content: { events: { 'net.nordeck.meetings.meeting.create': 101 } },
-      })
+      }),
     );
 
     await waitFor(() => {

@@ -37,7 +37,7 @@ describe('test relevant functionality of MatrixAuthMiddleware', () => {
     const matrixAuth = new MatrixAuthMiddleware(appConfig);
     const mockRequest: Request = {} as Request;
     await expect(
-      matrixAuth.extractUserContext(mockRequest)
+      matrixAuth.extractUserContext(mockRequest),
     ).resolves.toBeUndefined();
   });
 
@@ -49,7 +49,7 @@ describe('test relevant functionality of MatrixAuthMiddleware', () => {
       },
     } as Request;
     await expect(matrixAuth.extractUserContext(mockRequest)).rejects.toThrow(
-      Error
+      Error,
     );
   });
 
@@ -57,7 +57,7 @@ describe('test relevant functionality of MatrixAuthMiddleware', () => {
     appConfig.homeserver_url = 'abc';
     const matrixAuth = new MatrixAuthMiddleware(appConfig);
     const auth = `MX-Identity ${base64url(
-      '{"state":"allowed","original_request_id":"widgetapi-163.....28529","access_token":"gaRTYVTSFO-----","token_type":"Bearer","matrix_server_name":"server","expires_in":3600,"expirationDate":"2021-10-11T08:47:11.551Z"}'
+      '{"state":"allowed","original_request_id":"widgetapi-163.....28529","access_token":"gaRTYVTSFO-----","token_type":"Bearer","matrix_server_name":"server","expires_in":3600,"expirationDate":"2021-10-11T08:47:11.551Z"}',
     )}`;
     const mockRequest = {
       headers: {
@@ -82,7 +82,7 @@ describe('test relevant functionality of MatrixAuthMiddleware', () => {
       },
     } as Request;
     await expect(matrixAuth.extractUserContext(mockRequest)).rejects.toThrow(
-      Error
+      Error,
     );
   });
 

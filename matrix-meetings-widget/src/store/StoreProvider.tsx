@@ -57,7 +57,7 @@ export function StoreProvider({
         widgetApi,
         acceptedMeetingIds,
       });
-    })
+    }),
   );
 
   return <Provider store={store}>{children}</Provider>;

@@ -30,7 +30,7 @@ export class WidgetController {
   constructor(
     private readonly eventContentRenderer: EventContentRenderer,
     @Inject(ModuleProviderToken.ROOM_MATRIX_EVENTS)
-    private readonly roomMatrixEvents: DeepReadonly<IRoomMatrixEvents>
+    private readonly roomMatrixEvents: DeepReadonly<IRoomMatrixEvents>,
   ) {}
 
   @Get('list')
@@ -40,12 +40,12 @@ export class WidgetController {
     return this.roomMatrixEvents.widgetContents.map((wc) => {
       const name: string = this.eventContentRenderer.renderTemplate(
         wc.name,
-        {}
+        {},
       );
       return new WidgetIdNameDto(
         wc.id,
         name,
-        !this.roomMatrixEvents.defaultWidgetIds.includes(wc.id)
+        !this.roomMatrixEvents.defaultWidgetIds.includes(wc.id),
       );
     });
   }

@@ -34,7 +34,7 @@ export const MeetingsToolbarSearch = ({
     (event: ChangeEvent<HTMLInputElement>) => {
       onSearchChange(event.target.value);
     },
-    [onSearchChange]
+    [onSearchChange],
   );
 
   return (

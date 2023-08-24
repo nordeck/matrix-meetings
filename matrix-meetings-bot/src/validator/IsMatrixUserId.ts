@@ -32,7 +32,7 @@ export function isMatrixUserId(value: unknown): boolean {
 }
 
 export function IsMatrixUserId(
-  validationOptions?: ValidationOptions
+  validationOptions?: ValidationOptions,
 ): PropertyDecorator {
   return ValidateBy(
     {
@@ -42,10 +42,10 @@ export function IsMatrixUserId(
         defaultMessage: buildMessage(
           (eachPrefix) =>
             `${eachPrefix}$property must be a matrix user id starting with @`,
-          validationOptions
+          validationOptions,
         ),
       },
     },
-    validationOptions
+    validationOptions,
   );
 }

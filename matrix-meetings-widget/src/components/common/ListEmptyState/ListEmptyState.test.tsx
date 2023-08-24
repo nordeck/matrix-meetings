@@ -24,7 +24,7 @@ describe('<ListEmptyState>', () => {
     render(
       <List>
         <ListEmptyState message="Empty" />
-      </List>
+      </List>,
     );
 
     expect(screen.getByRole('listitem', { name: 'Empty' })).toBeInTheDocument();
@@ -34,7 +34,7 @@ describe('<ListEmptyState>', () => {
     const { container } = render(
       <List>
         <ListEmptyState message="Empty" />
-      </List>
+      </List>,
     );
 
     expect(await axe(container)).toHaveNoViolations();

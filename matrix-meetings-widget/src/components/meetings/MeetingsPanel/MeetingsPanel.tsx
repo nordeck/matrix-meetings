@@ -54,12 +54,12 @@ export const MeetingsPanel = () => {
     selectRoomPermissions(
       state,
       widgetApi.widgetParameters.roomId ?? '',
-      widgetApi.widgetParameters.userId
-    )
+      widgetApi.widgetParameters.userId,
+    ),
   );
 
   const [view, setViewInternal] = useState<ViewType>(
-    () => readLastViewTypeFromStorage(widgetApi) ?? 'list'
+    () => readLastViewTypeFromStorage(widgetApi) ?? 'list',
   );
   const [filters, setFilters] = useState<Filters>({
     startDate: DateTime.now().startOf('day').toISO(),
@@ -80,18 +80,18 @@ export const MeetingsPanel = () => {
         }));
       }
     },
-    [view, widgetApi]
+    [view, widgetApi],
   );
 
   const handleOnRangeChange = useCallback(
     (startDate: string, endDate: string) =>
       setFilters((old) => ({ ...old, startDate, endDate })),
-    [setFilters]
+    [setFilters],
   );
 
   const handleOnSearchChange = useCallback(
     (filterText: string) => setFilters((old) => ({ ...old, filterText })),
-    [setFilters]
+    [setFilters],
   );
 
   const selectRoomType = useMemo(makeSelectRoomType, []);
@@ -127,10 +127,10 @@ export const MeetingsPanel = () => {
       widgetApi.widgetParameters.roomId,
       widgetApi.widgetParameters.userId,
       displayAllMeetings,
-    ]
+    ],
   );
   const invitedMeetingIdLength = useAppSelector(
-    (state) => selectAllInvitedMeetingIds(state).length
+    (state) => selectAllInvitedMeetingIds(state).length,
   );
 
   const [showInvitations, setShowInvitations] = useState(false);
@@ -149,7 +149,7 @@ export const MeetingsPanel = () => {
         ...generateFilterRange('day', date.toISOString()),
       }));
     },
-    [setView]
+    [setView],
   );
 
   const filtersId = useId();
@@ -249,11 +249,11 @@ export const MeetingsPanel = () => {
 };
 
 export function readLastViewTypeFromStorage(
-  widgetApi: WidgetApi
+  widgetApi: WidgetApi,
 ): ViewType | undefined {
   try {
     const viewType = window.localStorage.getItem(
-      `meeting_view_${widgetApi.widgetParameters.roomId}_${widgetApi.widgetParameters.userId}`
+      `meeting_view_${widgetApi.widgetParameters.roomId}_${widgetApi.widgetParameters.userId}`,
     );
     if (viewType && isViewType(viewType)) {
       return viewType;
@@ -266,12 +266,12 @@ export function readLastViewTypeFromStorage(
 
 export function saveLastViewTypeToStorage(
   widgetApi: WidgetApi,
-  view: ViewType
+  view: ViewType,
 ): void {
   try {
     window.localStorage.setItem(
       `meeting_view_${widgetApi.widgetParameters.roomId}_${widgetApi.widgetParameters.userId}`,
-      view
+      view,
     );
   } catch (e) {
     console.error('saveLastViewTypeToStorage', e);

@@ -27,7 +27,7 @@ describe('isValidRoomCreateEvent', () => {
         state_key: '',
         sender: '@user-id',
         type: 'm.room.create',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -43,7 +43,7 @@ describe('isValidRoomCreateEvent', () => {
         state_key: '',
         sender: '@user-id',
         type: 'm.room.create',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -59,7 +59,7 @@ describe('isValidRoomCreateEvent', () => {
         state_key: '',
         sender: '@user-id',
         type: 'm.room.create',
-      })
+      }),
     ).toBe(true);
   });
 
@@ -77,8 +77,8 @@ describe('isValidRoomCreateEvent', () => {
           state_key: '',
           sender: '@user-id',
           type: 'm.room.create',
-        })
+        }),
       ).toBe(false);
-    }
+    },
   );
 });

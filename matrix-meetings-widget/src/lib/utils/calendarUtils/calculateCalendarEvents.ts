@@ -131,13 +131,13 @@ export function calculateCalendarEvents({
       generateRruleSet(entry);
 
     const entryDuration = parseICalDate(entry.dtend).diff(
-      parseICalDate(entry.dtstart)
+      parseICalDate(entry.dtstart),
     );
     const filterStartDate = toRruleSetDate(
       DateTime.fromISO(fromDate)
         // we want to filter inclusively so we need to move
         // the filter back by one duration
-        .minus(entryDuration)
+        .minus(entryDuration),
     );
     let recurrenceIdsRaw: Date[];
 

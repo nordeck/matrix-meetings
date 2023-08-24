@@ -48,7 +48,7 @@ type Fixtures = {
 
 export function shouldCaptureVideo(
   videoMode: VideoMode | 'retry-with-video',
-  testInfo: TestInfo
+  testInfo: TestInfo,
 ) {
   return (
     videoMode === 'on' ||
@@ -87,7 +87,7 @@ export const test = base.extend<Fixtures>({
 
     const meetingsWidgetPage = new MeetingsWidgetPage(
       alicePage,
-      aliceElementWebPage.widgetByTitle('NeoDateFix')
+      aliceElementWebPage.widgetByTitle('NeoDateFix'),
     );
 
     await meetingsWidgetPage.scheduleMeetingButton.waitFor({
@@ -99,7 +99,7 @@ export const test = base.extend<Fixtures>({
 
   aliceJitsiWidgetPage: async ({ aliceElementWebPage }, use) => {
     const jitsiWidgetPage = new JitsiWidgetPage(
-      aliceElementWebPage.widgetByTitle('Video Conference')
+      aliceElementWebPage.widgetByTitle('Video Conference'),
     );
 
     await use(jitsiWidgetPage);
@@ -108,7 +108,7 @@ export const test = base.extend<Fixtures>({
   aliceCockpitWidgetPage: async ({ alicePage, aliceElementWebPage }, use) => {
     const cockpitWidgetPage = new CockpitWidgetPage(
       alicePage,
-      aliceElementWebPage.widgetByTitle('NeoDateFix Details')
+      aliceElementWebPage.widgetByTitle('NeoDateFix Details'),
     );
 
     await use(cockpitWidgetPage);
@@ -116,11 +116,11 @@ export const test = base.extend<Fixtures>({
 
   aliceBreakoutSessionsPage: async (
     { alicePage, aliceElementWebPage },
-    use
+    use,
   ) => {
     const breakoutSessionsPage = new BreakoutSessionsPage(
       alicePage,
-      aliceElementWebPage.widgetByTitle('Breakout Sessions')
+      aliceElementWebPage.widgetByTitle('Breakout Sessions'),
     );
 
     await use(breakoutSessionsPage);
@@ -179,7 +179,7 @@ export const test = base.extend<Fixtures>({
   bobMeetingsWidgetPage: async ({ bobPage, bobElementWebPage }, use) => {
     const meetingsWidgetPage = new MeetingsWidgetPage(
       bobPage,
-      bobElementWebPage.widgetByTitle('NeoDateFix')
+      bobElementWebPage.widgetByTitle('NeoDateFix'),
     );
 
     await use(meetingsWidgetPage);
@@ -187,7 +187,7 @@ export const test = base.extend<Fixtures>({
 
   bobJitsiWidgetPage: async ({ bobElementWebPage }, use) => {
     const jitsiWidgetPage = new JitsiWidgetPage(
-      bobElementWebPage.widgetByTitle('Video Conference')
+      bobElementWebPage.widgetByTitle('Video Conference'),
     );
 
     await use(jitsiWidgetPage);
@@ -196,7 +196,7 @@ export const test = base.extend<Fixtures>({
   bobBreakoutSessionsPage: async ({ bobPage, bobElementWebPage }, use) => {
     const breakoutSessionsPage = new BreakoutSessionsPage(
       bobPage,
-      bobElementWebPage.widgetByTitle('Breakout Sessions')
+      bobElementWebPage.widgetByTitle('Breakout Sessions'),
     );
 
     await use(breakoutSessionsPage);
@@ -231,7 +231,7 @@ export const test = base.extend<Fixtures>({
               target: node.target,
               failureSummary: node.failureSummary,
             })),
-          })
+          }),
         );
 
         return JSON.stringify(violationFingerprints, null, 2);

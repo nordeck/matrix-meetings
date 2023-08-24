@@ -77,7 +77,7 @@ describe('<MeetingsCalendarEvent/>', () => {
         meeting={mockMeeting()}
         view="day"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByText('An important meeting')).toBeInTheDocument();
@@ -91,7 +91,7 @@ describe('<MeetingsCalendarEvent/>', () => {
         meeting={mockMeeting()}
         view="month"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByText('10:00 AM')).toBeInTheDocument();
@@ -106,7 +106,7 @@ describe('<MeetingsCalendarEvent/>', () => {
         meeting={meetingFromBob}
         view="day"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByText('An important meeting')).toBeInTheDocument();
@@ -120,7 +120,7 @@ describe('<MeetingsCalendarEvent/>', () => {
         meeting={meetingFromBob}
         view="month"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByText('10:00 AM')).toBeInTheDocument();
@@ -135,7 +135,7 @@ describe('<MeetingsCalendarEvent/>', () => {
         meeting={mockMeeting()}
         view="day"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByText('An important meeting')).toBeInTheDocument();
@@ -149,7 +149,7 @@ describe('<MeetingsCalendarEvent/>', () => {
         meeting={mockMeeting()}
         view="month"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByText('An important meeting')).toBeInTheDocument();
@@ -165,11 +165,11 @@ describe('<MeetingsCalendarEvent/>', () => {
           view="month"
         />
       </button>,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByRole('button')).toHaveAccessibleName(
-      /January 1, 2999(,| at) 10:00 AM–2:00 PM: “An important meeting” by Alice/
+      /January 1, 2999(,| at) 10:00 AM–2:00 PM: “An important meeting” by Alice/,
     );
   });
 
@@ -186,11 +186,11 @@ describe('<MeetingsCalendarEvent/>', () => {
           view="month"
         />
       </button>,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByRole('button')).toHaveAccessibleName(
-      /January 1, 2999(,| at) 10:00 AM–January 2, 2999(,| at) 2:00 PM: “An important meeting” by Alice/
+      /January 1, 2999(,| at) 10:00 AM–January 2, 2999(,| at) 2:00 PM: “An important meeting” by Alice/,
     );
   });
 
@@ -213,12 +213,12 @@ describe('<MeetingsCalendarEvent/>', () => {
           view="month"
         />
       </button>,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByTestId('EventRepeatIcon')).toBeInTheDocument();
     expect(screen.getByRole('button')).toHaveAccessibleName(
-      /January 1, 2999(,| at) 10:00 AM–2:00 PM: “An important meeting” by Alice, recurring meeting/
+      /January 1, 2999(,| at) 10:00 AM–2:00 PM: “An important meeting” by Alice, recurring meeting/,
     );
   });
 });

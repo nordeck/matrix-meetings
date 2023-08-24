@@ -122,11 +122,11 @@ describe('test relevant functionality of MeetingService', () => {
       [],
       0,
       true,
-      undefined
+      undefined,
     );
 
   const roomMatrixEvents: IRoomMatrixEvents = new RoomMatrixEventsReader(
-    'test/conf/test_default_events.json'
+    'test/conf/test_default_events.json',
   ).read();
 
   const getInitialStatesAsMap = (roomProps: any) => {
@@ -139,7 +139,7 @@ describe('test relevant functionality of MeetingService', () => {
   };
 
   const layoutConfigs = new WidgetLayoutConfigReader(
-    'test/conf/test_default_widget_layouts.json.json'
+    'test/conf/test_default_widget_layouts.json.json',
   ).read();
 
   const stateEventStub: Omit<IStateEvent<any>, 'type' | 'content'> = {
@@ -155,46 +155,46 @@ describe('test relevant functionality of MeetingService', () => {
       CURRENT_USER,
       PARENT_MEETING_ROOM_ID,
       null,
-      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll']
+      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll'],
     );
     const mainRoom: any[] = create_test_meeting(
       CURRENT_USER,
       MAIN_NON_MEETING_ROOM_ID,
       null,
       ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll'],
-      false
+      false,
     );
     const childRoom1: IStateEvent<any>[] = create_test_meeting(
       CURRENT_USER,
       'childRoom1',
       PARENT_MEETING_ROOM_ID,
-      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll']
+      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll'],
     );
     const childRoom2: IStateEvent<any>[] = create_test_meeting(
       CURRENT_USER,
       'childRoom2',
       PARENT_MEETING_ROOM_ID,
-      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll']
+      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll'],
     );
     const room: any[] = create_test_meeting(
       CURRENT_USER,
       ROOM_ID,
       PARENT_MEETING_ROOM_ID,
-      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll']
+      ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll'],
     );
     const meetingRoomWithoutWidgetsUnderMeetingRoom: any[] =
       create_test_meeting(
         CURRENT_USER,
         MEETINGROOM_WITHOUT_WIDGETS_UNDER_MEETING_ROOM_ID,
         PARENT_MEETING_ROOM_ID,
-        []
+        [],
       );
     const meetingRoomWithoutWidgetsUnderNonMeetingRoom: any[] =
       create_test_meeting(
         CURRENT_USER,
         MEETINGROOM_WITHOUT_WIDGETS_UNDER_NON_MEETING_ROOM_ID,
         MAIN_NON_MEETING_ROOM_ID,
-        []
+        [],
       );
     const i1: any[] = create_test_meeting(CURRENT_USER, 'i1', null);
     const i2: any[] = create_test_meeting(CURRENT_USER, 'i2', null);
@@ -206,7 +206,7 @@ describe('test relevant functionality of MeetingService', () => {
         content: {
           via: ['localhost'],
         },
-      })
+      }),
     );
     parentRoom = parentRoom.map((se) => {
       if (se.type === StateEventName.M_ROOM_POWER_LEVELS_EVENT) {
@@ -233,7 +233,7 @@ describe('test relevant functionality of MeetingService', () => {
         content: {
           via: ['localhost'],
         },
-      })
+      }),
     );
 
     const fetchResult: any = {
@@ -260,25 +260,31 @@ describe('test relevant functionality of MeetingService', () => {
         anything(),
         anything(),
         anything(),
-        anything()
-      )
+        anything(),
+      ),
     ).thenResolve(fetchResult);
     when(
-      clientMock.doRequest('GET', MatrixEndpoint.MATRIX_CLIENT_SYNC, anything())
+      clientMock.doRequest(
+        'GET',
+        MatrixEndpoint.MATRIX_CLIENT_SYNC,
+        anything(),
+      ),
     ).thenResolve(fetchResult);
     when(clientMock.getRoomState(PARENT_MEETING_ROOM_ID)).thenResolve(
-      parentRoom
+      parentRoom,
     ); // TODO load the room with configured json
     when(
-      clientMock.getRoomState(MEETINGROOM_WITHOUT_WIDGETS_UNDER_MEETING_ROOM_ID)
+      clientMock.getRoomState(
+        MEETINGROOM_WITHOUT_WIDGETS_UNDER_MEETING_ROOM_ID,
+      ),
     ).thenResolve(meetingRoomWithoutWidgetsUnderMeetingRoom); // TODO load the room with configured json
     when(
       clientMock.getRoomState(
-        MEETINGROOM_WITHOUT_WIDGETS_UNDER_NON_MEETING_ROOM_ID
-      )
+        MEETINGROOM_WITHOUT_WIDGETS_UNDER_NON_MEETING_ROOM_ID,
+      ),
     ).thenResolve(meetingRoomWithoutWidgetsUnderNonMeetingRoom); // TODO load the room with configured json
     when(clientMock.getRoomState(MAIN_NON_MEETING_ROOM_ID)).thenResolve(
-      mainRoom
+      mainRoom,
     ); // TODO load the room with configured json
     when(clientMock.getRoomState(ROOM_ID)).thenResolve(room); // TODO load the room with configured json
     when(clientMock.getRoomState('childRoom1')).thenResolve(childRoom1); // TODO load the room with configured json
@@ -300,7 +306,7 @@ describe('test relevant functionality of MeetingService', () => {
         const stateEvent = childRoom.find((se) => se.type === eventType);
         const eventContent = stateEvent?.content;
         when(
-          clientMock.getRoomStateEvent(childRoomId, eventType, '')
+          clientMock.getRoomStateEvent(childRoomId, eventType, ''),
         ).thenResolve(eventContent);
       }
     }
@@ -309,7 +315,7 @@ describe('test relevant functionality of MeetingService', () => {
   const checkStandardFields = (
     roomProps: any,
     meetingType: MeetingType = MeetingType.MEETING,
-    parentRoomId: string | null = PARENT_MEETING_ROOM_ID
+    parentRoomId: string | null = PARENT_MEETING_ROOM_ID,
   ) => {
     expect(roomProps.name).toBe(TITLE);
     expect(roomProps.topic).toBe(TOPIC);
@@ -332,7 +338,7 @@ describe('test relevant functionality of MeetingService', () => {
 
     if (parentRoomId) {
       expect(map[StateEventName.M_SPACE_PARENT_EVENT].state_key).toBe(
-        parentRoomId
+        parentRoomId,
       );
     } else {
       expect(map[StateEventName.M_SPACE_PARENT_EVENT]).toBeUndefined();
@@ -366,7 +372,7 @@ describe('test relevant functionality of MeetingService', () => {
       client,
       appConfig,
       eventContentRenderer,
-      roomMatrixEvents
+      roomMatrixEvents,
     );
     meetingClient = new MeetingClient(client, eventContentRenderer);
     jitsiClientMock = mock(JitsiClient);
@@ -379,7 +385,7 @@ describe('test relevant functionality of MeetingService', () => {
       widgetService,
       roomMatrixEvents,
       eventContentRenderer,
-      new WidgetLayoutService(layoutConfigs)
+      new WidgetLayoutService(layoutConfigs),
     );
 
     when(clientMock.getUserProfile(anything())).thenResolve({
@@ -423,8 +429,8 @@ describe('test relevant functionality of MeetingService', () => {
       powerLevelHelper.userHasPowerLevelFor(
         room,
         'unbekannt',
-        StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT
-      )
+        StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
+      ),
     ).toBe(true);
     roomPowerlevelEvent.content.users_default = 50;
 
@@ -432,16 +438,16 @@ describe('test relevant functionality of MeetingService', () => {
       powerLevelHelper.userHasPowerLevelFor(
         room,
         'unbekannt',
-        StateEventName.NIC_MEETINGS_METADATA_EVENT
-      )
+        StateEventName.NIC_MEETINGS_METADATA_EVENT,
+      ),
     ).toBe(true);
     roomPowerlevelEvent.content.users_default = 49;
     expect(
       powerLevelHelper.userHasPowerLevelFor(
         room,
         'unbekannt',
-        StateEventName.NIC_MEETINGS_METADATA_EVENT
-      )
+        StateEventName.NIC_MEETINGS_METADATA_EVENT,
+      ),
     ).toBe(false);
 
     roomPowerlevelEvent.content.users_default = -1;
@@ -449,8 +455,8 @@ describe('test relevant functionality of MeetingService', () => {
       powerLevelHelper.userHasPowerLevelFor(
         room,
         'unbekannt',
-        StateEventName.NIC_MEETINGS_METADATA_EVENT
-      )
+        StateEventName.NIC_MEETINGS_METADATA_EVENT,
+      ),
     ).toBe(false);
 
     events = [];
@@ -461,8 +467,8 @@ describe('test relevant functionality of MeetingService', () => {
       powerLevelHelper.userHasPowerLevelFor(
         room,
         'unbekannt',
-        StateEventName.NIC_MEETINGS_METADATA_EVENT
-      )
+        StateEventName.NIC_MEETINGS_METADATA_EVENT,
+      ),
     ).toBe(false);
 
     const roomPowerlevelEvent3: any = {
@@ -486,30 +492,30 @@ describe('test relevant functionality of MeetingService', () => {
       powerLevelHelper.userHasPowerLevelFor(
         room,
         'ooooo',
-        RoomEventName.M_ROOM_MESSAGE
-      )
+        RoomEventName.M_ROOM_MESSAGE,
+      ),
     ).toBe(true);
     expect(
       powerLevelHelper.userHasPowerLevelForAction(
         room,
         'ooooo',
-        PowerLevelAction.Invite
-      )
+        PowerLevelAction.Invite,
+      ),
     ).toBe(true);
     expect(
       powerLevelHelper.userHasPowerLevelForAction(
         room,
         'ooooo',
-        PowerLevelAction.Invite
-      )
+        PowerLevelAction.Invite,
+      ),
     ).toBe(true);
     roomPowerlevelEvent3.content.users['ooooo'] = -1;
     expect(
       powerLevelHelper.userHasPowerLevelFor(
         room,
         'ooooo',
-        RoomEventName.M_ROOM_MESSAGE
-      )
+        RoomEventName.M_ROOM_MESSAGE,
+      ),
     ).toBe(false);
   });
 
@@ -518,8 +524,8 @@ describe('test relevant functionality of MeetingService', () => {
     await expect(
       meetingService.createMeeting(
         userContext,
-        createEvent(PARENT_MEETING_ROOM_ID)
-      )
+        createEvent(PARENT_MEETING_ROOM_ID),
+      ),
     ).rejects.toThrow(new RoomNotCreatedError());
   });
 
@@ -528,7 +534,7 @@ describe('test relevant functionality of MeetingService', () => {
 
     await meetingService.createMeeting(
       userContext,
-      createEvent(PARENT_MEETING_ROOM_ID)
+      createEvent(PARENT_MEETING_ROOM_ID),
     );
 
     verify(clientMock.createRoom(anything())).once();
@@ -541,7 +547,7 @@ describe('test relevant functionality of MeetingService', () => {
 
     await meetingService.createMeeting(
       userContext,
-      createEvent(PARENT_MEETING_ROOM_ID)
+      createEvent(PARENT_MEETING_ROOM_ID),
     );
 
     verify(clientMock.createRoom(anything())).once();
@@ -560,7 +566,7 @@ describe('test relevant functionality of MeetingService', () => {
     verify(clientMock.createRoom(anything())).once();
     const roomCreateOptions = capture(clientMock.createRoom).first()[0];
     expect(
-      roomCreateOptions?.power_level_content_override?.events_default
+      roomCreateOptions?.power_level_content_override?.events_default,
     ).toBe(100);
   });
 
@@ -639,7 +645,7 @@ describe('test relevant functionality of MeetingService', () => {
 
   test('check auto-invite', async () => {
     const newDefaultEvents = new RoomMatrixEventsHelper(
-      ''
+      '',
     ).buildRoomMatrixEvents(
       [
         ...roomMatrixEvents.stateEvents,
@@ -659,7 +665,7 @@ describe('test relevant functionality of MeetingService', () => {
           content: {},
         }),
       ],
-      roomMatrixEvents.roomEvents
+      roomMatrixEvents.roomEvents,
     );
 
     meetingService = new MeetingService(
@@ -671,26 +677,26 @@ describe('test relevant functionality of MeetingService', () => {
       widgetService,
       newDefaultEvents,
       eventContentRenderer,
-      new WidgetLayoutService(layoutConfigs)
+      new WidgetLayoutService(layoutConfigs),
     );
 
     await meetingService.createMeeting(
       userContext,
-      createEvent(PARENT_MEETING_ROOM_ID)
+      createEvent(PARENT_MEETING_ROOM_ID),
     );
     verify(clientMock.createRoom(anything())).once();
     const roomEvent = capture(clientMock.createRoom).first()[0];
 
     checkStandardFields(roomEvent);
     expect(roomEvent?.power_level_content_override?.users?.[BOT_USER]).toBe(
-      101
+      101,
     );
   });
 
   test('check converting event to roomProps for the call of client.createRoom', async () => {
     await meetingService.createMeeting(
       userContext,
-      createEvent(PARENT_MEETING_ROOM_ID)
+      createEvent(PARENT_MEETING_ROOM_ID),
     );
     verify(clientMock.createRoom(anything())).once();
     const roomEvent = capture(clientMock.createRoom).first()[0];
@@ -715,7 +721,7 @@ describe('test relevant functionality of MeetingService', () => {
     const parentRoomBuilder: RoomEventsBuilder = new RoomEventsBuilder(
       CURRENT_USER,
       PARENT_MEETING_ROOM_ID,
-      MAIN_NON_MEETING_ROOM_ID
+      MAIN_NON_MEETING_ROOM_ID,
     );
     parentRoomBuilder.withWidgetType('net.nordeck.meetings.widget.meeting');
     parentRoomBuilder.build();
@@ -723,15 +729,15 @@ describe('test relevant functionality of MeetingService', () => {
     const room_props: MeetingCreateDto = createEvent(PARENT_MEETING_ROOM_ID);
 
     when(clientMock.getRoomState(PARENT_MEETING_ROOM_ID)).thenReturn(
-      Promise.resolve(parentRoomBuilder.build())
+      Promise.resolve(parentRoomBuilder.build()),
     );
     when(clientMock.createRoom(anything())).thenResolve(
-      MEETINGROOM_WITHOUT_WIDGETS_UNDER_MEETING_ROOM_ID
+      MEETINGROOM_WITHOUT_WIDGETS_UNDER_MEETING_ROOM_ID,
     );
     await meetingService.createMeeting(
       userContext,
       room_props,
-      MeetingType.BREAKOUT_SESSION
+      MeetingType.BREAKOUT_SESSION,
     );
 
     const roomEvent = capture(clientMock.createRoom).first()[0];
@@ -741,19 +747,19 @@ describe('test relevant functionality of MeetingService', () => {
         MEETINGROOM_WITHOUT_WIDGETS_UNDER_MEETING_ROOM_ID,
         'io.element.widgets.layout',
         anything(),
-        anything()
-      )
+        anything(),
+      ),
     ).times(0);
 
     const stateEventCalls = getArgsFromCaptor(
-      capture(clientMock.sendStateEvent)
+      capture(clientMock.sendStateEvent),
     );
 
     const widgets = stateEventCalls
       .filter(
         ([roomId, eventType]) =>
           roomId === MEETINGROOM_WITHOUT_WIDGETS_UNDER_MEETING_ROOM_ID &&
-          eventType === 'im.vector.modular.widgets'
+          eventType === 'im.vector.modular.widgets',
       )
       .map(([, , widgetId]) => widgetId);
 
@@ -769,7 +775,7 @@ describe('test relevant functionality of MeetingService', () => {
     const parentRoomBuilder: RoomEventsBuilder = new RoomEventsBuilder(
       CURRENT_USER,
       MAIN_NON_MEETING_ROOM_ID,
-      null
+      null,
     );
     parentRoomBuilder.withWidgetType('net.nordeck.meetings.widget.meeting');
     parentRoomBuilder.build();
@@ -778,16 +784,16 @@ describe('test relevant functionality of MeetingService', () => {
       MAIN_NON_MEETING_ROOM_ID,
       null,
       ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings'],
-      false
+      false,
     );
 
     const room_props: MeetingCreateDto = createEvent(MAIN_NON_MEETING_ROOM_ID);
 
     when(clientMock.getRoomState(MAIN_NON_MEETING_ROOM_ID)).thenReturn(
-      Promise.resolve(mainRoom)
+      Promise.resolve(mainRoom),
     );
     when(clientMock.createRoom(anything())).thenResolve(
-      MEETINGROOM_WITHOUT_WIDGETS_UNDER_NON_MEETING_ROOM_ID
+      MEETINGROOM_WITHOUT_WIDGETS_UNDER_NON_MEETING_ROOM_ID,
     );
     await meetingService.createMeeting(userContext, room_props);
 
@@ -798,25 +804,25 @@ describe('test relevant functionality of MeetingService', () => {
         MEETINGROOM_WITHOUT_WIDGETS_UNDER_NON_MEETING_ROOM_ID,
         'io.element.widgets.layout',
         anything(),
-        anything()
-      )
+        anything(),
+      ),
     ).times(0);
 
     const stateEventCalls = getArgsFromCaptor(
-      capture(clientMock.sendStateEvent)
+      capture(clientMock.sendStateEvent),
     );
 
     const widgets = stateEventCalls
       .filter(
         ([roomId, eventType]) =>
           roomId === MEETINGROOM_WITHOUT_WIDGETS_UNDER_NON_MEETING_ROOM_ID &&
-          eventType === 'im.vector.modular.widgets'
+          eventType === 'im.vector.modular.widgets',
       )
       .map(([, , widgetId]) => widgetId);
 
     expect(widgets).toEqual([
       expect.stringMatching(
-        /^net\.nordeck\.meetings\.widget\.breakoutsessions-.*/
+        /^net\.nordeck\.meetings\.widget\.breakoutsessions-.*/,
       ),
       expect.stringMatching(/^net\.nordeck\.meetings\.widget\.cockpit-.*/),
       'jitsi',
@@ -829,18 +835,18 @@ describe('test relevant functionality of MeetingService', () => {
     const a: any = create_test_meeting(
       CURRENT_USER,
       PARENT_MEETING_ROOM_ID,
-      null
+      null,
     );
     when(
-      clientMock.doRequest('GET', MatrixEndpoint.MATRIX_CLIENT_SYNC)
+      clientMock.doRequest('GET', MatrixEndpoint.MATRIX_CLIENT_SYNC),
     ).thenResolve([]);
     when(clientMock.getRoomState(PARENT_MEETING_ROOM_ID)).thenResolve(a); // TODO load the room with configured json
     when(
-      clientMock.sendStateEvent(anything(), anything(), anything(), anything())
+      clientMock.sendStateEvent(anything(), anything(), anything(), anything()),
     ).thenResolve('asdfsadf');
     const closeDto = new MeetingCloseDto(
       PARENT_MEETING_ROOM_ID,
-      MeetingCloseMethod.TOMBSTONE
+      MeetingCloseMethod.TOMBSTONE,
     );
     await meetingService.closeMeeting(userContext, closeDto);
     verify(
@@ -848,25 +854,25 @@ describe('test relevant functionality of MeetingService', () => {
         PARENT_MEETING_ROOM_ID,
         StateEventName.M_ROOM_TOMBSTONE_EVENT,
         anything(),
-        anything()
-      )
+        anything(),
+      ),
     ).once();
     //verify(clientMock.createRoom(anything())).once();
   });
 
   test('check close with children', async () => {
     when(
-      clientMock.sendStateEvent(anything(), anything(), anything(), anything())
+      clientMock.sendStateEvent(anything(), anything(), anything(), anything()),
     ).thenResolve('asdfsadf');
     const closeDto = new MeetingCloseDto(
       PARENT_MEETING_ROOM_ID,
-      MeetingCloseMethod.TOMBSTONE
+      MeetingCloseMethod.TOMBSTONE,
     );
     await meetingService.closeMeeting(userContext, closeDto);
 
     const closedRooms = getArgsFromCaptor(capture(clientMock.sendStateEvent))
       .filter(
-        ([_, eventType]) => eventType === StateEventName.M_ROOM_TOMBSTONE_EVENT
+        ([_, eventType]) => eventType === StateEventName.M_ROOM_TOMBSTONE_EVENT,
       )
       .map(([roomId]) => roomId);
 
@@ -875,7 +881,7 @@ describe('test relevant functionality of MeetingService', () => {
         PARENT_MEETING_ROOM_ID,
         'childRoom1',
         'childRoom2',
-      ])
+      ]),
     );
   });
 
@@ -891,9 +897,9 @@ describe('test relevant functionality of MeetingService', () => {
         userContext,
         new SubMeetingsSendMessageDto(
           PARENT_MEETING_ROOM_ID,
-          event.content.message
-        )
-      )
+          event.content.message,
+        ),
+      ),
     ).resolves.toBeUndefined();
 
     expect(getArgsFromCaptor(capture(clientMock.sendHtmlNotice))).toEqual([
@@ -921,15 +927,15 @@ describe('test relevant functionality of MeetingService', () => {
     expect(
       child1InitialState
         .filter((s) => s.type === StateEventName.M_SPACE_PARENT_EVENT)
-        .map((s) => s.state_key)
+        .map((s) => s.state_key),
     ).toEqual([parentId]);
 
     expect(
       child1InitialState.filter(
         (s) =>
           s.type === StateEventName.NIC_MEETINGS_METADATA_EVENT &&
-          s.content.PARENT_MEETING_ROOM_ID
-      )
+          s.content.PARENT_MEETING_ROOM_ID,
+      ),
     ).toHaveLength(0);
 
     // parent must receive m.space.child state event with child id
@@ -938,15 +944,15 @@ describe('test relevant functionality of MeetingService', () => {
         parentId,
         StateEventName.M_SPACE_CHILD_EVENT,
         childId,
-        anything()
-      )
+        anything(),
+      ),
     ).times(1);
 
     const parentRoomStateEvents = getArgsFromCaptor(
-      capture(clientMock.sendStateEvent)
+      capture(clientMock.sendStateEvent),
     )
       .filter(
-        ([_, eventType]) => eventType === StateEventName.M_SPACE_CHILD_EVENT
+        ([_, eventType]) => eventType === StateEventName.M_SPACE_CHILD_EVENT,
       )
       .map(
         ([, type, state_key, content]) =>
@@ -954,7 +960,7 @@ describe('test relevant functionality of MeetingService', () => {
             type,
             state_key,
             content,
-          } as IStateEvent<unknown>)
+          }) as IStateEvent<unknown>,
       );
 
     // parent children via spaces must contain one child created before
@@ -969,10 +975,10 @@ describe('test relevant functionality of MeetingService', () => {
     const roomBuilder44444: RoomEventsBuilder = new RoomEventsBuilder(
       CURRENT_USER,
       '44444',
-      undefined
+      undefined,
     );
     when(clientMock.getRoomState('44444')).thenReturn(
-      Promise.resolve(roomBuilder44444.build())
+      Promise.resolve(roomBuilder44444.build()),
     );
 
     when(clientMock.createRoom(anything())).thenResolve(parentId);
@@ -992,7 +998,7 @@ describe('test relevant functionality of MeetingService', () => {
     expect(
       child1InitialState
         .filter((s) => s.type === StateEventName.M_SPACE_PARENT_EVENT)
-        .map((s) => s.state_key)
+        .map((s) => s.state_key),
     ).toEqual(['44444']);
   });
 
@@ -1008,8 +1014,8 @@ describe('test relevant functionality of MeetingService', () => {
     await expect(
       meetingService.handleParticipants(
         userContext,
-        new MeetingParticipantsHandleDto(parentId, true, userIds)
-      )
+        new MeetingParticipantsHandleDto(parentId, true, userIds),
+      ),
     ).resolves.toBeUndefined();
 
     const initialInvitations = getArgsFromCaptor(capture(clientMock.inviteUser))
@@ -1026,8 +1032,8 @@ describe('test relevant functionality of MeetingService', () => {
     await expect(
       meetingService.handleParticipants(
         userContext,
-        new MeetingParticipantsHandleDto(parentId, true, userIds)
-      )
+        new MeetingParticipantsHandleDto(parentId, true, userIds),
+      ),
     ).resolves.toBeUndefined();
 
     const extraInvitations = getArgsFromCaptor(capture(clientMock.inviteUser))
@@ -1047,15 +1053,15 @@ describe('test relevant functionality of MeetingService', () => {
     await meetingService.createMeeting(userContext, createEvent(parentId));
 
     when(clientMock.kickUser(anything(), anything(), anything())).thenResolve(
-      undefined
+      undefined,
     );
     const userIds = ['@peterpan:synapse.dev.nordeck.systems'];
 
     await expect(
       meetingService.handleParticipants(
         userContext,
-        new MeetingParticipantsHandleDto(parentId, false, userIds)
-      )
+        new MeetingParticipantsHandleDto(parentId, false, userIds),
+      ),
     ).resolves.toBeUndefined();
 
     const initialKickedUsers = getArgsFromCaptor(capture(clientMock.kickUser))
@@ -1072,8 +1078,8 @@ describe('test relevant functionality of MeetingService', () => {
     await expect(
       meetingService.handleParticipants(
         userContext,
-        new MeetingParticipantsHandleDto(parentId, false, userIds)
-      )
+        new MeetingParticipantsHandleDto(parentId, false, userIds),
+      ),
     ).resolves.toBeUndefined();
 
     const extraKicks = getArgsFromCaptor(capture(clientMock.kickUser))
@@ -1091,12 +1097,12 @@ describe('test relevant functionality of MeetingService', () => {
         new MeetingParticipantsHandleDto(parentId, false, [
           'a',
           '@admin_user:localhost',
-        ])
-      )
+        ]),
+      ),
     ).rejects.toThrow(
       new PermissionError(
-        'User userWhoIsSending has not enough power level to kick @admin_user:localhost'
-      )
+        'User userWhoIsSending has not enough power level to kick @admin_user:localhost',
+      ),
     );
   });
 
@@ -1122,12 +1128,12 @@ describe('test relevant functionality of MeetingService', () => {
     const powerLevel = 100;
     const messagingPermissions = new MeetingChangeMessagingPermissionDto(
       roomId,
-      powerLevel
+      powerLevel,
     );
 
     await meetingService.changeMessagingPermissions(
       userContext,
-      messagingPermissions
+      messagingPermissions,
     );
 
     const powerLevelsEventContentUpdated: PowerLevelsEventContent = {
@@ -1140,8 +1146,8 @@ describe('test relevant functionality of MeetingService', () => {
         roomId,
         StateEventName.M_ROOM_POWER_LEVELS_EVENT,
         '',
-        deepEqual(powerLevelsEventContentUpdated)
-      )
+        deepEqual(powerLevelsEventContentUpdated),
+      ),
     ).once();
   });
 
@@ -1161,7 +1167,7 @@ describe('test relevant functionality of MeetingService', () => {
       START,
       END,
       [],
-      true
+      true,
     );
 
     when(clientMock.createRoom(anything()))
@@ -1171,16 +1177,16 @@ describe('test relevant functionality of MeetingService', () => {
     await meetingService.createBreakOutSessions(
       userContext,
       PARENT_MEETING_ROOM_ID,
-      breakoutSessions
+      breakoutSessions,
     );
 
     const roomNames = getArgsFromCaptor(capture(clientMock.createRoom)).map(
-      (args) => args[0]?.name
+      (args) => args[0]?.name,
     );
     expect(roomNames).toEqual(['t1', 't2']);
 
     const roomInvitations = getArgsFromCaptor(
-      capture(clientMock.sendStateEvent)
+      capture(clientMock.sendStateEvent),
     )
       .filter(([, eventType]) => eventType === 'm.room.member')
       .map(([roomId, , userId]) => [roomId, userId]);
@@ -1311,7 +1317,7 @@ describe('test relevant functionality of MeetingService', () => {
       undefined,
       title1,
       description1,
-      externalData1
+      externalData1,
     );
     await meetingService.updateMeetingDetails(userContext, meetingDetails);
 
@@ -1329,8 +1335,8 @@ describe('test relevant functionality of MeetingService', () => {
         roomId,
         StateEventName.NIC_MEETINGS_METADATA_EVENT,
         '',
-        deepEqual(meetingMetadataEventContentUpdated)
-      )
+        deepEqual(meetingMetadataEventContentUpdated),
+      ),
     ).once();
 
     verify(
@@ -1338,25 +1344,25 @@ describe('test relevant functionality of MeetingService', () => {
         roomId,
         StateEventName.M_ROOM_NAME_EVENT,
         '',
-        deepEqual({ name: title1 })
-      )
+        deepEqual({ name: title1 }),
+      ),
     ).once();
     verify(
       clientMock.sendStateEvent(
         roomId,
         StateEventName.M_ROOM_TOPIC_EVENT,
         '',
-        deepEqual({ topic: description1 })
-      )
+        deepEqual({ topic: description1 }),
+      ),
     ).once();
 
     const usersInvitedAgain = getArgsFromCaptor(
-      capture(clientMock.sendStateEvent)
+      capture(clientMock.sendStateEvent),
     )
       .filter(
         ([, eventType, _, content]) =>
           eventType === StateEventName.M_ROOM_MEMBER_EVENT &&
-          (content as IElementMembershipEventContent).membership === 'invite'
+          (content as IElementMembershipEventContent).membership === 'invite',
       )
       .map(([, , userId, { reason }]) => ({ userId, reason }));
 
@@ -1365,21 +1371,21 @@ describe('test relevant functionality of MeetingService', () => {
         userId: userId2,
         // was different, should be replaced without trailing space
         reason: expect.stringMatching(
-          /^You've been invited to a meeting by displayname.*[^ ]$/
+          /^You've been invited to a meeting by displayname.*[^ ]$/,
         ),
       },
       {
         userId: userId3,
         // was equal; should end with space
         reason: expect.stringMatching(
-          /^You've been invited to a meeting by displayname.*[ ]$/
+          /^You've been invited to a meeting by displayname.*[ ]$/,
         ),
       },
       {
         userId: userId4,
         // was equal; should remove space
         reason: expect.stringMatching(
-          /^You've been invited to a meeting by displayname.*[^ ]$/
+          /^You've been invited to a meeting by displayname.*[^ ]$/,
         ),
       },
     ]);
@@ -1393,8 +1399,8 @@ describe('test relevant functionality of MeetingService', () => {
         roomId,
         StateEventName.M_ROOM_TOPIC_EVENT,
         '',
-        deepEqual({ topic: '' })
-      )
+        deepEqual({ topic: '' }),
+      ),
     ).once();
 
     // check if the room can be upgraded to the new data model
@@ -1429,8 +1435,8 @@ describe('test relevant functionality of MeetingService', () => {
         roomId,
         StateEventName.NIC_MEETINGS_METADATA_EVENT,
         '',
-        deepEqual(meetingMetadataEventContentUpdated1)
-      )
+        deepEqual(meetingMetadataEventContentUpdated1),
+      ),
     ).once();
 
     let msg = capture(clientMock.sendHtmlText).last()[1];
@@ -1467,8 +1473,8 @@ describe('test relevant functionality of MeetingService', () => {
         roomId,
         StateEventName.NIC_MEETINGS_METADATA_EVENT,
         '',
-        deepEqual(meetingMetadataEventContentUpdated2)
-      )
+        deepEqual(meetingMetadataEventContentUpdated2),
+      ),
     ).once();
 
     msg = capture(clientMock.sendHtmlText).last()[1];
@@ -1495,8 +1501,8 @@ describe('test relevant functionality of MeetingService', () => {
         roomId,
         StateEventName.NIC_MEETINGS_METADATA_EVENT,
         '',
-        deepEqual(meetingMetadataEventContentUpdated3)
-      )
+        deepEqual(meetingMetadataEventContentUpdated3),
+      ),
     ).once();
 
     msg = capture(clientMock.sendHtmlText).last()[1];
@@ -1518,7 +1524,7 @@ describe('test relevant functionality of MeetingService', () => {
       undefined,
       title1,
       description1,
-      externalDataOx
+      externalDataOx,
     );
     await meetingService.updateMeetingDetails(userContext, meetingDetailsOx);
 
@@ -1526,10 +1532,10 @@ describe('test relevant functionality of MeetingService', () => {
       last(
         getArgsFromCaptor(capture(clientMock.sendStateEvent))
           .filter(
-            ([, type]) => type === StateEventName.NIC_MEETINGS_METADATA_EVENT
+            ([, type]) => type === StateEventName.NIC_MEETINGS_METADATA_EVENT,
           )
-          .map(([, , , content]) => content)
-      )
+          .map(([, , , content]) => content),
+      ),
     ).toEqual({
       creator: CURRENT_USER,
       start_time: startTime,
@@ -1559,10 +1565,10 @@ describe('test relevant functionality of MeetingService', () => {
       last(
         getArgsFromCaptor(capture(clientMock.sendStateEvent))
           .filter(
-            ([, type]) => type === StateEventName.NIC_MEETINGS_METADATA_EVENT
+            ([, type]) => type === StateEventName.NIC_MEETINGS_METADATA_EVENT,
           )
-          .map(([, , , content]) => content)
-      )
+          .map(([, , , content]) => content),
+      ),
     ).toEqual({
       creator: CURRENT_USER,
       start_time: undefined,
@@ -1617,11 +1623,11 @@ describe('test relevant functionality of MeetingService', () => {
     };
 
     when(jitsiClientMock.getSharingInformationAsync(roomId)).thenResolve(
-      sharingInfoDto
+      sharingInfoDto,
     );
 
     expect(
-      await meetingService.getSharingInformationAsync(roomId)
+      await meetingService.getSharingInformationAsync(roomId),
     ).toStrictEqual(sharingInfoDto);
 
     verify(jitsiClientMock.getSharingInformationAsync(roomId)).once();
@@ -1633,7 +1639,7 @@ describe('test relevant functionality of MeetingService', () => {
     const callInfo = (
       callIdx: number,
       paramIdx: SendStateEventParameter,
-      name: StateEventName
+      name: StateEventName,
     ) => captureSendStateEvent(clientMock, callIdx, paramIdx, name);
 
     beforeEach(() => {
@@ -1641,10 +1647,10 @@ describe('test relevant functionality of MeetingService', () => {
         CURRENT_USER,
         PARENT_MEETING_ROOM_ID,
         null,
-        []
+        [],
       );
       when(clientMock.getRoomState(PARENT_MEETING_ROOM_ID)).thenResolve(
-        parentRoom
+        parentRoom,
       );
       when(clientMock.createRoom(anything())).thenResolve(parentId);
       when(
@@ -1652,8 +1658,8 @@ describe('test relevant functionality of MeetingService', () => {
           ROOM_ID,
           StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT,
           anything(),
-          anything()
-        )
+          anything(),
+        ),
       ).thenResolve(undefined as any);
     });
 
@@ -1664,45 +1670,45 @@ describe('test relevant functionality of MeetingService', () => {
 
       const e = StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT;
       verify(
-        clientMock.sendStateEvent(parentId, e, anything(), anything())
+        clientMock.sendStateEvent(parentId, e, anything(), anything()),
       ).times(4);
 
       // content.type
       expect(callInfo(0, SendStateEventParameter.Content, e).type).toBe(
-        WidgetType.BREAKOUT_SESSIONS
+        WidgetType.BREAKOUT_SESSIONS,
       );
       expect(callInfo(1, SendStateEventParameter.Content, e).type).toBe(
-        WidgetType.COCKPIT
+        WidgetType.COCKPIT,
       );
       expect(callInfo(2, SendStateEventParameter.Content, e).type).toBe(
-        'net.nordeck.poll'
+        'net.nordeck.poll',
       );
       expect(callInfo(3, SendStateEventParameter.Content, e).type).toBe(
-        'net.nordeck.whiteboard'
+        'net.nordeck.whiteboard',
       );
 
       // state key
       expect(callInfo(0, SendStateEventParameter.StateKey, e)).toMatch(
-        new RegExp(`${_.escapeRegExp(WidgetType.BREAKOUT_SESSIONS)}-.*`)
+        new RegExp(`${_.escapeRegExp(WidgetType.BREAKOUT_SESSIONS)}-.*`),
       );
       expect(callInfo(1, SendStateEventParameter.StateKey, e)).toMatch(
-        new RegExp(`${_.escapeRegExp(WidgetType.COCKPIT)}-.*`)
+        new RegExp(`${_.escapeRegExp(WidgetType.COCKPIT)}-.*`),
       );
       expect(callInfo(2, SendStateEventParameter.StateKey, e)).toBe('poll');
       expect(callInfo(3, SendStateEventParameter.StateKey, e)).toBe(
-        'whiteboard'
+        'whiteboard',
       );
 
       // content.id
       expect(callInfo(0, SendStateEventParameter.Content, e).id).toBe(
-        callInfo(0, 2, e)
+        callInfo(0, 2, e),
       ); //  content.id === state_key
       expect(callInfo(1, SendStateEventParameter.Content, e).id).toBe(
-        callInfo(1, 2, e)
+        callInfo(1, 2, e),
       ); //  content.id === state_key
       expect(callInfo(2, SendStateEventParameter.Content, e).id).toBe('poll'); //  content.id === state_key
       expect(callInfo(3, SendStateEventParameter.Content, e).id).toBe(
-        'whiteboard'
+        'whiteboard',
       ); // ignores 'whiteboard-with-custom-content.id'
     });
 
@@ -1713,29 +1719,29 @@ describe('test relevant functionality of MeetingService', () => {
         CURRENT_USER,
         PARENT_MEETING_ROOM_ID,
         null,
-        ['poll', WidgetType.COCKPIT]
+        ['poll', WidgetType.COCKPIT],
       );
       when(clientMock.getRoomState(PARENT_MEETING_ROOM_ID)).thenResolve(
-        parentRoom
+        parentRoom,
       );
 
       // add whiteboard
       const widgets = ['whiteboard'];
       await meetingService.handleWidgets(
         userContext,
-        new MeetingWidgetsHandleDto(parentId, true, widgets)
+        new MeetingWidgetsHandleDto(parentId, true, widgets),
       );
 
       const e = StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT;
       verify(
-        clientMock.sendStateEvent(parentId, e, anything(), anything())
+        clientMock.sendStateEvent(parentId, e, anything(), anything()),
       ).times(2);
 
       expect(callInfo(0, SendStateEventParameter.Content, e).type).toBe(
-        'net.nordeck.poll'
+        'net.nordeck.poll',
       ); // updated poll
       expect(callInfo(1, SendStateEventParameter.Content, e).type).toBe(
-        'net.nordeck.whiteboard'
+        'net.nordeck.whiteboard',
       ); // added whiteboard
     });
 
@@ -1746,34 +1752,34 @@ describe('test relevant functionality of MeetingService', () => {
         CURRENT_USER,
         PARENT_MEETING_ROOM_ID,
         null,
-        ['poll', 'whiteboard']
+        ['poll', 'whiteboard'],
       );
       when(clientMock.getRoomState(PARENT_MEETING_ROOM_ID)).thenResolve(
-        parentRoom
+        parentRoom,
       );
 
       // remove whiteboard
       const widgets = ['whiteboard'];
       await meetingService.handleWidgets(
         userContext,
-        new MeetingWidgetsHandleDto(parentId, false, widgets)
+        new MeetingWidgetsHandleDto(parentId, false, widgets),
       );
 
       const e = StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT;
       verify(
-        clientMock.sendStateEvent(parentId, e, anything(), anything())
+        clientMock.sendStateEvent(parentId, e, anything(), anything()),
       ).times(3);
 
       expect(callInfo(0, SendStateEventParameter.Content, e).type).toBe(
-        WidgetType.COCKPIT
+        WidgetType.COCKPIT,
       ); // added cockpit
       expect(callInfo(1, SendStateEventParameter.Content, e).type).toBe(
-        'net.nordeck.poll'
+        'net.nordeck.poll',
       ); // updated poll
 
       // verify removed whiteboard
       expect(callInfo(2, SendStateEventParameter.StateKey, e)).toBe(
-        'whiteboard'
+        'whiteboard',
       );
       expect(callInfo(2, SendStateEventParameter.Content, e)).toStrictEqual({});
     });
@@ -1787,8 +1793,8 @@ describe('test relevant functionality of MeetingService', () => {
           parentId,
           StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT,
           anything(),
-          anything()
-        )
+          anything(),
+        ),
       ).times(0);
     });
 
@@ -1800,7 +1806,7 @@ describe('test relevant functionality of MeetingService', () => {
 
       // the resulting layout should exactly match the custom configuration
       const layout = layoutConfigs.find((o) =>
-        _.isEqual(_.sortBy(o.widgetIds), _.sortBy(widgets))
+        _.isEqual(_.sortBy(o.widgetIds), _.sortBy(widgets)),
       );
       const expected = {
         widgets: layout?.layouts,
@@ -1811,13 +1817,13 @@ describe('test relevant functionality of MeetingService', () => {
           parentId,
           StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT,
           anything(),
-          anything()
-        )
+          anything(),
+        ),
       ).times(1);
 
       // event content
       expect(
-        callInfo(0, 3, StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT)
+        callInfo(0, 3, StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT),
       ).toStrictEqual(expected);
     });
 
@@ -1828,29 +1834,29 @@ describe('test relevant functionality of MeetingService', () => {
         CURRENT_USER,
         PARENT_MEETING_ROOM_ID,
         null,
-        ['poll', WidgetType.COCKPIT]
+        ['poll', WidgetType.COCKPIT],
       );
       when(clientMock.getRoomState(PARENT_MEETING_ROOM_ID)).thenResolve(
-        parentRoom
+        parentRoom,
       );
 
       // add jitsi
       const widgets = ['jitsi'];
       await meetingService.handleWidgets(
         userContext,
-        new MeetingWidgetsHandleDto(parentId, true, widgets)
+        new MeetingWidgetsHandleDto(parentId, true, widgets),
       );
 
       const e = StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT;
       verify(
-        clientMock.sendStateEvent(parentId, e, anything(), anything())
+        clientMock.sendStateEvent(parentId, e, anything(), anything()),
       ).times(2);
 
       expect(callInfo(0, SendStateEventParameter.Content, e).type).toBe(
-        'net.nordeck.poll'
+        'net.nordeck.poll',
       ); // updated poll
       expect(callInfo(1, SendStateEventParameter.Content, e).type).toBe(
-        'jitsi'
+        'jitsi',
       ); // added jitsi
       const expected = {
         widgets: {
@@ -1863,13 +1869,13 @@ describe('test relevant functionality of MeetingService', () => {
           parentId,
           StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT,
           anything(),
-          anything()
-        )
+          anything(),
+        ),
       ).times(1);
 
       // event content
       expect(
-        callInfo(0, 3, StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT)
+        callInfo(0, 3, StateEventName.IO_ELEMENT_WIDGETS_LAYOUT_EVENT),
       ).toStrictEqual(expected);
     });
   });
@@ -1888,14 +1894,14 @@ describe('test relevant functionality of MeetingService', () => {
 
     verify(clientMock.createRoom(anything())).once();
     const roomEvent: IRoomCreate = capture(
-      clientMock.createRoom
+      clientMock.createRoom,
     ).first()[0] as IRoomCreate;
 
     checkStandardFields(roomEvent, MeetingType.MEETING, null);
 
     const room = new Room('r1', roomEvent.initial_state);
     const metadata = room.roomEventsByName(
-      StateEventName.NIC_MEETINGS_METADATA_EVENT
+      StateEventName.NIC_MEETINGS_METADATA_EVENT,
     )[0]?.content as IMeetingsMetadataEventContent;
     expect(metadata.external_data).toStrictEqual(externalData);
   });
@@ -1921,11 +1927,11 @@ describe('test relevant functionality of MeetingService', () => {
 
     verify(clientMock.createRoom(anything())).once();
     const roomEvent: IRoomCreate = capture(
-      clientMock.createRoom
+      clientMock.createRoom,
     ).first()[0] as IRoomCreate;
 
     const nicMetadataEventContent = roomEvent.initial_state.find(
-      (e) => e.type === StateEventName.NIC_MEETINGS_METADATA_EVENT
+      (e) => e.type === StateEventName.NIC_MEETINGS_METADATA_EVENT,
     )?.content as MeetingCreateDto;
     expect(nicMetadataEventContent).toStrictEqual({
       creator: CURRENT_USER,
@@ -1970,11 +1976,11 @@ describe('test relevant functionality of MeetingService', () => {
     expect(
       last(
         getArgsFromCaptor(capture(clientMock.createRoom)).map(
-          ([roomCreateOptions]) => roomCreateOptions as IRoomCreate
-        )
+          ([roomCreateOptions]) => roomCreateOptions as IRoomCreate,
+        ),
       )?.initial_state.find(
-        (e) => e.type === StateEventName.NIC_MEETINGS_METADATA_EVENT
-      )?.content
+        (e) => e.type === StateEventName.NIC_MEETINGS_METADATA_EVENT,
+      )?.content,
     ).toStrictEqual({
       creator: CURRENT_USER,
       start_time: startTime,
@@ -2001,11 +2007,11 @@ describe('test relevant functionality of MeetingService', () => {
     expect(
       last(
         getArgsFromCaptor(capture(clientMock.createRoom)).map(
-          ([roomCreateOptions]) => roomCreateOptions as IRoomCreate
-        )
+          ([roomCreateOptions]) => roomCreateOptions as IRoomCreate,
+        ),
       )?.initial_state.find(
-        (e) => e.type === StateEventName.NIC_MEETINGS_METADATA_EVENT
-      )?.content
+        (e) => e.type === StateEventName.NIC_MEETINGS_METADATA_EVENT,
+      )?.content,
     ).toStrictEqual({
       creator: CURRENT_USER,
       start_time: undefined,
@@ -2034,27 +2040,27 @@ describe('test relevant functionality of MeetingService', () => {
 
     verify(clientMock.createRoom(anything())).once();
     const roomEvent: IRoomCreate = capture(
-      clientMock.createRoom
+      clientMock.createRoom,
     ).first()[0] as IRoomCreate;
     checkStandardFields(roomEvent, MeetingType.MEETING, null);
 
     const room = new Room('r1', roomEvent.initial_state);
     const metadata = room.roomEventsByName(
-      StateEventName.NIC_MEETINGS_METADATA_EVENT
+      StateEventName.NIC_MEETINGS_METADATA_EVENT,
     )[0]?.content as IMeetingsMetadataEventContent;
     expect(metadata.auto_deletion_offset).toStrictEqual(
-      appConfig.auto_deletion_offset
+      appConfig.auto_deletion_offset,
     );
   });
 
   test('createMeeting should return link', async () => {
     const meetingLink = await meetingService.createMeeting(
       userContext,
-      createEvent(undefined)
+      createEvent(undefined),
     );
 
     expect(meetingLink).toStrictEqual(
-      new MeetingCreateResponseDto(ROOM_ID, `https://matrix.to/#/${ROOM_ID}`)
+      new MeetingCreateResponseDto(ROOM_ID, `https://matrix.to/#/${ROOM_ID}`),
     );
   });
 });

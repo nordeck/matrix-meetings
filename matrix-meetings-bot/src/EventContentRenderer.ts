@@ -30,32 +30,32 @@ import { StateEventName } from './model/StateEventName';
 export class EventContentRenderer {
   constructor(
     @Inject(ModuleProviderToken.APP_CONFIGURATION)
-    private appConfiguration: IAppConfiguration
+    private appConfiguration: IAppConfiguration,
   ) {}
 
   public renderStateEvents<T>(
     events: DeepReadonlyArray<IStateEvent<T>>,
-    model: IEventContentParams
+    model: IEventContentParams,
   ): DeepReadonlyArray<IStateEvent<T>> {
     return this.renderEvents(events, model);
   }
 
   public renderRoomEvents<T>(
     events: DeepReadonlyArray<IRoomEvent<T>>,
-    model: IEventContentParams
+    model: IEventContentParams,
   ): DeepReadonlyArray<IRoomEvent<T>> {
     return this.renderEvents(events, model);
   }
 
   private renderEvents<T, E extends DeepReadonly<IMatrixEvent<T>>>(
     events: DeepReadonlyArray<E>,
-    model: IEventContentParams
+    model: IEventContentParams,
   ): DeepReadonlyArray<E> {
     return events.map((input) => {
       const newContent = this.renderEventContent(
         input.type,
         input.content,
-        model
+        model,
       );
       const eventCopy: DeepReadonly<E> = {
         ...input,
@@ -68,7 +68,7 @@ export class EventContentRenderer {
   public renderEventContent(
     eventType: string,
     eventContent: any,
-    model: IEventContentParams
+    model: IEventContentParams,
   ): any {
     const templateModel: any = {
       ...model,

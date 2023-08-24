@@ -22,7 +22,7 @@ import { generateRruleSet } from './generateRruleSet';
 import { isRRuleEntry, isRRuleOverrideEntry, isSingleEntry } from './helpers';
 
 export function getCalendarEnd(
-  calendar: CalendarEntry[]
+  calendar: CalendarEntry[],
 ): DateTime | undefined {
   let endDates = calendar
     .filter(isSingleEntry)
@@ -39,7 +39,7 @@ export function getCalendarEnd(
     }
 
     const entryDuration = parseICalDate(entry.dtend).diff(
-      parseICalDate(entry.dtstart)
+      parseICalDate(entry.dtstart),
     );
 
     const lastEntry = rruleSet.before(new Date(9999, 1, 1));
@@ -65,7 +65,7 @@ export function getCalendarEnd(
             recurrenceDate.getTime() === recurrenceEntry.getTime()
           );
         })
-        .map((entry) => parseICalDate(entry.dtend))
+        .map((entry) => parseICalDate(entry.dtend)),
     );
 
     endDates.push(latestSeriesEnd);

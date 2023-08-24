@@ -42,7 +42,7 @@ describe('isValidEvent', () => {
     event.type = 'com.example.other';
 
     expect(isValidEvent(event, 'com.example.event', exampleSchema)).toEqual(
-      false
+      false,
     );
   });
 
@@ -50,7 +50,7 @@ describe('isValidEvent', () => {
     event.content = undefined;
 
     expect(isValidEvent(event, 'com.example.event', exampleSchema)).toEqual(
-      false
+      false,
     );
   });
 
@@ -58,13 +58,13 @@ describe('isValidEvent', () => {
     event.content = { other: 'my-value' };
 
     expect(isValidEvent(event, 'com.example.event', exampleSchema)).toEqual(
-      false
+      false,
     );
   });
 
   it('should validate successful', () => {
     expect(isValidEvent(event, 'com.example.event', exampleSchema)).toEqual(
-      true
+      true,
     );
   });
 });

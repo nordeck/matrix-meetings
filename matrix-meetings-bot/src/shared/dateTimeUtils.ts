@@ -25,7 +25,7 @@ export function parseICalDate(dateTimeEntry: DateTimeEntryDto): DateTime {
 
 export function formatICalDate(
   date: Date | DateTime,
-  targetTzId = 'UTC'
+  targetTzId = 'UTC',
 ): DateTimeEntryDto {
   const dateTime = DateTime.isDateTime(date) ? date : DateTime.fromJSDate(date);
   return {

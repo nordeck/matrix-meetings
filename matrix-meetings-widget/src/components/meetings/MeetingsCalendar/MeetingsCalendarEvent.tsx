@@ -70,7 +70,7 @@ export const MeetingsCalendarEvent = withRoomIdMeeting(
                 : timeOnlyDateFormat,
             },
             context: 'recurring',
-          }
+          },
         )
       : t(
           'meetingsCalendar.event.summary',
@@ -87,7 +87,7 @@ export const MeetingsCalendarEvent = withRoomIdMeeting(
                 : timeOnlyDateFormat,
             },
             context: 'default',
-          }
+          },
         );
 
     return (
@@ -140,7 +140,7 @@ export const MeetingsCalendarEvent = withRoomIdMeeting(
                               hour: 'numeric',
                             },
                           },
-                        }
+                        },
                       )}{' '}
                     </Typography>
                   ) : null}
@@ -190,5 +190,5 @@ export const MeetingsCalendarEvent = withRoomIdMeeting(
         </Box>
       </>
     );
-  }
+  },
 );

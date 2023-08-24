@@ -40,7 +40,7 @@ describe('EventContentRenderer', () => {
 
   const findWidgetContent = (widgetId: string) => {
     const widgetContent = roomMatrixEvents.widgetContents.find(
-      (w) => w.id === widgetId
+      (w) => w.id === widgetId,
     );
     if (!widgetContent) {
       throw new Error(`Cannot find template for widget id: ${widgetId}`);
@@ -64,7 +64,7 @@ describe('EventContentRenderer', () => {
         {
           ...params,
           title,
-        }
+        },
       );
 
       expect(json).toStrictEqual({
@@ -88,7 +88,7 @@ describe('EventContentRenderer', () => {
     const json = eventContentRenderer.renderEventContent(
       StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
       findWidgetContent('etherpad'),
-      params
+      params,
     );
 
     expect(json).toStrictEqual({
@@ -103,7 +103,7 @@ describe('EventContentRenderer', () => {
     const json = eventContentRenderer.renderEventContent(
       StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
       findWidgetContent('whiteboard'),
-      params
+      params,
     );
 
     expect(json).toStrictEqual({
@@ -118,7 +118,7 @@ describe('EventContentRenderer', () => {
     const json = eventContentRenderer.renderEventContent(
       StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
       findWidgetContent('poll'),
-      params
+      params,
     );
 
     expect(json).toStrictEqual({
@@ -138,7 +138,7 @@ describe('EventContentRenderer', () => {
 
     const renderedRoomEvent = eventContentRenderer.renderRoomEvents(
       [roomEvent],
-      params
+      params,
     )[0];
 
     expect(roomEvent).toStrictEqual({

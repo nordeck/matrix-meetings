@@ -36,10 +36,13 @@ export function useUpdateOnDate(date: Date | undefined): void {
         // larger than MAX_INT32=(2^31-1) is provided to setTimeout, it triggers
         // instantly. So we cap the value to allow a proper behavior for targets
         // >24 days in the future and reschedule a timer.
-        timeoutRef = setTimeout(() => {
-          update();
-          schedule(target);
-        }, (target - now) % 0x7fffffff);
+        timeoutRef = setTimeout(
+          () => {
+            update();
+            schedule(target);
+          },
+          (target - now) % 0x7fffffff,
+        );
       }
     }
 

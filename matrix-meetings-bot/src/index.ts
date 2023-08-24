@@ -45,7 +45,7 @@ LogService.setLogger(new StubMatrixBotLogger());
   logger.log(
     `Bot starting...with level ${
       process.env.LOG_LEVEL ? process.env.LOG_LEVEL : 'error'
-    }`
+    }`,
   );
 
   const matrixServer: MatrixServer = app.get(MatrixServer);

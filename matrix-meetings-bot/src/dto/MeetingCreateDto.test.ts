@@ -51,14 +51,14 @@ describe('MeetingCreateDto', () => {
         new CalendarEntryDto(
           'uuid',
           new DateTimeEntryDto('Europe/Berlin', '20200101T000000'),
-          new DateTimeEntryDto('Europe/Berlin', '20200101T010000')
+          new DateTimeEntryDto('Europe/Berlin', '20200101T010000'),
         ),
       ],
       undefined,
       undefined,
       undefined,
       undefined,
-      undefined
+      undefined,
     );
 
     await expect(validate(input)).resolves.toHaveLength(0);
@@ -75,14 +75,14 @@ describe('MeetingCreateDto', () => {
         new CalendarEntryDto(
           'uuid',
           new DateTimeEntryDto('Europe/Berlin', '20200101T000000'),
-          new DateTimeEntryDto('Europe/Berlin', '20200101T010000')
+          new DateTimeEntryDto('Europe/Berlin', '20200101T010000'),
         ),
       ],
       ['widget-0'],
       [{ user_id: '@user-id' }],
       undefined,
       true,
-      { 'my.provider': { 'my.property': 'text' } }
+      { 'my.provider': { 'my.property': 'text' } },
     );
 
     await expect(validate(input)).resolves.toHaveLength(0);
@@ -123,14 +123,14 @@ describe('MeetingCreateDto', () => {
         new CalendarEntryDto(
           'uuid',
           new DateTimeEntryDto('Europe/Berlin', '20200101T000000'),
-          new DateTimeEntryDto('Europe/Berlin', '20200101T010000')
+          new DateTimeEntryDto('Europe/Berlin', '20200101T010000'),
         ),
       ],
       ['widget-0'],
       [new ParticipantDto('@user-id', undefined)],
       undefined,
       false,
-      { 'my.provider': { 'my.property': 'text' } }
+      { 'my.provider': { 'my.property': 'text' } },
     );
 
     Object.entries(patch).forEach(([key, value]) => {
@@ -152,7 +152,7 @@ describe('MeetingCreateDto', () => {
       undefined,
       undefined,
       undefined,
-      undefined
+      undefined,
     );
 
     await expect(validate(input)).resolves.toHaveLength(0);
@@ -162,7 +162,7 @@ describe('MeetingCreateDto', () => {
     new CalendarEntryDto(
       'uuid',
       new DateTimeEntryDto('Europe/Berlin', '20200101T000000'),
-      new DateTimeEntryDto('Europe/Berlin', '20200101T010000')
+      new DateTimeEntryDto('Europe/Berlin', '20200101T010000'),
     ),
   ];
 
@@ -190,7 +190,7 @@ describe('MeetingCreateDto', () => {
       undefined,
       undefined,
       undefined,
-      undefined
+      undefined,
     );
 
     Object.entries(patch).forEach(([key, value]) => {

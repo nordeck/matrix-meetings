@@ -75,13 +75,13 @@ describe('<BreakoutSessionGroupForm>', () => {
         onGroupChange={jest.fn()}
         selectableMemberEvents={allMemberEvents}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const listItem = screen.getByRole('listitem', { name: 'My Group' });
 
     expect(
-      within(listItem).getByRole('textbox', { name: 'Group title (required)' })
+      within(listItem).getByRole('textbox', { name: 'Group title (required)' }),
     ).toHaveValue('My Group');
     expect(within(listItem).getByText('Alice')).toBeInTheDocument();
     expect(within(listItem).getByText('@user-1')).toBeInTheDocument();
@@ -98,7 +98,7 @@ describe('<BreakoutSessionGroupForm>', () => {
         onGroupChange={jest.fn()}
         selectableMemberEvents={allMemberEvents}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -115,7 +115,7 @@ describe('<BreakoutSessionGroupForm>', () => {
         onGroupChange={jest.fn()}
         selectableMemberEvents={allMemberEvents}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const listItem = screen.getByRole('listitem');
@@ -124,7 +124,7 @@ describe('<BreakoutSessionGroupForm>', () => {
       within(listItem).getByRole('textbox', {
         name: 'Group title (required)',
         description: 'A title is required',
-      })
+      }),
     ).toBeInvalid();
   });
 
@@ -140,18 +140,18 @@ describe('<BreakoutSessionGroupForm>', () => {
         onGroupChange={onGroupChange}
         selectableMemberEvents={allMemberEvents}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const listItem = screen.getByRole('listitem', { name: 'My Group' });
 
     await userEvent.type(
       within(listItem).getByRole('button', { name: '@user-1' }),
-      '{Backspace}'
+      '{Backspace}',
     );
 
     await waitFor(() =>
-      expect(onGroupChange).toHaveBeenLastCalledWith({ members: ['@user-id'] })
+      expect(onGroupChange).toHaveBeenLastCalledWith({ members: ['@user-id'] }),
     );
   });
 });

@@ -19,6 +19,6 @@ export class AppRuntimeContext {
     public readonly botUserId: string,
     public displayName: string,
     public localpart: string,
-    public supportedLngs: string[]
+    public supportedLngs: string[],
   ) {}
 }

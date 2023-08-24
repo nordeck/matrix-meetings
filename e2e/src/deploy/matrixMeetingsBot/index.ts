@@ -72,7 +72,7 @@ export async function startMatrixMeetingsBot({
     .start();
 
   const botUrl = `http://${container.getHost()}:${container.getMappedPort(
-    3000
+    3000,
   )}`;
 
   console.log('Meetings bot running at', botUrl);

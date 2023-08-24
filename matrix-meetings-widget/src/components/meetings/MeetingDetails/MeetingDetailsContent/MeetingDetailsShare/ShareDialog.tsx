@@ -93,6 +93,6 @@ export function useShareDialog(): {
       onOpen: () => setOpen(true),
       onClose: () => setOpen(false),
     }),
-    [open]
+    [open],
   );
 }

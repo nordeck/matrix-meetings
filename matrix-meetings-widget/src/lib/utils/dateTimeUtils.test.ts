@@ -37,8 +37,8 @@ describe('isMeetingSpanningMultipleDays', () => {
             startTime: '2999-01-01T10:00:00Z',
             endTime: '2999-01-05T14:00:00Z',
           },
-        })
-      )
+        }),
+      ),
     ).toEqual(true);
   });
 });
@@ -56,8 +56,8 @@ describe('isMeetingSpanningMultipleYears', () => {
             startTime: '2999-01-01T10:00:00Z',
             endTime: '3000-01-01T14:00:00Z',
           },
-        })
-      )
+        }),
+      ),
     ).toEqual(true);
   });
 });
@@ -79,7 +79,7 @@ describe('parseICalDate', () => {
     ${'20221030T180000'} | ${'2022-10-30T18:00:00.000+01:00'}
   `('should parse $input with Europe/Berlin timezone', ({ input, output }) => {
     expect(parseICalDate({ value: input, tzid: 'Europe/Berlin' }).toISO()).toBe(
-      output
+      output,
     );
   });
 });
@@ -113,13 +113,13 @@ describe('formatICalDate', () => {
 describe('toISOString', () => {
   it('should format javascript Date', () => {
     expect(toISOString(new Date('2022-10-29T08:00:00Z'))).toBe(
-      '2022-10-29T08:00:00Z'
+      '2022-10-29T08:00:00Z',
     );
   });
 
   it('should format luxon DateTime', () => {
     expect(toISOString(DateTime.fromISO('2022-10-29T08:00:00Z'))).toBe(
-      '2022-10-29T08:00:00Z'
+      '2022-10-29T08:00:00Z',
     );
   });
 });

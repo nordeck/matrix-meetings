@@ -34,7 +34,7 @@ __webpack_nonce__ = getNonce();
 const version = getEnvironment('REACT_APP_VERSION');
 if (version) {
   console.log(
-    `You are running version "${version}" of the matrix-meetings-widget!`
+    `You are running version "${version}" of the matrix-meetings-widget!`,
   );
 }
 
@@ -48,5 +48,5 @@ ReactDOM.render(
       <AppContainer widgetApiPromise={widgetApiPromise} />
     </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById('root')
+  document.getElementById('root'),
 );

@@ -55,7 +55,7 @@ export const SetupBreakoutSessions = ({
   const { t } = useTranslation();
   const { initialStartDate, initialEndDate } = useMemo(
     () => getInitialMeetingTimes({ parentMeeting }),
-    [parentMeeting]
+    [parentMeeting],
   );
   const [startDate, setStartDate] = useState(initialStartDate);
   const [endDate, setEndDate] = useState(initialEndDate);
@@ -75,7 +75,7 @@ export const SetupBreakoutSessions = ({
     (e: ChangeEvent<HTMLInputElement>) => {
       setDescription(e.target.value);
     },
-    [setDescription]
+    [setDescription],
   );
 
   const handleStartDateChange = useCallback(
@@ -85,7 +85,7 @@ export const SetupBreakoutSessions = ({
         return currentEndDate.plus(value.diff(startDate));
       });
     },
-    [startDate]
+    [startDate],
   );
 
   const handleEndDateChange = useCallback((value: DateTime) => {
@@ -93,7 +93,7 @@ export const SetupBreakoutSessions = ({
   }, []);
 
   const { showDatePickers, startDateError, endDateError } = useDatePickersState(
-    { parentMeeting, startTime: startDate, endTime: endDate }
+    { parentMeeting, startTime: startDate, endTime: endDate },
   );
 
   useEffect(() => {
@@ -134,7 +134,7 @@ export const SetupBreakoutSessions = ({
       meeting={parentMeeting}
       withMessage={t(
         'setupBreakoutSessions.meetingIsOver',
-        'The meeting is over you can not create any new breakout sessions.'
+        'The meeting is over you can not create any new breakout sessions.',
       )}
     >
       <Box component="form" display="flex" flexWrap="wrap" p={1}>

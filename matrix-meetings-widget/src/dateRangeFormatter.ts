@@ -25,6 +25,6 @@ export function registerDateRangeFormatter(i18n: i18n) {
       const formatter = new Intl.DateTimeFormat(lng, { ...options });
       // @ts-ignore: DateTimeFormat#formatRange will be available in TypeScript >4.7.2
       return formatter.formatRange(start, end);
-    }
+    },
   );
 }

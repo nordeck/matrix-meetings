@@ -32,7 +32,7 @@ describe('useDatePickersState', () => {
         useDatePickersState({
           startTime: DateTime.fromISO('2022-01-02T13:10:00Z'),
           endTime: DateTime.fromISO('2022-01-02T15:30:00Z'),
-        })
+        }),
       );
 
       expect(result.current).toEqual({
@@ -48,7 +48,7 @@ describe('useDatePickersState', () => {
         useDatePickersState({
           startTime: DateTime.fromISO('2022-01-02T12:15:00Z'),
           endTime: DateTime.fromISO('2022-01-02T13:30:00Z'),
-        })
+        }),
       );
 
       expect(result.current).toEqual({
@@ -65,7 +65,7 @@ describe('useDatePickersState', () => {
           startTime: DateTime.fromISO('2022-01-01T12:10:00Z'),
           endTime: DateTime.fromISO('2022-01-02T13:30:00Z'),
           minStartTimeOverride: DateTime.fromISO('2022-01-01T12:15:00Z'),
-        })
+        }),
       );
 
       expect(result.current).toEqual({
@@ -81,7 +81,7 @@ describe('useDatePickersState', () => {
         useDatePickersState({
           startTime: DateTime.fromISO('2022-01-02T14:15:00Z'),
           endTime: DateTime.fromISO('2022-01-02T14:00:00Z'),
-        })
+        }),
       );
 
       expect(result.current).toEqual({
@@ -105,7 +105,7 @@ describe('useDatePickersState', () => {
               endTime: '2022-01-02T15:00:00Z',
             },
           }),
-        })
+        }),
       );
 
       expect(result.current).toEqual({
@@ -127,7 +127,7 @@ describe('useDatePickersState', () => {
               endTime: '2022-01-03T15:00:00Z',
             },
           }),
-        })
+        }),
       );
 
       expect(result.current).toEqual({
@@ -149,7 +149,7 @@ describe('useDatePickersState', () => {
               endTime: '2022-01-02T15:00:00Z',
             },
           }),
-        })
+        }),
       );
 
       expect(result.current).toEqual({
@@ -172,13 +172,13 @@ describe('useDatePickersState', () => {
               endTime: '2022-01-03T15:00:00Z',
             },
           }),
-        })
+        }),
       );
 
       expect(result.current).toEqual({
         showDatePickers: true,
         startDateError: expect.stringMatching(
-          /Breakout session should start between January 2, 2022(,| at) 2:00 PM and January 3, 2022(,| at) 3:00 PM/
+          /Breakout session should start between January 2, 2022(,| at) 2:00 PM and January 3, 2022(,| at) 3:00 PM/,
         ),
         endDateError: false,
         minStartDate: DateTime.fromISO('2022-01-02T14:00:00Z'),
@@ -196,7 +196,7 @@ describe('useDatePickersState', () => {
               endTime: '2022-01-02T15:00:00Z',
             },
           }),
-        })
+        }),
       );
 
       expect(result.current).toEqual({
@@ -220,16 +220,16 @@ describe('useDatePickersState', () => {
               endTime: '2022-01-03T15:00:00Z',
             },
           }),
-        })
+        }),
       );
 
       expect(result.current).toEqual({
         showDatePickers: true,
         startDateError: expect.stringMatching(
-          /Breakout session should start between January 2, 2022(,| at) 2:00 PM and January 3, 2022(,| at) 3:00 PM/
+          /Breakout session should start between January 2, 2022(,| at) 2:00 PM and January 3, 2022(,| at) 3:00 PM/,
         ),
         endDateError: expect.stringMatching(
-          /Breakout session should end between January 2, 2022(,| at) 2:00 PM and January 3, 2022(,| at) 3:00 PM/
+          /Breakout session should end between January 2, 2022(,| at) 2:00 PM and January 3, 2022(,| at) 3:00 PM/,
         ),
         minStartDate: DateTime.fromISO('2022-01-02T14:00:00Z'),
       });
@@ -246,7 +246,7 @@ describe('useDatePickersState', () => {
               endTime: '2022-01-02T15:00:00Z',
             },
           }),
-        })
+        }),
       );
 
       expect(result.current).toEqual({
@@ -269,14 +269,14 @@ describe('useDatePickersState', () => {
               endTime: '2022-01-03T15:00:00Z',
             },
           }),
-        })
+        }),
       );
 
       expect(result.current).toEqual({
         showDatePickers: true,
         startDateError: false,
         endDateError: expect.stringMatching(
-          /Breakout session should end between January 2, 2022(,| at) 2:00 PM and January 3, 2022(,| at) 3:00 PM./
+          /Breakout session should end between January 2, 2022(,| at) 2:00 PM and January 3, 2022(,| at) 3:00 PM./,
         ),
         minStartDate: DateTime.fromISO('2022-01-02T14:00:00Z'),
       });
@@ -293,7 +293,7 @@ describe('useDatePickersState', () => {
               endTime: '2022-01-02T15:00:00Z',
             },
           }),
-        })
+        }),
       );
 
       expect(result.current).toEqual({
@@ -315,7 +315,7 @@ describe('useDatePickersState', () => {
               endTime: '2022-01-03T15:00:00Z',
             },
           }),
-        })
+        }),
       );
 
       expect(result.current).toEqual({

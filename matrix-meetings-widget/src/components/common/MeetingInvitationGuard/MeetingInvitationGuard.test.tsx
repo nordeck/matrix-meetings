@@ -47,7 +47,7 @@ describe('<MeetingInvitationGuard/>', () => {
       <MeetingInvitationGuard meeting={meeting}>
         <p>My Content</p>
       </MeetingInvitationGuard>,
-      { wrapper }
+      { wrapper },
     );
 
     expect(screen.getByText(/My Content/)).toBeInTheDocument();
@@ -61,12 +61,12 @@ describe('<MeetingInvitationGuard/>', () => {
       <MeetingInvitationGuard meeting={meeting}>
         <p>My Content</p>
       </MeetingInvitationGuard>,
-      { wrapper }
+      { wrapper },
     );
 
     const alert = screen.getByRole('status');
     expect(
-      within(alert).getByText(/Please accept the meeting invitation/)
+      within(alert).getByText(/Please accept the meeting invitation/),
     ).toBeInTheDocument();
     expect(screen.queryByText(/My Content/)).not.toBeInTheDocument();
   });

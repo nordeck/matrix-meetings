@@ -48,7 +48,7 @@ export function MeetingHasBreakoutSessionsWarning({
 
   const selectHasBreakoutSessions = useMemo(makeSelectHasBreakoutSessions, []);
   const meetingHasBreakoutSessions = useAppSelector((state) =>
-    selectHasBreakoutSessions(state, meeting.meetingId)
+    selectHasBreakoutSessions(state, meeting.meetingId),
   );
 
   return (
@@ -58,12 +58,12 @@ export function MeetingHasBreakoutSessionsWarning({
           <AlertTitle>
             {t(
               'meetingHasBreakoutSessionsWarning.title',
-              'The meeting already has breakout sessions.'
+              'The meeting already has breakout sessions.',
             )}
           </AlertTitle>
           {t(
             'meetingHasBreakoutSessionsWarning.message',
-            'If you want to change start or end time of this meeting, existing breakout sessions will not be moved!'
+            'If you want to change start or end time of this meeting, existing breakout sessions will not be moved!',
           )}
         </Alert>
       )}

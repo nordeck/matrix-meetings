@@ -32,7 +32,7 @@ describe('<TimeDistance/>', () => {
       <TimeDistance
         endDate="2020-01-01T00:02:00"
         startDate="2020-01-01T00:00:00Z"
-      />
+      />,
     );
 
     expect(screen.getByText(/ends in 01:00/i)).toBeInTheDocument();
@@ -43,7 +43,7 @@ describe('<TimeDistance/>', () => {
       <TimeDistance
         endDate="3999-01-01T00:00:00"
         startDate="2020-01-01T00:00:00Z"
-      />
+      />,
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -57,7 +57,7 @@ describe('<TimeDistance/>', () => {
       <TimeDistance
         endDate="2020-01-01T00:02:00"
         startDate="2020-01-01T00:00:00Z"
-      />
+      />,
     );
 
     expect(screen.getByText(/ends in 2 minutes/i)).toBeInTheDocument();

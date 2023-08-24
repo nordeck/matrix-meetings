@@ -21,7 +21,7 @@ describe('test LayoutConfigReader', () => {
 
   beforeEach(() => {
     layoutConfigReader = new WidgetLayoutConfigReader(
-      'test/conf/test_default_widget_layouts.json.json'
+      'test/conf/test_default_widget_layouts.json.json',
     );
   });
 

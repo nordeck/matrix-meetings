@@ -38,7 +38,7 @@ export type SelectAllInvitedMeetingIdsOpts = {
 };
 
 export function makeSelectAllInvitedMeetingIds(
-  opts?: SelectAllInvitedMeetingIdsOpts
+  opts?: SelectAllInvitedMeetingIdsOpts,
 ): (state: RootState) => string[] {
   const {
     includeBreakoutSessions = false,
@@ -60,7 +60,7 @@ export function makeSelectAllInvitedMeetingIds(
       roomCreateEvents,
       roomNameEvents,
       nordeckMeetingMetadataEvents,
-      roomMemberEvents
+      roomMemberEvents,
     ) => {
       function filter(roomId: string) {
         const potentialParents = allRoomChildEvents
@@ -68,7 +68,7 @@ export function makeSelectAllInvitedMeetingIds(
           .filter((e) => e.state_key === roomId)
           // only events that belong to a non-space
           .filter(
-            (e) => roomCreateEvents[e.room_id]?.content?.type !== 'm.space'
+            (e) => roomCreateEvents[e.room_id]?.content?.type !== 'm.space',
           )
           .map((e) => e.room_id);
 
@@ -116,7 +116,7 @@ export function makeSelectAllInvitedMeetingIds(
               e &&
               e.room_id === createEvent.room_id &&
               e.state_key === hasMemberId &&
-              e.content.membership === 'invite'
+              e.content.membership === 'invite',
           )
         ) {
           return false;
@@ -132,7 +132,7 @@ export function makeSelectAllInvitedMeetingIds(
       });
 
       return allMeetingIds;
-    }
+    },
   );
 }
 
@@ -144,7 +144,7 @@ export function sortMeetings(
   roomIds: string[],
   data: {
     roomNameEvents: ReturnType<typeof selectRoomNameEventEntities>;
-  }
+  },
 ): void {
   const { roomNameEvents } = data;
 

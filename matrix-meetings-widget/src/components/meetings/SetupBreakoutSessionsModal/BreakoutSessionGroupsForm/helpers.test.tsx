@@ -42,7 +42,7 @@ describe('initializeGroups', () => {
       expect(initializeGroups(i18next.t, [], 1, ownUser)).toEqual([
         { title: 'Group 1', members: ownUser ? [ownUser] : [] },
       ]);
-    }
+    },
   );
 
   it.each([undefined, '@my-user'])(
@@ -57,15 +57,15 @@ describe('initializeGroups', () => {
             { title: 'Second Group', members: ['u2'] },
           ],
           4,
-          ownUser
-        )
+          ownUser,
+        ),
       ).toEqual([
         { title: 'First Group', members: [...own, 'u1'] },
         { title: 'Second Group', members: [...own, 'u2'] },
         { title: 'Group 3', members: own },
         { title: 'Group 4', members: own },
       ]);
-    }
+    },
   );
 
   it('should delete groups', () => {
@@ -77,8 +77,8 @@ describe('initializeGroups', () => {
           { title: 'Second Group', members: [] },
         ],
         1,
-        undefined
-      )
+        undefined,
+      ),
     ).toEqual([{ title: 'First Group', members: [] }]);
   });
 });
@@ -91,8 +91,8 @@ describe('calculateSelectableMembers', () => {
           mockRoomMember({ state_key: '@user1' }),
           mockRoomMember({ state_key: '@user2' }),
         ],
-        [{ title: '1', members: ['@user1'] }]
-      )
+        [{ title: '1', members: ['@user1'] }],
+      ),
     ).toEqual([mockRoomMember({ state_key: '@user2' })]);
   });
 });
@@ -109,8 +109,8 @@ describe('distributeAllRoomMembers', () => {
           mockRoomMember({ state_key: '@user1' }),
           mockRoomMember({ state_key: '@user2' }),
         ],
-        undefined
-      )
+        undefined,
+      ),
     ).toEqual([
       { title: 'Group 1', members: ['@user2'] },
       { title: 'Group 2', members: ['@user1'] },
@@ -128,8 +128,8 @@ describe('distributeAllRoomMembers', () => {
           mockRoomMember({ state_key: '@user1' }),
           mockRoomMember({ state_key: '@user2' }),
         ],
-        '@my-user'
-      )
+        '@my-user',
+      ),
     ).toEqual([
       { title: 'Group 1', members: ['@my-user', '@user2'] },
       { title: 'Group 2', members: ['@my-user', '@user1'] },

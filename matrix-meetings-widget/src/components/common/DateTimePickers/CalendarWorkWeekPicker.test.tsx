@@ -38,13 +38,13 @@ describe('<CalendarWorkWeekPicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
       screen.getByRole('button', {
         name: 'Choose work week, selected work week is February 1 – 5, 2022',
-      })
+      }),
     ).toHaveTextContent('Feb 1 – 5, 2022');
   });
 
@@ -55,7 +55,7 @@ describe('<CalendarWorkWeekPicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -68,12 +68,12 @@ describe('<CalendarWorkWeekPicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
     await userEvent.click(
       screen.getByRole('button', {
         name: 'Choose work week, selected work week is February 1 – 5, 2022',
-      })
+      }),
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -86,13 +86,13 @@ describe('<CalendarWorkWeekPicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2022-02-01T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
       screen.getByRole('button', {
         name: 'Choose work week, selected work week is February 1 – 5, 2022',
-      })
+      }),
     );
 
     const dialog = screen.getByRole('dialog');
@@ -100,7 +100,7 @@ describe('<CalendarWorkWeekPicker>', () => {
     await userEvent.click(
       within(dialog).getByRole('button', {
         name: 'calendar view is open, switch to year view',
-      })
+      }),
     );
 
     await userEvent.click(within(dialog).getByRole('button', { name: '2023' }));
@@ -110,7 +110,7 @@ describe('<CalendarWorkWeekPicker>', () => {
     expect(onRangeChange).toBeCalledTimes(1);
     expect(onRangeChange).toHaveBeenLastCalledWith(
       '2023-01-09T00:00:00.000+00:00',
-      '2023-01-13T23:59:59.999+00:00'
+      '2023-01-13T23:59:59.999+00:00',
     );
 
     await waitFor(() => {
@@ -125,13 +125,13 @@ describe('<CalendarWorkWeekPicker>', () => {
         onRangeChange={onRangeChange}
         startDate="2024-12-30T00:00:00Z"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
       screen.getByRole('button', {
         name: 'Choose work week, selected work week is December 30, 2024 – January 3, 2025',
-      })
+      }),
     ).toHaveTextContent('Dec 30, 2024 – Jan 3, 2025');
   });
 });

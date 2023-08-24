@@ -71,7 +71,7 @@ export type SelectAllMeetingIdsOpts = {
 };
 
 export function makeSelectAllMeetingIds(
-  opts?: SelectAllMeetingIdsOpts
+  opts?: SelectAllMeetingIdsOpts,
 ): (state: RootState, filters: Filters) => MeetingIdEntry[] {
   const {
     includeBreakoutSessions = false,
@@ -100,7 +100,7 @@ export function makeSelectAllMeetingIds(
       roomNameEvents,
       roomTopicEvents,
       nordeckMeetingMetadataEvents,
-      roomMemberEvents
+      roomMemberEvents,
     ) => {
       function filter(roomId: string) {
         // only use the room if it is a child of the roomId
@@ -151,7 +151,7 @@ export function makeSelectAllMeetingIds(
             (e) =>
               e &&
               e.room_id === createEvent.room_id &&
-              e.state_key === hasMemberId
+              e.state_key === hasMemberId,
           )
         ) {
           return false;
@@ -206,7 +206,7 @@ export function makeSelectAllMeetingIds(
       });
 
       return allMeetingIds;
-    }
+    },
   );
 }
 
@@ -215,7 +215,7 @@ export function filterMeetingByText(
   data: {
     roomNameEvent: StateEvent<RoomNameEvent>;
     roomTopicEvent?: StateEvent<RoomTopicEvent>;
-  }
+  },
 ): boolean {
   if (!filters) {
     return true;

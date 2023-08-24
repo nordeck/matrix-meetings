@@ -36,7 +36,7 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
 }));
 
 const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked
+  extractWidgetApiParametersMocked,
 );
 
 let widgetApi: MockedWidgetApi;
@@ -146,13 +146,13 @@ describe('<MeetingsList/>', () => {
           endDate: '2022-01-06T23:59:59Z',
         }}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const region = screen.getByRole('region', { name: /meetings/i });
 
     expect(
-      within(region).getByRole('heading', { level: 3, name: /meetings/i })
+      within(region).getByRole('heading', { level: 3, name: /meetings/i }),
     ).toBeInTheDocument();
 
     const list = within(region).getByRole('list', { name: /meetings/i });
@@ -164,27 +164,27 @@ describe('<MeetingsList/>', () => {
       within(saturdayList).getByRole('heading', {
         level: 4,
         name: 'Saturday, 01/01/2022',
-      })
+      }),
     ).toBeInTheDocument();
     const meeting1 = within(saturdayList).getByRole('listitem', {
       name: /meeting 1/i,
       description: '10:00 AM – 2:00 PM',
     });
     expect(
-      within(meeting1).getByRole('heading', { level: 5, name: /meeting 1/i })
+      within(meeting1).getByRole('heading', { level: 5, name: /meeting 1/i }),
     ).toBeInTheDocument();
 
     expect(
       within(saturdayList).getByRole('listitem', {
         name: /meeting 6/i,
         description: '10:00 AM – 2:00 PM . Recurrence: Every day for one time',
-      })
+      }),
     ).toBeInTheDocument();
 
     expect(
       within(list).getByRole('listitem', {
         name: 'Sunday, 01/02/2022',
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -197,13 +197,13 @@ describe('<MeetingsList/>', () => {
           endDate: '2022-01-01T23:59:59Z',
         }}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const region = screen.getByRole('region', { name: /meetings/i });
 
     expect(
-      within(region).getByRole('heading', { level: 3, name: /meetings/i })
+      within(region).getByRole('heading', { level: 3, name: /meetings/i }),
     ).toBeInTheDocument();
 
     const list = within(region).getByRole('list', { name: /meetings/i });
@@ -215,14 +215,14 @@ describe('<MeetingsList/>', () => {
       within(saturdayList).getByRole('heading', {
         level: 4,
         name: 'Saturday, 01/01/2022',
-      })
+      }),
     ).toBeInTheDocument();
     const meeting1 = within(saturdayList).getByRole('listitem', {
       name: /meeting 1/i,
       description: '10:00 AM – 2:00 PM',
     });
     expect(
-      within(meeting1).getByRole('heading', { level: 5, name: /meeting 1/i })
+      within(meeting1).getByRole('heading', { level: 5, name: /meeting 1/i }),
     ).toBeInTheDocument();
 
     const meeting5 = within(saturdayList).getByRole('listitem', {
@@ -230,7 +230,7 @@ describe('<MeetingsList/>', () => {
       description: '10:00 AM – 2:00 PM',
     });
     expect(
-      within(meeting5).getByRole('heading', { level: 5, name: /meeting 5/i })
+      within(meeting5).getByRole('heading', { level: 5, name: /meeting 5/i }),
     ).toBeInTheDocument();
 
     expect(within(list).getAllByRole('listitem')).toHaveLength(4);
@@ -274,16 +274,16 @@ describe('<MeetingsList/>', () => {
             endDate: '2022-01-02T23:59:59Z',
           }}
         />,
-        { wrapper: Wrapper }
+        { wrapper: Wrapper },
       );
 
       const list = screen.getByRole('list', { name: /meetings/i });
       await expect(
-        within(list).findByRole('listitem', { name: /an important meeting/i })
+        within(list).findByRole('listitem', { name: /an important meeting/i }),
       ).resolves.toBeInTheDocument();
 
       expect(within(list).getAllByRole('listitem')).toHaveLength(2);
-    }
+    },
   );
 
   it('should have no accessibility violations', async () => {
@@ -294,11 +294,11 @@ describe('<MeetingsList/>', () => {
           endDate: '2022-01-06T23:59:59Z',
         }}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
-      screen.findByRole('listitem', { name: 'Saturday, 01/01/2022' })
+      screen.findByRole('listitem', { name: 'Saturday, 01/01/2022' }),
     ).resolves.toBeInTheDocument();
 
     expect(await axe(container)).toHaveNoViolations();
@@ -314,11 +314,11 @@ describe('<MeetingsList/>', () => {
           endDate: '2022-01-06T23:59:59Z',
         }}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
-      screen.findByRole('listitem', { name: /no meetings scheduled/i })
+      screen.findByRole('listitem', { name: /no meetings scheduled/i }),
     ).resolves.toBeInTheDocument();
 
     expect(await axe(container)).toHaveNoViolations();
@@ -332,7 +332,7 @@ describe('<MeetingsList/>', () => {
           endDate: '2022-01-12T23:59:59Z',
         }}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const list = screen.getByRole('list', { name: /meetings/i });
@@ -340,7 +340,7 @@ describe('<MeetingsList/>', () => {
     await expect(
       within(list).findByRole('listitem', {
         name: 'Tuesday, 01/11/2022',
-      })
+      }),
     ).resolves.toBeInTheDocument();
 
     expect(within(list).getAllByRole('listitem')).toHaveLength(2);
@@ -356,7 +356,7 @@ describe('<MeetingsList/>', () => {
           endDate: '2022-01-12T23:59:59Z',
         }}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const list = screen.getByRole('list', { name: /meetings/i });
@@ -364,7 +364,7 @@ describe('<MeetingsList/>', () => {
     expect(
       within(list).getByRole('listitem', {
         name: /no meetings scheduled that match the selected filters/i,
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -379,7 +379,7 @@ describe('<MeetingsList/>', () => {
           endDate: '2022-01-12T23:59:59Z',
         }}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const list = screen.getByRole('list', { name: /meetings/i });
@@ -387,7 +387,7 @@ describe('<MeetingsList/>', () => {
     expect(
       within(list).getByRole('listitem', {
         name: /no breakout sessions scheduled that match the selected filters/i,
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -400,12 +400,12 @@ describe('<MeetingsList/>', () => {
         }}
         hasInvitations
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const alert = screen.getByRole('status');
     expect(
-      within(alert).getByText(/you have open invitations/i)
+      within(alert).getByText(/you have open invitations/i),
     ).toBeInTheDocument();
     expect(alert).toHaveTextContent(/please join all meeting rooms/i);
   });

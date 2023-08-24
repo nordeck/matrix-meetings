@@ -29,15 +29,15 @@ describe('<MeetingsToolbarButtons/>', () => {
         onRangeChange={jest.fn()}
         startDate="2020-06-07T00:00:00.000+00:00"
         view="list"
-      />
+      />,
     );
 
     expect(screen.getByRole('button', { name: 'Today' })).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Previous period' })
+      screen.getByRole('button', { name: 'Previous period' }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Next period' })
+      screen.getByRole('button', { name: 'Next period' }),
     ).toBeInTheDocument();
   });
 
@@ -48,15 +48,15 @@ describe('<MeetingsToolbarButtons/>', () => {
         onRangeChange={jest.fn()}
         startDate="2020-06-07T00:00:00.000+00:00"
         view="day"
-      />
+      />,
     );
 
     expect(screen.getByRole('button', { name: 'Today' })).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Previous day' })
+      screen.getByRole('button', { name: 'Previous day' }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Next day' })
+      screen.getByRole('button', { name: 'Next day' }),
     ).toBeInTheDocument();
   });
 
@@ -67,15 +67,15 @@ describe('<MeetingsToolbarButtons/>', () => {
         onRangeChange={jest.fn()}
         startDate="2020-06-07T00:00:00.000+00:00"
         view="workWeek"
-      />
+      />,
     );
 
     expect(screen.getByRole('button', { name: 'Today' })).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Previous work week' })
+      screen.getByRole('button', { name: 'Previous work week' }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Next work week' })
+      screen.getByRole('button', { name: 'Next work week' }),
     ).toBeInTheDocument();
   });
 
@@ -86,15 +86,15 @@ describe('<MeetingsToolbarButtons/>', () => {
         onRangeChange={jest.fn()}
         startDate="2020-06-07T00:00:00.000+00:00"
         view="week"
-      />
+      />,
     );
 
     expect(screen.getByRole('button', { name: 'Today' })).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Previous week' })
+      screen.getByRole('button', { name: 'Previous week' }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Next week' })
+      screen.getByRole('button', { name: 'Next week' }),
     ).toBeInTheDocument();
   });
 
@@ -105,15 +105,15 @@ describe('<MeetingsToolbarButtons/>', () => {
         onRangeChange={jest.fn()}
         startDate="2020-06-07T00:00:00.000+00:00"
         view="month"
-      />
+      />,
     );
 
     expect(screen.getByRole('button', { name: 'Today' })).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Previous month' })
+      screen.getByRole('button', { name: 'Previous month' }),
     ).toBeInTheDocument();
     expect(
-      screen.getByRole('button', { name: 'Next month' })
+      screen.getByRole('button', { name: 'Next month' }),
     ).toBeInTheDocument();
   });
 
@@ -124,7 +124,7 @@ describe('<MeetingsToolbarButtons/>', () => {
         onRangeChange={jest.fn()}
         startDate="2020-06-07T00:00:00.000+00:00"
         view="week"
-      />
+      />,
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -143,14 +143,14 @@ describe('<MeetingsToolbarButtons/>', () => {
         onRangeChange={onRangeChange}
         startDate="2020-06-07T00:00:00.000+00:00"
         view="week"
-      />
+      />,
     );
 
     await userEvent.click(screen.getByRole('button', { name: 'Today' }));
 
     expect(onRangeChange).toHaveBeenLastCalledWith(
       '2020-06-14T00:00:00.000+00:00',
-      '2020-06-20T23:59:59.999+00:00'
+      '2020-06-20T23:59:59.999+00:00',
     );
   });
 
@@ -163,16 +163,16 @@ describe('<MeetingsToolbarButtons/>', () => {
         onRangeChange={onRangeChange}
         startDate="2020-06-07T00:00:00.000+00:00"
         view="week"
-      />
+      />,
     );
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Previous week' })
+      screen.getByRole('button', { name: 'Previous week' }),
     );
 
     expect(onRangeChange).toHaveBeenLastCalledWith(
       '2020-05-31T00:00:00.000+00:00',
-      '2020-06-06T23:59:59.999+00:00'
+      '2020-06-06T23:59:59.999+00:00',
     );
   });
 
@@ -185,14 +185,14 @@ describe('<MeetingsToolbarButtons/>', () => {
         onRangeChange={onRangeChange}
         startDate="2020-06-07T00:00:00.000+00:00"
         view="week"
-      />
+      />,
     );
 
     await userEvent.click(screen.getByRole('button', { name: 'Next week' }));
 
     expect(onRangeChange).toHaveBeenLastCalledWith(
       '2020-06-14T00:00:00.000+00:00',
-      '2020-06-20T23:59:59.999+00:00'
+      '2020-06-20T23:59:59.999+00:00',
     );
   });
 });

@@ -33,7 +33,7 @@ describe('storeInitializer', () => {
       storeInitializer({
         initialRule: undefined,
         initialStartDate,
-      })
+      }),
     ).toEqual({
       isDirty: false,
       startDate: initialStartDate,
@@ -57,7 +57,7 @@ describe('storeInitializer', () => {
       storeInitializer({
         initialRule: 'FREQ=DAILY',
         initialStartDate,
-      })
+      }),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-10-07T14:15:00.000Z'),
@@ -81,7 +81,7 @@ describe('storeInitializer', () => {
       storeInitializer({
         initialRule: 'FREQ=WEEKLY',
         initialStartDate,
-      })
+      }),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-10-07T14:15:00.000Z'),
@@ -105,7 +105,7 @@ describe('storeInitializer', () => {
       storeInitializer({
         initialRule: 'FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR',
         initialStartDate,
-      })
+      }),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-10-07T14:15:00.000Z'),
@@ -129,7 +129,7 @@ describe('storeInitializer', () => {
       storeInitializer({
         initialRule: 'FREQ=MONTHLY',
         initialStartDate,
-      })
+      }),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-10-07T14:15:00.000Z'),
@@ -153,7 +153,7 @@ describe('storeInitializer', () => {
       storeInitializer({
         initialRule: 'RRULE:FREQ=YEARLY',
         initialStartDate,
-      })
+      }),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-10-07T14:15:00.000Z'),
@@ -177,7 +177,7 @@ describe('storeInitializer', () => {
       storeInitializer({
         initialRule: 'FREQ=DAILY;INTERVAL=2',
         initialStartDate,
-      })
+      }),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-10-07T14:15:00.000Z'),
@@ -201,7 +201,7 @@ describe('storeInitializer', () => {
       storeInitializer({
         initialRule: 'FREQ=WEEKLY;BYDAY=MO',
         initialStartDate,
-      })
+      }),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-10-07T14:15:00.000Z'),
@@ -225,7 +225,7 @@ describe('storeInitializer', () => {
       storeInitializer({
         initialRule: 'FREQ=DAILY;INTERVAL=1;BYDAY=MO;BYSETPOS=-1',
         initialStartDate,
-      })
+      }),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-10-07T14:15:00.000Z'),
@@ -249,7 +249,7 @@ describe('storeInitializer', () => {
       storeInitializer({
         initialRule: 'FREQ=MONTHLY;INTERVAL=1;BYMONTHDAY=7',
         initialStartDate,
-      })
+      }),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-10-07T14:15:00.000Z'),
@@ -273,7 +273,7 @@ describe('storeInitializer', () => {
       storeInitializer({
         initialRule: 'FREQ=YEARLY;INTERVAL=1;BYDAY=MO;BYMONTH=2;BYSETPOS=3',
         initialStartDate,
-      })
+      }),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-10-07T14:15:00.000Z'),
@@ -297,7 +297,7 @@ describe('storeInitializer', () => {
       storeInitializer({
         initialRule: 'FREQ=YEARLY;INTERVAL=1;BYMONTH=12;BYMONTHDAY=24',
         initialStartDate: new Date('2022-12-24T14:15:00.000Z'),
-      })
+      }),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-12-24T14:15:00.000Z'),
@@ -322,7 +322,7 @@ describe('storeInitializer', () => {
         // OX isn't including an interval if it's the default value
         initialRule: 'FREQ=MONTHLY;BYDAY=TU;BYSETPOS=4',
         initialStartDate,
-      })
+      }),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-10-07T14:15:00.000Z'),
@@ -346,7 +346,7 @@ describe('storeInitializer', () => {
       storeInitializer({
         initialRule: 'FREQ=DAILY;UNTIL=20221030T140000Z',
         initialStartDate,
-      })
+      }),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-10-07T14:15:00.000Z'),
@@ -370,7 +370,7 @@ describe('storeInitializer', () => {
       storeInitializer({
         initialRule: 'FREQ=DAILY;COUNT=14',
         initialStartDate,
-      })
+      }),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-10-07T14:15:00.000Z'),
@@ -414,8 +414,8 @@ describe('reducer', () => {
           type: 'updateStartDate',
           startDate: new Date('2022-05-06T12:00:00.000Z'),
           isMeetingCreation: true,
-        }
-      )
+        },
+      ),
     ).toEqual({
       isDirty: true,
       startDate: new Date('2022-05-06T12:00:00.000Z'),
@@ -457,8 +457,8 @@ describe('reducer', () => {
           type: 'updateStartDate',
           startDate: new Date('2022-05-06T12:00:00.000Z'),
           isMeetingCreation: false,
-        }
-      )
+        },
+      ),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-05-06T12:00:00.000Z'),
@@ -500,8 +500,8 @@ describe('reducer', () => {
           type: 'updateStartDate',
           startDate: new Date('2022-10-07T13:10:00.000Z'),
           isMeetingCreation: true,
-        }
-      )
+        },
+      ),
     ).toEqual({
       isDirty: false,
       startDate: new Date('2022-10-07T13:10:00.000Z'),
@@ -542,8 +542,8 @@ describe('reducer', () => {
         {
           type: 'updateRecurrencePreset',
           recurrencePreset: RecurrencePreset.Weekly,
-        }
-      )
+        },
+      ),
     ).toEqual({
       isDirty: true,
       startDate: new Date('2022-01-02T13:10:00.000Z'),
@@ -584,8 +584,8 @@ describe('reducer', () => {
         {
           type: 'updateCustomFrequency',
           customFrequency: Frequency.WEEKLY,
-        }
-      )
+        },
+      ),
     ).toEqual({
       isDirty: true,
       startDate: new Date('2022-01-02T13:10:00.000Z'),
@@ -626,8 +626,8 @@ describe('reducer', () => {
         {
           type: 'updateCustomInterval',
           customInterval: '2',
-        }
-      )
+        },
+      ),
     ).toEqual({
       isDirty: true,
       startDate: new Date('2022-01-02T13:10:00.000Z'),
@@ -668,8 +668,8 @@ describe('reducer', () => {
         {
           type: 'updateCustomByWeekday',
           customByWeekday: [0],
-        }
-      )
+        },
+      ),
     ).toEqual({
       isDirty: true,
       startDate: new Date('2022-01-02T13:10:00.000Z'),
@@ -710,8 +710,8 @@ describe('reducer', () => {
         {
           type: 'updateCustomRuleMode',
           customRuleMode: CustomRuleMode.ByMonthday,
-        }
-      )
+        },
+      ),
     ).toEqual({
       isDirty: true,
       startDate: new Date('2022-01-02T13:10:00.000Z'),
@@ -752,8 +752,8 @@ describe('reducer', () => {
         {
           type: 'updateCustomMonth',
           customMonth: 11,
-        }
-      )
+        },
+      ),
     ).toEqual({
       isDirty: true,
       startDate: new Date('2022-01-02T13:10:00.000Z'),
@@ -794,8 +794,8 @@ describe('reducer', () => {
         {
           type: 'updateCustomNthMonthday',
           customNthMonthday: '8',
-        }
-      )
+        },
+      ),
     ).toEqual({
       isDirty: true,
       startDate: new Date('2022-01-02T13:10:00.000Z'),
@@ -836,8 +836,8 @@ describe('reducer', () => {
         {
           type: 'updateCustomWeekday',
           customWeekday: 5,
-        }
-      )
+        },
+      ),
     ).toEqual({
       isDirty: true,
       startDate: new Date('2022-01-02T13:10:00.000Z'),
@@ -878,8 +878,8 @@ describe('reducer', () => {
         {
           type: 'updateCustomNth',
           customNth: 2,
-        }
-      )
+        },
+      ),
     ).toEqual({
       isDirty: true,
       startDate: new Date('2022-01-02T13:10:00.000Z'),
@@ -920,8 +920,8 @@ describe('reducer', () => {
         {
           type: 'updateRecurrenceEnd',
           recurrenceEnd: RecurrenceEnd.UntilDate,
-        }
-      )
+        },
+      ),
     ).toEqual({
       isDirty: true,
       startDate: new Date('2022-01-02T13:10:00.000Z'),
@@ -962,8 +962,8 @@ describe('reducer', () => {
         {
           type: 'updateAfterMeetingCount',
           afterMeetingCount: '15',
-        }
-      )
+        },
+      ),
     ).toEqual({
       isDirty: true,
       startDate: new Date('2022-01-02T13:10:00.000Z'),
@@ -1004,8 +1004,8 @@ describe('reducer', () => {
         {
           type: 'updateUntilDate',
           untilDate: DateTime.fromISO('2022-04-02T13:10:00.000Z'),
-        }
-      )
+        },
+      ),
     ).toEqual({
       isDirty: true,
       startDate: new Date('2022-01-02T13:10:00.000Z'),
@@ -1045,7 +1045,7 @@ describe('toRule', () => {
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
         untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-      })
+      }),
     ).toEqual({
       isValid: true,
       rrule: undefined,
@@ -1069,7 +1069,7 @@ describe('toRule', () => {
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
         untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-      })
+      }),
     ).toEqual({
       isValid: true,
       rrule: 'FREQ=DAILY',
@@ -1093,7 +1093,7 @@ describe('toRule', () => {
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
         untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-      })
+      }),
     ).toEqual({
       isValid: true,
       rrule: 'FREQ=WEEKLY',
@@ -1117,7 +1117,7 @@ describe('toRule', () => {
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
         untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-      })
+      }),
     ).toEqual({
       isValid: true,
       rrule: 'FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR',
@@ -1141,7 +1141,7 @@ describe('toRule', () => {
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
         untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-      })
+      }),
     ).toEqual({
       isValid: true,
       rrule: 'FREQ=MONTHLY',
@@ -1165,7 +1165,7 @@ describe('toRule', () => {
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
         untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-      })
+      }),
     ).toEqual({
       isValid: true,
       rrule: 'FREQ=YEARLY',
@@ -1189,7 +1189,7 @@ describe('toRule', () => {
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
         untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-      })
+      }),
     ).toEqual({
       isValid: true,
       rrule: 'FREQ=DAILY;INTERVAL=2',
@@ -1213,7 +1213,7 @@ describe('toRule', () => {
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
         untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-      })
+      }),
     ).toEqual({
       isValid: true,
       rrule: 'FREQ=WEEKLY;INTERVAL=2;BYDAY=MO,TU,WE,TH,FR',
@@ -1237,7 +1237,7 @@ describe('toRule', () => {
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
         untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-      })
+      }),
     ).toEqual({
       isValid: true,
       rrule: 'FREQ=MONTHLY;INTERVAL=1;BYSETPOS=-1;BYDAY=MO',
@@ -1261,7 +1261,7 @@ describe('toRule', () => {
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
         untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-      })
+      }),
     ).toEqual({
       isValid: true,
       rrule: 'FREQ=MONTHLY;INTERVAL=1;BYMONTHDAY=5',
@@ -1285,7 +1285,7 @@ describe('toRule', () => {
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
         untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-      })
+      }),
     ).toEqual({
       isValid: true,
       rrule: 'FREQ=YEARLY;INTERVAL=1;BYSETPOS=3;BYDAY=MO;BYMONTH=2',
@@ -1309,7 +1309,7 @@ describe('toRule', () => {
         recurrenceEnd: RecurrenceEnd.Never,
         afterMeetingCount: '10',
         untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-      })
+      }),
     ).toEqual({
       isValid: true,
       rrule: 'FREQ=YEARLY;INTERVAL=1;BYMONTHDAY=24;BYMONTH=12',
@@ -1333,7 +1333,7 @@ describe('toRule', () => {
         recurrenceEnd: RecurrenceEnd.AfterMeetingCount,
         afterMeetingCount: '10',
         untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-      })
+      }),
     ).toEqual({
       isValid: true,
       rrule: 'FREQ=DAILY;COUNT=10',
@@ -1357,7 +1357,7 @@ describe('toRule', () => {
         recurrenceEnd: RecurrenceEnd.UntilDate,
         afterMeetingCount: '10',
         untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-      })
+      }),
     ).toEqual({
       isValid: true,
       rrule: 'FREQ=DAILY;UNTIL=20231007T141500Z',
@@ -1383,12 +1383,12 @@ describe('toRule', () => {
           recurrenceEnd: RecurrenceEnd.AfterMeetingCount,
           afterMeetingCount,
           untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-        })
+        }),
       ).toEqual({
         isValid: false,
         rrule: 'FREQ=DAILY',
       });
-    }
+    },
   );
 
   it('should be invalid on invalid until date', () => {
@@ -1408,7 +1408,7 @@ describe('toRule', () => {
         recurrenceEnd: RecurrenceEnd.UntilDate,
         afterMeetingCount: '10',
         untilDate: DateTime.fromISO(''),
-      })
+      }),
     ).toEqual({
       isValid: false,
       rrule: 'FREQ=DAILY',
@@ -1434,12 +1434,12 @@ describe('toRule', () => {
           recurrenceEnd: RecurrenceEnd.Never,
           afterMeetingCount: '10',
           untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-        })
+        }),
       ).toEqual({
         isValid: false,
         rrule: 'FREQ=DAILY',
       });
-    }
+    },
   );
 
   it.each(['t', '0', '32'])(
@@ -1461,11 +1461,11 @@ describe('toRule', () => {
           recurrenceEnd: RecurrenceEnd.Never,
           afterMeetingCount: '10',
           untilDate: DateTime.fromISO('2023-10-07T14:15:00.000Z'),
-        })
+        }),
       ).toEqual({
         isValid: false,
         rrule: 'FREQ=MONTHLY;INTERVAL=1',
       });
-    }
+    },
   );
 });

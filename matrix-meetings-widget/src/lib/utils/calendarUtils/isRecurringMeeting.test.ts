@@ -24,8 +24,8 @@ describe('isRecurringMeeting', () => {
         mockCalendar({
           dtstart: '20210101T100000',
           dtend: '20210101T140000',
-        })
-      )
+        }),
+      ),
     ).toBe(false);
   });
 
@@ -36,8 +36,8 @@ describe('isRecurringMeeting', () => {
           dtstart: '20210101T100000',
           dtend: '20210101T140000',
           rrule: 'FREQ=DAILY',
-        })
-      )
+        }),
+      ),
     ).toBe(true);
   });
 
@@ -53,7 +53,7 @@ describe('isRecurringMeeting', () => {
           dtstart: '20210101T100000',
           dtend: '20210101T140000',
         }),
-      ])
+      ]),
     ).toBe(true);
   });
 });

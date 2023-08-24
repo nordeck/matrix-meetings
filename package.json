@@ -15,7 +15,7 @@
     "eslint-plugin-promise": "^6.1.1",
     "husky": "^8.0.3",
     "lint-staged": "^14.0.1",
-    "prettier": "^2.8.8",
+    "prettier": "^3.0.2",
     "prettier-plugin-organize-imports": "^3.2.3",
     "yarn-deduplicate": "^6.0.2"
   },

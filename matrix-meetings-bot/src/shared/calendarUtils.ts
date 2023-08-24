@@ -31,7 +31,7 @@ import { parseICalDate, toISOString } from './dateTimeUtils';
  */
 export function getMeetingStartTime(
   start_time: string | undefined,
-  calendar: CalendarEntryDto[] | undefined
+  calendar: CalendarEntryDto[] | undefined,
 ): string {
   if (calendar && calendar.length > 0) {
     return toISOString(parseICalDate(calendar[0].dtstart));
@@ -39,7 +39,7 @@ export function getMeetingStartTime(
 
   if (start_time === undefined) {
     throw new Error(
-      'Unexpected input: Both start_time and calendar are undefined'
+      'Unexpected input: Both start_time and calendar are undefined',
     );
   }
 
@@ -59,7 +59,7 @@ export function getMeetingStartTime(
  */
 export function getMeetingEndTime(
   end_time: string | undefined,
-  calendar: CalendarEntryDto[] | undefined
+  calendar: CalendarEntryDto[] | undefined,
 ): string {
   if (calendar && calendar.length > 0) {
     return toISOString(parseICalDate(calendar[0].dtend));
@@ -67,7 +67,7 @@ export function getMeetingEndTime(
 
   if (end_time === undefined) {
     throw new Error(
-      'Unexpected input: Both end_time and calendar are undefined'
+      'Unexpected input: Both end_time and calendar are undefined',
     );
   }
 
@@ -83,7 +83,7 @@ export function getMeetingEndTime(
  */
 export function getForceDeletionTime(
   auto_deletion_offset: number | undefined,
-  calendar: CalendarEntryDto[] | undefined
+  calendar: CalendarEntryDto[] | undefined,
 ): number | undefined {
   if (auto_deletion_offset !== undefined && calendar && calendar.length > 0) {
     const calendarEnd = getCalendarEnd(calendar);

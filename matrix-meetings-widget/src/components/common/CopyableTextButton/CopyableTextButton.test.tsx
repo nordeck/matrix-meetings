@@ -24,7 +24,7 @@ describe('<CopyableTextButton/>', () => {
     render(<CopyableTextButton text="Hallo world" />);
 
     expect(
-      screen.getByRole('button', { name: /copy to clipboard/i })
+      screen.getByRole('button', { name: /copy to clipboard/i }),
     ).toBeInTheDocument();
 
     expect(screen.getByTestId('ContentCopyOutlinedIcon')).toBeInTheDocument();
@@ -49,7 +49,7 @@ describe('<CopyableTextButton/>', () => {
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
-      <CopyableTextButton text="http://element.local/#/room/!meeting-room-id" />
+      <CopyableTextButton text="http://element.local/#/room/!meeting-room-id" />,
     );
 
     expect(await axe(container)).toHaveNoViolations();

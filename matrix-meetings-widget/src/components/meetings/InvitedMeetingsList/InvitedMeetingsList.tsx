@@ -59,10 +59,10 @@ export function InvitedMeetingsList({
       breakoutSessionMode,
       widgetApi.widgetParameters.roomId,
       widgetApi.widgetParameters.userId,
-    ]
+    ],
   );
   const invitedMeetingIds = useAppSelector((state) =>
-    selectAllInvitedMeetingIds(state)
+    selectAllInvitedMeetingIds(state),
   );
 
   const headingId = useId();

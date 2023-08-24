@@ -28,7 +28,7 @@ describe('generateRruleSet', () => {
     });
 
     expect(rruleSet.rruleSet.toString()).toEqual(
-      'DTSTART:20210101T100000Z\nRRULE:FREQ=DAILY\nEXDATE:20210102T100000Z'
+      'DTSTART:20210101T100000Z\nRRULE:FREQ=DAILY\nEXDATE:20210102T100000Z',
     );
   });
 
@@ -42,7 +42,7 @@ describe('generateRruleSet', () => {
     });
 
     expect(rruleSet.rruleSet.toString()).toEqual(
-      'DTSTART:20210101T100000Z\nRRULE:FREQ=DAILY\nEXDATE:20210102T100000Z'
+      'DTSTART:20210101T100000Z\nRRULE:FREQ=DAILY\nEXDATE:20210102T100000Z',
     );
   });
 
@@ -56,7 +56,7 @@ describe('generateRruleSet', () => {
     });
 
     expect(
-      rruleSet.toRruleSetDate(DateTime.fromISO('2021-01-01T09:00:00Z'))
+      rruleSet.toRruleSetDate(DateTime.fromISO('2021-01-01T09:00:00Z')),
     ).toEqual(new Date('2021-01-01T10:00:00Z'));
   });
 
@@ -70,7 +70,7 @@ describe('generateRruleSet', () => {
     });
 
     expect(
-      rruleSet.fromRruleSetDate(new Date('2021-01-01T10:00:00Z')).toUTC()
+      rruleSet.fromRruleSetDate(new Date('2021-01-01T10:00:00Z')).toUTC(),
     ).toEqual(DateTime.fromISO('2021-01-01T10:00:00+01:00'));
   });
 

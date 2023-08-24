@@ -61,7 +61,7 @@ export class MeetingClient {
   private logger = new Logger(MeetingClient.name);
   constructor(
     private matrixClient: MatrixClient,
-    private eventContentRenderer: EventContentRenderer
+    private eventContentRenderer: EventContentRenderer,
   ) {}
 
   private skipEventTypes = new Set(
@@ -70,7 +70,7 @@ export class MeetingClient {
       StateEventName.M_ROOM_TOPIC_EVENT,
       StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT, // not used at this step
       StateEventName.M_SPACE_PARENT_EVENT,
-    ].map((v) => v as string)
+    ].map((v) => v as string),
   );
 
   private modifyEventTypes = new Set(
@@ -78,7 +78,7 @@ export class MeetingClient {
       StateEventName.M_ROOM_MEMBER_EVENT,
       StateEventName.M_ROOM_POWER_LEVELS_EVENT,
       StateEventName.M_ROOM_ENCRYPTION,
-    ].map((v) => v as string)
+    ].map((v) => v as string),
   );
 
   public async createMeeting(
@@ -90,12 +90,12 @@ export class MeetingClient {
     roomMatrixEvents: DeepReadonly<IRoomMatrixEvents>,
     userContext: IUserContext,
     autoDeletionOffset?: number,
-    messagingPowerLevel?: number
+    messagingPowerLevel?: number,
   ): Promise<
     [string, DeepReadonlyArray<IStateEvent<IElementMembershipEventContent>>]
   > {
     const stateEvents = roomMatrixEvents.stateEvents.filter(
-      (se) => !this.skipEventTypes.has(se.type)
+      (se) => !this.skipEventTypes.has(se.type),
     );
 
     /**
@@ -104,12 +104,12 @@ export class MeetingClient {
      *  - states that go into room creation without modification
      */
     const [configStates, configInitStates] = _.partition(stateEvents, (item) =>
-      this.modifyEventTypes.has(item.type)
+      this.modifyEventTypes.has(item.type),
     );
 
     const params: IEventContentParams = eventContentParams.newInstance(
       undefined,
-      meetingCreate.title
+      meetingCreate.title,
     );
     const renderedRawConfigInitStates: DeepReadonlyArray<IStateEvent<unknown>> =
       this.eventContentRenderer.renderStateEvents(configInitStates, params);
@@ -125,7 +125,7 @@ export class MeetingClient {
         IStateEvent<IElementMembershipEventContent>
       >[]) ?? [];
     const configMemberSet: Set<string> = new Set(
-      configMemberEvents.map((se) => se.state_key)
+      configMemberEvents.map((se) => se.state_key),
     );
     const powerLevelUsers: { [userId: string]: number } = {};
     let participantMemberEvents: DeepReadonly<
@@ -133,7 +133,7 @@ export class MeetingClient {
     >[] = [];
 
     const configStateMapRoomPowerLevelsEvents = configStateMap.get(
-      StateEventName.M_ROOM_POWER_LEVELS_EVENT
+      StateEventName.M_ROOM_POWER_LEVELS_EVENT,
     );
     const configPowerLevel: PowerLevelsEventContent | null =
       configStateMapRoomPowerLevelsEvents
@@ -155,7 +155,7 @@ export class MeetingClient {
     invites = [...new Set<string>(invites)];
 
     const participantPowerLevelMap = new Map(
-      meetingParticipants.map((p) => [p.user_id, p.power_level])
+      meetingParticipants.map((p) => [p.user_id, p.power_level]),
     );
     participantMemberEvents = invites
       .filter((user) => !configMemberSet.has(user))
@@ -177,17 +177,17 @@ export class MeetingClient {
       });
 
     const { displayname } = await this.matrixClient.getUserProfile(
-      userContext.userId
+      userContext.userId,
     );
 
     const meetingStartTime = getMeetingStartTime(
       meetingCreate.start_time,
-      meetingCreate.calendar
+      meetingCreate.calendar,
     );
 
     const meetingEndTime = getMeetingEndTime(
       meetingCreate.end_time,
-      meetingCreate.calendar
+      meetingCreate.calendar,
     );
 
     const memberEventsWithReason: DeepReadonlyArray<
@@ -205,7 +205,7 @@ export class MeetingClient {
           },
           userContext,
           displayname,
-          se.state_key === userContext.userId
+          se.state_key === userContext.userId,
         );
 
         const eventContentCopy: IElementMembershipEventContent =
@@ -240,13 +240,13 @@ export class MeetingClient {
       IStateEvent<IElementMembershipEventContent>
     > = this.eventContentRenderer.renderStateEvents(
       [...memberEventsWithReason],
-      params
+      params,
     );
 
     // change data model if meeting is OX with non-empty rrules
     const { start_time, end_time, calendar } = migrateMeetingTime(
       meetingCreate,
-      extractOxRrule(meetingCreate)
+      extractOxRrule(meetingCreate),
     );
 
     const meetingsMetadataEventContent: IMeetingsMetadataEventContent = {
@@ -274,7 +274,7 @@ export class MeetingClient {
           type: StateEventName.M_SPACE_PARENT_EVENT,
           state_key: parentRoom.id,
           content: spaceParentEventContent,
-        })
+        }),
       );
     }
 
@@ -293,7 +293,7 @@ export class MeetingClient {
         iStateEventHelper.fromPartial({
           type: StateEventName.M_ROOM_ENCRYPTION,
           content: roomEncryption,
-        })
+        }),
       );
     }
 
@@ -325,7 +325,7 @@ export class MeetingClient {
       if (childRoomIds.length !== 0) {
         const childRooms = await this.loadPartialRooms(
           childRoomIds,
-          parentRoom.id
+          parentRoom.id,
         );
 
         await Promise.all(
@@ -333,7 +333,7 @@ export class MeetingClient {
             await load(child);
 
             rooms.push(child);
-          })
+          }),
         );
       }
     };
@@ -356,7 +356,7 @@ export class MeetingClient {
   public async loadPartialRooms(
     childRoomIds: string[],
     parentRoomIdFilter?: string,
-    additionalFilters?: [StateEventName, string][]
+    additionalFilters?: [StateEventName, string][],
   ): Promise<IRoom[]> {
     const stateSelector: [string, string][] = [
       [StateEventName.M_ROOM_CREATION_EVENT, ''],
@@ -386,7 +386,7 @@ export class MeetingClient {
               const eventContent = await this.matrixClient.getRoomStateEvent(
                 childId,
                 eventType,
-                stateKey
+                stateKey,
               );
 
               return {
@@ -394,7 +394,7 @@ export class MeetingClient {
                 state_key: stateKey,
                 content: eventContent,
               } as IStateEvent<unknown>;
-            })
+            }),
           );
 
           childRooms.push(new Room(childId, stateEvents));
@@ -407,7 +407,7 @@ export class MeetingClient {
             errors.push(e);
           }
         }
-      })
+      }),
     );
 
     if (errors.length > 0) {
@@ -471,7 +471,7 @@ export class MeetingClient {
     const syncResponse = await this.matrixClient.doRequest(
       'GET',
       MatrixEndpoint.MATRIX_CLIENT_SYNC,
-      syncParams
+      syncParams,
     );
     const roomsSection = (syncResponse || {}).rooms || {};
     const joinedRoomIds = Object.keys(roomsSection.join || {});
@@ -479,10 +479,10 @@ export class MeetingClient {
 
     let result: IRoom[] = [];
     result = result.concat(
-      this.createRoomList('join', roomsSection.join || [], joinedRoomIds)
+      this.createRoomList('join', roomsSection.join || [], joinedRoomIds),
     );
     result = result.concat(
-      this.createRoomList('invite', roomsSection.invite || [], invitedRoomIds)
+      this.createRoomList('invite', roomsSection.invite || [], invitedRoomIds),
     );
     return result;
   }
@@ -516,7 +516,7 @@ export class MeetingClient {
     userId: string,
     roomId: string,
     reason: string,
-    htmlReason: string
+    htmlReason: string,
   ) {
     // can't use 'invite' from api because it won't set is_direct=true
     const { displayname } = await this.matrixClient.getUserProfile(userId);

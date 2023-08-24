@@ -93,7 +93,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
   getSafeRoomAccountData<T>(
     eventType: string,
     roomId: string,
-    defaultContent?: T
+    defaultContent?: T,
   ): Promise<T> {
     throw new Error('unsupported method getSafeRoomAccountData');
   }
@@ -105,7 +105,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
   setRoomAccountData(
     eventType: string,
     roomId: string,
-    content: any
+    content: any,
   ): Promise<any> {
     throw new Error('unsupported method setRoomAccountData');
   }
@@ -120,7 +120,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
 
   setPresenceStatus(
     presence: 'online' | 'offline' | 'unavailable',
-    statusMessage?: string
+    statusMessage?: string,
   ): Promise<any> {
     throw new Error('unsupported method setPresenceStatus');
   }
@@ -139,7 +139,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
 
   setDirectoryVisibility(
     roomId: string,
-    visibility: 'public' | 'private'
+    visibility: 'public' | 'private',
   ): Promise<any> {
     throw new Error('unsupported method setDirectoryVisibility');
   }
@@ -189,7 +189,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
   }
 
   protected startSync(
-    emitFn?: (emitEventType: string, ...payload: any[]) => Promise<any>
+    emitFn?: (emitEventType: string, ...payload: any[]) => Promise<any>,
   ): Promise<void> {
     throw new Error('unsupported method startSync');
   }
@@ -200,7 +200,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
 
   protected processSync(
     raw: any,
-    emitFn?: (emitEventType: string, ...payload: any[]) => Promise<any>
+    emitFn?: (emitEventType: string, ...payload: any[]) => Promise<any>,
   ): Promise<any> {
     throw new Error('unsupported method processSync');
   }
@@ -224,7 +224,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
   getEventContext(
     roomId: string,
     eventId: string,
-    limit?: number
+    limit?: number,
   ): Promise<EventContext> {
     throw new Error('unsupported method getEventContext');
   }
@@ -254,7 +254,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
   }
 
   getJoinedRoomMembersWithProfiles(
-    roomId: string
+    roomId: string,
   ): Promise<{ [p: string]: MatrixProfileInfo }> {
     throw new Error('unsupported method getJoinedRoomMembersWithProfiles');
   }
@@ -263,7 +263,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
     roomId: string,
     batchToken?: string,
     membership?: Membership[],
-    notMembership?: Membership[]
+    notMembership?: Membership[],
   ): Promise<MembershipEvent[]> {
     throw new Error('unsupported method getRoomMembers');
   }
@@ -284,7 +284,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
     roomId: string,
     event: any,
     text: string,
-    html?: string
+    html?: string,
   ): Promise<string> {
     throw new Error('unsupported method replyText');
   }
@@ -297,7 +297,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
     roomId: string,
     event: any,
     text: string,
-    html?: string
+    html?: string,
   ): Promise<string> {
     throw new Error('unsupported method replyNotice');
   }
@@ -334,7 +334,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
     roomId: string,
     type: string,
     stateKey: string,
-    content: any
+    content: any,
   ): Promise<string> {
     throw new Error('unsupported method sendStateEvent');
   }
@@ -342,7 +342,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
   redactEvent(
     roomId: string,
     eventId: string,
-    reason?: string | null
+    reason?: string | null,
   ): Promise<string> {
     throw new Error('unsupported method redactEvent');
   }
@@ -355,14 +355,14 @@ export abstract class AbstractMatrixClient extends MatrixClient {
     userId: string,
     roomId: string,
     eventType: string,
-    isState: boolean
+    isState: boolean,
   ): Promise<boolean> {
     throw new Error('unsupported method userHasPowerLevelFor');
   }
 
   calculatePowerLevelChangeBoundsOn(
     targetUserId: string,
-    roomId: string
+    roomId: string,
   ): Promise<PowerLevelBounds> {
     throw new Error('unsupported method calculatePowerLevelChangeBoundsOn');
   }
@@ -370,7 +370,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
   setUserPowerLevel(
     userId: string,
     roomId: string,
-    newLevel: number
+    newLevel: number,
   ): Promise<any> {
     throw new Error('unsupported method setUserPowerLevel');
   }
@@ -383,7 +383,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
     mxc: string,
     width: number,
     height: number,
-    method: 'crop' | 'scale'
+    method: 'crop' | 'scale',
   ): string {
     throw new Error('unsupported method mxcToHttpThumbnail');
   }
@@ -391,14 +391,14 @@ export abstract class AbstractMatrixClient extends MatrixClient {
   uploadContent(
     data: Buffer,
     contentType?: string,
-    filename?: string
+    filename?: string,
   ): Promise<string> {
     throw new Error('unsupported method uploadContent');
   }
 
   downloadContent(
     mxcUrl: string,
-    allowRemote?: boolean
+    allowRemote?: boolean,
   ): Promise<{ data: Buffer; contentType: string }> {
     throw new Error('unsupported method downloadContent');
   }
@@ -431,7 +431,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
     timeout?: number,
     raw?: boolean,
     contentType?: string,
-    noEncoding?: boolean
+    noEncoding?: boolean,
   ): Promise<any> {
     throw new Error('unsupported method doRequest');
   }

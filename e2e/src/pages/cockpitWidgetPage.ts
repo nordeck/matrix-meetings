@@ -22,7 +22,7 @@ export class CockpitWidgetPage {
 
   constructor(
     private readonly page: Page,
-    private readonly widget: FrameLocator
+    private readonly widget: FrameLocator,
   ) {
     this.backToParentRoomButton = widget.getByRole('button', {
       name: 'Back to parent room',
@@ -37,7 +37,7 @@ export class CockpitWidgetPage {
     return new MeetingDetailsPage(
       this.page,
       this.widget,
-      this.widget.getByRole('region', { name: 'Meeting details' })
+      this.widget.getByRole('region', { name: 'Meeting details' }),
     );
   }
 }

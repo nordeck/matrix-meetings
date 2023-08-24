@@ -57,7 +57,7 @@ export function MenuButton({
       onOpen?.();
       setAnchorEl(event.currentTarget);
     },
-    [onOpen]
+    [onOpen],
   );
   const handleClose = useCallback(() => {
     setAnchorEl(null);

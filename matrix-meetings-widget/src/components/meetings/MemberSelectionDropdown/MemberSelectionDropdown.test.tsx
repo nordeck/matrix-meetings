@@ -43,7 +43,7 @@ describe('<MemberSelectionDropdown/>', () => {
         mockRoomMember({
           state_key: '@user-1',
           content: { displayname: undefined },
-        })
+        }),
       ),
     ].map((m) => ({
       userId: m.state_key,
@@ -74,20 +74,20 @@ describe('<MemberSelectionDropdown/>', () => {
         onSelectedMembersUpdated={jest.fn()}
         ownUserPopupContent="This is you"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
       screen.getByRole('combobox', {
         name: 'Members',
         description: /1 of 2 entries selected./,
-      })
+      }),
     ).toBeInTheDocument();
     expect(
       screen.getByRole('button', {
         name: 'Alice',
         description: 'This is you',
-      })
+      }),
     ).toBeInTheDocument();
   });
 
@@ -100,7 +100,7 @@ describe('<MemberSelectionDropdown/>', () => {
         onSelectedMembersUpdated={jest.fn()}
         ownUserPopupContent="This is you"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -117,11 +117,11 @@ describe('<MemberSelectionDropdown/>', () => {
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      screen.getByRole('combobox', { name: 'Members', expanded: false })
+      screen.getByRole('combobox', { name: 'Members', expanded: false }),
     );
     await userEvent.click(screen.getByRole('option', { name: '@user-1' }));
 
@@ -139,11 +139,11 @@ describe('<MemberSelectionDropdown/>', () => {
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      screen.getByRole('combobox', { name: 'Members', expanded: false })
+      screen.getByRole('combobox', { name: 'Members', expanded: false }),
     );
     await userEvent.click(screen.getByRole('option', { name: '@user-1' }));
 
@@ -161,11 +161,11 @@ describe('<MemberSelectionDropdown/>', () => {
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      screen.getByRole('combobox', { name: 'Members', expanded: false })
+      screen.getByRole('combobox', { name: 'Members', expanded: false }),
     );
     await userEvent.click(screen.getByRole('option', { name: '@user-1' }));
 
@@ -183,7 +183,7 @@ describe('<MemberSelectionDropdown/>', () => {
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.type(
@@ -191,7 +191,7 @@ describe('<MemberSelectionDropdown/>', () => {
         name: '@user-1',
         description: /Use the backspace key/,
       }),
-      '{Backspace}'
+      '{Backspace}',
     );
 
     expect(onUpdate).toHaveBeenLastCalledWith(['@user-id']);
@@ -208,7 +208,7 @@ describe('<MemberSelectionDropdown/>', () => {
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const combobox = screen.getByRole('combobox', { name: 'Members' });
@@ -226,7 +226,7 @@ describe('<MemberSelectionDropdown/>', () => {
         state_key: '@user-1',
         content: { displayname: undefined },
         room_id: '!meeting-room-id',
-      })
+      }),
     );
 
     widgetApi.mockSendStateEvent(
@@ -236,7 +236,7 @@ describe('<MemberSelectionDropdown/>', () => {
           users_default: 0,
         },
         room_id: '!meeting-room-id',
-      })
+      }),
     );
 
     render(
@@ -249,7 +249,7 @@ describe('<MemberSelectionDropdown/>', () => {
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const combobox = screen.getByRole('combobox', { name: 'Members' });
@@ -258,7 +258,7 @@ describe('<MemberSelectionDropdown/>', () => {
       await screen.findByRole('button', {
         name: '@user-1',
         description: 'user has higher power level',
-      })
+      }),
     ).toBeInTheDocument();
     await userEvent.type(combobox, '{Backspace}');
     await userEvent.type(combobox, '{Backspace}');
@@ -274,7 +274,7 @@ describe('<MemberSelectionDropdown/>', () => {
         state_key: '@user-1',
         content: { displayname: undefined },
         room_id: '!meeting-room-id',
-      })
+      }),
     );
 
     widgetApi.mockSendStateEvent(
@@ -284,7 +284,7 @@ describe('<MemberSelectionDropdown/>', () => {
           users_default: 0,
         },
         room_id: '!meeting-room-id',
-      })
+      }),
     );
 
     render(
@@ -297,14 +297,14 @@ describe('<MemberSelectionDropdown/>', () => {
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await expect(
       screen.findByRole('button', {
         name: '@user-1',
         description: 'user has higher power level',
-      })
+      }),
     ).resolves.toBeInTheDocument();
 
     // remove user from the room
@@ -313,14 +313,14 @@ describe('<MemberSelectionDropdown/>', () => {
         state_key: '@user-1',
         content: { displayname: undefined, membership: 'leave' },
         room_id: '!meeting-room-id',
-      })
+      }),
     );
 
     await expect(
       screen.findByRole('button', {
         name: '@user-1',
         description: 'Use the backspace key to delete the entry.',
-      })
+      }),
     ).resolves.toBeInTheDocument();
 
     const combobox = screen.getByRole('combobox', { name: 'Members' });
@@ -338,11 +338,11 @@ describe('<MemberSelectionDropdown/>', () => {
         onSelectedMembersUpdated={jest.fn()}
         ownUserPopupContent="This is you"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Alice', description: 'This is you' })
+      screen.getByRole('button', { name: 'Alice', description: 'This is you' }),
     );
     await userEvent.click(screen.getByRole('button', { name: '@user-1' }));
   });
@@ -357,7 +357,7 @@ describe('<MemberSelectionDropdown/>', () => {
         ownUserPopupContent="This is you"
         loading
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const progressBar = screen.getByRole('progressbar');
@@ -372,14 +372,14 @@ describe('<MemberSelectionDropdown/>', () => {
         ownUserPopupContent="This is you"
         loading={false}
         error
-      />
+      />,
     );
 
     expect(progressBar).not.toBeInTheDocument();
 
     await userEvent.click(screen.getByRole('combobox', { name: 'Members' }));
     expect(
-      screen.getByText(/Error while loading available users/)
+      screen.getByText(/Error while loading available users/),
     ).toBeInTheDocument();
   });
 });

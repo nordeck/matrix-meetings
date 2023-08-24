@@ -86,7 +86,7 @@ const roomMatrixEventsFactory: FactoryProvider<IRoomMatrixEvents> = {
   provide: ModuleProviderToken.ROOM_MATRIX_EVENTS,
   useFactory: (appConfiguration: IAppConfiguration) => {
     return new RoomMatrixEventsReader(
-      appConfiguration.default_events_config
+      appConfiguration.default_events_config,
     ).read();
   },
   inject: [ModuleProviderToken.APP_CONFIGURATION],
@@ -96,7 +96,7 @@ const widgetLayoutConfigFactory: FactoryProvider = {
   provide: ModuleProviderToken.WIDGET_LAYOUTS,
   useFactory: (appConfiguration: IAppConfiguration) => {
     return new WidgetLayoutConfigReader(
-      appConfiguration.default_widget_layouts_config
+      appConfiguration.default_widget_layouts_config,
     ).read();
   },
   inject: [ModuleProviderToken.APP_CONFIGURATION],
@@ -104,14 +104,14 @@ const widgetLayoutConfigFactory: FactoryProvider = {
 
 const matrixClientFactoryHelper = {
   createStorageProvider: async (
-    appConfig: IAppConfiguration
+    appConfig: IAppConfiguration,
   ): Promise<IStorageProvider> => {
     const storage = new SimpleFsStorageProvider(
-      path.join(appConfig.data_path, appConfig.data_filename)
+      path.join(appConfig.data_path, appConfig.data_filename),
     );
 
     logger.log(
-      `createStorageProvider.filepath: ${appConfig.data_path}/${appConfig.data_filename}`
+      `createStorageProvider.filepath: ${appConfig.data_path}/${appConfig.data_filename}`,
     );
 
     return storage;
@@ -173,7 +173,7 @@ const appRuntimeContextFactory: FactoryProvider<Promise<AppRuntimeContext>> = {
 const i18nFactory: FactoryProvider<Promise<TFunction>> = {
   provide: ModuleProviderToken.I18N,
   useFactory: async (
-    appRuntimeContext: AppRuntimeContext
+    appRuntimeContext: AppRuntimeContext,
   ): Promise<TFunction> => {
     return i18next
       .use(i18nextFsBackend)

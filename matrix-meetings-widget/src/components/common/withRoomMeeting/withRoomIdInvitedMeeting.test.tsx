@@ -30,7 +30,7 @@ const Component = withRoomIdInvitedMeeting(
       <h1>{meeting.title}</h1>
       <p>My Content</p>
     </>
-  )
+  ),
 );
 
 let widgetApi: MockedWidgetApi;
@@ -59,7 +59,7 @@ describe('withRoomIdInvitedMeeting', () => {
     render(<Component roomId="!meeting-room-id" />, { wrapper: Wrapper });
 
     await expect(
-      screen.findByRole('heading', { name: /an important meeting/i })
+      screen.findByRole('heading', { name: /an important meeting/i }),
     ).resolves.toBeInTheDocument();
     expect(screen.getByText('My Content')).toBeInTheDocument();
   });

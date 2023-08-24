@@ -20,7 +20,7 @@ import { getWeekdayShift } from './getWeekdayShift';
 
 export function localeWeekdays(
   length?: StringUnitLength,
-  format?: boolean
+  format?: boolean,
 ): string[] {
   const day = getWeekdayShift();
 

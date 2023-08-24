@@ -75,5 +75,5 @@ export const CockpitPanel = withCurrentRoomMeeting(
         </Box>
       </Stack>
     );
-  }
+  },
 );

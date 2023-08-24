@@ -33,19 +33,17 @@ export function IsIncompatibleWithSibling(...propNames: string[]) {
           !isDefined(value) ||
           // other fields shouldn't exist
           propNames.some(
-            (propName) => !isDefined((args?.object as any)?.[propName])
+            (propName) => !isDefined((args?.object as any)?.[propName]),
           )
         );
       },
       defaultMessage: (args) => {
         const failures = propNames.filter((propName) =>
-          isDefined((args?.object as any)?.[propName])
+          isDefined((args?.object as any)?.[propName]),
         );
 
-        return `${
-          args?.property
-        } cannot exist alongside the following defined properties: ${failures.join(
-          ', '
+        return `${args?.property} cannot exist alongside the following defined properties: ${failures.join(
+          ', ',
         )}`;
       },
     },

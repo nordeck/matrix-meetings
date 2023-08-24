@@ -823,7 +823,7 @@ Only use this endpoint if `jitsiDialInEnabled` is `true` in [`/v1/config`](#get-
 ```tsx
 const response = await fetch(
   'http://meetings-bot.local/v1/meeting/!my-room:homeserver.local/sharingInformation',
-  { header: { authorization: '...' } }
+  { header: { authorization: '...' } },
 );
 
 console.log(await response.json());

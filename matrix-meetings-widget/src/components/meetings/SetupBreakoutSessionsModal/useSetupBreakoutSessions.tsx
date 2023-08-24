@@ -52,7 +52,7 @@ export function useSetupBreakoutSessions(): {
               kind: ModalButtonKind.Primary,
               label: t(
                 'setupBreakoutSessionsModal.create',
-                'Create Breakout Session'
+                'Create Breakout Session',
               ),
               disabled: true,
             },
@@ -63,7 +63,7 @@ export function useSetupBreakoutSessions(): {
             },
           ],
           data: { parentMeeting },
-        }
+        },
       );
 
       if (data && data.type === SubmitSetupBreakoutSessionsModal) {
@@ -74,7 +74,7 @@ export function useSetupBreakoutSessions(): {
         // TODO: what if an error occurs?
       }
     },
-    [widgetApi, t, createBreakoutSessions]
+    [widgetApi, t, createBreakoutSessions],
   );
 
   return { setupBreakoutSessions };

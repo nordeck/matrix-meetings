@@ -68,7 +68,7 @@ describe('<ScheduleMeeting>', () => {
       mockRoomMember({
         state_key: '@user-1',
         content: { displayname: undefined },
-      })
+      }),
     );
 
     jest
@@ -98,48 +98,48 @@ describe('<ScheduleMeeting>', () => {
 
     await waitFor(
       () => expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
-      { timeout: 10000 }
+      { timeout: 10000 },
     );
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
-      'My Meeting'
+      'My Meeting',
     );
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Description' }),
-      'My Description'
+      'My Description',
     );
     await userEvent.type(
       screen.getByRole('button', { name: 'Widget 2' }),
-      '{Backspace}'
+      '{Backspace}',
     );
 
     const startAtGroup = screen.getByRole('group', { name: 'Start at' });
 
     expect(
-      within(startAtGroup).getByRole('textbox', { name: 'Start date' })
+      within(startAtGroup).getByRole('textbox', { name: 'Start date' }),
     ).toHaveValue('01/02/2022');
     expect(
-      within(startAtGroup).getByRole('textbox', { name: 'Start time' })
+      within(startAtGroup).getByRole('textbox', { name: 'Start time' }),
     ).toHaveValue('01:15 PM');
 
     const endAtGroup = screen.getByRole('group', { name: 'End at' });
 
     expect(
-      within(endAtGroup).getByRole('textbox', { name: 'End date' })
+      within(endAtGroup).getByRole('textbox', { name: 'End date' }),
     ).toHaveValue('01/02/2022');
     expect(
-      within(endAtGroup).getByRole('textbox', { name: 'End time' })
+      within(endAtGroup).getByRole('textbox', { name: 'End time' }),
     ).toHaveValue('02:15 PM');
 
     expect(
       screen.getByRole('checkbox', {
         name: 'Allow messaging for all participants',
-      })
+      }),
     ).toBeChecked();
 
     expect(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' })
+      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
     ).toBeInTheDocument();
 
     // Async as we wait for the widgets to load
@@ -158,7 +158,7 @@ describe('<ScheduleMeeting>', () => {
   it('should have no accessibility violations', async () => {
     const { container } = render(
       <ScheduleMeeting onMeetingChange={jest.fn()} showParticipants />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(await axe(container)).toHaveNoViolations();
@@ -167,16 +167,16 @@ describe('<ScheduleMeeting>', () => {
   it('should have no accessibility violations, if input is invalid', async () => {
     const { container } = render(
       <ScheduleMeeting onMeetingChange={jest.fn()} />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     // Trigger the dirty state by adding any input
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Description' }),
-      'I want to…'
+      'I want to…',
     );
     expect(
-      screen.getByRole('textbox', { name: 'Title (required)' })
+      screen.getByRole('textbox', { name: 'Title (required)' }),
     ).toBeInvalid();
 
     expect(await axe(container)).toHaveNoViolations();
@@ -191,11 +191,11 @@ describe('<ScheduleMeeting>', () => {
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
-      'My Meeting'
+      'My Meeting',
     );
 
     expect(onMeetingChange).toHaveBeenLastCalledWith(
-      expect.objectContaining({ title: 'My Meeting' })
+      expect.objectContaining({ title: 'My Meeting' }),
     );
   });
 
@@ -206,7 +206,7 @@ describe('<ScheduleMeeting>', () => {
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
-      'My Meeting'
+      'My Meeting',
     );
 
     // userEvent.type doesn't work here, so we have to use fireEvent
@@ -215,16 +215,16 @@ describe('<ScheduleMeeting>', () => {
     });
 
     expect(screen.getByRole('textbox', { name: 'Start date' })).toHaveValue(
-      '01/02/2022'
+      '01/02/2022',
     );
     expect(screen.getByRole('textbox', { name: 'Start time' })).toHaveValue(
-      '06:00 PM'
+      '06:00 PM',
     );
     expect(screen.getByRole('textbox', { name: 'End date' })).toHaveValue(
-      '01/02/2022'
+      '01/02/2022',
     );
     expect(screen.getByRole('textbox', { name: 'End time' })).toHaveValue(
-      '07:00 PM'
+      '07:00 PM',
     );
 
     await waitFor(() => {
@@ -246,17 +246,17 @@ describe('<ScheduleMeeting>', () => {
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
-      'My Meeting'
+      'My Meeting',
     );
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' })
+      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
     );
     const recurrenceOptionsList = screen.getByRole('listbox', {
       name: 'Repeat meeting',
     });
     await userEvent.click(
-      within(recurrenceOptionsList).getByRole('option', { name: 'Daily' })
+      within(recurrenceOptionsList).getByRole('option', { name: 'Daily' }),
     );
 
     expect(onMeetingChange).toHaveBeenLastCalledWith({
@@ -288,28 +288,28 @@ describe('<ScheduleMeeting>', () => {
 
     render(
       <ScheduleMeeting onMeetingChange={onMeetingChange} showParticipants />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
-      'My Meeting'
+      'My Meeting',
     );
 
     await userEvent.type(
       screen.getByRole('combobox', { name: 'Participants' }),
-      'user-1'
+      'user-1',
     );
     await userEvent.click(
-      await screen.findByRole('option', { name: '@user-1' })
+      await screen.findByRole('option', { name: '@user-1' }),
     );
 
     await userEvent.type(
       screen.getByRole('combobox', { name: 'Participants' }),
-      'user-2'
+      'user-2',
     );
     await userEvent.click(
-      await screen.findByRole('option', { name: '@user-2' })
+      await screen.findByRole('option', { name: '@user-2' }),
     );
 
     await waitFor(() => {
@@ -329,25 +329,25 @@ describe('<ScheduleMeeting>', () => {
 
     render(
       <ScheduleMeeting onMeetingChange={onMeetingChange} showParticipants />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
-      'My Meeting'
+      'My Meeting',
     );
 
     await userEvent.type(
       screen.getByRole('combobox', { name: 'Participants' }),
-      'user'
+      'user',
     );
 
     await waitFor(() =>
-      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument()
+      expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
     );
 
     expect(
-      screen.getByText(/Error while loading available users/)
+      screen.getByText(/Error while loading available users/),
     ).toBeInTheDocument();
   });
 
@@ -365,14 +365,14 @@ describe('<ScheduleMeeting>', () => {
     widgetApi.mockSendStateEvent(
       mockRoomMember({
         room_id: '!meeting-room-id',
-      })
+      }),
     );
     widgetApi.mockSendStateEvent(
       mockRoomMember({
         state_key: '@user-id-2',
         room_id: '!meeting-room-id',
         content: { displayname: 'Bob', membership: 'invite' },
-      })
+      }),
     );
 
     const meeting = mockMeeting({
@@ -400,23 +400,23 @@ describe('<ScheduleMeeting>', () => {
         onMeetingChange={onMeetingChange}
         showParticipants
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.type(
       screen.getByRole('combobox', { name: 'Participants' }),
-      'user-id-3'
+      'user-id-3',
     );
 
     await userEvent.click(
-      await screen.findByRole('option', { name: '@user-id-3' })
+      await screen.findByRole('option', { name: '@user-id-3' }),
     );
 
     await waitFor(() => {
       expect(onMeetingChange).toHaveBeenLastCalledWith(
         expect.objectContaining({
           participants: ['@user-id', '@user-id-2', '@user-id-3'],
-        })
+        }),
       );
     });
   });
@@ -435,7 +435,7 @@ describe('<ScheduleMeeting>', () => {
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Description' }),
-      'My Description'
+      'My Description',
     );
 
     expect(titleTextbox).toBeInvalid();
@@ -451,7 +451,7 @@ describe('<ScheduleMeeting>', () => {
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
-      'My Meeting'
+      'My Meeting',
     );
 
     const endTimeTextbox = screen.getByRole('textbox', { name: 'End time' });
@@ -467,7 +467,7 @@ describe('<ScheduleMeeting>', () => {
     expect(endDateTextbox).toBeInvalid();
     expect(endTimeTextbox).toBeInvalid();
     expect(endTimeTextbox).toHaveAccessibleDescription(
-      'Meeting should start before it ends.'
+      'Meeting should start before it ends.',
     );
 
     expect(onMeetingChange).toHaveBeenLastCalledWith(undefined);
@@ -480,7 +480,7 @@ describe('<ScheduleMeeting>', () => {
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
-      'My Meeting'
+      'My Meeting',
     );
 
     const startTimeTextbox = screen.getByRole('textbox', {
@@ -499,7 +499,7 @@ describe('<ScheduleMeeting>', () => {
     expect(startDateTextbox).toBeInvalid();
     expect(startTimeTextbox).toBeInvalid();
     expect(startTimeTextbox).toHaveAccessibleDescription(
-      'Meeting cannot start in the past.'
+      'Meeting cannot start in the past.',
     );
 
     expect(onMeetingChange).toHaveBeenLastCalledWith(undefined);
@@ -515,11 +515,11 @@ describe('<ScheduleMeeting>', () => {
         initialMeeting={meeting}
         onMeetingChange={onMeetingChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByRole('status')).toHaveTextContent(
-      /the meeting is already over and cannot be changed/i
+      /the meeting is already over and cannot be changed/i,
     );
   });
 
@@ -529,18 +529,18 @@ describe('<ScheduleMeeting>', () => {
     });
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' })
+      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
     );
     const recurrenceOptionsList = screen.getByRole('listbox', {
       name: 'Repeat meeting',
     });
     await userEvent.click(
-      within(recurrenceOptionsList).getByRole('option', { name: 'Daily' })
+      within(recurrenceOptionsList).getByRole('option', { name: 'Daily' }),
     );
 
     await userEvent.click(screen.getByRole('radio', { name: /Ends after/ }));
     await userEvent.clear(
-      screen.getByRole('spinbutton', { name: 'Count of meetings' })
+      screen.getByRole('spinbutton', { name: 'Count of meetings' }),
     );
 
     expect(onMeetingChange).toHaveBeenLastCalledWith(undefined);
@@ -557,7 +557,7 @@ describe('<ScheduleMeeting>', () => {
         })}
         onMeetingChange={onMeetingChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const titleField = screen.getByRole('textbox', {
@@ -601,17 +601,17 @@ describe('<ScheduleMeeting>', () => {
     await userEvent.click(
       screen.getByRole('checkbox', {
         name: 'Allow messaging for all participants',
-      })
+      }),
     );
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' })
+      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
     );
     const recurrenceOptionsList = screen.getByRole('listbox', {
       name: 'Repeat meeting',
     });
     await userEvent.click(
-      within(recurrenceOptionsList).getByRole('option', { name: 'Daily' })
+      within(recurrenceOptionsList).getByRole('option', { name: 'Daily' }),
     );
 
     expect(onMeetingChange).toHaveBeenLastCalledWith({
@@ -644,18 +644,18 @@ describe('<ScheduleMeeting>', () => {
         })}
         onMeetingChange={onMeetingChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByRole('status')).toHaveTextContent(
-      /You are editing a recurring meeting/
+      /You are editing a recurring meeting/,
     );
 
     expect(
-      screen.getByRole('textbox', { name: 'Title (required)' })
+      screen.getByRole('textbox', { name: 'Title (required)' }),
     ).toHaveValue('An important meeting');
     expect(screen.getByRole('textbox', { name: 'Description' })).toHaveValue(
-      'A brief description'
+      'A brief description',
     );
 
     const startDateTextbox = screen.getByRole('textbox', {
@@ -696,7 +696,7 @@ describe('<ScheduleMeeting>', () => {
         initialMeeting={meeting}
         onMeetingChange={onMeetingChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const startDateTextbox = screen.getByRole('textbox', {
@@ -744,7 +744,7 @@ describe('<ScheduleMeeting>', () => {
         initialMeeting={meeting}
         onMeetingChange={onMeetingChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const startDateTextbox = screen.getByRole('textbox', {
@@ -763,7 +763,7 @@ describe('<ScheduleMeeting>', () => {
     expect(startDateTextbox).toBeInvalid();
     expect(startTimeTextbox).toBeInvalid();
     expect(startTimeTextbox).toHaveAccessibleDescription(
-      'Meeting cannot start in the past.'
+      'Meeting cannot start in the past.',
     );
 
     await waitFor(() => {
@@ -788,7 +788,7 @@ describe('<ScheduleMeeting>', () => {
         initialMeeting={meeting}
         onMeetingChange={onMeetingChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const startDateTextbox = screen.getByRole('textbox', {
@@ -805,7 +805,7 @@ describe('<ScheduleMeeting>', () => {
 
     expect(startDateTextbox).toBeInvalid();
     expect(startTimeTextbox).toHaveAccessibleDescription(
-      'Meeting cannot start in the past.'
+      'Meeting cannot start in the past.',
     );
 
     await waitFor(() => {
@@ -820,7 +820,7 @@ describe('<ScheduleMeeting>', () => {
         initialMeeting={meeting}
         onMeetingChange={onMeetingChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await waitFor(() => {
@@ -839,12 +839,12 @@ describe('<ScheduleMeeting>', () => {
         initialMeeting={meeting}
         onMeetingChange={onMeetingChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const alert = await screen.findByRole('status');
     expect(
-      within(alert).getByText(/the meeting already has breakout sessions/i)
+      within(alert).getByText(/the meeting already has breakout sessions/i),
     ).toBeInTheDocument();
   });
 
@@ -854,7 +854,7 @@ describe('<ScheduleMeeting>', () => {
         state_key: '@user-id-2',
         room_id: '!meeting-room-id',
         content: { displayname: 'Bob', membership: 'invite' },
-      })
+      }),
     );
     const meeting = mockMeeting({
       content: {
@@ -891,44 +891,44 @@ describe('<ScheduleMeeting>', () => {
         onMeetingChange={onMeetingChange}
         showParticipants
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(
-      screen.getByRole('textbox', { name: 'Title (required)' })
+      screen.getByRole('textbox', { name: 'Title (required)' }),
     ).toHaveValue('An important meeting');
 
     expect(screen.getByRole('textbox', { name: 'Description' })).toHaveValue(
-      'A brief description'
+      'A brief description',
     );
 
     const startAtGroup = screen.getByRole('group', { name: 'Start at' });
 
     expect(
-      within(startAtGroup).getByRole('textbox', { name: 'Start date' })
+      within(startAtGroup).getByRole('textbox', { name: 'Start date' }),
     ).toHaveValue('01/01/2023');
     expect(
-      within(startAtGroup).getByRole('textbox', { name: 'Start time' })
+      within(startAtGroup).getByRole('textbox', { name: 'Start time' }),
     ).toHaveValue('10:00 AM');
 
     const endAtGroup = screen.getByRole('group', { name: 'End at' });
 
     expect(
-      within(endAtGroup).getByRole('textbox', { name: 'End date' })
+      within(endAtGroup).getByRole('textbox', { name: 'End date' }),
     ).toHaveValue('01/01/2023');
     expect(
-      within(endAtGroup).getByRole('textbox', { name: 'End time' })
+      within(endAtGroup).getByRole('textbox', { name: 'End time' }),
     ).toHaveValue('02:00 PM');
 
     expect(
-      await screen.findByRole('button', { name: 'Bob' })
+      await screen.findByRole('button', { name: 'Bob' }),
     ).toBeInTheDocument();
     expect(
-      await screen.findByRole('button', { name: 'Widget 2' })
+      await screen.findByRole('button', { name: 'Widget 2' }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('button', { name: 'Repeat meeting Every day' })
+      screen.getByRole('button', { name: 'Repeat meeting Every day' }),
     ).toBeInTheDocument();
   }, 10000);
 
@@ -948,21 +948,21 @@ describe('<ScheduleMeeting>', () => {
         initialMeeting={meeting}
         onMeetingChange={onMeetingChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     expect(screen.getByRole('textbox', { name: 'Start date' })).toHaveValue(
-      '01/01/2999'
+      '01/01/2999',
     );
     expect(screen.getByRole('textbox', { name: 'Start time' })).toHaveValue(
-      '11:00 AM'
+      '11:00 AM',
     );
 
     expect(screen.getByRole('textbox', { name: 'End date' })).toHaveValue(
-      '01/01/2999'
+      '01/01/2999',
     );
     expect(screen.getByRole('textbox', { name: 'End time' })).toHaveValue(
-      '11:30 AM'
+      '11:30 AM',
     );
   });
 
@@ -983,7 +983,7 @@ describe('<ScheduleMeeting>', () => {
         onMeetingChange={onMeetingChange}
         parentRoomId="!meeting-room-id"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     const titleField = screen.getByRole('textbox', {
@@ -993,7 +993,7 @@ describe('<ScheduleMeeting>', () => {
     await userEvent.type(titleField, 'Group A');
 
     expect(
-      screen.queryByRole('button', { name: /Repeat meeting/ })
+      screen.queryByRole('button', { name: /Repeat meeting/ }),
     ).not.toBeInTheDocument();
 
     await waitFor(() => {
@@ -1026,7 +1026,7 @@ describe('<ScheduleMeeting>', () => {
         onMeetingChange={onMeetingChange}
         parentRoomId="!meeting-room-id"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     // userEvent.type doesn't work here, so we have to use fireEvent
@@ -1035,12 +1035,12 @@ describe('<ScheduleMeeting>', () => {
     });
 
     expect(screen.getByRole('textbox', { name: 'Start time' })).toHaveValue(
-      '12:00 PM'
+      '12:00 PM',
     );
 
     await waitFor(() => {
       expect(screen.getByRole('textbox', { name: 'End time' })).toHaveValue(
-        '12:30 PM'
+        '12:30 PM',
       );
     });
 
@@ -1071,13 +1071,13 @@ describe('<ScheduleMeeting>', () => {
         onMeetingChange={onMeetingChange}
         parentRoomId="!meeting-room-id"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     // wait until parent meeting is loaded
     await waitFor(() => {
       expect(
-        screen.queryByRole('textbox', { name: 'Start date' })
+        screen.queryByRole('textbox', { name: 'Start date' }),
       ).not.toBeInTheDocument();
     });
 
@@ -1089,7 +1089,7 @@ describe('<ScheduleMeeting>', () => {
     fireEvent.change(startTimeTextbox, { target: { value: '09:00 AM' } });
 
     expect(startTimeTextbox).toHaveAccessibleDescription(
-      'Breakout session should start between 10:00 AM and 2:00 PM.'
+      'Breakout session should start between 10:00 AM and 2:00 PM.',
     );
     expect(startTimeTextbox).toBeInvalid();
     expect(onMeetingChange).toHaveBeenLastCalledWith(undefined);
@@ -1115,13 +1115,13 @@ describe('<ScheduleMeeting>', () => {
         onMeetingChange={onMeetingChange}
         parentRoomId="!meeting-room-id"
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     // wait until parent meeting is loaded
     await waitFor(() => {
       expect(
-        screen.queryByRole('textbox', { name: 'Start date' })
+        screen.queryByRole('textbox', { name: 'Start date' }),
       ).not.toBeInTheDocument();
     });
 
@@ -1133,7 +1133,7 @@ describe('<ScheduleMeeting>', () => {
     fireEvent.change(endTimeTextbox, { target: { value: '10:30 AM' } });
 
     expect(endTimeTextbox).toHaveAccessibleDescription(
-      'Breakout session should start before it ends.'
+      'Breakout session should start before it ends.',
     );
     expect(endTimeTextbox).toBeInvalid();
     expect(onMeetingChange).toHaveBeenLastCalledWith(undefined);
@@ -1150,16 +1150,16 @@ describe('<ScheduleMeeting>', () => {
         })}
         onMeetingChange={onMeetingChange}
       />,
-      { wrapper: Wrapper }
+      { wrapper: Wrapper },
     );
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
-      repeat('+', 10)
+      repeat('+', 10),
     );
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Description' }),
-      repeat('+', 10)
+      repeat('+', 10),
     );
 
     expect(onMeetingChange).toHaveBeenLastCalledWith({

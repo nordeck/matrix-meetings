@@ -23,7 +23,7 @@ export class TemplateHelper {
     meeting: InviteParams,
     userContext: IUserContext,
     userDisplayName: string,
-    isOrganizer: boolean
+    isOrganizer: boolean,
   ): { textReason: string; htmlReason: string } {
     const showDescription = meeting.description.length > 0;
 
@@ -56,22 +56,22 @@ export class TemplateHelper {
     const inviteText = i18next.t(
       'meeting.invite.invited',
       'You\'ve been invited to a meeting by {{organizerUsername}}. It will take place on {{startDate}} at {{startTime}} {{timezone}} and ends on {{endDate}} at {{endTime}} {{timezone}}. Please accept this invitation by clicking the "Accept" button to add the meeting to your calendar. To stay away from the meeting, click on the "Reject" button.',
-      i18nOpts
+      i18nOpts,
     );
     const organizerText = i18next.t(
       'meeting.invite.organizer',
       'The meeting was created for you. It will take place on {{startDate}} at {{startTime}} {{timezone}}. Please accept this invitation by clicking the "Accept" button to add the meeting to your calendar. To stay away from the meeting, click on the "Reject" button.',
-      i18nOpts
+      i18nOpts,
     );
     const inviteHtml = i18next.t(
       'meeting.invite.htmlInvited',
       'You\'ve been invited to a meeting by {{organizerUsername}}. It will take place on <b>{{startDate}} at {{startTime}} {{timezone}}</b> and ends on <b>{{endDate}} at {{endTime}} {{timezone}}</b>. Please accept this invitation by clicking the "Accept" button to add the meeting to your calendar. To stay away from the meeting, click on the "Reject" button.',
-      i18nOpts
+      i18nOpts,
     );
     const organizerHtml = i18next.t(
       'meeting.invite.htmlOrganizer',
       'The meeting was created for you. It will take place on <b>{{startDate}} at {{startTime}} {{timezone}}</b>. Please accept this invitation by clicking the "Accept" button to add the meeting to your calendar. To stay away from the meeting, click on the "Reject" button.',
-      i18nOpts
+      i18nOpts,
     );
 
     const htmlParts: string[] = [];
@@ -83,8 +83,8 @@ export class TemplateHelper {
         i18next.t(
           'meeting.invite.htmlDescription',
           '<div><i>{{description}}</i></div>',
-          i18nOpts
-        )
+          i18nOpts,
+        ),
       );
     }
 

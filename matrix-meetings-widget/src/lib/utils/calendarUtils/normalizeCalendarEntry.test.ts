@@ -24,7 +24,7 @@ describe('normalizeCalendarEntry', () => {
         dtstart: { tzid: 'Europe/Berlin', value: '20210101T100000' },
         dtend: { tzid: 'Europe/Berlin', value: '20210101T140000' },
         rrule: 'FREQ=WEEKLY;COUNT=30;INTERVAL=1;BYDAY=FR',
-      })
+      }),
     ).toEqual({
       uid: 'entry-0',
       dtstart: { tzid: 'Europe/Berlin', value: '20210101T100000' },
@@ -39,7 +39,7 @@ describe('normalizeCalendarEntry', () => {
         uid: 'entry-0',
         dtstart: { tzid: 'Europe/Berlin', value: '20210101T100000' },
         dtend: { tzid: 'Europe/Berlin', value: '20210101T140000' },
-      })
+      }),
     ).toEqual({
       uid: 'entry-0',
       dtstart: { tzid: 'Europe/Berlin', value: '20210101T100000' },
@@ -54,7 +54,7 @@ describe('normalizeCalendarEntry', () => {
         dtstart: { tzid: 'Europe/Berlin', value: '20210101T100000' },
         dtend: { tzid: 'Europe/Berlin', value: '20210101T140000' },
         rrule: 'FREQ=WEEKLY;COUNT=30;INTERVAL=1;BYDAY=SA',
-      })
+      }),
     ).toEqual({
       uid: 'entry-0',
       dtstart: { tzid: 'Europe/Berlin', value: '20210102T100000' },
