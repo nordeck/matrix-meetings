@@ -54,7 +54,7 @@
     "moment-timezone": "^0.5.43",
     "mustache": "^4.2.0",
     "nestjs-pino": "^3.4.0",
-    "node-fetch": "^2.6.13",
+    "node-fetch": "^2.7.0",
     "pino": "^8.15.0",
     "pino-http": "^8.4.0",
     "reflect-metadata": "^0.1.13",
