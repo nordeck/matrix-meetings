@@ -11,6 +11,8 @@ jobs:
   build:
     name: Build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     timeout-minutes: 15
     env:
       DOCKER_IMAGE: ghcr.io/nordeck/matrix-meetings-bot
@@ -59,3 +61,17 @@ jobs:
           tags: ${{ steps.meta-new-tags.outputs.tags }}
           labels: ${{ steps.meta-new-tags.outputs.labels }}
           platforms: linux/amd64,linux/arm64,linux/s390x
+
+      - name: custom packaging
+        run: |
+          VERSION=${{github.ref_name}}
+          rm -rf .cr-release-packages
+          mkdir -p .cr-release-packages
+          helm package charts/matrix-meetings-bot --app-version=${VERSION:1} --version=${VERSION:1} --destination=.cr-release-packages
+
+      - name: Run chart-releaser
+        uses: askcloudarchitech/chart-releaser-action@skip-packaging-option
+        with:
+          skip_packaging: true       
+        env:
+          CR_TOKEN: "${{ secrets.TOKEN }}"
