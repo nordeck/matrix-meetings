@@ -1,7 +1,18 @@
-apiVersion: v2
-name: matrix-meetings-widget
+# SPDX-FileCopyrightText: 2023 Nordeck IT + Consulting GmbH"
+# SPDX-License-Identifier: Apache-2.0
+---
+annotations:
+  category: "Security"
+  licenses: "Apache-2.0"
+apiVersion: "v2"
+dependencies:
+  - name: "common"
+    version: "^2.x.x"
+    repository: "https://charts.bitnami.com/bitnami"
 description: A meetings widget for the Element messenger
+home: https://github.com/nordeck/matrix-meetings
+name: matrix-meetings-widget
 type: application
 version: 0.1.0
 appVersion: "0.0.0"
-home: https://github.com/nordeck/matrix-meetings
+...
