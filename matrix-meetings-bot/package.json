@@ -70,19 +70,19 @@
     "@types/luxon": "^3.2.0",
     "@types/mime-types": "^2.1.1",
     "@types/mustache": "^4.2.2",
-    "@types/node": "^16.18.44",
+    "@types/node": "^16.18.46",
     "@types/node-fetch": "^2.6.4",
     "@types/uuid": "^9.0.2",
     "copyfiles": "^2.4.1",
     "depcheck": "^1.4.5",
     "dotenv-cli": "^7.3.0",
-    "eslint": "^8.47.0",
+    "eslint": "^8.48.0",
     "i18next-parser": "^8.7.0",
     "jest": "^27.4.3",
     "jest-fetch-mock": "^3.0.3",
     "ts-jest": "^27.1.5",
     "ts-mockito": "^2.6.1",
-    "typescript": "^5.1.6"
+    "typescript": "^5.2.2"
   },
   "jest": {
     "testEnvironment": "node",
