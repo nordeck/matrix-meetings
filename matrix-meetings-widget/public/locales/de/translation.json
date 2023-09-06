@@ -59,6 +59,12 @@
     "save": "Speichern",
     "title": "Bearbeiten"
   },
+  "editRecurringMessage": {
+    "message": "All instances of the recurring meeting are editable",
+    "switchLabelOff": "Edit All the recurring meeting series",
+    "switchLabelOn": "Edit one instances of the recurring meeting series",
+    "titleOne": "Edit the recurring meeting series"
+  },
   "invitedMeetingList": {
     "detail": {
       "invitedBy": "Einladung von: {{name}}"
@@ -364,10 +370,6 @@
     "hasPowerToKickUser": "Du hast nicht die Berechtigung um diesen Nutzer aus der Besprechung zu entfernen.",
     "meetingAlreadyStarted": "Die Besprechung ist bereits gestartet.",
     "participants": "Teilnehmer",
-    "recurringMeetingMessage": {
-      "message": "Alle Wiederholungen des Termins werden bearbeitet.",
-      "title": "Du bearbeitest einen Serientermin"
-    },
     "startAt": "Startzeitpunkt",
     "title": "Titel (erforderlich)",
     "titleHelperText": "Ein Titel ist erforderlich",

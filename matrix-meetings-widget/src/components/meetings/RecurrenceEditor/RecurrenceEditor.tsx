@@ -49,6 +49,7 @@ type RecurrenceEditorProps = {
   ) => void;
   rule: string | undefined;
   isMeetingCreation?: boolean;
+  disabled?: boolean;
 };
 
 export const RecurrenceEditor = ({
@@ -56,6 +57,7 @@ export const RecurrenceEditor = ({
   onChange,
   rule,
   isMeetingCreation = true,
+  disabled,
 }: RecurrenceEditorProps) => {
   const { t } = useTranslation();
   const { state, rrule, isValid, dispatch } = useRecurrenceEditorState(
@@ -186,6 +188,7 @@ export const RecurrenceEditor = ({
           onChange={handleRecurrencePresetChange}
           renderValue={renderValue}
           value={state.recurrencePreset}
+          disabled={disabled}
         >
           {Object.values(RecurrencePreset).map((v, i) => (
             <MenuItem key={i} value={v}>
@@ -220,6 +223,7 @@ export const RecurrenceEditor = ({
                 onCustomNthMonthdayChange={handleCustomNthMonthdayChange}
                 onCustomRuleModeChange={handleCustomRuleModeChange}
                 onCustomWeekdayChange={handleCustomWeekdayChange}
+                disabled={disabled}
               />
             )}
 
@@ -231,6 +235,7 @@ export const RecurrenceEditor = ({
               recurrenceEnd={state.recurrenceEnd}
               startDate={state.startDate}
               untilDate={state.untilDate}
+              disabled={disabled}
             />
           </div>
         </Stack>

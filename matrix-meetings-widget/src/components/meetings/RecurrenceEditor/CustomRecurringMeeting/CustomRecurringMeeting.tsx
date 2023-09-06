@@ -43,6 +43,7 @@ type CustomRecurringMeetingProps = {
   customNthMonthday: string;
   customWeekday: number;
   customNth: number;
+  disabled?: boolean;
   onCustomFrequencyChange: Dispatch<Frequency>;
   onCustomIntervalChange: Dispatch<string>;
   onCustomByWeekdayChange: Dispatch<number[]>;
@@ -62,6 +63,7 @@ export const CustomRecurringMeeting = ({
   customNthMonthday,
   customWeekday,
   customNth,
+  disabled,
   onCustomFrequencyChange,
   onCustomIntervalChange,
   onCustomByWeekdayChange,
@@ -121,6 +123,7 @@ export const CustomRecurringMeeting = ({
           margin="dense"
           onChange={handleIntervalChange}
           value={customInterval}
+          disabled={disabled}
         />
         <FormControl>
           <InputLabel id={repetitionLabelId} sx={visuallyHidden}>
@@ -131,6 +134,7 @@ export const CustomRecurringMeeting = ({
             labelId={repetitionLabelId}
             onChange={handleFrequencyChange}
             value={customFrequency}
+            disabled={disabled}
           >
             {[
               Frequency.DAILY,
@@ -150,6 +154,7 @@ export const CustomRecurringMeeting = ({
         <CustomWeeklyRecurringMeeting
           byWeekday={customByWeekday}
           onByWeekdayChange={onCustomByWeekdayChange}
+          disabled={disabled}
         />
       )}
 
@@ -163,6 +168,7 @@ export const CustomRecurringMeeting = ({
           onCustomNthMonthdayChange={onCustomNthMonthdayChange}
           onCustomRuleModeChange={onCustomRuleModeChange}
           onCustomWeekdayChange={onCustomWeekdayChange}
+          disabled={disabled}
         />
       )}
 
@@ -178,6 +184,7 @@ export const CustomRecurringMeeting = ({
           onCustomNthMonthdayChange={onCustomNthMonthdayChange}
           onCustomRuleModeChange={onCustomRuleModeChange}
           onCustomWeekdayChange={onCustomWeekdayChange}
+          disabled={disabled}
         />
       )}
     </FormControl>

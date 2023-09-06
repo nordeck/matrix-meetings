@@ -37,6 +37,7 @@ type MonthlyRecurringMeetingProps = {
   customNthMonthday: string;
   customWeekday: number;
   customNth: number;
+  disabled?: boolean;
   onCustomRuleModeChange: Dispatch<CustomRuleMode>;
   onCustomNthMonthdayChange: Dispatch<string>;
   onCustomWeekdayChange: Dispatch<number>;
@@ -48,6 +49,7 @@ export const CustomMonthlyRecurringMeeting = ({
   customNthMonthday,
   customWeekday,
   customNth,
+  disabled,
   onCustomRuleModeChange,
   onCustomNthMonthdayChange,
   onCustomWeekdayChange,
@@ -91,6 +93,7 @@ export const CustomMonthlyRecurringMeeting = ({
       >
         <Stack direction="row" flexWrap="wrap">
           <FormControlLabel
+            disabled={disabled}
             control={
               <Radio
                 id={byMonthdayRadioId}
@@ -121,7 +124,9 @@ export const CustomMonthlyRecurringMeeting = ({
             spacing={1}
           >
             <TextField
-              disabled={customRuleMode !== CustomRuleMode.ByMonthday}
+              disabled={
+                customRuleMode !== CustomRuleMode.ByMonthday || disabled
+              }
               error={isCustomNthMonthdayInvalid}
               helperText={
                 isCustomNthMonthdayInvalid &&
@@ -149,6 +154,7 @@ export const CustomMonthlyRecurringMeeting = ({
 
         <Stack direction="row" flexWrap="wrap">
           <FormControlLabel
+            disabled={disabled}
             control={
               <Radio
                 id={byWeekdayRadioId}
@@ -182,12 +188,12 @@ export const CustomMonthlyRecurringMeeting = ({
             spacing={1}
           >
             <OrdinalSelect
-              disabled={customRuleMode !== CustomRuleMode.ByWeekday}
+              disabled={customRuleMode !== CustomRuleMode.ByWeekday || disabled}
               onOrdinalChange={onCustomNthChange}
               ordinal={customNth}
             />
             <WeekdaySelect
-              disabled={customRuleMode !== CustomRuleMode.ByWeekday}
+              disabled={customRuleMode !== CustomRuleMode.ByWeekday || disabled}
               onWeekdayChange={onCustomWeekdayChange}
               weekday={customWeekday}
             />

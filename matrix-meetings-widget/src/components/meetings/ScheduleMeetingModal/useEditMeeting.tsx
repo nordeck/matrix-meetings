@@ -20,6 +20,7 @@ import { ModalButtonKind } from 'matrix-widget-api';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { formatICalDate, normalizeCalendarEntry } from '../../../lib/utils';
+import { overrideCalendarEntries } from '../../../lib/utils/calendarUtils/overrideCalendarEntries';
 import { meetingBotApi } from '../../../reducer/meetingBotApi';
 import {
   Meeting,
@@ -204,23 +205,29 @@ export const diffMeeting = (
     oldMeeting.participants.map((p) => p.userId),
     newMeeting.participants,
   );
+
+  const tzid = new Intl.DateTimeFormat().resolvedOptions().timeZone;
   const meetingDetails: UpdateMeetingDetailsOptions['updates'] = {
     title: newMeeting.title,
     description: newMeeting.description,
-    calendar: [
-      normalizeCalendarEntry({
-        uid: oldMeeting.calendarUid,
-        dtstart: formatICalDate(
-          DateTime.fromISO(newMeeting.startTime),
-          new Intl.DateTimeFormat().resolvedOptions().timeZone,
-        ),
-        dtend: formatICalDate(
-          DateTime.fromISO(newMeeting.endTime),
-          new Intl.DateTimeFormat().resolvedOptions().timeZone,
-        ),
-        rrule: newMeeting.rrule,
-      }),
-    ],
+    calendar: newMeeting.recurrenceId
+      ? overrideCalendarEntries(
+          newMeeting.recurrenceId,
+          newMeeting.startTime,
+          newMeeting.endTime,
+          oldMeeting.calendarEntries,
+        )
+      : [
+          normalizeCalendarEntry({
+            uid: oldMeeting.calendarUid,
+            dtstart: formatICalDate(
+              DateTime.fromISO(newMeeting.startTime),
+              tzid,
+            ),
+            dtend: formatICalDate(DateTime.fromISO(newMeeting.endTime), tzid),
+            rrule: newMeeting.rrule,
+          }),
+        ],
   };
 
   const newMeetingIsMessagingEnabled = newMeeting.powerLevels?.messaging === 0;

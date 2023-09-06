@@ -42,6 +42,7 @@ type RecurringMeetingEndProps = {
   onRecurrenceEndChange: Dispatch<RecurrenceEnd>;
   untilDate: DateTime;
   onUntilDateChange: Dispatch<DateTime>;
+  disabled?: boolean;
 };
 
 export const RecurringMeetingEnd = ({
@@ -52,6 +53,7 @@ export const RecurringMeetingEnd = ({
   onRecurrenceEndChange,
   untilDate,
   onUntilDateChange,
+  disabled,
 }: RecurringMeetingEndProps) => {
   const { t } = useTranslation();
   const afterMeetingCountParsed = parseInt(afterMeetingCount);
@@ -118,6 +120,7 @@ export const RecurringMeetingEnd = ({
         value={recurrenceEnd}
       >
         <FormControlLabel
+          disabled={disabled}
           control={
             <Radio
               inputProps={{
@@ -140,6 +143,7 @@ export const RecurringMeetingEnd = ({
 
         <Stack direction="row" flexWrap="wrap">
           <FormControlLabel
+            disabled={disabled}
             control={
               <Radio
                 id={untilDateRadioId}
@@ -174,7 +178,7 @@ export const RecurringMeetingEnd = ({
             role="group"
           >
             <DatePicker
-              disabled={recurrenceEnd !== RecurrenceEnd.UntilDate}
+              disabled={recurrenceEnd !== RecurrenceEnd.UntilDate || disabled}
               localeText={{ openDatePickerDialogue }}
               minDate={DateTime.fromJSDate(startDate)}
               onChange={handleUntilDateChange}
@@ -203,6 +207,7 @@ export const RecurringMeetingEnd = ({
 
         <Stack direction="row" flexWrap="wrap">
           <FormControlLabel
+            disabled={disabled}
             control={
               <Radio
                 id={afterMeetingCountRadioId}
@@ -243,7 +248,9 @@ export const RecurringMeetingEnd = ({
                   </InputAdornment>
                 ),
               }}
-              disabled={recurrenceEnd !== RecurrenceEnd.AfterMeetingCount}
+              disabled={
+                recurrenceEnd !== RecurrenceEnd.AfterMeetingCount || disabled
+              }
               error={isAfterMeetingCountInvalid}
               helperText={
                 isAfterMeetingCountInvalid &&

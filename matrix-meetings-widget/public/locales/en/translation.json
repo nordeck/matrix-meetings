@@ -59,6 +59,12 @@
     "save": "Save",
     "title": "Edit Meeting"
   },
+  "editRecurringMessage": {
+    "message": "All instances of the recurring meeting are editable",
+    "switchLabelOff": "Edit All the recurring meeting series",
+    "switchLabelOn": "Edit one instances of the recurring meeting series",
+    "titleOne": "Edit the recurring meeting series"
+  },
   "invitedMeetingList": {
     "detail": {
       "invitedBy": "Invited By: {{name}}"
@@ -367,10 +373,6 @@
     "hasPowerToKickUser": "You don't have the permission to remove this participant.",
     "meetingAlreadyStarted": "The meeting already started.",
     "participants": "Participants",
-    "recurringMeetingMessage": {
-      "message": "All instances of the recurring meeting are edited",
-      "title": "You are editing a recurring meeting"
-    },
     "startAt": "Start at",
     "title": "Title (required)",
     "titleHelperText": "A title is required",
