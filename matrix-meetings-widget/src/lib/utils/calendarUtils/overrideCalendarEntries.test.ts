@@ -27,6 +27,7 @@ describe('overrideCalendarEntries', () => {
   it('should add new override entry', () => {
     expect(
       overrideCalendarEntries(
+        'entry-0',
         '2020-01-10T10:00:00Z',
         '2020-01-11T10:00:00Z',
         '2020-01-11T11:00:00Z',
@@ -82,6 +83,7 @@ describe('overrideCalendarEntries', () => {
 
     expect(
       overrideCalendarEntries(
+        'entry-0',
         '2020-01-10T10:00:00Z',
         '2020-01-11T14:00:00Z',
         '2020-01-11T15:00:00Z',
@@ -113,6 +115,93 @@ describe('overrideCalendarEntries', () => {
         recurrenceId: {
           tzid: 'UTC',
           value: '20200110T100000',
+        },
+        uid: 'entry-0',
+      },
+    ]);
+  });
+
+  it('should add one more new override entry', () => {
+    const firstUpdateEntry = {
+      uid: 'entry-0',
+      recurrenceId: {
+        tzid: 'UTC',
+        value: '20200110T100000',
+      },
+      dtend: {
+        tzid: 'UTC',
+        value: '20200111T110000',
+      },
+      dtstart: {
+        tzid: 'UTC',
+        value: '20200111T100000',
+      },
+    };
+    const secondUpdateEntry = {
+      uid: 'entry-0',
+      recurrenceId: {
+        tzid: 'UTC',
+        value: '20200111T100000',
+      },
+      dtend: {
+        tzid: 'UTC',
+        value: '20200111T180000',
+      },
+      dtstart: {
+        tzid: 'UTC',
+        value: '20200111T170000',
+      },
+    };
+
+    expect(
+      overrideCalendarEntries(
+        'entry-0',
+        '2020-01-10T10:00:00Z',
+        '2020-01-11T14:00:00Z',
+        '2020-01-11T15:00:00Z',
+        [rruleEntry, firstUpdateEntry, secondUpdateEntry],
+      ),
+    ).toEqual([
+      {
+        dtend: {
+          tzid: 'UTC',
+          value: '20200109T110000',
+        },
+        dtstart: {
+          tzid: 'UTC',
+          value: '20200109T100000',
+        },
+
+        rrule: 'FREQ=DAILY;COUNT=5',
+        uid: 'entry-0',
+      },
+      {
+        dtend: {
+          tzid: 'UTC',
+          value: '20200111T150000',
+        },
+        dtstart: {
+          tzid: 'UTC',
+          value: '20200111T140000',
+        },
+        recurrenceId: {
+          tzid: 'UTC',
+          value: '20200110T100000',
+        },
+        uid: 'entry-0',
+      },
+      {
+        dtend: {
+          tzid: 'UTC',
+          value: '20200111T180000',
+        },
+        dtstart: {
+          tzid: 'UTC',
+          value: '20200111T170000',
+        },
+        recurrenceId: {
+          tzid: 'UTC',
+          value: '20200111T100000',
         },
         uid: 'entry-0',
       },

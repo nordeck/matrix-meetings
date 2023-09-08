@@ -26,9 +26,9 @@ type EditRecurringMessageProps = {
 };
 
 /**
- * Show a info message when edit a recurring meeting.
+ * Show an info message when edit a recurring meeting.
  *
- * @remarks the message include switch to change one occurrence or all series.
+ * @remarks the message include switch to change the edit between one occurrence or all series.
  *
  * @param param0 - {@link EditRecurringMessageProps}
  */

@@ -127,12 +127,21 @@ export function MeetingDetailsHeader({
   const handleClickEditMeeting = useCallback(async () => {
     try {
       if (meeting) {
-        await editMeeting(meeting, isMessagingEnabled);
+        await editMeeting(
+          meeting,
+          metadataEvent?.content.calendar,
+          isMessagingEnabled,
+        );
       }
     } catch {
       setShowErrorDialog(true);
     }
-  }, [editMeeting, isMessagingEnabled, meeting]);
+  }, [
+    editMeeting,
+    isMessagingEnabled,
+    meeting,
+    metadataEvent?.content.calendar,
+  ]);
 
   const handleClickOpenDeleteConfirm = useCallback(() => {
     setOpenDeleteConfirm(true);

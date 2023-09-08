@@ -23,19 +23,29 @@ import { formatICalDate } from '../dateTimeUtils';
  * add new override entry or update existing one
  */
 export function overrideCalendarEntries(
+  uid: string,
   recurrenceId: string,
   startDate: string,
   endDate: string,
-  calendarEntries: CalendarEntry[],
+  calendarEntries: CalendarEntry[] | undefined,
 ): CalendarEntry[] {
   const tzid = new Intl.DateTimeFormat().resolvedOptions().timeZone;
-  const hasOldRecurrenceId = calendarEntries.some(
+
+  if (!calendarEntries) {
+    return [];
+  }
+
+  const meetingSeriesCalendarEntries = calendarEntries.filter(
+    (c) => c.uid === uid,
+  );
+
+  const hasOldRecurrenceId = meetingSeriesCalendarEntries.some(
     (entry) =>
       entry.recurrenceId &&
       entry.recurrenceId.value ===
         formatICalDate(new Date(recurrenceId), tzid).value,
   );
-  const updatedCalendarEntry = calendarEntries.map((entry) => {
+  const updatedCalendarEntry = meetingSeriesCalendarEntries.map((entry) => {
     if (
       entry.recurrenceId &&
       entry.recurrenceId.value ===
@@ -56,7 +66,7 @@ export function overrideCalendarEntries(
     dtend: formatICalDate(DateTime.fromISO(endDate), tzid),
     recurrenceId: formatICalDate(new Date(recurrenceId), tzid),
   };
-  const addCalendarEntry = [...calendarEntries, overrideCalendar];
+  const addCalendarEntry = [...meetingSeriesCalendarEntries, overrideCalendar];
 
   return hasOldRecurrenceId ? updatedCalendarEntry : addCalendarEntry;
 }

@@ -19,6 +19,7 @@ import { DateTime } from 'luxon';
 import { ModalButtonKind } from 'matrix-widget-api';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
+import { CalendarEntry } from '../../../lib/matrix';
 import { formatICalDate, normalizeCalendarEntry } from '../../../lib/utils';
 import { overrideCalendarEntries } from '../../../lib/utils/calendarUtils/overrideCalendarEntries';
 import { meetingBotApi } from '../../../reducer/meetingBotApi';
@@ -41,7 +42,11 @@ import {
 } from './types';
 
 export function useEditMeeting(): {
-  editMeeting: (meeting: Meeting, isMessagingEnabled: boolean) => Promise<void>;
+  editMeeting: (
+    meeting: Meeting,
+    MetaDataCalendar: CalendarEntry[] | undefined,
+    isMessagingEnabled: boolean,
+  ) => Promise<void>;
 } {
   const { t } = useTranslation();
   const widgetApi = useWidgetApi();
@@ -52,7 +57,11 @@ export function useEditMeeting(): {
   const [updateWidget] = useUpdateMeetingWidgetsMutation();
 
   const editMeeting = useCallback(
-    async (meeting: Meeting, isMessagingEnabled: boolean) => {
+    async (
+      meeting: Meeting,
+      MetaDataCalendar: CalendarEntry[] | undefined,
+      isMessagingEnabled: boolean,
+    ) => {
       const updatedMeeting = await widgetApi.openModal<
         ScheduleMeetingModalResult,
         ScheduleMeetingModalRequest
@@ -98,6 +107,7 @@ export function useEditMeeting(): {
             isMessagingEnabled,
             updatedMeeting.meeting,
             availableWidgets.map((w) => w.id),
+            MetaDataCalendar,
           );
 
           const detailsResult = await updateMeetingDetails({
@@ -195,6 +205,7 @@ export const diffMeeting = (
   isMessagingEnabled: boolean,
   newMeeting: CreateMeeting,
   availableWidgets: string[],
+  MetaDataCalendar: CalendarEntry[] | undefined,
 ) => {
   const { addWidgets, removeWidgets } = diffActiveWidgets(
     oldMeeting.widgets,
@@ -212,10 +223,11 @@ export const diffMeeting = (
     description: newMeeting.description,
     calendar: newMeeting.recurrenceId
       ? overrideCalendarEntries(
+          oldMeeting.calendarEntries[0].uid,
           newMeeting.recurrenceId,
           newMeeting.startTime,
           newMeeting.endTime,
-          oldMeeting.calendarEntries,
+          MetaDataCalendar,
         )
       : [
           normalizeCalendarEntry({

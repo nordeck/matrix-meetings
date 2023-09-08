@@ -628,7 +628,154 @@ describe('<ScheduleMeeting>', () => {
     });
   }, 10000);
 
-  it('should fill the form for editing all series of a recurring meeting', async () => {
+  it('should update the meeting series', async () => {
+    render(
+      <ScheduleMeeting
+        initialMeeting={mockMeeting({
+          content: {
+            startTime: '2023-01-01T10:00:00Z',
+            endTime: '2023-01-01T14:00:00Z',
+            calendarEntries: mockCalendar({
+              dtstart: '20220101T100000',
+              dtend: '20220101T140000',
+              rrule: 'FREQ=DAILY',
+            }),
+          },
+        })}
+        onMeetingChange={onMeetingChange}
+      />,
+      { wrapper: Wrapper },
+    );
+
+    await userEvent.click(
+      screen.getByRole('checkbox', {
+        name: 'Edit one instances of the recurring meeting series',
+      }),
+    );
+
+    const titleField = screen.getByRole('textbox', {
+      name: 'Title (required)',
+    });
+    const descriptionField = screen.getByRole('textbox', {
+      name: 'Description',
+    });
+    const startDateField = screen.getByRole('textbox', {
+      name: 'Start date',
+    });
+    const startTimeField = screen.getByRole('textbox', {
+      name: 'Start time',
+    });
+    const endDateField = screen.getByRole('textbox', {
+      name: 'End date',
+    });
+    const endTimeField = screen.getByRole('textbox', {
+      name: 'End time',
+    });
+
+    expect(onMeetingChange).toHaveBeenLastCalledWith(undefined);
+
+    expect(titleField).toHaveValue('An important meeting');
+    expect(descriptionField).toHaveValue('A brief description');
+
+    await userEvent.type(titleField, 'A new name', {
+      initialSelectionStart: 0,
+      initialSelectionEnd: 20,
+    });
+    await userEvent.type(descriptionField, 'A new description', {
+      initialSelectionStart: 0,
+      initialSelectionEnd: 19,
+    });
+
+    fireEvent.change(startDateField, { target: { value: '01/02/2023' } });
+    fireEvent.change(startTimeField, { target: { value: '12:34 AM' } });
+    fireEvent.change(endDateField, { target: { value: '01/03/2023' } });
+    fireEvent.change(endTimeField, { target: { value: '12:34 PM' } });
+
+    await userEvent.click(
+      screen.getByRole('checkbox', {
+        name: 'Allow messaging for all participants',
+      }),
+    );
+
+    await userEvent.click(
+      screen.getByRole('button', { name: 'Repeat meeting Every day' }),
+    );
+    const recurrenceOptionsList = screen.getByRole('listbox', {
+      name: 'Repeat meeting',
+    });
+    await userEvent.click(
+      within(recurrenceOptionsList).getByRole('option', { name: 'Weekly' }),
+    );
+
+    expect(onMeetingChange).toHaveBeenLastCalledWith({
+      title: 'A new name',
+      description: 'A new description',
+      startTime: '2023-01-02T00:34:00.000Z',
+      endTime: '2023-01-03T12:34:00.000Z',
+      widgetIds: [],
+      participants: ['@user-id'],
+      recurrenceId: undefined,
+      powerLevels: {
+        messaging: 100,
+      },
+      rrule: 'FREQ=WEEKLY',
+    });
+  }, 10000);
+
+  it('should update one instance of the meeting series', async () => {
+    render(
+      <ScheduleMeeting
+        initialMeeting={mockMeeting({
+          content: {
+            startTime: '2023-01-01T10:00:00Z',
+            endTime: '2023-01-01T14:00:00Z',
+            recurrenceId: '2023-01-02T10:00:00Z',
+            calendarEntries: mockCalendar({
+              dtstart: '20220101T100000',
+              dtend: '20220101T140000',
+              rrule: 'FREQ=DAILY;COUNT=5',
+            }),
+          },
+        })}
+        onMeetingChange={onMeetingChange}
+      />,
+      { wrapper: Wrapper },
+    );
+
+    const startDateField = screen.getByRole('textbox', {
+      name: 'Start date',
+    });
+    const startTimeField = screen.getByRole('textbox', {
+      name: 'Start time',
+    });
+    const endDateField = screen.getByRole('textbox', {
+      name: 'End date',
+    });
+    const endTimeField = screen.getByRole('textbox', {
+      name: 'End time',
+    });
+
+    expect(onMeetingChange).toHaveBeenLastCalledWith(undefined);
+
+    fireEvent.change(startDateField, { target: { value: '01/02/2023' } });
+    fireEvent.change(startTimeField, { target: { value: '12:34 AM' } });
+    fireEvent.change(endDateField, { target: { value: '01/03/2023' } });
+    fireEvent.change(endTimeField, { target: { value: '12:34 PM' } });
+
+    expect(onMeetingChange).toHaveBeenLastCalledWith({
+      title: 'An important meeting',
+      description: 'A brief description',
+      startTime: '2023-01-02T00:34:00.000Z',
+      endTime: '2023-01-03T12:34:00.000Z',
+      recurrenceId: '2023-01-02T10:00:00Z',
+      widgetIds: [],
+      participants: ['@user-id'],
+      powerLevels: undefined,
+      rrule: 'FREQ=DAILY;COUNT=5',
+    });
+  }, 10000);
+
+  it('should fill the form for editing all meeting series', async () => {
     render(
       <ScheduleMeeting
         initialMeeting={mockMeeting({
@@ -689,7 +836,7 @@ describe('<ScheduleMeeting>', () => {
     expect(endTimeTextbox).toBeValid();
   });
 
-  it('should switch between edit one occurrence and edit all the recurring series', async () => {
+  it('should switch between edit one instance and edit all the meeting series', async () => {
     render(
       <ScheduleMeeting
         initialMeeting={mockMeeting({

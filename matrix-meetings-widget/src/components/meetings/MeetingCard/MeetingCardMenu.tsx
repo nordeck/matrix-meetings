@@ -152,11 +152,20 @@ export function MeetingCardMenu({
 
   const handleClickEditMeeting = useCallback(async () => {
     try {
-      await editMeeting(meeting, isMessagingEnabled);
+      await editMeeting(
+        meeting,
+        metadataEvent?.content.calendar,
+        isMessagingEnabled,
+      );
     } catch {
       setShowErrorDialog(true);
     }
-  }, [editMeeting, meeting, isMessagingEnabled]);
+  }, [
+    editMeeting,
+    meeting,
+    metadataEvent?.content.calendar,
+    isMessagingEnabled,
+  ]);
 
   if (!canUpdateMeeting || !canCloseMeeting) {
     // If the menu would be empty, skip it
