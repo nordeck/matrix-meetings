@@ -61,7 +61,6 @@
   },
   "editRecurringMessage": {
     "message": "Alle Instanzen der Meetingserien können bearbeitet werden",
-    "switchLabelOff": "Alle wiederkehrenden Meetingserien Bearbeiten",
     "switchLabelOn": "Eine Instanz der wiederkehrenden MeetingSerie Bearbeiten",
     "titleOne": "Wiederkehrenden MeetingSerie Bearbeiten"
   },

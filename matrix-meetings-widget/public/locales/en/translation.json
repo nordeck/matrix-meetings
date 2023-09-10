@@ -61,7 +61,6 @@
   },
   "editRecurringMessage": {
     "message": "All instances of the recurring meeting are editable",
-    "switchLabelOff": "Edit All the recurring meeting series",
     "switchLabelOn": "Edit one instances of the recurring meeting series",
     "titleOne": "Edit the recurring meeting series"
   },

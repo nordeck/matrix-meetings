@@ -29,6 +29,7 @@ export class ScheduleMeetingWidgetPage {
   public readonly afterMeetingCountRadio: Locator;
   public readonly afterMeetingCountSpinbutton: Locator;
   public readonly customRecurrenceRuleGroup: Locator;
+  public readonly switchRecurringEdit: Locator;
 
   constructor(
     private readonly page: Page,
@@ -36,6 +37,9 @@ export class ScheduleMeetingWidgetPage {
   ) {
     const dialog = this.page.getByRole('dialog', {
       name: /Schedule Meeting|Edit Meeting/,
+    });
+    this.switchRecurringEdit = widget.getByRole('checkbox', {
+      name: 'Edit one instances of the recurring meeting series',
     });
     this.submitMeetingButton = dialog.getByRole('button', {
       name: /Create Meeting|Save/,
@@ -87,15 +91,19 @@ export class ScheduleMeetingWidgetPage {
     );
   }
 
+  async toggleRecurringEdit() {
+    await this.switchRecurringEdit.click();
+  }
+
+  async toggleChatPermission() {
+    await this.allowMessagingCheckbox.click();
+  }
+
   async addParticipant(name: string) {
     await this.participantsCombobox.type(name);
     await this.widget.getByRole('option', { name }).waitFor();
     await this.participantsCombobox.press('ArrowDown');
     await this.participantsCombobox.press('Enter');
-  }
-
-  async toggleChatPermission() {
-    await this.allowMessagingCheckbox.click();
   }
 
   async addWidget(widgetName: string) {
