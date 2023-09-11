@@ -48,7 +48,8 @@ export function EditRecurringMessage({
       role="status"
       icon={false}
       sx={{
-        my: 1,
+        ml: 1,
+        mr: 1,
         alignItems: 'center',
         background: (theme) => theme.palette.background.paper,
       }}

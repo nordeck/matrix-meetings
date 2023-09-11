@@ -86,10 +86,10 @@ export const ScheduleMeeting = ({
     initialMeeting &&
     isRecurringCalendarSourceEntry(initialMeeting.calendarEntries);
   const [isDirty, setIsDirty] = useState(false);
-  const [isEditOneInstances, setIsEditOneInstances] = useState(false);
+  const [isEditRecurring, setIsEditRecurring] = useState(false);
 
   const disabledFormControls =
-    !isEditOneInstances &&
+    !isEditRecurring &&
     initialMeeting !== undefined &&
     isEditingRecurringMeeting;
 
@@ -99,14 +99,14 @@ export const ScheduleMeeting = ({
   );
   const firstInitialStartDate = initialMeeting
     ? calculateDate(
-        !isEditOneInstances,
+        !isEditRecurring,
         initialMeeting.startTime,
         initialMeeting.calendarEntries[0].dtstart,
       )
     : initialStartDate;
   const firstInitialEndDate = initialMeeting
     ? calculateDate(
-        !isEditOneInstances,
+        !isEditRecurring,
         initialMeeting.endTime,
         initialMeeting.calendarEntries[0].dtend,
       )
@@ -302,25 +302,25 @@ export const ScheduleMeeting = ({
 
   const handleSwitchEditRecurring = useCallback(
     (_, checked: boolean) => {
-      setIsEditOneInstances(checked);
+      setIsEditRecurring(checked);
       if (initialMeeting) {
         setStartDate(
           calculateDate(
-            isEditOneInstances,
+            isEditRecurring,
             initialMeeting.startTime,
             initialMeeting.calendarEntries[0].dtstart,
           ),
         );
         setEndDate(
           calculateDate(
-            isEditOneInstances,
+            isEditRecurring,
             initialMeeting.endTime,
             initialMeeting.calendarEntries[0].dtend,
           ),
         );
       }
     },
-    [initialMeeting, isEditOneInstances],
+    [initialMeeting, isEditRecurring],
   );
 
   const handleChangeWidgets = useCallback(
@@ -383,7 +383,7 @@ export const ScheduleMeeting = ({
         powerLevels,
         widgetIds: widgets,
         rrule: recurrence.rrule,
-        recurrenceId: !isEditOneInstances
+        recurrenceId: !isEditRecurring
           ? initialMeeting?.recurrenceId
           : undefined,
       });
@@ -405,7 +405,7 @@ export const ScheduleMeeting = ({
     startDateReadOnly,
     title,
     widgets,
-    isEditOneInstances,
+    isEditRecurring,
   ]);
 
   const titleError = isDirty && !title;
@@ -426,7 +426,7 @@ export const ScheduleMeeting = ({
       )}
       {isEditingRecurringMeeting && (
         <EditRecurringMessage
-          isEditOne={isEditOneInstances}
+          isEditOne={isEditRecurring}
           setIsEditOne={handleSwitchEditRecurring}
         />
       )}
@@ -613,12 +613,12 @@ export const ScheduleMeeting = ({
 };
 
 export function calculateDate(
-  isEditOneInstances: boolean,
+  isEditRecurring: boolean,
   date: string,
   dateTimeEntry: DateTimeEntry,
 ) {
   return parseICalDate(
-    isEditOneInstances
+    isEditRecurring
       ? formatICalDate(
           DateTime.fromISO(date),
           new Intl.DateTimeFormat().resolvedOptions().timeZone,
