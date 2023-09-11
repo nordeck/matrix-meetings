@@ -442,8 +442,12 @@ export class MeetingService {
         ),
       );
     }
-
-    for (const widgetId of room.meeting.widgetIds) {
+    const filteredWidgetIds = room.meeting.widgetIds.filter(
+      (widget) =>
+        widget.startsWith(WidgetType.COCKPIT) &&
+        widget.startsWith(WidgetType.BREAKOUT_SESSIONS),
+    );
+    for (const widgetId of filteredWidgetIds) {
       const widgetEventContent = room.widgetEventById(widgetId)?.content;
       promises.push(
         this.widgetClient.createOrUpdateCustomConfiguredWidget(
