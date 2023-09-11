@@ -39,7 +39,7 @@ export class ScheduleMeetingWidgetPage {
       name: /Schedule Meeting|Edit Meeting/,
     });
     this.switchRecurringEdit = widget.getByRole('checkbox', {
-      name: 'Edit one instances of the recurring meeting series',
+      name: 'Edit the recurring meeting series',
     });
     this.submitMeetingButton = dialog.getByRole('button', {
       name: /Create Meeting|Save/,

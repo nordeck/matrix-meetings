@@ -86,13 +86,12 @@ export const ScheduleMeeting = ({
     initialMeeting &&
     isRecurringCalendarSourceEntry(initialMeeting.calendarEntries);
   const [isDirty, setIsDirty] = useState(false);
-  const [isEditOneInstances, setIsEditOneInstances] = useState(true);
+  const [isEditOneInstances, setIsEditOneInstances] = useState(false);
 
   const disabledFormControls =
-    isEditOneInstances &&
+    !isEditOneInstances &&
     initialMeeting !== undefined &&
-    isEditingRecurringMeeting &&
-    isEditOneInstances !== undefined;
+    isEditingRecurringMeeting;
 
   const [title, setTitle] = useState(initialMeeting?.title ?? '');
   const [description, setDescription] = useState(
@@ -100,14 +99,14 @@ export const ScheduleMeeting = ({
   );
   const firstInitialStartDate = initialMeeting
     ? calculateDate(
-        isEditOneInstances,
+        !isEditOneInstances,
         initialMeeting.startTime,
         initialMeeting.calendarEntries[0].dtstart,
       )
     : initialStartDate;
   const firstInitialEndDate = initialMeeting
     ? calculateDate(
-        isEditOneInstances,
+        !isEditOneInstances,
         initialMeeting.endTime,
         initialMeeting.calendarEntries[0].dtend,
       )
@@ -307,14 +306,14 @@ export const ScheduleMeeting = ({
       if (initialMeeting) {
         setStartDate(
           calculateDate(
-            !isEditOneInstances,
+            isEditOneInstances,
             initialMeeting.startTime,
             initialMeeting.calendarEntries[0].dtstart,
           ),
         );
         setEndDate(
           calculateDate(
-            !isEditOneInstances,
+            isEditOneInstances,
             initialMeeting.endTime,
             initialMeeting.calendarEntries[0].dtend,
           ),
@@ -384,7 +383,7 @@ export const ScheduleMeeting = ({
         powerLevels,
         widgetIds: widgets,
         rrule: recurrence.rrule,
-        recurrenceId: isEditOneInstances
+        recurrenceId: !isEditOneInstances
           ? initialMeeting?.recurrenceId
           : undefined,
       });

@@ -38,6 +38,11 @@ export function EditRecurringMessage({
 }: EditRecurringMessageProps) {
   const { t } = useTranslation();
 
+  const title = t(
+    'editRecurringMessage.titleOne',
+    'Edit the recurring meeting series',
+  );
+
   return (
     <Alert
       role="status"
@@ -54,21 +59,13 @@ export function EditRecurringMessage({
             onChange={setIsEditOne}
             sx={{ ml: 2 }}
             inputProps={{
-              'aria-label': t(
-                'editRecurringMessage.switchLabelOn',
-                'Edit one instances of the recurring meeting series',
-              ),
+              'aria-label': title,
             }}
           />
         </FormControl>
       }
     >
-      <AlertTitle>
-        {t(
-          'editRecurringMessage.titleOne',
-          'Edit the recurring meeting series',
-        )}
-      </AlertTitle>
+      <AlertTitle>{title}</AlertTitle>
       {t(
         'editRecurringMessage.message',
         'All instances of the recurring meeting are editable',

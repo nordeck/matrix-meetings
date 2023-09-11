@@ -61,8 +61,7 @@
   },
   "editRecurringMessage": {
     "message": "Alle Instanzen der Meetingserien können bearbeitet werden",
-    "switchLabelOn": "Eine Instanz der wiederkehrenden MeetingSerie Bearbeiten",
-    "titleOne": "Wiederkehrenden MeetingSerie Bearbeiten"
+    "titleOne": "Wiederkehrende Besprechungsserie bearbeiten"
   },
   "invitedMeetingList": {
     "detail": {

@@ -649,7 +649,7 @@ describe('<ScheduleMeeting>', () => {
 
     await userEvent.click(
       screen.getByRole('checkbox', {
-        name: 'Edit one instances of the recurring meeting series',
+        name: 'Edit the recurring meeting series',
       }),
     );
 
@@ -800,7 +800,7 @@ describe('<ScheduleMeeting>', () => {
 
     await userEvent.click(
       screen.getByRole('checkbox', {
-        name: 'Edit one instances of the recurring meeting series',
+        name: 'Edit the recurring meeting series',
       }),
     );
 
@@ -860,13 +860,13 @@ describe('<ScheduleMeeting>', () => {
     );
 
     const editSwitch = screen.getByRole('checkbox', {
-      name: 'Edit one instances of the recurring meeting series',
+      name: 'Edit the recurring meeting series',
     });
 
     const startAtGroup = screen.getByRole('group', { name: 'Start at' });
     const endAtGroup = screen.getByRole('group', { name: 'End at' });
 
-    expect(editSwitch).toBeChecked();
+    expect(editSwitch).not.toBeChecked();
     expect(
       screen.getByRole('textbox', { name: 'Title (required)' }),
     ).toBeDisabled();
@@ -908,7 +908,7 @@ describe('<ScheduleMeeting>', () => {
 
     await userEvent.click(editSwitch);
 
-    expect(editSwitch).not.toBeChecked();
+    expect(editSwitch).toBeChecked();
     expect(
       screen.getByRole('textbox', { name: 'Title (required)' }),
     ).not.toBeDisabled();
