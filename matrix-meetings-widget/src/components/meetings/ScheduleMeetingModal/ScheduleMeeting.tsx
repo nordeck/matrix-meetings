@@ -300,29 +300,6 @@ export const ScheduleMeeting = ({
     [],
   );
 
-  const handleSwitchEditRecurring = useCallback(
-    (_, checked: boolean) => {
-      setIsEditRecurring(checked);
-      if (initialMeeting) {
-        setStartDate(
-          calculateDate(
-            isEditRecurring,
-            initialMeeting.startTime,
-            initialMeeting.calendarEntries[0].dtstart,
-          ),
-        );
-        setEndDate(
-          calculateDate(
-            isEditRecurring,
-            initialMeeting.endTime,
-            initialMeeting.calendarEntries[0].dtend,
-          ),
-        );
-      }
-    },
-    [initialMeeting, isEditRecurring],
-  );
-
   const handleChangeWidgets = useCallback(
     (value: string[]) => {
       setWidgets(value);
@@ -341,6 +318,41 @@ export const ScheduleMeeting = ({
       setRecurrence({ rrule, isValid, isDirty });
     },
     [],
+  );
+
+  const handleSwitchEditRecurring = useCallback(
+    (_, checked: boolean) => {
+      setIsEditRecurring(checked);
+      if (initialMeeting) {
+        setStartDate(
+          calculateDate(
+            isEditRecurring,
+            initialMeeting.startTime,
+            initialMeeting.calendarEntries[0].dtstart,
+          ),
+        );
+        setEndDate(
+          calculateDate(
+            isEditRecurring,
+            initialMeeting.endTime,
+            initialMeeting.calendarEntries[0].dtend,
+          ),
+        );
+        if (isEditRecurring) {
+          setTitle(initialMeeting.title);
+          setDescription(initialMeeting.description ?? '');
+          setIsMessagingEnabled(initialIsMessagingEnabled);
+          setParticipants(initialMeeting.participants.map((p) => p.userId));
+          setWidgets(initialMeeting.widgets);
+          setRecurrence({
+            rrule: initialMeeting?.calendarEntries[0].rrule,
+            isValid: true,
+            isDirty: false,
+          });
+        }
+      }
+    },
+    [initialIsMessagingEnabled, initialMeeting, isEditRecurring],
   );
 
   const minStartTimeOverride = isEditingRecurringMeeting
