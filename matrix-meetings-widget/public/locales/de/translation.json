@@ -150,13 +150,14 @@
       }
     },
     "header": {
-      "deleteConfirmButton": "Löschen",
       "deleteConfirmHeader": "Besprechung löschen",
-      "deleteConfirmMessage": "Du bist dabei die Besprechung „{{title}}“ am {{startTime, datetime}} und alles darin zu löschen. Bist du sicher?",
+      "deleteConfirmMessage": "Du bist dabei die Besprechung oder die Besprechungsserie „{{title}}“ am {{startTime, datetime}} und alles darin zu löschen. Bist du sicher?",
       "deleteFailed": "Bitte versuche es erneut.",
       "deleteFailedTitle": "Fehler beim Löschen der Besprechung",
       "deleteInOpenXchangeMenu": "Besprechung in Open-Xchange löschen",
+      "deleteMeetingConfirmButton": "Besprechung löschen",
       "deleteMenu": "Löschen",
+      "deleteSeriesConfirmButton": "Besprechungsserie löschen",
       "editInOpenXchangeMenu": "Besprechung in Open-Xchange bearbeiten",
       "editMenu": "Bearbeiten",
       "join": "Beitreten",

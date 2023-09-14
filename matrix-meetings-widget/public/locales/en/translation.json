@@ -150,13 +150,14 @@
       }
     },
     "header": {
-      "deleteConfirmButton": "Delete",
       "deleteConfirmHeader": "Delete meeting",
-      "deleteConfirmMessage": "Are you sure you want to delete the meeting “{{title}}” on {{startTime, datetime}} and every content related to it?",
+      "deleteConfirmMessage": "Are you sure you want to delete the meeting or the meeting series “{{title}}” on {{startTime, datetime}} and every content related to it?",
       "deleteFailed": "Please try again.",
       "deleteFailedTitle": "Failed to delete the meeting",
       "deleteInOpenXchangeMenu": "Delete meeting in Open-Xchange",
+      "deleteMeetingConfirmButton": "Delete meeting",
       "deleteMenu": "Delete",
+      "deleteSeriesConfirmButton": "Delete series",
       "editInOpenXchangeMenu": "Edit meeting in Open-Xchange",
       "editMenu": "Edit",
       "join": "Join",

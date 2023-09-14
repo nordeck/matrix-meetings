@@ -768,7 +768,7 @@ describe('<MeetingDetailsHeader/>', () => {
     });
 
     await userEvent.click(
-      within(deleteModal).getByRole('button', { name: 'Delete' }),
+      within(deleteModal).getByRole('button', { name: 'Delete meeting' }),
     );
 
     await waitFor(() => {
@@ -810,7 +810,7 @@ describe('<MeetingDetailsHeader/>', () => {
     });
 
     await userEvent.click(
-      within(deleteModal).getByRole('button', { name: 'Delete' }),
+      within(deleteModal).getByRole('button', { name: 'Delete meeting' }),
     );
 
     await waitFor(() => {
@@ -856,7 +856,7 @@ describe('<MeetingDetailsHeader/>', () => {
     });
 
     const deleteButton = within(deleteModal).getByRole('button', {
-      name: 'Delete',
+      name: 'Delete meeting',
     });
 
     await userEvent.click(deleteButton);

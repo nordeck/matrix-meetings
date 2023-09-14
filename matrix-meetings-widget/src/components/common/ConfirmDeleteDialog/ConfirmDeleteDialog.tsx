@@ -33,6 +33,9 @@ type ConfirmDeleteDialogProps = PropsWithChildren<{
   description: string;
   confirmTitle: string;
   loading?: boolean;
+  confirmSeriesTitle?: string;
+  isRecurring?: boolean;
+  onConfirmSeries?: DispatchWithoutAction;
   onCancel: DispatchWithoutAction;
   onConfirm: DispatchWithoutAction;
 }>;
@@ -42,9 +45,12 @@ export function ConfirmDeleteDialog({
   title,
   description,
   confirmTitle,
+  confirmSeriesTitle,
   loading,
+  isRecurring,
   onCancel,
   onConfirm,
+  onConfirmSeries,
   children,
 }: ConfirmDeleteDialogProps) {
   const { t } = useTranslation();
@@ -79,10 +85,20 @@ export function ConfirmDeleteDialog({
           color="error"
           loading={loading}
           onClick={onConfirm}
-          variant="contained"
+          variant="outlined"
         >
           {confirmTitle}
         </LoadingButton>
+        {isRecurring && (
+          <LoadingButton
+            color="error"
+            loading={loading}
+            onClick={onConfirmSeries}
+            variant="contained"
+          >
+            {confirmSeriesTitle}
+          </LoadingButton>
+        )}
       </DialogActions>
     </Dialog>
   );
