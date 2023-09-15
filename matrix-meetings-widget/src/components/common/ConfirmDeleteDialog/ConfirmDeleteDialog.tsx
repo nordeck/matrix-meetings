@@ -85,7 +85,7 @@ export function ConfirmDeleteDialog({
           color="error"
           loading={loading}
           onClick={onConfirm}
-          variant="outlined"
+          variant={isRecurring ? 'outlined' : 'contained'}
         >
           {confirmTitle}
         </LoadingButton>
