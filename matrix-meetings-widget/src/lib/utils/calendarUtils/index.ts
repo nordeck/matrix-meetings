@@ -19,7 +19,6 @@ export type { CalendarSourceEntries } from './calculateCalendarEvents';
 export { getCalendarEnd } from './getCalendarEnd';
 export { getCalendarEvent } from './getCalendarEvent';
 export {
-  isRRuleOverrideEntry,
   isRecurringCalendarSourceEntry,
   isSingleCalendarSourceEntry,
 } from './helpers';

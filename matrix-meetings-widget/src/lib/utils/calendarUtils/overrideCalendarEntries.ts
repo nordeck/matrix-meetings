@@ -15,7 +15,8 @@
  */
 
 import { CalendarEntry } from '../../../lib/matrix';
-import { isRRuleOverrideEntry, parseICalDate } from '../../../lib/utils';
+import { parseICalDate } from '../dateTimeUtils';
+import { isRRuleOverrideEntry } from './helpers';
 
 /**
  * A list of updated calendar entries
