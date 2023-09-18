@@ -14,22 +14,6 @@
  * limitations under the License.
  */
 
-/*
- * Copyright 2022 Nordeck IT + Consulting GmbH
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
 import { navigateToRoom } from '@matrix-widget-toolkit/api';
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import CloseIcon from '@mui/icons-material/Close';
@@ -50,15 +34,14 @@ import {
   Meeting,
   makeSelectRoomPermissions,
   selectNordeckMeetingMetadataEventByRoomId,
-  selectRoomPowerLevelsEventByRoomId,
   useCloseMeetingMutation,
 } from '../../../../reducer/meetingsApi';
-import { useAppSelector } from '../../../../store';
+import { useAppDispatch, useAppSelector } from '../../../../store';
 import { ConfirmDeleteDialog } from '../../../common/ConfirmDeleteDialog';
 import { withoutYearDateFormat } from '../../../common/DateTimePickers';
 import { UpdateFailedDialog } from '../../MeetingCard/MeetingCardMenu';
 import { ScheduledDeletionWarning } from '../../MeetingCard/ScheduledDeletionWarning';
-import { useEditMeeting } from '../../ScheduleMeetingModal';
+import { editMeetingThunk } from '../../ScheduleMeetingModal';
 import { MeetingDetailsJoinButton } from './MeetingDetailsJoinButton';
 import { getOpenXChangeExternalReference } from './OpenXchangeButton';
 import { OpenXchangeButton } from './OpenXchangeButton/OpenXchangeButton';
@@ -76,7 +59,6 @@ export function MeetingDetailsHeader({
 }) {
   const widgetApi = useWidgetApi();
   const { t } = useTranslation();
-  const { editMeeting } = useEditMeeting();
   const [showErrorDialog, setShowErrorDialog] = useState(false);
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
   const selectRoomPermissions = useMemo(makeSelectRoomPermissions, []);
@@ -113,35 +95,22 @@ export function MeetingDetailsHeader({
     return event;
   });
 
-  const isMessagingEnabled = useAppSelector((state) => {
-    const event = selectRoomPowerLevelsEventByRoomId(state, meeting.meetingId);
-    return event?.content.events_default === 0;
-  });
-
   const openXChangeReference = useMemo(
     () => metadataEvent && getOpenXChangeExternalReference(metadataEvent),
     [metadataEvent],
   );
   const isExternalReference = openXChangeReference !== undefined;
 
+  const dispatch = useAppDispatch();
   const handleClickEditMeeting = useCallback(async () => {
     try {
-      if (meeting) {
-        await editMeeting(
-          meeting,
-          metadataEvent?.content.calendar,
-          isMessagingEnabled,
-        );
+      if (meeting && metadataEvent) {
+        await dispatch(editMeetingThunk(meeting)).unwrap();
       }
     } catch {
       setShowErrorDialog(true);
     }
-  }, [
-    editMeeting,
-    isMessagingEnabled,
-    meeting,
-    metadataEvent?.content.calendar,
-  ]);
+  }, [dispatch, meeting, metadataEvent]);
 
   const handleClickOpenDeleteConfirm = useCallback(() => {
     setOpenDeleteConfirm(true);

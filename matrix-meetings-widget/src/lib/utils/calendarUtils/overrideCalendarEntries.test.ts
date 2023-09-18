@@ -14,197 +14,232 @@
  * limitations under the License.
  */
 
-import { mockCalendarEntry } from '../../testUtils';
+import { mockCalendarEntry } from '../../../lib/testUtils';
 import { overrideCalendarEntries } from './overrideCalendarEntries';
 
 describe('overrideCalendarEntries', () => {
-  const rruleEntry = mockCalendarEntry({
-    dtstart: '20200109T100000',
-    dtend: '20200109T110000',
-    rrule: 'FREQ=DAILY;COUNT=5',
-  });
+  it('should update existing single entry', () => {
+    const calendar = [
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+      }),
 
-  it('should add new override entry', () => {
+      // another entry that should stay
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+    ];
+
     expect(
       overrideCalendarEntries(
-        'entry-0',
-        '2020-01-10T10:00:00Z',
-        '2020-01-11T10:00:00Z',
-        '2020-01-11T11:00:00Z',
-        [rruleEntry],
+        calendar,
+        mockCalendarEntry({
+          dtstart: '20200111T100000',
+          dtend: '20200111T110000',
+        }),
       ),
     ).toEqual([
-      {
-        dtend: {
-          tzid: 'UTC',
-          value: '20200109T110000',
-        },
-        dtstart: {
-          tzid: 'UTC',
-          value: '20200109T100000',
-        },
-        rrule: 'FREQ=DAILY;COUNT=5',
-        uid: 'entry-0',
-      },
-      {
-        dtend: {
-          tzid: 'UTC',
-          value: '20200111T110000',
-        },
-        dtstart: {
-          tzid: 'UTC',
-          value: '20200111T100000',
-        },
-        recurrenceId: {
-          tzid: 'UTC',
-          value: '20200110T100000',
-        },
-        uid: 'entry-0',
-      },
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200111T100000',
+        dtend: '20200111T110000',
+      }),
     ]);
   });
 
-  it('should update override entry', () => {
-    const updateEntry = {
-      uid: 'entry-0',
-      recurrenceId: {
-        tzid: 'UTC',
-        value: '20200110T100000',
-      },
-      dtend: {
-        tzid: 'UTC',
-        value: '20200111T110000',
-      },
-      dtstart: {
-        tzid: 'UTC',
-        value: '20200111T100000',
-      },
-    };
+  it('should update existing single recurring entry', () => {
+    const calendar = [
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+
+      // another entry that should stay
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+    ];
 
     expect(
       overrideCalendarEntries(
-        'entry-0',
-        '2020-01-10T10:00:00Z',
-        '2020-01-11T14:00:00Z',
-        '2020-01-11T15:00:00Z',
-        [rruleEntry, updateEntry],
+        calendar,
+        mockCalendarEntry({
+          dtstart: '20200111T100000',
+          dtend: '20200111T110000',
+          rrule: 'FREQ=DAILY',
+        }),
       ),
     ).toEqual([
-      {
-        dtend: {
-          tzid: 'UTC',
-          value: '20200109T110000',
-        },
-        dtstart: {
-          tzid: 'UTC',
-          value: '20200109T100000',
-        },
-
-        rrule: 'FREQ=DAILY;COUNT=5',
-        uid: 'entry-0',
-      },
-      {
-        dtend: {
-          tzid: 'UTC',
-          value: '20200111T150000',
-        },
-        dtstart: {
-          tzid: 'UTC',
-          value: '20200111T140000',
-        },
-        recurrenceId: {
-          tzid: 'UTC',
-          value: '20200110T100000',
-        },
-        uid: 'entry-0',
-      },
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200111T100000',
+        dtend: '20200111T110000',
+        rrule: 'FREQ=DAILY',
+      }),
     ]);
   });
 
-  it('should add one more new override entry', () => {
-    const firstUpdateEntry = {
-      uid: 'entry-0',
-      recurrenceId: {
-        tzid: 'UTC',
-        value: '20200110T100000',
-      },
-      dtend: {
-        tzid: 'UTC',
-        value: '20200111T110000',
-      },
-      dtstart: {
-        tzid: 'UTC',
-        value: '20200111T100000',
-      },
-    };
-    const secondUpdateEntry = {
-      uid: 'entry-0',
-      recurrenceId: {
-        tzid: 'UTC',
-        value: '20200111T100000',
-      },
-      dtend: {
-        tzid: 'UTC',
-        value: '20200111T180000',
-      },
-      dtstart: {
-        tzid: 'UTC',
-        value: '20200111T170000',
-      },
-    };
+  it('should update single recurring entry with existing overrides', () => {
+    const calendar = [
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+        exdate: ['20200110T100000'],
+      }),
+      mockCalendarEntry({
+        dtstart: '20200111T120000',
+        dtend: '20200111T130000',
+        recurrenceId: '20200111T100000',
+      }),
+
+      // another entry that should stay
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+    ];
 
     expect(
       overrideCalendarEntries(
-        'entry-0',
-        '2020-01-10T10:00:00Z',
-        '2020-01-11T14:00:00Z',
-        '2020-01-11T15:00:00Z',
-        [rruleEntry, firstUpdateEntry, secondUpdateEntry],
+        calendar,
+        mockCalendarEntry({
+          dtstart: '20200111T100000',
+          dtend: '20200111T110000',
+          rrule: 'FREQ=DAILY',
+        }),
       ),
     ).toEqual([
-      {
-        dtend: {
-          tzid: 'UTC',
-          value: '20200109T110000',
-        },
-        dtstart: {
-          tzid: 'UTC',
-          value: '20200109T100000',
-        },
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200111T100000',
+        dtend: '20200111T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+    ]);
+  });
 
-        rrule: 'FREQ=DAILY;COUNT=5',
-        uid: 'entry-0',
-      },
-      {
-        dtend: {
-          tzid: 'UTC',
-          value: '20200111T150000',
-        },
-        dtstart: {
-          tzid: 'UTC',
-          value: '20200111T140000',
-        },
-        recurrenceId: {
-          tzid: 'UTC',
-          value: '20200110T100000',
-        },
-        uid: 'entry-0',
-      },
-      {
-        dtend: {
-          tzid: 'UTC',
-          value: '20200111T180000',
-        },
-        dtstart: {
-          tzid: 'UTC',
-          value: '20200111T170000',
-        },
-        recurrenceId: {
-          tzid: 'UTC',
-          value: '20200111T100000',
-        },
-        uid: 'entry-0',
-      },
+  it('should add an updated occurrence to a single recurring meeting', () => {
+    const calendar = [
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+
+      // another entry that should stay
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+    ];
+
+    expect(
+      overrideCalendarEntries(
+        calendar,
+        mockCalendarEntry({
+          dtstart: '20200111T120000',
+          dtend: '20200111T130000',
+          recurrenceId: '20200111T100000',
+        }),
+      ),
+    ).toEqual([
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200111T120000',
+        dtend: '20200111T130000',
+        recurrenceId: '20200111T100000',
+      }),
+    ]);
+  });
+
+  it('should update a single occurrence of a recurring meeting', () => {
+    const calendar = [
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200111T103000',
+        dtend: '20200111T113000',
+        recurrenceId: '20200111T100000',
+      }),
+
+      // another override that should stay
+      mockCalendarEntry({
+        dtstart: '20200115T103000',
+        dtend: '20200115T113000',
+        recurrenceId: '20200115T100000',
+      }),
+
+      // another entry that should stay
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+    ];
+
+    expect(
+      overrideCalendarEntries(
+        calendar,
+        mockCalendarEntry({
+          dtstart: '20200111T120000',
+          dtend: '20200111T130000',
+          recurrenceId: '20200111T100000',
+        }),
+      ),
+    ).toEqual([
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200115T103000',
+        dtend: '20200115T113000',
+        recurrenceId: '20200115T100000',
+      }),
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200111T120000',
+        dtend: '20200111T130000',
+        recurrenceId: '20200111T100000',
+      }),
     ]);
   });
 });

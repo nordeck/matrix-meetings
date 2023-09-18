@@ -14,59 +14,37 @@
  * limitations under the License.
  */
 
-import { DateTime } from 'luxon';
-import { CalendarEntry } from '../../matrix';
-import { formatICalDate } from '../dateTimeUtils';
+import { CalendarEntry } from '../../../lib/matrix';
+import { isRRuleOverrideEntry, parseICalDate } from '../../../lib/utils';
 
 /**
  * A list of updated calendar entries
  * add new override entry or update existing one
  */
 export function overrideCalendarEntries(
-  uid: string,
-  recurrenceId: string,
-  startDate: string,
-  endDate: string,
-  calendarEntries: CalendarEntry[] | undefined,
+  calendarEntries: CalendarEntry[],
+  newCalendarEntry: CalendarEntry,
 ): CalendarEntry[] {
-  const tzid = new Intl.DateTimeFormat().resolvedOptions().timeZone;
-
-  if (!calendarEntries) {
-    return [];
+  if (isRRuleOverrideEntry(newCalendarEntry)) {
+    return calendarEntries
+      .filter(
+        (c) =>
+          !(
+            c.recurrenceId &&
+            newCalendarEntry.recurrenceId &&
+            c.uid === newCalendarEntry.uid &&
+            +parseICalDate(c.recurrenceId) ===
+              +parseICalDate(newCalendarEntry.recurrenceId)
+          ),
+      )
+      .concat(newCalendarEntry);
   }
 
-  const meetingSeriesCalendarEntries = calendarEntries.filter(
-    (c) => c.uid === uid,
+  return (
+    calendarEntries
+      // Remove all existing entries for this single or recurring event
+      // TODO (PB-2988): try to keep all overrides that are still part of the new series
+      .filter((c) => c.uid !== newCalendarEntry.uid)
+      .concat(newCalendarEntry)
   );
-
-  const hasOldRecurrenceId = meetingSeriesCalendarEntries.some(
-    (entry) =>
-      entry.recurrenceId &&
-      entry.recurrenceId.value ===
-        formatICalDate(new Date(recurrenceId), tzid).value,
-  );
-  const updatedCalendarEntry = meetingSeriesCalendarEntries.map((entry) => {
-    if (
-      entry.recurrenceId &&
-      entry.recurrenceId.value ===
-        formatICalDate(new Date(recurrenceId), tzid).value
-    ) {
-      return {
-        ...entry,
-        dtstart: formatICalDate(DateTime.fromISO(startDate), tzid),
-        dtend: formatICalDate(DateTime.fromISO(endDate), tzid),
-      };
-    }
-    return entry;
-  });
-
-  const overrideCalendar: CalendarEntry = {
-    uid: calendarEntries[0].uid,
-    dtstart: formatICalDate(DateTime.fromISO(startDate), tzid),
-    dtend: formatICalDate(DateTime.fromISO(endDate), tzid),
-    recurrenceId: formatICalDate(new Date(recurrenceId), tzid),
-  };
-  const addCalendarEntry = [...meetingSeriesCalendarEntries, overrideCalendar];
-
-  return hasOldRecurrenceId ? updatedCalendarEntry : addCalendarEntry;
 }

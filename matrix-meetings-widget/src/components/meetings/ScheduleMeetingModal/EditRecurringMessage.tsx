@@ -15,14 +15,15 @@
  */
 
 import { Alert, AlertTitle, FormControl, Switch } from '@mui/material';
+import { unstable_useId as useId } from '@mui/utils';
 import { useTranslation } from 'react-i18next';
 
 /**
  * Props for the {@link EditRecurringMessage} component.
  */
 type EditRecurringMessageProps = {
-  isEditOne: boolean;
-  setIsEditOne: (_: unknown, checked: boolean) => void;
+  editRecurringSettings: boolean;
+  onChange: (checked: boolean) => void;
 };
 
 /**
@@ -33,15 +34,12 @@ type EditRecurringMessageProps = {
  * @param param0 - {@link EditRecurringMessageProps}
  */
 export function EditRecurringMessage({
-  isEditOne,
-  setIsEditOne,
+  editRecurringSettings,
+  onChange,
 }: EditRecurringMessageProps) {
   const { t } = useTranslation();
 
-  const title = t(
-    'editRecurringMessage.titleOne',
-    'Edit the recurring meeting series',
-  );
+  const titleId = useId();
 
   return (
     <Alert
@@ -55,17 +53,21 @@ export function EditRecurringMessage({
       action={
         <FormControl size="small">
           <Switch
-            checked={isEditOne}
-            onChange={setIsEditOne}
-            sx={{ ml: 2 }}
+            checked={editRecurringSettings}
+            onChange={(_, checked) => onChange(checked)}
             inputProps={{
-              'aria-label': title,
+              'aria-labelledby': titleId,
             }}
           />
         </FormControl>
       }
     >
-      <AlertTitle>{title}</AlertTitle>
+      <AlertTitle id={titleId}>
+        {t(
+          'editRecurringMessage.titleOne',
+          'Edit the recurring meeting series',
+        )}
+      </AlertTitle>
       {t(
         'editRecurringMessage.message',
         'All instances of the recurring meeting are editable',

@@ -16,8 +16,8 @@
 
 import { mockMeeting, mockRoomMember } from '../../../lib/testUtils';
 import { Meeting } from '../../../reducer/meetingsApi';
+import { diffMeeting } from './editMeetingThunk';
 import { CreateMeeting } from './types';
-import { diffMeeting } from './useEditMeeting';
 
 describe('diffMeeting', () => {
   it('should find difference between old and updated meeting', () => {

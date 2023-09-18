@@ -24,7 +24,7 @@ describe('useUpdateOnDate', () => {
   });
 
   it('should rerender at date', () => {
-    function Component({ date }: { date: Date }) {
+    function Component({ date }: { date: string }) {
       useUpdateOnDate(date);
 
       return <div>{new Date(Date.now()).toISOString()}</div>;
@@ -33,7 +33,7 @@ describe('useUpdateOnDate', () => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date('2022-12-07T20:30:00.000Z'));
 
-    render(<Component date={new Date('2022-12-07T20:31:00.000Z')}></Component>);
+    render(<Component date={'2022-12-07T20:31:00.000Z'}></Component>);
 
     expect(screen.getByText('2022-12-07T20:30:00.000Z')).toBeInTheDocument();
 

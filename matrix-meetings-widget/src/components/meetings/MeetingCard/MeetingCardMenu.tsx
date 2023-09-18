@@ -35,10 +35,9 @@ import {
   Meeting,
   makeSelectRoomPermissions,
   selectNordeckMeetingMetadataEventByRoomId,
-  selectRoomPowerLevelsEventByRoomId,
   useCloseMeetingMutation,
 } from '../../../reducer/meetingsApi';
-import { useAppSelector } from '../../../store';
+import { useAppDispatch, useAppSelector } from '../../../store';
 import { ConfirmDeleteDialog } from '../../common/ConfirmDeleteDialog';
 import { withoutYearDateFormat } from '../../common/DateTimePickers';
 import {
@@ -47,7 +46,7 @@ import {
   OpenXchangeMenuButtonItem,
   getOpenXChangeExternalReference,
 } from '../../common/MenuButton';
-import { useEditMeeting } from '../ScheduleMeetingModal';
+import { editMeetingThunk } from '../ScheduleMeetingModal';
 import { ScheduledDeletionWarning } from './ScheduledDeletionWarning';
 
 type MeetingCardMenuProps = {
@@ -143,29 +142,16 @@ export function MeetingCardMenu({
     widgetApi,
   ]);
 
-  const { editMeeting } = useEditMeeting();
-
-  const isMessagingEnabled = useAppSelector((state) => {
-    const event = selectRoomPowerLevelsEventByRoomId(state, meeting.meetingId);
-    return event?.content.events_default === 0;
-  });
-
+  const dispatch = useAppDispatch();
   const handleClickEditMeeting = useCallback(async () => {
     try {
-      await editMeeting(
-        meeting,
-        metadataEvent?.content.calendar,
-        isMessagingEnabled,
-      );
+      if (metadataEvent) {
+        await dispatch(editMeetingThunk(meeting)).unwrap();
+      }
     } catch {
       setShowErrorDialog(true);
     }
-  }, [
-    editMeeting,
-    meeting,
-    metadataEvent?.content.calendar,
-    isMessagingEnabled,
-  ]);
+  }, [metadataEvent, dispatch, meeting]);
 
   if (!canUpdateMeeting || !canCloseMeeting) {
     // If the menu would be empty, skip it

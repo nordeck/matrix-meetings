@@ -17,17 +17,30 @@
 import { WidgetConfig } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
-import { render, screen, waitFor } from '@testing-library/react';
+import {
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+  within,
+} from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { Subject } from 'rxjs';
-import { mockMeeting, mockWidgetEndpoint } from '../../../lib/testUtils';
+import {
+  mockCalendar,
+  mockMeeting,
+  mockWidgetEndpoint,
+} from '../../../lib/testUtils';
 import { createStore } from '../../../store';
 import { initializeStore } from '../../../store/store';
 import { LocalizationProvider } from '../../common/LocalizationProvider';
-import { ScheduleMeetingModal } from './ScheduleMeetingModal';
+import {
+  ScheduleMeetingModal,
+  getEditableInitialMeeting,
+} from './ScheduleMeetingModal';
 import { ScheduleMeetingModalRequest } from './types';
 
 const server = setupServer();
@@ -128,6 +141,117 @@ describe('<ScheduleMeetingModal>', () => {
     });
   });
 
+  it('should edit existing recurring meeting instance', async () => {
+    const subject = new Subject<string>();
+    widgetApi.getWidgetConfig.mockReturnValue({
+      data: {
+        meeting: mockMeeting({
+          content: {
+            startTime: '2999-01-02T10:00:00Z',
+            endTime: '2999-01-02T14:00:00Z',
+            recurrenceId: '2999-01-02T10:00:00Z',
+            calendarEntries: mockCalendar({
+              dtstart: '29990101T100000',
+              dtend: '29990101T140000',
+              rrule: 'FREQ=DAILY',
+            }),
+          },
+        }),
+      },
+    } as WidgetConfig<ScheduleMeetingModalRequest>);
+    widgetApi.observeModalButtons.mockReturnValue(subject.asObservable());
+
+    render(<ScheduleMeetingModal />, { wrapper: Wrapper });
+
+    const recurrenceAlert = screen.getByRole('status');
+    expect(
+      within(recurrenceAlert).getByRole('checkbox', {
+        name: 'Edit the recurring meeting series',
+        checked: false,
+      }),
+    ).toBeInTheDocument();
+
+    expect(screen.getByRole('textbox', { name: /title/i })).toBeDisabled();
+
+    const endTimeTextbox = screen.getByRole('textbox', { name: 'End time' });
+
+    // userEvent.type doesn't work here, so we have to use fireEvent
+    fireEvent.change(endTimeTextbox, { target: { value: '08:00 PM' } });
+
+    subject.next('nic.schedule.meeting.submit');
+
+    await waitFor(() => {
+      expect(widgetApi.closeModal).toHaveBeenLastCalledWith({
+        meeting: {
+          description: 'A brief description',
+          endTime: '2999-01-02T20:00:00.000Z',
+          participants: ['@user-id'],
+          startTime: '2999-01-02T10:00:00.000Z',
+          title: 'An important meeting',
+          widgetIds: [],
+          recurrenceId: '2999-01-02T10:00:00Z',
+        },
+        type: 'nic.schedule.meeting.submit',
+      });
+    });
+  });
+
+  it('should edit existing recurring meeting', async () => {
+    const subject = new Subject<string>();
+    widgetApi.getWidgetConfig.mockReturnValue({
+      data: {
+        meeting: mockMeeting({
+          content: {
+            startTime: '2999-01-02T10:00:00Z',
+            endTime: '2999-01-02T14:00:00Z',
+            recurrenceId: '2999-01-02T10:00:00Z',
+            calendarEntries: mockCalendar({
+              dtstart: '29990101T100000',
+              dtend: '29990101T140000',
+              rrule: 'FREQ=DAILY',
+            }),
+          },
+        }),
+      },
+    } as WidgetConfig<ScheduleMeetingModalRequest>);
+    widgetApi.observeModalButtons.mockReturnValue(subject.asObservable());
+
+    render(<ScheduleMeetingModal />, { wrapper: Wrapper });
+
+    const recurrenceAlert = screen.getByRole('status');
+    await userEvent.click(
+      within(recurrenceAlert).getByRole('checkbox', {
+        name: 'Edit the recurring meeting series',
+        checked: false,
+      }),
+    );
+
+    expect(screen.getByRole('textbox', { name: /title/i })).toBeEnabled();
+
+    const endTimeTextbox = screen.getByRole('textbox', { name: 'End time' });
+
+    // userEvent.type doesn't work here, so we have to use fireEvent
+    fireEvent.change(endTimeTextbox, { target: { value: '08:00 PM' } });
+
+    subject.next('nic.schedule.meeting.submit');
+
+    await waitFor(() => {
+      expect(widgetApi.closeModal).toHaveBeenLastCalledWith({
+        meeting: {
+          description: 'A brief description',
+          endTime: '2999-01-01T20:00:00.000Z',
+          participants: ['@user-id'],
+          startTime: '2999-01-01T10:00:00.000Z',
+          title: 'An important meeting',
+          widgetIds: [],
+          rrule: 'FREQ=DAILY',
+          recurrenceId: undefined,
+        },
+        type: 'nic.schedule.meeting.submit',
+      });
+    });
+  });
+
   it('should disable submission if input is invalid', async () => {
     render(<ScheduleMeetingModal />, { wrapper: Wrapper });
 
@@ -160,6 +284,69 @@ describe('<ScheduleMeetingModal>', () => {
 
     await waitFor(() => {
       expect(widgetApi.closeModal).toBeCalledWith();
+    });
+  });
+});
+
+describe('getEditableInitialMeeting', () => {
+  it.each([true, false])(
+    'should return a normal meeting with editRecurringSeries=%s',
+    (editRecurringSeries) => {
+      const meeting = mockMeeting();
+
+      expect(getEditableInitialMeeting(meeting, editRecurringSeries)).toEqual({
+        key: 'edit-normal',
+        editableInitialMeeting: meeting,
+      });
+    },
+  );
+
+  it('should return the single recurrence entry meeting with editRecurringSeries=false', () => {
+    const meeting = mockMeeting({
+      content: {
+        startTime: '2999-01-02T10:00:00Z',
+        endTime: '2999-01-02T14:00:00Z',
+        recurrenceId: '2999-01-02T10:00:00Z',
+        calendarEntries: mockCalendar({
+          dtstart: '29990101T100000',
+          dtend: '29990101T140000',
+          rrule: 'FREQ=DAILY',
+        }),
+      },
+    });
+
+    expect(getEditableInitialMeeting(meeting, false)).toEqual({
+      key: 'edit-normal',
+      editableInitialMeeting: meeting,
+    });
+  });
+
+  it('should return the recurrence entry meeting with editRecurringSeries=true', () => {
+    const meeting = mockMeeting({
+      content: {
+        startTime: '2999-01-02T10:00:00Z',
+        endTime: '2999-01-02T14:00:00Z',
+        recurrenceId: '2999-01-02T10:00:00Z',
+        calendarEntries: mockCalendar({
+          dtstart: '29990101T100000',
+          dtend: '29990101T140000',
+          rrule: 'FREQ=DAILY',
+        }),
+      },
+    });
+
+    expect(getEditableInitialMeeting(meeting, true)).toEqual({
+      key: 'edit-series',
+      editableInitialMeeting: mockMeeting({
+        content: {
+          calendarEntries: mockCalendar({
+            dtstart: '29990101T100000',
+            dtend: '29990101T140000',
+            rrule: 'FREQ=DAILY',
+          }),
+          recurrenceId: undefined,
+        },
+      }),
     });
   });
 });

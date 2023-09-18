@@ -223,6 +223,11 @@ test.describe('Recurring Meetings', () => {
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/09/2040')
         .meetingTimeRangeText,
     ).toHaveText('10:40 AM – 11:40 AM. Recurrence: Every day for 5 times');
+
+    await expect(
+      aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/04/2040')
+        .meetingTimeRangeText,
+    ).toHaveText('10:30 AM – 11:30 AM. Recurrence: Every day for 5 times');
   });
 
   test('should covert a recurring meeting into a single meeting', async ({

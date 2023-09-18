@@ -29,9 +29,7 @@ import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
 import { DateTime } from 'luxon';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { DateTimeEntry } from '../../../lib/matrix';
 import {
-  formatICalDate,
   getInitialMeetingTimes,
   isBotUser,
   isRecurringCalendarSourceEntry,
@@ -56,7 +54,6 @@ import { MemberSelectionDropdown } from '../MemberSelectionDropdown';
 import { MemberSelection } from '../MemberSelectionDropdown/MemberSelectionDropdown';
 import { RecurrenceEditor } from '../RecurrenceEditor';
 import { WidgetsSelectionDropdown } from '../WidgetsSelectionDropdown';
-import { EditRecurringMessage } from './EditRecurringMessage';
 import { getMessagingPowerLevel } from './getMessagingPowerLevel';
 import { CreateMeeting } from './types';
 import { useUserSearchResults } from './useUserSearchResults';
@@ -65,7 +62,6 @@ export type ScheduleMeetingProps = {
   onMeetingChange: (meeting: CreateMeeting | undefined) => void;
   initialMeeting?: Meeting | undefined;
   initialIsMessagingEnabled?: boolean;
-  showParticipants?: boolean;
   parentRoomId?: string;
 };
 
@@ -82,37 +78,20 @@ export const ScheduleMeeting = ({
     [],
   );
 
-  const isEditingRecurringMeeting =
-    initialMeeting &&
-    isRecurringCalendarSourceEntry(initialMeeting.calendarEntries);
   const [isDirty, setIsDirty] = useState(false);
-  const [isEditRecurring, setIsEditRecurring] = useState(false);
-
-  const disabledFormControls =
-    !isEditRecurring &&
-    initialMeeting !== undefined &&
-    isEditingRecurringMeeting;
 
   const [title, setTitle] = useState(initialMeeting?.title ?? '');
   const [description, setDescription] = useState(
     initialMeeting?.description ?? '',
   );
-  const firstInitialStartDate = initialMeeting
-    ? calculateDate(
-        !isEditRecurring,
-        initialMeeting.startTime,
-        initialMeeting.calendarEntries[0].dtstart,
-      )
-    : initialStartDate;
-  const firstInitialEndDate = initialMeeting
-    ? calculateDate(
-        !isEditRecurring,
-        initialMeeting.endTime,
-        initialMeeting.calendarEntries[0].dtend,
-      )
-    : initialEndDate;
-  const [startDate, setStartDate] = useState(firstInitialStartDate);
-  const [endDate, setEndDate] = useState(firstInitialEndDate);
+  const [startDate, setStartDate] = useState(
+    initialMeeting
+      ? DateTime.fromISO(initialMeeting.startTime)
+      : initialStartDate,
+  );
+  const [endDate, setEndDate] = useState(
+    initialMeeting ? DateTime.fromISO(initialMeeting.endTime) : initialEndDate,
+  );
 
   const [participants, setParticipants] = useState<string[]>(() => {
     if (initialMeeting?.participants) {
@@ -160,6 +139,10 @@ export const ScheduleMeeting = ({
   });
 
   const isMeetingCreation = !initialMeeting;
+  const isEditingRecurringMeeting =
+    initialMeeting &&
+    initialMeeting.recurrenceId === undefined &&
+    isRecurringCalendarSourceEntry(initialMeeting.calendarEntries);
   const startDateReadOnly =
     !isEditingRecurringMeeting &&
     initialMeeting &&
@@ -320,41 +303,6 @@ export const ScheduleMeeting = ({
     [],
   );
 
-  const handleSwitchEditRecurring = useCallback(
-    (_, checked: boolean) => {
-      setIsEditRecurring(checked);
-      if (initialMeeting) {
-        setStartDate(
-          calculateDate(
-            isEditRecurring,
-            initialMeeting.startTime,
-            initialMeeting.calendarEntries[0].dtstart,
-          ),
-        );
-        setEndDate(
-          calculateDate(
-            isEditRecurring,
-            initialMeeting.endTime,
-            initialMeeting.calendarEntries[0].dtend,
-          ),
-        );
-        if (isEditRecurring) {
-          setTitle(initialMeeting.title);
-          setDescription(initialMeeting.description ?? '');
-          setIsMessagingEnabled(initialIsMessagingEnabled);
-          setParticipants(initialMeeting.participants.map((p) => p.userId));
-          setWidgets(initialMeeting.widgets);
-          setRecurrence({
-            rrule: initialMeeting?.calendarEntries[0].rrule,
-            isValid: true,
-            isDirty: false,
-          });
-        }
-      }
-    },
-    [initialIsMessagingEnabled, initialMeeting, isEditRecurring],
-  );
-
   const minStartTimeOverride = isEditingRecurringMeeting
     ? parseICalDate(initialMeeting.calendarEntries[0].dtstart)
     : undefined;
@@ -394,10 +342,8 @@ export const ScheduleMeeting = ({
         participants,
         powerLevels,
         widgetIds: widgets,
-        rrule: recurrence.rrule,
-        recurrenceId: !isEditRecurring
-          ? initialMeeting?.recurrenceId
-          : undefined,
+        rrule: !initialMeeting?.recurrenceId ? recurrence.rrule : undefined,
+        recurrenceId: initialMeeting?.recurrenceId,
       });
     }
   }, [
@@ -417,7 +363,6 @@ export const ScheduleMeeting = ({
     startDateReadOnly,
     title,
     widgets,
-    isEditRecurring,
   ]);
 
   const titleError = isDirty && !title;
@@ -427,6 +372,9 @@ export const ScheduleMeeting = ({
   const isBreakoutSession =
     initialMeeting?.type === 'net.nordeck.meetings.breakoutsession';
 
+  const isEditingSingleRecurrence =
+    initialMeeting && initialMeeting.recurrenceId !== undefined;
+
   const titleId = useId();
   const descriptionId = useId();
   const messagingId = useId();
@@ -435,12 +383,6 @@ export const ScheduleMeeting = ({
     <MeetingNotEndedGuard meeting={initialMeeting} withMessage>
       {initialMeeting && (
         <MeetingHasBreakoutSessionsWarning meeting={initialMeeting} />
-      )}
-      {isEditingRecurringMeeting && (
-        <EditRecurringMessage
-          isEditOne={isEditRecurring}
-          setIsEditOne={handleSwitchEditRecurring}
-        />
       )}
 
       <Stack direction="column" flexWrap="wrap" sx={{ px: 1, pt: 1 }}>
@@ -462,7 +404,7 @@ export const ScheduleMeeting = ({
           onChange={handleChangeTitle}
           value={title}
           sx={{ mt: 0 }}
-          disabled={disabledFormControls}
+          disabled={isEditingSingleRecurrence}
         />
 
         <Grid container>
@@ -543,7 +485,7 @@ export const ScheduleMeeting = ({
           multiline
           onChange={handleChangeDescription}
           value={description}
-          disabled={disabledFormControls}
+          disabled={isEditingSingleRecurrence}
         />
 
         <MemberSelectionDropdown
@@ -576,7 +518,7 @@ export const ScheduleMeeting = ({
               ? t('scheduleMeeting.typeToSearch', 'Type to search for a user…')
               : t('memberSelectionDropdown.noMembers', 'No further members.')
           }
-          disabled={disabledFormControls}
+          disabled={isEditingSingleRecurrence}
         />
 
         <Stack direction="row" justifyContent="flex-end">
@@ -598,7 +540,7 @@ export const ScheduleMeeting = ({
               )}
               sx={{ mx: 0 }}
               labelPlacement="start"
-              disabled={disabledFormControls}
+              disabled={isEditingSingleRecurrence}
             />
           </FormControl>
         </Stack>
@@ -607,7 +549,7 @@ export const ScheduleMeeting = ({
           autoSelectAllWidgets={!initialMeeting}
           onChange={handleChangeWidgets}
           selectedWidgets={widgets}
-          disabled={disabledFormControls}
+          disabled={isEditingSingleRecurrence}
         />
 
         {!isBreakoutSession && (
@@ -616,25 +558,10 @@ export const ScheduleMeeting = ({
             onChange={handleChangeRecurrence}
             rule={recurrence.rrule}
             startDate={startDate.toJSDate()}
-            disabled={disabledFormControls}
+            disabled={isEditingSingleRecurrence}
           />
         )}
       </Stack>
     </MeetingNotEndedGuard>
   );
 };
-
-export function calculateDate(
-  isEditRecurring: boolean,
-  date: string,
-  dateTimeEntry: DateTimeEntry,
-) {
-  return parseICalDate(
-    isEditRecurring
-      ? formatICalDate(
-          DateTime.fromISO(date),
-          new Intl.DateTimeFormat().resolvedOptions().timeZone,
-        )
-      : dateTimeEntry,
-  );
-}

@@ -157,7 +157,7 @@ describe('<ScheduleMeeting>', () => {
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
-      <ScheduleMeeting onMeetingChange={jest.fn()} showParticipants />,
+      <ScheduleMeeting onMeetingChange={jest.fn()} />,
       { wrapper: Wrapper },
     );
 
@@ -286,10 +286,9 @@ describe('<ScheduleMeeting>', () => {
       ],
     });
 
-    render(
-      <ScheduleMeeting onMeetingChange={onMeetingChange} showParticipants />,
-      { wrapper: Wrapper },
-    );
+    render(<ScheduleMeeting onMeetingChange={onMeetingChange} />, {
+      wrapper: Wrapper,
+    });
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
@@ -327,10 +326,9 @@ describe('<ScheduleMeeting>', () => {
   it('should show a message if members could not be loaded', async () => {
     widgetApi.searchUserDirectory.mockRejectedValue(new Error('unexpected'));
 
-    render(
-      <ScheduleMeeting onMeetingChange={onMeetingChange} showParticipants />,
-      { wrapper: Wrapper },
-    );
+    render(<ScheduleMeeting onMeetingChange={onMeetingChange} />, {
+      wrapper: Wrapper,
+    });
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
@@ -398,7 +396,6 @@ describe('<ScheduleMeeting>', () => {
       <ScheduleMeeting
         initialMeeting={meeting}
         onMeetingChange={onMeetingChange}
-        showParticipants
       />,
       { wrapper: Wrapper },
     );
@@ -628,157 +625,11 @@ describe('<ScheduleMeeting>', () => {
     });
   }, 10000);
 
-  it('should update the meeting series', async () => {
+  it('should fill the form for editing a recurring meeting instance', async () => {
     render(
       <ScheduleMeeting
         initialMeeting={mockMeeting({
-          content: {
-            startTime: '2023-01-01T10:00:00Z',
-            endTime: '2023-01-01T14:00:00Z',
-            calendarEntries: mockCalendar({
-              dtstart: '20220101T100000',
-              dtend: '20220101T140000',
-              rrule: 'FREQ=DAILY',
-            }),
-          },
-        })}
-        onMeetingChange={onMeetingChange}
-      />,
-      { wrapper: Wrapper },
-    );
-
-    await userEvent.click(
-      screen.getByRole('checkbox', {
-        name: 'Edit the recurring meeting series',
-      }),
-    );
-
-    const titleField = screen.getByRole('textbox', {
-      name: 'Title (required)',
-    });
-    const descriptionField = screen.getByRole('textbox', {
-      name: 'Description',
-    });
-    const startDateField = screen.getByRole('textbox', {
-      name: 'Start date',
-    });
-    const startTimeField = screen.getByRole('textbox', {
-      name: 'Start time',
-    });
-    const endDateField = screen.getByRole('textbox', {
-      name: 'End date',
-    });
-    const endTimeField = screen.getByRole('textbox', {
-      name: 'End time',
-    });
-
-    expect(onMeetingChange).toHaveBeenLastCalledWith(undefined);
-
-    expect(titleField).toHaveValue('An important meeting');
-    expect(descriptionField).toHaveValue('A brief description');
-
-    await userEvent.type(titleField, 'A new name', {
-      initialSelectionStart: 0,
-      initialSelectionEnd: 20,
-    });
-    await userEvent.type(descriptionField, 'A new description', {
-      initialSelectionStart: 0,
-      initialSelectionEnd: 19,
-    });
-
-    fireEvent.change(startDateField, { target: { value: '01/02/2023' } });
-    fireEvent.change(startTimeField, { target: { value: '12:34 AM' } });
-    fireEvent.change(endDateField, { target: { value: '01/03/2023' } });
-    fireEvent.change(endTimeField, { target: { value: '12:34 PM' } });
-
-    await userEvent.click(
-      screen.getByRole('checkbox', {
-        name: 'Allow messaging for all participants',
-      }),
-    );
-
-    await userEvent.click(
-      screen.getByRole('button', { name: 'Repeat meeting Every day' }),
-    );
-    const recurrenceOptionsList = screen.getByRole('listbox', {
-      name: 'Repeat meeting',
-    });
-    await userEvent.click(
-      within(recurrenceOptionsList).getByRole('option', { name: 'Weekly' }),
-    );
-
-    expect(onMeetingChange).toHaveBeenLastCalledWith({
-      title: 'A new name',
-      description: 'A new description',
-      startTime: '2023-01-02T00:34:00.000Z',
-      endTime: '2023-01-03T12:34:00.000Z',
-      widgetIds: [],
-      participants: ['@user-id'],
-      recurrenceId: undefined,
-      powerLevels: {
-        messaging: 100,
-      },
-      rrule: 'FREQ=WEEKLY',
-    });
-  }, 10000);
-
-  it('should update one instance of the meeting series', async () => {
-    render(
-      <ScheduleMeeting
-        initialMeeting={mockMeeting({
-          content: {
-            startTime: '2023-01-01T10:00:00Z',
-            endTime: '2023-01-01T14:00:00Z',
-            recurrenceId: '2023-01-02T10:00:00Z',
-            calendarEntries: mockCalendar({
-              dtstart: '20220101T100000',
-              dtend: '20220101T140000',
-              rrule: 'FREQ=DAILY;COUNT=5',
-            }),
-          },
-        })}
-        onMeetingChange={onMeetingChange}
-      />,
-      { wrapper: Wrapper },
-    );
-
-    const startDateField = screen.getByRole('textbox', {
-      name: 'Start date',
-    });
-    const startTimeField = screen.getByRole('textbox', {
-      name: 'Start time',
-    });
-    const endDateField = screen.getByRole('textbox', {
-      name: 'End date',
-    });
-    const endTimeField = screen.getByRole('textbox', {
-      name: 'End time',
-    });
-
-    expect(onMeetingChange).toHaveBeenLastCalledWith(undefined);
-
-    fireEvent.change(startDateField, { target: { value: '01/02/2023' } });
-    fireEvent.change(startTimeField, { target: { value: '12:34 AM' } });
-    fireEvent.change(endDateField, { target: { value: '01/03/2023' } });
-    fireEvent.change(endTimeField, { target: { value: '12:34 PM' } });
-
-    expect(onMeetingChange).toHaveBeenLastCalledWith({
-      title: 'An important meeting',
-      description: 'A brief description',
-      startTime: '2023-01-02T00:34:00.000Z',
-      endTime: '2023-01-03T12:34:00.000Z',
-      recurrenceId: '2023-01-02T10:00:00Z',
-      widgetIds: [],
-      participants: ['@user-id'],
-      powerLevels: undefined,
-      rrule: 'FREQ=DAILY;COUNT=5',
-    });
-  }, 10000);
-
-  it('should fill the form for editing all meeting series', async () => {
-    render(
-      <ScheduleMeeting
-        initialMeeting={mockMeeting({
+          room_id: '!room-id',
           content: {
             startTime: '2022-01-02T10:00:00Z',
             endTime: '2022-01-02T14:00:00Z',
@@ -794,22 +645,96 @@ describe('<ScheduleMeeting>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(screen.getByRole('status')).toHaveTextContent(
-      /Edit the recurring meeting series/,
+    const titleTextbox = screen.getByRole('textbox', {
+      name: 'Title (required)',
+    });
+    expect(titleTextbox).toHaveValue('An important meeting');
+    expect(titleTextbox).toBeDisabled();
+
+    const descriptionTextbox = screen.getByRole('textbox', {
+      name: 'Description',
+    });
+    expect(descriptionTextbox).toHaveValue('A brief description');
+    expect(descriptionTextbox).toBeDisabled();
+
+    const startDateTextbox = screen.getByRole('textbox', {
+      name: 'Start date',
+    });
+    expect(startDateTextbox).toHaveValue('01/02/2022');
+    expect(startDateTextbox).toHaveAttribute('readonly');
+    expect(startDateTextbox).toBeValid();
+
+    const startTimeTextbox = screen.getByRole('textbox', {
+      name: 'Start time',
+    });
+    expect(startTimeTextbox).toHaveValue('10:00 AM');
+    expect(startTimeTextbox).toHaveAttribute('readonly');
+    expect(startTimeTextbox).toBeValid();
+
+    const endDateTextbox = screen.getByRole('textbox', { name: 'End date' });
+    expect(endDateTextbox).toHaveValue('01/02/2022');
+    expect(endDateTextbox).not.toHaveAttribute('readonly');
+    expect(endDateTextbox).toBeInvalid();
+
+    const endTimeTextbox = screen.getByRole('textbox', { name: 'End time' });
+    expect(endTimeTextbox).toHaveValue('02:00 PM');
+    expect(endTimeTextbox).not.toHaveAttribute('readonly');
+    expect(endTimeTextbox).toBeValid();
+
+    const participantsCombobox = screen.getByRole('combobox', {
+      name: 'Participants',
+    });
+    expect(participantsCombobox).toBeDisabled();
+
+    const messagingCheckbox = screen.getByRole('checkbox', {
+      name: 'Allow messaging for all participants',
+      checked: true,
+    });
+    expect(messagingCheckbox).toBeDisabled();
+
+    const widgetsCombobox = screen.getByRole('combobox', {
+      name: 'Widgets',
+    });
+    expect(widgetsCombobox).toBeDisabled();
+
+    const repetitionButton = screen.getByRole('button', {
+      name: 'Repeat meeting Every day',
+    });
+    expect(repetitionButton).toHaveAttribute('aria-disabled', 'true');
+  });
+
+  it('should fill the form for editing a recurring meeting', async () => {
+    render(
+      <ScheduleMeeting
+        initialMeeting={mockMeeting({
+          room_id: '!room-id',
+          content: {
+            startTime: '2022-01-01T10:00:00Z',
+            endTime: '2022-01-01T14:00:00Z',
+            calendarEntries: mockCalendar({
+              dtstart: '20220101T100000',
+              dtend: '20220101T140000',
+              rrule: 'FREQ=DAILY',
+            }),
+            recurrenceId: undefined,
+          },
+        })}
+        onMeetingChange={onMeetingChange}
+      />,
+      { wrapper: Wrapper },
     );
 
-    await userEvent.click(
-      screen.getByRole('checkbox', {
-        name: 'Edit the recurring meeting series',
-      }),
-    );
+    const titleTextbox = screen.getByRole('textbox', {
+      name: 'Title (required)',
+    });
+    expect(titleTextbox).toHaveValue('An important meeting');
+    expect(titleTextbox).toBeEnabled();
 
-    expect(
-      screen.getByRole('textbox', { name: 'Title (required)' }),
-    ).toHaveValue('An important meeting');
-    expect(screen.getByRole('textbox', { name: 'Description' })).toHaveValue(
-      'A brief description',
-    );
+    const descriptionTextbox = screen.getByRole('textbox', {
+      name: 'Description',
+    });
+    expect(descriptionTextbox).toHaveValue('A brief description');
+    expect(descriptionTextbox).toBeEnabled();
 
     const startDateTextbox = screen.getByRole('textbox', {
       name: 'Start date',
@@ -825,7 +750,7 @@ describe('<ScheduleMeeting>', () => {
     expect(startTimeTextbox).not.toHaveAttribute('readonly');
     expect(startTimeTextbox).toBeValid();
 
-    const endDateTextbox = screen.getByRole('textbox', { name: 'Start date' });
+    const endDateTextbox = screen.getByRole('textbox', { name: 'End date' });
     expect(endDateTextbox).toHaveValue('01/01/2022');
     expect(endDateTextbox).not.toHaveAttribute('readonly');
     expect(endDateTextbox).toBeValid();
@@ -834,124 +759,27 @@ describe('<ScheduleMeeting>', () => {
     expect(endTimeTextbox).toHaveValue('02:00 PM');
     expect(endTimeTextbox).not.toHaveAttribute('readonly');
     expect(endTimeTextbox).toBeValid();
-  });
 
-  it('should switch between edit one instance and edit all the meeting series', async () => {
-    render(
-      <ScheduleMeeting
-        initialMeeting={mockMeeting({
-          content: {
-            startTime: '2022-01-02T10:00:00Z',
-            endTime: '2022-01-02T14:00:00Z',
-            calendarEntries: mockCalendar({
-              dtstart: '20220101T100000',
-              dtend: '20220101T140000',
-              rrule: 'FREQ=DAILY',
-            }),
-          },
-        })}
-        onMeetingChange={onMeetingChange}
-      />,
-      { wrapper: Wrapper },
-    );
-
-    expect(screen.getByRole('status')).toHaveTextContent(
-      /Edit the recurring meeting series/,
-    );
-
-    const editSwitch = screen.getByRole('checkbox', {
-      name: 'Edit the recurring meeting series',
+    const participantsCombobox = screen.getByRole('combobox', {
+      name: 'Participants',
     });
+    expect(participantsCombobox).toBeEnabled();
 
-    const startAtGroup = screen.getByRole('group', { name: 'Start at' });
-    const endAtGroup = screen.getByRole('group', { name: 'End at' });
+    const messagingCheckbox = screen.getByRole('checkbox', {
+      name: 'Allow messaging for all participants',
+      checked: true,
+    });
+    expect(messagingCheckbox).toBeEnabled();
 
-    expect(editSwitch).not.toBeChecked();
-    expect(
-      screen.getByRole('textbox', { name: 'Title (required)' }),
-    ).toBeDisabled();
-    expect(screen.getByRole('textbox', { name: 'Description' })).toBeDisabled();
+    const widgetsCombobox = screen.getByRole('combobox', {
+      name: 'Widgets',
+    });
+    expect(widgetsCombobox).toBeEnabled();
 
-    expect(
-      within(startAtGroup).getByRole('textbox', { name: 'Start date' }),
-    ).toHaveValue('01/02/2022');
-    expect(
-      within(startAtGroup).getByRole('textbox', { name: 'Start time' }),
-    ).toHaveValue('10:00 AM');
-    expect(
-      within(endAtGroup).getByRole('textbox', { name: 'End date' }),
-    ).toHaveValue('01/02/2022');
-    expect(
-      within(endAtGroup).getByRole('textbox', { name: 'End time' }),
-    ).toHaveValue('02:00 PM');
-
-    expect(
-      screen.getByRole('checkbox', {
-        name: 'Allow messaging for all participants',
-      }),
-    ).toBeDisabled();
-    expect(
-      screen.getByRole('combobox', { name: 'Participants' }),
-    ).toBeDisabled();
-    expect(screen.getByRole('combobox', { name: 'Widgets' })).toBeDisabled();
-    expect(
-      screen.getByRole('radio', { name: 'The meeting is repeated forever' }),
-    ).toBeDisabled();
-    expect(
-      screen.getByRole('radio', {
-        name: 'The meeting is repeated till February 1, 2022',
-      }),
-    ).toBeDisabled();
-    expect(
-      screen.getByRole('radio', { name: 'Ends after 30 meetings' }),
-    ).toBeDisabled();
-
-    await userEvent.click(editSwitch);
-
-    expect(editSwitch).toBeChecked();
-    expect(
-      screen.getByRole('textbox', { name: 'Title (required)' }),
-    ).not.toBeDisabled();
-    expect(
-      screen.getByRole('textbox', { name: 'Description' }),
-    ).not.toBeDisabled();
-
-    expect(
-      within(startAtGroup).getByRole('textbox', { name: 'Start date' }),
-    ).toHaveValue('01/01/2022');
-    expect(
-      within(startAtGroup).getByRole('textbox', { name: 'Start time' }),
-    ).toHaveValue('10:00 AM');
-
-    expect(
-      within(endAtGroup).getByRole('textbox', { name: 'End date' }),
-    ).toHaveValue('01/01/2022');
-    expect(
-      within(endAtGroup).getByRole('textbox', { name: 'End time' }),
-    ).toHaveValue('02:00 PM');
-
-    expect(
-      screen.getByRole('checkbox', {
-        name: 'Allow messaging for all participants',
-      }),
-    ).not.toBeDisabled();
-    expect(
-      screen.getByRole('combobox', { name: 'Participants' }),
-    ).not.toBeDisabled();
-    expect(
-      screen.getByRole('combobox', { name: 'Widgets' }),
-    ).not.toBeDisabled();
-    expect(
-      screen.getByRole('radio', { name: 'The meeting is repeated forever' }),
-    ).not.toBeDisabled();
-    expect(
-      screen.getByRole('radio', {
-        name: 'The meeting is repeated till February 1, 2022',
-      }),
-    ).not.toBeDisabled();
-    expect(
-      screen.getByRole('radio', { name: 'Ends after 30 meetings' }),
-    ).not.toBeDisabled();
+    const repetitionButton = screen.getByRole('button', {
+      name: 'Repeat meeting Every day',
+    });
+    expect(repetitionButton).toBeEnabled();
   });
 
   it('should edit the meeting even if it already started', async () => {
@@ -1160,7 +988,6 @@ describe('<ScheduleMeeting>', () => {
       <ScheduleMeeting
         initialMeeting={meeting}
         onMeetingChange={onMeetingChange}
-        showParticipants
       />,
       { wrapper: Wrapper },
     );
