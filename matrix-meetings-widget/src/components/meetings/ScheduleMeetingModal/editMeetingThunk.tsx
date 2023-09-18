@@ -211,10 +211,7 @@ export const diffMeeting = (
     dtend: formatICalDate(DateTime.fromISO(newMeeting.endTime), tzid),
     rrule: newMeeting.rrule,
     recurrenceId: newMeeting.recurrenceId
-      ? formatICalDate(
-          DateTime.fromISO(newMeeting.recurrenceId),
-          new Intl.DateTimeFormat().resolvedOptions().timeZone,
-        )
+      ? formatICalDate(DateTime.fromISO(newMeeting.recurrenceId), tzid)
       : undefined,
   });
 

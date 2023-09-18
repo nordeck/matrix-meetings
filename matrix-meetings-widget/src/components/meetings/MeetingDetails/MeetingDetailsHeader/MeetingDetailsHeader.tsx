@@ -104,13 +104,13 @@ export function MeetingDetailsHeader({
   const dispatch = useAppDispatch();
   const handleClickEditMeeting = useCallback(async () => {
     try {
-      if (meeting && metadataEvent) {
+      if (meeting) {
         await dispatch(editMeetingThunk(meeting)).unwrap();
       }
     } catch {
       setShowErrorDialog(true);
     }
-  }, [dispatch, meeting, metadataEvent]);
+  }, [dispatch, meeting]);
 
   const handleClickOpenDeleteConfirm = useCallback(() => {
     setOpenDeleteConfirm(true);

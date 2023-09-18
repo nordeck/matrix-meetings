@@ -22,7 +22,7 @@ import { useTranslation } from 'react-i18next';
  * Props for the {@link EditRecurringMessage} component.
  */
 type EditRecurringMessageProps = {
-  editRecurringSettings: boolean;
+  editRecurringSeries: boolean;
   onChange: (checked: boolean) => void;
 };
 
@@ -34,7 +34,7 @@ type EditRecurringMessageProps = {
  * @param param0 - {@link EditRecurringMessageProps}
  */
 export function EditRecurringMessage({
-  editRecurringSettings,
+  editRecurringSeries,
   onChange,
 }: EditRecurringMessageProps) {
   const { t } = useTranslation();
@@ -53,7 +53,7 @@ export function EditRecurringMessage({
       action={
         <FormControl size="small">
           <Switch
-            checked={editRecurringSettings}
+            checked={editRecurringSeries}
             onChange={(_, checked) => onChange(checked)}
             inputProps={{
               'aria-labelledby': titleId,

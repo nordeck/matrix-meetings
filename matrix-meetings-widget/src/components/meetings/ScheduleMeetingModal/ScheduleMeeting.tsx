@@ -77,9 +77,7 @@ export const ScheduleMeeting = ({
     getInitialMeetingTimes,
     [],
   );
-
   const [isDirty, setIsDirty] = useState(false);
-
   const [title, setTitle] = useState(initialMeeting?.title ?? '');
   const [description, setDescription] = useState(
     initialMeeting?.description ?? '',

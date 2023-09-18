@@ -77,38 +77,16 @@ export const ScheduleMeetingModal = () => {
     initialMeeting &&
     isRecurringCalendarSourceEntry(initialMeeting.calendarEntries);
 
-  const { key, editableInitialMeeting } = useMemo((): {
-    key: string;
-    editableInitialMeeting: Meeting | undefined;
-  } => {
-    if (
-      initialMeeting &&
-      isEditRecurringSeries &&
-      isRecurringCalendarSourceEntry(initialMeeting.calendarEntries)
-    ) {
-      return {
-        key: 'edit-series',
-        editableInitialMeeting: {
-          ...initialMeeting,
-          startTime: toISOString(
-            parseICalDate(initialMeeting.calendarEntries[0].dtstart),
-          ),
-          endTime: toISOString(
-            parseICalDate(initialMeeting.calendarEntries[0].dtend),
-          ),
-          recurrenceId: undefined,
-        },
-      };
-    }
-
-    return { key: 'edit-normal', editableInitialMeeting: initialMeeting };
-  }, [initialMeeting, isEditRecurringSeries]);
+  const { key, editableInitialMeeting } = useMemo(
+    () => getEditableInitialMeeting(initialMeeting, isEditRecurringSeries),
+    [initialMeeting, isEditRecurringSeries],
+  );
 
   return (
     <>
       {isEditingRecurringMeeting && (
         <EditRecurringMessage
-          editRecurringSettings={isEditRecurringSeries}
+          editRecurringSeries={isEditRecurringSeries}
           onChange={setEditRecurringSeries}
         />
       )}
@@ -129,7 +107,7 @@ export const ScheduleMeetingModal = () => {
  * recurrence entry (i.e. the single meeting in the series) or editing the complete series.
  */
 export function getEditableInitialMeeting(
-  initialMeeting: Meeting,
+  initialMeeting: Meeting | undefined,
   editRecurringSeries: boolean,
 ): {
   /**

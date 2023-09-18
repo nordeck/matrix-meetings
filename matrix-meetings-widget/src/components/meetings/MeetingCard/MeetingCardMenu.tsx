@@ -145,13 +145,11 @@ export function MeetingCardMenu({
   const dispatch = useAppDispatch();
   const handleClickEditMeeting = useCallback(async () => {
     try {
-      if (metadataEvent) {
-        await dispatch(editMeetingThunk(meeting)).unwrap();
-      }
+      await dispatch(editMeetingThunk(meeting)).unwrap();
     } catch {
       setShowErrorDialog(true);
     }
-  }, [metadataEvent, dispatch, meeting]);
+  }, [dispatch, meeting]);
 
   if (!canUpdateMeeting || !canCloseMeeting) {
     // If the menu would be empty, skip it

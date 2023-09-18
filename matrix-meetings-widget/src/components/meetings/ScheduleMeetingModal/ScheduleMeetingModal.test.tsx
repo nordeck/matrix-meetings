@@ -290,6 +290,18 @@ describe('<ScheduleMeetingModal>', () => {
 
 describe('getEditableInitialMeeting', () => {
   it.each([true, false])(
+    'should return a undefined meeting with editRecurringSeries=%s',
+    (editRecurringSeries) => {
+      expect(getEditableInitialMeeting(undefined, editRecurringSeries)).toEqual(
+        {
+          key: 'edit-normal',
+          editableInitialMeeting: undefined,
+        },
+      );
+    },
+  );
+
+  it.each([true, false])(
     'should return a normal meeting with editRecurringSeries=%s',
     (editRecurringSeries) => {
       const meeting = mockMeeting();
