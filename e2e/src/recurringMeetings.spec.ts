@@ -338,6 +338,8 @@ test.describe('Recurring Meetings', () => {
     ).toBeVisible();
   });
 
+  // TODO: Edit starting from
+
   test('should delete recurring meeting', async ({
     aliceMeetingsWidgetPage,
   }) => {
@@ -368,8 +370,6 @@ test.describe('Recurring Meetings', () => {
       aliceMeetingsWidgetPage.getMeeting('My Meeting').card,
     ).toHaveCount(0);
   });
-
-  // TODO: Edit starting from
 
   // TODO: Delete single meeting
 
