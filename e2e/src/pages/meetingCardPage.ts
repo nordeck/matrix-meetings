@@ -42,13 +42,17 @@ export class MeetingCardPage {
     return new MoreSettingsMenuPage(this.widget.getByRole('menu'));
   }
 
-  async deleteMeeting() {
+  async deleteMeeting(buttonLabel: string = 'Delete') {
     const menu = await this.openMoreSettingsMenu();
     await menu.deleteMenuItem.click();
     await this.widget
       .getByRole('dialog', { name: 'Delete meeting' })
-      .getByRole('button', { name: 'Delete' })
+      .getByRole('button', { name: buttonLabel })
       .click();
+
+    await this.widget
+      .getByRole('dialog', { name: 'Delete meeting' })
+      .waitFor({ state: 'hidden' });
   }
 
   async editMeeting(): Promise<ScheduleMeetingWidgetPage> {
