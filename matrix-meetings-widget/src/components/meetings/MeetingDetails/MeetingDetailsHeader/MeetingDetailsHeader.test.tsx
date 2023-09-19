@@ -26,7 +26,6 @@ import { Provider } from 'react-redux';
 import {
   acknowledgeAllEvents,
   mockCalendar,
-  mockCalendarEntry,
   mockConfigEndpoint,
   mockCreateMeetingRoom,
   mockMeeting,
@@ -769,7 +768,7 @@ describe('<MeetingDetailsHeader/>', () => {
     });
 
     await userEvent.click(
-      within(deleteModal).getByRole('button', { name: 'Delete meeting' }),
+      within(deleteModal).getByRole('button', { name: 'Delete' }),
     );
 
     await waitFor(() => {
@@ -811,7 +810,7 @@ describe('<MeetingDetailsHeader/>', () => {
     });
 
     await userEvent.click(
-      within(deleteModal).getByRole('button', { name: 'Delete meeting' }),
+      within(deleteModal).getByRole('button', { name: 'Delete' }),
     );
 
     await waitFor(() => {
@@ -820,130 +819,6 @@ describe('<MeetingDetailsHeader/>', () => {
         {
           context: { locale: 'en', timezone: 'UTC' },
           data: { target_room_id: '!meeting-room-id' },
-        },
-      );
-    });
-
-    await waitFor(() => {
-      expect(deleteModal).not.toBeInTheDocument();
-    });
-  });
-
-  it('should delete recurring meeting', async () => {
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.close')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-
-    render(
-      <MeetingDetailsHeader
-        meeting={mockMeeting({
-          content: {
-            calendarEntries: [
-              mockCalendarEntry({
-                dtstart: '20000101T010000',
-                dtend: '20000101T030000',
-                rrule: 'FREQ=DAILY;UNTIL=20401001T125500Z',
-              }),
-            ],
-          },
-        })}
-        onClose={onClose}
-      />,
-      {
-        wrapper: Wrapper,
-      },
-    );
-
-    await userEvent.click(
-      await screen.findByRole('button', { name: /Delete/i }),
-    );
-
-    const deleteModal = screen.getByRole('dialog', {
-      name: /delete meeting/i,
-    });
-
-    await userEvent.click(
-      within(deleteModal).getByRole('button', { name: 'Delete series' }),
-    );
-
-    await waitFor(() => {
-      expect(widgetApi.sendRoomEvent).toBeCalledWith(
-        'net.nordeck.meetings.meeting.close',
-        {
-          context: { locale: 'en', timezone: 'UTC' },
-          data: { target_room_id: '!meeting-room-id' },
-        },
-      );
-    });
-
-    await waitFor(() => {
-      expect(deleteModal).not.toBeInTheDocument();
-    });
-  });
-
-  it.skip('should delete one instance of recurring meeting', async () => {
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.close')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-
-    render(
-      <MeetingDetailsHeader
-        meeting={mockMeeting({
-          content: {
-            recurrenceId: '2000-01-02T01:00:00Z',
-            calendarEntries: [
-              mockCalendarEntry({
-                dtstart: '20000101T010000',
-                dtend: '20000101T030000',
-                rrule: 'FREQ=DAILY;UNTIL=20401001T125500Z',
-              }),
-            ],
-          },
-        })}
-        onClose={onClose}
-      />,
-      {
-        wrapper: Wrapper,
-      },
-    );
-
-    await userEvent.click(
-      await screen.findByRole('button', { name: /Delete/i }),
-    );
-
-    const deleteModal = screen.getByRole('dialog', {
-      name: /delete meeting/i,
-    });
-
-    await userEvent.click(
-      within(deleteModal).getByRole('button', { name: 'Delete meeting' }),
-    );
-
-    await waitFor(() => {
-      expect(widgetApi.sendRoomEvent).toBeCalledWith(
-        'net.nordeck.meetings.meeting.update',
-        {
-          context: expect.anything(),
-          data: {
-            target_room_id: '!meeting-room-id',
-            title: 'An important meeting',
-            description: 'A brief description',
-            calendar: [
-              {
-                uid: 'entry-0',
-                dtstart: { tzid: 'UTC', value: '20000101T010000' },
-                dtend: { tzid: 'UTC', value: '20000101T030000' },
-                exdate: [
-                  {
-                    tzid: 'UTC',
-                    value: '20000102T010000',
-                  },
-                ],
-                recurrenceId: undefined,
-                rrule: 'FREQ=DAILY;UNTIL=20401001T125500Z',
-              },
-            ],
-          },
         },
       );
     });
@@ -981,7 +856,7 @@ describe('<MeetingDetailsHeader/>', () => {
     });
 
     const deleteButton = within(deleteModal).getByRole('button', {
-      name: 'Delete meeting',
+      name: 'Delete',
     });
 
     await userEvent.click(deleteButton);

@@ -30,12 +30,9 @@
  * limitations under the License.
  */
 
-import { navigateToRoom } from '@matrix-widget-toolkit/api';
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import CloseIcon from '@mui/icons-material/Close';
 import {
-  Alert,
-  AlertTitle,
   Box,
   Button,
   DialogTitle,
@@ -44,27 +41,18 @@ import {
   Tooltip,
 } from '@mui/material';
 import { unstable_useId as useId } from '@mui/utils';
-import { DateTime } from 'luxon';
 import { DispatchWithoutAction, useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  formatICalDate,
-  isRecurringCalendarSourceEntry,
-} from '../../../../lib/utils';
 import {
   Meeting,
   makeSelectRoomPermissions,
   selectNordeckMeetingMetadataEventByRoomId,
   selectRoomPowerLevelsEventByRoomId,
-  useCloseMeetingMutation,
-  useUpdateMeetingDetailsMutation,
 } from '../../../../reducer/meetingsApi';
 import { useAppSelector } from '../../../../store';
-import { ConfirmDeleteDialog } from '../../../common/ConfirmDeleteDialog';
-import { withoutYearDateFormat } from '../../../common/DateTimePickers';
 import { UpdateFailedDialog } from '../../MeetingCard/MeetingCardMenu';
-import { ScheduledDeletionWarning } from '../../MeetingCard/ScheduledDeletionWarning';
 import { useEditMeeting } from '../../ScheduleMeetingModal';
+import { DeleteMeetingDialog } from './DeleteMeetingDialog';
 import { MeetingDetailsJoinButton } from './MeetingDetailsJoinButton';
 import { getOpenXChangeExternalReference } from './OpenXchangeButton';
 import { OpenXchangeButton } from './OpenXchangeButton/OpenXchangeButton';
@@ -83,7 +71,6 @@ export function MeetingDetailsHeader({
   const widgetApi = useWidgetApi();
   const { t } = useTranslation();
   const { editMeeting } = useEditMeeting();
-  const [updateMeetingDetails] = useUpdateMeetingDetailsMutation();
   const [showErrorDialog, setShowErrorDialog] = useState(false);
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
   const selectRoomPermissions = useMemo(makeSelectRoomPermissions, []);
@@ -105,15 +92,6 @@ export function MeetingDetailsHeader({
     canUpdateMeetingWidgets &&
     canUpdateMeetingParticipantsInvite &&
     canUpdateMeetingParticipantsKick;
-
-  const isDeleteRecurringMeeting = isRecurringCalendarSourceEntry(
-    meeting.calendarEntries,
-  );
-
-  const [
-    closeMeeting,
-    { isLoading: isDeleting, isError, data: deleteResponse },
-  ] = useCloseMeetingMutation();
 
   const metadataEvent = useAppSelector((state) => {
     const event = selectNordeckMeetingMetadataEventByRoomId(
@@ -152,92 +130,6 @@ export function MeetingDetailsHeader({
   const handleCloseDeleteConfirm = useCallback(() => {
     setOpenDeleteConfirm(false);
   }, []);
-
-  const handleClickDeleteMeetingConfirm = useCallback(async () => {
-    try {
-      if (isDeleteRecurringMeeting && meeting.recurrenceId) {
-        const calendar = meeting.calendarEntries[0];
-        const newExtended = formatICalDate(
-          DateTime.fromISO(meeting.recurrenceId),
-          new Intl.DateTimeFormat().resolvedOptions().timeZone,
-        );
-        const newCalendar = {
-          ...calendar,
-          exdate: calendar.exdate
-            ? [...calendar.exdate, newExtended]
-            : [newExtended],
-        };
-        meeting.calendarEntries[0] = newCalendar;
-
-        const detailsResult = await updateMeetingDetails({
-          roomId: meeting.meetingId,
-          updates: { ...meeting, calendar: meeting.calendarEntries },
-        }).unwrap();
-
-        if (!detailsResult.acknowledgement?.error) {
-          const isInMeetingRoom =
-            meeting.meetingId === widgetApi.widgetParameters.roomId;
-
-          if (isInMeetingRoom && meeting.parentRoomId) {
-            navigateToRoom(widgetApi, meeting.parentRoomId);
-          }
-
-          handleCloseDeleteConfirm();
-        }
-      } else {
-        const { acknowledgement } = await closeMeeting({
-          roomId: meeting.meetingId,
-        }).unwrap();
-
-        if (!acknowledgement?.error) {
-          const isInMeetingRoom =
-            meeting.meetingId === widgetApi.widgetParameters.roomId;
-
-          if (isInMeetingRoom && meeting.parentRoomId) {
-            navigateToRoom(widgetApi, meeting.parentRoomId);
-          }
-
-          handleCloseDeleteConfirm();
-        }
-      }
-    } catch {
-      // ignore
-    }
-  }, [
-    closeMeeting,
-    handleCloseDeleteConfirm,
-    isDeleteRecurringMeeting,
-    meeting,
-    updateMeetingDetails,
-    widgetApi,
-  ]);
-
-  const handleClickDeleteSeriesConfirm = useCallback(async () => {
-    try {
-      const { acknowledgement } = await closeMeeting({
-        roomId: meeting.meetingId,
-      }).unwrap();
-
-      if (!acknowledgement?.error) {
-        const isInMeetingRoom =
-          meeting.meetingId === widgetApi.widgetParameters.roomId;
-
-        if (isInMeetingRoom && meeting.parentRoomId) {
-          navigateToRoom(widgetApi, meeting.parentRoomId);
-        }
-
-        handleCloseDeleteConfirm();
-      }
-    } catch {
-      // ignore
-    }
-  }, [
-    closeMeeting,
-    handleCloseDeleteConfirm,
-    meeting.meetingId,
-    meeting.parentRoomId,
-    widgetApi,
-  ]);
 
   const isMeetingInvitation = meeting.participants.some(
     (p) =>
@@ -330,54 +222,11 @@ export function MeetingDetailsHeader({
 
       {showErrorDialog && <UpdateFailedDialog setOpen={setShowErrorDialog} />}
 
-      <ConfirmDeleteDialog
-        confirmTitle={t(
-          'meetingDetails.header.deleteMeetingConfirmButton',
-          'Delete meeting',
-        )}
-        confirmSeriesTitle={t(
-          'meetingDetails.header.deleteSeriesConfirmButton',
-          'Delete series',
-        )}
-        description={t(
-          'meetingDetails.header.deleteConfirmMessage',
-          'Are you sure you want to delete the meeting or the meeting series “{{title}}” on {{startTime, datetime}} and every content related to it?',
-          {
-            title: meeting.title,
-            startTime: new Date(meeting.startTime),
-            formatParams: {
-              startTime: withoutYearDateFormat,
-            },
-          },
-        )}
-        loading={
-          isDeleting ||
-          (deleteResponse !== undefined &&
-            !deleteResponse.acknowledgement.error)
-        }
-        onCancel={handleCloseDeleteConfirm}
-        isRecurring={isDeleteRecurringMeeting}
-        onConfirm={handleClickDeleteMeetingConfirm}
-        onConfirmSeries={handleClickDeleteSeriesConfirm}
+      <DeleteMeetingDialog
+        meeting={meeting}
         open={openDeleteConfirm}
-        title={t('meetingDetails.header.deleteConfirmHeader', 'Delete meeting')}
-      >
-        {meeting.deletionTime !== undefined && (
-          <ScheduledDeletionWarning deletionTime={meeting.deletionTime} />
-        )}
-
-        {(isError || deleteResponse?.acknowledgement.error) && (
-          <Alert severity="error">
-            <AlertTitle>
-              {t(
-                'meetingDetails.header..deleteFailedTitle',
-                'Failed to delete the meeting',
-              )}
-            </AlertTitle>
-            {t('meetingDetails.header..deleteFailed', 'Please try again.')}
-          </Alert>
-        )}
-      </ConfirmDeleteDialog>
+        onClose={handleCloseDeleteConfirm}
+      />
     </>
   );
 }
