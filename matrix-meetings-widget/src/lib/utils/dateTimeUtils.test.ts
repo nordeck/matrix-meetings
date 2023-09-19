@@ -15,6 +15,7 @@
  */
 
 import { DateTime } from 'luxon';
+import { mockDateTimeFormatTimeZone } from '../../timezoneMockUtils';
 import { mockMeeting } from '../testUtils';
 import {
   formatICalDate,
@@ -117,8 +118,22 @@ describe('toISOString', () => {
     );
   });
 
+  it('should format javascript Date in another timezone', () => {
+    mockDateTimeFormatTimeZone('Europe/Berlin');
+    expect(toISOString(new Date('2022-10-29T09:00:00+01:00'))).toBe(
+      '2022-10-29T08:00:00Z',
+    );
+  });
+
   it('should format luxon DateTime', () => {
     expect(toISOString(DateTime.fromISO('2022-10-29T08:00:00Z'))).toBe(
+      '2022-10-29T08:00:00Z',
+    );
+  });
+
+  it('should format luxon DateTime in another timezone', () => {
+    mockDateTimeFormatTimeZone('Europe/Berlin');
+    expect(toISOString(DateTime.fromISO('2022-10-29T09:00:00+01:00'))).toBe(
       '2022-10-29T08:00:00Z',
     );
   });

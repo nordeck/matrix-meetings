@@ -49,7 +49,8 @@ export function formatICalDate(
   };
 }
 
+/** Format the date into an ISO string that will always be in UTC time (yyyy-MM-ddTHH:mm:ssZ) */
 export function toISOString(date: Date | DateTime): string {
   const jsDate = DateTime.isDateTime(date) ? date : DateTime.fromJSDate(date);
-  return jsDate.toISO({ suppressMilliseconds: true });
+  return jsDate.toUTC().toISO({ suppressMilliseconds: true });
 }
