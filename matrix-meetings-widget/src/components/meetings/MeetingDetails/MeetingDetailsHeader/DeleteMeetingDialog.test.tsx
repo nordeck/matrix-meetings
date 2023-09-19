@@ -14,23 +14,18 @@
  * limitations under the License.
  */
 
-import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
-import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
 import {
   acknowledgeAllEvents,
   mockCalendarEntry,
-  mockConfigEndpoint,
   mockCreateMeetingRoom,
   mockMeeting,
-  mockMeetingSharingInformationEndpoint,
-  mockWidgetEndpoint,
 } from '../../../../lib/testUtils';
 import { createStore } from '../../../../store';
 import { initializeStore } from '../../../../store/store';
@@ -38,21 +33,6 @@ import {
   DeleteMeetingDialog,
   deleteSingleMeetingOccurrenceThunk,
 } from './DeleteMeetingDialog';
-
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  extractWidgetApiParameters: jest.fn(),
-}));
-
-const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked,
-);
-
-const server = setupServer();
-
-beforeAll(() => server.listen());
-afterEach(() => server.resetHandlers());
-afterAll(() => server.close());
 
 let widgetApi: MockedWidgetApi;
 
@@ -65,15 +45,6 @@ describe('<DeleteMeetingDialog/>', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
-    jest.mocked(extractWidgetApiParameters).mockReturnValue({
-      clientOrigin: 'http://element.local',
-      widgetId: '',
-    });
-
-    mockWidgetEndpoint(server);
-    mockConfigEndpoint(server);
-    mockMeetingSharingInformationEndpoint(server);
-
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
       const [store] = useState(() => {
         const store = createStore({ widgetApi });
@@ -86,11 +57,6 @@ describe('<DeleteMeetingDialog/>', () => {
         </WidgetApiMockProvider>
       );
     };
-  });
-
-  afterEach(() => {
-    // Restore the spy on Date.now()
-    jest.restoreAllMocks();
   });
 
   it('should render without exploding', () => {
