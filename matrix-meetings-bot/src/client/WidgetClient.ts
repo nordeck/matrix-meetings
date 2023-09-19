@@ -134,6 +134,7 @@ export class WidgetClient {
     roomTitle: string | undefined,
     widgetId: string,
     eventContent: IWidgetContent | undefined,
+    widgetStateKey?: string,
   ): Promise<void> {
     if (!this.isCustomConfiguredWidget(widgetId)) return;
 
@@ -166,12 +167,14 @@ export class WidgetClient {
     );
 
     if (!_.isEqual(eventContent, newEventContent)) {
-      await this.client.sendStateEvent(
-        roomId,
-        StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
-        widgetId,
-        newEventContent,
-      );
+      if (widgetStateKey !== 'etherpad') {
+        await this.client.sendStateEvent(
+          roomId,
+          StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
+          widgetId,
+          newEventContent,
+        );
+      }
     }
   }
 

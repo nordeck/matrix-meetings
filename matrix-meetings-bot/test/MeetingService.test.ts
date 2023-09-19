@@ -1712,7 +1712,7 @@ describe('test relevant functionality of MeetingService', () => {
       ); // ignores 'whiteboard-with-custom-content.id'
     });
 
-    test('add 1 widget, then add another', async () => {
+    test('add 2 widgets, then add  2 other', async () => {
       // room has a poll widget
       // cockpit is there after the meeting room was created
       const parentRoom: any = create_test_meeting(
@@ -1725,8 +1725,8 @@ describe('test relevant functionality of MeetingService', () => {
         parentRoom,
       );
 
-      // add whiteboard
-      const widgets = ['whiteboard'];
+      // add whiteboard & etherpad
+      const widgets = ['whiteboard', 'etherpad'];
       await meetingService.handleWidgets(
         userContext,
         new MeetingWidgetsHandleDto(parentId, true, widgets),
@@ -1735,7 +1735,7 @@ describe('test relevant functionality of MeetingService', () => {
       const e = StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT;
       verify(
         clientMock.sendStateEvent(parentId, e, anything(), anything()),
-      ).times(2);
+      ).times(3);
 
       expect(callInfo(0, SendStateEventParameter.Content, e).type).toBe(
         'net.nordeck.poll',
@@ -1743,16 +1743,19 @@ describe('test relevant functionality of MeetingService', () => {
       expect(callInfo(1, SendStateEventParameter.Content, e).type).toBe(
         'net.nordeck.whiteboard',
       ); // added whiteboard
+      expect(callInfo(2, SendStateEventParameter.Content, e).type).toBe(
+        'm.etherpad',
+      ); // added etherpad
     });
 
-    test('add 2 widgets, then remove 1', async () => {
-      // room has 2 widgets
+    test('add 3 widgets, then remove 1', async () => {
+      // room has 3 widgets
       // assume that there's no cockpit widget
       const parentRoom: any = create_test_meeting(
         CURRENT_USER,
         PARENT_MEETING_ROOM_ID,
         null,
-        ['poll', 'whiteboard'],
+        ['poll', 'whiteboard', 'etherpad'],
       );
       when(clientMock.getRoomState(PARENT_MEETING_ROOM_ID)).thenResolve(
         parentRoom,

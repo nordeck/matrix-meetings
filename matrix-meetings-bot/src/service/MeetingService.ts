@@ -442,12 +442,7 @@ export class MeetingService {
         ),
       );
     }
-    const filteredWidgetIds = room.meeting.widgetIds.filter(
-      (widget) =>
-        widget.startsWith(WidgetType.COCKPIT) &&
-        widget.startsWith(WidgetType.BREAKOUT_SESSIONS),
-    );
-    for (const widgetId of filteredWidgetIds) {
+    for (const widgetId of room.meeting.widgetIds) {
       const widgetEventContent = room.widgetEventById(widgetId)?.content;
       promises.push(
         this.widgetClient.createOrUpdateCustomConfiguredWidget(
@@ -455,6 +450,7 @@ export class MeetingService {
           newMeeting.title,
           widgetId,
           widgetEventContent,
+          room.widgetEventById(widgetId)?.state_key,
         ),
       );
     }
@@ -605,6 +601,7 @@ export class MeetingService {
             room.meeting.title,
             widgetId,
             widgetEventContent,
+            room.widgetEventById(widgetId)?.state_key,
           ),
         );
       }
