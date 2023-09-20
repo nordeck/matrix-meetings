@@ -94,6 +94,9 @@ type MemberSelectionDropdownProps = {
 
   /** Text to display when there are no options. */
   noOptionsText?: ReactNode;
+
+  /** To disable the dropdown. */
+  disabled?: boolean;
 };
 
 /**
@@ -116,6 +119,7 @@ export function MemberSelectionDropdown({
   loading,
   error,
   noOptionsText,
+  disabled,
 }: MemberSelectionDropdownProps): ReactElement {
   const { t } = useTranslation();
   const widgetApi = useWidgetApi();
@@ -406,6 +410,7 @@ export function MemberSelectionDropdown({
         renderTags={renderTags}
         sx={{ mt: 1, mb: 0.5 }}
         value={selectedMembers}
+        disabled={disabled}
       />
     </>
   );

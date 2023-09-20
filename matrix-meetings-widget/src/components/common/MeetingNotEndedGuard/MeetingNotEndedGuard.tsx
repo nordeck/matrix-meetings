@@ -24,7 +24,7 @@ import React, {
   ReactNode,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getCalendarEnd } from '../../../lib/utils';
+import { getCalendarEvent } from '../../../lib/utils';
 import { isMeetingBreakOutRoom, Meeting } from '../../../reducer/meetingsApi';
 import { useUpdateOnDate } from '../hooks';
 
@@ -56,13 +56,19 @@ export function MeetingNotEndedGuard({
 }: MeetingNotEndedGuardProps): ReactElement {
   const { t } = useTranslation();
 
-  const endTime = meeting ? getCalendarEnd(meeting.calendarEntries) : undefined;
+  const endTime = meeting
+    ? getCalendarEvent(
+        meeting.calendarEntries,
+        meeting.calendarUid,
+        meeting?.recurrenceId,
+      )?.endTime
+    : undefined;
 
   // Make sure this component is rerendered (and the now below re-evaluated)
   // after the meeting ended.
-  useUpdateOnDate(endTime?.toJSDate());
+  useUpdateOnDate(endTime);
 
-  if (meeting && endTime && DateTime.now() >= endTime) {
+  if (meeting && endTime && DateTime.now() >= DateTime.fromISO(endTime)) {
     if (!withMessage) {
       return <React.Fragment />;
     }
@@ -81,7 +87,12 @@ export function MeetingNotEndedGuard({
 
     const isBreakOutRoom = isMeetingBreakOutRoom(meeting.type);
     return (
-      <Alert icon={<AccessTimeIcon />} role="status" severity="info">
+      <Alert
+        icon={<AccessTimeIcon />}
+        role="status"
+        severity="info"
+        sx={{ mx: 1 }}
+      >
         {isBreakOutRoom
           ? t(
               'meetingViewEditMeeting.breakoutSessionIsOver',

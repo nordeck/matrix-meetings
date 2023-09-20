@@ -55,9 +55,9 @@ export function withCurrentRoomMeeting<T>(
     const NewComponent = useMemo(() => withRoomIdMeeting(WrappedComponent), []);
 
     // As the meeting is the current instance of a recurring meeting, we have
-    // to reevaluate the meeting everytime the end of the meeting instance is
+    // to reevaluate the meeting every time the end of the meeting instance is
     // reached!
-    useUpdateOnDate(entry ? new Date(entry.endTime) : undefined);
+    useUpdateOnDate(entry?.endTime);
 
     return (
       <NewComponent

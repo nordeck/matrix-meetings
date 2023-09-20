@@ -157,7 +157,7 @@ describe('<ScheduleMeeting>', () => {
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
-      <ScheduleMeeting onMeetingChange={jest.fn()} showParticipants />,
+      <ScheduleMeeting onMeetingChange={jest.fn()} />,
       { wrapper: Wrapper },
     );
 
@@ -286,10 +286,9 @@ describe('<ScheduleMeeting>', () => {
       ],
     });
 
-    render(
-      <ScheduleMeeting onMeetingChange={onMeetingChange} showParticipants />,
-      { wrapper: Wrapper },
-    );
+    render(<ScheduleMeeting onMeetingChange={onMeetingChange} />, {
+      wrapper: Wrapper,
+    });
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
@@ -327,10 +326,9 @@ describe('<ScheduleMeeting>', () => {
   it('should show a message if members could not be loaded', async () => {
     widgetApi.searchUserDirectory.mockRejectedValue(new Error('unexpected'));
 
-    render(
-      <ScheduleMeeting onMeetingChange={onMeetingChange} showParticipants />,
-      { wrapper: Wrapper },
-    );
+    render(<ScheduleMeeting onMeetingChange={onMeetingChange} />, {
+      wrapper: Wrapper,
+    });
 
     await userEvent.type(
       screen.getByRole('textbox', { name: 'Title (required)' }),
@@ -398,7 +396,6 @@ describe('<ScheduleMeeting>', () => {
       <ScheduleMeeting
         initialMeeting={meeting}
         onMeetingChange={onMeetingChange}
-        showParticipants
       />,
       { wrapper: Wrapper },
     );
@@ -628,10 +625,11 @@ describe('<ScheduleMeeting>', () => {
     });
   }, 10000);
 
-  it('should fill the form for editing a recurring meeting', async () => {
+  it('should fill the form for editing a recurring meeting instance', async () => {
     render(
       <ScheduleMeeting
         initialMeeting={mockMeeting({
+          room_id: '!room-id',
           content: {
             startTime: '2022-01-02T10:00:00Z',
             endTime: '2022-01-02T14:00:00Z',
@@ -647,16 +645,96 @@ describe('<ScheduleMeeting>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(screen.getByRole('status')).toHaveTextContent(
-      /You are editing a recurring meeting/,
+    const titleTextbox = screen.getByRole('textbox', {
+      name: 'Title (required)',
+    });
+    expect(titleTextbox).toHaveValue('An important meeting');
+    expect(titleTextbox).toBeDisabled();
+
+    const descriptionTextbox = screen.getByRole('textbox', {
+      name: 'Description',
+    });
+    expect(descriptionTextbox).toHaveValue('A brief description');
+    expect(descriptionTextbox).toBeDisabled();
+
+    const startDateTextbox = screen.getByRole('textbox', {
+      name: 'Start date',
+    });
+    expect(startDateTextbox).toHaveValue('01/02/2022');
+    expect(startDateTextbox).toHaveAttribute('readonly');
+    expect(startDateTextbox).toBeValid();
+
+    const startTimeTextbox = screen.getByRole('textbox', {
+      name: 'Start time',
+    });
+    expect(startTimeTextbox).toHaveValue('10:00 AM');
+    expect(startTimeTextbox).toHaveAttribute('readonly');
+    expect(startTimeTextbox).toBeValid();
+
+    const endDateTextbox = screen.getByRole('textbox', { name: 'End date' });
+    expect(endDateTextbox).toHaveValue('01/02/2022');
+    expect(endDateTextbox).not.toHaveAttribute('readonly');
+    expect(endDateTextbox).toBeInvalid();
+
+    const endTimeTextbox = screen.getByRole('textbox', { name: 'End time' });
+    expect(endTimeTextbox).toHaveValue('02:00 PM');
+    expect(endTimeTextbox).not.toHaveAttribute('readonly');
+    expect(endTimeTextbox).toBeValid();
+
+    const participantsCombobox = screen.getByRole('combobox', {
+      name: 'Participants',
+    });
+    expect(participantsCombobox).toBeDisabled();
+
+    const messagingCheckbox = screen.getByRole('checkbox', {
+      name: 'Allow messaging for all participants',
+      checked: true,
+    });
+    expect(messagingCheckbox).toBeDisabled();
+
+    const widgetsCombobox = screen.getByRole('combobox', {
+      name: 'Widgets',
+    });
+    expect(widgetsCombobox).toBeDisabled();
+
+    const repetitionButton = screen.getByRole('button', {
+      name: 'Repeat meeting Every day',
+    });
+    expect(repetitionButton).toHaveAttribute('aria-disabled', 'true');
+  });
+
+  it('should fill the form for editing a recurring meeting', async () => {
+    render(
+      <ScheduleMeeting
+        initialMeeting={mockMeeting({
+          room_id: '!room-id',
+          content: {
+            startTime: '2022-01-01T10:00:00Z',
+            endTime: '2022-01-01T14:00:00Z',
+            calendarEntries: mockCalendar({
+              dtstart: '20220101T100000',
+              dtend: '20220101T140000',
+              rrule: 'FREQ=DAILY',
+            }),
+            recurrenceId: undefined,
+          },
+        })}
+        onMeetingChange={onMeetingChange}
+      />,
+      { wrapper: Wrapper },
     );
 
-    expect(
-      screen.getByRole('textbox', { name: 'Title (required)' }),
-    ).toHaveValue('An important meeting');
-    expect(screen.getByRole('textbox', { name: 'Description' })).toHaveValue(
-      'A brief description',
-    );
+    const titleTextbox = screen.getByRole('textbox', {
+      name: 'Title (required)',
+    });
+    expect(titleTextbox).toHaveValue('An important meeting');
+    expect(titleTextbox).toBeEnabled();
+
+    const descriptionTextbox = screen.getByRole('textbox', {
+      name: 'Description',
+    });
+    expect(descriptionTextbox).toHaveValue('A brief description');
+    expect(descriptionTextbox).toBeEnabled();
 
     const startDateTextbox = screen.getByRole('textbox', {
       name: 'Start date',
@@ -672,7 +750,7 @@ describe('<ScheduleMeeting>', () => {
     expect(startTimeTextbox).not.toHaveAttribute('readonly');
     expect(startTimeTextbox).toBeValid();
 
-    const endDateTextbox = screen.getByRole('textbox', { name: 'Start date' });
+    const endDateTextbox = screen.getByRole('textbox', { name: 'End date' });
     expect(endDateTextbox).toHaveValue('01/01/2022');
     expect(endDateTextbox).not.toHaveAttribute('readonly');
     expect(endDateTextbox).toBeValid();
@@ -681,6 +759,27 @@ describe('<ScheduleMeeting>', () => {
     expect(endTimeTextbox).toHaveValue('02:00 PM');
     expect(endTimeTextbox).not.toHaveAttribute('readonly');
     expect(endTimeTextbox).toBeValid();
+
+    const participantsCombobox = screen.getByRole('combobox', {
+      name: 'Participants',
+    });
+    expect(participantsCombobox).toBeEnabled();
+
+    const messagingCheckbox = screen.getByRole('checkbox', {
+      name: 'Allow messaging for all participants',
+      checked: true,
+    });
+    expect(messagingCheckbox).toBeEnabled();
+
+    const widgetsCombobox = screen.getByRole('combobox', {
+      name: 'Widgets',
+    });
+    expect(widgetsCombobox).toBeEnabled();
+
+    const repetitionButton = screen.getByRole('button', {
+      name: 'Repeat meeting Every day',
+    });
+    expect(repetitionButton).toBeEnabled();
   });
 
   it('should edit the meeting even if it already started', async () => {
@@ -889,7 +988,6 @@ describe('<ScheduleMeeting>', () => {
       <ScheduleMeeting
         initialMeeting={meeting}
         onMeetingChange={onMeetingChange}
-        showParticipants
       />,
       { wrapper: Wrapper },
     );
