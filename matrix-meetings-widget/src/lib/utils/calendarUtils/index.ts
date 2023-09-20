@@ -24,3 +24,4 @@ export {
 } from './helpers';
 export { isRecurringMeeting } from './isRecurringMeeting';
 export { normalizeCalendarEntry } from './normalizeCalendarEntry';
+export { overrideCalendarEntries } from './overrideCalendarEntries';
