@@ -32,11 +32,13 @@ import { convertWeekdayFromLocaleToRRule } from '../utils';
 type CustomWeeklyRecurringMeetingProps = {
   onByWeekdayChange: Dispatch<Array<number>>;
   byWeekday: Array<number>;
+  disabled?: boolean;
 };
 
 export const CustomWeeklyRecurringMeeting = ({
   onByWeekdayChange,
   byWeekday,
+  disabled,
 }: CustomWeeklyRecurringMeetingProps) => {
   const { t } = useTranslation();
 
@@ -53,7 +55,7 @@ export const CustomWeeklyRecurringMeeting = ({
   const toggleButtonGroupLabelId = useId();
 
   return (
-    <FormControl sx={{ my: 1 }}>
+    <FormControl disabled={disabled} sx={{ my: 1 }}>
       <FormLabel id={toggleButtonGroupLabelId}>
         {t(
           'recurrenceEditor.custom.weekly.repeatOnWeekday',
@@ -69,6 +71,7 @@ export const CustomWeeklyRecurringMeeting = ({
         size="small"
         sx={{ mt: 1 }}
         value={byWeekday}
+        disabled={disabled}
       >
         {localeWeekdays().map((m, i) => (
           <ToggleButton key={i} value={convertWeekdayFromLocaleToRRule(i)}>

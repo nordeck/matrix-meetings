@@ -40,12 +40,14 @@ type WidgetsSelectionDropdownProps = {
   selectedWidgets: string[];
   autoSelectAllWidgets?: boolean;
   onChange: (widgetIds: string[]) => void;
+  disabled?: boolean;
 };
 
 export function WidgetsSelectionDropdown({
   selectedWidgets,
   onChange,
   autoSelectAllWidgets,
+  disabled,
 }: WidgetsSelectionDropdownProps): ReactElement {
   const { t } = useTranslation();
   const instructionId = useId();
@@ -201,6 +203,7 @@ export function WidgetsSelectionDropdown({
         renderTags={renderTags}
         sx={{ mt: 1, mb: 0.5 }}
         value={availableSelectedWidgets}
+        disabled={disabled}
       />
     </>
   );

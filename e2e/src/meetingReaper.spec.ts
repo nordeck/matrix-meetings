@@ -144,6 +144,7 @@ test.describe('Meeting Reaper', () => {
     );
 
     const aliceEditMeetingWidgetPage = await meeting.editMeeting();
+    await aliceEditMeetingWidgetPage.toggleRecurringEdit();
     await aliceEditMeetingWidgetPage.setStart([2040, 10, 4], '11:00 AM');
     await aliceEditMeetingWidgetPage.submit();
     await aliceElementWebPage.approveWidgetIdentity();

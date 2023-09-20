@@ -32,9 +32,8 @@ import {
   Meeting,
   makeSelectRoomPermissions,
   selectNordeckMeetingMetadataEventByRoomId,
-  selectRoomPowerLevelsEventByRoomId,
 } from '../../../reducer/meetingsApi';
-import { useAppSelector } from '../../../store';
+import { useAppDispatch, useAppSelector } from '../../../store';
 import {
   MenuButton,
   MenuButtonItem,
@@ -42,7 +41,7 @@ import {
   getOpenXChangeExternalReference,
 } from '../../common/MenuButton';
 import { DeleteMeetingDialog } from '../MeetingDetails/MeetingDetailsHeader/DeleteMeetingDialog';
-import { useEditMeeting } from '../ScheduleMeetingModal';
+import { editMeetingThunk } from '../ScheduleMeetingModal';
 
 type MeetingCardMenuProps = {
   meeting: Meeting;
@@ -105,20 +104,14 @@ export function MeetingCardMenu({
     setOpenDeleteConfirm(false);
   }, []);
 
-  const { editMeeting } = useEditMeeting();
-
-  const isMessagingEnabled = useAppSelector((state) => {
-    const event = selectRoomPowerLevelsEventByRoomId(state, meeting.meetingId);
-    return event?.content.events_default === 0;
-  });
-
+  const dispatch = useAppDispatch();
   const handleClickEditMeeting = useCallback(async () => {
     try {
-      await editMeeting(meeting, isMessagingEnabled);
+      await dispatch(editMeetingThunk(meeting)).unwrap();
     } catch {
       setShowErrorDialog(true);
     }
-  }, [editMeeting, meeting, isMessagingEnabled]);
+  }, [dispatch, meeting]);
 
   if (!canUpdateMeeting || !canCloseMeeting) {
     // If the menu would be empty, skip it

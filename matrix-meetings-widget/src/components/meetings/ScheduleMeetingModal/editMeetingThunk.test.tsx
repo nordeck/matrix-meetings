@@ -16,8 +16,8 @@
 
 import { mockMeeting, mockRoomMember } from '../../../lib/testUtils';
 import { Meeting } from '../../../reducer/meetingsApi';
+import { diffMeeting } from './editMeetingThunk';
 import { CreateMeeting } from './types';
-import { diffMeeting } from './useEditMeeting';
 
 describe('diffMeeting', () => {
   it('should find difference between old and updated meeting', () => {
@@ -58,25 +58,25 @@ describe('diffMeeting', () => {
       'poll_groups',
     ];
 
-    expect(diffMeeting(oldMeeting, true, newMeeting, availableWidgets)).toEqual(
-      {
-        addUserIds: ['@charlie-user'],
-        removeUserIds: ['@bob-user'],
-        addWidgets: ['poll_groups'],
-        removeWidgets: ['jitsi', 'whiteboard'],
-        meetingDetails: {
-          description: 'My new Description',
-          calendar: [
-            {
-              uid: 'entry-0',
-              dtstart: { tzid: 'UTC', value: '20401029T120000' },
-              dtend: { tzid: 'UTC', value: '20401029T130000' },
-            },
-          ],
-          title: 'My new Meeting',
-        },
-        powerLevels: {},
+    expect(
+      diffMeeting(oldMeeting, true, newMeeting, availableWidgets, []),
+    ).toEqual({
+      addUserIds: ['@charlie-user'],
+      removeUserIds: ['@bob-user'],
+      addWidgets: ['poll_groups'],
+      removeWidgets: ['jitsi', 'whiteboard'],
+      meetingDetails: {
+        description: 'My new Description',
+        calendar: [
+          {
+            uid: 'entry-0',
+            dtstart: { tzid: 'UTC', value: '20401029T120000' },
+            dtend: { tzid: 'UTC', value: '20401029T130000' },
+          },
+        ],
+        title: 'My new Meeting',
       },
-    );
+      powerLevels: {},
+    });
   });
 });

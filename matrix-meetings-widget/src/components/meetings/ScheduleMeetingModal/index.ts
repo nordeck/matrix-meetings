@@ -15,11 +15,11 @@
  */
 
 export { ScheduleMeetingModal } from './ScheduleMeetingModal';
+export { editMeetingThunk } from './editMeetingThunk';
 export {
   CancelScheduleMeetingModal,
   SCHEDULE_MEETING_MODAL_ROUTE,
   SubmitScheduleMeetingModal,
 } from './types';
 export type { CreateMeeting, ScheduleMeetingModalResult } from './types';
-export { useEditMeeting } from './useEditMeeting';
 export { useScheduleMeeting } from './useScheduleMeeting';
