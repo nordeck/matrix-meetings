@@ -18,13 +18,14 @@ import { navigateToRoom } from '@matrix-widget-toolkit/api';
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import { LoadingButton } from '@mui/lab';
 import { Alert, AlertTitle } from '@mui/material';
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, createSelector } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
 import { DispatchWithoutAction, Fragment, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   deleteCalendarEvent,
-  isSingleCalendarSourceEntry,
+  getCalendarEnd,
+  isRecurringCalendarSourceEntry,
 } from '../../../../lib/utils';
 import {
   Meeting,
@@ -33,7 +34,12 @@ import {
   selectNordeckMeetingMetadataEventByRoomId,
   useCloseMeetingMutation,
 } from '../../../../reducer/meetingsApi';
-import { StateThunkConfig, useAppDispatch } from '../../../../store/store';
+import {
+  RootState,
+  StateThunkConfig,
+  useAppDispatch,
+  useAppSelector,
+} from '../../../../store/store';
 import { ConfirmDeleteDialog } from '../../../common/ConfirmDeleteDialog';
 import { withoutYearDateFormat } from '../../../common/DateTimePickers';
 import { ScheduledDeletionWarning } from '../../MeetingCard/ScheduledDeletionWarning';
@@ -119,25 +125,18 @@ export function DeleteMeetingDialog({
     }
   }, [dispatch, handleCheckNavigateToParent, meeting, reset]);
 
+  const isLastMeetingOccurrence = useAppSelector((state) =>
+    selectIsLastMeetingOccurrence(state, meeting.meetingId, meeting),
+  );
+
   let description: string;
   let confirmTitle: string;
   let additionalButtons = <Fragment />;
 
-  if (isSingleCalendarSourceEntry(meeting.calendarEntries)) {
-    description = t(
-      'meetingDetails.header.deleteConfirmMessage',
-      'Are you sure you want to delete the meeting “{{title}}” on {{startTime, datetime}} and every content related to it?',
-      {
-        title: meeting.title,
-        startTime: new Date(meeting.startTime),
-        formatParams: {
-          startTime: withoutYearDateFormat,
-        },
-      },
-    );
-
-    confirmTitle = t('meetingDetails.header.deleteConfirmButton', 'Delete');
-  } else {
+  if (
+    isRecurringCalendarSourceEntry(meeting.calendarEntries) &&
+    !isLastMeetingOccurrence
+  ) {
     description = t(
       'meetingDetails.header.deleteSeriesConfirmMessage',
       'Are you sure you want to delete the meeting or the meeting series “{{title}}” on {{startTime, datetime}} and every content related to it?',
@@ -168,6 +167,20 @@ export function DeleteMeetingDialog({
         )}
       </LoadingButton>
     );
+  } else {
+    description = t(
+      'meetingDetails.header.deleteConfirmMessage',
+      'Are you sure you want to delete the meeting “{{title}}” on {{startTime, datetime}} and every content related to it?',
+      {
+        title: meeting.title,
+        startTime: new Date(meeting.startTime),
+        formatParams: {
+          startTime: withoutYearDateFormat,
+        },
+      },
+    );
+
+    confirmTitle = t('meetingDetails.header.deleteConfirmButton', 'Delete');
   }
 
   const isCloseMeetingError = isError || deleteResponse?.acknowledgement.error;
@@ -241,3 +254,21 @@ export const deleteSingleMeetingOccurrenceThunk = createAsyncThunk<
 
   return undefined;
 });
+
+export const selectIsLastMeetingOccurrence = createSelector(
+  (_: RootState, __: string, meeting: Meeting) => meeting,
+  selectNordeckMeetingMetadataEventByRoomId,
+  (meeting, meetingMetadataEvent) => {
+    if (!meetingMetadataEvent || !meeting.recurrenceId) {
+      return false;
+    }
+
+    const newCalendar = deleteCalendarEvent(
+      meetingMetadataEvent.content.calendar,
+      meeting.calendarUid,
+      meeting.recurrenceId,
+    );
+
+    return getCalendarEnd(newCalendar) === undefined;
+  },
+);

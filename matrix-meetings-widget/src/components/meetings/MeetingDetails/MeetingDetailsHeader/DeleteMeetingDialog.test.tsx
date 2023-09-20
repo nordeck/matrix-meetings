@@ -32,6 +32,7 @@ import { initializeStore } from '../../../../store/store';
 import {
   DeleteMeetingDialog,
   deleteSingleMeetingOccurrenceThunk,
+  selectIsLastMeetingOccurrence,
 } from './DeleteMeetingDialog';
 
 let widgetApi: MockedWidgetApi;
@@ -65,7 +66,11 @@ describe('<DeleteMeetingDialog/>', () => {
       { wrapper: Wrapper },
     );
 
-    const dialog = screen.getByRole('dialog', { name: 'Delete meeting' });
+    const dialog = screen.getByRole('dialog', {
+      name: 'Delete meeting',
+      description:
+        'Are you sure you want to delete the meeting “An important meeting” on Jan 1, 10:00 AM and every content related to it?',
+    });
 
     expect(
       within(dialog).getByRole('heading', { level: 2, name: 'Delete meeting' }),
@@ -107,7 +112,11 @@ describe('<DeleteMeetingDialog/>', () => {
       wrapper: Wrapper,
     });
 
-    const dialog = screen.getByRole('dialog', { name: 'Delete meeting' });
+    const dialog = screen.getByRole('dialog', {
+      name: 'Delete meeting',
+      description:
+        'Are you sure you want to delete the meeting “An important meeting” on Jan 1, 10:00 AM and every content related to it?',
+    });
 
     await userEvent.click(
       within(dialog).getByRole('button', { name: 'Delete' }),
@@ -153,7 +162,11 @@ describe('<DeleteMeetingDialog/>', () => {
       wrapper: Wrapper,
     });
 
-    const dialog = screen.getByRole('dialog', { name: 'Delete meeting' });
+    const dialog = screen.getByRole('dialog', {
+      name: 'Delete meeting',
+      description:
+        'Are you sure you want to delete the meeting or the meeting series “An important meeting” on Jan 1, 10:00 AM and every content related to it?',
+    });
 
     await userEvent.click(
       within(dialog).getByRole('button', { name: 'Delete series' }),
@@ -202,7 +215,11 @@ describe('<DeleteMeetingDialog/>', () => {
       wrapper: Wrapper,
     });
 
-    const dialog = screen.getByRole('dialog', { name: 'Delete meeting' });
+    const dialog = screen.getByRole('dialog', {
+      name: 'Delete meeting',
+      description:
+        'Are you sure you want to delete the meeting or the meeting series “An important meeting” on Jan 2, 10:00 AM and every content related to it?',
+    });
 
     await userEvent.click(
       within(dialog).getByRole('button', { name: 'Delete meeting' }),
@@ -233,6 +250,60 @@ describe('<DeleteMeetingDialog/>', () => {
     });
   });
 
+  it('should delete the last occurrence of a recurring meeting', async () => {
+    widgetApi
+      .observeRoomEvents('net.nordeck.meetings.meeting.close')
+      .subscribe(acknowledgeAllEvents(widgetApi));
+
+    const meeting = mockMeeting({
+      content: {
+        startTime: '2999-01-02T10:00:00Z',
+        endTime: '2999-01-02T14:00:00Z',
+        recurrenceId: '2999-01-02T10:00:00Z',
+        calendarEntries: [
+          mockCalendarEntry({
+            dtstart: '29990101T100000',
+            dtend: '29990101T140000',
+            rrule: 'FREQ=DAILY;COUNT=2',
+            exdate: ['29990101T100000'],
+          }),
+        ],
+      },
+    });
+
+    mockCreateMeetingRoom(widgetApi, {
+      metadata: { calendar: meeting.calendarEntries },
+    });
+
+    render(<DeleteMeetingDialog open meeting={meeting} onClose={onClose} />, {
+      wrapper: Wrapper,
+    });
+
+    const dialog = await screen.findByRole('dialog', {
+      name: 'Delete meeting',
+      description:
+        'Are you sure you want to delete the meeting “An important meeting” on Jan 2, 10:00 AM and every content related to it?',
+    });
+
+    await userEvent.click(
+      within(dialog).getByRole('button', { name: 'Delete' }),
+    );
+
+    await waitFor(() => {
+      expect(widgetApi.sendRoomEvent).toBeCalledWith(
+        'net.nordeck.meetings.meeting.close',
+        {
+          context: { locale: 'en', timezone: 'UTC' },
+          data: { target_room_id: '!meeting-room-id' },
+        },
+      );
+    });
+
+    await waitFor(() => {
+      expect(onClose).toBeCalled();
+    });
+  });
+
   it('should show error if deletion failed', async () => {
     widgetApi
       .observeRoomEvents('net.nordeck.meetings.meeting.close')
@@ -248,7 +319,11 @@ describe('<DeleteMeetingDialog/>', () => {
       wrapper: Wrapper,
     });
 
-    const dialog = screen.getByRole('dialog', { name: 'Delete meeting' });
+    const dialog = screen.getByRole('dialog', {
+      name: 'Delete meeting',
+      description:
+        'Are you sure you want to delete the meeting “An important meeting” on Jan 1, 10:00 AM and every content related to it?',
+    });
 
     await userEvent.click(
       within(dialog).getByRole('button', { name: 'Delete' }),
@@ -612,5 +687,74 @@ describe('deleteSingleMeetingOccurrenceThunk', () => {
         },
       },
     );
+  });
+});
+
+describe('selectIsLastMeetingOccurrence', () => {
+  it('should return false if more entries are available', async () => {
+    const store = createStore({ widgetApi });
+
+    const meeting = mockMeeting({
+      content: {
+        startTime: '2999-01-02T10:00:00Z',
+        endTime: '2999-01-02T14:00:00Z',
+        recurrenceId: '2999-01-02T10:00:00Z',
+        calendarEntries: [
+          mockCalendarEntry({
+            dtstart: '29990101T100000',
+            dtend: '29990101T140000',
+            rrule: 'FREQ=DAILY;COUNT=2',
+          }),
+        ],
+      },
+    });
+
+    mockCreateMeetingRoom(widgetApi, {
+      metadata: { calendar: meeting.calendarEntries },
+    });
+
+    await initializeStore(store);
+
+    expect(
+      selectIsLastMeetingOccurrence(
+        store.getState(),
+        meeting.meetingId,
+        meeting,
+      ),
+    ).toBe(false);
+  });
+
+  it('should return true if this is the last entry', async () => {
+    const store = createStore({ widgetApi });
+
+    const meeting = mockMeeting({
+      content: {
+        startTime: '2999-01-02T10:00:00Z',
+        endTime: '2999-01-02T14:00:00Z',
+        recurrenceId: '2999-01-02T10:00:00Z',
+        calendarEntries: [
+          mockCalendarEntry({
+            dtstart: '29990101T100000',
+            dtend: '29990101T140000',
+            rrule: 'FREQ=DAILY;COUNT=2',
+            exdate: ['29990101T100000'],
+          }),
+        ],
+      },
+    });
+
+    mockCreateMeetingRoom(widgetApi, {
+      metadata: { calendar: meeting.calendarEntries },
+    });
+
+    await initializeStore(store);
+
+    expect(
+      selectIsLastMeetingOccurrence(
+        store.getState(),
+        meeting.meetingId,
+        meeting,
+      ),
+    ).toBe(true);
   });
 });
