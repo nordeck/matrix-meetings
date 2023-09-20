@@ -400,6 +400,10 @@ test.describe('Recurring Meetings', () => {
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/03/2040').card,
     ).toHaveCount(0);
+
+    await expect(
+      aliceMeetingsWidgetPage.getMeeting('My Meeting').card,
+    ).toHaveCount(4);
   });
 
   // TODO: Delete starting from
