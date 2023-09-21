@@ -61,7 +61,7 @@
     "rfc4648": "^1.5.2",
     "rrule": "^2.7.2",
     "rxjs": "^7.8.0",
-    "uuid": "^9.0.0"
+    "uuid": "^9.0.1"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.1.14",
@@ -72,7 +72,7 @@
     "@types/mustache": "^4.2.2",
     "@types/node": "^16.18.44",
     "@types/node-fetch": "^2.6.4",
-    "@types/uuid": "^9.0.2",
+    "@types/uuid": "^9.0.4",
     "copyfiles": "^2.4.1",
     "depcheck": "^1.4.5",
     "dotenv-cli": "^7.3.0",
