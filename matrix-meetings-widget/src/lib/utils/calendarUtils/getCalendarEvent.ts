@@ -108,7 +108,7 @@ export function getCalendarEvent(
     // find the last entry after the series ended
     const calendarEnd = getCalendarEnd(relatedCalendar);
 
-    if (calendarEnd && calendarEnd < DateTime.now()) {
+    if (DateTime.isDateTime(calendarEnd) && calendarEnd < DateTime.now()) {
       [entry] = calculateCalendarEvents({
         calendar: relatedCalendar,
         // meeting end is exclusive, therefore we need to adjust our search
