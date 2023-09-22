@@ -31,11 +31,13 @@
   ],
   "meeting": {
     "invite": {
-      "htmlDescription": "<div><i>{{description}}</i></div>",
-      "htmlInvited": "You've been invited to a meeting by {{organizerUsername}}. It will take place on <b>{{startDate}} at {{startTime}} {{timezone}}</b> and ends on <b>{{endDate}} at {{endTime}} {{timezone}}</b>. Please accept this invitation by clicking the \"Accept\" button to add the meeting to your calendar. To stay away from the meeting, click on the \"Reject\" button.",
-      "htmlOrganizer": "The meeting was created for you. It will take place on <b>{{startDate}} at {{startTime}} {{timezone}}</b>. Please accept this invitation by clicking the \"Accept\" button to add the meeting to your calendar. To stay away from the meeting, click on the \"Reject\" button.",
-      "invited": "You've been invited to a meeting by {{organizerUsername}}. It will take place on {{startDate}} at {{startTime}} {{timezone}} and ends on {{endDate}} at {{endTime}} {{timezone}}. Please accept this invitation by clicking the \"Accept\" button to add the meeting to your calendar. To stay away from the meeting, click on the \"Reject\" button.",
-      "organizer": "The meeting was created for you. It will take place on {{startDate}} at {{startTime}} {{timezone}}. Please accept this invitation by clicking the \"Accept\" button to add the meeting to your calendar. To stay away from the meeting, click on the \"Reject\" button."
+      "message": "📅 {{range}}<br/>$t(meeting.invite.messageRecurrence, {\"context\": \"{{recurrenceContext}}\" })<br/>$t(meeting.invite.messageByOrganizer, {\"context\": \"{{organizerContext}}\" })$t(meeting.invite.messageDescription, {\"context\": \"{{descriptionContext}}\" })",
+      "messageByOrganizer_none": "",
+      "messageByOrganizer_present": "\nYou've been invited to a meeting by {{organizerDisplayName}}",
+      "messageDescription_none": "",
+      "messageDescription_present": "\n<hr><i>{{description}}</i>",
+      "messageRecurrence_none": "",
+      "messageRecurrence_present": "\n🔁 Recurrence: {{recurrence}}<br/>"
     },
     "room": {
       "notification": {

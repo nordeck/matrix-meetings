@@ -125,6 +125,8 @@ test.describe('Schedule Meeting', () => {
       'My Description',
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
+    await aliceScheduleMeetingWidgetPage.selectRecurrence('daily');
+    await aliceScheduleMeetingWidgetPage.setEndAfterMeetingCount(2);
     await aliceScheduleMeetingWidgetPage.addParticipant(bob.displayName);
     await aliceScheduleMeetingWidgetPage.submit();
 
@@ -133,7 +135,7 @@ test.describe('Schedule Meeting', () => {
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/03/2040')
         .meetingTimeRangeText,
-    ).toHaveText('10:30 AM – 11:30 AM');
+    ).toHaveText('10:30 AM – 11:30 AM. Recurrence: Every day for 2 times');
 
     await bobElementWebPage.navigateToRoomOrInvitation('Calendar');
     await bobElementWebPage.acceptRoomInvitation();
@@ -148,11 +150,15 @@ test.describe('Schedule Meeting', () => {
 
     const inviteReason = await bobElementWebPage.revealRoomInviteReason();
 
-    await expect(inviteReason).toContainText('invited to a meeting by Alice');
-    // Having the times returned in CET might be a bit unintuitive for users and
-    // could be an improvement for the future.
-    await expect(inviteReason).toContainText('10/03/2040 at 10:30 AM CEST');
-    await expect(inviteReason).toContainText('10/03/2040 at 11:30 AM CEST');
+    await expect(inviteReason).toContainText(
+      '📅 10/3/2040, 10:30 – 11:30 AM GMT+2',
+    );
+    await expect(inviteReason).toContainText(
+      '🔁 Recurrence: Every day for 2 times',
+    );
+    await expect(inviteReason).toContainText(
+      "You've been invited to a meeting by Alice",
+    );
     await expect(inviteReason).toContainText('My Description');
 
     await bobElementWebPage.acceptRoomInvitation();

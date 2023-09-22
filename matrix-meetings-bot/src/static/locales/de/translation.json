@@ -31,11 +31,13 @@
   ],
   "meeting": {
     "invite": {
-      "htmlDescription": "<div><i>{{description}}</i></div>",
-      "htmlInvited": "Du wurdest von {{organizerUsername}} zu einem Meeting eingeladen. Es wird am <b>{{startDate}} um {{startTime}} {{timezone}}</b> beginnen und am <b>{{endDate}} um {{endTime}} {{timezone}}</b> enden. Bitte nimm diese Einladung an, indem du auf den \"Akzeptieren\"-Button klickst, um das Meeting in deinen Kalender zu übernehmen. Wenn du dem Meeting fernbleiben möchtest, klicke auf die Schaltfläche \"Ablehnen\".",
-      "htmlOrganizer": "Das Meeting wurde für dich angelegt. Es wird am <b>{{startDate}} um {{startTime}} {{timezone}}</b> stattfinden. Bitte nimm diese Einladung an, indem du auf den \"Akzeptieren\"-Button klickst, um das Meeting in deinen Kalender zu übernehmen. Wenn du dem Meeting fernbleiben möchtest, klicke auf die Schaltfläche \"Ablehnen\".",
-      "invited": "Du wurdest von {{organizerUsername}} zu einem Meeting eingeladen. Es wird am {{startDate}} um {{startTime}} {{timezone}} beginnen und am {{endDate}} um {{endTime}} {{timezone}} enden. Bitte nimm diese Einladung an, indem du auf den \"Akzeptieren\"-Button klickst, um das Meeting in deinen Kalender zu übernehmen. Wenn du dem Meeting fernbleiben möchtest, klicke auf die Schaltfläche \"Ablehnen\".",
-      "organizer": "Das Meeting wurde für dich angelegt. Es wird am {{startDate}} um {{startTime}} {{timezone}} stattfinden. Bitte nimm diese Einladung an, indem du auf den \"Akzeptieren\"-Button klickst, um das Meeting in deinen Kalender zu übernehmen. Wenn du dem Meeting fernbleiben möchtest, klicke auf die Schaltfläche \"Ablehnen\"."
+      "message": "📅 {{range}}<br/>$t(meeting.invite.messageRecurrence, {\"context\": \"{{recurrenceContext}}\" })<br/>$t(meeting.invite.messageByOrganizer, {\"context\": \"{{organizerContext}}\" })$t(meeting.invite.messageDescription, {\"context\": \"{{descriptionContext}}\" })",
+      "messageByOrganizer_none": "",
+      "messageByOrganizer_present": "\nDu wurdest von {{organizerDisplayName}} zu einem Meeting eingeladen",
+      "messageDescription_none": "",
+      "messageDescription_present": "\n<hr><i>{{description}}</i>",
+      "messageRecurrence_none": "",
+      "messageRecurrence_present": "\n🔁 Wiederholung: {{recurrence}}<br/>"
     },
     "room": {
       "notification": {
