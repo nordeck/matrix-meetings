@@ -19,6 +19,10 @@ import { mockCalendar, mockCalendarEntry } from '../../testUtils';
 import { getCalendarEnd } from './getCalendarEnd';
 
 describe('getCalendarEnd', () => {
+  it('should handle calendar with no event', () => {
+    expect(getCalendarEnd([])).toEqual(undefined);
+  });
+
   it('should handle calendar with a single event', () => {
     expect(
       getCalendarEnd(
@@ -44,7 +48,7 @@ describe('getCalendarEnd', () => {
           rrule: 'FREQ=DAILY',
         }),
       ]),
-    ).toEqual(undefined);
+    ).toEqual('infinite');
   });
 
   it('should handle calendar with a single recurring event that ends', () => {
@@ -91,5 +95,18 @@ describe('getCalendarEnd', () => {
         }),
       ]),
     ).toEqual(DateTime.fromISO('2020-01-11T11:00:00Z'));
+  });
+
+  it('should handle calendar with a recurring event that has no events', () => {
+    expect(
+      getCalendarEnd([
+        mockCalendarEntry({
+          dtstart: '20200109T100000',
+          dtend: '20200109T110000',
+          rrule: 'FREQ=DAILY;COUNT=1',
+          exdate: ['20200109T100000'],
+        }),
+      ]),
+    ).toEqual(undefined);
   });
 });

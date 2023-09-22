@@ -24,7 +24,11 @@ import {
   DialogTitle,
 } from '@mui/material';
 import { unstable_useId as useId } from '@mui/utils';
-import React, { DispatchWithoutAction, PropsWithChildren } from 'react';
+import React, {
+  DispatchWithoutAction,
+  PropsWithChildren,
+  ReactElement,
+} from 'react';
 import { useTranslation } from 'react-i18next';
 
 type ConfirmDeleteDialogProps = PropsWithChildren<{
@@ -33,8 +37,10 @@ type ConfirmDeleteDialogProps = PropsWithChildren<{
   description: string;
   confirmTitle: string;
   loading?: boolean;
+  additionalButtons?: ReactElement;
   onCancel: DispatchWithoutAction;
   onConfirm: DispatchWithoutAction;
+  onEnter?: DispatchWithoutAction;
 }>;
 
 export function ConfirmDeleteDialog({
@@ -43,8 +49,10 @@ export function ConfirmDeleteDialog({
   description,
   confirmTitle,
   loading,
+  additionalButtons,
   onCancel,
   onConfirm,
+  onEnter,
   children,
 }: ConfirmDeleteDialogProps) {
   const { t } = useTranslation();
@@ -58,6 +66,7 @@ export function ConfirmDeleteDialog({
       aria-labelledby={dialogTitleId}
       onClose={onCancel}
       open={open}
+      onTransitionEnter={onEnter}
     >
       <DialogTitle id={dialogTitleId}>{title}</DialogTitle>
 
@@ -75,6 +84,9 @@ export function ConfirmDeleteDialog({
         <Button autoFocus onClick={onCancel} variant="outlined">
           {t('cancel', 'Cancel')}
         </Button>
+
+        {additionalButtons}
+
         <LoadingButton
           color="error"
           loading={loading}
