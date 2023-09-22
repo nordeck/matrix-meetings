@@ -16,8 +16,6 @@
 
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import {
-  Alert,
-  AlertTitle,
   FormControl,
   FormControlLabel,
   FormGroup,
@@ -64,7 +62,6 @@ export type ScheduleMeetingProps = {
   onMeetingChange: (meeting: CreateMeeting | undefined) => void;
   initialMeeting?: Meeting | undefined;
   initialIsMessagingEnabled?: boolean;
-  showParticipants?: boolean;
   parentRoomId?: string;
 };
 
@@ -87,13 +84,11 @@ export const ScheduleMeeting = ({
   );
   const [startDate, setStartDate] = useState(
     initialMeeting
-      ? parseICalDate(initialMeeting.calendarEntries[0].dtstart)
+      ? DateTime.fromISO(initialMeeting.startTime)
       : initialStartDate,
   );
   const [endDate, setEndDate] = useState(
-    initialMeeting
-      ? parseICalDate(initialMeeting.calendarEntries[0].dtend)
-      : initialEndDate,
+    initialMeeting ? DateTime.fromISO(initialMeeting.endTime) : initialEndDate,
   );
 
   const [participants, setParticipants] = useState<string[]>(() => {
@@ -144,6 +139,7 @@ export const ScheduleMeeting = ({
   const isMeetingCreation = !initialMeeting;
   const isEditingRecurringMeeting =
     initialMeeting &&
+    initialMeeting.recurrenceId === undefined &&
     isRecurringCalendarSourceEntry(initialMeeting.calendarEntries);
   const startDateReadOnly =
     !isEditingRecurringMeeting &&
@@ -344,7 +340,8 @@ export const ScheduleMeeting = ({
         participants,
         powerLevels,
         widgetIds: widgets,
-        rrule: recurrence.rrule,
+        rrule: !initialMeeting?.recurrenceId ? recurrence.rrule : undefined,
+        recurrenceId: initialMeeting?.recurrenceId,
       });
     }
   }, [
@@ -373,6 +370,9 @@ export const ScheduleMeeting = ({
   const isBreakoutSession =
     initialMeeting?.type === 'net.nordeck.meetings.breakoutsession';
 
+  const isEditingSingleRecurrence =
+    initialMeeting && initialMeeting.recurrenceId !== undefined;
+
   const titleId = useId();
   const descriptionId = useId();
   const messagingId = useId();
@@ -381,21 +381,6 @@ export const ScheduleMeeting = ({
     <MeetingNotEndedGuard meeting={initialMeeting} withMessage>
       {initialMeeting && (
         <MeetingHasBreakoutSessionsWarning meeting={initialMeeting} />
-      )}
-
-      {isEditingRecurringMeeting && (
-        <Alert role="status" severity="info" sx={{ my: 1 }}>
-          <AlertTitle>
-            {t(
-              'scheduleMeeting.recurringMeetingMessage.title',
-              'You are editing a recurring meeting',
-            )}
-          </AlertTitle>
-          {t(
-            'scheduleMeeting.recurringMeetingMessage.message',
-            'All instances of the recurring meeting are edited',
-          )}
-        </Alert>
       )}
 
       <Stack direction="column" flexWrap="wrap" sx={{ px: 1, pt: 1 }}>
@@ -417,6 +402,7 @@ export const ScheduleMeeting = ({
           onChange={handleChangeTitle}
           value={title}
           sx={{ mt: 0 }}
+          disabled={isEditingSingleRecurrence}
         />
 
         <Grid container>
@@ -497,6 +483,7 @@ export const ScheduleMeeting = ({
           multiline
           onChange={handleChangeDescription}
           value={description}
+          disabled={isEditingSingleRecurrence}
         />
 
         <MemberSelectionDropdown
@@ -529,6 +516,7 @@ export const ScheduleMeeting = ({
               ? t('scheduleMeeting.typeToSearch', 'Type to search for a user…')
               : t('memberSelectionDropdown.noMembers', 'No further members.')
           }
+          disabled={isEditingSingleRecurrence}
         />
 
         <Stack direction="row" justifyContent="flex-end">
@@ -550,6 +538,7 @@ export const ScheduleMeeting = ({
               )}
               sx={{ mx: 0 }}
               labelPlacement="start"
+              disabled={isEditingSingleRecurrence}
             />
           </FormControl>
         </Stack>
@@ -558,6 +547,7 @@ export const ScheduleMeeting = ({
           autoSelectAllWidgets={!initialMeeting}
           onChange={handleChangeWidgets}
           selectedWidgets={widgets}
+          disabled={isEditingSingleRecurrence}
         />
 
         {!isBreakoutSession && (
@@ -566,6 +556,7 @@ export const ScheduleMeeting = ({
             onChange={handleChangeRecurrence}
             rule={recurrence.rrule}
             startDate={startDate.toJSDate()}
+            disabled={isEditingSingleRecurrence}
           />
         )}
       </Stack>

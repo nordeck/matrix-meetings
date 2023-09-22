@@ -39,6 +39,7 @@ type CustomYearlyRecurringMeetingProps = {
   customNthMonthday: string;
   customWeekday: number;
   customNth: number;
+  disabled?: boolean;
   onCustomRuleModeChange: Dispatch<CustomRuleMode>;
   onCustomMonthChange: Dispatch<number>;
   onCustomNthMonthdayChange: Dispatch<string>;
@@ -52,6 +53,7 @@ export const CustomYearlyRecurringMeeting = ({
   customNthMonthday,
   customWeekday,
   customNth,
+  disabled,
   onCustomRuleModeChange,
   onCustomMonthChange,
   onCustomNthMonthdayChange,
@@ -96,6 +98,7 @@ export const CustomYearlyRecurringMeeting = ({
       >
         <Stack direction="row" flexWrap="wrap">
           <FormControlLabel
+            disabled={disabled}
             control={
               <Radio
                 id={byMonthdayRadioId}
@@ -129,7 +132,9 @@ export const CustomYearlyRecurringMeeting = ({
             spacing={1}
           >
             <TextField
-              disabled={customRuleMode !== CustomRuleMode.ByMonthday}
+              disabled={
+                customRuleMode !== CustomRuleMode.ByMonthday || disabled
+              }
               error={isCustomNthMonthdayInvalid}
               helperText={
                 isCustomNthMonthdayInvalid &&
@@ -153,7 +158,9 @@ export const CustomYearlyRecurringMeeting = ({
               value={customNthMonthday}
             />
             <MonthSelect
-              disabled={customRuleMode !== CustomRuleMode.ByMonthday}
+              disabled={
+                customRuleMode !== CustomRuleMode.ByMonthday || disabled
+              }
               month={customMonth}
               onMonthChange={onCustomMonthChange}
             />
@@ -162,6 +169,7 @@ export const CustomYearlyRecurringMeeting = ({
 
         <Stack direction="row" flexWrap="wrap">
           <FormControlLabel
+            disabled={disabled}
             control={
               <Radio
                 id={byWeekdayRadioId}
@@ -196,18 +204,18 @@ export const CustomYearlyRecurringMeeting = ({
             spacing={1}
           >
             <OrdinalSelect
-              disabled={customRuleMode !== CustomRuleMode.ByWeekday}
+              disabled={customRuleMode !== CustomRuleMode.ByWeekday || disabled}
               onOrdinalChange={onCustomNthChange}
               ordinal={customNth}
             />
             <WeekdaySelect
-              disabled={customRuleMode !== CustomRuleMode.ByWeekday}
+              disabled={customRuleMode !== CustomRuleMode.ByWeekday || disabled}
               onWeekdayChange={onCustomWeekdayChange}
               weekday={customWeekday}
             />
             <span>{t('recurrenceEditor.custom.yearly.byWeekdayOf', 'of')}</span>
             <MonthSelect
-              disabled={customRuleMode !== CustomRuleMode.ByWeekday}
+              disabled={customRuleMode !== CustomRuleMode.ByWeekday || disabled}
               month={customMonth}
               onMonthChange={onCustomMonthChange}
             />

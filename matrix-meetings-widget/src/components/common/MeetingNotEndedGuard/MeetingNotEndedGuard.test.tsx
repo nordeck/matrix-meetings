@@ -36,9 +36,9 @@ describe('<MeetingNotEndedGuard/>', () => {
       <MeetingNotEndedGuard
         meeting={mockMeeting({
           content: {
-            startTime: '2000-01-02T01:00:00Z',
-            endTime: '2000-01-02T02:00:00Z',
-            recurrenceId: '2000-01-02T01:00:00Z',
+            startTime: '2000-01-01T01:00:00Z',
+            endTime: '2000-01-01T02:00:00Z',
+            recurrenceId: undefined,
             calendarEntries: [
               mockCalendarEntry({
                 dtstart: '20000101T010000',
@@ -64,7 +64,7 @@ describe('<MeetingNotEndedGuard/>', () => {
           content: {
             startTime: '2000-01-02T01:00:00Z',
             endTime: '2000-01-02T02:00:00Z',
-            recurrenceId: '2000-01-02T01:00:00Z',
+            recurrenceId: undefined,
             calendarEntries: [
               mockCalendarEntry({
                 dtstart: '20000101T010000',
@@ -115,7 +115,7 @@ describe('<MeetingNotEndedGuard/>', () => {
           content: {
             startTime: '2000-01-02T01:00:00Z',
             endTime: '2000-01-02T02:00:00Z',
-            recurrenceId: '2000-01-02T01:00:00Z',
+            recurrenceId: undefined,
             calendarEntries: [
               mockCalendarEntry({
                 dtstart: '20000101T010000',

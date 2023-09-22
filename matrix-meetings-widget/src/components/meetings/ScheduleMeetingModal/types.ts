@@ -27,6 +27,7 @@ export type CreateMeeting = {
     messaging?: number;
   };
   rrule?: string | undefined;
+  recurrenceId?: string | undefined;
 };
 
 export type ScheduleMeetingModalRequest = {

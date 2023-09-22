@@ -20,11 +20,14 @@ import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
+import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
 import {
   mockCalendar,
+  mockConfigEndpoint,
   mockCreateMeetingRoom,
+  mockMeetingSharingInformationEndpoint,
   mockRoomTombstone,
 } from '../../../lib/testUtils';
 import { createStore } from '../../../store';
@@ -37,6 +40,12 @@ jest.mock('@matrix-widget-toolkit/api', () => ({
 }));
 
 jest.mock('@mui/material/useMediaQuery');
+
+const server = setupServer();
+
+beforeAll(() => server.listen());
+afterEach(() => server.resetHandlers());
+afterAll(() => server.close());
 
 let widgetApi: MockedWidgetApi;
 
@@ -54,6 +63,9 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
       clientOrigin: 'http://element.local',
       widgetId: '',
     });
+
+    mockConfigEndpoint(server);
+    mockMeetingSharingInformationEndpoint(server);
 
     mockCreateMeetingRoom(widgetApi);
 
