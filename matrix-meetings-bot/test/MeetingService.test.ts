@@ -1771,7 +1771,7 @@ describe('test relevant functionality of MeetingService', () => {
       const e = StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT;
       verify(
         clientMock.sendStateEvent(parentId, e, anything(), anything()),
-      ).times(3);
+      ).times(4);
 
       expect(callInfo(0, SendStateEventParameter.Content, e).type).toBe(
         WidgetType.COCKPIT,
@@ -1779,12 +1779,15 @@ describe('test relevant functionality of MeetingService', () => {
       expect(callInfo(1, SendStateEventParameter.Content, e).type).toBe(
         'net.nordeck.poll',
       ); // updated poll
+      expect(callInfo(2, SendStateEventParameter.Content, e).type).toBe(
+        'm.etherpad',
+      ); // updated etherpad
 
       // verify removed whiteboard
-      expect(callInfo(2, SendStateEventParameter.StateKey, e)).toBe(
+      expect(callInfo(3, SendStateEventParameter.StateKey, e)).toBe(
         'whiteboard',
       );
-      expect(callInfo(2, SendStateEventParameter.Content, e)).toStrictEqual({});
+      expect(callInfo(3, SendStateEventParameter.Content, e)).toStrictEqual({});
     });
 
     test('no layout config', async () => {

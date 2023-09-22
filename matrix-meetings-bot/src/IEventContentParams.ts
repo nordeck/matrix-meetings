@@ -15,7 +15,6 @@
  */
 
 import { base32 } from 'rfc4648';
-import { v4 as uuiv4 } from 'uuid';
 
 export interface IEventContentParams {
   room_id?: string;
@@ -32,13 +31,16 @@ class EventContentParamsHelper {
     const base32RoomId = roomId
       ? base32.stringify(Buffer.from(roomId), { pad: false })
       : undefined;
+    const base32AsUuid = roomId
+      ? base32.stringify(Buffer.from(roomId), { pad: true }).slice(0, 25)
+      : undefined;
     const nonNullTitle = title || '';
 
     return {
       room_id: roomId,
       base32_room_id: base32RoomId,
       title: nonNullTitle,
-      uuid: uuiv4(),
+      uuid: base32AsUuid,
     };
   }
 }

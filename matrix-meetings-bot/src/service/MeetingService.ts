@@ -450,7 +450,6 @@ export class MeetingService {
           newMeeting.title,
           widgetId,
           widgetEventContent,
-          room.widgetEventById(widgetId)?.state_key,
         ),
       );
     }
@@ -601,7 +600,6 @@ export class MeetingService {
             room.meeting.title,
             widgetId,
             widgetEventContent,
-            room.widgetEventById(widgetId)?.state_key,
           ),
         );
       }
