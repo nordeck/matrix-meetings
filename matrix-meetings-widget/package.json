@@ -19,7 +19,7 @@
     "@mui/material": "^5.13.4",
     "@mui/utils": "^5.13.1",
     "@mui/x-date-pickers": "^6.13.0",
-    "@reduxjs/toolkit": "^1.9.5",
+    "@reduxjs/toolkit": "^1.9.6",
     "i18next": "^23.4.5",
     "i18next-chained-backend": "^4.4.0",
     "i18next-http-backend": "^2.2.2",
