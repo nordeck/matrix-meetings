@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { DateTime } from 'luxon';
 import { useEffect } from 'react';
 import { useUpdate } from 'react-use';
 
@@ -21,7 +22,7 @@ import { useUpdate } from 'react-use';
  * Triggers to update a component after date.
  * @param date
  */
-export function useUpdateOnDate(date: Date | undefined): void {
+export function useUpdateOnDate(date: string | undefined): void {
   const update = useUpdate();
 
   // trigger an update when the meeting ends
@@ -50,7 +51,7 @@ export function useUpdateOnDate(date: Date | undefined): void {
       return () => {};
     }
 
-    schedule(date.getTime());
+    schedule(+DateTime.fromISO(date));
 
     return () => {
       clearTimeout(timeoutRef);

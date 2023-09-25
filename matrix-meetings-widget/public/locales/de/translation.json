@@ -59,6 +59,10 @@
     "save": "Speichern",
     "title": "Bearbeiten"
   },
+  "editRecurringMessage": {
+    "message": "Alle Instanzen der Besprechungsserie können bearbeitet werden",
+    "titleOne": "Wiederkehrende Besprechungsserie bearbeiten"
+  },
   "invitedMeetingList": {
     "detail": {
       "invitedBy": "Einladung von: {{name}}"
@@ -69,11 +73,6 @@
   },
   "meetingCard": {
     "actions": "Aktionen",
-    "deleteConfirmButton": "Löschen",
-    "deleteConfirmHeader": "Besprechung löschen",
-    "deleteConfirmMessage": "Du bist dabei die Besprechung „{{title}}“ am {{startTime, datetime}} und alles darin zu löschen. Bist du sicher?",
-    "deleteFailed": "Bitte versuche es erneut.",
-    "deleteFailedTitle": "Fehler beim Löschen der Besprechung",
     "deleteInOpenXchangeMenu": "Besprechung in Open-Xchange löschen",
     "deleteMenu": "Besprechung löschen",
     "durationSubheader_default": "{{startDate, datetime}} – {{endDate, datetime}}",
@@ -156,7 +155,10 @@
       "deleteFailed": "Bitte versuche es erneut.",
       "deleteFailedTitle": "Fehler beim Löschen der Besprechung",
       "deleteInOpenXchangeMenu": "Besprechung in Open-Xchange löschen",
+      "deleteMeetingConfirmButton": "Besprechung löschen",
       "deleteMenu": "Löschen",
+      "deleteSeriesConfirmButton": "Besprechungsserie löschen",
+      "deleteSeriesConfirmMessage": "Du bist dabei die Besprechung oder die Besprechungsserie „{{title}}“ am {{startTime, datetime}} und alles darin zu löschen. Bist du sicher?",
       "editInOpenXchangeMenu": "Besprechung in Open-Xchange bearbeiten",
       "editMenu": "Bearbeiten",
       "join": "Beitreten",
@@ -364,10 +366,6 @@
     "hasPowerToKickUser": "Du hast nicht die Berechtigung um diesen Nutzer aus der Besprechung zu entfernen.",
     "meetingAlreadyStarted": "Die Besprechung ist bereits gestartet.",
     "participants": "Teilnehmer",
-    "recurringMeetingMessage": {
-      "message": "Alle Wiederholungen des Termins werden bearbeitet.",
-      "title": "Du bearbeitest einen Serientermin"
-    },
     "startAt": "Startzeitpunkt",
     "title": "Titel (erforderlich)",
     "titleHelperText": "Ein Titel ist erforderlich",

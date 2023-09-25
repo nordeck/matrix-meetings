@@ -14,28 +14,9 @@
  * limitations under the License.
  */
 
-/*
- * Copyright 2022 Nordeck IT + Consulting GmbH
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-
-import { navigateToRoom } from '@matrix-widget-toolkit/api';
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import CloseIcon from '@mui/icons-material/Close';
 import {
-  Alert,
-  AlertTitle,
   Box,
   Button,
   DialogTitle,
@@ -50,15 +31,11 @@ import {
   Meeting,
   makeSelectRoomPermissions,
   selectNordeckMeetingMetadataEventByRoomId,
-  selectRoomPowerLevelsEventByRoomId,
-  useCloseMeetingMutation,
 } from '../../../../reducer/meetingsApi';
-import { useAppSelector } from '../../../../store';
-import { ConfirmDeleteDialog } from '../../../common/ConfirmDeleteDialog';
-import { withoutYearDateFormat } from '../../../common/DateTimePickers';
+import { useAppDispatch, useAppSelector } from '../../../../store';
 import { UpdateFailedDialog } from '../../MeetingCard/MeetingCardMenu';
-import { ScheduledDeletionWarning } from '../../MeetingCard/ScheduledDeletionWarning';
-import { useEditMeeting } from '../../ScheduleMeetingModal';
+import { editMeetingThunk } from '../../ScheduleMeetingModal';
+import { DeleteMeetingDialog } from './DeleteMeetingDialog';
 import { MeetingDetailsJoinButton } from './MeetingDetailsJoinButton';
 import { getOpenXChangeExternalReference } from './OpenXchangeButton';
 import { OpenXchangeButton } from './OpenXchangeButton/OpenXchangeButton';
@@ -76,7 +53,6 @@ export function MeetingDetailsHeader({
 }) {
   const widgetApi = useWidgetApi();
   const { t } = useTranslation();
-  const { editMeeting } = useEditMeeting();
   const [showErrorDialog, setShowErrorDialog] = useState(false);
   const [openDeleteConfirm, setOpenDeleteConfirm] = useState(false);
   const selectRoomPermissions = useMemo(makeSelectRoomPermissions, []);
@@ -99,11 +75,6 @@ export function MeetingDetailsHeader({
     canUpdateMeetingParticipantsInvite &&
     canUpdateMeetingParticipantsKick;
 
-  const [
-    closeMeeting,
-    { isLoading: isDeleting, isError, data: deleteResponse },
-  ] = useCloseMeetingMutation();
-
   const metadataEvent = useAppSelector((state) => {
     const event = selectNordeckMeetingMetadataEventByRoomId(
       state,
@@ -113,26 +84,22 @@ export function MeetingDetailsHeader({
     return event;
   });
 
-  const isMessagingEnabled = useAppSelector((state) => {
-    const event = selectRoomPowerLevelsEventByRoomId(state, meeting.meetingId);
-    return event?.content.events_default === 0;
-  });
-
   const openXChangeReference = useMemo(
     () => metadataEvent && getOpenXChangeExternalReference(metadataEvent),
     [metadataEvent],
   );
   const isExternalReference = openXChangeReference !== undefined;
 
+  const dispatch = useAppDispatch();
   const handleClickEditMeeting = useCallback(async () => {
     try {
       if (meeting) {
-        await editMeeting(meeting, isMessagingEnabled);
+        await dispatch(editMeetingThunk(meeting)).unwrap();
       }
     } catch {
       setShowErrorDialog(true);
     }
-  }, [editMeeting, isMessagingEnabled, meeting]);
+  }, [dispatch, meeting]);
 
   const handleClickOpenDeleteConfirm = useCallback(() => {
     setOpenDeleteConfirm(true);
@@ -141,33 +108,6 @@ export function MeetingDetailsHeader({
   const handleCloseDeleteConfirm = useCallback(() => {
     setOpenDeleteConfirm(false);
   }, []);
-
-  const handleClickDeleteConfirm = useCallback(async () => {
-    try {
-      const { acknowledgement } = await closeMeeting({
-        roomId: meeting.meetingId,
-      }).unwrap();
-
-      if (!acknowledgement?.error) {
-        const isInMeetingRoom =
-          meeting.meetingId === widgetApi.widgetParameters.roomId;
-
-        if (isInMeetingRoom && meeting.parentRoomId) {
-          navigateToRoom(widgetApi, meeting.parentRoomId);
-        }
-
-        handleCloseDeleteConfirm();
-      }
-    } catch {
-      // ignore
-    }
-  }, [
-    closeMeeting,
-    handleCloseDeleteConfirm,
-    meeting.meetingId,
-    meeting.parentRoomId,
-    widgetApi,
-  ]);
 
   const isMeetingInvitation = meeting.participants.some(
     (p) =>
@@ -260,45 +200,11 @@ export function MeetingDetailsHeader({
 
       {showErrorDialog && <UpdateFailedDialog setOpen={setShowErrorDialog} />}
 
-      <ConfirmDeleteDialog
-        confirmTitle={t('meetingDetails.header.deleteConfirmButton', 'Delete')}
-        description={t(
-          'meetingDetails.header.deleteConfirmMessage',
-          'Are you sure you want to delete the meeting “{{title}}” on {{startTime, datetime}} and every content related to it?',
-          {
-            title: meeting.title,
-            startTime: new Date(meeting.startTime),
-            formatParams: {
-              startTime: withoutYearDateFormat,
-            },
-          },
-        )}
-        loading={
-          isDeleting ||
-          (deleteResponse !== undefined &&
-            !deleteResponse.acknowledgement.error)
-        }
-        onCancel={handleCloseDeleteConfirm}
-        onConfirm={handleClickDeleteConfirm}
+      <DeleteMeetingDialog
+        meeting={meeting}
         open={openDeleteConfirm}
-        title={t('meetingDetails.header.deleteConfirmHeader', 'Delete meeting')}
-      >
-        {meeting.deletionTime !== undefined && (
-          <ScheduledDeletionWarning deletionTime={meeting.deletionTime} />
-        )}
-
-        {(isError || deleteResponse?.acknowledgement.error) && (
-          <Alert severity="error">
-            <AlertTitle>
-              {t(
-                'meetingDetails.header..deleteFailedTitle',
-                'Failed to delete the meeting',
-              )}
-            </AlertTitle>
-            {t('meetingDetails.header..deleteFailed', 'Please try again.')}
-          </Alert>
-        )}
-      </ConfirmDeleteDialog>
+        onClose={handleCloseDeleteConfirm}
+      />
     </>
   );
 }

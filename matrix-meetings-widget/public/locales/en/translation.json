@@ -59,6 +59,10 @@
     "save": "Save",
     "title": "Edit Meeting"
   },
+  "editRecurringMessage": {
+    "message": "All instances of the recurring meeting are editable",
+    "titleOne": "Edit the recurring meeting series"
+  },
   "invitedMeetingList": {
     "detail": {
       "invitedBy": "Invited By: {{name}}"
@@ -69,11 +73,6 @@
   },
   "meetingCard": {
     "actions": "Actions",
-    "deleteConfirmButton": "Delete",
-    "deleteConfirmHeader": "Delete meeting",
-    "deleteConfirmMessage": "Are you sure you want to delete the meeting “{{title}}” on {{startTime, datetime}} and every content related to it?",
-    "deleteFailed": "Please try again.",
-    "deleteFailedTitle": "Failed to delete the meeting",
     "deleteInOpenXchangeMenu": "Delete meeting in Open-Xchange",
     "deleteMenu": "Delete meeting",
     "durationSubheader_default": "{{startDate, datetime}} – {{endDate, datetime}}",
@@ -156,7 +155,10 @@
       "deleteFailed": "Please try again.",
       "deleteFailedTitle": "Failed to delete the meeting",
       "deleteInOpenXchangeMenu": "Delete meeting in Open-Xchange",
+      "deleteMeetingConfirmButton": "Delete meeting",
       "deleteMenu": "Delete",
+      "deleteSeriesConfirmButton": "Delete series",
+      "deleteSeriesConfirmMessage": "Are you sure you want to delete the meeting or the meeting series “{{title}}” on {{startTime, datetime}} and every content related to it?",
       "editInOpenXchangeMenu": "Edit meeting in Open-Xchange",
       "editMenu": "Edit",
       "join": "Join",
@@ -367,10 +369,6 @@
     "hasPowerToKickUser": "You don't have the permission to remove this participant.",
     "meetingAlreadyStarted": "The meeting already started.",
     "participants": "Participants",
-    "recurringMeetingMessage": {
-      "message": "All instances of the recurring meeting are edited",
-      "title": "You are editing a recurring meeting"
-    },
     "startAt": "Start at",
     "title": "Title (required)",
     "titleHelperText": "A title is required",
