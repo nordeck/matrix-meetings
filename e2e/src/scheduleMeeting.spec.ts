@@ -157,7 +157,7 @@ test.describe('Schedule Meeting', () => {
       '🔁 Recurrence: Every day for 2 times',
     );
     await expect(inviteReason).toContainText(
-      "You've been invited to a meeting by Alice",
+      "you've been invited to a meeting by Alice",
     );
     await expect(inviteReason).toContainText('My Description');
 

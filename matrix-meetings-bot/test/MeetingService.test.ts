@@ -1274,7 +1274,7 @@ describe('test relevant functionality of MeetingService', () => {
         content: {
           membership: 'invite',
           // already contains the expected value WITHOUT trailing space.
-          reason: `📅 2/1/2022, 12:00 AM UTC – 2/3/2022, 12:00 AM UTC\nYou've been invited to a meeting by displayname\ndescription1`,
+          reason: `📅 2/1/2022, 12:00 AM UTC – 2/3/2022, 12:00 AM UTC\nyou've been invited to a meeting by displayname\ndescription1`,
           'io.element.html_reason': 'good reason',
         },
       },
@@ -1285,7 +1285,7 @@ describe('test relevant functionality of MeetingService', () => {
         content: {
           membership: 'invite',
           // already contains the expected value WITH trailing space.
-          reason: `📅 2/1/2022, 12:00 AM UTC – 2/3/2022, 12:00 AM UTC\nYou've been invited to a meeting by displayname\ndescription1 `,
+          reason: `📅 2/1/2022, 12:00 AM UTC – 2/3/2022, 12:00 AM UTC\nyou've been invited to a meeting by displayname\ndescription1 `,
           'io.element.html_reason': 'good reason',
         },
       },
@@ -1371,21 +1371,21 @@ describe('test relevant functionality of MeetingService', () => {
         userId: userId2,
         // was different, should be replaced without trailing space
         reason: expect.stringMatching(
-          /You've been invited to a meeting by displayname\ndescription1$/,
+          /you've been invited to a meeting by displayname\ndescription1$/,
         ),
       },
       {
         userId: userId3,
         // was equal; should end with space
         reason: expect.stringMatching(
-          /You've been invited to a meeting by displayname\ndescription1 $/,
+          /you've been invited to a meeting by displayname\ndescription1 $/,
         ),
       },
       {
         userId: userId4,
         // was equal; should remove space
         reason: expect.stringMatching(
-          /You've been invited to a meeting by displayname\ndescription1$/,
+          /you've been invited to a meeting by displayname\ndescription1$/,
         ),
       },
     ]);

@@ -33,6 +33,7 @@ describe('TemplateHelper', () => {
     startTime: getMeetingStartTime(undefined, calendar),
     endTime: getMeetingEndTime(undefined, calendar),
   };
+
   const demoMeetingRecurring: InviteParams = {
     ...demoMeeting,
     calendar,
@@ -46,11 +47,11 @@ describe('TemplateHelper', () => {
     );
 
     expect(invites.textReason).toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC
-You've been invited to a meeting by alice
+you've been invited to a meeting by alice
 A demo meeting`);
     expect(invites.htmlReason)
       .toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC<br/><br/>
-You've been invited to a meeting by alice
+you've been invited to a meeting by alice
 <hr><i>A demo meeting</i>`);
   });
 
@@ -65,10 +66,10 @@ You've been invited to a meeting by alice
     );
 
     expect(invites.textReason).toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC
-You've been invited to a meeting by alice`);
+you've been invited to a meeting by alice`);
     expect(invites.htmlReason)
       .toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC<br/><br/>
-You've been invited to a meeting by alice`);
+you've been invited to a meeting by alice`);
   });
 
   test('invite message to member en recurring', () => {
@@ -80,11 +81,11 @@ You've been invited to a meeting by alice`);
 
     expect(invites.textReason).toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC
 🔁 Recurrence: Every day for 3 times
-You've been invited to a meeting by alice
+you've been invited to a meeting by alice
 A demo meeting`);
     expect(invites.htmlReason).toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC<br/>
 🔁 Recurrence: Every day for 3 times<br/><br/>
-You've been invited to a meeting by alice
+you've been invited to a meeting by alice
 <hr><i>A demo meeting</i>`);
   });
 
@@ -125,11 +126,11 @@ A demo meeting`);
     );
 
     expect(invites.textReason).toEqual(`📅 11.11.2020, 15:07–17:07 Uhr MEZ
-Du wurdest von alice zu einem Meeting eingeladen
+alice hat dich zu dieser Besprechung eingeladen
 A demo meeting`);
     expect(invites.htmlReason)
       .toEqual(`📅 11.11.2020, 15:07–17:07 Uhr MEZ<br/><br/>
-Du wurdest von alice zu einem Meeting eingeladen
+alice hat dich zu dieser Besprechung eingeladen
 <hr><i>A demo meeting</i>`);
   });
 
@@ -142,11 +143,11 @@ Du wurdest von alice zu einem Meeting eingeladen
 
     expect(invites.textReason).toEqual(`📅 11.11.2020, 15:07–17:07 Uhr MEZ
 🔁 Wiederholung: Jeden Tag für 3 Termine
-Du wurdest von alice zu einem Meeting eingeladen
+alice hat dich zu dieser Besprechung eingeladen
 A demo meeting`);
     expect(invites.htmlReason).toEqual(`📅 11.11.2020, 15:07–17:07 Uhr MEZ<br/>
 🔁 Wiederholung: Jeden Tag für 3 Termine<br/><br/>
-Du wurdest von alice zu einem Meeting eingeladen
+alice hat dich zu dieser Besprechung eingeladen
 <hr><i>A demo meeting</i>`);
   });
 

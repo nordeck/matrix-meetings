@@ -33,7 +33,7 @@
     "invite": {
       "message": "📅 {{range}}<br/>$t(meeting.invite.messageRecurrence, {\"context\": \"{{recurrenceContext}}\" })<br/>$t(meeting.invite.messageByOrganizer, {\"context\": \"{{organizerContext}}\" })$t(meeting.invite.messageDescription, {\"context\": \"{{descriptionContext}}\" })",
       "messageByOrganizer_none": "",
-      "messageByOrganizer_present": "\nYou've been invited to a meeting by {{organizerDisplayName}}",
+      "messageByOrganizer_present": "\nyou've been invited to a meeting by {{organizerDisplayName}}",
       "messageDescription_none": "",
       "messageDescription_present": "\n<hr><i>{{description}}</i>",
       "messageRecurrence_none": "",

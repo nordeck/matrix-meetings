@@ -37,7 +37,7 @@ export class TemplateHelper {
        extract them via i18next-parser
 
       t('meeting.invite.messageByOrganizer_none', '')
-      t('meeting.invite.messageByOrganizer_present', '\nYou\'ve been invited to a meeting by {{organizerDisplayName}}')
+      t('meeting.invite.messageByOrganizer_present', '\nyou\'ve been invited to a meeting by {{organizerDisplayName}}')
 
       t('meeting.invite.messageDescription_none', '')
       t('meeting.invite.messageDescription_present', '\n<hr><i>{{description}}</i>')
