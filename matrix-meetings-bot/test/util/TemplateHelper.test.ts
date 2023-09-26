@@ -14,26 +14,169 @@
  * limitations under the License.
  */
 
-import { templateHelper } from '../../src/util/TemplateHelper';
+import { CalendarEntryDto } from '../../src/dto/CalendarEntryDto';
+import { getMeetingEndTime, getMeetingStartTime } from '../../src/shared';
+import { InviteParams, templateHelper } from '../../src/util/TemplateHelper';
 
-describe('test TemplateHelper', () => {
-  const CURRENT_USER = 'some_user_id';
+describe('TemplateHelper', () => {
+  const calendar: CalendarEntryDto[] = [
+    {
+      uid: 'uid-0',
+      dtstart: { tzid: 'UTC', value: '20201111T140700' },
+      dtend: { tzid: 'UTC', value: '20201111T160700' },
+      rrule: 'FREQ=DAILY;COUNT=3',
+    },
+  ];
 
-  test('makeInviteReasons', async () => {
-    const userContext = { userId: CURRENT_USER, locale: 'de', timezone: 'UTC' };
+  const demoMeeting: InviteParams = {
+    description: 'A demo meeting',
+    startTime: getMeetingStartTime(undefined, calendar),
+    endTime: getMeetingEndTime(undefined, calendar),
+  };
 
+  const demoMeetingRecurring: InviteParams = {
+    ...demoMeeting,
+    calendar,
+  };
+
+  test('invite message to member en', () => {
     const invites = templateHelper.makeInviteReasons(
-      {
-        description: 'demo',
-        startTime: '2020-11-11T14:07:21.488Z',
-        endTime: '2022-11-11T14:07:21.488Z',
-      },
-      userContext,
-      'inviteName',
-      true,
+      demoMeeting,
+      { userId: 'alice', locale: 'en', timezone: 'UTC' },
+      'alice',
     );
 
-    expect(invites.htmlReason).toContain('<b>11.11.2020 um 14:07 UTC</b>');
-    expect(invites.textReason).toContain('11.11.2020 um 14:07 UTC');
+    expect(invites.textReason).toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC
+you've been invited to a meeting by alice
+A demo meeting`);
+    expect(invites.htmlReason)
+      .toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC<br/><br/>
+you've been invited to a meeting by alice
+<hr><i>A demo meeting</i>`);
+  });
+
+  test('invite message to member en with empty description', () => {
+    const invites = templateHelper.makeInviteReasons(
+      {
+        ...demoMeeting,
+        description: '',
+      },
+      { userId: 'alice', locale: 'en', timezone: 'UTC' },
+      'alice',
+    );
+
+    expect(invites.textReason).toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC
+you've been invited to a meeting by alice`);
+    expect(invites.htmlReason)
+      .toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC<br/><br/>
+you've been invited to a meeting by alice`);
+  });
+
+  test('invite message to member en recurring', () => {
+    const invites = templateHelper.makeInviteReasons(
+      demoMeetingRecurring,
+      { userId: 'alice', locale: 'en', timezone: 'UTC' },
+      'alice',
+    );
+
+    expect(invites.textReason).toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC
+🔁 Recurrence: Every day for 3 times
+you've been invited to a meeting by alice
+A demo meeting`);
+    expect(invites.htmlReason).toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC<br/>
+🔁 Recurrence: Every day for 3 times<br/><br/>
+you've been invited to a meeting by alice
+<hr><i>A demo meeting</i>`);
+  });
+
+  test('invite message to organizer en', () => {
+    const invites = templateHelper.makeInviteReasons(demoMeeting, {
+      userId: 'alice',
+      locale: 'en',
+      timezone: 'UTC',
+    });
+
+    expect(invites.textReason).toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC
+A demo meeting`);
+    expect(invites.htmlReason)
+      .toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC<br/><br/>
+<hr><i>A demo meeting</i>`);
+  });
+
+  test('invite message to organizer en recurring', () => {
+    const invites = templateHelper.makeInviteReasons(demoMeetingRecurring, {
+      userId: 'alice',
+      locale: 'en',
+      timezone: 'UTC',
+    });
+
+    expect(invites.textReason).toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC
+🔁 Recurrence: Every day for 3 times
+A demo meeting`);
+    expect(invites.htmlReason).toEqual(`📅 11/11/2020, 2:07 – 4:07 PM UTC<br/>
+🔁 Recurrence: Every day for 3 times<br/><br/>
+<hr><i>A demo meeting</i>`);
+  });
+
+  test('invite message to member de', () => {
+    const invites = templateHelper.makeInviteReasons(
+      demoMeeting,
+      { userId: 'alice', locale: 'de', timezone: 'Europe/Berlin' },
+      'alice',
+    );
+
+    expect(invites.textReason).toEqual(`📅 11.11.2020, 15:07–17:07 Uhr MEZ
+alice hat dich zu dieser Besprechung eingeladen
+A demo meeting`);
+    expect(invites.htmlReason)
+      .toEqual(`📅 11.11.2020, 15:07–17:07 Uhr MEZ<br/><br/>
+alice hat dich zu dieser Besprechung eingeladen
+<hr><i>A demo meeting</i>`);
+  });
+
+  test('invite message to member de recurring', () => {
+    const invites = templateHelper.makeInviteReasons(
+      demoMeetingRecurring,
+      { userId: 'alice', locale: 'de', timezone: 'Europe/Berlin' },
+      'alice',
+    );
+
+    expect(invites.textReason).toEqual(`📅 11.11.2020, 15:07–17:07 Uhr MEZ
+🔁 Wiederholung: Jeden Tag für 3 Termine
+alice hat dich zu dieser Besprechung eingeladen
+A demo meeting`);
+    expect(invites.htmlReason).toEqual(`📅 11.11.2020, 15:07–17:07 Uhr MEZ<br/>
+🔁 Wiederholung: Jeden Tag für 3 Termine<br/><br/>
+alice hat dich zu dieser Besprechung eingeladen
+<hr><i>A demo meeting</i>`);
+  });
+
+  test('invite message to organizer de', () => {
+    const invites = templateHelper.makeInviteReasons(demoMeeting, {
+      userId: 'alice',
+      locale: 'de',
+      timezone: 'Europe/Berlin',
+    });
+
+    expect(invites.textReason).toEqual(`📅 11.11.2020, 15:07–17:07 Uhr MEZ
+A demo meeting`);
+    expect(invites.htmlReason)
+      .toEqual(`📅 11.11.2020, 15:07–17:07 Uhr MEZ<br/><br/>
+<hr><i>A demo meeting</i>`);
+  });
+
+  test('invite message to organizer de recurring', () => {
+    const invites = templateHelper.makeInviteReasons(demoMeetingRecurring, {
+      userId: 'alice',
+      locale: 'de',
+      timezone: 'Europe/Berlin',
+    });
+
+    expect(invites.textReason).toEqual(`📅 11.11.2020, 15:07–17:07 Uhr MEZ
+🔁 Wiederholung: Jeden Tag für 3 Termine
+A demo meeting`);
+    expect(invites.htmlReason).toEqual(`📅 11.11.2020, 15:07–17:07 Uhr MEZ<br/>
+🔁 Wiederholung: Jeden Tag für 3 Termine<br/><br/>
+<hr><i>A demo meeting</i>`);
   });
 });

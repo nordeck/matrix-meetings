@@ -15,90 +15,89 @@
  */
 
 import i18next from 'i18next';
-import moment from 'moment-timezone';
+import { CalendarEntryDto } from '../dto/CalendarEntryDto';
 import { IUserContext } from '../model/IUserContext';
+import { isRecurringCalendarSourceEntry } from '../shared/calendarUtils/helpers';
+import { formatRRuleText } from '../shared/format';
 
 export class TemplateHelper {
   public makeInviteReasons(
     meeting: InviteParams,
     userContext: IUserContext,
-    userDisplayName: string,
-    isOrganizer: boolean,
+    organizerDisplayName?: string,
   ): { textReason: string; htmlReason: string } {
-    const showDescription = meeting.description.length > 0;
+    const lng = userContext.locale ?? 'en';
+    const timeZone = userContext.timezone ?? 'UTC';
 
-    const lng = userContext.locale ? userContext.locale : 'en';
-    const timeZone = userContext.timezone ? userContext.timezone : 'UTC';
+    const recurrence = isRecurringCalendarSourceEntry(meeting.calendar)
+      ? formatRRuleText(meeting.calendar[0].rrule, i18next.t, lng)
+      : '';
 
-    const format = (date: string | number | Date, fmt: string): string => {
-      return moment(new Date(date)).tz(timeZone).locale(lng).format(fmt);
-    };
+    /* IMPORTANT: This comments define the nested keys used below and are used to
+       extract them via i18next-parser
 
-    const startTimeText: string = format(meeting.startTime, 'LT');
-    const endTimeText: string = format(meeting.endTime, 'LT');
-    const startDateText: string = format(meeting.startTime, 'L');
-    const endDateText: string = format(meeting.endTime, 'L');
+      t('meeting.invite.messageByOrganizer_none', '')
+      t('meeting.invite.messageByOrganizer_present', '\nyou\'ve been invited to a meeting by {{organizerDisplayName}}')
 
-    const timezoneText: string = format(meeting.startTime, 'z');
+      t('meeting.invite.messageDescription_none', '')
+      t('meeting.invite.messageDescription_present', '\n<hr><i>{{description}}</i>')
 
-    const i18nOpts = {
-      lng,
-      joinArrays: '',
-      organizerUsername: userDisplayName,
-      startDate: startDateText,
-      startTime: startTimeText,
-      endDate: endDateText,
-      endTime: endTimeText,
-      timezone: timezoneText,
-      description: meeting?.description,
-    };
+      t('meeting.invite.messageRecurrence_none', '')
+      t('meeting.invite.messageRecurrence_present', '\n🔁 Recurrence: {{recurrence}}<br/>')
+    */
 
-    const inviteText = i18next.t(
-      'meeting.invite.invited',
-      'You\'ve been invited to a meeting by {{organizerUsername}}. It will take place on {{startDate}} at {{startTime}} {{timezone}} and ends on {{endDate}} at {{endTime}} {{timezone}}. Please accept this invitation by clicking the "Accept" button to add the meeting to your calendar. To stay away from the meeting, click on the "Reject" button.',
-      i18nOpts,
-    );
-    const organizerText = i18next.t(
-      'meeting.invite.organizer',
-      'The meeting was created for you. It will take place on {{startDate}} at {{startTime}} {{timezone}}. Please accept this invitation by clicking the "Accept" button to add the meeting to your calendar. To stay away from the meeting, click on the "Reject" button.',
-      i18nOpts,
-    );
-    const inviteHtml = i18next.t(
-      'meeting.invite.htmlInvited',
-      'You\'ve been invited to a meeting by {{organizerUsername}}. It will take place on <b>{{startDate}} at {{startTime}} {{timezone}}</b> and ends on <b>{{endDate}} at {{endTime}} {{timezone}}</b>. Please accept this invitation by clicking the "Accept" button to add the meeting to your calendar. To stay away from the meeting, click on the "Reject" button.',
-      i18nOpts,
-    );
-    const organizerHtml = i18next.t(
-      'meeting.invite.htmlOrganizer',
-      'The meeting was created for you. It will take place on <b>{{startDate}} at {{startTime}} {{timezone}}</b>. Please accept this invitation by clicking the "Accept" button to add the meeting to your calendar. To stay away from the meeting, click on the "Reject" button.',
-      i18nOpts,
-    );
-
-    const htmlParts: string[] = [];
-    htmlParts.push(isOrganizer ? `${organizerHtml}` : `${inviteHtml}`);
-
-    if (showDescription) {
-      htmlParts.push('<hr>');
-      htmlParts.push(
-        i18next.t(
-          'meeting.invite.htmlDescription',
-          '<div><i>{{description}}</i></div>',
-          i18nOpts,
+    const message = i18next.t(
+      'meeting.invite.message',
+      '📅 {{range}}<br/>$t(meeting.invite.messageRecurrence, {"context": "{{recurrenceContext}}" })<br/>$t(meeting.invite.messageByOrganizer, {"context": "{{organizerContext}}" })$t(meeting.invite.messageDescription, {"context": "{{descriptionContext}}" })',
+      {
+        lng,
+        range: dateRangeFormat(
+          new Date(meeting.startTime),
+          new Date(meeting.endTime),
+          lng,
+          { ...fullNumericDateFormat, timeZone },
         ),
-      );
-    }
+        recurrenceContext: recurrence ? 'present' : 'none',
+        recurrence,
+        organizerContext: organizerDisplayName ? 'present' : 'none',
+        organizerDisplayName,
+        descriptionContext: meeting.description.length > 0 ? 'present' : 'none',
+        description: meeting.description,
+      },
+    );
 
     return {
-      htmlReason: htmlParts.join(''),
-      textReason: isOrganizer ? organizerText : inviteText,
+      htmlReason: message,
+      textReason: message.replace(/<[^>]+>/g, ''),
     };
   }
 }
 
 export const templateHelper = new TemplateHelper();
 
+const fullNumericDateFormat = {
+  hour: 'numeric',
+  minute: 'numeric',
+  month: 'numeric',
+  year: 'numeric',
+  day: 'numeric',
+  timeZoneName: 'short',
+};
+
+function dateRangeFormat(
+  start: Date,
+  end: Date,
+  lng: string | undefined,
+  options: any,
+): string {
+  const formatter = new Intl.DateTimeFormat(lng, options);
+  // @ts-ignore: DateTimeFormat#formatRange will be available in TypeScript >4.7.2
+  return formatter.formatRange(start, end);
+}
+
 export interface InviteParams {
   description: string;
   startTime: string;
   endTime: string;
+  calendar?: CalendarEntryDto[];
 }
