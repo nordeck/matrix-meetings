@@ -123,8 +123,9 @@ export function createIcsFile({
   for (const calendarEntry of meetingCalendar) {
     g += 'BEGIN:VEVENT\r\n';
     g += `UID:${meeting.meetingId}-${calendarEntry.uid}\r\n`;
-    g += 'SEQUENCE:0\r\n';
+    g += `SEQUENCE:${DateTime.now().toUnixInteger()}\r\n`;
     g += `DTSTAMP:${formatICalDate(DateTime.now(), 'UTC').value}Z\r\n`;
+    g += `LAST-MODIFIED:${formatICalDate(DateTime.now(), 'UTC').value}Z\r\n`;
     g += writeDateProperty('DTSTART', calendarEntry.dtstart);
     g += writeDateProperty('DTEND', calendarEntry.dtend);
     if (calendarEntry.rrule) {

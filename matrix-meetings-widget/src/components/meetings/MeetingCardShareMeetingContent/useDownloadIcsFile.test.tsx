@@ -112,8 +112,9 @@ describe('useDownloadIcsFile', () => {
       expect(blobSpy).toHaveBeenLastCalledWith([
         expect.stringContaining(`BEGIN:VEVENT\r
 UID:!meeting-room-id-entry-0\r
-SEQUENCE:0\r
+SEQUENCE:1577872800\r
 DTSTAMP:20200101T100000Z\r
+LAST-MODIFIED:20200101T100000Z\r
 DTSTART:29990101T100000Z\r
 DTEND:29990101T140000Z\r
 SUMMARY:An important meeting\r
@@ -149,8 +150,9 @@ describe('createIcsFile', () => {
       PRODID:-//nordeck.net//matrix-meetings//EN
       BEGIN:VEVENT
       UID:!meeting-room-id-entry-0
-      SEQUENCE:0
+      SEQUENCE:1577872800
       DTSTAMP:20200101T100000Z
+      LAST-MODIFIED:20200101T100000Z
       DTSTART:29990101T100000Z
       DTEND:29990101T140000Z
       SUMMARY:An important meeting
@@ -206,8 +208,9 @@ describe('createIcsFile', () => {
       END:VTIMEZONE
       BEGIN:VEVENT
       UID:!meeting-room-id-entry-0
-      SEQUENCE:0
+      SEQUENCE:1577872800
       DTSTAMP:20200101T100000Z
+      LAST-MODIFIED:20200101T100000Z
       DTSTART;TZID=Europe/Berlin:29990101T100000
       DTEND;TZID=Europe/Berlin:29990101T140000
       SUMMARY:An important meeting
@@ -244,8 +247,9 @@ describe('createIcsFile', () => {
       PRODID:-//nordeck.net//matrix-meetings//EN
       BEGIN:VEVENT
       UID:!meeting-room-id-entry-0
-      SEQUENCE:0
+      SEQUENCE:1577872800
       DTSTAMP:20200101T100000Z
+      LAST-MODIFIED:20200101T100000Z
       DTSTART:29990101T100000Z
       DTEND:29990101T140000Z
       RRULE:FREQ=DAILY
@@ -291,8 +295,9 @@ describe('createIcsFile', () => {
       PRODID:-//nordeck.net//matrix-meetings//EN
       BEGIN:VEVENT
       UID:!meeting-room-id-entry-0
-      SEQUENCE:0
+      SEQUENCE:1577872800
       DTSTAMP:20200101T100000Z
+      LAST-MODIFIED:20200101T100000Z
       DTSTART:29990101T100000Z
       DTEND:29990101T140000Z
       RRULE:FREQ=DAILY
@@ -302,8 +307,9 @@ describe('createIcsFile', () => {
       END:VEVENT
       BEGIN:VEVENT
       UID:!meeting-room-id-entry-0
-      SEQUENCE:0
+      SEQUENCE:1577872800
       DTSTAMP:20200101T100000Z
+      LAST-MODIFIED:20200101T100000Z
       DTSTART:29990102T103000Z
       DTEND:29990102T120000Z
       RECURRENCE-ID:29990102T100000Z
@@ -342,8 +348,9 @@ describe('createIcsFile', () => {
       PRODID:-//nordeck.net//matrix-meetings//EN
       BEGIN:VEVENT
       UID:!meeting-room-id-entry-0
-      SEQUENCE:0
+      SEQUENCE:1577872800
       DTSTAMP:20200101T100000Z
+      LAST-MODIFIED:20200101T100000Z
       DTSTART:29990101T100000Z
       DTEND:29990101T140000Z
       RRULE:FREQ=DAILY
@@ -442,8 +449,9 @@ describe('createIcsFile', () => {
       END:VTIMEZONE
       BEGIN:VEVENT
       UID:!meeting-room-id-entry-0
-      SEQUENCE:0
+      SEQUENCE:1577872800
       DTSTAMP:20200101T100000Z
+      LAST-MODIFIED:20200101T100000Z
       DTSTART;TZID=Europe/Berlin:29990101T100000
       DTEND:29990101T140000Z
       RRULE:FREQ=DAILY
@@ -454,8 +462,9 @@ describe('createIcsFile', () => {
       END:VEVENT
       BEGIN:VEVENT
       UID:!meeting-room-id-entry-0
-      SEQUENCE:0
+      SEQUENCE:1577872800
       DTSTAMP:20200101T100000Z
+      LAST-MODIFIED:20200101T100000Z
       DTSTART;TZID=Europe/London:29990104T103000
       DTEND;TZID=Europe/Moscow:29990104T150000
       RECURRENCE-ID;TZID=Europe/Moscow:29990104T130000
@@ -499,8 +508,9 @@ describe('createIcsFile', () => {
       PRODID:-//nordeck.net//matrix-meetings//EN
       BEGIN:VEVENT
       UID:!meeting-room-id-entry-0
-      SEQUENCE:0
+      SEQUENCE:1577872800
       DTSTAMP:20200101T100000Z
+      LAST-MODIFIED:20200101T100000Z
       DTSTART:29990101T100000Z
       DTEND:29990101T140000Z
       SUMMARY:An important meeting
@@ -509,8 +519,9 @@ describe('createIcsFile', () => {
       END:VEVENT
       BEGIN:VEVENT
       UID:!meeting-room-id-entry-1
-      SEQUENCE:0
+      SEQUENCE:1577872800
       DTSTAMP:20200101T100000Z
+      LAST-MODIFIED:20200101T100000Z
       DTSTART:29990102T100000Z
       DTEND:29990102T140000Z
       SUMMARY:An important meeting
@@ -555,8 +566,9 @@ describe('createIcsFile', () => {
       PRODID:-//nordeck.net//matrix-meetings//EN
       BEGIN:VEVENT
       UID:!meeting-room-id-entry-0
-      SEQUENCE:0
+      SEQUENCE:1577872800
       DTSTAMP:20200101T100000Z
+      LAST-MODIFIED:20200101T100000Z
       DTSTART:29990101T100000Z
       DTEND:29990101T140000Z
       RRULE:FREQ=DAILY;UNTIL=20200110T235959Z
@@ -566,8 +578,9 @@ describe('createIcsFile', () => {
       END:VEVENT
       BEGIN:VEVENT
       UID:!meeting-room-id-entry-1
-      SEQUENCE:0
+      SEQUENCE:1577872800
       DTSTAMP:20200101T100000Z
+      LAST-MODIFIED:20200101T100000Z
       DTSTART:29990111T100000Z
       DTEND:29990111T140000Z
       RRULE:FREQ=WEEKLY
