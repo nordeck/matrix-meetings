@@ -40,6 +40,15 @@
           "isAudioOnly": true
         }
       }
+    },
+    {
+      "type": "im.vector.modular.widgets",
+      "state_key": "etherpad",
+      "content": {
+        "type": "m.etherpad",
+        "url": "https://etherpad.dev.nordeck.systems/p/{{base32_room_id50}}?userName=$matrix_display_name&showChat=false",
+        "name": "Notes"
+      }
     }
   ],
   "room_events": []

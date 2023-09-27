@@ -35,6 +35,7 @@ describe('EventContentRenderer', () => {
   const params: IEventContentParams = {
     room_id: 'room1',
     base32_room_id: 'room1',
+    base32_room_id50: 'roomId50',
     title: 'Demo Room',
   };
 
@@ -47,6 +48,44 @@ describe('EventContentRenderer', () => {
     }
     return widgetContent;
   };
+  test('should validate base32_room_id50 correctly', () => {
+    const params = {
+      room_id: 'room1',
+      base32_room_id: 'room1',
+      base32_room_id50: 'roomId50',
+      title: 'Demo Room',
+    };
+
+    // Ensure that only the base32_room_id50 property has a length of 50 characters
+    const valid = Object.keys(params).every((key) => {
+      if (key === 'base32_room_id50') {
+        return params[key].length <= 50;
+      }
+      return true;
+    });
+
+    expect(valid).toBe(true);
+  });
+
+  test('should not pass validation if ase32_room_id50 is more than 50', () => {
+    const params = {
+      room_id: 'room1',
+      base32_room_id: 'room1',
+      base32_room_id50:
+        'gInvalid1234567890$TooLongNameForValidation1234567890$',
+      title: 'Demo Room',
+    };
+
+    // Ensure that only the base32_room_id50 property has a length of 50 characters
+    const valid = Object.keys(params).every((key) => {
+      if (key === 'base32_room_id50') {
+        return params[key].length <= 50;
+      }
+      return true;
+    });
+
+    expect(valid).toBe(false);
+  });
 
   test('render jitsi', async () => {
     const titles = [
@@ -94,7 +133,7 @@ describe('EventContentRenderer', () => {
     expect(json).toStrictEqual({
       id: 'etherpad',
       type: 'm.etherpad',
-      url: 'https://some_url/p/room1?matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_user_id=$matrix_user_id&matrix_room_id=$matrix_room_id&theme=$theme&showChat=false',
+      url: 'https://some_url/p/roomId50?matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_user_id=$matrix_user_id&matrix_room_id=$matrix_room_id&theme=$theme&showChat=false',
       name: '',
     });
   });

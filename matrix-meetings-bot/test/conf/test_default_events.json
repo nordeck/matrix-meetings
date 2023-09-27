@@ -61,7 +61,7 @@
       "type": "im.vector.modular.widgets",
       "content": {
         "type": "m.etherpad",
-        "url": "https://some_url/p/{{#encodeURIComponent}}{{base32_room_id}}{{/encodeURIComponent}}?matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_user_id=$matrix_user_id&matrix_room_id=$matrix_room_id&theme=$theme&showChat=false",
+        "url": "https://some_url/p/{{#encodeURIComponent}}{{base32_room_id50}}{{/encodeURIComponent}}?matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_user_id=$matrix_user_id&matrix_room_id=$matrix_room_id&theme=$theme&showChat=false",
         "name": "{{appConfig.etherpad_name}}"
       }
     },
