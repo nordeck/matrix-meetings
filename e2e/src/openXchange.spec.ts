@@ -39,7 +39,7 @@ test.describe('OpenXchange', () => {
 
     const inviteReasonText = await aliceElementWebPage.revealRoomInviteReason();
     await expect(inviteReasonText).toContainText(
-      'The meeting was created for you. It will take place on 10/03/2040 at 10:30 AM CEST.',
+      '📅 10/3/2040, 10:30 – 11:00 AM GMT+2',
     );
     await expect(inviteReasonText).toContainText('My Description');
     await aliceElementWebPage.acceptRoomInvitation();
@@ -177,8 +177,9 @@ test.describe('OpenXchange', () => {
 
     const inviteReasonText = await aliceElementWebPage.revealRoomInviteReason();
     await expect(inviteReasonText).toContainText(
-      'The meeting was created for you. It will take place on 10/03/2040 at 10:30 AM CEST.',
+      '📅 10/3/2040, 10:30 – 11:00 AM GMT+2',
     );
+    await expect(inviteReasonText).toContainText('My Description');
     await expect(aliceElementWebPage.roomInviteHeader).toHaveText(
       'Do you want to join My Meeting?',
     );

@@ -364,14 +364,47 @@ test.describe('Recurring Meetings', () => {
     await expect(meeting.meetingTimeRangeText).toHaveText(
       '10:30 AM – 11:30 AM. Recurrence: Every day for 5 times',
     );
-    await meeting.deleteMeeting();
+    await meeting.deleteMeeting('Delete series');
 
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting').card,
     ).toHaveCount(0);
   });
 
-  // TODO: Delete single meeting
+  test('should delete a single recurring meeting', async ({
+    aliceMeetingsWidgetPage,
+  }) => {
+    await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 9]);
+
+    const aliceScheduleMeetingWidgetPage =
+      await aliceMeetingsWidgetPage.scheduleMeeting();
+
+    await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
+    await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
+      'My Description',
+    );
+    await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
+    await aliceScheduleMeetingWidgetPage.selectRecurrence('daily');
+    await aliceScheduleMeetingWidgetPage.setEndAfterMeetingCount(5);
+    await aliceScheduleMeetingWidgetPage.submit();
+
+    const meeting = aliceMeetingsWidgetPage.getMeeting(
+      'My Meeting',
+      '10/03/2040',
+    );
+    await expect(meeting.meetingTimeRangeText).toHaveText(
+      '10:30 AM – 11:30 AM. Recurrence: Every day for 5 times',
+    );
+    await meeting.deleteMeeting('Delete meeting');
+
+    await expect(
+      aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/03/2040').card,
+    ).toHaveCount(0);
+
+    await expect(
+      aliceMeetingsWidgetPage.getMeeting('My Meeting').card,
+    ).toHaveCount(4);
+  });
 
   // TODO: Delete starting from
 });

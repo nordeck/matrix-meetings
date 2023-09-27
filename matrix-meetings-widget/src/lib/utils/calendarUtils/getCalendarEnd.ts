@@ -21,12 +21,20 @@ import { parseICalDate } from '../dateTimeUtils';
 import { generateRruleSet } from './generateRruleSet';
 import { isRRuleEntry, isRRuleOverrideEntry, isSingleEntry } from './helpers';
 
+/**
+ * Calculate the last end date of the calendar.
+ *
+ * @param calendar - the calendar property of a calendar room
+ * @returns the date of the last entry, `'infinite'` if the series never ends,
+ *          or undefined if no end date could be calculated.
+ */
 export function getCalendarEnd(
   calendar: CalendarEntry[],
-): DateTime | undefined {
+): DateTime | 'infinite' | undefined {
   let endDates = calendar
     .filter(isSingleEntry)
     .map((entry) => parseICalDate(entry.dtend));
+  let isInfinite = false;
 
   calendar.filter(isRRuleEntry).forEach((entry) => {
     const { rruleSet, fromRruleSetDate, toRruleSetDate, isFinite } =
@@ -35,6 +43,7 @@ export function getCalendarEnd(
     // an infinite series never ends
     if (!isFinite) {
       endDates = [];
+      isInfinite = true;
       return;
     }
 
@@ -73,6 +82,10 @@ export function getCalendarEnd(
       endDates.push(latestOverride);
     }
   });
+
+  if (isInfinite) {
+    return 'infinite';
+  }
 
   return max(endDates);
 }

@@ -16,6 +16,7 @@
 
 export { calculateCalendarEvents } from './calculateCalendarEvents';
 export type { CalendarSourceEntries } from './calculateCalendarEvents';
+export { deleteCalendarEvent } from './deleteCalendarEvent';
 export { getCalendarEnd } from './getCalendarEnd';
 export { getCalendarEvent } from './getCalendarEvent';
 export {

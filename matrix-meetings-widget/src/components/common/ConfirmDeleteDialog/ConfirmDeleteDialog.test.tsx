@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { ConfirmDeleteDialog } from './ConfirmDeleteDialog';
@@ -139,5 +139,78 @@ describe('<ConfirmDeleteDialog/>', () => {
 
     expect(onConfirm).not.toBeCalled();
     expect(onCancel).toBeCalledTimes(1);
+  });
+
+  it('should render additional buttons', async () => {
+    render(
+      <ConfirmDeleteDialog
+        confirmTitle="Confirm"
+        description="The description of the modal"
+        onCancel={onCancel}
+        onConfirm={onConfirm}
+        open
+        title="Confirm the deletion"
+        additionalButtons={<button>Example</button>}
+      />,
+    );
+
+    const deleteModal = screen.getByRole('dialog', {
+      name: 'Confirm the deletion',
+    });
+
+    expect(
+      within(deleteModal).getByRole('button', { name: 'Example' }),
+    ).toBeInTheDocument();
+  });
+
+  it('should call onEnter every time the dialog is displayed', async () => {
+    const onEnter = jest.fn();
+
+    const { rerender } = render(
+      <ConfirmDeleteDialog
+        open
+        confirmTitle="Confirm"
+        description="The description of the modal"
+        onCancel={onCancel}
+        onConfirm={onConfirm}
+        onEnter={onEnter}
+        title="Confirm the deletion"
+      />,
+    );
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(onEnter).toBeCalledTimes(1);
+
+    rerender(
+      <ConfirmDeleteDialog
+        open={false}
+        confirmTitle="Confirm"
+        description="The description of the modal"
+        onCancel={onCancel}
+        onConfirm={onConfirm}
+        onEnter={onEnter}
+        title="Confirm the deletion"
+      />,
+    );
+
+    await waitFor(() => {
+      expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
+    });
+    expect(onEnter).toBeCalledTimes(1);
+
+    rerender(
+      <ConfirmDeleteDialog
+        open
+        confirmTitle="Confirm"
+        description="The description of the modal"
+        onCancel={onCancel}
+        onConfirm={onConfirm}
+        onEnter={onEnter}
+        title="Confirm the deletion"
+      />,
+    );
+
+    expect(screen.getByRole('dialog')).toBeInTheDocument();
+    expect(onEnter).toBeCalledTimes(2);
   });
 });

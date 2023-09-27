@@ -1274,7 +1274,7 @@ describe('test relevant functionality of MeetingService', () => {
         content: {
           membership: 'invite',
           // already contains the expected value WITHOUT trailing space.
-          reason: `You've been invited to a meeting by displayname. It will take place on Invalid date at Invalid date Invalid date and ends on Invalid date at Invalid date Invalid date. Please accept this invitation by clicking the "Accept" button to add the meeting to your calendar. To stay away from the meeting, click on the "Reject" button.`,
+          reason: `📅 2/1/2022, 12:00 AM UTC – 2/3/2022, 12:00 AM UTC\nyou've been invited to a meeting by displayname\ndescription1`,
           'io.element.html_reason': 'good reason',
         },
       },
@@ -1285,7 +1285,7 @@ describe('test relevant functionality of MeetingService', () => {
         content: {
           membership: 'invite',
           // already contains the expected value WITH trailing space.
-          reason: `You've been invited to a meeting by displayname. It will take place on Invalid date at Invalid date Invalid date and ends on Invalid date at Invalid date Invalid date. Please accept this invitation by clicking the "Accept" button to add the meeting to your calendar. To stay away from the meeting, click on the "Reject" button. `,
+          reason: `📅 2/1/2022, 12:00 AM UTC – 2/3/2022, 12:00 AM UTC\nyou've been invited to a meeting by displayname\ndescription1 `,
           'io.element.html_reason': 'good reason',
         },
       },
@@ -1299,8 +1299,8 @@ describe('test relevant functionality of MeetingService', () => {
     ];
     when(clientMock.getRoomState(roomId)).thenResolve(stateEvents);
 
-    const startTime1 = '2022-02-01T00:00:0.000Z';
-    const endTime1 = '2022-02-03T00:00:0.000Z';
+    const startTime1 = '2022-02-01T00:00:00Z';
+    const endTime1 = '2022-02-03T00:00:00Z';
 
     const title1 = 'title1';
     const description1 = 'description1';
@@ -1371,21 +1371,21 @@ describe('test relevant functionality of MeetingService', () => {
         userId: userId2,
         // was different, should be replaced without trailing space
         reason: expect.stringMatching(
-          /^You've been invited to a meeting by displayname.*[^ ]$/,
+          /you've been invited to a meeting by displayname\ndescription1$/,
         ),
       },
       {
         userId: userId3,
         // was equal; should end with space
         reason: expect.stringMatching(
-          /^You've been invited to a meeting by displayname.*[ ]$/,
+          /you've been invited to a meeting by displayname\ndescription1 $/,
         ),
       },
       {
         userId: userId4,
         // was equal; should remove space
         reason: expect.stringMatching(
-          /^You've been invited to a meeting by displayname.*[^ ]$/,
+          /you've been invited to a meeting by displayname\ndescription1$/,
         ),
       },
     ]);
