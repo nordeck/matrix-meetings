@@ -48,44 +48,6 @@ describe('EventContentRenderer', () => {
     }
     return widgetContent;
   };
-  test('should validate base32_room_id50 correctly', () => {
-    const params = {
-      room_id: 'room1',
-      base32_room_id: 'room1',
-      base32_room_id50: 'roomId50',
-      title: 'Demo Room',
-    };
-
-    // Ensure that only the base32_room_id50 property has a length of 50 characters
-    const valid = Object.keys(params).every((key) => {
-      if (key === 'base32_room_id50') {
-        return params[key].length <= 50;
-      }
-      return true;
-    });
-
-    expect(valid).toBe(true);
-  });
-
-  test('should not pass validation if ase32_room_id50 is more than 50', () => {
-    const params = {
-      room_id: 'room1',
-      base32_room_id: 'room1',
-      base32_room_id50:
-        'gInvalid1234567890$TooLongNameForValidation1234567890$',
-      title: 'Demo Room',
-    };
-
-    // Ensure that only the base32_room_id50 property has a length of 50 characters
-    const valid = Object.keys(params).every((key) => {
-      if (key === 'base32_room_id50') {
-        return params[key].length <= 50;
-      }
-      return true;
-    });
-
-    expect(valid).toBe(false);
-  });
 
   test('render jitsi', async () => {
     const titles = [
