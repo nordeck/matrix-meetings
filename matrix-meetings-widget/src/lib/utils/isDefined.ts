@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-export function isDefined<T>(v: T | undefined): v is T {
-  return v !== undefined;
+export function isDefined<T>(v: T | undefined | null): v is T {
+  return v !== undefined && v !== null;
 }
