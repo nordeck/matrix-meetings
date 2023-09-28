@@ -80,12 +80,9 @@ describe('MeetingClient', () => {
               state_key: '@user-id:example',
               content: {
                 membership: 'invite',
-                'io.element.html_reason': expect.stringMatching(
-                  /It will take place on <b>05\/07\/2020 at 10:00 AM CEST<\/b>.*<hr><div><i>My Description<\/i><\/div>$/,
-                ),
-                reason: expect.stringMatching(
-                  /It will take place on 05\/07\/2020 at 10:00 AM CEST/,
-                ),
+                'io.element.html_reason':
+                  '📅 5/7/2020, 10:00 – 11:00 AM GMT+2<br/><br/>\n<hr><i>My Description</i>',
+                reason: '📅 5/7/2020, 10:00 – 11:00 AM GMT+2\nMy Description',
               },
             },
           ],
@@ -174,12 +171,9 @@ describe('MeetingClient', () => {
             state_key: '@user-id:example',
             content: {
               membership: 'invite',
-              'io.element.html_reason': expect.stringMatching(
-                /It will take place on <b>05\/07\/2020 at 10:00 AM CEST<\/b>.*<hr><div><i>My Description<\/i><\/div>$/,
-              ),
-              reason: expect.stringMatching(
-                /It will take place on 05\/07\/2020 at 10:00 AM CEST/,
-              ),
+              'io.element.html_reason':
+                '📅 5/7/2020, 10:00 – 11:00 AM GMT+2<br/><br/>\n<hr><i>My Description</i>',
+              reason: '📅 5/7/2020, 10:00 – 11:00 AM GMT+2\nMy Description',
             },
           },
         ],

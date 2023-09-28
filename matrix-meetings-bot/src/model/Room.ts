@@ -87,8 +87,6 @@ export class Room implements IRoom {
           return undefined;
         }
 
-        // TODO: Include the recurrence information in the invitation text (PB-2990)
-
         this._meeting = {
           type: meetingType,
           roomId: this._room_id,

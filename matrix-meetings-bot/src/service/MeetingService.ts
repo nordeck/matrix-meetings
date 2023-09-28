@@ -499,7 +499,8 @@ export class MeetingService {
     if (
       (meetingChanges.titleChanged ||
         meetingChanges.descriptionChanged ||
-        meetingChanges.timeChanged) &&
+        meetingChanges.timeChanged ||
+        meetingChanges.calendarChanged) &&
       room.meeting
     ) {
       const meetingCreator = room.meeting.creator;
@@ -513,10 +514,10 @@ export class MeetingService {
               description: newMeeting.description,
               startTime: newMeeting.startTime,
               endTime: newMeeting.endTime,
+              calendar: newMeeting.calendar,
             },
             userContext,
-            displayname,
-            me.state_key === meetingCreator,
+            me.state_key === meetingCreator ? undefined : displayname,
           );
 
           const mec = me.content as IElementMembershipEventContent;

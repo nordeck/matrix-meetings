@@ -195,17 +195,15 @@ export class MeetingClient {
     > = [...configMemberEvents, ...participantMemberEvents]
       .filter((se) => se.state_key !== botUser)
       .map((se) => {
-        // TODO: include the recurrence information in the invitation text (PB-2990)
-
         const { textReason, htmlReason } = templateHelper.makeInviteReasons(
           {
             description: meetingCreate.description,
             startTime: meetingStartTime,
             endTime: meetingEndTime,
+            calendar: meetingCreate.calendar,
           },
           userContext,
-          displayname,
-          se.state_key === userContext.userId,
+          se.state_key === userContext.userId ? undefined : displayname,
         );
 
         const eventContentCopy: IElementMembershipEventContent =
