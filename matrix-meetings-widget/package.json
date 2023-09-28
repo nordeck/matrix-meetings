@@ -3,7 +3,7 @@
   "description": "A meetings widget for the Element messenger",
   "author": "Nordeck IT + Consulting GmbH",
   "license": "Apache-2.0",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "private": true,
   "dependencies": {
     "@fullcalendar/core": "^6.1.8",

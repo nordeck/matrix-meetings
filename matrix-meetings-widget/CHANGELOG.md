@@ -1,5 +1,13 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.5.0
+
+### Minor Changes
+
+- 20a65cb: Include all updates and exclusions of recurring meetings in the ICS file export.
+- c13e102: Support editing a single occurrence of a recurring meeting.
+- 6203e64: Support deleting a single occurrence of a recurring meeting.
+
 ## 1.4.0
 
 ### Minor Changes
