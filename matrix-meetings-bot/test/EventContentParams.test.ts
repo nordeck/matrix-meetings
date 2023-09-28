@@ -28,7 +28,8 @@ describe('EventContentParamsHelper', () => {
 
     expect(params.room_id).toBe('roomId123');
     expect(params.title).toBe('Sample Title');
-    expect(params.base32_room_id).toBeDefined();
+    expect(params.base32_room_id).toBe('OJXW63KJMQYTEMY');
+    expect(params.base32_room_id50).toBe('OJXW63KJMQYTEMY');
     expect(params.base32_room_id50?.length).toBeLessThanOrEqual(50);
     expect(params.uuid).toBeDefined();
   });
@@ -55,8 +56,12 @@ describe('EventContentParamsHelper', () => {
 
     expect(params.room_id).toBe(longRoomId);
     expect(params.title).toBe('Sample Title');
-    expect(params.base32_room_id).toBeDefined();
-    expect(params.base32_room_id50).toBeDefined();
+    expect(params.base32_room_id).toBe(
+      'MFQWCYLBMFQWCYLBMFQWCYLBMFQWCYLBMFQWCYLBMFQWCYLBMFQWCYLBMFQWCYLBMFQWCYLBMFQWCYLBMFQWCYLBMFQWCYLB',
+    );
+    expect(params.base32_room_id50).toBe(
+      'MFQWCYLBMFQWCYLBMFQWCYLBMFQWCYLBMFQWCYLBMFQWCYLBMF',
+    );
     expect(params.base32_room_id50?.length).toBe(50); // Ensure it's truncated to 50 characters
     expect(params.uuid).toBeDefined();
   });
