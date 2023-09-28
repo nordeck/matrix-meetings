@@ -35,6 +35,7 @@ describe('EventContentRenderer', () => {
   const params: IEventContentParams = {
     room_id: 'room1',
     base32_room_id: 'room1',
+    base32_room_id50: 'roomId50',
     title: 'Demo Room',
   };
 
@@ -94,7 +95,7 @@ describe('EventContentRenderer', () => {
     expect(json).toStrictEqual({
       id: 'etherpad',
       type: 'm.etherpad',
-      url: 'https://some_url/p/room1?matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_user_id=$matrix_user_id&matrix_room_id=$matrix_room_id&theme=$theme&showChat=false',
+      url: 'https://some_url/p/roomId50?matrix_display_name=$matrix_display_name&matrix_avatar_url=$matrix_avatar_url&matrix_user_id=$matrix_user_id&matrix_room_id=$matrix_room_id&theme=$theme&showChat=false',
       name: '',
     });
   });
