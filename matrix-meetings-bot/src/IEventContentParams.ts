@@ -20,6 +20,7 @@ import { v4 as uuiv4 } from 'uuid';
 export interface IEventContentParams {
   room_id?: string;
   base32_room_id?: string;
+  base32_room_id50?: string;
   title?: string;
   uuid?: string;
 }
@@ -32,11 +33,14 @@ class EventContentParamsHelper {
     const base32RoomId = roomId
       ? base32.stringify(Buffer.from(roomId), { pad: false })
       : undefined;
+    // etherpad has limitations of max 50 characters on pad names.
+    const base32RoomId50 = base32RoomId?.slice(0, 50);
     const nonNullTitle = title || '';
 
     return {
       room_id: roomId,
       base32_room_id: base32RoomId,
+      base32_room_id50: base32RoomId50,
       title: nonNullTitle,
       uuid: uuiv4(),
     };

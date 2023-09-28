@@ -442,7 +442,6 @@ export class MeetingService {
         ),
       );
     }
-
     for (const widgetId of room.meeting.widgetIds) {
       const widgetEventContent = room.widgetEventById(widgetId)?.content;
       promises.push(

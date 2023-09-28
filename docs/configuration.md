@@ -144,6 +144,7 @@ The following content is available:
 
 - `room_id`: the ID of the current room.
 - `base32_room_id`: the base32 encoded room id as needed for Jitsi.
+- `base32_room_id50`: the base32 encoded room id with max character limit of 50 as needed for Etherpad.
 - `title`: the title of the meeting (=the room name).
 - `uuid`: a random UUID.
 - `encodeURIComponent()`: a function to encode any value to make it URL-safe  
