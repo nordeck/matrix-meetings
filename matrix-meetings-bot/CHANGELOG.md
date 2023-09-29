@@ -1,5 +1,15 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.3.0
+
+### Minor Changes
+
+- c9d31a5: Include the recurrence information in the invitation text.
+
+### Patch Changes
+
+- ff6a877: Provide a base32_room_id50 template parameter for widget urls that can for example be used to template the pad-id of Etherpad.
+
 ## 2.2.0
 
 ### Minor Changes
