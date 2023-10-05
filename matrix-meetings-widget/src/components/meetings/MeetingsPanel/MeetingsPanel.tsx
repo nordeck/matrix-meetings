@@ -57,6 +57,13 @@ export const MeetingsPanel = () => {
       widgetApi.widgetParameters.userId,
     ),
   );
+  const { canSendMessageToAllBreakoutSessions } = useAppSelector((state) =>
+    selectRoomPermissions(
+      state,
+      widgetApi.widgetParameters.roomId ?? '',
+      widgetApi.widgetParameters.userId,
+    ),
+  );
 
   const [view, setViewInternal] = useState<ViewType>(
     () => readLastViewTypeFromStorage(widgetApi) ?? 'list',
@@ -231,7 +238,7 @@ export const MeetingsPanel = () => {
             </Typography>
             <Divider />
 
-            {hasBreakoutSessions && (
+            {canSendMessageToAllBreakoutSessions && hasBreakoutSessions && (
               <Box maxWidth={500} mt={2} mx="auto">
                 <BreakoutSessionsMessageForm />
               </Box>

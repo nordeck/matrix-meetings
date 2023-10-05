@@ -868,6 +868,30 @@ describe('<MeetingsPanel/>', () => {
       }),
     ).toBeInTheDocument();
   });
+  it('should not show breakout session message form if the user has no permission to send message to all rooms', async () => {
+    enableBreakoutSessionView();
+
+    widgetApi.mockSendStateEvent(
+      mockPowerLevelsEvent({
+        room_id: '!room-id',
+        content: {
+          events: { 'net.nordeck.meetings.sub_meetings.send_message': 101 },
+        },
+      }),
+    );
+
+    render(<MeetingsPanel />, { wrapper: Wrapper });
+    const actions = await screen.findByRole('navigation', { name: /actions/i });
+    expect(
+      within(actions).getByRole('button', {
+        name: /schedule breakout session/i,
+      }),
+    ).toBeInTheDocument();
+    const messageForm = within(actions).queryByRole('textbox', {
+      name: /send message to all breakout session rooms/i,
+    });
+    expect(messageForm).not.toBeInTheDocument();
+  });
 
   it('should hide the actions navigation section if the user has no permission to create breakout sessions', async () => {
     mockCreateMeetingRoom(widgetApi, { room_id: '!room-id' });
