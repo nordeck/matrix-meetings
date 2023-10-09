@@ -41,6 +41,7 @@ describe('test IMeetingChanges', () => {
       startTimeChanged: false,
       endTimeChanged: false,
       calendarChanged: false,
+      occurrenceChanged: [],
       timeChanged: false,
       anythingChanged: false,
     };

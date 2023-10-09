@@ -15,6 +15,10 @@
  */
 
 import { IMeeting } from '../model/IMeeting';
+import {
+  extractCalendarChange,
+  OccurrenceChange,
+} from '../shared/calendarUtils/extractCalendarChange';
 import { isRecurringCalendarSourceEntry } from '../shared/calendarUtils/helpers';
 
 export interface IMeetingChanges {
@@ -23,6 +27,7 @@ export interface IMeetingChanges {
   startTimeChanged: boolean;
   endTimeChanged: boolean;
   calendarChanged: boolean;
+  occurrenceChanged: OccurrenceChange[];
 
   timeChanged: boolean;
   anythingChanged: boolean;
@@ -46,8 +51,16 @@ class MeetingChangesHelper {
       ? oldMeeting.calendar[0].rrule
       : undefined;
     const calendarChanged = newRrule !== oldRrule;
+    const occurrenceChanged = extractCalendarChange(
+      oldMeeting.calendar ?? [],
+      newMeeting.calendar ?? [],
+    );
     const anythingChanged =
-      titleChanged || descriptionChanged || timeChanged || calendarChanged;
+      titleChanged ||
+      descriptionChanged ||
+      timeChanged ||
+      calendarChanged ||
+      occurrenceChanged.length > 0;
 
     return {
       titleChanged,
@@ -55,6 +68,7 @@ class MeetingChangesHelper {
       startTimeChanged,
       endTimeChanged,
       calendarChanged,
+      occurrenceChanged,
       timeChanged,
       anythingChanged,
     };

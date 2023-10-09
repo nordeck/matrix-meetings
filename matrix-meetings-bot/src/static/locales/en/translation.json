@@ -51,6 +51,9 @@
             "previous": "(previously: {{description}})"
           },
           "headLine": "CHANGES",
+          "occurrence": "A single meeting from a meeting series is moved to {{range}}",
+          "occurrence_deleted": "A single meeting from a meeting series on {{range}} is deleted",
+          "previous": "(previously: {{value}})",
           "repetition": {
             "current": "Repeat meeting: {{repetitionText}}",
             "previous": "(previously: {{repetitionText}})"

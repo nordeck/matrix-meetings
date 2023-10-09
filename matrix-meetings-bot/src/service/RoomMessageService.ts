@@ -24,9 +24,11 @@ import { ISyncParams } from '../matrix/dto/ISyncParams';
 import { IMeeting } from '../model/IMeeting';
 import { IUserContext } from '../model/IUserContext';
 import { StateEventName } from '../model/StateEventName';
+import { parseICalDate } from '../shared';
 import { isRecurringCalendarSourceEntry } from '../shared/calendarUtils/helpers';
 import { formatRRuleText } from '../shared/format';
 import { IMeetingChanges } from '../util/IMeetingChanges';
+import { dateRangeFormat } from '../util/TemplateHelper';
 
 @Injectable()
 export class RoomMessageService {
@@ -306,11 +308,16 @@ export class RoomMessageService {
 
     if (!meetingChanges.anythingChanged) return;
 
-    let notification = this.formatHeader(
-      i18next.t('meeting.room.notification.changed.headLine', 'CHANGES', {
-        lng,
-      }),
-    );
+    let notification = '';
+
+    if (meetingChanges.occurrenceChanged.length === 0) {
+      notification += this.formatHeader(
+        i18next.t('meeting.room.notification.changed.headLine', 'CHANGES', {
+          lng,
+        }),
+      );
+    }
+
     if (meetingChanges.titleChanged) {
       const newTitle = newMeeting.title;
       const oldTitle = oldMeeting.title;
@@ -365,6 +372,71 @@ export class RoomMessageService {
             lng,
           });
       notification += this.createRepetitionLine(lng, oldRruleText, true);
+    }
+
+    for (const change of meetingChanges.occurrenceChanged) {
+      if (change.changeType === 'add' || change.changeType === 'update') {
+        const start: Date = parseICalDate(change.value.dtstart).toJSDate();
+        const end: Date = parseICalDate(change.value.dtend).toJSDate();
+
+        const range = dateRangeFormat(start, end, lng, timeZone, {
+          month: 'long',
+        });
+        notification += this.formatCurrent(
+          i18next.t(
+            'meeting.room.notification.changed.occurrence',
+            'A single meeting from a meeting series is moved to {{range}}',
+            { lng, range },
+          ),
+        );
+
+        const [prevStart, prevEnd] =
+          change.changeType === 'add'
+            ? [
+                parseICalDate(change.value.recurrenceId).toJSDate(),
+                parseICalDate(change.dtend).toJSDate(),
+              ]
+            : [
+                parseICalDate(change.oldValue.dtstart).toJSDate(),
+                parseICalDate(change.oldValue.dtend).toJSDate(),
+              ];
+
+        const prevRange = dateRangeFormat(prevStart, prevEnd, lng, timeZone, {
+          month: 'long',
+        });
+        notification += this.formatPrevious(
+          i18next.t(
+            'meeting.room.notification.changed.previous',
+            '(previously: {{value}})',
+            { lng, value: prevRange },
+          ),
+        );
+      } else if (
+        change.changeType === 'delete' ||
+        change.changeType === 'exdate'
+      ) {
+        const [start, end] =
+          change.changeType === 'delete'
+            ? [
+                parseICalDate(change.value.dtstart).toJSDate(),
+                parseICalDate(change.value.dtend).toJSDate(),
+              ]
+            : [
+                parseICalDate(change.dtstart).toJSDate(),
+                parseICalDate(change.dtend).toJSDate(),
+              ];
+
+        const range = dateRangeFormat(start, end, lng, timeZone, {
+          month: 'long',
+        });
+        notification += this.formatCurrent(
+          i18next.t(
+            'meeting.room.notification.changed.occurrence_deleted',
+            'A single meeting from a meeting series on {{range}} is deleted',
+            { lng, range },
+          ),
+        );
+      }
     }
 
     await this.client.sendHtmlText(toRoomId, notification);

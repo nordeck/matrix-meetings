@@ -51,6 +51,9 @@
             "previous": "(bislang: {{description}})"
           },
           "headLine": "Änderungen",
+          "occurrence": "Eine einzelne Besprechung aus einer Besprechungsserie wurde verschoben auf {{range}}",
+          "occurrence_deleted": "Eine einzelne Besprechung aus einer Besprechungsserie wurde gelöscht: {{range}}",
+          "previous": "(bislang: {{value}})",
           "repetition": {
             "current": "Die Besprechung wiederholen: {{repetitionText}}",
             "previous": "(bislang: {{repetitionText}})"

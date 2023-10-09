@@ -55,7 +55,7 @@ export class TemplateHelper {
           new Date(meeting.startTime),
           new Date(meeting.endTime),
           lng,
-          { ...fullNumericDateFormat, timeZone },
+          timeZone,
         ),
         recurrenceContext: recurrence ? 'present' : 'none',
         recurrence,
@@ -84,12 +84,18 @@ const fullNumericDateFormat = {
   timeZoneName: 'short',
 };
 
-function dateRangeFormat(
+export function dateRangeFormat(
   start: Date,
   end: Date,
-  lng: string | undefined,
-  options: any,
+  lng: string,
+  timeZone: string,
+  dateTimeFormatOptionsOverrides: any = {},
 ): string {
+  const options: any = {
+    ...fullNumericDateFormat,
+    ...dateTimeFormatOptionsOverrides,
+    timeZone,
+  };
   const formatter = new Intl.DateTimeFormat(lng, options);
   // @ts-ignore: DateTimeFormat#formatRange will be available in TypeScript >4.7.2
   return formatter.formatRange(start, end);
