@@ -53,7 +53,7 @@
     "mime-types": "^2.1.35",
     "moment-timezone": "^0.5.43",
     "mustache": "^4.2.0",
-    "nestjs-pino": "^3.4.0",
+    "nestjs-pino": "^3.5.0",
     "node-fetch": "^2.7.0",
     "pino": "^8.15.1",
     "pino-http": "^8.4.0",
