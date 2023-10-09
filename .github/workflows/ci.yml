@@ -13,7 +13,7 @@ jobs:
     env:
       DOCKER_IMAGE: ghcr.io/nordeck/matrix-meetings-widget
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v3
         with:
@@ -92,7 +92,7 @@ jobs:
     env:
       DOCKER_IMAGE: ghcr.io/nordeck/matrix-meetings-bot
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v3
         with:
@@ -174,7 +174,7 @@ jobs:
       - build-widget
       - build-bot
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           # required for changesets
           fetch-depth: '0'
@@ -217,7 +217,7 @@ jobs:
           - browser: webkit
           - browser: firefox
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v3
         with:
