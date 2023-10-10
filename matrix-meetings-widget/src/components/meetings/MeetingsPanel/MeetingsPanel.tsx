@@ -50,20 +50,14 @@ export const MeetingsPanel = () => {
   const { t } = useTranslation();
 
   const selectRoomPermissions = useMemo(makeSelectRoomPermissions, []);
-  const { canCreateBreakoutSessions } = useAppSelector((state) =>
-    selectRoomPermissions(
-      state,
-      widgetApi.widgetParameters.roomId ?? '',
-      widgetApi.widgetParameters.userId,
-    ),
-  );
-  const { canSendMessageToAllBreakoutSessions } = useAppSelector((state) =>
-    selectRoomPermissions(
-      state,
-      widgetApi.widgetParameters.roomId ?? '',
-      widgetApi.widgetParameters.userId,
-    ),
-  );
+  const { canCreateBreakoutSessions, canSendMessageToAllBreakoutSessions } =
+    useAppSelector((state) =>
+      selectRoomPermissions(
+        state,
+        widgetApi.widgetParameters.roomId ?? '',
+        widgetApi.widgetParameters.userId,
+      ),
+    );
 
   const [view, setViewInternal] = useState<ViewType>(
     () => readLastViewTypeFromStorage(widgetApi) ?? 'list',
