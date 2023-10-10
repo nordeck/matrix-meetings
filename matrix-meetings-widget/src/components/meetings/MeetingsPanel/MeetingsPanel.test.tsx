@@ -868,8 +868,21 @@ describe('<MeetingsPanel/>', () => {
       }),
     ).toBeInTheDocument();
   });
+
   it('should not show breakout session message form if the user has no permission to send message to all rooms', async () => {
     enableBreakoutSessionView();
+
+    render(<MeetingsPanel />, { wrapper: Wrapper });
+
+    const actions = await screen.findByRole('navigation', { name: /actions/i });
+    expect(
+      within(actions).getByRole('button', {
+        name: /schedule breakout session/i,
+      }),
+    ).toBeInTheDocument();
+    const messageForm = within(actions).queryByRole('textbox', {
+      name: /send message to all breakout session rooms/i,
+    });
 
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
@@ -880,17 +893,9 @@ describe('<MeetingsPanel/>', () => {
       }),
     );
 
-    render(<MeetingsPanel />, { wrapper: Wrapper });
-    const actions = await screen.findByRole('navigation', { name: /actions/i });
-    expect(
-      within(actions).getByRole('button', {
-        name: /schedule breakout session/i,
-      }),
-    ).toBeInTheDocument();
-    const messageForm = within(actions).queryByRole('textbox', {
-      name: /send message to all breakout session rooms/i,
+    await waitFor(() => {
+      expect(messageForm).not.toBeInTheDocument();
     });
-    expect(messageForm).not.toBeInTheDocument();
   });
 
   it('should hide the actions navigation section if the user has no permission to create breakout sessions', async () => {
