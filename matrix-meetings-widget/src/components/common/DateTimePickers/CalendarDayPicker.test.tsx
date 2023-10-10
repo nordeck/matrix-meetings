@@ -104,8 +104,10 @@ describe('<CalendarDayPicker>', () => {
       }),
     );
 
-    await userEvent.click(within(dialog).getByRole('button', { name: '2023' }));
-    await userEvent.click(within(dialog).getByRole('button', { name: 'Jan' }));
+    await userEvent.click(within(dialog).getByRole('radio', { name: '2023' }));
+    await userEvent.click(
+      within(dialog).getByRole('radio', { name: 'January' }),
+    );
     await userEvent.click(within(dialog).getByRole('gridcell', { name: '13' }));
 
     expect(onRangeChange).toBeCalledTimes(1);
