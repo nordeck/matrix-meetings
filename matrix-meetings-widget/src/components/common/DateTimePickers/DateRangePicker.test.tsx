@@ -132,8 +132,8 @@ describe('<DateRangePicker>', () => {
       }),
     );
 
-    await userEvent.click(screen.getByRole('button', { name: '2022' }));
-    await userEvent.click(screen.getByRole('button', { name: 'Jan' }));
+    await userEvent.click(screen.getByRole('radio', { name: '2022' }));
+    await userEvent.click(screen.getByRole('radio', { name: 'January' }));
     await userEvent.click(screen.getByRole('gridcell', { name: '13' }));
 
     await userEvent.click(screen.getByRole('gridcell', { name: '20' }));
@@ -166,8 +166,8 @@ describe('<DateRangePicker>', () => {
       }),
     );
 
-    await userEvent.click(screen.getByRole('button', { name: '2022' }));
-    await userEvent.click(screen.getByRole('button', { name: 'Jan' }));
+    await userEvent.click(screen.getByRole('radio', { name: '2022' }));
+    await userEvent.click(screen.getByRole('radio', { name: 'January' }));
     await userEvent.click(screen.getByRole('gridcell', { name: '15' }));
 
     await userEvent.keyboard('{escape}');
@@ -205,8 +205,8 @@ describe('<DateRangePicker>', () => {
       }),
     );
 
-    await userEvent.click(screen.getByRole('button', { name: '2022' }));
-    await userEvent.click(screen.getByRole('button', { name: 'Jan' }));
+    await userEvent.click(screen.getByRole('radio', { name: '2022' }));
+    await userEvent.click(screen.getByRole('radio', { name: 'January' }));
     await userEvent.click(screen.getByRole('gridcell', { name: '15' }));
 
     await userEvent.click(screen.getByRole('gridcell', { name: '15' }));
@@ -239,8 +239,8 @@ describe('<DateRangePicker>', () => {
       }),
     );
 
-    await userEvent.click(screen.getByRole('button', { name: '2022' }));
-    await userEvent.click(screen.getByRole('button', { name: 'Jan' }));
+    await userEvent.click(screen.getByRole('radio', { name: '2022' }));
+    await userEvent.click(screen.getByRole('radio', { name: 'January' }));
     await userEvent.click(screen.getByRole('gridcell', { name: '15' }));
 
     expect(screen.getByRole('gridcell', { name: '14' })).toBeDisabled();
