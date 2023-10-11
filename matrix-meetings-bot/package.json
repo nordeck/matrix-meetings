@@ -55,7 +55,7 @@
     "mustache": "^4.2.0",
     "nestjs-pino": "^3.5.0",
     "node-fetch": "^2.7.0",
-    "pino": "^8.15.1",
+    "pino": "^8.16.0",
     "pino-http": "^8.5.0",
     "reflect-metadata": "^0.1.13",
     "rfc4648": "^1.5.2",
