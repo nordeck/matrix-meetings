@@ -56,8 +56,8 @@ export async function fillDate(
   await pickerModal
     .getByRole('button', { name: /switch to year view/ })
     .click();
-  await pickerModal.getByRole('button', { name: `${year}` }).click();
-  await pickerModal.getByRole('button', { name: `${monthLabel}` }).click();
+  await pickerModal.getByRole('radio', { name: `${year}` }).click();
+  await pickerModal.getByRole('radio', { name: `${monthLabel}` }).click();
 
   if (day !== undefined) {
     // There might be a transition between two month views, therefore we wait
