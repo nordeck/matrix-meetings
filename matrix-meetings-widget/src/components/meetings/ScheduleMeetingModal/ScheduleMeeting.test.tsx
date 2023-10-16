@@ -26,7 +26,6 @@ import {
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { repeat } from 'lodash';
-import { DateTime } from 'luxon';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
@@ -874,15 +873,16 @@ describe('<ScheduleMeeting>', () => {
   it('should disabled submission if meeting series is changed to start in the past', async () => {
     const meeting = mockMeeting({
       content: {
-        startTime: '2040-01-01T13:15:00Z',
-        endTime: '2040-01-01T14:15:00Z',
+        startTime: '2022-01-03T13:15:00Z',
+        endTime: '2022-01-03T14:15:00Z',
         calendarEntries: mockCalendar({
-          dtstart: '20400101T100000',
-          dtend: '20400101T140000',
+          dtstart: '20220101T131500',
+          dtend: '20220101T141500',
           rrule: 'FREQ=DAILY',
         }),
       },
     });
+
     render(
       <ScheduleMeeting
         initialMeeting={meeting}
@@ -916,18 +916,19 @@ describe('<ScheduleMeeting>', () => {
   it('should disabled start time and date for running occurrence of recurrence meeting', async () => {
     const meeting = mockMeeting({
       content: {
-        startTime: '2023-03-01T13:15:00Z',
-        endTime: '2023-03-03T14:15:00Z',
+        startTime: '2022-01-01T13:15:00Z',
+        endTime: '2022-01-01T14:15:00Z',
         calendarEntries: mockCalendar({
-          dtstart: '20230101T100000',
-          dtend: '20230101T140000',
+          dtstart: '20220101T131500',
+          dtend: '20220101T141500',
           rrule: 'FREQ=DAILY;COUNT=10',
         }),
       },
     });
 
-    const mockNow = jest.spyOn(DateTime, 'now');
-    mockNow.mockReturnValue(DateTime.fromISO('2023-03-01T13:30:00'));
+    jest
+      .spyOn(Date, 'now')
+      .mockImplementation(() => +new Date('2022-01-01T13:30:00.000Z'));
 
     render(
       <ScheduleMeeting
@@ -954,18 +955,19 @@ describe('<ScheduleMeeting>', () => {
   it('should not disabled start time and date for future occurrence of recurrence meeting even if the series started', async () => {
     const meeting = mockMeeting({
       content: {
-        startTime: '2023-03-01T13:15:00Z',
-        endTime: '2023-03-03T14:15:00Z',
+        startTime: '2022-01-03T13:15:00Z',
+        endTime: '2022-01-03T14:15:00Z',
         calendarEntries: mockCalendar({
-          dtstart: '20230101T100000',
-          dtend: '20230101T140000',
+          dtstart: '20220101T131500',
+          dtend: '20220101T141500',
           rrule: 'FREQ=DAILY;COUNT=10',
         }),
       },
     });
 
-    const mockNow = jest.spyOn(DateTime, 'now');
-    mockNow.mockReturnValue(DateTime.fromISO('2023-02-01T10:00:00'));
+    jest
+      .spyOn(Date, 'now')
+      .mockImplementation(() => +new Date('2022-01-02T13:30:00.000Z'));
 
     render(
       <ScheduleMeeting
