@@ -42,7 +42,7 @@ jobs:
           echo "FROM $SOURCE_IMAGE" > Dockerfile
 
       - name: Login to ghcr.io
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
