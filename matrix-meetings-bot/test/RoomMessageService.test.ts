@@ -66,14 +66,14 @@ describe('test RoomMessageService', () => {
       roomId,
       title: 'title',
       description: 'description',
-      startTime: '2022-01-16T22:07:21.488Z',
-      endTime: '3022-12-16T22:07:21.488Z',
+      startTime: '2022-01-16T09:00:00.000Z',
+      endTime: '2022-01-16T10:00:00.000Z',
       calendar: rrule
         ? [
             {
               uid: 'uuid',
-              dtstart: { tzid: 'UTC', value: '20220116T220721' },
-              dtend: { tzid: 'UTC', value: '30221216T220721' },
+              dtstart: { tzid: 'UTC', value: '20220116T090000' },
+              dtend: { tzid: 'UTC', value: '20220116T100000' },
               rrule,
             },
           ]
@@ -223,7 +223,7 @@ describe('test RoomMessageService', () => {
   it('test to send a message, that contains information about the time-range change, if starttime of meeting is changed', async () => {
     const oldMeeting = initMeeting();
     const newMeeting = initMeeting();
-    oldMeeting.startTime = '2024-01-16T22:07:21.488Z';
+    newMeeting.startTime = '2022-01-16T08:00:00.000Z';
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
       newMeeting,
@@ -237,11 +237,9 @@ describe('test RoomMessageService', () => {
     );
     verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
     const msg = capture(matrixClientMock.sendHtmlText).first()[1];
+    expect(msg).toContain('Date: January 16, 2022, 8:00 – 10:00 AM UTC');
     expect(msg).toContain(
-      'Date: 01/16/2022 10:07 PM UTC to 12/16/3022 10:07 PM UTC',
-    );
-    expect(msg).toContain(
-      '(previously: 01/16/2024 10:07 PM UTC to 12/16/3022 10:07 PM UTC)',
+      '(previously: January 16, 2022, 9:00 – 10:00 AM UTC)',
     );
     expect(msg).not.toContain('Title: title');
     expect(msg).not.toContain('Description: description');
@@ -251,7 +249,7 @@ describe('test RoomMessageService', () => {
   it('test to send a message, that contains information about the time-range change, if endtime of meeting is changed', async () => {
     const oldMeeting = initMeeting();
     const newMeeting = initMeeting();
-    oldMeeting.endTime = '3024-12-16T22:07:21.488Z';
+    newMeeting.endTime = '2022-01-16T11:00:00.000Z';
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
       newMeeting,
@@ -265,11 +263,9 @@ describe('test RoomMessageService', () => {
     );
     verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
     const msg = capture(matrixClientMock.sendHtmlText).first()[1];
+    expect(msg).toContain('Date: January 16, 2022, 9:00 – 11:00 AM UTC');
     expect(msg).toContain(
-      'Date: 01/16/2022 10:07 PM UTC to 12/16/3022 10:07 PM UTC',
-    );
-    expect(msg).toContain(
-      '(previously: 01/16/2022 10:07 PM UTC to 12/16/3024 10:07 PM UTC)',
+      '(previously: January 16, 2022, 9:00 – 10:00 AM UTC)',
     );
     expect(msg).not.toContain('Title: title');
     expect(msg).not.toContain('Description: description');

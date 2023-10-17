@@ -17,7 +17,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import i18next from 'i18next';
 import { MatrixClient } from 'matrix-bot-sdk';
-import moment from 'moment-timezone';
 import { MatrixEndpoint } from '../MatrixEndpoint';
 import { MeetingClient } from '../client/MeetingClient';
 import { fullLongDateFormat } from '../dateFormat';
@@ -187,14 +186,6 @@ export class RoomMessageService {
     return privateRoomIds;
   }
 
-  private static formatDateTime(
-    timezone: string,
-    locale: string,
-    date: string | number | Date,
-  ): string {
-    return moment(new Date(date)).tz(timezone).locale(locale).format('L LT z');
-  }
-
   private formatHeader(text: string) {
     return `<strong>${text}</strong><br>`;
   }
@@ -224,30 +215,7 @@ export class RoomMessageService {
       );
     }
   }
-  private createStartEndTimesLine(
-    lng: string,
-    start: string,
-    end: string,
-    previous?: boolean,
-  ) {
-    if (previous) {
-      return this.formatPrevious(
-        i18next.t(
-          'meeting.room.notification.changed.date.previous',
-          '(previously: {{start}} to {{end}})',
-          { lng, start, end },
-        ),
-      );
-    } else {
-      return this.formatCurrent(
-        i18next.t(
-          'meeting.room.notification.changed.date.current',
-          'Date: {{start}} to {{end}}',
-          { lng, start, end },
-        ),
-      );
-    }
-  }
+
   private createDescriptionLine(
     lng: string,
     description: string,
@@ -327,28 +295,45 @@ export class RoomMessageService {
     }
 
     if (meetingChanges.timeChanged) {
-      const newStart = RoomMessageService.formatDateTime(
-        timeZone,
-        lng,
-        newMeeting.startTime,
+      notification += this.formatCurrent(
+        i18next.t(
+          'meeting.room.notification.changed.date.current',
+          'Date: {{range, daterange}}',
+          {
+            lng,
+            range: [
+              new Date(newMeeting.startTime),
+              new Date(newMeeting.endTime),
+            ],
+            formatParams: {
+              range: {
+                timeZone,
+                ...fullLongDateFormat,
+              },
+            },
+          },
+        ),
       );
-      const newEnd = RoomMessageService.formatDateTime(
-        timeZone,
-        lng,
-        newMeeting.endTime,
+
+      notification += this.formatPrevious(
+        i18next.t(
+          'meeting.room.notification.changed.date.previous',
+          '(previously: {{range, daterange}})',
+          {
+            lng,
+            range: [
+              new Date(oldMeeting.startTime),
+              new Date(oldMeeting.endTime),
+            ],
+            formatParams: {
+              range: {
+                timeZone,
+                ...fullLongDateFormat,
+              },
+            },
+          },
+        ),
       );
-      const oldStart = RoomMessageService.formatDateTime(
-        timeZone,
-        lng,
-        oldMeeting.startTime,
-      );
-      const oldEnd = RoomMessageService.formatDateTime(
-        timeZone,
-        lng,
-        oldMeeting.endTime,
-      );
-      notification += this.createStartEndTimesLine(lng, newStart, newEnd);
-      notification += this.createStartEndTimesLine(lng, oldStart, oldEnd, true);
     }
 
     if (meetingChanges.descriptionChanged) {

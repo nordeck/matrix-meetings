@@ -43,8 +43,8 @@
       "notification": {
         "changed": {
           "date": {
-            "current": "Zeitraum: Von {{start}} bis {{end}}",
-            "previous": "(bislang: Von {{start}} bis {{end}})"
+            "current": "Zeitraum: {{range, daterange}}",
+            "previous": "(bislang: {{range, daterange}})"
           },
           "description": {
             "current": "Beschreibung: {{description}}",

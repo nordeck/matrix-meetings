@@ -43,8 +43,8 @@
       "notification": {
         "changed": {
           "date": {
-            "current": "Date: {{start}} to {{end}}",
-            "previous": "(previously: {{start}} to {{end}})"
+            "current": "Date: {{range, daterange}}",
+            "previous": "(previously: {{range, daterange}})"
           },
           "description": {
             "current": "Description: {{description}}",
