@@ -186,84 +186,6 @@ export class RoomMessageService {
     return privateRoomIds;
   }
 
-  private formatHeader(text: string) {
-    return `<strong>${text}</strong><br>`;
-  }
-  private formatCurrent(text: string) {
-    return `<strong>${text}</strong><br>`;
-  }
-  private formatPrevious(text: string) {
-    return `<font color="#888">${text}</font><br>`;
-  }
-
-  private createTitleLine(lng: string, title: string, previous?: boolean) {
-    if (previous) {
-      return this.formatPrevious(
-        i18next.t(
-          'meeting.room.notification.changed.title.previous',
-          '(previously: {{title}})',
-          { lng, title },
-        ),
-      );
-    } else {
-      return this.formatCurrent(
-        i18next.t(
-          'meeting.room.notification.changed.title.current',
-          'Title: {{title}}',
-          { lng, title },
-        ),
-      );
-    }
-  }
-
-  private createDescriptionLine(
-    lng: string,
-    description: string,
-    previous?: boolean,
-  ) {
-    if (previous) {
-      return this.formatPrevious(
-        i18next.t(
-          'meeting.room.notification.changed.description.previous',
-          '(previously: {{description}})',
-          { lng, description },
-        ),
-      );
-    } else {
-      return this.formatCurrent(
-        i18next.t(
-          'meeting.room.notification.changed.description.current',
-          'Description: {{description}}',
-          { lng, description },
-        ),
-      );
-    }
-  }
-
-  private createRepetitionLine(
-    lng: string,
-    repetitionText: string,
-    previous?: boolean,
-  ) {
-    if (previous) {
-      return this.formatPrevious(
-        i18next.t(
-          'meeting.room.notification.changed.repetition.previous',
-          '(previously: {{repetitionText}})',
-          { lng, repetitionText },
-        ),
-      );
-    } else {
-      return this.formatCurrent(
-        i18next.t(
-          'meeting.room.notification.changed.repetition.current',
-          'Repeat meeting: {{repetitionText}}',
-          { lng, repetitionText },
-        ),
-      );
-    }
-  }
-
   public async notifyMeetingTimeChangedAsync(
     userContext: IUserContext,
     oldMeeting: IMeeting,
@@ -279,7 +201,7 @@ export class RoomMessageService {
     let notification = '';
 
     if (meetingChanges.occurrenceChanged.length === 0) {
-      notification += this.formatHeader(
+      notification += formatCurrent(
         i18next.t('meeting.room.notification.changed.headLine', 'CHANGES', {
           lng,
         }),
@@ -287,15 +209,24 @@ export class RoomMessageService {
     }
 
     if (meetingChanges.titleChanged) {
-      const newTitle = newMeeting.title;
-      const oldTitle = oldMeeting.title;
-
-      notification += this.createTitleLine(lng, newTitle);
-      notification += this.createTitleLine(lng, oldTitle, true);
+      notification += formatCurrent(
+        i18next.t(
+          'meeting.room.notification.changed.title.current',
+          'Title: {{title}}',
+          { lng, title: newMeeting.title },
+        ),
+      );
+      notification += formatPrevious(
+        i18next.t(
+          'meeting.room.notification.changed.title.previous',
+          '(previously: {{title}})',
+          { lng, title: oldMeeting.title },
+        ),
+      );
     }
 
     if (meetingChanges.timeChanged) {
-      notification += this.formatCurrent(
+      notification += formatCurrent(
         i18next.t(
           'meeting.room.notification.changed.date.current',
           'Date: {{range, daterange}}',
@@ -315,7 +246,7 @@ export class RoomMessageService {
         ),
       );
 
-      notification += this.formatPrevious(
+      notification += formatPrevious(
         i18next.t(
           'meeting.room.notification.changed.date.previous',
           '(previously: {{range, daterange}})',
@@ -337,10 +268,20 @@ export class RoomMessageService {
     }
 
     if (meetingChanges.descriptionChanged) {
-      const newDescription = newMeeting.description;
-      const oldDescription = oldMeeting.description;
-      notification += this.createDescriptionLine(lng, newDescription);
-      notification += this.createDescriptionLine(lng, oldDescription, true);
+      notification += formatCurrent(
+        i18next.t(
+          'meeting.room.notification.changed.description.current',
+          'Description: {{description}}',
+          { lng, description: newMeeting.description },
+        ),
+      );
+      notification += formatPrevious(
+        i18next.t(
+          'meeting.room.notification.changed.description.previous',
+          '(previously: {{description}})',
+          { lng, description: oldMeeting.description },
+        ),
+      );
     }
 
     if (meetingChanges.calendarChanged) {
@@ -349,14 +290,26 @@ export class RoomMessageService {
         : i18next.t('meeting.room.notification.noRepetition', 'No repetition', {
             lng,
           });
-      notification += this.createRepetitionLine(lng, newRruleText);
+      notification += formatCurrent(
+        i18next.t(
+          'meeting.room.notification.changed.repetition.current',
+          'Repeat meeting: {{repetitionText}}',
+          { lng, repetitionText: newRruleText },
+        ),
+      );
 
       const oldRruleText = isRecurringCalendarSourceEntry(oldMeeting.calendar)
         ? formatRRuleText(oldMeeting.calendar[0].rrule, i18next.t, lng)
         : i18next.t('meeting.room.notification.noRepetition', 'No repetition', {
             lng,
           });
-      notification += this.createRepetitionLine(lng, oldRruleText, true);
+      notification += formatPrevious(
+        i18next.t(
+          'meeting.room.notification.changed.repetition.previous',
+          '(previously: {{repetitionText}})',
+          { lng, repetitionText: oldRruleText },
+        ),
+      );
     }
 
     for (const change of meetingChanges.occurrenceChanged) {
@@ -364,7 +317,7 @@ export class RoomMessageService {
         const start: Date = parseICalDate(change.value.dtstart).toJSDate();
         const end: Date = parseICalDate(change.value.dtend).toJSDate();
 
-        notification += this.formatCurrent(
+        notification += formatCurrent(
           i18next.t(
             'meeting.room.notification.changed.occurrence.current',
             'A single meeting from a meeting series is moved to {{range, daterange}}',
@@ -392,7 +345,7 @@ export class RoomMessageService {
                 parseICalDate(change.oldValue.dtend).toJSDate(),
               ];
 
-        notification += this.formatPrevious(
+        notification += formatPrevious(
           i18next.t(
             'meeting.room.notification.changed.occurrence.previous',
             '(previously: {{value, daterange}})',
@@ -423,7 +376,7 @@ export class RoomMessageService {
                 parseICalDate(change.dtend).toJSDate(),
               ];
 
-        notification += this.formatCurrent(
+        notification += formatCurrent(
           i18next.t(
             'meeting.room.notification.changed.occurrence.deleted',
             'A single meeting from a meeting series on {{range, daterange}} is deleted',
@@ -444,4 +397,11 @@ export class RoomMessageService {
 
     await this.client.sendHtmlText(toRoomId, notification);
   }
+}
+
+function formatCurrent(text: string): string {
+  return `<strong>${text}</strong><br>`;
+}
+function formatPrevious(text: string): string {
+  return `<font color="#888">${text}</font><br>`;
 }
