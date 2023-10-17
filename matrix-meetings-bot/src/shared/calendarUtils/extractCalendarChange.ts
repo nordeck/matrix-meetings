@@ -106,6 +106,8 @@ export function extractCalendarChange(
           overrideMap: undefined,
         };
         map.set(ce.uid, mapEntry);
+      } else if (isRRuleEntry(ce)) {
+        mapEntry.rruleEntry = ce; // assign rrule entry if map entry was created by override
       }
       if (isRRuleOverrideEntry(ce)) {
         let overrideMap = mapEntry.overrideMap;

@@ -375,4 +375,51 @@ describe('extractCalendarChange', () => {
       },
     ]);
   });
+
+  it('should extract deleted occurrence for: delete existing overrides when override before rrule entry', () => {
+    const calendar = [
+      mockCalendarEntry({
+        dtstart: '20200110T103000',
+        dtend: '20200110T113000',
+        recurrenceId: '20200110T100000',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+
+      // another override that should stay
+      mockCalendarEntry({
+        dtstart: '20200115T103000',
+        dtend: '20200115T113000',
+        recurrenceId: '20200115T100000',
+      }),
+    ];
+
+    const newCalendar = [
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+        exdate: ['20200110T100000'],
+      }),
+      mockCalendarEntry({
+        dtstart: '20200115T103000',
+        dtend: '20200115T113000',
+        recurrenceId: '20200115T100000',
+      }),
+    ];
+
+    expect(extractCalendarChange(calendar, newCalendar)).toEqual([
+      {
+        changeType: 'delete',
+        value: mockCalendarEntry({
+          dtstart: '20200110T103000',
+          dtend: '20200110T113000',
+          recurrenceId: '20200110T100000',
+        }),
+      },
+    ]);
+  });
 });
