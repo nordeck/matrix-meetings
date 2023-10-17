@@ -53,7 +53,7 @@ jobs:
         run: yarn generate-disclaimer
 
       - name: Login to ghcr.io
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -132,7 +132,7 @@ jobs:
         run: yarn generate-disclaimer
 
       - name: Login to ghcr.io
-        uses: docker/login-action@v2
+        uses: docker/login-action@v3
         with:
           registry: ghcr.io
           username: ${{ github.repository_owner }}
@@ -192,7 +192,7 @@ jobs:
 
       - name: Generate GitHub token
         id: generate_token
-        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a
         with:
           app_id: ${{ secrets.GH_APP_OS_APP_ID }}
           private_key: ${{ secrets.GH_APP_OS_PRIVATE_KEY }}
@@ -276,7 +276,7 @@ jobs:
     steps:
       - name: Generate GitHub token
         id: generate_token
-        uses: tibdex/github-app-token@b62528385c34dbc9f38e5f4225ac829252d1ea92 # @v1.8.0
+        uses: tibdex/github-app-token@3beb63f4bd073e61482598c45c71c1019b59b73a # @v2.1.0
         with:
           app_id: ${{ secrets.GH_APP_OS_APP_ID }}
           private_key: ${{ secrets.GH_APP_OS_PRIVATE_KEY }}
