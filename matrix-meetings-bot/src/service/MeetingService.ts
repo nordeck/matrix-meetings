@@ -366,10 +366,11 @@ export class MeetingService {
     const oldMeeting = room.meeting;
     const newMeeting: IMeeting = { ...room.meeting };
 
-    // change data model if meeting is OX with non-empty rrules
+    // change data model if meeting is in old format
     const { start_time, end_time, calendar } = migrateMeetingTime(
       meetingDetails,
       extractOxRrule(meetingDetails),
+      oldMeeting.calendar,
     );
 
     newMeeting.calendar =

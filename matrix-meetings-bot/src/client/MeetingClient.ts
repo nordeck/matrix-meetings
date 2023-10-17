@@ -242,9 +242,11 @@ export class MeetingClient {
     );
 
     // change data model if meeting is OX with non-empty rrules
+    const externalRrule = extractOxRrule(meetingCreate);
     const { start_time, end_time, calendar } = migrateMeetingTime(
       meetingCreate,
-      extractOxRrule(meetingCreate),
+      externalRrule,
+      undefined,
     );
 
     const meetingsMetadataEventContent: IMeetingsMetadataEventContent = {

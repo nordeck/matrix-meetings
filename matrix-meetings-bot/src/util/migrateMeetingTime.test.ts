@@ -15,18 +15,132 @@
  */
 
 import { CalendarEntryDto } from '../dto/CalendarEntryDto';
+import { mockCalendarEntry } from '../testUtils';
 import { IMeetingTime, migrateMeetingTime } from './migrateMeetingTime';
 
 describe('migrateMeetingTime', () => {
-  it('should change to calendar model', () => {
+  it('should migrate', () => {
+    expect(
+      migrateMeetingTime({
+        start_time: '2020-01-01T08:00:00.000Z',
+        end_time: '2020-01-01T10:00:00.000Z',
+        calendar: undefined,
+      }),
+    ).toEqual({
+      start_time: undefined,
+      end_time: undefined,
+      calendar: [
+        {
+          uid: expect.any(String),
+          dtstart: { tzid: 'UTC', value: '20200101T080000' },
+          dtend: { tzid: 'UTC', value: '20200101T100000' },
+        },
+      ],
+    } as IMeetingTime);
+  });
+
+  it('should migrate when single entry calendar', () => {
     expect(
       migrateMeetingTime(
         {
-          start_time: '2022-01-01T00:00:00.000Z',
-          end_time: '2022-01-03T00:00:00.000Z',
+          start_time: '2020-01-01T08:00:00.000Z',
+          end_time: '2020-01-01T10:00:00.000Z',
+          calendar: undefined,
+        },
+        undefined,
+        [
+          mockCalendarEntry({
+            dtstart: '20200109T100000',
+            dtend: '20200109T110000',
+          }),
+        ],
+      ),
+    ).toEqual({
+      start_time: undefined,
+      end_time: undefined,
+      calendar: [
+        mockCalendarEntry({
+          dtstart: '20200101T080000',
+          dtend: '20200101T100000',
+        }),
+      ],
+    } as IMeetingTime);
+  });
+
+  it('should migrate single recurring entry calendar', () => {
+    expect(
+      migrateMeetingTime(
+        {
+          start_time: '2020-01-01T08:00:00.000Z',
+          end_time: '2020-01-01T10:00:00.000Z',
+          calendar: undefined,
+        },
+        undefined,
+        [
+          mockCalendarEntry({
+            dtstart: '20200109T100000',
+            dtend: '20200109T110000',
+            rrule: 'FREQ=DAILY',
+          }),
+        ],
+      ),
+    ).toEqual({
+      start_time: undefined,
+      end_time: undefined,
+      calendar: [
+        mockCalendarEntry({
+          dtstart: '20200101T080000',
+          dtend: '20200101T100000',
+        }),
+      ],
+    } as IMeetingTime);
+  });
+
+  it('should migrate when single recurring entry with existing overrides', () => {
+    expect(
+      migrateMeetingTime(
+        {
+          start_time: '2020-01-01T08:00:00.000Z',
+          end_time: '2020-01-01T10:00:00.000Z',
+          calendar: undefined,
+        },
+        undefined,
+        [
+          mockCalendarEntry({
+            dtstart: '20200109T100000',
+            dtend: '20200109T110000',
+            rrule: 'FREQ=DAILY',
+            exdate: ['20200110T100000'],
+          }),
+          mockCalendarEntry({
+            dtstart: '20200111T120000',
+            dtend: '20200111T130000',
+            recurrenceId: '20200111T100000',
+          }),
+        ],
+      ),
+    ).toEqual({
+      start_time: undefined,
+      end_time: undefined,
+      calendar: [
+        mockCalendarEntry({
+          dtstart: '20200101T080000',
+          dtend: '20200101T100000',
+        }),
+      ],
+    } as IMeetingTime);
+  });
+
+  it('should migrate when rrule', () => {
+    expect(
+      migrateMeetingTime(
+        {
+          start_time: '2020-01-01T08:00:00.000Z',
+          end_time: '2020-01-01T10:00:00.000Z',
           calendar: undefined,
         },
         'FREQ=DAILY;COUNT=1',
+        undefined,
       ),
     ).toEqual({
       start_time: undefined,
@@ -34,10 +148,141 @@ describe('migrateMeetingTime', () => {
       calendar: [
         {
           uid: expect.any(String),
-          dtstart: { tzid: 'UTC', value: '20220101T000000' },
-          dtend: { tzid: 'UTC', value: '20220103T000000' },
+          dtstart: { tzid: 'UTC', value: '20200101T080000' },
+          dtend: { tzid: 'UTC', value: '20200101T100000' },
           rrule: 'FREQ=DAILY;COUNT=1',
         },
+      ],
+    } as IMeetingTime);
+  });
+
+  it('should migrate when rrule and single entry calendar', () => {
+    expect(
+      migrateMeetingTime(
+        {
+          start_time: '2020-01-01T08:00:00.000Z',
+          end_time: '2020-01-01T10:00:00.000Z',
+          calendar: undefined,
+        },
+        'FREQ=DAILY;COUNT=1',
+        [
+          mockCalendarEntry({
+            dtstart: '20200109T100000',
+            dtend: '20200109T110000',
+          }),
+        ],
+      ),
+    ).toEqual({
+      start_time: undefined,
+      end_time: undefined,
+      calendar: [
+        mockCalendarEntry({
+          dtstart: '20200101T080000',
+          dtend: '20200101T100000',
+          rrule: 'FREQ=DAILY;COUNT=1',
+        }),
+      ],
+    } as IMeetingTime);
+  });
+
+  it('should migrate when rrule and single recurring entry calendar', () => {
+    expect(
+      migrateMeetingTime(
+        {
+          start_time: '2020-01-01T08:00:00.000Z',
+          end_time: '2020-01-01T10:00:00.000Z',
+          calendar: undefined,
+        },
+        'FREQ=DAILY;COUNT=1',
+        [
+          mockCalendarEntry({
+            dtstart: '20200109T100000',
+            dtend: '20200109T110000',
+            rrule: 'FREQ=DAILY',
+          }),
+        ],
+      ),
+    ).toEqual({
+      start_time: undefined,
+      end_time: undefined,
+      calendar: [
+        mockCalendarEntry({
+          dtstart: '20200101T080000',
+          dtend: '20200101T100000',
+          rrule: 'FREQ=DAILY;COUNT=1',
+        }),
+      ],
+    } as IMeetingTime);
+  });
+
+  it('should migrate when rrule and single recurring entry with existing overrides', () => {
+    expect(
+      migrateMeetingTime(
+        {
+          start_time: '2020-01-01T08:00:00.000Z',
+          end_time: '2020-01-01T10:00:00.000Z',
+          calendar: undefined,
+        },
+        'FREQ=DAILY;COUNT=1',
+        [
+          mockCalendarEntry({
+            dtstart: '20200109T100000',
+            dtend: '20200109T110000',
+            rrule: 'FREQ=DAILY',
+            exdate: ['20200110T100000'],
+          }),
+          mockCalendarEntry({
+            dtstart: '20200111T120000',
+            dtend: '20200111T130000',
+            recurrenceId: '20200111T100000',
+          }),
+        ],
+      ),
+    ).toEqual({
+      start_time: undefined,
+      end_time: undefined,
+      calendar: [
+        mockCalendarEntry({
+          dtstart: '20200101T080000',
+          dtend: '20200101T100000',
+          rrule: 'FREQ=DAILY;COUNT=1',
+        }),
+      ],
+    } as IMeetingTime);
+  });
+
+  it('should migrate when rrule and single recurring entry with existing overrides reordered', () => {
+    expect(
+      migrateMeetingTime(
+        {
+          start_time: '2020-01-01T08:00:00.000Z',
+          end_time: '2020-01-01T10:00:00.000Z',
+          calendar: undefined,
+        },
+        'FREQ=DAILY;COUNT=1',
+        [
+          mockCalendarEntry({
+            dtstart: '20200111T120000',
+            dtend: '20200111T130000',
+            recurrenceId: '20200111T100000',
+          }),
+          mockCalendarEntry({
+            dtstart: '20200109T100000',
+            dtend: '20200109T110000',
+            rrule: 'FREQ=DAILY',
+            exdate: ['20200110T100000'],
+          }),
+        ],
+      ),
+    ).toEqual({
+      start_time: undefined,
+      end_time: undefined,
+      calendar: [
+        mockCalendarEntry({
+          dtstart: '20200101T080000',
+          dtend: '20200101T100000',
+          rrule: 'FREQ=DAILY;COUNT=1',
+        }),
       ],
     } as IMeetingTime);
   });
@@ -46,7 +291,6 @@ describe('migrateMeetingTime', () => {
     calendar: CalendarEntryDto[] | undefined;
     externalRrule: string | undefined;
   }>([
-    { calendar: undefined, externalRrule: undefined },
     { calendar: [], externalRrule: undefined },
     { calendar: [], externalRrule: 'FREQ=DAILY;COUNT=1' },
     {
@@ -69,7 +313,9 @@ describe('migrateMeetingTime', () => {
         calendar,
       };
 
-      expect(meetingTime).toBe(migrateMeetingTime(meetingTime, externalRrule));
+      expect(migrateMeetingTime(meetingTime, externalRrule, undefined)).toBe(
+        meetingTime,
+      );
     },
   );
 });

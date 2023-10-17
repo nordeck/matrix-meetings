@@ -198,9 +198,22 @@ describe('MeetingClient', () => {
             type: 'net.nordeck.meetings.metadata',
             content: {
               creator: '@user-id:example',
-              start_time: '2020-05-07T10:00:00+02:00',
-              end_time: '2020-05-07T11:00:00+02:00',
-              auto_deletion_offset: 60,
+              calendar: [
+                {
+                  uid: expect.any(String),
+                  dtstart: {
+                    tzid: 'UTC',
+                    value: '20200507T080000',
+                  },
+                  dtend: { tzid: 'UTC', value: '20200507T090000' },
+                },
+              ],
+              start_time: undefined,
+              end_time: undefined,
+              auto_deletion_offset: undefined,
+              force_deletion_at: new Date(
+                '2020-05-07T12:00:00+02:00',
+              ).getTime(),
             },
           },
         ],

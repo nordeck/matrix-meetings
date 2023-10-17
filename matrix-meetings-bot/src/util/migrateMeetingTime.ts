@@ -18,6 +18,8 @@ import { DateTime } from 'luxon';
 import { v4 as uuiv4 } from 'uuid';
 import { CalendarEntryDto } from '../dto/CalendarEntryDto';
 import { formatICalDate } from '../shared';
+import { isRRuleOverrideEntry } from '../shared/calendarUtils/helpers';
+import { overrideCalendarEntries } from '../shared/calendarUtils/overrideCalendarEntries';
 
 export interface IMeetingTime {
   start_time?: string;
@@ -26,29 +28,33 @@ export interface IMeetingTime {
 }
 
 /**
- * Changes meeting time from start and end time model to calendar model if external rrule is provided.
+ * Changes meeting time from start and end time model to calendar model.
  * @param meetingTime start, end, calendar data
  * @param externalRrule external rrule if available
+ * @param existingCalendar meeting current calendar if exists, will be reused to apply migration
  */
 export function migrateMeetingTime(
   meetingTime: IMeetingTime,
   externalRrule?: string,
+  existingCalendar?: CalendarEntryDto[],
 ): IMeetingTime {
-  if (
-    meetingTime.start_time &&
-    meetingTime.end_time &&
-    !meetingTime.calendar &&
-    externalRrule
-  ) {
+  if (meetingTime.start_time && meetingTime.end_time && !meetingTime.calendar) {
+    const uid = existingCalendar?.find((e) => !isRRuleOverrideEntry(e))?.uid;
+
+    const calendarEntry = {
+      uid: uid ?? uuiv4(),
+      dtstart: formatICalDate(DateTime.fromISO(meetingTime.start_time)),
+      dtend: formatICalDate(DateTime.fromISO(meetingTime.end_time)),
+      rrule: externalRrule,
+    };
+
+    const calendar =
+      existingCalendar && uid
+        ? overrideCalendarEntries(existingCalendar, calendarEntry)
+        : [calendarEntry];
+
     return {
-      calendar: [
-        {
-          uid: uuiv4(),
-          dtstart: formatICalDate(DateTime.fromISO(meetingTime.start_time)),
-          dtend: formatICalDate(DateTime.fromISO(meetingTime.end_time)),
-          rrule: externalRrule,
-        },
-      ],
+      calendar,
     };
   }
 
