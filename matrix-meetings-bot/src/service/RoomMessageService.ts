@@ -20,6 +20,7 @@ import { MatrixClient } from 'matrix-bot-sdk';
 import moment from 'moment-timezone';
 import { MatrixEndpoint } from '../MatrixEndpoint';
 import { MeetingClient } from '../client/MeetingClient';
+import { fullLongDateFormat } from '../dateFormat';
 import { ISyncParams } from '../matrix/dto/ISyncParams';
 import { IMeeting } from '../model/IMeeting';
 import { IUserContext } from '../model/IUserContext';
@@ -28,7 +29,6 @@ import { parseICalDate } from '../shared';
 import { isRecurringCalendarSourceEntry } from '../shared/calendarUtils/helpers';
 import { formatRRuleText } from '../shared/format';
 import { IMeetingChanges } from '../util/IMeetingChanges';
-import { dateRangeFormat } from '../util/TemplateHelper';
 
 @Injectable()
 export class RoomMessageService {
@@ -379,14 +379,20 @@ export class RoomMessageService {
         const start: Date = parseICalDate(change.value.dtstart).toJSDate();
         const end: Date = parseICalDate(change.value.dtend).toJSDate();
 
-        const range = dateRangeFormat(start, end, lng, timeZone, {
-          month: 'long',
-        });
         notification += this.formatCurrent(
           i18next.t(
-            'meeting.room.notification.changed.occurrence',
-            'A single meeting from a meeting series is moved to {{range}}',
-            { lng, range },
+            'meeting.room.notification.changed.occurrence.current',
+            'A single meeting from a meeting series is moved to {{range, daterange}}',
+            {
+              lng,
+              range: [start, end],
+              formatParams: {
+                range: {
+                  timeZone,
+                  ...fullLongDateFormat,
+                },
+              },
+            },
           ),
         );
 
@@ -401,14 +407,20 @@ export class RoomMessageService {
                 parseICalDate(change.oldValue.dtend).toJSDate(),
               ];
 
-        const prevRange = dateRangeFormat(prevStart, prevEnd, lng, timeZone, {
-          month: 'long',
-        });
         notification += this.formatPrevious(
           i18next.t(
-            'meeting.room.notification.changed.previous',
-            '(previously: {{value}})',
-            { lng, value: prevRange },
+            'meeting.room.notification.changed.occurrence.previous',
+            '(previously: {{value, daterange}})',
+            {
+              lng,
+              value: [prevStart, prevEnd],
+              formatParams: {
+                value: {
+                  timeZone,
+                  ...fullLongDateFormat,
+                },
+              },
+            },
           ),
         );
       } else if (
@@ -426,14 +438,20 @@ export class RoomMessageService {
                 parseICalDate(change.dtend).toJSDate(),
               ];
 
-        const range = dateRangeFormat(start, end, lng, timeZone, {
-          month: 'long',
-        });
         notification += this.formatCurrent(
           i18next.t(
-            'meeting.room.notification.changed.occurrence_deleted',
-            'A single meeting from a meeting series on {{range}} is deleted',
-            { lng, range },
+            'meeting.room.notification.changed.occurrence.deleted',
+            'A single meeting from a meeting series on {{range, daterange}} is deleted',
+            {
+              lng,
+              range: [start, end],
+              formatParams: {
+                range: {
+                  timeZone,
+                  ...fullLongDateFormat,
+                },
+              },
+            },
           ),
         );
       }

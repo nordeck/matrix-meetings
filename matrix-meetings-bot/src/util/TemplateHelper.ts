@@ -15,6 +15,7 @@
  */
 
 import i18next from 'i18next';
+import { fullNumericDateFormat } from '../dateFormat';
 import { CalendarEntryDto } from '../dto/CalendarEntryDto';
 import { IUserContext } from '../model/IUserContext';
 import { isRecurringCalendarSourceEntry } from '../shared/calendarUtils/helpers';
@@ -48,21 +49,22 @@ export class TemplateHelper {
 
     const message = i18next.t(
       'meeting.invite.message',
-      '📅 {{range}}<br/>$t(meeting.invite.messageRecurrence, {"context": "{{recurrenceContext}}" })<br/>$t(meeting.invite.messageByOrganizer, {"context": "{{organizerContext}}" })$t(meeting.invite.messageDescription, {"context": "{{descriptionContext}}" })',
+      '📅 {{range, daterange}}<br/>$t(meeting.invite.messageRecurrence, {"context": "{{recurrenceContext}}" })<br/>$t(meeting.invite.messageByOrganizer, {"context": "{{organizerContext}}" })$t(meeting.invite.messageDescription, {"context": "{{descriptionContext}}" })',
       {
         lng,
-        range: dateRangeFormat(
-          new Date(meeting.startTime),
-          new Date(meeting.endTime),
-          lng,
-          timeZone,
-        ),
+        range: [new Date(meeting.startTime), new Date(meeting.endTime)],
         recurrenceContext: recurrence ? 'present' : 'none',
         recurrence,
         organizerContext: organizerDisplayName ? 'present' : 'none',
         organizerDisplayName,
         descriptionContext: meeting.description.length > 0 ? 'present' : 'none',
         description: meeting.description,
+        formatParams: {
+          range: {
+            timeZone,
+            ...fullNumericDateFormat,
+          },
+        },
       },
     );
 
@@ -74,32 +76,6 @@ export class TemplateHelper {
 }
 
 export const templateHelper = new TemplateHelper();
-
-const fullNumericDateFormat = {
-  hour: 'numeric',
-  minute: 'numeric',
-  month: 'numeric',
-  year: 'numeric',
-  day: 'numeric',
-  timeZoneName: 'short',
-};
-
-export function dateRangeFormat(
-  start: Date,
-  end: Date,
-  lng: string,
-  timeZone: string,
-  dateTimeFormatOptionsOverrides: any = {},
-): string {
-  const options: any = {
-    ...fullNumericDateFormat,
-    ...dateTimeFormatOptionsOverrides,
-    timeZone,
-  };
-  const formatter = new Intl.DateTimeFormat(lng, options);
-  // @ts-ignore: DateTimeFormat#formatRange will be available in TypeScript >4.7.2
-  return formatter.formatRange(start, end);
-}
 
 export interface InviteParams {
   description: string;
