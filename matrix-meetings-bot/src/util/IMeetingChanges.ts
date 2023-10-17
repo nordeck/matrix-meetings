@@ -16,20 +16,14 @@
 
 import { IMeeting } from '../model/IMeeting';
 import {
+  CalendarChange,
   extractCalendarChange,
-  OccurrenceChange,
 } from '../shared/calendarUtils/extractCalendarChange';
-import { isRecurringCalendarSourceEntry } from '../shared/calendarUtils/helpers';
 
 export interface IMeetingChanges {
   titleChanged: boolean;
   descriptionChanged: boolean;
-  startTimeChanged: boolean;
-  endTimeChanged: boolean;
-  calendarChanged: boolean;
-  occurrenceChanged: OccurrenceChange[];
-
-  timeChanged: boolean;
+  calendarChanges: CalendarChange[];
   anythingChanged: boolean;
 }
 
@@ -41,35 +35,18 @@ class MeetingChangesHelper {
     const titleChanged = newMeeting.title !== oldMeeting.title;
     const descriptionChanged =
       newMeeting.description !== oldMeeting.description;
-    const startTimeChanged = newMeeting.startTime !== oldMeeting.startTime;
-    const endTimeChanged = newMeeting.endTime !== oldMeeting.endTime;
-    const timeChanged = startTimeChanged || endTimeChanged;
-    const newRrule = isRecurringCalendarSourceEntry(newMeeting.calendar)
-      ? newMeeting.calendar[0].rrule
-      : undefined;
-    const oldRrule = isRecurringCalendarSourceEntry(oldMeeting.calendar)
-      ? oldMeeting.calendar[0].rrule
-      : undefined;
-    const calendarChanged = newRrule !== oldRrule;
-    const occurrenceChanged = extractCalendarChange(
-      oldMeeting.calendar ?? [],
-      newMeeting.calendar ?? [],
+
+    const calendarChanges = extractCalendarChange(
+      oldMeeting.calendar,
+      newMeeting.calendar,
     );
     const anythingChanged =
-      titleChanged ||
-      descriptionChanged ||
-      timeChanged ||
-      calendarChanged ||
-      occurrenceChanged.length > 0;
+      titleChanged || descriptionChanged || calendarChanges.length > 0;
 
     return {
       titleChanged,
       descriptionChanged,
-      startTimeChanged,
-      endTimeChanged,
-      calendarChanged,
-      occurrenceChanged,
-      timeChanged,
+      calendarChanges,
       anythingChanged,
     };
   }

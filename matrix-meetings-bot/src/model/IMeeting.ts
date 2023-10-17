@@ -24,9 +24,7 @@ export interface IMeeting {
   roomId: string;
   title: string;
   description: string;
-  startTime: string;
-  endTime: string;
-  calendar?: CalendarEntryDto[];
+  calendar: CalendarEntryDto[];
   widgetIds: string[];
   participants: string[];
   autoDeletionOffset?: number;

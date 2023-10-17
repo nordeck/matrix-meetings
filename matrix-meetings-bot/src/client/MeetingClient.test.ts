@@ -208,9 +208,6 @@ describe('MeetingClient', () => {
                   dtend: { tzid: 'UTC', value: '20200507T090000' },
                 },
               ],
-              start_time: undefined,
-              end_time: undefined,
-              auto_deletion_offset: undefined,
               force_deletion_at: new Date(
                 '2020-05-07T12:00:00+02:00',
               ).getTime(),

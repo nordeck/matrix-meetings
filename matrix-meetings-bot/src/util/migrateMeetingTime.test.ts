@@ -16,7 +16,7 @@
 
 import { CalendarEntryDto } from '../dto/CalendarEntryDto';
 import { mockCalendarEntry } from '../testUtils';
-import { IMeetingTime, migrateMeetingTime } from './migrateMeetingTime';
+import { migrateMeetingTime } from './migrateMeetingTime';
 
 describe('migrateMeetingTime', () => {
   it('should migrate', () => {
@@ -26,17 +26,13 @@ describe('migrateMeetingTime', () => {
         end_time: '2020-01-01T10:00:00.000Z',
         calendar: undefined,
       }),
-    ).toEqual({
-      start_time: undefined,
-      end_time: undefined,
-      calendar: [
-        {
-          uid: expect.any(String),
-          dtstart: { tzid: 'UTC', value: '20200101T080000' },
-          dtend: { tzid: 'UTC', value: '20200101T100000' },
-        },
-      ],
-    } as IMeetingTime);
+    ).toEqual([
+      {
+        uid: expect.any(String),
+        dtstart: { tzid: 'UTC', value: '20200101T080000' },
+        dtend: { tzid: 'UTC', value: '20200101T100000' },
+      },
+    ]);
   });
 
   it('should migrate when single entry calendar', () => {
@@ -55,16 +51,12 @@ describe('migrateMeetingTime', () => {
           }),
         ],
       ),
-    ).toEqual({
-      start_time: undefined,
-      end_time: undefined,
-      calendar: [
-        mockCalendarEntry({
-          dtstart: '20200101T080000',
-          dtend: '20200101T100000',
-        }),
-      ],
-    } as IMeetingTime);
+    ).toEqual([
+      mockCalendarEntry({
+        dtstart: '20200101T080000',
+        dtend: '20200101T100000',
+      }),
+    ]);
   });
 
   it('should migrate single recurring entry calendar', () => {
@@ -84,16 +76,12 @@ describe('migrateMeetingTime', () => {
           }),
         ],
       ),
-    ).toEqual({
-      start_time: undefined,
-      end_time: undefined,
-      calendar: [
-        mockCalendarEntry({
-          dtstart: '20200101T080000',
-          dtend: '20200101T100000',
-        }),
-      ],
-    } as IMeetingTime);
+    ).toEqual([
+      mockCalendarEntry({
+        dtstart: '20200101T080000',
+        dtend: '20200101T100000',
+      }),
+    ]);
   });
 
   it('should migrate when single recurring entry with existing overrides', () => {
@@ -119,16 +107,12 @@ describe('migrateMeetingTime', () => {
           }),
         ],
       ),
-    ).toEqual({
-      start_time: undefined,
-      end_time: undefined,
-      calendar: [
-        mockCalendarEntry({
-          dtstart: '20200101T080000',
-          dtend: '20200101T100000',
-        }),
-      ],
-    } as IMeetingTime);
+    ).toEqual([
+      mockCalendarEntry({
+        dtstart: '20200101T080000',
+        dtend: '20200101T100000',
+      }),
+    ]);
   });
 
   it('should migrate when rrule', () => {
@@ -142,18 +126,14 @@ describe('migrateMeetingTime', () => {
         'FREQ=DAILY;COUNT=1',
         undefined,
       ),
-    ).toEqual({
-      start_time: undefined,
-      end_time: undefined,
-      calendar: [
-        {
-          uid: expect.any(String),
-          dtstart: { tzid: 'UTC', value: '20200101T080000' },
-          dtend: { tzid: 'UTC', value: '20200101T100000' },
-          rrule: 'FREQ=DAILY;COUNT=1',
-        },
-      ],
-    } as IMeetingTime);
+    ).toEqual([
+      {
+        uid: expect.any(String),
+        dtstart: { tzid: 'UTC', value: '20200101T080000' },
+        dtend: { tzid: 'UTC', value: '20200101T100000' },
+        rrule: 'FREQ=DAILY;COUNT=1',
+      },
+    ]);
   });
 
   it('should migrate when rrule and single entry calendar', () => {
@@ -172,17 +152,13 @@ describe('migrateMeetingTime', () => {
           }),
         ],
       ),
-    ).toEqual({
-      start_time: undefined,
-      end_time: undefined,
-      calendar: [
-        mockCalendarEntry({
-          dtstart: '20200101T080000',
-          dtend: '20200101T100000',
-          rrule: 'FREQ=DAILY;COUNT=1',
-        }),
-      ],
-    } as IMeetingTime);
+    ).toEqual([
+      mockCalendarEntry({
+        dtstart: '20200101T080000',
+        dtend: '20200101T100000',
+        rrule: 'FREQ=DAILY;COUNT=1',
+      }),
+    ]);
   });
 
   it('should migrate when rrule and single recurring entry calendar', () => {
@@ -202,17 +178,13 @@ describe('migrateMeetingTime', () => {
           }),
         ],
       ),
-    ).toEqual({
-      start_time: undefined,
-      end_time: undefined,
-      calendar: [
-        mockCalendarEntry({
-          dtstart: '20200101T080000',
-          dtend: '20200101T100000',
-          rrule: 'FREQ=DAILY;COUNT=1',
-        }),
-      ],
-    } as IMeetingTime);
+    ).toEqual([
+      mockCalendarEntry({
+        dtstart: '20200101T080000',
+        dtend: '20200101T100000',
+        rrule: 'FREQ=DAILY;COUNT=1',
+      }),
+    ]);
   });
 
   it('should migrate when rrule and single recurring entry with existing overrides', () => {
@@ -238,17 +210,13 @@ describe('migrateMeetingTime', () => {
           }),
         ],
       ),
-    ).toEqual({
-      start_time: undefined,
-      end_time: undefined,
-      calendar: [
-        mockCalendarEntry({
-          dtstart: '20200101T080000',
-          dtend: '20200101T100000',
-          rrule: 'FREQ=DAILY;COUNT=1',
-        }),
-      ],
-    } as IMeetingTime);
+    ).toEqual([
+      mockCalendarEntry({
+        dtstart: '20200101T080000',
+        dtend: '20200101T100000',
+        rrule: 'FREQ=DAILY;COUNT=1',
+      }),
+    ]);
   });
 
   it('should migrate when rrule and single recurring entry with existing overrides reordered', () => {
@@ -274,17 +242,13 @@ describe('migrateMeetingTime', () => {
           }),
         ],
       ),
-    ).toEqual({
-      start_time: undefined,
-      end_time: undefined,
-      calendar: [
-        mockCalendarEntry({
-          dtstart: '20200101T080000',
-          dtend: '20200101T100000',
-          rrule: 'FREQ=DAILY;COUNT=1',
-        }),
-      ],
-    } as IMeetingTime);
+    ).toEqual([
+      mockCalendarEntry({
+        dtstart: '20200101T080000',
+        dtend: '20200101T100000',
+        rrule: 'FREQ=DAILY;COUNT=1',
+      }),
+    ]);
   });
 
   it.each<{
@@ -304,18 +268,17 @@ describe('migrateMeetingTime', () => {
       ],
       externalRrule: undefined,
     },
-  ])(
-    'should not change meeting time with %s',
-    ({ calendar, externalRrule }) => {
-      const meetingTime = {
-        start_time: '2022-01-01T00:00:00.000Z',
-        end_time: '2022-01-03T00:00:00.000Z',
-        calendar,
-      };
+  ])('should fail with %s', ({ calendar, externalRrule }) => {
+    const meetingTime = {
+      start_time: '2022-01-01T00:00:00.000Z',
+      end_time: '2022-01-03T00:00:00.000Z',
+      calendar,
+    };
 
-      expect(migrateMeetingTime(meetingTime, externalRrule, undefined)).toBe(
-        meetingTime,
-      );
-    },
-  );
+    expect(() =>
+      migrateMeetingTime(meetingTime, externalRrule, undefined),
+    ).toThrowError(
+      'Unexpected input: either start_time with end_time or calendar should be provided',
+    );
+  });
 });

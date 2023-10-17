@@ -18,7 +18,8 @@ import i18next from 'i18next';
 import { fullNumericDateFormat } from '../dateFormat';
 import { CalendarEntryDto } from '../dto/CalendarEntryDto';
 import { IUserContext } from '../model/IUserContext';
-import { isRecurringCalendarSourceEntry } from '../shared/calendarUtils/helpers';
+import { parseICalDate } from '../shared';
+import { getSingleOrRecurringEntry } from '../shared/calendarUtils';
 import { formatRRuleText } from '../shared/format';
 
 export class TemplateHelper {
@@ -30,9 +31,9 @@ export class TemplateHelper {
     const lng = userContext.locale ?? 'en';
     const timeZone = userContext.timezone ?? 'UTC';
 
-    const recurrence = isRecurringCalendarSourceEntry(meeting.calendar)
-      ? formatRRuleText(meeting.calendar[0].rrule, i18next.t, lng)
-      : '';
+    const entry = getSingleOrRecurringEntry(meeting.calendar);
+    const rrule = entry.rrule;
+    const recurrence = rrule ? formatRRuleText(rrule, i18next.t, lng) : '';
 
     /* IMPORTANT: This comments define the nested keys used below and are used to
        extract them via i18next-parser
@@ -52,7 +53,10 @@ export class TemplateHelper {
       '📅 {{range, daterange}}<br/>$t(meeting.invite.messageRecurrence, {"context": "{{recurrenceContext}}" })<br/>$t(meeting.invite.messageByOrganizer, {"context": "{{organizerContext}}" })$t(meeting.invite.messageDescription, {"context": "{{descriptionContext}}" })',
       {
         lng,
-        range: [new Date(meeting.startTime), new Date(meeting.endTime)],
+        range: [
+          parseICalDate(entry.dtstart).toJSDate(),
+          parseICalDate(entry.dtend).toJSDate(),
+        ],
         recurrenceContext: recurrence ? 'present' : 'none',
         recurrence,
         organizerContext: organizerDisplayName ? 'present' : 'none',
@@ -79,7 +83,5 @@ export const templateHelper = new TemplateHelper();
 
 export interface InviteParams {
   description: string;
-  startTime: string;
-  endTime: string;
-  calendar?: CalendarEntryDto[];
+  calendar: CalendarEntryDto[];
 }

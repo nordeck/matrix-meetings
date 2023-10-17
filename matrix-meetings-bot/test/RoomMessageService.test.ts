@@ -66,18 +66,14 @@ describe('test RoomMessageService', () => {
       roomId,
       title: 'title',
       description: 'description',
-      startTime: '2022-01-16T09:00:00.000Z',
-      endTime: '2022-01-16T10:00:00.000Z',
-      calendar: rrule
-        ? [
-            {
-              uid: 'uuid',
-              dtstart: { tzid: 'UTC', value: '20220116T090000' },
-              dtend: { tzid: 'UTC', value: '20220116T100000' },
-              rrule,
-            },
-          ]
-        : undefined,
+      calendar: [
+        {
+          uid: 'uuid',
+          dtstart: { tzid: 'UTC', value: '20220116T090000' },
+          dtend: { tzid: 'UTC', value: '20220116T100000' },
+          rrule,
+        },
+      ],
       widgetIds: [],
       participants: [],
       creator: 'creator',
@@ -223,7 +219,9 @@ describe('test RoomMessageService', () => {
   it('test to send a message, that contains information about the time-range change, if starttime of meeting is changed', async () => {
     const oldMeeting = initMeeting();
     const newMeeting = initMeeting();
-    newMeeting.startTime = '2022-01-16T08:00:00.000Z';
+    if (newMeeting.calendar) {
+      newMeeting.calendar[0].dtstart.value = '20220116T080000';
+    }
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
       newMeeting,
@@ -249,7 +247,9 @@ describe('test RoomMessageService', () => {
   it('test to send a message, that contains information about the time-range change, if endtime of meeting is changed', async () => {
     const oldMeeting = initMeeting();
     const newMeeting = initMeeting();
-    newMeeting.endTime = '2022-01-16T11:00:00.000Z';
+    if (newMeeting.calendar) {
+      newMeeting.calendar[0].dtend.value = '20220116T110000';
+    }
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
       newMeeting,

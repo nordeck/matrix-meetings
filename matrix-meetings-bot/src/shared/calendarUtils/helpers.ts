@@ -40,17 +40,3 @@ export function isRRuleOverrideEntry(
 export function isFiniteSeries(rruleOptions: Partial<Options>): boolean {
   return rruleOptions.count !== undefined || rruleOptions.until !== undefined;
 }
-
-export function isRecurringCalendarSourceEntry(
-  entries?: CalendarEntryDto[],
-): entries is
-  | [CalendarEntryDto & { rrule: string }]
-  | [
-      CalendarEntryDto & { rrule: string },
-      Required<Omit<CalendarEntryDto, 'rrule' | 'exdate'>>,
-    ] {
-  return (
-    typeof entries?.[0].rrule === 'string' &&
-    (entries[1] === undefined || entries[1].recurrenceId !== undefined)
-  );
-}

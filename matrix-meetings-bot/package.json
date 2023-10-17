@@ -22,7 +22,7 @@
     "copyImages": "copyfiles -E -u 1 src/static/images/* lib",
     "lint": "eslint . --no-error-on-unmatched-pattern",
     "translate": "i18next 'src/**/*.{ts,tsx}'",
-    "test": "jest",
+    "test": "jest --watch",
     "test:all": "jest --coverage --watchAll=false",
     "generate-disclaimer": "cp ../LICENSE ./lib/LICENSE.txt && cp NOTICE ./lib/NOTICE.txt && yarn licenses generate-disclaimer --prod >> ./lib/NOTICE.txt && yarn licenses list --prod --json --no-progress > ./lib/licenses.json"
   },

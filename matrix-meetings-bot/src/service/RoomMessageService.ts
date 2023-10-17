@@ -25,7 +25,6 @@ import { IMeeting } from '../model/IMeeting';
 import { IUserContext } from '../model/IUserContext';
 import { StateEventName } from '../model/StateEventName';
 import { parseICalDate } from '../shared';
-import { isRecurringCalendarSourceEntry } from '../shared/calendarUtils/helpers';
 import { formatRRuleText } from '../shared/format';
 import { IMeetingChanges } from '../util/IMeetingChanges';
 
@@ -200,7 +199,13 @@ export class RoomMessageService {
 
     let notification = '';
 
-    if (meetingChanges.occurrenceChanged.length === 0) {
+    if (
+      !meetingChanges.calendarChanges.some(
+        (e) =>
+          e.changeType !== 'updateSingleOrRecurringTime' &&
+          e.changeType !== 'updateSingleOrRecurringRrule',
+      )
+    ) {
       notification += formatCurrent(
         i18next.t('meeting.room.notification.changed.headLine', 'CHANGES', {
           lng,
@@ -225,46 +230,48 @@ export class RoomMessageService {
       );
     }
 
-    if (meetingChanges.timeChanged) {
-      notification += formatCurrent(
-        i18next.t(
-          'meeting.room.notification.changed.date.current',
-          'Date: {{range, daterange}}',
-          {
-            lng,
-            range: [
-              new Date(newMeeting.startTime),
-              new Date(newMeeting.endTime),
-            ],
-            formatParams: {
-              range: {
-                timeZone,
-                ...fullLongDateFormat,
+    for (const change of meetingChanges.calendarChanges) {
+      if (change.changeType === 'updateSingleOrRecurringTime') {
+        notification += formatCurrent(
+          i18next.t(
+            'meeting.room.notification.changed.date.current',
+            'Date: {{range, daterange}}',
+            {
+              lng,
+              range: [
+                parseICalDate(change.newValue.dtstart).toJSDate(),
+                parseICalDate(change.newValue.dtend).toJSDate(),
+              ],
+              formatParams: {
+                range: {
+                  timeZone,
+                  ...fullLongDateFormat,
+                },
               },
             },
-          },
-        ),
-      );
+          ),
+        );
 
-      notification += formatPrevious(
-        i18next.t(
-          'meeting.room.notification.changed.date.previous',
-          '(previously: {{range, daterange}})',
-          {
-            lng,
-            range: [
-              new Date(oldMeeting.startTime),
-              new Date(oldMeeting.endTime),
-            ],
-            formatParams: {
-              range: {
-                timeZone,
-                ...fullLongDateFormat,
+        notification += formatPrevious(
+          i18next.t(
+            'meeting.room.notification.changed.date.previous',
+            '(previously: {{range, daterange}})',
+            {
+              lng,
+              range: [
+                parseICalDate(change.oldValue.dtstart).toJSDate(),
+                parseICalDate(change.oldValue.dtend).toJSDate(),
+              ],
+              formatParams: {
+                range: {
+                  timeZone,
+                  ...fullLongDateFormat,
+                },
               },
             },
-          },
-        ),
-      );
+          ),
+        );
+      }
     }
 
     if (meetingChanges.descriptionChanged) {
@@ -284,36 +291,51 @@ export class RoomMessageService {
       );
     }
 
-    if (meetingChanges.calendarChanged) {
-      const newRruleText = isRecurringCalendarSourceEntry(newMeeting.calendar)
-        ? formatRRuleText(newMeeting.calendar[0].rrule, i18next.t, lng)
-        : i18next.t('meeting.room.notification.noRepetition', 'No repetition', {
-            lng,
-          });
-      notification += formatCurrent(
-        i18next.t(
-          'meeting.room.notification.changed.repetition.current',
-          'Repeat meeting: {{repetitionText}}',
-          { lng, repetitionText: newRruleText },
-        ),
-      );
+    for (const change of meetingChanges.calendarChanges) {
+      if (change.changeType === 'updateSingleOrRecurringRrule') {
+        const newRrule = change.newValue;
+        const newRruleText = newRrule
+          ? formatRRuleText(newRrule, i18next.t, lng)
+          : i18next.t(
+              'meeting.room.notification.noRepetition',
+              'No repetition',
+              {
+                lng,
+              },
+            );
+        notification += formatCurrent(
+          i18next.t(
+            'meeting.room.notification.changed.repetition.current',
+            'Repeat meeting: {{repetitionText}}',
+            { lng, repetitionText: newRruleText },
+          ),
+        );
 
-      const oldRruleText = isRecurringCalendarSourceEntry(oldMeeting.calendar)
-        ? formatRRuleText(oldMeeting.calendar[0].rrule, i18next.t, lng)
-        : i18next.t('meeting.room.notification.noRepetition', 'No repetition', {
-            lng,
-          });
-      notification += formatPrevious(
-        i18next.t(
-          'meeting.room.notification.changed.repetition.previous',
-          '(previously: {{repetitionText}})',
-          { lng, repetitionText: oldRruleText },
-        ),
-      );
+        const oldRrule = change.oldValue;
+        const oldRruleText = oldRrule
+          ? formatRRuleText(oldRrule, i18next.t, lng)
+          : i18next.t(
+              'meeting.room.notification.noRepetition',
+              'No repetition',
+              {
+                lng,
+              },
+            );
+        notification += formatPrevious(
+          i18next.t(
+            'meeting.room.notification.changed.repetition.previous',
+            '(previously: {{repetitionText}})',
+            { lng, repetitionText: oldRruleText },
+          ),
+        );
+      }
     }
 
-    for (const change of meetingChanges.occurrenceChanged) {
-      if (change.changeType === 'add' || change.changeType === 'update') {
+    for (const change of meetingChanges.calendarChanges) {
+      if (
+        change.changeType === 'addOverride' ||
+        change.changeType === 'updateOverride'
+      ) {
         const start: Date = parseICalDate(change.value.dtstart).toJSDate();
         const end: Date = parseICalDate(change.value.dtend).toJSDate();
 
@@ -335,7 +357,7 @@ export class RoomMessageService {
         );
 
         const [prevStart, prevEnd] =
-          change.changeType === 'add'
+          change.changeType === 'addOverride'
             ? [
                 parseICalDate(change.oldDtstart).toJSDate(),
                 parseICalDate(change.oldDtend).toJSDate(),
@@ -362,11 +384,11 @@ export class RoomMessageService {
           ),
         );
       } else if (
-        change.changeType === 'delete' ||
-        change.changeType === 'exdate'
+        change.changeType === 'deleteOverride' ||
+        change.changeType === 'addExdate'
       ) {
         const [start, end] =
-          change.changeType === 'delete'
+          change.changeType === 'deleteOverride'
             ? [
                 parseICalDate(change.value.dtstart).toJSDate(),
                 parseICalDate(change.value.dtend).toJSDate(),

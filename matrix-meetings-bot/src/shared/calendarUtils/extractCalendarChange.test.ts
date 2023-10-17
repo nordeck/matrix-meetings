@@ -20,97 +20,6 @@ import { extractCalendarChange } from './extractCalendarChange';
 describe('extractCalendarChange', () => {
   it.each([
     {
-      name: 'update existing single entry',
-      calendar: [
-        mockCalendarEntry({
-          dtstart: '20200109T100000',
-          dtend: '20200109T110000',
-        }),
-
-        // another entry that should stay
-        mockCalendarEntry({
-          uid: 'entry-1',
-          dtstart: '20200109T150000',
-          dtend: '20200109T160000',
-        }),
-      ],
-      newCalendar: [
-        mockCalendarEntry({
-          uid: 'entry-1',
-          dtstart: '20200109T150000',
-          dtend: '20200109T160000',
-        }),
-        mockCalendarEntry({
-          dtstart: '20200111T100000',
-          dtend: '20200111T110000',
-        }),
-      ],
-    },
-    {
-      name: 'update existing single recurring entry',
-      calendar: [
-        mockCalendarEntry({
-          dtstart: '20200109T100000',
-          dtend: '20200109T110000',
-          rrule: 'FREQ=DAILY',
-        }),
-
-        // another entry that should stay
-        mockCalendarEntry({
-          uid: 'entry-1',
-          dtstart: '20200109T150000',
-          dtend: '20200109T160000',
-        }),
-      ],
-      newCalendar: [
-        mockCalendarEntry({
-          uid: 'entry-1',
-          dtstart: '20200109T150000',
-          dtend: '20200109T160000',
-        }),
-        mockCalendarEntry({
-          dtstart: '20200111T100000',
-          dtend: '20200111T110000',
-          rrule: 'FREQ=DAILY',
-        }),
-      ],
-    },
-    {
-      name: 'update single recurring entry with existing overrides',
-      calendar: [
-        mockCalendarEntry({
-          dtstart: '20200109T100000',
-          dtend: '20200109T110000',
-          rrule: 'FREQ=DAILY',
-          exdate: ['20200110T100000'],
-        }),
-        mockCalendarEntry({
-          dtstart: '20200111T120000',
-          dtend: '20200111T130000',
-          recurrenceId: '20200111T100000',
-        }),
-
-        // another entry that should stay
-        mockCalendarEntry({
-          uid: 'entry-1',
-          dtstart: '20200109T150000',
-          dtend: '20200109T160000',
-        }),
-      ],
-      newCalendar: [
-        mockCalendarEntry({
-          uid: 'entry-1',
-          dtstart: '20200109T150000',
-          dtend: '20200109T160000',
-        }),
-        mockCalendarEntry({
-          dtstart: '20200111T100000',
-          dtend: '20200111T110000',
-          rrule: 'FREQ=DAILY',
-        }),
-      ],
-    },
-    {
       name: 'handle empty array',
       calendar: [],
       newCalendar: [],
@@ -138,6 +47,212 @@ describe('extractCalendarChange', () => {
       expect(extractCalendarChange(calendar, newCalendar)).toEqual([]);
     },
   );
+
+  it('should extract updateSingleOrRecurringTime for: update existing single entry', () => {
+    const calendar = [
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+      }),
+
+      // another entry that should stay
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+    ];
+    const newCalendar = [
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200111T100000',
+        dtend: '20200111T110000',
+      }),
+    ];
+    expect(extractCalendarChange(calendar, newCalendar)).toEqual([
+      {
+        changeType: 'updateSingleOrRecurringTime',
+        uid: 'entry-0',
+        oldValue: {
+          dtstart: { tzid: 'UTC', value: '20200109T100000' },
+          dtend: { tzid: 'UTC', value: '20200109T110000' },
+        },
+        newValue: {
+          dtstart: { tzid: 'UTC', value: '20200111T100000' },
+          dtend: { tzid: 'UTC', value: '20200111T110000' },
+        },
+      },
+    ]);
+  });
+
+  it('should extract updateSingleOrRecurringTime for: update existing single recurring entry', () => {
+    const calendar = [
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+
+      // another entry that should stay
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+    ];
+    const newCalendar = [
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200111T100000',
+        dtend: '20200111T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+    ];
+    expect(extractCalendarChange(calendar, newCalendar)).toEqual([
+      {
+        changeType: 'updateSingleOrRecurringTime',
+        uid: 'entry-0',
+        oldValue: {
+          dtstart: { tzid: 'UTC', value: '20200109T100000' },
+          dtend: { tzid: 'UTC', value: '20200109T110000' },
+        },
+        newValue: {
+          dtstart: { tzid: 'UTC', value: '20200111T100000' },
+          dtend: { tzid: 'UTC', value: '20200111T110000' },
+        },
+      },
+    ]);
+  });
+
+  it('should extract updateSingleOrRecurring for: update single recurring entry with existing overrides', () => {
+    const calendar = [
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+        exdate: ['20200110T100000'],
+      }),
+      mockCalendarEntry({
+        dtstart: '20200111T120000',
+        dtend: '20200111T130000',
+        recurrenceId: '20200111T100000',
+      }),
+
+      // another entry that should stay
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+    ];
+    const newCalendar = [
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200111T100000',
+        dtend: '20200111T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+    ];
+    expect(extractCalendarChange(calendar, newCalendar)).toEqual([
+      {
+        changeType: 'updateSingleOrRecurringTime',
+        uid: 'entry-0',
+        oldValue: {
+          dtstart: { tzid: 'UTC', value: '20200109T100000' },
+          dtend: { tzid: 'UTC', value: '20200109T110000' },
+        },
+        newValue: {
+          dtstart: { tzid: 'UTC', value: '20200111T100000' },
+          dtend: { tzid: 'UTC', value: '20200111T110000' },
+        },
+      },
+    ]);
+  });
+
+  it('should extract updateSingleOrRecurringRrule for: update existing single entry', () => {
+    const calendar = [
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+      }),
+
+      // another entry that should stay
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+    ];
+    const newCalendar = [
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+    ];
+    expect(extractCalendarChange(calendar, newCalendar)).toEqual([
+      {
+        changeType: 'updateSingleOrRecurringRrule',
+        uid: 'entry-0',
+        oldValue: undefined,
+        newValue: 'FREQ=DAILY',
+      },
+    ]);
+  });
+
+  it('should extract updateSingleOrRecurringRrule for: update existing single recurring entry', () => {
+    const calendar = [
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+
+      // another entry that should stay
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+    ];
+    const newCalendar = [
+      mockCalendarEntry({
+        uid: 'entry-1',
+        dtstart: '20200109T150000',
+        dtend: '20200109T160000',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY;COUNT=2',
+      }),
+    ];
+    expect(extractCalendarChange(calendar, newCalendar)).toEqual([
+      {
+        changeType: 'updateSingleOrRecurringRrule',
+        uid: 'entry-0',
+        oldValue: 'FREQ=DAILY',
+        newValue: 'FREQ=DAILY;COUNT=2',
+      },
+    ]);
+  });
 
   it('should extract added occurrence for: add an updated occurrence to a single recurring meeting', () => {
     const calendar = [
@@ -173,7 +288,7 @@ describe('extractCalendarChange', () => {
     ];
     expect(extractCalendarChange(calendar, newCalendar)).toEqual([
       {
-        changeType: 'add',
+        changeType: 'addOverride',
         value: mockCalendarEntry({
           dtstart: '20200111T120000',
           dtend: '20200111T130000',
@@ -236,7 +351,7 @@ describe('extractCalendarChange', () => {
     ];
     expect(extractCalendarChange(calendar, newCalendar)).toEqual([
       {
-        changeType: 'update',
+        changeType: 'updateOverride',
         oldValue: mockCalendarEntry({
           dtstart: '20200111T103000',
           dtend: '20200111T113000',
@@ -322,7 +437,7 @@ describe('extractCalendarChange', () => {
     ({ calendar, newCalendar }) => {
       expect(extractCalendarChange(calendar, newCalendar)).toEqual([
         {
-          changeType: 'exdate',
+          changeType: 'addExdate',
           dtstart: { tzid: 'UTC', value: '20200215T100000' },
           dtend: { tzid: 'UTC', value: '20200215T110000' },
         },
@@ -367,7 +482,7 @@ describe('extractCalendarChange', () => {
 
     expect(extractCalendarChange(calendar, newCalendar)).toEqual([
       {
-        changeType: 'delete',
+        changeType: 'deleteOverride',
         value: mockCalendarEntry({
           dtstart: '20200110T103000',
           dtend: '20200110T113000',
@@ -414,7 +529,7 @@ describe('extractCalendarChange', () => {
 
     expect(extractCalendarChange(calendar, newCalendar)).toEqual([
       {
-        changeType: 'delete',
+        changeType: 'deleteOverride',
         value: mockCalendarEntry({
           dtstart: '20200110T103000',
           dtend: '20200110T113000',

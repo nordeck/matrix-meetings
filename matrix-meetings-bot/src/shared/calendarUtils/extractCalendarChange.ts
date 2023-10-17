@@ -17,17 +17,40 @@
 import { differenceWith, isEqual } from 'lodash';
 import { CalendarEntryDto, DateTimeEntryDto } from '../../dto/CalendarEntryDto';
 import { formatICalDate, parseICalDate } from '../dateTimeUtils';
-import { isRRuleEntry, isRRuleOverrideEntry } from './helpers';
+import { isRRuleEntry, isRRuleOverrideEntry, isSingleEntry } from './helpers';
 
-export type OccurrenceChange =
-  | AddChange
-  | UpdateChange
-  | DeleteChange
-  | ExdateChange;
+export type CalendarChange =
+  | UpdateSingleOrRecurringTimeChange
+  | UpdateSingleOrRecurringRruleChange
+  | AddOverrideChange
+  | UpdateOverrideChange
+  | DeleteOverrideChange
+  | AddExdateChange;
 
-type OverrideChangeBase = {
+type ChangeBase = {
   changeType: string;
+};
 
+type SingleOrRecurringChangeBase<T> = ChangeBase & {
+  uid: string;
+  oldValue: T;
+  newValue: T;
+};
+
+type UpdateSingleOrRecurringTimeChange = SingleOrRecurringChangeBase<{
+  dtstart: DateTimeEntryDto;
+  dtend: DateTimeEntryDto;
+}> & {
+  changeType: 'updateSingleOrRecurringTime';
+};
+
+type UpdateSingleOrRecurringRruleChange = SingleOrRecurringChangeBase<
+  string | undefined
+> & {
+  changeType: 'updateSingleOrRecurringRrule';
+};
+
+type OverrideChangeBase = ChangeBase & {
   /**
    * Override entry.
    */
@@ -36,8 +59,8 @@ type OverrideChangeBase = {
   };
 };
 
-type AddChange = OverrideChangeBase & {
-  changeType: 'add';
+type AddOverrideChange = OverrideChangeBase & {
+  changeType: 'addOverride';
 
   /**
    * Old occurrence start date and time.
@@ -50,8 +73,8 @@ type AddChange = OverrideChangeBase & {
   oldDtend: DateTimeEntryDto;
 };
 
-type UpdateChange = OverrideChangeBase & {
-  changeType: 'update';
+type UpdateOverrideChange = OverrideChangeBase & {
+  changeType: 'updateOverride';
 
   /**
    * Previous override entry.
@@ -61,12 +84,12 @@ type UpdateChange = OverrideChangeBase & {
   };
 };
 
-type DeleteChange = OverrideChangeBase & {
-  changeType: 'delete';
+type DeleteOverrideChange = OverrideChangeBase & {
+  changeType: 'deleteOverride';
 };
 
-type ExdateChange = {
-  changeType: 'exdate';
+type AddExdateChange = {
+  changeType: 'addExdate';
 
   /**
    * Excluded occurrence start date and time.
@@ -80,7 +103,7 @@ type ExdateChange = {
 };
 
 interface MapEntry {
-  rruleEntry?: CalendarEntryDto & { rrule: string };
+  singleOrRecurringEntry?: CalendarEntryDto;
   overrideMap?: Map<
     number,
     CalendarEntryDto & {
@@ -91,91 +114,107 @@ interface MapEntry {
 
 /**
  * Compares calendars of a recurring meeting modified by meetings widget and extracts occurrences changes:
- *   - 'add', 'update', 'delete' override entries
- *   - 'exdate' added to rrule entry
+ *   - 'updateSingleOrRecurringTime' single or recurring entry time change
+ *   - 'updateSingleOrRecurringRrule' single or recurring entry rrule change
+ *   - 'addOverride', 'updateOverride', 'deleteOverride' override entries changes
+ *   - 'addExdate' exdate added to rrule entry change
  */
 export function extractCalendarChange(
   calendarEntries: CalendarEntryDto[],
   newCalendarEntries: CalendarEntryDto[],
-): OccurrenceChange[] {
-  const changes: OccurrenceChange[] = [];
+): CalendarChange[] {
+  const changes: CalendarChange[] = [];
 
   const map = new Map<string, MapEntry>();
 
-  for (const ce of calendarEntries) {
-    if (isRRuleEntry(ce) || isRRuleOverrideEntry(ce)) {
-      let mapEntry = map.get(ce.uid);
-      if (!mapEntry) {
-        mapEntry = {
-          rruleEntry: isRRuleEntry(ce) ? ce : undefined,
-          overrideMap: undefined,
-        };
-        map.set(ce.uid, mapEntry);
-      } else if (isRRuleEntry(ce)) {
-        mapEntry.rruleEntry = ce; // assign rrule entry if map entry was created by override
+  for (const calendarEntry of calendarEntries) {
+    let mapEntry = map.get(calendarEntry.uid);
+    if (!mapEntry) {
+      mapEntry = {
+        singleOrRecurringEntry:
+          isSingleEntry(calendarEntry) || isRRuleEntry(calendarEntry)
+            ? calendarEntry
+            : undefined,
+        overrideMap: undefined,
+      };
+      map.set(calendarEntry.uid, mapEntry);
+    } else if (isSingleEntry(calendarEntry) || isRRuleEntry(calendarEntry)) {
+      mapEntry.singleOrRecurringEntry = calendarEntry; // assign calendar entry if map entry was created by override
+    }
+    if (isRRuleOverrideEntry(calendarEntry)) {
+      let overrideMap = mapEntry.overrideMap;
+      if (!overrideMap) {
+        overrideMap = new Map();
+        mapEntry.overrideMap = overrideMap;
       }
-      if (isRRuleOverrideEntry(ce)) {
-        let overrideMap = mapEntry.overrideMap;
-        if (!overrideMap) {
-          overrideMap = new Map();
-          mapEntry.overrideMap = overrideMap;
-        }
-        overrideMap.set(+parseICalDate(ce.recurrenceId), ce);
-      }
+      overrideMap.set(
+        +parseICalDate(calendarEntry.recurrenceId),
+        calendarEntry,
+      );
     }
   }
 
-  for (const nce of newCalendarEntries) {
-    if (isRRuleOverrideEntry(nce)) {
+  for (const newCalendarEntry of newCalendarEntries) {
+    if (isRRuleOverrideEntry(newCalendarEntry)) {
       // handle override
-      const ceOverride = map
-        .get(nce.uid)
-        ?.overrideMap?.get(+parseICalDate(nce.recurrenceId));
-      if (ceOverride) {
-        if (!isEqual(nce, ceOverride)) {
+      const calendarEntryOverride = map
+        .get(newCalendarEntry.uid)
+        ?.overrideMap?.get(+parseICalDate(newCalendarEntry.recurrenceId));
+      if (calendarEntryOverride) {
+        if (!isEqual(newCalendarEntry, calendarEntryOverride)) {
           changes.push({
-            changeType: 'update',
-            oldValue: ceOverride,
-            value: nce,
+            changeType: 'updateOverride',
+            oldValue: calendarEntryOverride,
+            value: newCalendarEntry,
           });
         }
       } else {
-        const ce = map.get(nce.uid)?.rruleEntry;
-        if (ce) {
-          const duration = parseICalDate(ce.dtend).diff(
-            parseICalDate(ce.dtstart),
+        const calendarEntry = map.get(newCalendarEntry.uid)
+          ?.singleOrRecurringEntry;
+        if (calendarEntry && isRRuleEntry(calendarEntry)) {
+          const duration = parseICalDate(calendarEntry.dtend).diff(
+            parseICalDate(calendarEntry.dtstart),
           );
           changes.push({
-            changeType: 'add',
-            value: nce,
-            oldDtstart: nce.recurrenceId,
+            changeType: 'addOverride',
+            value: newCalendarEntry,
+            oldDtstart: newCalendarEntry.recurrenceId,
             oldDtend: formatICalDate(
-              parseICalDate(nce.recurrenceId).plus(duration),
-              nce.recurrenceId.tzid,
+              parseICalDate(newCalendarEntry.recurrenceId).plus(duration),
+              newCalendarEntry.recurrenceId.tzid,
             ),
           });
         }
       }
-    } else if (isRRuleEntry(nce)) {
+    } else {
       // handle series
-      const ce = map.get(nce.uid)?.rruleEntry;
-      if (ce) {
-        const newExdates = differenceWith(nce.exdate, ce.exdate ?? [], isEqual);
+      const calendarEntry = map.get(newCalendarEntry.uid)
+        ?.singleOrRecurringEntry;
+      if (
+        isRRuleEntry(newCalendarEntry) &&
+        calendarEntry &&
+        isRRuleEntry(calendarEntry)
+      ) {
+        const newExdates = differenceWith(
+          newCalendarEntry.exdate,
+          calendarEntry.exdate ?? [],
+          isEqual,
+        );
         for (const exdate of newExdates) {
           const override = map
-            .get(nce.uid)
+            .get(newCalendarEntry.uid)
             ?.overrideMap?.get(+parseICalDate(exdate));
           if (override) {
             changes.push({
-              changeType: 'delete',
+              changeType: 'deleteOverride',
               value: override,
             });
           } else {
-            const duration = parseICalDate(ce.dtend).diff(
-              parseICalDate(ce.dtstart),
+            const duration = parseICalDate(calendarEntry.dtend).diff(
+              parseICalDate(calendarEntry.dtstart),
             );
             changes.push({
-              changeType: 'exdate',
+              changeType: 'addExdate',
               dtstart: exdate,
               dtend: formatICalDate(
                 parseICalDate(exdate).plus(duration),
@@ -183,6 +222,44 @@ export function extractCalendarChange(
               ),
             });
           }
+        }
+      }
+      if (calendarEntry) {
+        if (
+          !isEqual(
+            {
+              dtstart: newCalendarEntry.dtstart,
+              dtend: newCalendarEntry.dtend,
+            },
+            {
+              dtstart: calendarEntry.dtstart,
+              dtend: calendarEntry.dtend,
+            },
+          )
+        ) {
+          const change: UpdateSingleOrRecurringTimeChange = {
+            uid: newCalendarEntry.uid,
+            changeType: 'updateSingleOrRecurringTime',
+            oldValue: {
+              dtstart: calendarEntry.dtstart,
+              dtend: calendarEntry.dtend,
+            },
+            newValue: {
+              dtstart: newCalendarEntry.dtstart,
+              dtend: newCalendarEntry.dtend,
+            },
+          };
+          changes.push(change);
+        }
+
+        if (newCalendarEntry.rrule !== calendarEntry.rrule) {
+          const change: UpdateSingleOrRecurringRruleChange = {
+            changeType: 'updateSingleOrRecurringRrule',
+            uid: newCalendarEntry.uid,
+            oldValue: calendarEntry.rrule,
+            newValue: newCalendarEntry.rrule,
+          };
+          changes.push(change);
         }
       }
     }

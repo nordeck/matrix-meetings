@@ -1339,8 +1339,6 @@ describe('test relevant functionality of MeetingService', () => {
     ).toEqual([
       {
         creator: CURRENT_USER,
-        start_time: undefined,
-        end_time: undefined,
         calendar: [
           {
             uid: expect.any(String),
@@ -1349,7 +1347,6 @@ describe('test relevant functionality of MeetingService', () => {
             rrule: undefined,
           },
         ],
-        auto_deletion_offset: undefined,
         force_deletion_at: new Date('2022-02-03T00:05:00Z').getTime(),
         external_data: externalData1,
       },
@@ -1422,7 +1419,7 @@ describe('test relevant functionality of MeetingService', () => {
     // check if the room can be upgraded to the new data model
     meetingDetails.calendar = [
       {
-        uid: 'uid-0',
+        uid: 'entry-0',
         dtstart: { tzid: 'UTC', value: '20220201T000000' },
         dtend: { tzid: 'UTC', value: '20220203T000000' },
       },
@@ -1445,7 +1442,7 @@ describe('test relevant functionality of MeetingService', () => {
       end_time: undefined,
       calendar: [
         {
-          uid: 'uid-0',
+          uid: 'entry-0',
           dtstart: { tzid: 'UTC', value: '20220201T000000' },
           dtend: { tzid: 'UTC', value: '20220203T000000' },
         },
@@ -1460,7 +1457,7 @@ describe('test relevant functionality of MeetingService', () => {
 
     meetingDetails.calendar = [
       {
-        uid: 'uid-0',
+        uid: 'entry-0',
         dtstart: { tzid: 'UTC', value: '20220201T000000' },
         dtend: { tzid: 'UTC', value: '20220203T000000' },
         rrule: 'FREQ=DAILY;COUNT=3',
@@ -1482,7 +1479,7 @@ describe('test relevant functionality of MeetingService', () => {
       end_time: undefined,
       calendar: [
         {
-          uid: 'uid-0',
+          uid: 'entry-0',
           dtstart: { tzid: 'UTC', value: '20220201T000000' },
           dtend: { tzid: 'UTC', value: '20220203T000000' },
           rrule: 'FREQ=DAILY;COUNT=3',
@@ -1512,8 +1509,6 @@ describe('test relevant functionality of MeetingService', () => {
       ),
     ).toEqual({
       creator: CURRENT_USER,
-      start_time: undefined,
-      end_time: undefined,
       calendar: [
         {
           uid: expect.any(String),
@@ -1522,7 +1517,6 @@ describe('test relevant functionality of MeetingService', () => {
           rrule: undefined,
         },
       ],
-      auto_deletion_offset: undefined,
       force_deletion_at: new Date('2022-02-01T11:05:00Z').getTime(),
       external_data: externalData1,
     });
@@ -1577,8 +1571,6 @@ describe('test relevant functionality of MeetingService', () => {
       ),
     ).toEqual({
       creator: CURRENT_USER,
-      start_time: undefined,
-      end_time: undefined,
       calendar: [
         {
           uid: expect.any(String),
@@ -1587,7 +1579,6 @@ describe('test relevant functionality of MeetingService', () => {
           rrule: undefined,
         },
       ],
-      auto_deletion_offset: undefined,
       force_deletion_at: new Date('2022-01-03T00:05:00Z').getTime(),
       external_data: externalDataOx,
     } as IMeetingsMetadataEventContent);
@@ -1610,7 +1601,6 @@ describe('test relevant functionality of MeetingService', () => {
               dtend: { tzid: 'UTC', value: '20220103T000000' },
             },
           ],
-          auto_deletion_offset: undefined,
           force_deletion_at: new Date('2022-01-03T00:05:00Z').getTime(),
           creator: CURRENT_USER,
           external_data: externalData,
@@ -1643,8 +1633,6 @@ describe('test relevant functionality of MeetingService', () => {
       ),
     ).toEqual({
       creator: CURRENT_USER,
-      start_time: undefined,
-      end_time: undefined,
       calendar: [
         {
           uid: 'entry-0', // id must stay!
@@ -1680,8 +1668,6 @@ describe('test relevant functionality of MeetingService', () => {
       ),
     ).toEqual({
       creator: CURRENT_USER,
-      start_time: undefined,
-      end_time: undefined,
       calendar: [
         {
           uid: 'entry-0', // id must stay!
@@ -1717,9 +1703,15 @@ describe('test relevant functionality of MeetingService', () => {
         type: StateEventName.NIC_MEETINGS_METADATA_EVENT as string,
         ...stateEventStub,
         content: {
-          start_time: '',
-          end_time: '',
           creator: CURRENT_USER,
+          calendar: [
+            {
+              uid: 'entry-0',
+              dtstart: { tzid: 'UTC', value: '20220101T000000' },
+              dtend: { tzid: 'UTC', value: '20220103T000000' },
+              rrule: undefined,
+            },
+          ],
         },
       };
 
@@ -2024,7 +2016,7 @@ describe('test relevant functionality of MeetingService', () => {
       end_time: undefined,
       calendar: [
         {
-          uid: 'uid-0',
+          uid: 'entry-0',
           dtstart: { tzid: 'UTC', value: '20220201T000000' },
           dtend: { tzid: 'UTC', value: '20220203T000000' },
           rrule: 'FREQ=DAILY;COUNT=3',
@@ -2044,17 +2036,14 @@ describe('test relevant functionality of MeetingService', () => {
     )?.content as MeetingCreateDto;
     expect(nicMetadataEventContent).toStrictEqual({
       creator: CURRENT_USER,
-      start_time: undefined,
-      end_time: undefined,
       calendar: [
         {
-          uid: 'uid-0',
+          uid: 'entry-0',
           dtstart: { tzid: 'UTC', value: '20220201T000000' },
           dtend: { tzid: 'UTC', value: '20220203T000000' },
           rrule: 'FREQ=DAILY;COUNT=3',
         },
       ],
-      auto_deletion_offset: undefined,
       force_deletion_at: new Date('2022-02-05T01:00:00Z').getTime(),
       external_data: undefined,
     });
@@ -2092,8 +2081,6 @@ describe('test relevant functionality of MeetingService', () => {
       )?.content,
     ).toStrictEqual({
       creator: CURRENT_USER,
-      start_time: undefined,
-      end_time: undefined,
       calendar: [
         {
           uid: expect.any(String),
@@ -2102,7 +2089,6 @@ describe('test relevant functionality of MeetingService', () => {
           rrule: undefined,
         },
       ],
-      auto_deletion_offset: undefined,
       force_deletion_at: new Date('2022-01-03T00:05:00Z').getTime(),
       external_data: externalDataOx,
     } as IMeetingsMetadataEventContent);
@@ -2130,8 +2116,6 @@ describe('test relevant functionality of MeetingService', () => {
       )?.content,
     ).toStrictEqual({
       creator: CURRENT_USER,
-      start_time: undefined,
-      end_time: undefined,
       calendar: [
         {
           uid: expect.any(String),
@@ -2140,7 +2124,6 @@ describe('test relevant functionality of MeetingService', () => {
           rrule: 'FREQ=DAILY;COUNT=1',
         },
       ],
-      auto_deletion_offset: undefined,
       force_deletion_at: new Date('2022-01-03T00:05:00Z').getTime(),
       external_data: externalDataOx1,
     } as IMeetingsMetadataEventContent);

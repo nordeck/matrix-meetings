@@ -16,62 +16,24 @@
 
 import { CalendarEntryDto } from '../dto/CalendarEntryDto';
 import { getCalendarEnd } from './calendarUtils/getCalendarEnd';
-import { parseICalDate, toISOString } from './dateTimeUtils';
+import { isRRuleOverrideEntry } from './calendarUtils/helpers';
 
 /**
- * Extract the start time of the first entry of the {@code calendar} param if present.
- *
- * @remarks This is only a temporary solution until we properly
- *          support recurrence rules.
- *
- * @param start_time - the start_time field of the meeting metadata
- * @param calendar - the calendar field of the meeting metadata
- * @returns the start time
- * @throws if both start_time and calendar are undefined
+ * Extracts first single or recurring calendar entry.
+ * @param calendar meeting calendar
  */
-export function getMeetingStartTime(
-  start_time: string | undefined,
-  calendar: CalendarEntryDto[] | undefined,
-): string {
-  if (calendar && calendar.length > 0) {
-    return toISOString(parseICalDate(calendar[0].dtstart));
-  }
+export function getSingleOrRecurringEntry(
+  calendar: CalendarEntryDto[],
+): CalendarEntryDto {
+  const entry = calendar.find((e) => !isRRuleOverrideEntry(e));
 
-  if (start_time === undefined) {
+  if (entry === undefined) {
     throw new Error(
-      'Unexpected input: Both start_time and calendar are undefined',
+      'Unexpected input: calendar must have single or recurring entry',
     );
   }
 
-  return start_time;
-}
-
-/**
- * Extract the end time of the first entry of the {@code calendar} param if present.
- *
- * @remarks This is only a temporary solution until we properly
- *          support recurrence rules.
- *
- * @param end_time - the end_time field of the meeting metadata
- * @param calendar - the calendar field of the meeting metadata
- * @returns the end time
- * @throws if both end_time and calendar are undefined
- */
-export function getMeetingEndTime(
-  end_time: string | undefined,
-  calendar: CalendarEntryDto[] | undefined,
-): string {
-  if (calendar && calendar.length > 0) {
-    return toISOString(parseICalDate(calendar[0].dtend));
-  }
-
-  if (end_time === undefined) {
-    throw new Error(
-      'Unexpected input: Both end_time and calendar are undefined',
-    );
-  }
-
-  return end_time;
+  return entry;
 }
 
 /**

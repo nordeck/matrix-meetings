@@ -27,8 +27,13 @@ describe('test IMeetingChanges', () => {
       roomId: 'r1',
       title: 'title',
       description: 'description',
-      startTime: '2022-01-01T00:00:00.000Z',
-      endTime: '2022-01-01T00:00:00.000Z',
+      calendar: [
+        {
+          uid: 'entry-0',
+          dtstart: { tzid: 'Europe/Berlin', value: '20220101T000000' },
+          dtend: { tzid: 'Europe/Berlin', value: '20220101T000000' },
+        },
+      ],
       widgetIds: [],
       participants: [],
       creator: 'creator',
@@ -38,11 +43,7 @@ describe('test IMeetingChanges', () => {
     const nothingChanged: IMeetingChanges = {
       titleChanged: false,
       descriptionChanged: false,
-      startTimeChanged: false,
-      endTimeChanged: false,
-      calendarChanged: false,
-      occurrenceChanged: [],
-      timeChanged: false,
+      calendarChanges: [],
       anythingChanged: false,
     };
     expect(
@@ -56,12 +57,30 @@ describe('test IMeetingChanges', () => {
     expect(
       meetingChangesHelper.calculate(meeting, {
         ...meeting,
-        startTime: 'some time',
+        calendar: [
+          {
+            uid: 'entry-0',
+            dtstart: { tzid: 'Europe/Berlin', value: '20211231T000000' },
+            dtend: { tzid: 'Europe/Berlin', value: '20220101T000000' },
+          },
+        ],
       }),
     ).toEqual({
       ...nothingChanged,
-      startTimeChanged: true,
-      timeChanged: true,
+      calendarChanges: [
+        {
+          changeType: 'updateSingleOrRecurringTime',
+          uid: 'entry-0',
+          oldValue: {
+            dtstart: { tzid: 'Europe/Berlin', value: '20220101T000000' },
+            dtend: { tzid: 'Europe/Berlin', value: '20220101T000000' },
+          },
+          newValue: {
+            dtstart: { tzid: 'Europe/Berlin', value: '20211231T000000' },
+            dtend: { tzid: 'Europe/Berlin', value: '20220101T000000' },
+          },
+        },
+      ],
       anythingChanged: true,
     } as IMeetingChanges);
 
@@ -70,7 +89,7 @@ describe('test IMeetingChanges', () => {
         ...meeting,
         calendar: [
           {
-            uid: 'uuid',
+            uid: 'entry-0',
             dtstart: { tzid: 'Europe/Berlin', value: '20200101T000000' },
             dtend: { tzid: 'Europe/Berlin', value: '20200101T000000' },
             rrule: 'FREQ=DAILY',
@@ -79,7 +98,26 @@ describe('test IMeetingChanges', () => {
       }),
     ).toEqual({
       ...nothingChanged,
-      calendarChanged: true,
+      calendarChanges: [
+        {
+          changeType: 'updateSingleOrRecurringTime',
+          uid: 'entry-0',
+          oldValue: {
+            dtstart: { tzid: 'Europe/Berlin', value: '20220101T000000' },
+            dtend: { tzid: 'Europe/Berlin', value: '20220101T000000' },
+          },
+          newValue: {
+            dtstart: { tzid: 'Europe/Berlin', value: '20200101T000000' },
+            dtend: { tzid: 'Europe/Berlin', value: '20200101T000000' },
+          },
+        },
+        {
+          changeType: 'updateSingleOrRecurringRrule',
+          uid: 'entry-0',
+          oldValue: undefined,
+          newValue: 'FREQ=DAILY',
+        },
+      ],
       anythingChanged: true,
     } as IMeetingChanges);
   });

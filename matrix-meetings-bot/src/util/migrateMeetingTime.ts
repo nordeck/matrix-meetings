@@ -31,13 +31,13 @@ export interface IMeetingTime {
  * Changes meeting time from start and end time model to calendar model.
  * @param meetingTime start, end, calendar data
  * @param externalRrule external rrule if available
- * @param existingCalendar meeting current calendar if exists, will be reused to apply migration
+ * @param existingCalendar meeting current calendar if exists, is used if migration is needed
  */
 export function migrateMeetingTime(
   meetingTime: IMeetingTime,
   externalRrule?: string,
   existingCalendar?: CalendarEntryDto[],
-): IMeetingTime {
+): CalendarEntryDto[] {
   if (meetingTime.start_time && meetingTime.end_time && !meetingTime.calendar) {
     const uid = existingCalendar?.find((e) => !isRRuleOverrideEntry(e))?.uid;
 
@@ -48,15 +48,18 @@ export function migrateMeetingTime(
       rrule: externalRrule,
     };
 
-    const calendar =
-      existingCalendar && uid
-        ? overrideCalendarEntries(existingCalendar, calendarEntry)
-        : [calendarEntry];
-
-    return {
-      calendar,
-    };
+    return existingCalendar && uid
+      ? overrideCalendarEntries(existingCalendar, calendarEntry)
+      : [calendarEntry];
+  } else if (
+    !meetingTime.start_time &&
+    !meetingTime.end_time &&
+    meetingTime.calendar
+  ) {
+    return meetingTime.calendar;
+  } else {
+    throw new Error(
+      'Unexpected input: either start_time with end_time or calendar should be provided',
+    );
   }
-
-  return meetingTime;
 }
