@@ -179,7 +179,8 @@ describe('extractCalendarChange', () => {
           dtend: '20200111T130000',
           recurrenceId: '20200111T100000',
         }),
-        dtend: { tzid: 'UTC', value: '20200111T110000' },
+        oldDtstart: { tzid: 'UTC', value: '20200111T100000' },
+        oldDtend: { tzid: 'UTC', value: '20200111T110000' },
       },
     ]);
   });

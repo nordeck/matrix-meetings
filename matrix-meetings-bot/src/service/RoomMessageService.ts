@@ -393,8 +393,8 @@ export class RoomMessageService {
         const [prevStart, prevEnd] =
           change.changeType === 'add'
             ? [
-                parseICalDate(change.value.recurrenceId).toJSDate(),
-                parseICalDate(change.dtend).toJSDate(),
+                parseICalDate(change.oldDtstart).toJSDate(),
+                parseICalDate(change.oldDtend).toJSDate(),
               ]
             : [
                 parseICalDate(change.oldValue.dtstart).toJSDate(),

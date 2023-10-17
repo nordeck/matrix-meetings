@@ -40,9 +40,14 @@ type AddChange = OverrideChangeBase & {
   changeType: 'add';
 
   /**
-   * Overriden occurrence end date and time.
+   * Old occurrence start date and time.
    */
-  dtend: DateTimeEntryDto;
+  oldDtstart: DateTimeEntryDto;
+
+  /**
+   * Old occurrence end date and time.
+   */
+  oldDtend: DateTimeEntryDto;
 };
 
 type UpdateChange = OverrideChangeBase & {
@@ -143,7 +148,8 @@ export function extractCalendarChange(
           changes.push({
             changeType: 'add',
             value: nce,
-            dtend: formatICalDate(
+            oldDtstart: nce.recurrenceId,
+            oldDtend: formatICalDate(
               parseICalDate(nce.recurrenceId).plus(duration),
               nce.recurrenceId.tzid,
             ),
