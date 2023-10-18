@@ -113,7 +113,7 @@ interface MapEntry {
 }
 
 /**
- * Compares calendars of a recurring meeting modified by meetings widget and extracts occurrences changes:
+ * Compares calendars of a recurring meeting modified by meetings widget and extracts calendar changes:
  *   - 'updateSingleOrRecurringTime' single or recurring entry time change
  *   - 'updateSingleOrRecurringRrule' single or recurring entry rrule change
  *   - 'addOverride', 'updateOverride', 'deleteOverride' override entries changes
@@ -237,7 +237,7 @@ export function extractCalendarChange(
             },
           )
         ) {
-          const change: UpdateSingleOrRecurringTimeChange = {
+          changes.push({
             uid: newCalendarEntry.uid,
             changeType: 'updateSingleOrRecurringTime',
             oldValue: {
@@ -248,18 +248,16 @@ export function extractCalendarChange(
               dtstart: newCalendarEntry.dtstart,
               dtend: newCalendarEntry.dtend,
             },
-          };
-          changes.push(change);
+          });
         }
 
         if (newCalendarEntry.rrule !== calendarEntry.rrule) {
-          const change: UpdateSingleOrRecurringRruleChange = {
+          changes.push({
             changeType: 'updateSingleOrRecurringRrule',
             uid: newCalendarEntry.uid,
             oldValue: calendarEntry.rrule,
             newValue: newCalendarEntry.rrule,
-          };
-          changes.push(change);
+          });
         }
       }
     }
