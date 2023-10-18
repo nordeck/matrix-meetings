@@ -18,8 +18,6 @@ import { DateTime } from 'luxon';
 import { v4 as uuiv4 } from 'uuid';
 import { CalendarEntryDto } from '../dto/CalendarEntryDto';
 import { formatICalDate } from '../shared';
-import { isRRuleOverrideEntry } from '../shared/calendarUtils/helpers';
-import { overrideCalendarEntries } from '../shared/calendarUtils/overrideCalendarEntries';
 
 export interface IMeetingTime {
   start_time?: string;
@@ -35,31 +33,19 @@ export interface IMeetingTime {
  */
 export function migrateMeetingTime(
   meetingTime: IMeetingTime,
-  externalRrule?: string,
+  externalRrule?: string | undefined,
   existingCalendar?: CalendarEntryDto[],
 ): CalendarEntryDto[] {
   if (meetingTime.start_time && meetingTime.end_time && !meetingTime.calendar) {
-    const uid = existingCalendar?.find((e) => !isRRuleOverrideEntry(e))?.uid;
-
-    const calendarEntry = {
-      uid: uid ?? uuiv4(),
-      dtstart: formatICalDate(DateTime.fromISO(meetingTime.start_time)),
-      dtend: formatICalDate(DateTime.fromISO(meetingTime.end_time)),
-      rrule: externalRrule,
-    };
-
-    return existingCalendar && uid
-      ? overrideCalendarEntries(existingCalendar, calendarEntry)
-      : [calendarEntry];
-  } else if (
-    !meetingTime.start_time &&
-    !meetingTime.end_time &&
-    meetingTime.calendar
-  ) {
-    return meetingTime.calendar;
-  } else {
-    throw new Error(
-      'Unexpected input: either start_time with end_time or calendar should be provided',
-    );
+    return [
+      {
+        uid: existingCalendar?.[0]?.uid ?? uuiv4(),
+        dtstart: formatICalDate(DateTime.fromISO(meetingTime.start_time)),
+        dtend: formatICalDate(DateTime.fromISO(meetingTime.end_time)),
+        rrule: externalRrule,
+      },
+    ];
   }
+
+  return meetingTime.calendar ?? [];
 }

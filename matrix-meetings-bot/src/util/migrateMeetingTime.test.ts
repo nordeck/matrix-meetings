@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { CalendarEntryDto } from '../dto/CalendarEntryDto';
 import { mockCalendarEntry } from '../testUtils';
 import { migrateMeetingTime } from './migrateMeetingTime';
 
@@ -249,36 +248,5 @@ describe('migrateMeetingTime', () => {
         rrule: 'FREQ=DAILY;COUNT=1',
       }),
     ]);
-  });
-
-  it.each<{
-    calendar: CalendarEntryDto[] | undefined;
-    externalRrule: string | undefined;
-  }>([
-    { calendar: [], externalRrule: undefined },
-    { calendar: [], externalRrule: 'FREQ=DAILY;COUNT=1' },
-    {
-      calendar: [
-        {
-          uid: 'some-id',
-          dtstart: { tzid: 'UTC', value: '20220101T000000' },
-          dtend: { tzid: 'UTC', value: '20220103T000000' },
-          rrule: 'FREQ=DAILY;COUNT=1',
-        },
-      ],
-      externalRrule: undefined,
-    },
-  ])('should fail with %s', ({ calendar, externalRrule }) => {
-    const meetingTime = {
-      start_time: '2022-01-01T00:00:00.000Z',
-      end_time: '2022-01-03T00:00:00.000Z',
-      calendar,
-    };
-
-    expect(() =>
-      migrateMeetingTime(meetingTime, externalRrule, undefined),
-    ).toThrowError(
-      'Unexpected input: either start_time with end_time or calendar should be provided',
-    );
   });
 });
