@@ -831,7 +831,7 @@ describe('<ScheduleMeeting>', () => {
     });
   }, 10000);
 
-  it('should disabled submission if meeting is changed to start in the past', async () => {
+  it('should disable submission if meeting is changed to start in the past', async () => {
     const meeting = mockMeeting({
       content: {
         startTime: '2022-01-02T13:15:00Z',
@@ -870,7 +870,7 @@ describe('<ScheduleMeeting>', () => {
     });
   });
 
-  it('should disabled submission if meeting series is changed to start in the past', async () => {
+  it('should disable submission if meeting series is changed to start in the past', async () => {
     const meeting = mockMeeting({
       content: {
         startTime: '2022-01-03T13:15:00Z',
@@ -913,7 +913,7 @@ describe('<ScheduleMeeting>', () => {
     });
   });
 
-  it('should disabled start time and date for running occurrence of recurrence meeting', async () => {
+  it('should disable start time and date for running occurrence of recurrence meeting', async () => {
     const meeting = mockMeeting({
       content: {
         startTime: '2022-01-01T13:15:00Z',
@@ -952,7 +952,7 @@ describe('<ScheduleMeeting>', () => {
     ).toBeInTheDocument();
   });
 
-  it('should not disabled start time and date for future occurrence of recurrence meeting even if the series started', async () => {
+  it('should not disable start time and date for future occurrence of recurrence meeting even if the series started', async () => {
     const meeting = mockMeeting({
       content: {
         startTime: '2022-01-03T13:15:00Z',
@@ -991,7 +991,7 @@ describe('<ScheduleMeeting>', () => {
     ).toBeInTheDocument();
   });
 
-  it('should disabled submit button if we have edit meeting and user did not change anything', async () => {
+  it('should disable submit button if we have edit meeting and user did not change anything', async () => {
     const meeting = mockMeeting();
     render(
       <ScheduleMeeting
