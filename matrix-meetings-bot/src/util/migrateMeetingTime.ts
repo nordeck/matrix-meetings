@@ -47,5 +47,11 @@ export function migrateMeetingTime(
     ];
   }
 
-  return meetingTime.calendar ?? [];
+  if (meetingTime.calendar) {
+    return meetingTime.calendar;
+  } else {
+    throw new Error(
+      'Unexpected input: either start_time with end_time or calendar should be provided',
+    );
+  }
 }

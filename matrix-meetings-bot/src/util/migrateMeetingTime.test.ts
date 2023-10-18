@@ -249,4 +249,24 @@ describe('migrateMeetingTime', () => {
       }),
     ]);
   });
+
+  it.each([
+    { start_time: undefined, end_time: undefined, calendar: undefined },
+    {
+      start_time: '2022-01-01T00:00:00.000Z',
+      end_time: undefined,
+      calendar: undefined,
+    },
+    {
+      start_time: undefined,
+      end_time: '2022-01-03T00:00:00.000Z',
+      calendar: undefined,
+    },
+  ])('should fail when %s', (meetingTime) => {
+    expect(() =>
+      migrateMeetingTime(meetingTime, undefined, undefined),
+    ).toThrowError(
+      'Unexpected input: either start_time with end_time or calendar should be provided',
+    );
+  });
 });
