@@ -13,7 +13,7 @@
     "@fullcalendar/timegrid": "^6.1.9",
     "@matrix-widget-toolkit/api": "^3.2.1",
     "@matrix-widget-toolkit/mui": "^1.1.5",
-    "@matrix-widget-toolkit/react": "^1.0.5",
+    "@matrix-widget-toolkit/react": "^1.0.6",
     "@mui/icons-material": "^5.11.16",
     "@mui/lab": "^5.0.0-alpha.140",
     "@mui/material": "^5.13.4",
