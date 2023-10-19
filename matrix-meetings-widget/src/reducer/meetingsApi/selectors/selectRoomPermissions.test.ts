@@ -187,6 +187,7 @@ describe('selectRoomPermissions', () => {
       canUpdateMeetingParticipantsKick: true,
       canUpdateMeetingPermissions: true,
       canUpdateMeetingWidgets: true,
+      canSendMessageToAllBreakoutSessions: true,
     });
   });
 
@@ -202,6 +203,7 @@ describe('selectRoomPermissions', () => {
       canUpdateMeetingParticipantsKick: false,
       canUpdateMeetingPermissions: false,
       canUpdateMeetingWidgets: false,
+      canSendMessageToAllBreakoutSessions: false,
     });
   });
 });
