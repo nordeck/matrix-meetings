@@ -27,7 +27,7 @@ import {
 import { ICreationContent } from '../matrix/dto/ICreationContent';
 import { EncryptionEventContent } from '../matrix/event/EncryptionEventContent';
 import { IStateEvent } from '../matrix/event/IStateEvent';
-import { getMeetingEndTime, getMeetingStartTime } from '../shared';
+import { migrateMeetingTime } from '../util/migrateMeetingTime';
 import { IMeeting } from './IMeeting';
 import { IMeetingsMetadataEventContent } from './IMeetingsMetadataEventContent';
 import { IRoom } from './IRoom';
@@ -92,9 +92,12 @@ export class Room implements IRoom {
           roomId: this._room_id,
           creator: content.creator,
           parentRoomId: spaceParent?.state_key,
-          startTime: getMeetingStartTime(content.start_time, content.calendar),
-          endTime: getMeetingEndTime(content.end_time, content.calendar),
-          calendar: content.calendar,
+          calendar:
+            content.calendar ??
+            migrateMeetingTime({
+              start_time: content.start_time,
+              end_time: content.end_time,
+            }),
           autoDeletionOffset: content.auto_deletion_offset,
           title: (
             this.roomEventsByName(StateEventName.M_ROOM_NAME_EVENT)[0]

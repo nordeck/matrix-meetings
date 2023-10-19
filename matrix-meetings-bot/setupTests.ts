@@ -18,6 +18,7 @@ import i18next from 'i18next';
 import i18nextBackend from 'i18next-fs-backend';
 import { Settings } from 'luxon';
 import 'reflect-metadata';
+import { registerDateRangeFormatter } from './src/dateRangeFormatter';
 import translationDe from './src/static/locales/de/translation.json';
 import translationEn from './src/static/locales/en/translation.json';
 
@@ -35,6 +36,8 @@ i18next.use(i18nextBackend).init({
     de: { translation: translationDe },
   },
 });
+
+registerDateRangeFormatter(i18next);
 
 // We want our tests to be in a reproducible time zone, always resulting in
 // the same results, independent from where they are run.

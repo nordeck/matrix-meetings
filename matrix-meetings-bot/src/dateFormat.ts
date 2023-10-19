@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2023 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,5 +14,20 @@
  * limitations under the License.
  */
 
-export { getForceDeletionTime } from './calendarUtils';
-export { formatICalDate, parseICalDate, toISOString } from './dateTimeUtils';
+export const fullLongDateFormat = {
+  hour: 'numeric',
+  minute: 'numeric',
+  month: 'long',
+  year: 'numeric',
+  day: 'numeric',
+  timeZoneName: 'short',
+};
+
+export const fullNumericDateFormat = {
+  hour: 'numeric',
+  minute: 'numeric',
+  month: 'numeric',
+  year: 'numeric',
+  day: 'numeric',
+  timeZoneName: 'short',
+};

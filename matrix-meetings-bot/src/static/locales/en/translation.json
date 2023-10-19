@@ -31,7 +31,7 @@
   ],
   "meeting": {
     "invite": {
-      "message": "📅 {{range}}<br/>$t(meeting.invite.messageRecurrence, {\"context\": \"{{recurrenceContext}}\" })<br/>$t(meeting.invite.messageByOrganizer, {\"context\": \"{{organizerContext}}\" })$t(meeting.invite.messageDescription, {\"context\": \"{{descriptionContext}}\" })",
+      "message": "📅 {{range, daterange}}<br/>$t(meeting.invite.messageRecurrence, {\"context\": \"{{recurrenceContext}}\" })<br/>$t(meeting.invite.messageByOrganizer, {\"context\": \"{{organizerContext}}\" })$t(meeting.invite.messageDescription, {\"context\": \"{{descriptionContext}}\" })",
       "messageByOrganizer_none": "",
       "messageByOrganizer_present": "\nyou've been invited to a meeting by {{organizerDisplayName}}",
       "messageDescription_none": "",
@@ -43,14 +43,19 @@
       "notification": {
         "changed": {
           "date": {
-            "current": "Date: {{start}} to {{end}}",
-            "previous": "(previously: {{start}} to {{end}})"
+            "current": "Date: {{range, daterange}}",
+            "previous": "(previously: {{range, daterange}})"
           },
           "description": {
             "current": "Description: {{description}}",
             "previous": "(previously: {{description}})"
           },
           "headLine": "CHANGES",
+          "occurrence": {
+            "current": "A single meeting from a meeting series is moved to {{range, daterange}}",
+            "deleted": "A single meeting from a meeting series on {{range, daterange}} is deleted",
+            "previous": "(previously: {{value, daterange}})"
+          },
           "repetition": {
             "current": "Repeat meeting: {{repetitionText}}",
             "previous": "(previously: {{repetitionText}})"

@@ -15,9 +15,11 @@
  */
 
 import i18next from 'i18next';
+import { fullNumericDateFormat } from '../dateFormat';
 import { CalendarEntryDto } from '../dto/CalendarEntryDto';
 import { IUserContext } from '../model/IUserContext';
-import { isRecurringCalendarSourceEntry } from '../shared/calendarUtils/helpers';
+import { parseICalDate } from '../shared';
+import { getSingleOrRecurringEntry } from '../shared/calendarUtils';
 import { formatRRuleText } from '../shared/format';
 
 export class TemplateHelper {
@@ -29,9 +31,9 @@ export class TemplateHelper {
     const lng = userContext.locale ?? 'en';
     const timeZone = userContext.timezone ?? 'UTC';
 
-    const recurrence = isRecurringCalendarSourceEntry(meeting.calendar)
-      ? formatRRuleText(meeting.calendar[0].rrule, i18next.t, lng)
-      : '';
+    const entry = getSingleOrRecurringEntry(meeting.calendar);
+    const rrule = entry.rrule;
+    const recurrence = rrule ? formatRRuleText(rrule, i18next.t, lng) : '';
 
     /* IMPORTANT: This comments define the nested keys used below and are used to
        extract them via i18next-parser
@@ -48,21 +50,25 @@ export class TemplateHelper {
 
     const message = i18next.t(
       'meeting.invite.message',
-      '📅 {{range}}<br/>$t(meeting.invite.messageRecurrence, {"context": "{{recurrenceContext}}" })<br/>$t(meeting.invite.messageByOrganizer, {"context": "{{organizerContext}}" })$t(meeting.invite.messageDescription, {"context": "{{descriptionContext}}" })',
+      '📅 {{range, daterange}}<br/>$t(meeting.invite.messageRecurrence, {"context": "{{recurrenceContext}}" })<br/>$t(meeting.invite.messageByOrganizer, {"context": "{{organizerContext}}" })$t(meeting.invite.messageDescription, {"context": "{{descriptionContext}}" })',
       {
         lng,
-        range: dateRangeFormat(
-          new Date(meeting.startTime),
-          new Date(meeting.endTime),
-          lng,
-          { ...fullNumericDateFormat, timeZone },
-        ),
+        range: [
+          parseICalDate(entry.dtstart).toJSDate(),
+          parseICalDate(entry.dtend).toJSDate(),
+        ],
         recurrenceContext: recurrence ? 'present' : 'none',
         recurrence,
         organizerContext: organizerDisplayName ? 'present' : 'none',
         organizerDisplayName,
         descriptionContext: meeting.description.length > 0 ? 'present' : 'none',
         description: meeting.description,
+        formatParams: {
+          range: {
+            timeZone,
+            ...fullNumericDateFormat,
+          },
+        },
       },
     );
 
@@ -75,29 +81,7 @@ export class TemplateHelper {
 
 export const templateHelper = new TemplateHelper();
 
-const fullNumericDateFormat = {
-  hour: 'numeric',
-  minute: 'numeric',
-  month: 'numeric',
-  year: 'numeric',
-  day: 'numeric',
-  timeZoneName: 'short',
-};
-
-function dateRangeFormat(
-  start: Date,
-  end: Date,
-  lng: string | undefined,
-  options: any,
-): string {
-  const formatter = new Intl.DateTimeFormat(lng, options);
-  // @ts-ignore: DateTimeFormat#formatRange will be available in TypeScript >4.7.2
-  return formatter.formatRange(start, end);
-}
-
 export interface InviteParams {
   description: string;
-  startTime: string;
-  endTime: string;
-  calendar?: CalendarEntryDto[];
+  calendar: CalendarEntryDto[];
 }

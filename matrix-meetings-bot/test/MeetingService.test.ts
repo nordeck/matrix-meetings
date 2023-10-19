@@ -331,8 +331,14 @@ describe('test relevant functionality of MeetingService', () => {
     expect(map[StateEventName.M_ROOM_GUEST_ACCESS]).toBeDefined();
 
     const nic_meeting = map[StateEventName.NIC_MEETINGS_METADATA_EVENT];
-    expect(nic_meeting.content.start_time).toBe(START);
-    expect(nic_meeting.content.end_time).toBe(END);
+    expect(nic_meeting.content.start_time).toBeUndefined();
+    expect(nic_meeting.content.end_time).toBeUndefined();
+    expect(nic_meeting.content.calendar[0]?.dtstart.value).toBe(
+      '20201111T140721',
+    );
+    expect(nic_meeting.content.calendar[0]?.dtend.value).toBe(
+      '20221111T140721',
+    );
     expect(nic_meeting.content.locale).toBeUndefined();
     expect(nic_meeting.content.timezone).toBeUndefined();
 
@@ -350,8 +356,7 @@ describe('test relevant functionality of MeetingService', () => {
     if (!appConfig.auto_deletion_offset) {
       expect(nic_meeting.content.auto_deletion_offset).toBeUndefined();
     } else {
-      expect(nic_meeting.content.auto_deletion_offset).toBeDefined();
-      expect(nic_meeting.content.auto_deletion_offset).toBe(5);
+      expect(nic_meeting.content.force_deletion_at).toBeDefined();
     }
 
     expect(roomProps.power_level_content_override).toBeDefined();
@@ -1224,9 +1229,14 @@ describe('test relevant functionality of MeetingService', () => {
         type: StateEventName.NIC_MEETINGS_METADATA_EVENT as string,
         ...stateEventStub,
         content: {
-          start_time: startTime,
-          end_time: endTime,
-          auto_deletion_offset: autoDeletionOffset,
+          calendar: [
+            {
+              uid: 'entry-0',
+              dtstart: { tzid: 'UTC', value: '20220101T000000' },
+              dtend: { tzid: 'UTC', value: '20220103T000000' },
+            },
+          ],
+          force_deletion_at: new Date('2022-01-03T00:05:00Z').getTime(),
           creator: CURRENT_USER,
           external_data: externalData,
         },
@@ -1291,13 +1301,12 @@ describe('test relevant functionality of MeetingService', () => {
       },
     ];
 
-    const stateEvents: any[] = [
+    when(clientMock.getRoomState(roomId)).thenResolve([
       roomCreationEvent,
       nicMeetingMetadataEvent,
       powerLevelsEvent,
       ...memberEvents,
-    ];
-    when(clientMock.getRoomState(roomId)).thenResolve(stateEvents);
+    ]);
 
     const startTime1 = '2022-02-01T00:00:00Z';
     const endTime1 = '2022-02-03T00:00:00Z';
@@ -1321,23 +1330,27 @@ describe('test relevant functionality of MeetingService', () => {
     );
     await meetingService.updateMeetingDetails(userContext, meetingDetails);
 
-    const meetingMetadataEventContentUpdated: IMeetingsMetadataEventContent = {
-      creator: CURRENT_USER,
-      start_time: startTime1,
-      end_time: endTime1,
-      calendar: undefined,
-      force_deletion_at: undefined,
-      auto_deletion_offset: autoDeletionOffset,
-      external_data: externalData1,
-    };
-    verify(
-      clientMock.sendStateEvent(
-        roomId,
-        StateEventName.NIC_MEETINGS_METADATA_EVENT,
-        '',
-        deepEqual(meetingMetadataEventContentUpdated),
-      ),
-    ).once();
+    expect(
+      getArgsFromCaptor(capture(clientMock.sendStateEvent))
+        .filter(
+          ([, type]) => type === StateEventName.NIC_MEETINGS_METADATA_EVENT,
+        )
+        .map(([, , , content]) => content),
+    ).toEqual([
+      {
+        creator: CURRENT_USER,
+        calendar: [
+          {
+            uid: expect.any(String),
+            dtstart: { tzid: 'UTC', value: '20220201T000000' },
+            dtend: { tzid: 'UTC', value: '20220203T000000' },
+            rrule: undefined,
+          },
+        ],
+        force_deletion_at: new Date('2022-02-03T00:05:00Z').getTime(),
+        external_data: externalData1,
+      },
+    ]);
 
     verify(
       clientMock.sendStateEvent(
@@ -1406,7 +1419,7 @@ describe('test relevant functionality of MeetingService', () => {
     // check if the room can be upgraded to the new data model
     meetingDetails.calendar = [
       {
-        uid: 'uid-0',
+        uid: 'entry-0',
         dtstart: { tzid: 'UTC', value: '20220201T000000' },
         dtend: { tzid: 'UTC', value: '20220203T000000' },
       },
@@ -1415,13 +1428,21 @@ describe('test relevant functionality of MeetingService', () => {
     delete meetingDetails.end_time;
     await meetingService.updateMeetingDetails(userContext, meetingDetails);
 
-    const meetingMetadataEventContentUpdated1: IMeetingsMetadataEventContent = {
+    expect(
+      last(
+        getArgsFromCaptor(capture(clientMock.sendStateEvent))
+          .filter(
+            ([, type]) => type === StateEventName.NIC_MEETINGS_METADATA_EVENT,
+          )
+          .map(([, , , content]) => content),
+      ),
+    ).toEqual({
       creator: CURRENT_USER,
       start_time: undefined,
       end_time: undefined,
       calendar: [
         {
-          uid: 'uid-0',
+          uid: 'entry-0',
           dtstart: { tzid: 'UTC', value: '20220201T000000' },
           dtend: { tzid: 'UTC', value: '20220203T000000' },
         },
@@ -1429,22 +1450,14 @@ describe('test relevant functionality of MeetingService', () => {
       auto_deletion_offset: undefined,
       force_deletion_at: new Date('2022-02-03T00:05:00Z').getTime(),
       external_data: externalData1,
-    };
-    verify(
-      clientMock.sendStateEvent(
-        roomId,
-        StateEventName.NIC_MEETINGS_METADATA_EVENT,
-        '',
-        deepEqual(meetingMetadataEventContentUpdated1),
-      ),
-    ).once();
+    });
 
     let msg = capture(clientMock.sendHtmlText).last()[1];
     expect(msg).not.toContain('Repeat meeting');
 
     meetingDetails.calendar = [
       {
-        uid: 'uid-0',
+        uid: 'entry-0',
         dtstart: { tzid: 'UTC', value: '20220201T000000' },
         dtend: { tzid: 'UTC', value: '20220203T000000' },
         rrule: 'FREQ=DAILY;COUNT=3',
@@ -1452,13 +1465,21 @@ describe('test relevant functionality of MeetingService', () => {
     ];
     await meetingService.updateMeetingDetails(userContext, meetingDetails);
 
-    const meetingMetadataEventContentUpdated2: IMeetingsMetadataEventContent = {
+    expect(
+      last(
+        getArgsFromCaptor(capture(clientMock.sendStateEvent))
+          .filter(
+            ([, type]) => type === StateEventName.NIC_MEETINGS_METADATA_EVENT,
+          )
+          .map(([, , , content]) => content),
+      ),
+    ).toEqual({
       creator: CURRENT_USER,
       start_time: undefined,
       end_time: undefined,
       calendar: [
         {
-          uid: 'uid-0',
+          uid: 'entry-0',
           dtstart: { tzid: 'UTC', value: '20220201T000000' },
           dtend: { tzid: 'UTC', value: '20220203T000000' },
           rrule: 'FREQ=DAILY;COUNT=3',
@@ -1467,43 +1488,38 @@ describe('test relevant functionality of MeetingService', () => {
       auto_deletion_offset: undefined,
       force_deletion_at: new Date('2022-02-05T00:05:00Z').getTime(),
       external_data: externalData1,
-    };
-    verify(
-      clientMock.sendStateEvent(
-        roomId,
-        StateEventName.NIC_MEETINGS_METADATA_EVENT,
-        '',
-        deepEqual(meetingMetadataEventContentUpdated2),
-      ),
-    ).once();
+    });
 
     msg = capture(clientMock.sendHtmlText).last()[1];
     expect(msg).toContain('Repeat meeting: Every day for 3 times');
     expect(msg).toContain('(previously: )');
 
-    // check if the can be moved back to the old data model
     delete meetingDetails.calendar;
     meetingDetails.start_time = '2022-02-01T10:00:00Z';
     meetingDetails.end_time = '2022-02-01T11:00:00Z';
     await meetingService.updateMeetingDetails(userContext, meetingDetails);
 
-    const meetingMetadataEventContentUpdated3: IMeetingsMetadataEventContent = {
-      creator: CURRENT_USER,
-      start_time: '2022-02-01T10:00:00Z',
-      end_time: '2022-02-01T11:00:00Z',
-      calendar: undefined,
-      auto_deletion_offset: 0,
-      force_deletion_at: undefined,
-      external_data: externalData1,
-    };
-    verify(
-      clientMock.sendStateEvent(
-        roomId,
-        StateEventName.NIC_MEETINGS_METADATA_EVENT,
-        '',
-        deepEqual(meetingMetadataEventContentUpdated3),
+    expect(
+      last(
+        getArgsFromCaptor(capture(clientMock.sendStateEvent))
+          .filter(
+            ([, type]) => type === StateEventName.NIC_MEETINGS_METADATA_EVENT,
+          )
+          .map(([, , , content]) => content),
       ),
-    ).once();
+    ).toEqual({
+      creator: CURRENT_USER,
+      calendar: [
+        {
+          uid: expect.any(String),
+          dtstart: { tzid: 'UTC', value: '20220201T100000' },
+          dtend: { tzid: 'UTC', value: '20220201T110000' },
+          rrule: undefined,
+        },
+      ],
+      force_deletion_at: new Date('2022-02-01T11:05:00Z').getTime(),
+      external_data: externalData1,
+    });
 
     msg = capture(clientMock.sendHtmlText).last()[1];
     expect(msg).not.toContain('Repeat meeting: ');
@@ -1516,6 +1532,23 @@ describe('test relevant functionality of MeetingService', () => {
         rrules: [],
       },
     };
+
+    when(clientMock.getRoomState(roomId)).thenResolve([
+      roomCreationEvent,
+      {
+        type: StateEventName.NIC_MEETINGS_METADATA_EVENT as string,
+        ...stateEventStub,
+        content: {
+          start_time: startTime,
+          end_time: endTime,
+          auto_deletion_offset: autoDeletionOffset,
+          creator: CURRENT_USER,
+          external_data: externalData,
+        },
+      },
+      powerLevelsEvent,
+      ...memberEvents,
+    ]);
 
     const meetingDetailsOx = new MeetingUpdateDetailsDto(
       roomId,
@@ -1538,16 +1571,80 @@ describe('test relevant functionality of MeetingService', () => {
       ),
     ).toEqual({
       creator: CURRENT_USER,
-      start_time: startTime,
-      end_time: endTime,
-      calendar: undefined,
-      force_deletion_at: undefined,
-      auto_deletion_offset: autoDeletionOffset,
+      calendar: [
+        {
+          uid: expect.any(String),
+          dtstart: { tzid: 'UTC', value: '20220101T000000' },
+          dtend: { tzid: 'UTC', value: '20220103T000000' },
+          rrule: undefined,
+        },
+      ],
+      force_deletion_at: new Date('2022-01-03T00:05:00Z').getTime(),
       external_data: externalDataOx,
     } as IMeetingsMetadataEventContent);
 
     msg = capture(clientMock.sendHtmlText).last()[1];
     expect(msg).not.toContain('Repeat meeting: ');
+
+    when(clientMock.getRoomState(roomId)).thenResolve([
+      roomCreationEvent,
+      {
+        type: StateEventName.NIC_MEETINGS_METADATA_EVENT as string,
+        ...stateEventStub,
+        content: {
+          start_time: startTime,
+          end_time: endTime,
+          calendar: [
+            {
+              uid: 'entry-0',
+              dtstart: { tzid: 'UTC', value: '20220101T000000' },
+              dtend: { tzid: 'UTC', value: '20220103T000000' },
+            },
+          ],
+          force_deletion_at: new Date('2022-01-03T00:05:00Z').getTime(),
+          creator: CURRENT_USER,
+          external_data: externalData,
+        },
+      },
+      powerLevelsEvent,
+      ...memberEvents,
+    ]);
+
+    await meetingService.updateMeetingDetails(
+      userContext,
+      new MeetingUpdateDetailsDto(
+        roomId,
+        '2022-01-01T01:00:00.000Z',
+        '2022-01-03T01:00:00.000Z',
+        undefined,
+        title1,
+        description1,
+        externalDataOx,
+      ),
+    );
+
+    expect(
+      last(
+        getArgsFromCaptor(capture(clientMock.sendStateEvent))
+          .filter(
+            ([, type]) => type === StateEventName.NIC_MEETINGS_METADATA_EVENT,
+          )
+          .map(([, , , content]) => content),
+      ),
+    ).toEqual({
+      creator: CURRENT_USER,
+      calendar: [
+        {
+          uid: 'entry-0', // id must stay!
+          dtstart: { tzid: 'UTC', value: '20220101T010000' },
+          dtend: { tzid: 'UTC', value: '20220103T010000' },
+          rrule: undefined,
+        },
+      ],
+      auto_deletion_offset: undefined,
+      force_deletion_at: new Date('2022-01-03T01:05:00Z').getTime(),
+      external_data: externalDataOx,
+    } as IMeetingsMetadataEventContent);
 
     // OX meeting with non-empty rrules should send 'net.nordeck.meetings.metadata' event with calendar
     const externalDataOx1: ExternalData = {
@@ -1571,11 +1668,9 @@ describe('test relevant functionality of MeetingService', () => {
       ),
     ).toEqual({
       creator: CURRENT_USER,
-      start_time: undefined,
-      end_time: undefined,
       calendar: [
         {
-          uid: expect.any(String),
+          uid: 'entry-0', // id must stay!
           dtstart: { tzid: 'UTC', value: '20220101T000000' },
           dtend: { tzid: 'UTC', value: '20220103T000000' },
           rrule: 'FREQ=DAILY;COUNT=1',
@@ -1608,9 +1703,15 @@ describe('test relevant functionality of MeetingService', () => {
         type: StateEventName.NIC_MEETINGS_METADATA_EVENT as string,
         ...stateEventStub,
         content: {
-          start_time: '',
-          end_time: '',
           creator: CURRENT_USER,
+          calendar: [
+            {
+              uid: 'entry-0',
+              dtstart: { tzid: 'UTC', value: '20220101T000000' },
+              dtend: { tzid: 'UTC', value: '20220103T000000' },
+              rrule: undefined,
+            },
+          ],
         },
       };
 
@@ -1915,7 +2016,7 @@ describe('test relevant functionality of MeetingService', () => {
       end_time: undefined,
       calendar: [
         {
-          uid: 'uid-0',
+          uid: 'entry-0',
           dtstart: { tzid: 'UTC', value: '20220201T000000' },
           dtend: { tzid: 'UTC', value: '20220203T000000' },
           rrule: 'FREQ=DAILY;COUNT=3',
@@ -1935,17 +2036,14 @@ describe('test relevant functionality of MeetingService', () => {
     )?.content as MeetingCreateDto;
     expect(nicMetadataEventContent).toStrictEqual({
       creator: CURRENT_USER,
-      start_time: undefined,
-      end_time: undefined,
       calendar: [
         {
-          uid: 'uid-0',
+          uid: 'entry-0',
           dtstart: { tzid: 'UTC', value: '20220201T000000' },
           dtend: { tzid: 'UTC', value: '20220203T000000' },
           rrule: 'FREQ=DAILY;COUNT=3',
         },
       ],
-      auto_deletion_offset: undefined,
       force_deletion_at: new Date('2022-02-05T01:00:00Z').getTime(),
       external_data: undefined,
     });
@@ -1983,11 +2081,15 @@ describe('test relevant functionality of MeetingService', () => {
       )?.content,
     ).toStrictEqual({
       creator: CURRENT_USER,
-      start_time: startTime,
-      end_time: endTime,
-      calendar: undefined,
-      auto_deletion_offset: 5,
-      force_deletion_at: undefined,
+      calendar: [
+        {
+          uid: expect.any(String),
+          dtstart: { tzid: 'UTC', value: '20220101T000000' },
+          dtend: { tzid: 'UTC', value: '20220103T000000' },
+          rrule: undefined,
+        },
+      ],
+      force_deletion_at: new Date('2022-01-03T00:05:00Z').getTime(),
       external_data: externalDataOx,
     } as IMeetingsMetadataEventContent);
 
@@ -2014,8 +2116,6 @@ describe('test relevant functionality of MeetingService', () => {
       )?.content,
     ).toStrictEqual({
       creator: CURRENT_USER,
-      start_time: undefined,
-      end_time: undefined,
       calendar: [
         {
           uid: expect.any(String),
@@ -2024,7 +2124,6 @@ describe('test relevant functionality of MeetingService', () => {
           rrule: 'FREQ=DAILY;COUNT=1',
         },
       ],
-      auto_deletion_offset: undefined,
       force_deletion_at: new Date('2022-01-03T00:05:00Z').getTime(),
       external_data: externalDataOx1,
     } as IMeetingsMetadataEventContent);
@@ -2048,8 +2147,8 @@ describe('test relevant functionality of MeetingService', () => {
     const metadata = room.roomEventsByName(
       StateEventName.NIC_MEETINGS_METADATA_EVENT,
     )[0]?.content as IMeetingsMetadataEventContent;
-    expect(metadata.auto_deletion_offset).toStrictEqual(
-      appConfig.auto_deletion_offset,
+    expect(metadata.force_deletion_at).toStrictEqual(
+      new Date('2022-11-11T14:12:21Z').getTime(),
     );
   });
 

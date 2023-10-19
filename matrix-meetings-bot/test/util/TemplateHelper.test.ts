@@ -14,29 +14,30 @@
  * limitations under the License.
  */
 
-import { CalendarEntryDto } from '../../src/dto/CalendarEntryDto';
-import { getMeetingEndTime, getMeetingStartTime } from '../../src/shared';
 import { InviteParams, templateHelper } from '../../src/util/TemplateHelper';
 
 describe('TemplateHelper', () => {
-  const calendar: CalendarEntryDto[] = [
-    {
-      uid: 'uid-0',
-      dtstart: { tzid: 'UTC', value: '20201111T140700' },
-      dtend: { tzid: 'UTC', value: '20201111T160700' },
-      rrule: 'FREQ=DAILY;COUNT=3',
-    },
-  ];
-
   const demoMeeting: InviteParams = {
     description: 'A demo meeting',
-    startTime: getMeetingStartTime(undefined, calendar),
-    endTime: getMeetingEndTime(undefined, calendar),
+    calendar: [
+      {
+        uid: 'uid-0',
+        dtstart: { tzid: 'UTC', value: '20201111T140700' },
+        dtend: { tzid: 'UTC', value: '20201111T160700' },
+      },
+    ],
   };
 
   const demoMeetingRecurring: InviteParams = {
-    ...demoMeeting,
-    calendar,
+    description: 'A demo meeting',
+    calendar: [
+      {
+        uid: 'uid-0',
+        dtstart: { tzid: 'UTC', value: '20201111T140700' },
+        dtend: { tzid: 'UTC', value: '20201111T160700' },
+        rrule: 'FREQ=DAILY;COUNT=3',
+      },
+    ],
   };
 
   test('invite message to member en', () => {

@@ -15,20 +15,16 @@
  */
 
 import { CalendarEntryDto, DateTimeEntryDto } from '../dto/CalendarEntryDto';
+import { mockCalendarEntry } from '../testUtils';
 import {
   getForceDeletionTime,
-  getMeetingEndTime,
-  getMeetingStartTime,
+  getSingleOrRecurringEntry,
 } from './calendarUtils';
 
-let startTime: string;
-let endTime: string;
 let calendar: CalendarEntryDto[];
 let calendarWithRRule: CalendarEntryDto[];
 
 beforeEach(() => {
-  startTime = '2020-01-01T00:00:00Z';
-  endTime = '2020-01-01T01:00:00Z';
   calendar = [
     new CalendarEntryDto(
       'uuid',
@@ -46,52 +42,94 @@ beforeEach(() => {
   ];
 });
 
-describe('getMeetingStartTime', () => {
-  it('should use start_time', () => {
-    expect(getMeetingStartTime(startTime, undefined)).toBe(
-      '2020-01-01T00:00:00Z',
+describe('getSingleOrRecurringEntry', () => {
+  it('should get from single entry', () => {
+    expect(
+      getSingleOrRecurringEntry([
+        mockCalendarEntry({
+          dtstart: '20200109T100000',
+          dtend: '20200109T110000',
+        }),
+      ]),
+    ).toEqual(
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+      }),
     );
   });
 
-  it('should use calendar', () => {
-    expect(getMeetingStartTime(undefined, calendar)).toBe(
-      '2020-01-02T00:00:00+01:00',
+  it('should get from single recurring entry', () => {
+    expect(
+      getSingleOrRecurringEntry([
+        mockCalendarEntry({
+          dtstart: '20200109T100000',
+          dtend: '20200109T110000',
+          rrule: 'FREQ=DAILY',
+        }),
+      ]),
+    ).toEqual(
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
     );
   });
 
-  it('should prefer calendar if both values are defined', () => {
-    expect(getMeetingStartTime(startTime, calendar)).toBe(
-      '2020-01-02T00:00:00+01:00',
+  it('should get from single recurring entry with existing overrides', () => {
+    expect(
+      getSingleOrRecurringEntry([
+        mockCalendarEntry({
+          dtstart: '20200109T100000',
+          dtend: '20200109T110000',
+          rrule: 'FREQ=DAILY',
+          exdate: ['20200110T100000'],
+        }),
+        mockCalendarEntry({
+          dtstart: '20200111T120000',
+          dtend: '20200111T130000',
+          recurrenceId: '20200111T100000',
+        }),
+      ]),
+    ).toEqual(
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+        exdate: ['20200110T100000'],
+      }),
     );
   });
 
-  it('should throw if both values are undefined', () => {
-    expect(() => getMeetingStartTime(undefined, undefined)).toThrowError(
-      'Unexpected input: Both start_time and calendar are undefined',
+  it('should get from single recurring entry with existing overrides reordered', () => {
+    expect(
+      getSingleOrRecurringEntry([
+        mockCalendarEntry({
+          dtstart: '20200111T120000',
+          dtend: '20200111T130000',
+          recurrenceId: '20200111T100000',
+        }),
+        mockCalendarEntry({
+          dtstart: '20200109T100000',
+          dtend: '20200109T110000',
+          rrule: 'FREQ=DAILY',
+          exdate: ['20200110T100000'],
+        }),
+      ]),
+    ).toEqual(
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+        exdate: ['20200110T100000'],
+      }),
     );
   });
-});
 
-describe('getMeetingEndTime', () => {
-  it('should use end_time', () => {
-    expect(getMeetingEndTime(endTime, undefined)).toBe('2020-01-01T01:00:00Z');
-  });
-
-  it('should use calendar', () => {
-    expect(getMeetingEndTime(undefined, calendar)).toBe(
-      '2020-01-02T01:00:00+01:00',
-    );
-  });
-
-  it('should prefer calendar if both values are defined', () => {
-    expect(getMeetingEndTime(endTime, calendar)).toBe(
-      '2020-01-02T01:00:00+01:00',
-    );
-  });
-
-  it('should throw if both values are undefined', () => {
-    expect(() => getMeetingEndTime(undefined, undefined)).toThrowError(
-      'Unexpected input: Both end_time and calendar are undefined',
+  it('should throw if calendar is empty', () => {
+    expect(() => getSingleOrRecurringEntry([])).toThrowError(
+      'calendar must have single or recurring entry',
     );
   });
 });

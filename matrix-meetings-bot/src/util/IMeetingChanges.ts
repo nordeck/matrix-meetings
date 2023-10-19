@@ -15,16 +15,15 @@
  */
 
 import { IMeeting } from '../model/IMeeting';
-import { isRecurringCalendarSourceEntry } from '../shared/calendarUtils/helpers';
+import {
+  CalendarChange,
+  extractCalendarChange,
+} from '../shared/calendarUtils/extractCalendarChange';
 
 export interface IMeetingChanges {
   titleChanged: boolean;
   descriptionChanged: boolean;
-  startTimeChanged: boolean;
-  endTimeChanged: boolean;
-  calendarChanged: boolean;
-
-  timeChanged: boolean;
+  calendarChanges: CalendarChange[];
   anythingChanged: boolean;
 }
 
@@ -36,26 +35,18 @@ class MeetingChangesHelper {
     const titleChanged = newMeeting.title !== oldMeeting.title;
     const descriptionChanged =
       newMeeting.description !== oldMeeting.description;
-    const startTimeChanged = newMeeting.startTime !== oldMeeting.startTime;
-    const endTimeChanged = newMeeting.endTime !== oldMeeting.endTime;
-    const timeChanged = startTimeChanged || endTimeChanged;
-    const newRrule = isRecurringCalendarSourceEntry(newMeeting.calendar)
-      ? newMeeting.calendar[0].rrule
-      : undefined;
-    const oldRrule = isRecurringCalendarSourceEntry(oldMeeting.calendar)
-      ? oldMeeting.calendar[0].rrule
-      : undefined;
-    const calendarChanged = newRrule !== oldRrule;
+
+    const calendarChanges = extractCalendarChange(
+      oldMeeting.calendar,
+      newMeeting.calendar,
+    );
     const anythingChanged =
-      titleChanged || descriptionChanged || timeChanged || calendarChanged;
+      titleChanged || descriptionChanged || calendarChanges.length > 0;
 
     return {
       titleChanged,
       descriptionChanged,
-      startTimeChanged,
-      endTimeChanged,
-      calendarChanged,
-      timeChanged,
+      calendarChanges,
       anythingChanged,
     };
   }

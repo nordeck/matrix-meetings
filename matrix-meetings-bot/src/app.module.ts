@@ -22,7 +22,7 @@ import {
   NestModule,
 } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import i18next, { TFunction } from 'i18next';
+import i18next from 'i18next';
 import i18nextFsBackend from 'i18next-fs-backend';
 import i18nextMiddleware from 'i18next-http-middleware';
 import {
@@ -49,6 +49,7 @@ import { HealthCheckController } from './controller/HealthCheckController';
 import { MeetingController } from './controller/MeetingController';
 import { WelcomeWorkflowController } from './controller/WelcomeWorkflowController';
 import { WidgetController } from './controller/WidgetController';
+import { registerDateRangeFormatter } from './dateRangeFormatter';
 import { RoomMatrixEventsReader } from './io/RoomMatrixEventsReader';
 import { WidgetLayoutConfigReader } from './io/WidgetLayoutConfigReader';
 import { MatrixClientProxyHandler } from './matrix/MatrixClientProxyHandler';
@@ -170,12 +171,10 @@ const appRuntimeContextFactory: FactoryProvider<Promise<AppRuntimeContext>> = {
   inject: [MatrixClient],
 };
 
-const i18nFactory: FactoryProvider<Promise<TFunction>> = {
+const i18nFactory: FactoryProvider<void> = {
   provide: ModuleProviderToken.I18N,
-  useFactory: async (
-    appRuntimeContext: AppRuntimeContext,
-  ): Promise<TFunction> => {
-    return i18next
+  useFactory: (appRuntimeContext: AppRuntimeContext): void => {
+    i18next
       .use(i18nextFsBackend)
       .use(i18nextMiddleware.LanguageDetector)
       .init({
@@ -191,6 +190,7 @@ const i18nFactory: FactoryProvider<Promise<TFunction>> = {
         },
         preload: appRuntimeContext.supportedLngs,
       });
+    registerDateRangeFormatter(i18next);
   },
   inject: [AppRuntimeContext],
 };

@@ -61,11 +61,7 @@ import { powerLevelHelper } from '../model/PowerLevelHelper';
 import { RoomEventName } from '../model/RoomEventName';
 import { StateEventName } from '../model/StateEventName';
 import { WidgetType } from '../model/WidgetType';
-import {
-  getForceDeletionTime,
-  getMeetingEndTime,
-  getMeetingStartTime,
-} from '../shared';
+import { getForceDeletionTime } from '../shared';
 import { IMeetingChanges, meetingChangesHelper } from '../util/IMeetingChanges';
 import { templateHelper } from '../util/TemplateHelper';
 import { extractOxRrule } from '../util/extractOxRrule';
@@ -366,21 +362,15 @@ export class MeetingService {
     const oldMeeting = room.meeting;
     const newMeeting: IMeeting = { ...room.meeting };
 
-    // change data model if meeting is OX with non-empty rrules
-    const { start_time, end_time, calendar } = migrateMeetingTime(
+    // change data model if meeting is in old format
+    const calendar = migrateMeetingTime(
       meetingDetails,
       extractOxRrule(meetingDetails),
+      oldMeeting.calendar,
     );
 
-    newMeeting.calendar =
-      start_time === undefined && end_time === undefined
-        ? calendar ?? newMeeting.calendar
-        : undefined;
+    newMeeting.calendar = calendar;
 
-    newMeeting.startTime =
-      getMeetingStartTime(start_time, calendar) ?? newMeeting.startTime;
-    newMeeting.endTime =
-      getMeetingEndTime(end_time, calendar) ?? newMeeting.endTime;
     newMeeting.title = meetingDetails.title ?? newMeeting.title;
     newMeeting.description =
       meetingDetails.description ?? newMeeting.description;
@@ -392,20 +382,9 @@ export class MeetingService {
       newMeeting,
     );
 
-    // The newMeeting.creator is the sender... the room.creator is often the bot. therefore remember the sender as creator
-    // ==> creator is not necessarily identical to the event's creator field. If the content event gets updated by another moderator it should still represent the original creator of the newMeeting.
     const content: IMeetingsMetadataEventContent = {
       creator: newMeeting.creator,
-      start_time: calendar === undefined ? newMeeting.startTime : undefined,
-      end_time: calendar === undefined ? newMeeting.endTime : undefined,
-      calendar:
-        start_time === undefined && end_time === undefined
-          ? newMeeting.calendar
-          : undefined,
-      auto_deletion_offset:
-        newMeeting.calendar === undefined
-          ? room.meeting.autoDeletionOffset
-          : undefined,
+      calendar: newMeeting.calendar,
       force_deletion_at: getForceDeletionTime(
         this.appConfig.auto_deletion_offset,
         newMeeting.calendar,
@@ -495,13 +474,7 @@ export class MeetingService {
       .roomMemberEvents()
       .filter((me) => me.content.membership === 'invite');
 
-    if (
-      (meetingChanges.titleChanged ||
-        meetingChanges.descriptionChanged ||
-        meetingChanges.timeChanged ||
-        meetingChanges.calendarChanged) &&
-      room.meeting
-    ) {
+    if (meetingChanges.anythingChanged && room.meeting) {
       const meetingCreator = room.meeting.creator;
       const { displayname } =
         await this.matrixClient.getUserProfile(meetingCreator);
@@ -511,8 +484,6 @@ export class MeetingService {
           const { textReason, htmlReason } = templateHelper.makeInviteReasons(
             {
               description: newMeeting.description,
-              startTime: newMeeting.startTime,
-              endTime: newMeeting.endTime,
               calendar: newMeeting.calendar,
             },
             userContext,
