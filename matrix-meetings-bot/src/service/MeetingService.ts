@@ -369,7 +369,7 @@ export class MeetingService {
       oldMeeting.calendar,
     );
 
-    newMeeting.calendar = calendar ?? newMeeting.calendar;
+    newMeeting.calendar = calendar;
 
     newMeeting.title = meetingDetails.title ?? newMeeting.title;
     newMeeting.description =
