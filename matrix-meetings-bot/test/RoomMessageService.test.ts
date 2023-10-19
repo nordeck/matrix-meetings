@@ -29,10 +29,12 @@ import { EventContentRenderer } from '../src/EventContentRenderer';
 import { IAppConfiguration } from '../src/IAppConfiguration';
 import { MatrixEndpoint } from '../src/MatrixEndpoint';
 import { MeetingClient } from '../src/client/MeetingClient';
+import { CalendarEntryDto } from '../src/dto/CalendarEntryDto';
 import { IMeeting } from '../src/model/IMeeting';
 import { IUserContext } from '../src/model/IUserContext';
 import { MeetingType } from '../src/model/MeetingType';
 import { RoomMessageService } from '../src/service/RoomMessageService';
+import { mockCalendarEntry } from '../src/testUtils';
 import { meetingChangesHelper } from '../src/util/IMeetingChanges';
 import { createAppConfig } from './util/MockUtils';
 
@@ -61,26 +63,31 @@ describe('test RoomMessageService', () => {
       invite: {},
     },
   };
-  const initMeeting = (rrule?: string) => {
-    const meeting: IMeeting = {
+
+  function mockMeeting(calendar?: CalendarEntryDto[]): IMeeting {
+    return {
       roomId,
       title: 'title',
       description: 'description',
-      calendar: [
-        {
-          uid: 'uuid',
-          dtstart: { tzid: 'UTC', value: '20220116T090000' },
-          dtend: { tzid: 'UTC', value: '20220116T100000' },
-          rrule,
-        },
-      ],
+      calendar: calendar ?? mockCalendar(),
       widgetIds: [],
       participants: [],
       creator: 'creator',
       type: MeetingType.MEETING,
     };
-    return meeting;
-  };
+  }
+
+  function mockCalendar(rrule?: string): CalendarEntryDto[] {
+    return [
+      {
+        uid: 'uuid',
+        dtstart: { tzid: 'UTC', value: '20220116T090000' },
+        dtend: { tzid: 'UTC', value: '20220116T100000' },
+        rrule,
+      },
+    ];
+  }
+
   const userContext: IUserContext = {
     locale: 'en',
     timezone: 'UTC',
@@ -154,8 +161,8 @@ describe('test RoomMessageService', () => {
   });
 
   it('test do not send a change-message if no values inside the meeting are changed', async () => {
-    const oldMeeting = initMeeting();
-    const newMeeting = initMeeting();
+    const oldMeeting = mockMeeting(mockCalendar());
+    const newMeeting = mockMeeting(mockCalendar());
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
       newMeeting,
@@ -171,8 +178,8 @@ describe('test RoomMessageService', () => {
   });
 
   it('test to send a message, that contains information about the title change, if title of meeting is changed', async () => {
-    const oldMeeting = initMeeting();
-    const newMeeting = initMeeting();
+    const oldMeeting = mockMeeting();
+    const newMeeting = mockMeeting();
     oldMeeting.title = 'changed';
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
@@ -191,11 +198,12 @@ describe('test RoomMessageService', () => {
     expect(msg).toContain('previously: changed');
     expect(msg).not.toContain('Description: description');
     expect(msg).not.toContain('Repeat meeting');
+    expect(msg).not.toContain('A single meeting from a meeting series');
   });
 
   it('test to send a message, that contains information about the description change, if description of meeting is changed', async () => {
-    const oldMeeting = initMeeting();
-    const newMeeting = initMeeting();
+    const oldMeeting = mockMeeting();
+    const newMeeting = mockMeeting();
     oldMeeting.description = 'changed';
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
@@ -214,11 +222,12 @@ describe('test RoomMessageService', () => {
     expect(msg).toContain('Description: description');
     expect(msg).toContain('previously: changed');
     expect(msg).not.toContain('Repeat meeting');
+    expect(msg).not.toContain('A single meeting from a meeting series');
   });
 
   it('test to send a message, that contains information about the time-range change, if starttime of meeting is changed', async () => {
-    const oldMeeting = initMeeting();
-    const newMeeting = initMeeting();
+    const oldMeeting = mockMeeting();
+    const newMeeting = mockMeeting();
     if (newMeeting.calendar) {
       newMeeting.calendar[0].dtstart.value = '20220116T080000';
     }
@@ -242,11 +251,12 @@ describe('test RoomMessageService', () => {
     expect(msg).not.toContain('Title: title');
     expect(msg).not.toContain('Description: description');
     expect(msg).not.toContain('Repeat meeting');
+    expect(msg).not.toContain('A single meeting from a meeting series');
   });
 
   it('test to send a message, that contains information about the time-range change, if endtime of meeting is changed', async () => {
-    const oldMeeting = initMeeting();
-    const newMeeting = initMeeting();
+    const oldMeeting = mockMeeting();
+    const newMeeting = mockMeeting();
     if (newMeeting.calendar) {
       newMeeting.calendar[0].dtend.value = '20220116T110000';
     }
@@ -270,11 +280,12 @@ describe('test RoomMessageService', () => {
     expect(msg).not.toContain('Title: title');
     expect(msg).not.toContain('Description: description');
     expect(msg).not.toContain('Repeat meeting');
+    expect(msg).not.toContain('A single meeting from a meeting series');
   });
 
   it('test to send a message, that contains information about the repetition change, if repetition is added', async () => {
-    const oldMeeting = initMeeting();
-    const newMeeting = initMeeting('FREQ=MONTHLY');
+    const oldMeeting = mockMeeting(mockCalendar());
+    const newMeeting = mockMeeting(mockCalendar('FREQ=MONTHLY'));
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
       newMeeting,
@@ -293,11 +304,12 @@ describe('test RoomMessageService', () => {
     expect(msg).not.toContain('Title: title');
     expect(msg).not.toContain('Date:');
     expect(msg).not.toContain('Description: description');
+    expect(msg).not.toContain('A single meeting from a meeting series');
   });
 
   it('test to send a message, that contains information about the repetition change, if repetition is updated', async () => {
-    const oldMeeting = initMeeting('FREQ=DAILY');
-    const newMeeting = initMeeting('FREQ=MONTHLY');
+    const oldMeeting = mockMeeting(mockCalendar('FREQ=DAILY'));
+    const newMeeting = mockMeeting(mockCalendar('FREQ=MONTHLY'));
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
       newMeeting,
@@ -316,11 +328,12 @@ describe('test RoomMessageService', () => {
     expect(msg).not.toContain('Title: title');
     expect(msg).not.toContain('Date:');
     expect(msg).not.toContain('Description: description');
+    expect(msg).not.toContain('A single meeting from a meeting series');
   });
 
   it('test to send a message, that contains information about the repetition change, if repetition is deleted', async () => {
-    const oldMeeting = initMeeting('FREQ=MONTHLY');
-    const newMeeting = initMeeting();
+    const oldMeeting = mockMeeting(mockCalendar('FREQ=MONTHLY'));
+    const newMeeting = mockMeeting(mockCalendar());
     const meetingChanges = meetingChangesHelper.calculate(
       oldMeeting,
       newMeeting,
@@ -339,5 +352,196 @@ describe('test RoomMessageService', () => {
     expect(msg).not.toContain('Title: title');
     expect(msg).not.toContain('Date:');
     expect(msg).not.toContain('Description: description');
+    expect(msg).not.toContain('A single meeting from a meeting series');
+  });
+
+  it('test to send a message, that contains information about occurrence change when: add an updated occurrence to a single recurring meeting', async () => {
+    const oldMeeting = mockMeeting([
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+    ]);
+    const newMeeting = mockMeeting([
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200111T120000',
+        dtend: '20200111T130000',
+        recurrenceId: '20200111T100000',
+      }),
+    ]);
+    const meetingChanges = meetingChangesHelper.calculate(
+      oldMeeting,
+      newMeeting,
+    );
+    await roomMessageService.notifyMeetingTimeChangedAsync(
+      userContext,
+      oldMeeting,
+      newMeeting,
+      meetingChanges,
+      roomId,
+    );
+    verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
+    const msg = capture(matrixClientMock.sendHtmlText).first()[1];
+    expect(msg).toContain(
+      'A single meeting from a meeting series is moved to January 11, 2020, 12:00 – 1:00 PM UTC',
+    );
+    expect(msg).toContain(
+      '(previously: January 11, 2020, 10:00 – 11:00 AM UTC)',
+    );
+    expect(msg).not.toContain('Title: title');
+    expect(msg).not.toContain('Date:');
+    expect(msg).not.toContain('Description: description');
+    expect(msg).not.toContain('Repeat meeting');
+  });
+
+  it('test to send a message, that contains information about occurrence change when: update a single occurrence of a recurring meeting', async () => {
+    const oldMeeting = mockMeeting([
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200111T103000',
+        dtend: '20200111T113000',
+        recurrenceId: '20200111T100000',
+      }),
+
+      // another override that should stay
+      mockCalendarEntry({
+        dtstart: '20200115T103000',
+        dtend: '20200115T113000',
+        recurrenceId: '20200115T100000',
+      }),
+    ]);
+    const newMeeting = mockMeeting([
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200115T103000',
+        dtend: '20200115T113000',
+        recurrenceId: '20200115T100000',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200111T120000',
+        dtend: '20200111T130000',
+        recurrenceId: '20200111T100000',
+      }),
+    ]);
+    const meetingChanges = meetingChangesHelper.calculate(
+      oldMeeting,
+      newMeeting,
+    );
+    await roomMessageService.notifyMeetingTimeChangedAsync(
+      userContext,
+      oldMeeting,
+      newMeeting,
+      meetingChanges,
+      roomId,
+    );
+    verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
+    const msg = capture(matrixClientMock.sendHtmlText).first()[1];
+    expect(msg).toContain(
+      'A single meeting from a meeting series is moved to January 11, 2020, 12:00 – 1:00 PM UTC',
+    );
+    expect(msg).toContain(
+      '(previously: January 11, 2020, 10:30 – 11:30 AM UTC)',
+    );
+    expect(msg).not.toContain('Title: title');
+    expect(msg).not.toContain('Date:');
+    expect(msg).not.toContain('Description: description');
+    expect(msg).not.toContain('Repeat meeting');
+  });
+
+  it('test to send a message, that contains information about occurrence change when: delete an occurrence of a meeting', async () => {
+    const oldMeeting = mockMeeting([
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+    ]);
+    const newMeeting = mockMeeting([
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+        exdate: ['20200215T100000'],
+      }),
+    ]);
+    const meetingChanges = meetingChangesHelper.calculate(
+      oldMeeting,
+      newMeeting,
+    );
+    await roomMessageService.notifyMeetingTimeChangedAsync(
+      userContext,
+      oldMeeting,
+      newMeeting,
+      meetingChanges,
+      roomId,
+    );
+    verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
+    const msg = capture(matrixClientMock.sendHtmlText).first()[1];
+    expect(msg).toContain(
+      'A single meeting from a meeting series on February 15, 2020, 10:00 – 11:00 AM UTC is deleted',
+    );
+    expect(msg).not.toContain('(previously:');
+    expect(msg).not.toContain('Title: title');
+    expect(msg).not.toContain('Date:');
+    expect(msg).not.toContain('Description: description');
+    expect(msg).not.toContain('Repeat meeting');
+  });
+
+  it('test to send a message, that contains information about occurrence change when: delete existing overrides', async () => {
+    const oldMeeting = mockMeeting([
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+      mockCalendarEntry({
+        dtstart: '20200110T103000',
+        dtend: '20200110T113000',
+        recurrenceId: '20200110T100000',
+      }),
+    ]);
+    const newMeeting = mockMeeting([
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+        exdate: ['20200110T100000'],
+      }),
+    ]);
+    const meetingChanges = meetingChangesHelper.calculate(
+      oldMeeting,
+      newMeeting,
+    );
+    await roomMessageService.notifyMeetingTimeChangedAsync(
+      userContext,
+      oldMeeting,
+      newMeeting,
+      meetingChanges,
+      roomId,
+    );
+    verify(matrixClientMock.sendHtmlText(anyString(), anything())).times(1);
+    const msg = capture(matrixClientMock.sendHtmlText).first()[1];
+    expect(msg).toContain(
+      'A single meeting from a meeting series on January 10, 2020, 10:30 – 11:30 AM UTC is deleted',
+    );
+    expect(msg).not.toContain('(previously:');
+    expect(msg).not.toContain('Title: title');
+    expect(msg).not.toContain('Date:');
+    expect(msg).not.toContain('Description: description');
+    expect(msg).not.toContain('Repeat meeting');
   });
 });
