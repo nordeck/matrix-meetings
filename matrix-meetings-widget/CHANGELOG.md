@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.5.1
+
+### Patch Changes
+
+- d7600e0: Only user with the right power level can send message to the breakout session rooms.
+
 ## 1.5.0
 
 ### Minor Changes
