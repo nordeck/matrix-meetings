@@ -831,7 +831,7 @@ describe('<ScheduleMeeting>', () => {
     });
   }, 10000);
 
-  it('should disabled submission if meeting is changed to start in the past', async () => {
+  it('should disable submission if meeting is changed to start in the past', async () => {
     const meeting = mockMeeting({
       content: {
         startTime: '2022-01-02T13:15:00Z',
@@ -870,18 +870,19 @@ describe('<ScheduleMeeting>', () => {
     });
   });
 
-  it('should disabled submission if meeting series is changed to start in the past', async () => {
+  it('should disable submission if meeting series is changed to start in the past', async () => {
     const meeting = mockMeeting({
       content: {
-        startTime: '2022-01-01T13:15:00Z',
-        endTime: '2022-01-01T14:15:00Z',
+        startTime: '2022-01-03T13:15:00Z',
+        endTime: '2022-01-03T14:15:00Z',
         calendarEntries: mockCalendar({
-          dtstart: '20230101T100000',
-          dtend: '20230101T140000',
+          dtstart: '20220101T131500',
+          dtend: '20220101T141500',
           rrule: 'FREQ=DAILY',
         }),
       },
     });
+
     render(
       <ScheduleMeeting
         initialMeeting={meeting}
@@ -912,7 +913,85 @@ describe('<ScheduleMeeting>', () => {
     });
   });
 
-  it('should disabled submit button if we have edit meeting and user did not change anything', async () => {
+  it('should disable start time and date for running occurrence of recurrence meeting', async () => {
+    const meeting = mockMeeting({
+      content: {
+        startTime: '2022-01-01T13:15:00Z',
+        endTime: '2022-01-01T14:15:00Z',
+        calendarEntries: mockCalendar({
+          dtstart: '20220101T131500',
+          dtend: '20220101T141500',
+          rrule: 'FREQ=DAILY;COUNT=10',
+        }),
+      },
+    });
+
+    jest
+      .spyOn(Date, 'now')
+      .mockImplementation(() => +new Date('2022-01-01T13:30:00.000Z'));
+
+    render(
+      <ScheduleMeeting
+        initialMeeting={meeting}
+        onMeetingChange={onMeetingChange}
+      />,
+      { wrapper: Wrapper },
+    );
+
+    expect(
+      screen.getByRole('textbox', {
+        name: 'Start date',
+        description: 'The meeting already started.',
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('textbox', {
+        name: 'Start time',
+        description: 'The meeting already started.',
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it('should not disable start time and date for future occurrence of recurrence meeting even if the series started', async () => {
+    const meeting = mockMeeting({
+      content: {
+        startTime: '2022-01-03T13:15:00Z',
+        endTime: '2022-01-03T14:15:00Z',
+        calendarEntries: mockCalendar({
+          dtstart: '20220101T131500',
+          dtend: '20220101T141500',
+          rrule: 'FREQ=DAILY;COUNT=10',
+        }),
+      },
+    });
+
+    jest
+      .spyOn(Date, 'now')
+      .mockImplementation(() => +new Date('2022-01-02T13:30:00.000Z'));
+
+    render(
+      <ScheduleMeeting
+        initialMeeting={meeting}
+        onMeetingChange={onMeetingChange}
+      />,
+      { wrapper: Wrapper },
+    );
+
+    expect(
+      screen.getByRole('textbox', {
+        name: 'Start date',
+        description: '',
+      }),
+    ).toBeInTheDocument();
+    expect(
+      screen.getByRole('textbox', {
+        name: 'Start time',
+        description: '',
+      }),
+    ).toBeInTheDocument();
+  });
+
+  it('should disable submit button if we have edit meeting and user did not change anything', async () => {
     const meeting = mockMeeting();
     render(
       <ScheduleMeeting
