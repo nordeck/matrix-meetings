@@ -50,13 +50,14 @@ export const MeetingsPanel = () => {
   const { t } = useTranslation();
 
   const selectRoomPermissions = useMemo(makeSelectRoomPermissions, []);
-  const { canCreateBreakoutSessions } = useAppSelector((state) =>
-    selectRoomPermissions(
-      state,
-      widgetApi.widgetParameters.roomId ?? '',
-      widgetApi.widgetParameters.userId,
-    ),
-  );
+  const { canCreateBreakoutSessions, canSendMessageToAllBreakoutSessions } =
+    useAppSelector((state) =>
+      selectRoomPermissions(
+        state,
+        widgetApi.widgetParameters.roomId ?? '',
+        widgetApi.widgetParameters.userId,
+      ),
+    );
 
   const [view, setViewInternal] = useState<ViewType>(
     () => readLastViewTypeFromStorage(widgetApi) ?? 'list',
@@ -231,7 +232,7 @@ export const MeetingsPanel = () => {
             </Typography>
             <Divider />
 
-            {hasBreakoutSessions && (
+            {canSendMessageToAllBreakoutSessions && hasBreakoutSessions && (
               <Box maxWidth={500} mt={2} mx="auto">
                 <BreakoutSessionsMessageForm />
               </Box>
