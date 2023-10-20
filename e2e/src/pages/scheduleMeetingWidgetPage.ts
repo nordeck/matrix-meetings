@@ -125,7 +125,9 @@ export class ScheduleMeetingWidgetPage {
   async selectRecurrence(
     name: 'no repetition' | 'daily' | 'weekly' | 'montly' | 'yearly' | 'custom',
   ) {
-    await this.widget.getByRole('button', { name: /^Repeat meeting/ }).click();
+    await this.widget
+      .getByRole('combobox', { name: /^Repeat meeting/ })
+      .click();
     await this.widget
       .getByRole('listbox', { name: 'Repeat meeting' })
       .getByRole('option', { name })
@@ -134,7 +136,7 @@ export class ScheduleMeetingWidgetPage {
 
   async selectRecurrenceFrequency(name: 'days' | 'weeks' | 'months' | 'years') {
     await this.customRecurrenceRuleGroup
-      .getByRole('button', { name: /^Repeat/ })
+      .getByRole('combobox', { name: /^Repeat/ })
       .click();
     await this.widget
       .getByRole('listbox', { name: 'Repeat' })
