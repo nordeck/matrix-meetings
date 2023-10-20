@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.4.0
+
+### Minor Changes
+
+- 480b567: Bot sends a message when a single meeting is edited.
+
 ## 2.3.0
 
 ### Minor Changes
