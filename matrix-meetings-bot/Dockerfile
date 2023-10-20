@@ -1,11 +1,11 @@
-FROM node:16-bullseye AS node_modules
+FROM node:20-bullseye AS node_modules
 WORKDIR /build
 COPY package.json yarn.lock ./
 COPY matrix-meetings-bot/package.json ./matrix-meetings-bot/
 COPY resolutions/matrix-sdk-crypto-nodejs ./resolutions/matrix-sdk-crypto-nodejs/
 RUN yarn install --production --frozen-lockfile --network-timeout 1000000
 
-FROM node:16-bullseye-slim
+FROM node:20-bullseye-slim
 ENV NODE_ENV=production
 WORKDIR /app
 RUN set -x\

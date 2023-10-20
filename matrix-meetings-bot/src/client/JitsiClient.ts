@@ -15,7 +15,6 @@
  */
 
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import fetch from 'node-fetch';
 import { base32 } from 'rfc4648';
 import { IAppConfiguration } from '../IAppConfiguration';
 import { ModuleProviderToken } from '../ModuleProviderToken';
