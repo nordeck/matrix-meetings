@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import fetch from 'cross-fetch';
 import { getSynapseUrl } from './config';
 import { User } from './registerUser';
 

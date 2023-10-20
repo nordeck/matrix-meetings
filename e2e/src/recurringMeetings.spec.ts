@@ -233,13 +233,13 @@ test.describe('Recurring Meetings', () => {
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
-        /A single meeting from a meeting series is moved to October 9, 2040, 10:40 – 11:40 AM GMT\+2/,
+        /A single meeting from a meeting series is moved to October 9, 2040, 10:40\s–\s11:40\sAM GMT\+2/,
       ),
     ).toBeVisible();
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
-        /\(previously: October 3, 2040, 10:30 – 11:30 AM GMT\+2/,
+        /\(previously: October 3, 2040, 10:30\s–\s11:30\sAM GMT\+2/,
       ),
     ).toBeVisible();
   });
@@ -424,7 +424,7 @@ test.describe('Recurring Meetings', () => {
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
-        /A single meeting from a meeting series on October 3, 2040, 10:30 – 11:30 AM GMT\+2 is deleted/,
+        /A single meeting from a meeting series on October 3, 2040, 10:30\s–\s11:30\sAM GMT\+2 is deleted/,
       ),
     ).toBeVisible();
   });

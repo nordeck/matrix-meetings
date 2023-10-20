@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import fetch from 'cross-fetch';
 import { createHmac } from 'crypto';
 import { getSynapseRegistrationSecret, getSynapseUrl } from './config';
 

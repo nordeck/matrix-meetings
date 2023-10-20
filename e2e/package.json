@@ -5,14 +5,12 @@
   "license": "Apache-2.0",
   "version": "0.0.0",
   "private": true,
-  "dependencies": {
-    "cross-fetch": "^4.0.0"
-  },
+  "dependencies": {},
   "devDependencies": {
     "@axe-core/playwright": "^4.7.3",
     "@playwright/test": "^1.37.1",
     "@types/lodash": "^4.14.197",
-    "@types/node": "^16.18.44",
+    "@types/node": "^20.4.6",
     "eslint": "^8.47.0",
     "eslint-plugin-playwright": "^0.15.3",
     "lodash": "^4.17.21",
@@ -20,7 +18,7 @@
     "typescript": "^5.1.6"
   },
   "engines": {
-    "node": ">=16",
+    "node": ">=20",
     "yarn": ">=1.22.1 <2.0.0"
   },
   "scripts": {
