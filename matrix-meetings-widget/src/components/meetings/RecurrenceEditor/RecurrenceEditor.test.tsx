@@ -47,7 +47,7 @@ describe('<RecurrenceEditor>', () => {
     );
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
     );
 
     expect(screen.getAllByRole('option').map((o) => o.textContent)).toEqual([
@@ -72,8 +72,8 @@ describe('<RecurrenceEditor>', () => {
     );
 
     expect(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
-    ).toBeInTheDocument();
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
+    ).toHaveTextContent('No repetition');
   });
 
   it('should have no accessibility violations with empty rule', async () => {
@@ -100,8 +100,8 @@ describe('<RecurrenceEditor>', () => {
     );
 
     expect(
-      screen.getByRole('button', { name: 'Repeat meeting Every day' }),
-    ).toBeInTheDocument();
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
+    ).toHaveTextContent('Every day');
     expect(
       screen.getByRole('radio', { name: 'The meeting is repeated forever' }),
     ).toBeChecked();
@@ -131,8 +131,8 @@ describe('<RecurrenceEditor>', () => {
     );
 
     expect(
-      screen.getByRole('button', { name: 'Repeat meeting Every day' }),
-    ).toBeInTheDocument();
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
+    ).toHaveTextContent('Every day');
     expect(
       screen.getByRole('radio', { name: 'The meeting is repeated forever' }),
     ).toBeChecked();
@@ -149,16 +149,16 @@ describe('<RecurrenceEditor>', () => {
     );
 
     expect(
-      screen.getByRole('button', { name: 'Repeat meeting Every 2 days' }),
-    ).toBeInTheDocument();
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
+    ).toHaveTextContent('Every 2 days');
     expect(
       screen.getByRole('spinbutton', {
         name: 'Days until the appointment is repeated',
       }),
     ).toHaveValue(2);
-    expect(
-      screen.getByRole('button', { name: 'Repeat Days' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Repeat' })).toHaveTextContent(
+      'Days',
+    );
   });
 
   it('should render with custom rule weekly', () => {
@@ -172,18 +172,16 @@ describe('<RecurrenceEditor>', () => {
     );
 
     expect(
-      screen.getByRole('button', {
-        name: 'Repeat meeting Every 2 weeks on Sunday',
-      }),
-    ).toBeInTheDocument();
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
+    ).toHaveTextContent('Every 2 weeks on Sunday');
     expect(
       screen.getByRole('spinbutton', {
         name: 'Weeks until the appointment is repeated',
       }),
     ).toHaveValue(2);
-    expect(
-      screen.getByRole('button', { name: 'Repeat Weeks' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Repeat' })).toHaveTextContent(
+      'Weeks',
+    );
     expect(
       screen.getByRole('button', { name: 'Sunday', pressed: true }),
     ).toBeInTheDocument();
@@ -200,18 +198,16 @@ describe('<RecurrenceEditor>', () => {
     );
 
     expect(
-      screen.getByRole('button', {
-        name: 'Repeat meeting Every 4 months on the 2nd',
-      }),
-    ).toBeInTheDocument();
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
+    ).toHaveTextContent('Every 4 months on the 2nd');
     expect(
       screen.getByRole('spinbutton', {
         name: 'Months until the appointment is repeated',
       }),
     ).toHaveValue(4);
-    expect(
-      screen.getByRole('button', { name: 'Repeat Months' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Repeat' })).toHaveTextContent(
+      'Months',
+    );
     expect(
       screen.getByRole('radio', {
         name: 'The meeting is repeated monthly on the 2',
@@ -236,18 +232,16 @@ describe('<RecurrenceEditor>', () => {
     );
 
     expect(
-      screen.getByRole('button', {
-        name: 'Repeat meeting Every January on the first Sunday',
-      }),
-    ).toBeInTheDocument();
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
+    ).toHaveTextContent('Every January on the first Sunday');
     expect(
       screen.getByRole('spinbutton', {
         name: 'Years until the appointment is repeated',
       }),
     ).toHaveValue(1);
-    expect(
-      screen.getByRole('button', { name: 'Repeat Years' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'Repeat' })).toHaveTextContent(
+      'Years',
+    );
     expect(
       screen.getByRole('radio', {
         name: 'The meeting is repeated yearly at first Sunday of January',
@@ -258,14 +252,14 @@ describe('<RecurrenceEditor>', () => {
       name: 'The meeting is repeated yearly at first Sunday of January',
     });
     expect(
-      within(weekdayGroup).getByRole('button', { name: 'Ordinal first' }),
-    ).toBeInTheDocument();
+      within(weekdayGroup).getByRole('combobox', { name: 'Ordinal' }),
+    ).toHaveTextContent('first');
     expect(
-      within(weekdayGroup).getByRole('button', { name: 'Weekday Sunday' }),
-    ).toBeInTheDocument();
+      within(weekdayGroup).getByRole('combobox', { name: 'Weekday' }),
+    ).toHaveTextContent('Sunday');
     expect(
-      within(weekdayGroup).getByRole('button', { name: 'Month January' }),
-    ).toBeInTheDocument();
+      within(weekdayGroup).getByRole('combobox', { name: 'Month' }),
+    ).toHaveTextContent('January');
   });
 
   it('should have no accessibility violations with custom rule', async () => {
@@ -292,7 +286,7 @@ describe('<RecurrenceEditor>', () => {
     );
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Repeat meeting Every day' }),
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
     );
     await userEvent.click(
       screen.getByRole('option', { name: 'No repetition' }),
@@ -312,7 +306,7 @@ describe('<RecurrenceEditor>', () => {
     );
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
     );
     await userEvent.click(screen.getByRole('option', { name: 'Weekly' }));
 
@@ -330,7 +324,7 @@ describe('<RecurrenceEditor>', () => {
     );
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
     );
     await userEvent.click(screen.getByRole('option', { name: 'Custom' }));
 
@@ -339,7 +333,7 @@ describe('<RecurrenceEditor>', () => {
     });
 
     await userEvent.click(
-      within(customGroup).getByRole('button', { name: 'Repeat Days' }),
+      within(customGroup).getByRole('combobox', { name: 'Repeat' }),
     );
     await userEvent.click(screen.getByRole('option', { name: 'Months' }));
 
@@ -358,9 +352,7 @@ describe('<RecurrenceEditor>', () => {
     );
 
     await userEvent.click(
-      within(customGroup).getByRole('button', {
-        name: 'Ordinal first',
-      }),
+      within(customGroup).getByRole('combobox', { name: 'Ordinal' }),
     );
     await userEvent.click(screen.getByRole('option', { name: 'last' }));
 

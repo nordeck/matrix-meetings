@@ -100,9 +100,9 @@ describe('<MeetingsToolbar/>', () => {
 
     expect(screen.getByRole('textbox', { name: 'Search' })).toBeInTheDocument();
 
-    expect(
-      screen.getByRole('button', { name: 'View Day' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'View' })).toHaveTextContent(
+      'Day',
+    );
   });
 
   it('should have no accessibility violations', async () => {

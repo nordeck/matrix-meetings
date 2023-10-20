@@ -77,8 +77,8 @@ describe('<CustomRecurringMeeting>', () => {
       }),
     ).toHaveValue(2);
     expect(
-      within(group).getByRole('button', { name: 'Repeat Days' }),
-    ).toBeInTheDocument();
+      within(group).getByRole('combobox', { name: 'Repeat' }),
+    ).toHaveTextContent('Days');
   });
 
   it('should have no accessibility violations with daily frequency', async () => {
@@ -140,8 +140,8 @@ describe('<CustomRecurringMeeting>', () => {
       }),
     ).toHaveValue(2);
     expect(
-      within(group).getByRole('button', { name: 'Repeat Weeks' }),
-    ).toBeInTheDocument();
+      within(group).getByRole('combobox', { name: 'Repeat' }),
+    ).toHaveTextContent('Weeks');
 
     const weekdaysGroup = within(group).getByRole('group', {
       name: 'Repeat on weekday',
@@ -213,8 +213,8 @@ describe('<CustomRecurringMeeting>', () => {
       }),
     ).toHaveValue(2);
     expect(
-      within(group).getByRole('button', { name: 'Repeat Months' }),
-    ).toBeInTheDocument();
+      within(group).getByRole('combobox', { name: 'Repeat' }),
+    ).toHaveTextContent('Months');
 
     expect(
       within(group).getByRole('radio', {
@@ -265,8 +265,8 @@ describe('<CustomRecurringMeeting>', () => {
       }),
     ).toHaveValue(2);
     expect(
-      within(group).getByRole('button', { name: 'Repeat Months' }),
-    ).toBeInTheDocument();
+      within(group).getByRole('combobox', { name: 'Repeat' }),
+    ).toHaveTextContent('Months');
 
     expect(
       within(group).getByRole('radio', {
@@ -278,12 +278,16 @@ describe('<CustomRecurringMeeting>', () => {
       name: 'The meeting is repeated monthly on third Tuesday',
     });
     expect(
-      within(weekdayGroup).getByRole('button', {
-        name: 'Ordinal third',
-      }),
+      within(weekdayGroup).getByRole('combobox', { name: 'Ordinal' }),
+    ).toHaveTextContent('third');
+    expect(
+      within(weekdayGroup).getByRole('combobox', { name: 'Ordinal' }),
     ).toBeEnabled();
     expect(
-      within(weekdayGroup).getByRole('button', { name: 'Weekday Tuesday' }),
+      within(weekdayGroup).getByRole('combobox', { name: 'Weekday' }),
+    ).toHaveTextContent('Tuesday');
+    expect(
+      within(weekdayGroup).getByRole('combobox', { name: 'Weekday' }),
     ).toBeEnabled();
   });
 
@@ -372,8 +376,8 @@ describe('<CustomRecurringMeeting>', () => {
       }),
     ).toHaveValue(1);
     expect(
-      within(group).getByRole('button', { name: 'Repeat Years' }),
-    ).toBeInTheDocument();
+      within(group).getByRole('combobox', { name: 'Repeat' }),
+    ).toHaveTextContent('Years');
 
     expect(
       within(group).getByRole('radio', {
@@ -390,7 +394,10 @@ describe('<CustomRecurringMeeting>', () => {
     expect(daySpinButton).toBeEnabled();
     expect(daySpinButton).toHaveValue(19);
     expect(
-      within(monthdayGroup).getByRole('button', { name: 'Month October' }),
+      within(monthdayGroup).getByRole('combobox', { name: 'Month' }),
+    ).toHaveTextContent('October');
+    expect(
+      within(monthdayGroup).getByRole('combobox', { name: 'Month' }),
     ).toBeEnabled();
   });
 
@@ -427,8 +434,8 @@ describe('<CustomRecurringMeeting>', () => {
       }),
     ).toHaveValue(1);
     expect(
-      within(group).getByRole('button', { name: 'Repeat Years' }),
-    ).toBeInTheDocument();
+      within(group).getByRole('combobox', { name: 'Repeat' }),
+    ).toHaveTextContent('Years');
 
     expect(
       within(group).getByRole('radio', {
@@ -440,13 +447,22 @@ describe('<CustomRecurringMeeting>', () => {
       name: 'The meeting is repeated yearly at third Tuesday of October',
     });
     expect(
-      within(weekdayGroup).getByRole('button', { name: 'Ordinal third' }),
+      within(weekdayGroup).getByRole('combobox', { name: 'Ordinal' }),
+    ).toHaveTextContent('third');
+    expect(
+      within(weekdayGroup).getByRole('combobox', { name: 'Ordinal' }),
     ).toBeEnabled();
     expect(
-      within(weekdayGroup).getByRole('button', { name: 'Weekday Tuesday' }),
+      within(weekdayGroup).getByRole('combobox', { name: 'Weekday' }),
+    ).toHaveTextContent('Tuesday');
+    expect(
+      within(weekdayGroup).getByRole('combobox', { name: 'Weekday' }),
     ).toBeEnabled();
     expect(
-      within(weekdayGroup).getByRole('button', { name: 'Month October' }),
+      within(weekdayGroup).getByRole('combobox', { name: 'Month' }),
+    ).toHaveTextContent('October');
+    expect(
+      within(weekdayGroup).getByRole('combobox', { name: 'Month' }),
     ).toBeEnabled();
   });
 
@@ -558,7 +574,7 @@ describe('<CustomRecurringMeeting>', () => {
       { wrapper: Wrapper },
     );
 
-    await userEvent.click(screen.getByRole('button', { name: 'Repeat Days' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'Repeat' }));
 
     expect(screen.getAllByRole('option').map((o) => o.textContent)).toEqual([
       'Days',
@@ -717,9 +733,7 @@ describe('<CustomRecurringMeeting>', () => {
     });
 
     await userEvent.click(
-      within(weekdayGroup).getByRole('button', {
-        name: 'Ordinal third',
-      }),
+      within(weekdayGroup).getByRole('combobox', { name: 'Ordinal' }),
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
       'first',
@@ -761,7 +775,7 @@ describe('<CustomRecurringMeeting>', () => {
     });
 
     await userEvent.click(
-      within(weekdayGroup).getByRole('button', { name: 'Weekday Tuesday' }),
+      within(weekdayGroup).getByRole('combobox', { name: 'Weekday' }),
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
       'Sunday',
@@ -874,7 +888,7 @@ describe('<CustomRecurringMeeting>', () => {
     });
 
     await userEvent.click(
-      within(monthdayGroup).getByRole('button', { name: 'Month October' }),
+      within(monthdayGroup).getByRole('combobox', { name: 'Month' }),
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
       'January',
@@ -923,9 +937,7 @@ describe('<CustomRecurringMeeting>', () => {
     });
 
     await userEvent.click(
-      within(weekdayGroup).getByRole('button', {
-        name: 'Ordinal third',
-      }),
+      within(weekdayGroup).getByRole('combobox', { name: 'Ordinal' }),
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
       'first',
@@ -967,7 +979,7 @@ describe('<CustomRecurringMeeting>', () => {
     });
 
     await userEvent.click(
-      within(weekdayGroup).getByRole('button', { name: 'Weekday Tuesday' }),
+      within(weekdayGroup).getByRole('combobox', { name: 'Weekday' }),
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
       'Sunday',
@@ -1011,7 +1023,7 @@ describe('<CustomRecurringMeeting>', () => {
     });
 
     await userEvent.click(
-      within(weekdayGroup).getByRole('button', { name: 'Month October' }),
+      within(weekdayGroup).getByRole('combobox', { name: 'Month' }),
     );
     expect(screen.getAllByRole('option').map((r) => r.textContent)).toEqual([
       'January',
