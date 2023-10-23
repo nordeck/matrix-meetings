@@ -220,7 +220,7 @@ describe('<MeetingsPanel/>', () => {
   it('should have no accessibility violations, if day view', async () => {
     const { container } = render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Day' }));
 
     expect(await screen.findByText('An important meeting')).toBeInTheDocument();
@@ -239,7 +239,7 @@ describe('<MeetingsPanel/>', () => {
   it('should have no accessibility violations, if work week view', async () => {
     const { container } = render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Work Week' }));
 
     expect(await screen.findByText('An important meeting')).toBeInTheDocument();
@@ -258,7 +258,7 @@ describe('<MeetingsPanel/>', () => {
   it('should have no accessibility violations, if week view', async () => {
     const { container } = render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Week' }));
 
     expect(await screen.findByText('An important meeting')).toBeInTheDocument();
@@ -277,7 +277,7 @@ describe('<MeetingsPanel/>', () => {
   it('should have no accessibility violations, if month view', async () => {
     const { container } = render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Month' }));
 
     expect(await screen.findByText('An important meeting')).toBeInTheDocument();
@@ -318,9 +318,9 @@ describe('<MeetingsPanel/>', () => {
 
     expect(screen.getByLabelText('Search')).toBeInTheDocument();
 
-    expect(
-      screen.getByRole('button', { name: 'View List' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'View' })).toHaveTextContent(
+      'List',
+    );
 
     expect(
       await screen.findByRole('listitem', { name: /an important meeting/i }),
@@ -330,7 +330,7 @@ describe('<MeetingsPanel/>', () => {
   it('should render the day view', async () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Day' }));
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(1);
@@ -348,12 +348,12 @@ describe('<MeetingsPanel/>', () => {
 
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Month' }));
 
-    expect(
-      screen.getByRole('button', { name: 'View Month' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'View' })).toHaveTextContent(
+      'Month',
+    );
 
     expect(localStorage.getItem(localStorageKey)).toMatch('month');
   });
@@ -364,9 +364,9 @@ describe('<MeetingsPanel/>', () => {
 
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    expect(
-      screen.getByRole('button', { name: 'View Month' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'View' })).toHaveTextContent(
+      'Month',
+    );
   });
 
   it('should fallback to list view when reading invalid value from localStorage', async () => {
@@ -375,15 +375,15 @@ describe('<MeetingsPanel/>', () => {
 
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    expect(
-      screen.getByRole('button', { name: 'View List' }),
-    ).toBeInTheDocument();
+    expect(screen.getByRole('combobox', { name: 'View' })).toHaveTextContent(
+      'List',
+    );
   });
 
   it('should render the work week view', async () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Work Week' }));
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(5);
@@ -399,7 +399,7 @@ describe('<MeetingsPanel/>', () => {
   it('should render the week view', async () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Week' }));
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(7);
@@ -415,7 +415,7 @@ describe('<MeetingsPanel/>', () => {
   it('should render the month view', async () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Month' }));
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(5 * 7);
@@ -462,7 +462,7 @@ describe('<MeetingsPanel/>', () => {
 
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Month' }));
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(5 * 7);
@@ -491,7 +491,7 @@ describe('<MeetingsPanel/>', () => {
   it('should keep the month when switching from month to week to month, if the first week of the month starts in the previous month', async () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Month' }));
 
     expect(
@@ -500,7 +500,7 @@ describe('<MeetingsPanel/>', () => {
       }),
     ).toHaveTextContent('March 2022');
 
-    await userEvent.click(screen.getByRole('button', { name: 'View Month' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Week' }));
 
     expect(
@@ -509,7 +509,7 @@ describe('<MeetingsPanel/>', () => {
       }),
     ).toHaveTextContent('Mar 6 – 12, 2022');
 
-    await userEvent.click(screen.getByRole('button', { name: 'View Week' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Month' }));
 
     expect(
@@ -603,7 +603,7 @@ describe('<MeetingsPanel/>', () => {
       screen.findByRole('listitem', { name: /an important meeting/i }),
     ).resolves.toBeInTheDocument();
 
-    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Day' }));
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(1);
@@ -672,7 +672,7 @@ describe('<MeetingsPanel/>', () => {
   it('should filter the meetings for day view via search', async () => {
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
-    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Day' }));
 
     expect(screen.getAllByRole('gridcell')).toHaveLength(1);
@@ -867,6 +867,35 @@ describe('<MeetingsPanel/>', () => {
         name: /send message to all breakout session rooms/i,
       }),
     ).toBeInTheDocument();
+  });
+
+  it('should not show breakout session message form if the user has no permission to send message to all rooms', async () => {
+    enableBreakoutSessionView();
+
+    render(<MeetingsPanel />, { wrapper: Wrapper });
+
+    const actions = await screen.findByRole('navigation', { name: /actions/i });
+    expect(
+      within(actions).getByRole('button', {
+        name: /schedule breakout session/i,
+      }),
+    ).toBeInTheDocument();
+    const messageForm = within(actions).queryByRole('textbox', {
+      name: /send message to all breakout session rooms/i,
+    });
+
+    widgetApi.mockSendStateEvent(
+      mockPowerLevelsEvent({
+        room_id: '!room-id',
+        content: {
+          events: { 'net.nordeck.meetings.sub_meetings.send_message': 101 },
+        },
+      }),
+    );
+
+    await waitFor(() => {
+      expect(messageForm).not.toBeInTheDocument();
+    });
   });
 
   it('should hide the actions navigation section if the user has no permission to create breakout sessions', async () => {

@@ -92,7 +92,7 @@ describe('useDownloadIcsFile', () => {
       slice: jest.fn(),
       stream: jest.fn(),
       text: jest.fn(),
-    });
+    } as unknown as Blob);
 
     (URL.createObjectURL as jest.Mock).mockReturnValue('blob:url');
 

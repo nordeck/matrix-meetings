@@ -15,7 +15,6 @@
  */
 
 import { Controller, Get, HttpException, Inject } from '@nestjs/common';
-import fetch from 'node-fetch';
 import { IAppConfiguration } from '../IAppConfiguration';
 import { ModuleProviderToken } from '../ModuleProviderToken';
 

@@ -14,5 +14,17 @@
  * limitations under the License.
  */
 
-export { getForceDeletionTime } from './calendarUtils';
-export { formatICalDate, parseICalDate, toISOString } from './dateTimeUtils';
+import { i18n } from 'i18next';
+
+export function registerDateRangeFormatter(i18n: i18n) {
+  i18n.services.formatter?.add(
+    'daterange',
+    (value: Date[], lng: string | undefined, options) => {
+      const [start, end] = value;
+
+      const formatter = new Intl.DateTimeFormat(lng, { ...options });
+      // @ts-ignore: DateTimeFormat#formatRange will be available in TypeScript >4.7.2
+      return formatter.formatRange(start, end);
+    },
+  );
+}

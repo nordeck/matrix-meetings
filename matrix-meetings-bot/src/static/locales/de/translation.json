@@ -31,7 +31,7 @@
   ],
   "meeting": {
     "invite": {
-      "message": "📅 {{range}}<br/>$t(meeting.invite.messageRecurrence, {\"context\": \"{{recurrenceContext}}\" })<br/>$t(meeting.invite.messageByOrganizer, {\"context\": \"{{organizerContext}}\" })$t(meeting.invite.messageDescription, {\"context\": \"{{descriptionContext}}\" })",
+      "message": "📅 {{range, daterange}}<br/>$t(meeting.invite.messageRecurrence, {\"context\": \"{{recurrenceContext}}\" })<br/>$t(meeting.invite.messageByOrganizer, {\"context\": \"{{organizerContext}}\" })$t(meeting.invite.messageDescription, {\"context\": \"{{descriptionContext}}\" })",
       "messageByOrganizer_none": "",
       "messageByOrganizer_present": "\n{{organizerDisplayName}} hat dich zu dieser Besprechung eingeladen",
       "messageDescription_none": "",
@@ -43,14 +43,19 @@
       "notification": {
         "changed": {
           "date": {
-            "current": "Zeitraum: Von {{start}} bis {{end}}",
-            "previous": "(bislang: Von {{start}} bis {{end}})"
+            "current": "Zeitraum: {{range, daterange}}",
+            "previous": "(bislang: {{range, daterange}})"
           },
           "description": {
             "current": "Beschreibung: {{description}}",
             "previous": "(bislang: {{description}})"
           },
           "headLine": "Änderungen",
+          "occurrence": {
+            "current": "Eine einzelne Besprechung aus einer Besprechungsserie wurde verschoben auf {{range, daterange}}",
+            "deleted": "Eine einzelne Besprechung aus einer Besprechungsserie wurde gelöscht: {{range, daterange}}",
+            "previous": "(bislang: {{value, daterange}})"
+          },
           "repetition": {
             "current": "Die Besprechung wiederholen: {{repetitionText}}",
             "previous": "(bislang: {{repetitionText}})"

@@ -15,7 +15,6 @@
  */
 
 import { expect, FrameLocator, Locator, Page } from '@playwright/test';
-import fetch from 'cross-fetch';
 import { Credentials, getElementWebUrl, getSynapseUrl } from '../util';
 
 export type OpenIdToken = {

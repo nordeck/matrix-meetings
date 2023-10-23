@@ -17,14 +17,14 @@
 import { Injectable, Logger } from '@nestjs/common';
 import i18next from 'i18next';
 import { MatrixClient } from 'matrix-bot-sdk';
-import moment from 'moment-timezone';
 import { MatrixEndpoint } from '../MatrixEndpoint';
 import { MeetingClient } from '../client/MeetingClient';
+import { fullLongDateFormat } from '../dateFormat';
 import { ISyncParams } from '../matrix/dto/ISyncParams';
 import { IMeeting } from '../model/IMeeting';
 import { IUserContext } from '../model/IUserContext';
 import { StateEventName } from '../model/StateEventName';
-import { isRecurringCalendarSourceEntry } from '../shared/calendarUtils/helpers';
+import { parseICalDate } from '../shared';
 import { formatRRuleText } from '../shared/format';
 import { IMeetingChanges } from '../util/IMeetingChanges';
 
@@ -185,115 +185,6 @@ export class RoomMessageService {
     return privateRoomIds;
   }
 
-  private static formatDateTime(
-    timezone: string,
-    locale: string,
-    date: string | number | Date,
-  ): string {
-    return moment(new Date(date)).tz(timezone).locale(locale).format('L LT z');
-  }
-
-  private formatHeader(text: string) {
-    return `<strong>${text}</strong><br>`;
-  }
-  private formatCurrent(text: string) {
-    return `<strong>${text}</strong><br>`;
-  }
-  private formatPrevious(text: string) {
-    return `<font color="#888">${text}</font><br>`;
-  }
-
-  private createTitleLine(lng: string, title: string, previous?: boolean) {
-    if (previous) {
-      return this.formatPrevious(
-        i18next.t(
-          'meeting.room.notification.changed.title.previous',
-          '(previously: {{title}})',
-          { lng, title },
-        ),
-      );
-    } else {
-      return this.formatCurrent(
-        i18next.t(
-          'meeting.room.notification.changed.title.current',
-          'Title: {{title}}',
-          { lng, title },
-        ),
-      );
-    }
-  }
-  private createStartEndTimesLine(
-    lng: string,
-    start: string,
-    end: string,
-    previous?: boolean,
-  ) {
-    if (previous) {
-      return this.formatPrevious(
-        i18next.t(
-          'meeting.room.notification.changed.date.previous',
-          '(previously: {{start}} to {{end}})',
-          { lng, start, end },
-        ),
-      );
-    } else {
-      return this.formatCurrent(
-        i18next.t(
-          'meeting.room.notification.changed.date.current',
-          'Date: {{start}} to {{end}}',
-          { lng, start, end },
-        ),
-      );
-    }
-  }
-  private createDescriptionLine(
-    lng: string,
-    description: string,
-    previous?: boolean,
-  ) {
-    if (previous) {
-      return this.formatPrevious(
-        i18next.t(
-          'meeting.room.notification.changed.description.previous',
-          '(previously: {{description}})',
-          { lng, description },
-        ),
-      );
-    } else {
-      return this.formatCurrent(
-        i18next.t(
-          'meeting.room.notification.changed.description.current',
-          'Description: {{description}}',
-          { lng, description },
-        ),
-      );
-    }
-  }
-
-  private createRepetitionLine(
-    lng: string,
-    repetitionText: string,
-    previous?: boolean,
-  ) {
-    if (previous) {
-      return this.formatPrevious(
-        i18next.t(
-          'meeting.room.notification.changed.repetition.previous',
-          '(previously: {{repetitionText}})',
-          { lng, repetitionText },
-        ),
-      );
-    } else {
-      return this.formatCurrent(
-        i18next.t(
-          'meeting.room.notification.changed.repetition.current',
-          'Repeat meeting: {{repetitionText}}',
-          { lng, repetitionText },
-        ),
-      );
-    }
-  }
-
   public async notifyMeetingTimeChangedAsync(
     userContext: IUserContext,
     oldMeeting: IMeeting,
@@ -306,67 +197,233 @@ export class RoomMessageService {
 
     if (!meetingChanges.anythingChanged) return;
 
-    let notification = this.formatHeader(
-      i18next.t('meeting.room.notification.changed.headLine', 'CHANGES', {
-        lng,
-      }),
-    );
-    if (meetingChanges.titleChanged) {
-      const newTitle = newMeeting.title;
-      const oldTitle = oldMeeting.title;
+    let notification = '';
 
-      notification += this.createTitleLine(lng, newTitle);
-      notification += this.createTitleLine(lng, oldTitle, true);
+    if (
+      !meetingChanges.calendarChanges.some(
+        (e) =>
+          e.changeType !== 'updateSingleOrRecurringTime' &&
+          e.changeType !== 'updateSingleOrRecurringRrule',
+      )
+    ) {
+      notification += formatCurrent(
+        i18next.t('meeting.room.notification.changed.headLine', 'CHANGES', {
+          lng,
+        }),
+      );
     }
 
-    if (meetingChanges.timeChanged) {
-      const newStart = RoomMessageService.formatDateTime(
-        timeZone,
-        lng,
-        newMeeting.startTime,
+    if (meetingChanges.titleChanged) {
+      notification += formatCurrent(
+        i18next.t(
+          'meeting.room.notification.changed.title.current',
+          'Title: {{title}}',
+          { lng, title: newMeeting.title },
+        ),
       );
-      const newEnd = RoomMessageService.formatDateTime(
-        timeZone,
-        lng,
-        newMeeting.endTime,
+      notification += formatPrevious(
+        i18next.t(
+          'meeting.room.notification.changed.title.previous',
+          '(previously: {{title}})',
+          { lng, title: oldMeeting.title },
+        ),
       );
-      const oldStart = RoomMessageService.formatDateTime(
-        timeZone,
-        lng,
-        oldMeeting.startTime,
-      );
-      const oldEnd = RoomMessageService.formatDateTime(
-        timeZone,
-        lng,
-        oldMeeting.endTime,
-      );
-      notification += this.createStartEndTimesLine(lng, newStart, newEnd);
-      notification += this.createStartEndTimesLine(lng, oldStart, oldEnd, true);
+    }
+
+    for (const change of meetingChanges.calendarChanges) {
+      if (change.changeType === 'updateSingleOrRecurringTime') {
+        notification += formatCurrent(
+          i18next.t(
+            'meeting.room.notification.changed.date.current',
+            'Date: {{range, daterange}}',
+            {
+              lng,
+              range: [
+                parseICalDate(change.newValue.dtstart).toJSDate(),
+                parseICalDate(change.newValue.dtend).toJSDate(),
+              ],
+              formatParams: {
+                range: {
+                  timeZone,
+                  ...fullLongDateFormat,
+                },
+              },
+            },
+          ),
+        );
+
+        notification += formatPrevious(
+          i18next.t(
+            'meeting.room.notification.changed.date.previous',
+            '(previously: {{range, daterange}})',
+            {
+              lng,
+              range: [
+                parseICalDate(change.oldValue.dtstart).toJSDate(),
+                parseICalDate(change.oldValue.dtend).toJSDate(),
+              ],
+              formatParams: {
+                range: {
+                  timeZone,
+                  ...fullLongDateFormat,
+                },
+              },
+            },
+          ),
+        );
+      }
     }
 
     if (meetingChanges.descriptionChanged) {
-      const newDescription = newMeeting.description;
-      const oldDescription = oldMeeting.description;
-      notification += this.createDescriptionLine(lng, newDescription);
-      notification += this.createDescriptionLine(lng, oldDescription, true);
+      notification += formatCurrent(
+        i18next.t(
+          'meeting.room.notification.changed.description.current',
+          'Description: {{description}}',
+          { lng, description: newMeeting.description },
+        ),
+      );
+      notification += formatPrevious(
+        i18next.t(
+          'meeting.room.notification.changed.description.previous',
+          '(previously: {{description}})',
+          { lng, description: oldMeeting.description },
+        ),
+      );
     }
 
-    if (meetingChanges.calendarChanged) {
-      const newRruleText = isRecurringCalendarSourceEntry(newMeeting.calendar)
-        ? formatRRuleText(newMeeting.calendar[0].rrule, i18next.t, lng)
-        : i18next.t('meeting.room.notification.noRepetition', 'No repetition', {
-            lng,
-          });
-      notification += this.createRepetitionLine(lng, newRruleText);
+    for (const change of meetingChanges.calendarChanges) {
+      if (change.changeType === 'updateSingleOrRecurringRrule') {
+        const newRrule = change.newValue;
+        const newRruleText = newRrule
+          ? formatRRuleText(newRrule, i18next.t, lng)
+          : i18next.t(
+              'meeting.room.notification.noRepetition',
+              'No repetition',
+              {
+                lng,
+              },
+            );
+        notification += formatCurrent(
+          i18next.t(
+            'meeting.room.notification.changed.repetition.current',
+            'Repeat meeting: {{repetitionText}}',
+            { lng, repetitionText: newRruleText },
+          ),
+        );
 
-      const oldRruleText = isRecurringCalendarSourceEntry(oldMeeting.calendar)
-        ? formatRRuleText(oldMeeting.calendar[0].rrule, i18next.t, lng)
-        : i18next.t('meeting.room.notification.noRepetition', 'No repetition', {
-            lng,
-          });
-      notification += this.createRepetitionLine(lng, oldRruleText, true);
+        const oldRrule = change.oldValue;
+        const oldRruleText = oldRrule
+          ? formatRRuleText(oldRrule, i18next.t, lng)
+          : i18next.t(
+              'meeting.room.notification.noRepetition',
+              'No repetition',
+              {
+                lng,
+              },
+            );
+        notification += formatPrevious(
+          i18next.t(
+            'meeting.room.notification.changed.repetition.previous',
+            '(previously: {{repetitionText}})',
+            { lng, repetitionText: oldRruleText },
+          ),
+        );
+      }
+    }
+
+    for (const change of meetingChanges.calendarChanges) {
+      if (
+        change.changeType === 'addOverride' ||
+        change.changeType === 'updateOverride'
+      ) {
+        const start: Date = parseICalDate(change.value.dtstart).toJSDate();
+        const end: Date = parseICalDate(change.value.dtend).toJSDate();
+
+        notification += formatCurrent(
+          i18next.t(
+            'meeting.room.notification.changed.occurrence.current',
+            'A single meeting from a meeting series is moved to {{range, daterange}}',
+            {
+              lng,
+              range: [start, end],
+              formatParams: {
+                range: {
+                  timeZone,
+                  ...fullLongDateFormat,
+                },
+              },
+            },
+          ),
+        );
+
+        const [prevStart, prevEnd] =
+          change.changeType === 'addOverride'
+            ? [
+                parseICalDate(change.oldDtstart).toJSDate(),
+                parseICalDate(change.oldDtend).toJSDate(),
+              ]
+            : [
+                parseICalDate(change.oldValue.dtstart).toJSDate(),
+                parseICalDate(change.oldValue.dtend).toJSDate(),
+              ];
+
+        notification += formatPrevious(
+          i18next.t(
+            'meeting.room.notification.changed.occurrence.previous',
+            '(previously: {{value, daterange}})',
+            {
+              lng,
+              value: [prevStart, prevEnd],
+              formatParams: {
+                value: {
+                  timeZone,
+                  ...fullLongDateFormat,
+                },
+              },
+            },
+          ),
+        );
+      } else if (
+        change.changeType === 'deleteOverride' ||
+        change.changeType === 'addExdate'
+      ) {
+        const [start, end] =
+          change.changeType === 'deleteOverride'
+            ? [
+                parseICalDate(change.value.dtstart).toJSDate(),
+                parseICalDate(change.value.dtend).toJSDate(),
+              ]
+            : [
+                parseICalDate(change.dtstart).toJSDate(),
+                parseICalDate(change.dtend).toJSDate(),
+              ];
+
+        notification += formatCurrent(
+          i18next.t(
+            'meeting.room.notification.changed.occurrence.deleted',
+            'A single meeting from a meeting series on {{range, daterange}} is deleted',
+            {
+              lng,
+              range: [start, end],
+              formatParams: {
+                range: {
+                  timeZone,
+                  ...fullLongDateFormat,
+                },
+              },
+            },
+          ),
+        );
+      }
     }
 
     await this.client.sendHtmlText(toRoomId, notification);
   }
+}
+
+function formatCurrent(text: string): string {
+  return `<strong>${text}</strong><br>`;
+}
+function formatPrevious(text: string): string {
+  return `<font color="#888">${text}</font><br>`;
 }

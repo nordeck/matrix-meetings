@@ -228,6 +228,20 @@ test.describe('Recurring Meetings', () => {
       aliceMeetingsWidgetPage.getMeeting('My Meeting', '10/04/2040')
         .meetingTimeRangeText,
     ).toHaveText('10:30 AM – 11:30 AM. Recurrence: Every day for 5 times');
+
+    await aliceElementWebPage.switchToRoom('My Meeting');
+
+    await expect(
+      aliceElementWebPage.locateChatMessageInRoom(
+        /A single meeting from a meeting series is moved to October 9, 2040, 10:40\s–\s11:40\sAM GMT\+2/,
+      ),
+    ).toBeVisible();
+
+    await expect(
+      aliceElementWebPage.locateChatMessageInRoom(
+        /\(previously: October 3, 2040, 10:30\s–\s11:30\sAM GMT\+2/,
+      ),
+    ).toBeVisible();
   });
 
   test('should covert a recurring meeting into a single meeting', async ({
@@ -372,6 +386,7 @@ test.describe('Recurring Meetings', () => {
   });
 
   test('should delete a single recurring meeting', async ({
+    aliceElementWebPage,
     aliceMeetingsWidgetPage,
   }) => {
     await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 9]);
@@ -404,6 +419,14 @@ test.describe('Recurring Meetings', () => {
     await expect(
       aliceMeetingsWidgetPage.getMeeting('My Meeting').card,
     ).toHaveCount(4);
+
+    await aliceElementWebPage.switchToRoom('My Meeting');
+
+    await expect(
+      aliceElementWebPage.locateChatMessageInRoom(
+        /A single meeting from a meeting series on October 3, 2040, 10:30\s–\s11:30\sAM GMT\+2 is deleted/,
+      ),
+    ).toBeVisible();
   });
 
   // TODO: Delete starting from

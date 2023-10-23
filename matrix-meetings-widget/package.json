@@ -3,7 +3,7 @@
   "description": "A meetings widget for the Element messenger",
   "author": "Nordeck IT + Consulting GmbH",
   "license": "Apache-2.0",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "private": true,
   "dependencies": {
     "@fullcalendar/core": "^6.1.9",
@@ -11,13 +11,13 @@
     "@fullcalendar/interaction": "^6.1.9",
     "@fullcalendar/react": "^6.1.9",
     "@fullcalendar/timegrid": "^6.1.9",
-    "@matrix-widget-toolkit/api": "^3.2.1",
-    "@matrix-widget-toolkit/mui": "^1.1.5",
+    "@matrix-widget-toolkit/api": "^3.2.2",
+    "@matrix-widget-toolkit/mui": "^1.1.6",
     "@matrix-widget-toolkit/react": "^1.0.5",
     "@mui/icons-material": "^5.11.16",
-    "@mui/lab": "^5.0.0-alpha.140",
+    "@mui/lab": "^5.0.0-alpha.149",
     "@mui/material": "^5.13.4",
-    "@mui/x-date-pickers": "^6.16.2",
+    "@mui/x-date-pickers": "^6.16.3",
     "@mui/utils": "^5.14.13",
     "@reduxjs/toolkit": "^1.9.7",
     "i18next": "^23.4.5",
@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
-    "@matrix-widget-toolkit/testing": "^2.3.1",
+    "@matrix-widget-toolkit/testing": "^2.3.2",
     "@testing-library/jest-dom": "^6.1.2",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.1",
@@ -52,7 +52,7 @@
     "@types/lodash": "^4.14.197",
     "@types/luxon": "^3.2.0",
     "@types/mustache": "^4.2.2",
-    "@types/node": "^16.18.44",
+    "@types/node": "^20.4.6",
     "@types/react": "^17.0.53",
     "@types/react-dom": "^17.0.19",
     "@types/react-i18next": "^8.1.0",
@@ -67,7 +67,7 @@
     "typescript": "^5.1.6"
   },
   "engines": {
-    "node": ">=16",
+    "node": ">=20",
     "yarn": ">=1.22.1 <2.0.0"
   },
   "scripts": {

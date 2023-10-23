@@ -141,10 +141,11 @@ export const ScheduleMeeting = ({
     initialMeeting &&
     initialMeeting.recurrenceId === undefined &&
     isRecurringCalendarSourceEntry(initialMeeting.calendarEntries);
+
   const startDateReadOnly =
     !isEditingRecurringMeeting &&
     initialMeeting &&
-    parseICalDate(initialMeeting.calendarEntries[0].dtstart) <= DateTime.now()
+    DateTime.fromISO(initialMeeting.startTime) <= DateTime.now()
       ? t(
           'scheduleMeeting.meetingAlreadyStarted',
           'The meeting already started.',

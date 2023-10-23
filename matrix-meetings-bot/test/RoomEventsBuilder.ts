@@ -151,9 +151,14 @@ export class RoomEventsBuilder {
         room_id: this.room_id,
         sender: this.creator,
         content: {
-          start_time: '2021-05-11T10:45:00.000Z',
-          end_time: '2021-05-11T11:45:00.000Z',
-          auto_deletion_offset: 5,
+          calendar: [
+            {
+              uid: 'entry-0',
+              dtstart: { tzid: 'UTC', value: '20210511T104500' },
+              dtend: { tzid: 'UTC', value: '20210511T114500' },
+            },
+          ],
+          force_deletion_at: new Date('2021-05-11T11:50:00Z').getTime(),
         },
         event_id: uuiv4(),
         user_id: this.creator,

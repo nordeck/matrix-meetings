@@ -1,6 +1,6 @@
 {
   "name": "@nordeck/matrix-meetings-bot",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "description": "A Matrix bot that creates rooms for meetings triggered by custom events from the NeoDateFix widget",
   "author": "Nordeck IT + Consulting GmbH",
   "license": "Apache-2.0",
@@ -27,7 +27,7 @@
     "generate-disclaimer": "cp ../LICENSE ./lib/LICENSE.txt && cp NOTICE ./lib/NOTICE.txt && yarn licenses generate-disclaimer --prod >> ./lib/NOTICE.txt && yarn licenses list --prod --json --no-progress > ./lib/licenses.json"
   },
   "engines": {
-    "node": ">=16",
+    "node": ">=20",
     "yarn": ">=1.22.1 <2.0.0"
   },
   "dependencies": {
@@ -51,10 +51,8 @@
     "luxon": "^3.3.0",
     "matrix-bot-sdk": "^0.6.6",
     "mime-types": "^2.1.35",
-    "moment-timezone": "^0.5.43",
     "mustache": "^4.2.0",
     "nestjs-pino": "^3.5.0",
-    "node-fetch": "^2.7.0",
     "pino": "^8.16.0",
     "pino-http": "^8.5.0",
     "reflect-metadata": "^0.1.13",
@@ -70,8 +68,7 @@
     "@types/luxon": "^3.2.0",
     "@types/mime-types": "^2.1.1",
     "@types/mustache": "^4.2.2",
-    "@types/node": "^16.18.44",
-    "@types/node-fetch": "^2.6.4",
+    "@types/node": "^20.4.6",
     "@types/uuid": "^9.0.4",
     "copyfiles": "^2.4.1",
     "depcheck": "^1.4.5",

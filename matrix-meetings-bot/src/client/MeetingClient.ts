@@ -47,11 +47,7 @@ import { MeetingType } from '../model/MeetingType';
 import { Room } from '../model/Room';
 import { RoomEventName } from '../model/RoomEventName';
 import { StateEventName } from '../model/StateEventName';
-import {
-  getForceDeletionTime,
-  getMeetingEndTime,
-  getMeetingStartTime,
-} from '../shared';
+import { getForceDeletionTime } from '../shared';
 import { templateHelper } from '../util/TemplateHelper';
 import { extractOxRrule } from '../util/extractOxRrule';
 import { migrateMeetingTime } from '../util/migrateMeetingTime';
@@ -180,14 +176,12 @@ export class MeetingClient {
       userContext.userId,
     );
 
-    const meetingStartTime = getMeetingStartTime(
-      meetingCreate.start_time,
-      meetingCreate.calendar,
-    );
-
-    const meetingEndTime = getMeetingEndTime(
-      meetingCreate.end_time,
-      meetingCreate.calendar,
+    // change data model if meeting is in old format
+    const externalRrule = extractOxRrule(meetingCreate);
+    const calendar = migrateMeetingTime(
+      meetingCreate,
+      externalRrule,
+      undefined,
     );
 
     const memberEventsWithReason: DeepReadonlyArray<
@@ -198,9 +192,7 @@ export class MeetingClient {
         const { textReason, htmlReason } = templateHelper.makeInviteReasons(
           {
             description: meetingCreate.description,
-            startTime: meetingStartTime,
-            endTime: meetingEndTime,
-            calendar: meetingCreate.calendar,
+            calendar,
           },
           userContext,
           se.state_key === userContext.userId ? undefined : displayname,
@@ -241,19 +233,9 @@ export class MeetingClient {
       params,
     );
 
-    // change data model if meeting is OX with non-empty rrules
-    const { start_time, end_time, calendar } = migrateMeetingTime(
-      meetingCreate,
-      extractOxRrule(meetingCreate),
-    );
-
     const meetingsMetadataEventContent: IMeetingsMetadataEventContent = {
-      start_time,
-      end_time,
       calendar,
       force_deletion_at: getForceDeletionTime(autoDeletionOffset, calendar),
-      auto_deletion_offset:
-        calendar === undefined ? autoDeletionOffset : undefined,
       creator: userContext.userId,
       external_data: meetingCreate.external_data,
     };

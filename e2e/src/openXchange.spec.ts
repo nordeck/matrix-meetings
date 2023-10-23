@@ -149,7 +149,12 @@ test.describe('OpenXchange', () => {
 
     await expect(
       aliceElementWebPage.locateChatMessageInRoom(
-        /10\/04\/2040 10:30 AM CEST to 10\/04\/2040 11:00 AM CEST/,
+        /October 4, 2040, 10:30\s–\s11:00\sAM GMT\+2/,
+      ),
+    ).toBeVisible();
+    await expect(
+      aliceElementWebPage.locateChatMessageInRoom(
+        /\(previously: October 3, 2040, 10:30\s–\s11:00\sAM GMT\+2\)/,
       ),
     ).toBeVisible();
 

@@ -71,6 +71,7 @@ export function hasPermissions(
 export type RoomPermissions = {
   canCreateMeeting: boolean;
   canCreateBreakoutSessions: boolean;
+  canSendMessageToAllBreakoutSessions: boolean;
   canUpdateMeetingDetails: boolean;
   canUpdateMeetingParticipantsInvite: boolean;
   canUpdateMeetingParticipantsKick: boolean;
@@ -98,6 +99,15 @@ export function makeSelectRoomPermissions(): (
         {
           roomEventTypes: [
             RoomEvents.NET_NORDECK_MEETINGS_BREAKOUTSESSIONS_CREATE,
+          ],
+        },
+      );
+      const canSendMessageToAllBreakoutSessions = hasPermissions(
+        roomPowerLevelsEvent,
+        userId,
+        {
+          roomEventTypes: [
+            RoomEvents.NET_NORDECK_MEETINGS_SUB_MEETINGS_SEND_MESSAGE,
           ],
         },
       );
@@ -171,6 +181,7 @@ export function makeSelectRoomPermissions(): (
       return {
         canCreateMeeting,
         canCreateBreakoutSessions,
+        canSendMessageToAllBreakoutSessions,
         canUpdateMeetingDetails,
         canUpdateMeetingParticipantsInvite,
         canUpdateMeetingParticipantsKick,
