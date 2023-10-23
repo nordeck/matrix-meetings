@@ -36,6 +36,7 @@ This will give us convenient helpers to store, access, and mutate data.
 
 1. We will create a new API that provides a `get<EventType>` handler for each event (see also [no-op query](https://redux-toolkit.js.org/rtk-query/usage/customizing-queries#using-a-no-op-queryfn)):
 
+<!--prettier-ignore-->
    ```ts
    import { createEntityAdapter, EntityState } from '@reduxjs/toolkit';
    import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
