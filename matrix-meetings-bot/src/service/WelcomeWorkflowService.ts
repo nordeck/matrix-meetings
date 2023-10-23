@@ -15,7 +15,7 @@
  */
 
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import i18next from 'i18next';
+import i18next, { TOptions } from 'i18next';
 import {
   MatrixClient,
   MembershipEventContent,
@@ -47,7 +47,7 @@ interface IPrivateRoomContext {
 }
 
 // variables for i18n
-interface TranslationContext {
+interface TranslationContext extends TOptions {
   locale?: string; // locale of the message ('en', 'de')
   roomName?: string; // name of the room that will display the message
   roomId?: string; // roomId of the room that will display the message

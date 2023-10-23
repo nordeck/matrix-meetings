@@ -42,7 +42,7 @@ export class MeetingsWidgetPage {
   }
 
   async switchView(view: CalendarView) {
-    await this.widget.getByRole('button', { name: /^View/ }).click();
+    await this.widget.getByRole('combobox', { name: /^View/ }).click();
     await this.widget
       .getByRole('option', { name: new RegExp(`^${view}$`, 'i') })
       .click();
@@ -50,7 +50,7 @@ export class MeetingsWidgetPage {
 
   async waitForCalendarView(view: CalendarView) {
     await this.widget
-      .getByRole('button', { name: new RegExp(`^View ${view}$`, 'i') })
+      .getByRole('combobox', { name: new RegExp(`^View ${view}$`, 'i') })
       .isVisible();
   }
 

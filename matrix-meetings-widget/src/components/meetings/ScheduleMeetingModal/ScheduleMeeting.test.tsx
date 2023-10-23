@@ -139,8 +139,8 @@ describe('<ScheduleMeeting>', () => {
     ).toBeChecked();
 
     expect(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
-    ).toBeInTheDocument();
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
+    ).toHaveTextContent('No repetition');
 
     // Async as we wait for the widgets to load
     await waitFor(() => {
@@ -250,7 +250,7 @@ describe('<ScheduleMeeting>', () => {
     );
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
     );
     const recurrenceOptionsList = screen.getByRole('listbox', {
       name: 'Repeat meeting',
@@ -526,7 +526,7 @@ describe('<ScheduleMeeting>', () => {
     });
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
     );
     const recurrenceOptionsList = screen.getByRole('listbox', {
       name: 'Repeat meeting',
@@ -602,7 +602,7 @@ describe('<ScheduleMeeting>', () => {
     );
 
     await userEvent.click(
-      screen.getByRole('button', { name: 'Repeat meeting No repetition' }),
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
     );
     const recurrenceOptionsList = screen.getByRole('listbox', {
       name: 'Repeat meeting',
@@ -697,8 +697,8 @@ describe('<ScheduleMeeting>', () => {
     });
     expect(widgetsCombobox).toBeDisabled();
 
-    const repetitionButton = screen.getByRole('button', {
-      name: 'Repeat meeting Every day',
+    const repetitionButton = screen.getByRole('combobox', {
+      name: 'Repeat meeting',
     });
     expect(repetitionButton).toHaveAttribute('aria-disabled', 'true');
   });
@@ -776,8 +776,8 @@ describe('<ScheduleMeeting>', () => {
     });
     expect(widgetsCombobox).toBeEnabled();
 
-    const repetitionButton = screen.getByRole('button', {
-      name: 'Repeat meeting Every day',
+    const repetitionButton = screen.getByRole('combobox', {
+      name: 'Repeat meeting',
     });
     expect(repetitionButton).toBeEnabled();
   });
@@ -1105,8 +1105,8 @@ describe('<ScheduleMeeting>', () => {
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('button', { name: 'Repeat meeting Every day' }),
-    ).toBeInTheDocument();
+      screen.getByRole('combobox', { name: 'Repeat meeting' }),
+    ).toHaveTextContent('Every day');
   }, 10000);
 
   it('should have a date picker if meeting start and end date are different', () => {

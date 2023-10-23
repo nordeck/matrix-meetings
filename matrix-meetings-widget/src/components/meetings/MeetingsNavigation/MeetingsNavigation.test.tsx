@@ -41,8 +41,11 @@ describe('<MeetingsNavigation/>', () => {
       wrapper: Wrapper,
     });
 
+    expect(
+      screen.getByRole('combobox', { name: 'View', description: '' }),
+    ).toHaveTextContent('List');
     await userEvent.click(
-      screen.getByRole('button', { name: 'View List', description: '' }),
+      screen.getByRole('combobox', { name: 'View', description: '' }),
     );
 
     const listbox = screen.getByRole('listbox', { name: 'View' });
@@ -63,7 +66,7 @@ describe('<MeetingsNavigation/>', () => {
       { wrapper: Wrapper },
     );
 
-    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
 
     expect(await axe(container)).toHaveNoViolations();
   });
@@ -76,7 +79,7 @@ describe('<MeetingsNavigation/>', () => {
       { wrapper: Wrapper },
     );
 
-    await userEvent.click(screen.getByRole('button', { name: 'View List' }));
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
 
     expect(await axe(container)).toHaveNoViolations();
   });
@@ -90,7 +93,10 @@ describe('<MeetingsNavigation/>', () => {
       wrapper: Wrapper,
     });
 
-    await userEvent.click(screen.getByRole('button', { name: 'View Week' }));
+    expect(screen.getByRole('combobox', { name: 'View' })).toHaveTextContent(
+      'Week',
+    );
+    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
     await userEvent.click(screen.getByRole('option', { name: 'Month' }));
 
     expect(onViewChange).toHaveBeenLastCalledWith('month');
@@ -104,8 +110,8 @@ describe('<MeetingsNavigation/>', () => {
     });
 
     await userEvent.click(
-      screen.getByRole('button', {
-        name: 'View List',
+      screen.getByRole('combobox', {
+        name: 'View',
         description: 'Increase widget width to enable more views.',
       }),
     );
