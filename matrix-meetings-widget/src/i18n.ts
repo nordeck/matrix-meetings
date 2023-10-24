@@ -43,8 +43,6 @@ i18n
 
     supportedLngs: ['en', 'de'],
     nonExplicitSupportedLngs: true,
-
-    returnNull: false,
   });
 
 registerDateRangeFormatter(i18n);
