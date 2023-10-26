@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.5.2
+
+### Patch Changes
+
+- Update dependencies.
+
 ## 1.5.1
 
 ### Patch Changes
