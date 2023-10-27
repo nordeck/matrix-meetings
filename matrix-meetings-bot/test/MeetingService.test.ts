@@ -1011,7 +1011,7 @@ describe('test relevant functionality of MeetingService', () => {
     ).toEqual(['44444']);
   });
 
-  test.only('should invite users', async () => {
+  test('should invite users', async () => {
     const roomId = 'a1';
 
     const roomCreationEvent: IStateEvent<any> = {
