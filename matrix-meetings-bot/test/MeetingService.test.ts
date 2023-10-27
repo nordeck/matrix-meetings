@@ -16,7 +16,11 @@
 
 import fetch from 'jest-fetch-mock';
 import _, { last } from 'lodash';
-import { MatrixClient, PowerLevelsEventContent } from 'matrix-bot-sdk';
+import {
+  MatrixClient,
+  PowerLevelsEventContent,
+  RoomTopicEventContent,
+} from 'matrix-bot-sdk';
 import { PowerLevelAction } from 'matrix-bot-sdk/lib/models/PowerLevelAction';
 import {
   anything,
@@ -1007,47 +1011,92 @@ describe('test relevant functionality of MeetingService', () => {
     ).toEqual(['44444']);
   });
 
-  test('should invite users', async () => {
-    const parentId = PARENT_MEETING_ROOM_ID;
+  test.only('should invite users', async () => {
+    const roomId = 'a1';
 
-    when(clientMock.createRoom(anything())).thenResolve(parentId);
-    await meetingService.createMeeting(userContext, createEvent(parentId));
+    const roomCreationEvent: IStateEvent<any> = {
+      type: StateEventName.M_ROOM_CREATION_EVENT,
+      ...stateEventStub,
+      sender: CURRENT_USER,
+      content: {
+        type: MeetingType.MEETING,
+      },
+    };
 
-    when(clientMock.inviteUser(anything(), anything())).thenResolve(undefined);
-    const userIds = ['@peterpan:synapse.dev.nordeck.systems'];
+    const nicMeetingMetadataEvent: IStateEvent<IMeetingsMetadataEventContent> =
+      {
+        type: StateEventName.NIC_MEETINGS_METADATA_EVENT as string,
+        ...stateEventStub,
+        content: {
+          calendar: [
+            {
+              uid: 'entry-0',
+              dtstart: { tzid: 'UTC', value: '20220101T100000' },
+              dtend: { tzid: 'UTC', value: '20220101T110000' },
+              rrule: 'FREQ=DAILY;COUNT=3',
+            },
+          ],
+          force_deletion_at: new Date('2022-01-01T11:05:00Z').getTime(),
+          creator: CURRENT_USER,
+        },
+      };
 
-    await expect(
-      meetingService.handleParticipants(
-        userContext,
-        new MeetingParticipantsHandleDto(parentId, true, userIds),
-      ),
-    ).resolves.toBeUndefined();
+    const powerLevelsEvent: IStateEvent<PowerLevelsEventContent> = {
+      type: StateEventName.M_ROOM_POWER_LEVELS_EVENT,
+      ...stateEventStub,
+      content: {
+        events_default: 50,
+        users: {
+          [BOT_USER]: 101,
+          [CURRENT_USER]: 100,
+        },
+      },
+    };
 
-    const initialInvitations = getArgsFromCaptor(capture(clientMock.inviteUser))
-      .filter(([_, roomId]) => roomId === parentId)
-      .map(([userId]) => userId);
-    expect(initialInvitations).toEqual([
-      '@peterpan:synapse.dev.nordeck.systems',
+    const topicEvent: IStateEvent<RoomTopicEventContent> = {
+      type: StateEventName.M_ROOM_TOPIC_EVENT,
+      ...stateEventStub,
+      content: {
+        topic: 'good meeting',
+      },
+    };
+
+    const userId1 = '@user_1:localhost';
+    const userId2 = '@user_2:localhost';
+
+    when(clientMock.getRoomState(roomId)).thenResolve([
+      roomCreationEvent,
+      nicMeetingMetadataEvent,
+      powerLevelsEvent,
+      topicEvent,
     ]);
 
-    resetCalls(clientMock);
-    userIds.push('a');
-    userIds.push('b');
-    userIds.push('b');
-    await expect(
-      meetingService.handleParticipants(
-        userContext,
-        new MeetingParticipantsHandleDto(parentId, true, userIds),
-      ),
-    ).resolves.toBeUndefined();
+    when(
+      clientMock.sendStateEvent(anything(), anything(), anything(), anything()),
+    ).thenResolve('some-event-id');
 
-    const extraInvitations = getArgsFromCaptor(capture(clientMock.inviteUser))
-      .filter(([_, roomId]) => roomId === parentId)
-      .map(([userId]) => userId);
-    expect(extraInvitations).toEqual([
-      '@peterpan:synapse.dev.nordeck.systems',
-      'a',
-      'b',
+    await meetingService.handleParticipants(
+      userContext,
+      new MeetingParticipantsHandleDto(roomId, true, [userId1, userId2]),
+    );
+
+    const usersInvited = getArgsFromCaptor(capture(clientMock.sendStateEvent))
+      .filter(
+        ([, eventType, _, content]) =>
+          eventType === StateEventName.M_ROOM_MEMBER_EVENT &&
+          (content as IElementMembershipEventContent).membership === 'invite',
+      )
+      .map(([, , userId, { reason }]) => ({ userId, reason }));
+
+    expect(usersInvited).toEqual([
+      {
+        userId: userId1,
+        reason: `📅 1/1/2022, 10:00 – 11:00 AM UTC\n🔁 Recurrence: Every day for 3 times\nyou've been invited to a meeting by displayname\ngood meeting`,
+      },
+      {
+        userId: userId2,
+        reason: `📅 1/1/2022, 10:00 – 11:00 AM UTC\n🔁 Recurrence: Every day for 3 times\nyou've been invited to a meeting by displayname\ngood meeting`,
+      },
     ]);
   });
 

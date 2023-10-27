@@ -641,11 +641,37 @@ export class MeetingService {
         ...new Set(Array.isArray(userIds) ? userIds : [userIds]),
       ];
       const promises: Promise<any>[] = [];
+
+      const meeting = room.meeting;
+      const { displayname } = await this.matrixClient.getUserProfile(
+        meeting.creator,
+      );
+
       for (const userId of uniqueUserIds) {
         if (invite) {
+          const { textReason, htmlReason } = templateHelper.makeInviteReasons(
+            {
+              description: meeting.description,
+              calendar: meeting.calendar,
+            },
+            userContext,
+            displayname,
+          );
+
+          const content: IElementMembershipEventContent = {
+            membership: 'invite',
+            reason: textReason,
+            'io.element.html_reason': htmlReason,
+          };
+
           promises.push(
             this.matrixClient
-              .inviteUser(userId, room.id)
+              .sendStateEvent(
+                room.id,
+                StateEventName.M_ROOM_MEMBER_EVENT,
+                userId,
+                content,
+              )
               .catch(() => failedUserIds.push(userId)),
           );
         } else {
