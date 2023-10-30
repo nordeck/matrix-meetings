@@ -14,7 +14,7 @@
     "eslint": "^8.52.0",
     "eslint-plugin-playwright": "^0.18.0",
     "lodash": "^4.17.21",
-    "testcontainers": "^10.2.1",
+    "testcontainers": "^10.2.2",
     "typescript": "^5.2.2"
   },
   "engines": {
