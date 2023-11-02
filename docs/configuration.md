@@ -256,10 +256,15 @@ It will update the `io.element.widgets.layout` when creating or updating the mee
 
 ## Synapse Configuration
 
-The widget requires a special homeserver configuaration so the widget has
-all information to render invitations properly.
+The widget requires a couple of special homeserver configuration changes so the widget has
+user directory search enabled and all the information to render invitations properly.
 
 ```yaml
+# Enables user directory search for all users
+user_directory:
+  enabled: true
+  search_all_users: true
+
 # Controls for the state that is shared with users who receive an invite
 # to a room
 room_prejoin_state:
