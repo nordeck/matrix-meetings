@@ -1,5 +1,17 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.4.2
+
+### Patch Changes
+
+- c76c8c8: Add missing invitation text when user is invited into existing meeting
+
+## 2.4.1
+
+### Patch Changes
+
+- Update dependencies.
+
 ## 2.4.0
 
 ### Minor Changes
