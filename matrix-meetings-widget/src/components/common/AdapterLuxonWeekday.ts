@@ -15,15 +15,24 @@
  */
 
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
-import { DateTime } from 'luxon';
-import { generateFilterRange, localeWeekdays } from '../../lib/utils';
+import { DateTime, Duration } from 'luxon';
+import { generateFilterRange, getWeekdayShift } from '../../lib/utils';
 
 /**
  * Custom Luxon Adapter that generates weekdays starting from the day determined by locale.
  */
 export class AdapterLuxonWeekday extends AdapterLuxon {
-  public getWeekdays = () => {
-    return localeWeekdays('narrow', true);
+  public startOfWeek = (value: DateTime) => {
+    // luxon only supports isoWeekday always returns a day-of-week=1.
+    // this duration normalizes it to the configured locale
+    const normalizeDuration = Duration.fromObject({
+      day: getWeekdayShift(),
+    });
+
+    return value
+      .plus(normalizeDuration)
+      .startOf('week')
+      .minus(normalizeDuration);
   };
 
   public getWeekArray = (value: DateTime) => {
