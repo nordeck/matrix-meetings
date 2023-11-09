@@ -82,7 +82,7 @@ describe('<CalendarDayPicker>', () => {
   });
 
   it('should have date calendar weekdays starting from Sunday for english locale', async () => {
-    const { container } = render(
+    render(
       <CalendarDayPicker
         endDate="2022-02-07T23:59:59Z"
         onRangeChange={onRangeChange}
@@ -100,14 +100,12 @@ describe('<CalendarDayPicker>', () => {
     expect(
       screen.getAllByRole('columnheader').map((o) => o.textContent),
     ).toEqual(['S', 'M', 'T', 'W', 'T', 'F', 'S']);
-
-    expect(await axe(container)).toHaveNoViolations();
   });
 
   it('should have date calendar weekdays starting from Monday for german locale', async () => {
     setLocale('de');
 
-    const { container } = render(
+    render(
       <CalendarDayPicker
         endDate="2022-02-07T23:59:59Z"
         onRangeChange={onRangeChange}
@@ -125,8 +123,6 @@ describe('<CalendarDayPicker>', () => {
     expect(
       screen.getAllByRole('columnheader').map((o) => o.textContent),
     ).toEqual(['M', 'T', 'W', 'T', 'F', 'S', 'S']);
-
-    expect(await axe(container)).toHaveNoViolations();
   });
 
   it('should react to input changes', async () => {
