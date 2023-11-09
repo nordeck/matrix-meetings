@@ -18,6 +18,7 @@ import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { ComponentType, PropsWithChildren } from 'react';
+import { setLocale } from '../../../lib/locale';
 import { LocalizationProvider } from '../LocalizationProvider';
 import { CalendarDayPicker } from './CalendarDayPicker';
 
@@ -76,6 +77,54 @@ describe('<CalendarDayPicker>', () => {
         name: 'Choose date, selected date is February 7, 2022',
       }),
     );
+
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it('should have date calendar weekdays starting from Sunday for english locale', async () => {
+    const { container } = render(
+      <CalendarDayPicker
+        endDate="2022-02-07T23:59:59Z"
+        onRangeChange={onRangeChange}
+        startDate="2022-02-07T00:00:00Z"
+      />,
+      { wrapper: Wrapper },
+    );
+
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: 'Choose date, selected date is February 7, 2022',
+      }),
+    );
+
+    expect(
+      screen.getAllByRole('columnheader').map((o) => o.textContent),
+    ).toEqual(['S', 'M', 'T', 'W', 'T', 'F', 'S']);
+
+    expect(await axe(container)).toHaveNoViolations();
+  });
+
+  it('should have date calendar weekdays starting from Monday for german locale', async () => {
+    setLocale('de');
+
+    const { container } = render(
+      <CalendarDayPicker
+        endDate="2022-02-07T23:59:59Z"
+        onRangeChange={onRangeChange}
+        startDate="2022-02-07T00:00:00Z"
+      />,
+      { wrapper: Wrapper },
+    );
+
+    await userEvent.click(
+      screen.getByRole('button', {
+        name: 'Choose date, selected date is February 7, 2022',
+      }),
+    );
+
+    expect(
+      screen.getAllByRole('columnheader').map((o) => o.textContent),
+    ).toEqual(['M', 'T', 'W', 'T', 'F', 'S', 'S']);
 
     expect(await axe(container)).toHaveNoViolations();
   });
