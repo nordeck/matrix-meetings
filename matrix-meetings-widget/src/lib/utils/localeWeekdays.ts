@@ -15,16 +15,12 @@
  */
 
 import { Info } from 'luxon';
-import { StringUnitLength } from 'luxon/src/misc';
 import { getWeekdayShift } from './getWeekdayShift';
 
-export function localeWeekdays(
-  length?: StringUnitLength,
-  format?: boolean,
-): string[] {
+export function localeWeekdays(): string[] {
   const day = getWeekdayShift();
 
-  const weekdays = format ? Info.weekdaysFormat(length) : Info.weekdays(length);
+  const weekdays = Info.weekdays();
   for (let i = 0; i < Math.abs(day); i++) {
     if (day > 0) {
       weekdays.unshift(weekdays.pop()!);

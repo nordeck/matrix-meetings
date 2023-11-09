@@ -22,16 +22,21 @@ describe('AdapterLuxonWeekday', () => {
   const adapter = new AdapterLuxonWeekday();
 
   describe('for en locale', () => {
-    it('generate weekdays', () => {
-      expect(adapter.getWeekdays()).toEqual([
-        'S',
-        'M',
-        'T',
-        'W',
-        'T',
-        'F',
-        'S',
-      ]);
+    it.each(['2020-01-01T00:00:00Z', '2020-01-04T00:00:00Z'])(
+      'startOfWeek should be previous Sunday date when non Sunday date is given',
+      (dateTimeIso) => {
+        const dateTime = DateTime.fromISO(dateTimeIso);
+        expect(adapter.startOfWeek(dateTime)).toEqual(
+          DateTime.fromISO('2019-12-29T00:00:00Z'),
+        );
+      },
+    );
+
+    it('startOfWeek should be the same Sunday date when Sunday date is given', () => {
+      const dateTime = DateTime.fromISO('2020-01-05T00:00:00Z');
+      expect(adapter.startOfWeek(dateTime)).toEqual(
+        DateTime.fromISO('2020-01-05T00:00:00Z'),
+      );
     });
 
     describe('for the month', () => {
@@ -117,16 +122,21 @@ describe('AdapterLuxonWeekday', () => {
       setLocale('de');
     });
 
-    it('generate weekdays', () => {
-      expect(adapter.getWeekdays()).toEqual([
-        'M',
-        'D',
-        'M',
-        'D',
-        'F',
-        'S',
-        'S',
-      ]);
+    it.each(['2020-01-01T00:00:00Z', '2020-01-05T00:00:00Z'])(
+      'startOfWeek should be previous Monday date when non Monday date is given',
+      (dateTimeIso) => {
+        const dateTime = DateTime.fromISO(dateTimeIso);
+        expect(adapter.startOfWeek(dateTime)).toEqual(
+          DateTime.fromISO('2019-12-30T00:00:00Z'),
+        );
+      },
+    );
+
+    it('startOfWeek should be the same Monday date when Monday date is given', () => {
+      const dateTime = DateTime.fromISO('2019-12-30T00:00:00Z');
+      expect(adapter.startOfWeek(dateTime)).toEqual(
+        DateTime.fromISO('2019-12-30T00:00:00Z'),
+      );
     });
 
     describe('for the month', () => {
