@@ -2290,10 +2290,10 @@
     webpack "5.88.2"
     webpack-node-externals "3.0.0"
 
-"@nestjs/common@^10.2.7":
-  version "10.2.7"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-10.2.7.tgz#339db2efa33d3822dd81d2993bd44b538a7451b6"
-  integrity sha512-cUtCRXiUstDmh4bSBhVbq4cI439Gngp4LgLGLBmd5dqFQodfXKnSD441ldYfFiLz4rbUsnoMJz/8ZjuIEI+B7A==
+"@nestjs/common@^10.2.9":
+  version "10.2.9"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-10.2.9.tgz#84903e1fb6f18b29fc8bec3f778508801983cf04"
+  integrity sha512-i7vb2zMLJUDIPqjfBhMkgIITK1AnKDkFYSsM+aaRHpNa9xv/CwsiQuINaXfzStMpnwjkq5FDE3aoF0wkTfD2cQ==
   dependencies:
     uid "2.0.2"
     iterare "1.2.1"
@@ -2309,10 +2309,10 @@
     lodash "4.17.21"
     uuid "9.0.0"
 
-"@nestjs/core@^10.2.7":
-  version "10.2.7"
-  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-10.2.7.tgz#26ca5cc63504b54a08c4cdc6da9300c9b8904fde"
-  integrity sha512-5GSu53QUUcwX17sNmlJPa1I0wIeAZOKbedyVuQx0ZAwWVa9g0wJBbsNP+R4EJ+j5Dkdzt/8xkiZvnKt8RFRR8g==
+"@nestjs/core@^10.2.9":
+  version "10.2.9"
+  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-10.2.9.tgz#3d536a38e494fb7a0fc82873067510b2a9988341"
+  integrity sha512-Hl6HC9hR7JD3YmzwcveBKeydaq9cguEsMdEghzLuVH3VEH0M+bTFHjCIKhsxMez4/O7/K6n3EhNx1Et4Z+BqWg==
   dependencies:
     uid "2.0.2"
     "@nuxtjs/opencollective" "0.3.2"
@@ -2321,23 +2321,23 @@
     path-to-regexp "3.2.0"
     tslib "2.6.2"
 
-"@nestjs/mapped-types@2.0.2":
-  version "2.0.2"
-  resolved "https://registry.yarnpkg.com/@nestjs/mapped-types/-/mapped-types-2.0.2.tgz#c8a090a8d22145b85ed977414c158534210f2e4f"
-  integrity sha512-V0izw6tWs6fTp9+KiiPUbGHWALy563Frn8X6Bm87ANLRuE46iuBMD5acKBDP5lKL/75QFvrzSJT7HkCbB0jTpg==
+"@nestjs/mapped-types@2.0.3":
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/@nestjs/mapped-types/-/mapped-types-2.0.3.tgz#f400432da6c98d02b94b14e893fd7fa46c152403"
+  integrity sha512-40Zdqg98lqoF0+7ThWIZFStxgzisK6GG22+1ABO4kZiGF/Tu2FE+DYLw+Q9D94vcFWizJ+MSjNN4ns9r6hIGxw==
 
-"@nestjs/microservices@^10.2.7":
-  version "10.2.7"
-  resolved "https://registry.yarnpkg.com/@nestjs/microservices/-/microservices-10.2.7.tgz#fc17ee5eeaeccc8ac05f6295c601170c04f8604e"
-  integrity sha512-ggpng1yRuugPufn+OKeHV6Dcw3TWI7lmOvXkyYRwatVHQMvb3MlPpbzsA5PfUlg5DsjPGEWRbkIWN7OFb8OTyw==
+"@nestjs/microservices@^10.2.9":
+  version "10.2.9"
+  resolved "https://registry.yarnpkg.com/@nestjs/microservices/-/microservices-10.2.9.tgz#dad6d538bcfb7b9985a1bbe273792ed7e7ef68b9"
+  integrity sha512-FaTejUUuzXHGuptmKMp8J3Bx6Sgi1DnckPYJF/ktWDm2V14BDhjWYF0uv642KsUmvkQUbeV2uaNHFC3ZPg4Pwg==
   dependencies:
     iterare "1.2.1"
     tslib "2.6.2"
 
-"@nestjs/platform-express@^10.2.7":
-  version "10.2.7"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-10.2.7.tgz#b2ef2df01c0c757a3d356659460563a5246e7d0f"
-  integrity sha512-p+kp6aJtkgAdVpUrCVmM6MKtOvjsbt7QofBiZMidjYesZkMeG5gZ1D2SK8XzvQ8VXHJfFgEdY2xcKGB+wJLOYQ==
+"@nestjs/platform-express@^10.2.9":
+  version "10.2.9"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-10.2.9.tgz#679c49e2ba936367ea3daa392f729782dac9266d"
+  integrity sha512-r6BSMJmLLeNgyPZJ9F8wQWCXH6rrMHMd9QbCfvyUmETci5Ofy6atiYVVXl7Ms1rAi2EEnXpVCuoydHBBqSlTbg==
   dependencies:
     body-parser "1.20.2"
     cors "2.8.5"
@@ -2356,16 +2356,16 @@
     jsonc-parser "3.2.0"
     pluralize "8.0.0"
 
-"@nestjs/swagger@^7.1.14":
-  version "7.1.14"
-  resolved "https://registry.yarnpkg.com/@nestjs/swagger/-/swagger-7.1.14.tgz#492b3816308264472b3619f5c0336f378f1c9995"
-  integrity sha512-2Ol4S6qHeYVVmkshkWBM8E/qkmEqEOUj2QIewr0jLSyo30H7f3v81pJyks6pTLy4PK0LGUXojMvIfFIE3mmGQQ==
+"@nestjs/swagger@^7.1.16":
+  version "7.1.16"
+  resolved "https://registry.yarnpkg.com/@nestjs/swagger/-/swagger-7.1.16.tgz#110dac7f2ae9bbf04943fba51df4fa4b47a66ef3"
+  integrity sha512-f9KBk/BX9MUKPTj7tQNYJ124wV/jP5W2lwWHLGwe/4qQXixuDOo39zP55HIJ44LE7S04B7BOeUOo9GBJD/vRcw==
   dependencies:
-    "@nestjs/mapped-types" "2.0.2"
+    "@nestjs/mapped-types" "2.0.3"
     js-yaml "4.1.0"
     lodash "4.17.21"
     path-to-regexp "3.2.0"
-    swagger-ui-dist "5.9.0"
+    swagger-ui-dist "5.9.1"
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -12467,10 +12467,10 @@ svgo@^2.7.0:
     picocolors "^1.0.0"
     stable "^0.1.8"
 
-swagger-ui-dist@5.9.0:
-  version "5.9.0"
-  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-5.9.0.tgz#d52b6cf52fd0a8e6930866c402aaa793fe4e3f76"
-  integrity sha512-NUHSYoe5XRTk/Are8jPJ6phzBh3l9l33nEyXosM17QInoV95/jng8+PuSGtbD407QoPf93MH3Bkh773OgesJpA==
+swagger-ui-dist@5.9.1:
+  version "5.9.1"
+  resolved "https://registry.yarnpkg.com/swagger-ui-dist/-/swagger-ui-dist-5.9.1.tgz#d0bcd614e3752da02df141846348f84468ae815e"
+  integrity sha512-5zAx+hUwJb9T3EAntc7TqYkV716CMqG6sZpNlAAMOMWkNXRYxGkN8ADIvD55dQZ10LxN90ZM/TQmN7y1gpICnw==
 
 symbol-observable@4.0.0:
   version "4.0.0"
