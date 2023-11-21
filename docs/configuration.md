@@ -132,7 +132,7 @@ JITSI_PIN_URL=
 # optional - configure a Open-Xchange link that can be used to open the calendar room in their calendar application. use the {{id}} and {{folder}} as a template parameter (ex: "http://ox.example.com/appsuite/#app=io.ox/calendar&id={{id}}&folder={{folder}}")
 OPEN_XCHANGE_MEETING_URL_TEMPLATE=
 
-# optional - enables changing of power level of the guest users when they join the room. This case also requires that the user's default power level that be higher then guest user power level and that the bot has rights to change power levels, otherwise no change occurs.
+# optional - enables changing of power level of the guest users when they join the room. This case requires that the user's default power level is higher than the guest user's and that the bot has rights to change power levels, otherwise no change occurs.
 ENABLE_GUEST_USER_POWER_LEVEL_CHANGE=false
 
 # optional - configure guest user id prefix that is used to match guest users.
