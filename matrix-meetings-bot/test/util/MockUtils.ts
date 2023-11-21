@@ -53,6 +53,10 @@ export function createAppConfig(): IAppConfiguration {
     calendar_room_name: '',
     matrix_filter_apply: false,
     matrix_filter_timeline_limit: 10,
+    enable_guest_user_power_level_change: false,
+    guest_user_prefix: '@guest-',
+    guest_user_default_power_level: 0,
+    guest_user_delete_power_level_on_leave: true,
   };
 }
 

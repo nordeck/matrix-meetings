@@ -45,6 +45,7 @@ import { WidgetClient } from './client/WidgetClient';
 import configuration, { ValidationSchema } from './configuration';
 import { CommandController } from './controller/CommandController';
 import { ConfigurationController } from './controller/ConfigurationController';
+import { GuestMemberController } from './controller/GuestMemberController';
 import { HealthCheckController } from './controller/HealthCheckController';
 import { MeetingController } from './controller/MeetingController';
 import { WelcomeWorkflowController } from './controller/WelcomeWorkflowController';
@@ -62,6 +63,7 @@ import { IRoomMatrixEvents } from './model/IRoomMatrixEvents';
 import { MatrixServer } from './rpc/MatrixServer';
 import { CommandService } from './service/CommandService';
 import { ControlRoomMigrationService } from './service/ControlRoomMigrationService';
+import { GuestMemberService } from './service/GuestMemberService';
 import { MeetingService } from './service/MeetingService';
 import { RoomMessageService } from './service/RoomMessageService';
 import { WelcomeWorkflowService } from './service/WelcomeWorkflowService';
@@ -219,6 +221,7 @@ const i18nFactory: FactoryProvider<void> = {
     MeetingController,
     WelcomeWorkflowController,
     WidgetController,
+    GuestMemberController,
   ],
 
   providers: [
@@ -241,6 +244,7 @@ const i18nFactory: FactoryProvider<void> = {
     WidgetLayoutService,
     MatrixServer,
     DoesWidgetWithIdExistConstraint,
+    GuestMemberService,
   ],
 })
 export class AppModule implements NestModule {

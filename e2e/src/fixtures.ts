@@ -42,6 +42,10 @@ type Fixtures = {
   bobElementWebPage: ElementWebPage;
   bobMeetingsWidgetPage: MeetingsWidgetPage;
   bobJitsiWidgetPage: JitsiWidgetPage;
+  guest: User;
+  guestPage: Page;
+  guestElementWebPage: ElementWebPage;
+  guestJitsiWidgetPage: JitsiWidgetPage;
   meetingsBotApi: MeetingsBotApi;
   runAxeAnalysis: (page: Page, widgetTitle: string) => Promise<string>;
 };
@@ -208,6 +212,64 @@ export const test = base.extend<Fixtures>({
     await use(user);
 
     await deactivateUser(user);
+  },
+
+  guest: async ({ page: _ }, use) => {
+    const user = await registerUser('guest');
+
+    await use(user);
+
+    await deactivateUser(user);
+  },
+
+  guestPage: async ({ browser, contextOptions, video }, use, testInfo) => {
+    // TODO: For some reason we are missing the video in case we are using a
+    // second context https://github.com/microsoft/playwright/issues/9002
+    // We configure it manually instead.
+    const videoMode = typeof video === 'string' ? video : video.mode;
+    const videoOptions = shouldCaptureVideo(videoMode, testInfo)
+      ? {
+          recordVideo: {
+            dir: testInfo.outputDir,
+            size: typeof video !== 'string' ? video.size : undefined,
+          },
+        }
+      : {};
+
+    const context = await browser.newContext({
+      ...contextOptions,
+      ...videoOptions,
+    });
+    const page = await context.newPage();
+
+    try {
+      await use(page);
+    } finally {
+      await context.close();
+
+      const video = page.video();
+
+      if (video) {
+        const path = testInfo.outputPath('video-guest.webm');
+        await video.saveAs(path);
+        testInfo.attach('video', { path, contentType: 'video/webm' });
+      }
+    }
+  },
+
+  guestElementWebPage: async ({ guestPage, guest }, use) => {
+    const elementWebPage = new ElementWebPage(guestPage);
+    await elementWebPage.login(guest.username, guest.password);
+
+    await use(elementWebPage);
+  },
+
+  guestJitsiWidgetPage: async ({ guestElementWebPage }, use) => {
+    const jitsiWidgetPage = new JitsiWidgetPage(
+      guestElementWebPage.widgetByTitle('Video Conference'),
+    );
+
+    await use(jitsiWidgetPage);
   },
 
   meetingsBotApi: async ({ request }, use) => {
