@@ -108,7 +108,7 @@ function createConfiguration() {
       process.env.ENABLE_GUEST_USER_POWER_LEVEL_CHANGE,
       false,
     ),
-    guest_user_id_prefix: process.env.GUEST_USER_ID_PREFIX || 'guest-',
+    guest_user_prefix: process.env.GUEST_USER_PREFIX || '@guest-',
     guest_user_default_power_level:
       Number(process.env.GUEST_USER_DEFAULT_POWER_LEVEL) || 0,
     guest_user_delete_power_level_on_leave: toBoolean(
@@ -176,7 +176,7 @@ export const ValidationSchema = Joi.object({
   ),
 
   ENABLE_GUEST_USER_POWER_LEVEL_CHANGE: Joi.boolean(),
-  GUEST_USER_ID_PREFIX: Joi.string(),
+  GUEST_USER_PREFIX: Joi.string(),
   GUEST_USER_DEFAULT_POWER_LEVEL: Joi.number(),
   GUEST_USER_DELETE_POWER_LEVEL_ON_LEAVE: Joi.boolean(),
 });

@@ -136,7 +136,7 @@ OPEN_XCHANGE_MEETING_URL_TEMPLATE=
 ENABLE_GUEST_USER_POWER_LEVEL_CHANGE=false
 
 # optional - configure guest user id prefix that is used to match guest users.
-GUEST_USER_ID_PREFIX=guest-
+GUEST_USER_PREFIX=@guest-
 
 # optional - configure guest user power level
 GUEST_USER_DEFAULT_POWER_LEVEL=0

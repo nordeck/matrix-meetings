@@ -52,7 +52,7 @@ export class GuestMemberService {
 
     const {
       enable_guest_user_power_level_change,
-      guest_user_id_prefix,
+      guest_user_prefix,
       guest_user_default_power_level,
       guest_user_delete_power_level_on_leave,
     } = this.appConfiguration;
@@ -61,7 +61,7 @@ export class GuestMemberService {
 
     const memberEventMatches =
       enable_guest_user_power_level_change &&
-      memberEvent.state_key.startsWith('@' + guest_user_id_prefix) &&
+      memberEvent.state_key.startsWith(guest_user_prefix) &&
       (membership === 'join' || membership === 'leave');
 
     if (!memberEventMatches) {

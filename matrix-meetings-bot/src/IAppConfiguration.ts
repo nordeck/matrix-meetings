@@ -56,7 +56,7 @@ export interface IAppConfiguration {
   matrix_filter_timeline_limit: number;
 
   enable_guest_user_power_level_change: boolean;
-  guest_user_id_prefix: string;
+  guest_user_prefix: string;
   guest_user_default_power_level: number;
   guest_user_delete_power_level_on_leave: boolean;
 }
