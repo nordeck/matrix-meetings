@@ -59,6 +59,7 @@ export async function startMatrixMeetingsBot({
       OPEN_XCHANGE_MEETING_URL_TEMPLATE:
         'https://webmail-hostname/appsuite/#app=io.ox/calendar&id={{id}}&folder={{folder}}',
       AUTO_DELETION_OFFSET: '60',
+      ENABLE_GUEST_USER_POWER_LEVEL_CHANGE: 'true',
       LOG_LEVEL: 'debug',
     })
     .withCopyFilesToContainer([

@@ -103,6 +103,18 @@ function createConfiguration() {
       process.env.MATRIX_FILTER_TIMELINE_LIMIT,
       50,
     ),
+
+    enable_guest_user_power_level_change: toBoolean(
+      process.env.ENABLE_GUEST_USER_POWER_LEVEL_CHANGE,
+      false,
+    ),
+    guest_user_id_prefix: process.env.GUEST_USER_ID_PREFIX || 'guest-',
+    guest_user_default_power_level:
+      Number(process.env.GUEST_USER_DEFAULT_POWER_LEVEL) || 0,
+    guest_user_delete_power_level_on_leave: toBoolean(
+      process.env.GUEST_USER_DELETE_POWER_LEVEL_ON_LEAVE,
+      true,
+    ),
   };
 
   return {
@@ -162,6 +174,11 @@ export const ValidationSchema = Joi.object({
     'trace',
     'silent',
   ),
+
+  ENABLE_GUEST_USER_POWER_LEVEL_CHANGE: Joi.boolean(),
+  GUEST_USER_ID_PREFIX: Joi.string(),
+  GUEST_USER_DEFAULT_POWER_LEVEL: Joi.number(),
+  GUEST_USER_DELETE_POWER_LEVEL_ON_LEAVE: Joi.boolean(),
 });
 
 export default createConfiguration;
