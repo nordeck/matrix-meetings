@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.5.3
+
+### Patch Changes
+
+- 8ddde1d: Fix date calendar weekdays in english
+
 ## 1.5.2
 
 ### Patch Changes

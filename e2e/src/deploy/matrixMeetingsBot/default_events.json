@@ -3,6 +3,7 @@
     {
       "type": "m.room.power_levels",
       "content": {
+        "users_default": 25,
         "events": {
           "net.nordeck.meetings.metadata": 100
         }

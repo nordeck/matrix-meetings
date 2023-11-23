@@ -297,6 +297,40 @@ export class ElementWebPage {
       .toEqual(membership);
   }
 
+  async waitForUserPowerLevel(
+    username: string,
+    powerLevel: number | undefined,
+  ): Promise<void> {
+    await expect
+      .poll(
+        async () => {
+          const roomId = this.getCurrentRoomId();
+
+          return await this.page.evaluate(
+            async ({ roomId, username }) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const client = (window as any).mxMatrixClientPeg.get();
+
+              try {
+                const powerLevels = await client.getStateEvent(
+                  roomId,
+                  'm.room.power_levels',
+                  '',
+                );
+
+                return powerLevels.users?.[`@${username}:localhost`];
+              } catch (err) {
+                return 'error';
+              }
+            },
+            { roomId, username },
+          );
+        },
+        { timeout: 60000 },
+      )
+      .toEqual(powerLevel);
+  }
+
   async removeUser(username: string) {
     const roomId = this.getCurrentRoomId();
 
