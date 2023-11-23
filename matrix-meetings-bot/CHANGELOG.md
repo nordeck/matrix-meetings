@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.5.0
+
+### Minor Changes
+
+- ebbdfbd: Change power level of the guest users
+
 ## 2.4.2
 
 ### Patch Changes
