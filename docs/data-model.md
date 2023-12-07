@@ -84,7 +84,7 @@ HTTPS connection usually inside the datacenter that hosts both the Bot and OX.
 
 ### End-to-end encryption:
 
-The events are encrypted between the Matrix Client, and the NeoDateFix Bot. The Matrix Homeserver only sees the encrypted information.
+If room encryption is enabled, the events are encrypted between the Matrix Client, and the NeoDateFix Bot. The Matrix Homeserver only sees the encrypted information.
 
 ## Meeting Room Model
 
