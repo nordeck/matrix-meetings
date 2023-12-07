@@ -48,6 +48,44 @@ Matrix Widget API │ │ x                            │ │
                                            └──────────────────────┘
 ```
 
+## Data Flow
+
+This section describes how data is flowing thru the different components of the application.
+
+### NeoDateFix Widget <-> Matrix Client
+
+This flow that happens internally in the user's browser -> in-memory communication.
+
+**Contents**: All events from [Meeting Room Model](#meeting-room-model) and [Room Messages (RPC-over-Matrix)](#room-messages-rpc-over-matrix). These are always unencrypted since they do not leave the users device.
+
+### Matrix Client <-> Matrix Homeserver
+
+HTTPS connection to the datacenter that hosts the Homeserer.
+
+**Contents**: All events from [Meeting Room Model](#meeting-room-model) and [Room Messages (RPC-over-Matrix)](#room-messages-rpc-over-matrix). If room encryption is enabled, [Room Messages (RPC-over-Matrix)](#room-messages-rpc-over-matrix) are end-to-end encrypted.
+
+### Matrix Homeserver <-> NeoDateFix Bot
+
+HTTPS connection usually inside the datacenter that hosts both the Homeserver and the Bot.
+
+**Contents**: All events from [Meeting Room Model](#meeting-room-model) and [Room Messages (RPC-over-Matrix)](#room-messages-rpc-over-matrix). If room encryption is enabled, [Room Messages (RPC-over-Matrix)](#room-messages-rpc-over-matrix) are end-to-end encrypted.
+
+### NeoDateFix Widget <-> NeoDateFix Bot
+
+HTTPS connection to the datacenter that hosts the Bot.
+
+**Contents**: The endpoints `GET /v1/widget/list`, `GET /v1/config`, `GET /v1/meeting/{roomId}/sharingInformation`. Requires authentication and contains no PII.
+
+### External Application (OX) <-> NeoDateFix Bot
+
+HTTPS connection usually inside the datacenter that hosts both the Bot and OX.
+
+**Contents**: The endpoints `POST /v1/meeting/create`, `PUT /v1/meeting/update`, `POST /v1/meeting/close`. Requires authentication.
+
+### End-to-end encryption:
+
+The events are encrypted between the Matrix Client, and the NeoDateFix Bot. The Matrix Homeserver only sees the encrypted information.
+
 ## Meeting Room Model
 
 Each meeting is represented by a meeting room.
