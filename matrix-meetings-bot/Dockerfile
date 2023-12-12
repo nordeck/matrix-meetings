@@ -1,3 +1,4 @@
+# we use depian for build and alpine for run becauche alpine dose not work for s390x biuld
 FROM node:20-bullseye AS node_modules
 WORKDIR /build
 COPY package.json yarn.lock ./
@@ -5,7 +6,7 @@ COPY matrix-meetings-bot/package.json ./matrix-meetings-bot/
 COPY resolutions/matrix-sdk-crypto-nodejs ./resolutions/matrix-sdk-crypto-nodejs/
 RUN yarn install --production --frozen-lockfile --network-timeout 1000000
 
-FROM node:20-bullseye-slim
+FROM node:20-alpine3.18
 ENV NODE_ENV=production
 WORKDIR /app
 RUN set -x\
