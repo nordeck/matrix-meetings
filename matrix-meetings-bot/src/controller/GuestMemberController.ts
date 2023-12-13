@@ -16,7 +16,10 @@
 
 import { Controller, UseFilters } from '@nestjs/common';
 import { EventPattern, Payload } from '@nestjs/microservices';
-import { MembershipEventContent } from 'matrix-bot-sdk';
+import {
+  MembershipEventContent,
+  PowerLevelsEventContent,
+} from 'matrix-bot-sdk';
 import { RoomIdParam } from '../decorator/RoomIdParam';
 import { WebExceptionFilter } from '../filter/WebExceptionFilter';
 import { IStateEvent } from '../matrix/event/IStateEvent';
@@ -35,5 +38,14 @@ export class GuestMemberController {
     @Payload() event: IStateEvent<MembershipEventContent>,
   ) {
     await this.guestWorkflowService.processMember(roomId, event);
+  }
+  @EventPattern(
+    matrixPattern.roomEvent(StateEventName.M_ROOM_POWER_LEVELS_EVENT),
+  )
+  async powerLevels(
+    @RoomIdParam() roomId: string,
+    @Payload() event: IStateEvent<PowerLevelsEventContent>,
+  ) {
+    await this.guestWorkflowService.processPowerLevels(roomId, event);
   }
 }

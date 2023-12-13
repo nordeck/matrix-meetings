@@ -26,6 +26,14 @@ import { ModuleProviderToken } from '../ModuleProviderToken';
 import { IStateEvent } from '../matrix/event/IStateEvent';
 import { StateEventName } from '../model/StateEventName';
 
+/**
+ * Changes power level of the guest user to the guest default if he joins or leaves the room or is promoted.
+ *
+ * Change is active if the following is true:
+ *  - guest user power level change is enabled
+ *  - the default guest user power level is lower than the default user power level
+ *  - bot is allowed to change power levels
+ */
 @Injectable()
 export class GuestMemberService {
   constructor(
@@ -36,10 +44,7 @@ export class GuestMemberService {
   ) {}
 
   /**
-   * Changes power level of the guest user who joins or leaves the room with the bot if the following is true:
-   *  - guest user power level change is enabled
-   *  - the default guest user power level is lower than the default user power level
-   *  - bot is allowed to change power levels
+   * Changes power level of the guest user who joins or leaves the room
    *
    * @param roomId room id
    * @param memberEvent member event
@@ -47,9 +52,7 @@ export class GuestMemberService {
   public async processMember(
     roomId: string,
     memberEvent: IStateEvent<MembershipEventContent>,
-  ) {
-    const { botUserId } = this.appRuntimeContext;
-
+  ): Promise<void> {
     const {
       enable_guest_user_power_level_change,
       guest_user_prefix,
@@ -80,23 +83,7 @@ export class GuestMemberService {
       powerLevels = undefined;
     }
 
-    if (!powerLevels) {
-      return;
-    }
-
-    const usersDefaultPower = powerLevels.users_default ?? 0;
-    const botPower = powerLevels.users?.[botUserId] ?? usersDefaultPower;
-
-    const powerLevelsPower =
-      powerLevels.events?.['m.room.power_levels'] ??
-      powerLevels.state_default ??
-      50;
-
-    const powerLevelsMatch =
-      usersDefaultPower > guest_user_default_power_level &&
-      botPower >= powerLevelsPower;
-
-    if (!powerLevelsMatch) {
+    if (!powerLevels || !this.shouldCheckGuestPowerLevel(powerLevels)) {
       return;
     }
 
@@ -130,5 +117,93 @@ export class GuestMemberService {
         newPowerLevels,
       );
     }
+  }
+
+  /**
+   * Changes power level of the guest user to default if guest is promoted by another user
+   *
+   * @param roomId room id
+   * @param powerLevelEvent power level event
+   */
+  public async processPowerLevels(
+    roomId: string,
+    powerLevelEvent: IStateEvent<PowerLevelsEventContent>,
+  ): Promise<void> {
+    const {
+      enable_guest_user_power_level_change,
+      guest_user_prefix,
+      guest_user_default_power_level,
+    } = this.appConfiguration;
+
+    const powerLevels = powerLevelEvent.content;
+
+    if (
+      !enable_guest_user_power_level_change ||
+      !this.shouldCheckGuestPowerLevel(powerLevels)
+    ) {
+      return;
+    }
+
+    const users = powerLevels.users ?? {};
+
+    const hasGuestPowerModified = Object.entries(users).some(
+      ([userId, userPower]) =>
+        userId.startsWith(guest_user_prefix) &&
+        userPower !== guest_user_default_power_level,
+    );
+
+    if (!hasGuestPowerModified) {
+      return;
+    }
+
+    const newUsers = Object.fromEntries(
+      Object.entries(users).map(([userId, userPower]) => {
+        const changePower =
+          userId.startsWith(guest_user_prefix) &&
+          userPower !== guest_user_default_power_level;
+
+        return [
+          userId,
+          changePower ? guest_user_default_power_level : userPower,
+        ];
+      }),
+    );
+
+    const newPowerLevels: PowerLevelsEventContent = {
+      ...powerLevels,
+      users: newUsers,
+    };
+
+    await this.matrixClient.sendStateEvent(
+      roomId,
+      StateEventName.M_ROOM_POWER_LEVELS_EVENT,
+      '',
+      newPowerLevels,
+    );
+  }
+
+  /**
+   * Checks power levels event if bot should apply guest power level changes
+   * @param powerLevels power levels event
+   */
+  private shouldCheckGuestPowerLevel(
+    powerLevels: PowerLevelsEventContent,
+  ): boolean {
+    const { botUserId } = this.appRuntimeContext;
+
+    const { guest_user_default_power_level } = this.appConfiguration;
+
+    const usersDefaultPower = powerLevels.users_default ?? 0;
+    const botPower = powerLevels.users?.[botUserId] ?? usersDefaultPower;
+
+    const powerLevelsPower =
+      powerLevels.events?.['m.room.power_levels'] ??
+      powerLevels.state_default ??
+      50;
+
+    return (
+      usersDefaultPower > guest_user_default_power_level &&
+      botPower >= powerLevelsPower
+    );
   }
 }

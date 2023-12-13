@@ -201,7 +201,7 @@ test.describe('Schedule Meeting', () => {
     await expect(bobJitsiWidgetPage.joinConferenceButton).toBeVisible();
   });
 
-  test('should invite the guest user via a link and kick', async ({
+  test('should invite the guest user via a link then promote and kick', async ({
     aliceElementWebPage,
     aliceMeetingsWidgetPage,
     guest,
@@ -239,6 +239,10 @@ test.describe('Schedule Meeting', () => {
 
     await aliceElementWebPage.switchToRoom('My Meeting');
 
+    await aliceElementWebPage.waitForUserPowerLevel(guest.username, 0);
+    await aliceElementWebPage.promoteUserAsModerator(guest.username);
+    await aliceElementWebPage.waitForUserPowerLevel(guest.username, 50);
+    // bot demotes guest
     await aliceElementWebPage.waitForUserPowerLevel(guest.username, 0);
 
     await aliceElementWebPage.removeUser(guest.username);
