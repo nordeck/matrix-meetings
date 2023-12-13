@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.6.0
+
+### Minor Changes
+
+- 34c4ef8: Sign the release containers with cosign.
+
 ## 1.5.3
 
 ### Patch Changes
