@@ -122,14 +122,14 @@ Execute the following command to verify the signature of a container image:
 
 ```sh
 cosign verify \
---certificate-identity-regexp https://github.com/nordeck/matrix-meetings/.github/workflows/publish-release.yml@refs/tags/@nordeck/matrix-meetings-bot \
+--certificate-identity-regexp https://github.com/nordeck/matrix-meetings/.github/workflows/publish-release-bot.yml@refs/tags/@nordeck/matrix-meetings-bot \
 --certificate-oidc-issuer https://token.actions.githubusercontent.com \
 ghcr.io/nordeck/matrix-meetings-bot:<version> | jq
 ```
 
 ```sh
 cosign verify \
---certificate-identity-regexp https://github.com/nordeck/matrix-meetings/.github/workflows/publish-release.yml@refs/tags/@nordeck/matrix-meetings-widget \
+--certificate-identity-regexp https://github.com/nordeck/matrix-meetings/.github/workflows/publish-release-widget.yml@refs/tags/@nordeck/matrix-meetings-widget \
 --certificate-oidc-issuer https://token.actions.githubusercontent.com \
 ghcr.io/nordeck/matrix-meetings-widget:<version> | jq
 ```
