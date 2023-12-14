@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.6.0
+
+### Minor Changes
+
+- 34c4ef8: Sign the release containers with cosign.
+
 ## 2.5.0
 
 ### Minor Changes
