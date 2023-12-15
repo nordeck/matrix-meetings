@@ -1,4 +1,4 @@
-# we use depian for build and alpine for run becauche alpine dose not work for s390x biuld
+# We use Debian for build and Alpine to run because the s390x Alpine container has issues running yarn
 FROM node:20-bullseye AS node_modules
 WORKDIR /build
 COPY package.json yarn.lock ./
