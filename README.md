@@ -115,6 +115,25 @@ docker run --rm -p 3000:3000 ghcr.io/nordeck/matrix-meetings-bot:latest
 
 We also provide [HELM charts](./charts/).
 
+## Verify the Container Images
+
+The container images releases are signed by [cosign](https://github.com/sigstore/cosign) using identity-based ("keyless") signing and transparency.
+Execute the following command to verify the signature of a container image:
+
+```sh
+cosign verify \
+--certificate-identity-regexp https://github.com/nordeck/matrix-meetings/.github/workflows/publish-release-bot.yml@refs/tags/@nordeck/matrix-meetings-bot \
+--certificate-oidc-issuer https://token.actions.githubusercontent.com \
+ghcr.io/nordeck/matrix-meetings-bot:<version> | jq
+```
+
+```sh
+cosign verify \
+--certificate-identity-regexp https://github.com/nordeck/matrix-meetings/.github/workflows/publish-release-widget.yml@refs/tags/@nordeck/matrix-meetings-widget \
+--certificate-oidc-issuer https://token.actions.githubusercontent.com \
+ghcr.io/nordeck/matrix-meetings-widget:<version> | jq
+```
+
 ## License
 
 This project is licensed under [Apache 2.0 license](./LICENSE).
