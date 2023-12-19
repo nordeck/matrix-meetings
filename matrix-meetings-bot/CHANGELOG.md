@@ -1,5 +1,15 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.7.0
+
+### Minor Changes
+
+- dc64521: Change the dockerfile run to alpine
+
+### Patch Changes
+
+- cb8bfda: Demote guest users if promoted by moderator
+
 ## 2.6.0
 
 ### Minor Changes
