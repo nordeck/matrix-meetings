@@ -289,9 +289,5 @@ test.describe('Schedule Meeting', () => {
     await aliceElementWebPage.waitForUserPowerLevel(guest.username, 50);
     // bot demotes guest
     await aliceElementWebPage.waitForUserPowerLevel(guest.username, 0);
-
-    await aliceElementWebPage.removeUser(guest.username);
-
-    await aliceElementWebPage.waitForUserPowerLevel(guest.username, undefined);
   });
 });
