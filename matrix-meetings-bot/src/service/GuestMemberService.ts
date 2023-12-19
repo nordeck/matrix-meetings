@@ -26,14 +26,6 @@ import { ModuleProviderToken } from '../ModuleProviderToken';
 import { IStateEvent } from '../matrix/event/IStateEvent';
 import { StateEventName } from '../model/StateEventName';
 
-/**
- * Changes power level of the guest user to the guest default if he joins or leaves the room or is promoted.
- *
- * Change is active if the following is true:
- *  - guest user power level change is enabled
- *  - the default guest user power level is lower than the default user power level
- *  - bot is allowed to change power levels
- */
 @Injectable()
 export class GuestMemberService {
   constructor(
@@ -46,6 +38,11 @@ export class GuestMemberService {
   /**
    * Changes power level of the guest user who joins or leaves the room
    *
+   * Change is active if the following is true:
+   *  - guest user power level change is enabled
+   *  - the default guest user power level is lower than the default user power level
+   *  - bot is allowed to change power levels
+   *
    * @param roomId room id
    * @param memberEvent member event
    */
@@ -53,6 +50,8 @@ export class GuestMemberService {
     roomId: string,
     memberEvent: IStateEvent<MembershipEventContent>,
   ): Promise<void> {
+    const { botUserId } = this.appRuntimeContext;
+
     const {
       enable_guest_user_power_level_change,
       guest_user_prefix,
@@ -83,7 +82,23 @@ export class GuestMemberService {
       powerLevels = undefined;
     }
 
-    if (!powerLevels || !this.shouldCheckGuestPowerLevel(powerLevels)) {
+    if (!powerLevels) {
+      return;
+    }
+
+    const usersDefaultPower = powerLevels.users_default ?? 0;
+    const botPower = powerLevels.users?.[botUserId] ?? usersDefaultPower;
+
+    const powerLevelsPower =
+      powerLevels.events?.['m.room.power_levels'] ??
+      powerLevels.state_default ??
+      50;
+
+    const powerLevelsMatch =
+      usersDefaultPower > guest_user_default_power_level &&
+      botPower >= powerLevelsPower;
+
+    if (!powerLevelsMatch) {
       return;
     }
 
@@ -122,6 +137,10 @@ export class GuestMemberService {
   /**
    * Changes power level of the guest user to default if guest is promoted by another user
    *
+   * Change is active if the following is true:
+   *  - guest user power level change is enabled
+   *  - bot is allowed to change power levels
+   *
    * @param roomId room id
    * @param powerLevelEvent power level event
    */
@@ -129,6 +148,8 @@ export class GuestMemberService {
     roomId: string,
     powerLevelEvent: IStateEvent<PowerLevelsEventContent>,
   ): Promise<void> {
+    const { botUserId } = this.appRuntimeContext;
+
     const {
       enable_guest_user_power_level_change,
       guest_user_prefix,
@@ -137,10 +158,19 @@ export class GuestMemberService {
 
     const powerLevels = powerLevelEvent.content;
 
-    if (
-      !enable_guest_user_power_level_change ||
-      !this.shouldCheckGuestPowerLevel(powerLevels)
-    ) {
+    if (!enable_guest_user_power_level_change) {
+      return;
+    }
+
+    const usersDefaultPower = powerLevels.users_default ?? 0;
+    const botPower = powerLevels.users?.[botUserId] ?? usersDefaultPower;
+
+    const powerLevelsPower =
+      powerLevels.events?.['m.room.power_levels'] ??
+      powerLevels.state_default ??
+      50;
+
+    if (botPower < powerLevelsPower) {
       return;
     }
 
@@ -157,15 +187,22 @@ export class GuestMemberService {
     }
 
     const newUsers = Object.fromEntries(
-      Object.entries(users).map(([userId, userPower]) => {
+      Object.entries(users).flatMap((userPowerPair: [string, number]) => {
+        const [userId, userPower] = userPowerPair;
+
         const changePower =
           userId.startsWith(guest_user_prefix) &&
           userPower !== guest_user_default_power_level;
 
-        return [
-          userId,
-          changePower ? guest_user_default_power_level : userPower,
-        ];
+        if (changePower) {
+          if (usersDefaultPower === guest_user_default_power_level) {
+            return []; // user's default power level is applied for the guest
+          } else {
+            return [[userId, guest_user_default_power_level]];
+          }
+        } else {
+          return [userPowerPair];
+        }
       }),
     );
 
@@ -179,31 +216,6 @@ export class GuestMemberService {
       StateEventName.M_ROOM_POWER_LEVELS_EVENT,
       '',
       newPowerLevels,
-    );
-  }
-
-  /**
-   * Checks power levels event if bot should apply guest power level changes
-   * @param powerLevels power levels event
-   */
-  private shouldCheckGuestPowerLevel(
-    powerLevels: PowerLevelsEventContent,
-  ): boolean {
-    const { botUserId } = this.appRuntimeContext;
-
-    const { guest_user_default_power_level } = this.appConfiguration;
-
-    const usersDefaultPower = powerLevels.users_default ?? 0;
-    const botPower = powerLevels.users?.[botUserId] ?? usersDefaultPower;
-
-    const powerLevelsPower =
-      powerLevels.events?.['m.room.power_levels'] ??
-      powerLevels.state_default ??
-      50;
-
-    return (
-      usersDefaultPower > guest_user_default_power_level &&
-      botPower >= powerLevelsPower
     );
   }
 }

@@ -547,6 +547,53 @@ describe('GuestMemberService', () => {
     ]);
   });
 
+  it('changes guest power level if guest is promoted and default power level equals users_default', async () => {
+    const powerLevelEvent: IStateEvent<PowerLevelsEventContent> = {
+      event_id: '$eventId1',
+      origin_server_ts: Date.now(),
+      sender: '@user1:matrix.org',
+      type: StateEventName.M_ROOM_POWER_LEVELS_EVENT,
+      content: {
+        users: {
+          [botUserId]: 101,
+          '@user1:matrix.org': 50,
+          '@guest-userId1:matrix.org': 50,
+        },
+        users_default: 0,
+        events: {},
+        events_default: 0,
+        state_default: 50,
+        ban: 50,
+        kick: 50,
+        redact: 50,
+        invite: 0,
+      },
+      state_key: '',
+    };
+    await guestMemberService.processPowerLevels(roomId, powerLevelEvent);
+
+    expect(
+      getArgsFromCaptor(capture(matrixClientMock.sendStateEvent)).map(
+        ([, , , content]) => content,
+      ),
+    ).toEqual([
+      {
+        users: {
+          [botUserId]: 101,
+          '@user1:matrix.org': 50,
+        },
+        users_default: 0,
+        events: {},
+        events_default: 0,
+        state_default: 50,
+        ban: 50,
+        kick: 50,
+        redact: 50,
+        invite: 0,
+      },
+    ]);
+  });
+
   it('does not change power levels if guest is not promoted', async () => {
     const powerLevelEvent: IStateEvent<PowerLevelsEventContent> = {
       event_id: '$eventId1',
@@ -629,40 +676,6 @@ describe('GuestMemberService', () => {
         events: {
           'm.room.power_levels': 100,
         },
-        events_default: 0,
-        state_default: 50,
-        ban: 50,
-        kick: 50,
-        redact: 50,
-        invite: 0,
-      },
-      state_key: '',
-    };
-    await guestMemberService.processPowerLevels(roomId, powerLevelEvent);
-
-    expect(
-      getArgsFromCaptor(capture(matrixClientMock.sendStateEvent)).map(
-        ([, , , content]) => content,
-      ),
-    ).toEqual([]);
-  });
-
-  it('does not change power levels if guest is promoted but guest default power level equals users_default', async () => {
-    appConfig.guest_user_default_power_level = 25;
-
-    const powerLevelEvent: IStateEvent<PowerLevelsEventContent> = {
-      event_id: '$eventId1',
-      origin_server_ts: Date.now(),
-      sender: '@user1:matrix.org',
-      type: StateEventName.M_ROOM_POWER_LEVELS_EVENT,
-      content: {
-        users: {
-          [botUserId]: 101,
-          '@user1:matrix.org': 50,
-          '@guest-userId1:matrix.org': 25,
-        },
-        users_default: 25,
-        events: {},
         events_default: 0,
         state_default: 50,
         ban: 50,
