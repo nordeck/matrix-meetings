@@ -245,4 +245,49 @@ test.describe('Schedule Meeting', () => {
 
     await aliceElementWebPage.waitForUserPowerLevel(guest.username, undefined);
   });
+
+  test('should invite the guest user via a link then promote and guest is demoted by bot', async ({
+    aliceElementWebPage,
+    aliceMeetingsWidgetPage,
+    guest,
+    guestPage,
+    guestElementWebPage,
+    guestJitsiWidgetPage,
+  }) => {
+    await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
+    const aliceScheduleMeetingWidgetPage =
+      await aliceMeetingsWidgetPage.scheduleMeeting();
+
+    await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
+    await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
+      'My Description',
+    );
+    await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
+    await aliceScheduleMeetingWidgetPage.submit();
+
+    const aliceMeeting = aliceMeetingsWidgetPage.getMeeting(
+      'My Meeting',
+      '10/03/2040',
+    );
+
+    await expect(aliceMeeting.meetingTimeRangeText).toHaveText(
+      '10:30 AM – 11:30 AM',
+    );
+
+    await aliceMeeting.switchToShareMeeting();
+    await aliceElementWebPage.approveWidgetIdentity();
+    const meetingLink = await aliceMeeting.getShareLink();
+
+    await guestPage.goto(meetingLink);
+    await guestElementWebPage.joinRoom();
+    await expect(guestJitsiWidgetPage.joinConferenceButton).toBeVisible();
+
+    await aliceElementWebPage.switchToRoom('My Meeting');
+
+    await aliceElementWebPage.waitForUserPowerLevel(guest.username, 0);
+    await aliceElementWebPage.promoteUserAsModerator(guest.username);
+    await aliceElementWebPage.waitForUserPowerLevel(guest.username, 50);
+    // bot demotes guest
+    await aliceElementWebPage.waitForUserPowerLevel(guest.username, 0);
+  });
 });

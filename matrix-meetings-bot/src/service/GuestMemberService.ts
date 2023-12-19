@@ -36,7 +36,9 @@ export class GuestMemberService {
   ) {}
 
   /**
-   * Changes power level of the guest user who joins or leaves the room with the bot if the following is true:
+   * Changes power level of the guest user who joins or leaves the room
+   *
+   * Change is active if the following is true:
    *  - guest user power level change is enabled
    *  - the default guest user power level is lower than the default user power level
    *  - bot is allowed to change power levels
@@ -47,7 +49,7 @@ export class GuestMemberService {
   public async processMember(
     roomId: string,
     memberEvent: IStateEvent<MembershipEventContent>,
-  ) {
+  ): Promise<void> {
     const { botUserId } = this.appRuntimeContext;
 
     const {
@@ -130,5 +132,90 @@ export class GuestMemberService {
         newPowerLevels,
       );
     }
+  }
+
+  /**
+   * Changes power level of the guest user to default if guest is promoted by another user
+   *
+   * Change is active if the following is true:
+   *  - guest user power level change is enabled
+   *  - bot is allowed to change power levels
+   *
+   * @param roomId room id
+   * @param powerLevelEvent power level event
+   */
+  public async processPowerLevels(
+    roomId: string,
+    powerLevelEvent: IStateEvent<PowerLevelsEventContent>,
+  ): Promise<void> {
+    const { botUserId } = this.appRuntimeContext;
+
+    const {
+      enable_guest_user_power_level_change,
+      guest_user_prefix,
+      guest_user_default_power_level,
+    } = this.appConfiguration;
+
+    const powerLevels = powerLevelEvent.content;
+
+    if (!enable_guest_user_power_level_change) {
+      return;
+    }
+
+    const usersDefaultPower = powerLevels.users_default ?? 0;
+    const botPower = powerLevels.users?.[botUserId] ?? usersDefaultPower;
+
+    const powerLevelsPower =
+      powerLevels.events?.['m.room.power_levels'] ??
+      powerLevels.state_default ??
+      50;
+
+    if (botPower < powerLevelsPower) {
+      return;
+    }
+
+    const users = powerLevels.users ?? {};
+
+    const hasGuestPowerModified = Object.entries(users).some(
+      ([userId, userPower]) =>
+        userId.startsWith(guest_user_prefix) &&
+        userPower !== guest_user_default_power_level,
+    );
+
+    if (!hasGuestPowerModified) {
+      return;
+    }
+
+    const newUsers = Object.fromEntries(
+      Object.entries(users).flatMap((userPowerPair: [string, number]) => {
+        const [userId, userPower] = userPowerPair;
+
+        const changePower =
+          userId.startsWith(guest_user_prefix) &&
+          userPower !== guest_user_default_power_level;
+
+        if (changePower) {
+          if (usersDefaultPower === guest_user_default_power_level) {
+            return []; // user's default power level is applied for the guest
+          } else {
+            return [[userId, guest_user_default_power_level]];
+          }
+        } else {
+          return [userPowerPair];
+        }
+      }),
+    );
+
+    const newPowerLevels: PowerLevelsEventContent = {
+      ...powerLevels,
+      users: newUsers,
+    };
+
+    await this.matrixClient.sendStateEvent(
+      roomId,
+      StateEventName.M_ROOM_POWER_LEVELS_EVENT,
+      '',
+      newPowerLevels,
+    );
   }
 }
