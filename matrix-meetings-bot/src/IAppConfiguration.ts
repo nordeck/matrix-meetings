@@ -39,6 +39,7 @@ export interface IAppConfiguration {
   // storage
   data_path: string;
   data_filename: string;
+  crypto_data_directory: string;
 
   enable_welcome_workflow: boolean;
   enable_control_room_migration: boolean;
