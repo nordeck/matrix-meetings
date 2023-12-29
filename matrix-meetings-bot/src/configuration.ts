@@ -70,7 +70,7 @@ function createConfiguration() {
     // storage
     data_path: process.env.STORAGE_FILE_DATA_PATH ?? 'storage',
     data_filename: process.env.STORAGE_FILE_FILENAME ?? 'bot.json',
-    crypto_data_directory: process.env.CRYPTO_DATA_DIRECTORY ?? 'crypto',
+    crypto_data_path: process.env.CRYPTO_DATA_PATH ?? 'crypto',
 
     enable_welcome_workflow: toBoolean(
       process.env.ENABLE_WELCOME_WORKFLOW,

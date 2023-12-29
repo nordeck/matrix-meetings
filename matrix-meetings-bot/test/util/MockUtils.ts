@@ -36,6 +36,7 @@ export function createAppConfig(): IAppConfiguration {
     breakout_session_widget_url: '',
     data_filename: '',
     data_path: '',
+    crypto_data_path: '',
     homeserver_url: '',
     matrix_link_share: '',
     matrix_server_event_max_age_minutes: 0,

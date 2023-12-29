@@ -126,11 +126,11 @@ const matrixClientFactoryHelper = {
     appConfig: IAppConfiguration,
   ): Promise<ICryptoStorageProvider> => {
     const cryptoStorage = new RustSdkCryptoStorageProvider(
-      path.join(appConfig.data_path, appConfig.crypto_data_directory),
+      path.join(appConfig.data_path, appConfig.crypto_data_path),
     );
 
     logger.log(
-      `createCryptoStorageProvider.filepath: ${appConfig.data_path}/${appConfig.crypto_data_directory}`,
+      `createCryptoStorageProvider.filepath: ${appConfig.data_path}/${appConfig.crypto_data_path}`,
     );
 
     return cryptoStorage;
