@@ -22,7 +22,9 @@ import {
   SelectChangeEvent,
 } from '@mui/material';
 import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
+import { getOrdinalLabel as calendarGetOrdinalLabel } from '@nordeck/matrix-meetings-calendar';
 import { TFunction } from 'i18next';
+import { Settings } from 'luxon';
 import { Dispatch, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -72,17 +74,5 @@ export const OrdinalSelect = ({
 };
 
 export function getOrdinalLabel(ordinal: number, t: TFunction) {
-  switch (ordinal) {
-    case 1:
-      return t('recurrenceEditor.ordinals.first', 'first');
-    case 2:
-      return t('recurrenceEditor.ordinals.second', 'second');
-    case 3:
-      return t('recurrenceEditor.ordinals.third', 'third');
-    case 4:
-      return t('recurrenceEditor.ordinals.fourth', 'fourth');
-    case -1:
-    default:
-      return t('recurrenceEditor.ordinals.last', 'last');
-  }
+  return calendarGetOrdinalLabel(ordinal, t, Settings.defaultLocale);
 }

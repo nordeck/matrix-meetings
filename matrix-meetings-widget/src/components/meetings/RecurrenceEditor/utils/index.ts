@@ -15,14 +15,14 @@
  */
 
 export {
-  getDefaultCustomRuleProperties,
-  getDefaultRecurringMeetingEnd,
-} from './defaults';
-export { formatRRuleText, parseRRule, stringifyRRule } from './format';
-export {
-  convertWeekdayFromLocaleToRRule,
   isWeekdays,
   normalizeByWeekday,
   normalizeNumeric,
   normalizeWeekday,
-} from './helpers';
+} from '@nordeck/matrix-meetings-calendar';
+export {
+  getDefaultCustomRuleProperties,
+  getDefaultRecurringMeetingEnd,
+} from './defaults';
+export { formatRRuleText, parseRRule, stringifyRRule } from './format';
+export { convertWeekdayFromLocaleToRRule } from './helpers';

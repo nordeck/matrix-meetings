@@ -23,3 +23,10 @@ export {
   isSingleEntry,
 } from './calendarUtils/helpers';
 export { formatICalDate, parseICalDate, toISOString } from './dateTimeUtils';
+export { formatRRuleText, getOrdinalLabel, parseRRule } from './format';
+export {
+  isWeekdays,
+  normalizeByWeekday,
+  normalizeNumeric,
+  normalizeWeekday,
+} from './helpers';
