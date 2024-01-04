@@ -39,6 +39,9 @@ export interface IAppConfiguration {
   // storage
   data_path: string;
   data_filename: string;
+
+  // encryption
+  enable_e2ee: boolean;
   crypto_data_path: string;
 
   enable_welcome_workflow: boolean;

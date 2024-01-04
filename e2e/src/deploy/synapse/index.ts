@@ -25,7 +25,7 @@ function randB64Bytes(numBytes: number): string {
 }
 
 export async function startSynapse({
-  containerImage = 'matrixdotorg/synapse:v1.68.0',
+  containerImage = 'matrixdotorg/synapse:v1.98.0',
 }: { containerImage?: string } = {}): Promise<{
   synapseUrl: string;
   synapseHostUrl: string;

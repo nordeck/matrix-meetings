@@ -230,6 +230,33 @@ export class MatrixServer
   }
 
   listen(callback: (...optionalParams: unknown[]) => any): any {
+    this.matrixClient.on(
+      'room.encrypted_event',
+      (roomId: string, event: any) => {
+        this.logger.debug(
+          `!!!! encrypted event ${roomId} ${event.type} ${event.event_id}`,
+        );
+      },
+    );
+
+    this.matrixClient.on(
+      'room.decrypted_event',
+      (roomId: string, event: any) => {
+        this.logger.debug(
+          `!!!! decrypted event ${roomId} ${event.type} ${event.event_id}`,
+        );
+      },
+    );
+
+    this.matrixClient.on(
+      'room.failed_decryption',
+      async (roomId: string, event: any) => {
+        this.logger.debug(
+          `!!!! decryption failed ${roomId} ${event.type} ${event.event_id}`,
+        );
+      },
+    );
+
     for (const botEventType of this.botEventTypes) {
       const listener = async (roomId: string, event: IRoomEvent<unknown>) => {
         try {

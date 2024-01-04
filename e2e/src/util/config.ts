@@ -61,3 +61,11 @@ export function getSynapseRegistrationSecret(): string {
 
   return process.env.SYNAPSE_REGISTRATION_SECRET;
 }
+
+export function encryptionEnabled(): boolean {
+  if (!process.env.ENABLE_E2EE) {
+    return false;
+  }
+
+  return process.env.ENABLE_E2EE === 'true';
+}

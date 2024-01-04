@@ -15,6 +15,7 @@
  */
 
 export {
+  encryptionEnabled,
   getBotDisplayName,
   getBotUrl,
   getBotUsername,

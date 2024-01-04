@@ -21,7 +21,7 @@ let container: StartedTestContainer | undefined;
 
 export async function startElementWeb({
   homeserverUrl,
-  containerImage = 'vectorim/element-web:v1.11.29',
+  containerImage = 'vectorim/element-web:v1.11.51',
 }: {
   homeserverUrl: string;
   containerImage?: string;

@@ -70,6 +70,9 @@ function createConfiguration() {
     // storage
     data_path: process.env.STORAGE_FILE_DATA_PATH ?? 'storage',
     data_filename: process.env.STORAGE_FILE_FILENAME ?? 'bot.json',
+
+    // encryption
+    enable_e2ee: toBoolean(process.env.ENABLE_E2EE, false),
     crypto_data_path: process.env.CRYPTO_DATA_PATH ?? 'crypto',
 
     enable_welcome_workflow: toBoolean(

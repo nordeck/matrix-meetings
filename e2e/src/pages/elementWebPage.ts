@@ -107,7 +107,7 @@ export class ElementWebPage {
 
   async createRoom(
     name: string,
-    { encrypted = false }: { encrypted?: boolean } = {},
+    { encrypted = true }: { encrypted?: boolean } = {},
   ) {
     // Instead of controling the UI, we use the matrix client as it is faster.
     await this.page.evaluate(
@@ -116,14 +116,23 @@ export class ElementWebPage {
         const client = (window as any).mxMatrixClientPeg.get();
 
         if (encrypted) {
-          // TODO: Support encryption in rooms
-
-          throw new Error('Encryption not supported!');
+          await client.createRoom({
+            name,
+            initial_state: [
+              {
+                type: 'm.room.encryption',
+                state_key: '',
+                content: {
+                  algorithm: 'm.megolm.v1.aes-sha2',
+                },
+              },
+            ],
+          });
+        } else {
+          await client.createRoom({
+            name,
+          });
         }
-
-        await client.createRoom({
-          name,
-        });
       },
       { name, encrypted },
     );
