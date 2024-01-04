@@ -18,7 +18,7 @@ import {
   CalendarEntry,
   calendarEntrySchema,
   DateTimeEntry,
-} from '@nordeck/matrix-meetings-calendar';
+} from './calendarEntry';
 
 describe('calendarEntrySchema', () => {
   it('should accept minimal entry', () => {
