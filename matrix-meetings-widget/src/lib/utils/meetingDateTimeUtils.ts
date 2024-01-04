@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2024 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,6 @@
 
 import { DateTime } from 'luxon';
 import { Meeting } from '../../reducer/meetingsApi';
-import { DateTimeEntry } from '../matrix';
 
 export function isMeetingSpanningMultipleDays(meeting: Meeting): boolean {
   const startTime = DateTime.fromISO(meeting.startTime);
@@ -30,27 +29,4 @@ export function isMeetingSpanningMultipleYears(meeting: Meeting): boolean {
   const endTime = DateTime.fromISO(meeting.endTime);
 
   return !startTime.hasSame(endTime, 'year');
-}
-
-export function parseICalDate(dateTimeEntry: DateTimeEntry): DateTime {
-  return DateTime.fromFormat(dateTimeEntry.value, "yyyyMMdd'T'HHmmss", {
-    zone: dateTimeEntry.tzid,
-  });
-}
-
-export function formatICalDate(
-  date: Date | DateTime,
-  targetTzId: string = 'UTC',
-): DateTimeEntry {
-  const dateTime = DateTime.isDateTime(date) ? date : DateTime.fromJSDate(date);
-  return {
-    value: dateTime.setZone(targetTzId).toFormat("yyyyMMdd'T'HHmmss"),
-    tzid: targetTzId,
-  };
-}
-
-/** Format the date into an ISO string that will always be in UTC time (yyyy-MM-ddTHH:mm:ssZ) */
-export function toISOString(date: Date | DateTime): string {
-  const jsDate = DateTime.isDateTime(date) ? date : DateTime.fromJSDate(date);
-  return jsDate.toUTC().toISO({ suppressMilliseconds: true });
 }

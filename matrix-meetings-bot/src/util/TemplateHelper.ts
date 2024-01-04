@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
+import { parseICalDate } from '@nordeck/matrix-meetings-calendar';
 import i18next from 'i18next';
 import { fullNumericDateFormat } from '../dateFormat';
 import { CalendarEntryDto } from '../dto/CalendarEntryDto';
 import { IUserContext } from '../model/IUserContext';
-import { parseICalDate } from '../shared';
 import { getSingleOrRecurringEntry } from '../shared/calendarUtils';
 import { formatRRuleText } from '../shared/format';
 

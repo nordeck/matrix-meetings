@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2023 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,8 +14,5 @@
  * limitations under the License.
  */
 
-import { CalendarEntry } from '@nordeck/matrix-meetings-calendar';
-
-export function isRecurringMeeting(calendar: CalendarEntry[]): boolean {
-  return calendar.length > 1 || calendar.some((e) => e.rrule);
-}
+export { calendarEntrySchema, dateTimeEntrySchema } from './calendarEntry';
+export type { CalendarEntry, DateTimeEntry } from './calendarEntry';

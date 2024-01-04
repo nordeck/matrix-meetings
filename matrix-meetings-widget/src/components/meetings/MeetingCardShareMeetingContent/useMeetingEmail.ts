@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
+import { parseICalDate } from '@nordeck/matrix-meetings-calendar';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  isRecurringCalendarSourceEntry,
-  parseICalDate,
-} from '../../../lib/utils';
+import { isRecurringCalendarSourceEntry } from '../../../lib/utils';
 import { Meeting } from '../../../reducer/meetingsApi';
 import { fullNumericDateFormat } from '../../common/DateTimePickers';
 import { formatRRuleText } from '../RecurrenceEditor/utils';

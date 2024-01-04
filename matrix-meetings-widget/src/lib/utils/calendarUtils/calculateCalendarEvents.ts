@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
+import {
+  CalendarEntry,
+  parseICalDate,
+  toISOString,
+} from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
-import { CalendarEntry } from '../../matrix';
-import { parseICalDate, toISOString } from '../dateTimeUtils';
 import { generateRruleSet } from './generateRruleSet';
 import {
   createTimeFilter,

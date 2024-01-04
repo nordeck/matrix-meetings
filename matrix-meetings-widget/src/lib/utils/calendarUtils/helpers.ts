@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
+import {
+  CalendarEntry,
+  DateTimeEntry,
+} from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
 import { Options } from 'rrule';
-import { CalendarEntry, DateTimeEntry } from '../../matrix';
 import { CalendarSourceEntries } from './calculateCalendarEvents';
 
 export function isSingleEntry(

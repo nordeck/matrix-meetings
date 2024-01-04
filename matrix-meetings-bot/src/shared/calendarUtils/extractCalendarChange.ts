@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
+import {
+  formatICalDate,
+  parseICalDate,
+} from '@nordeck/matrix-meetings-calendar';
 import { differenceWith, isEqual } from 'lodash';
 import { CalendarEntryDto, DateTimeEntryDto } from '../../dto/CalendarEntryDto';
-import { formatICalDate, parseICalDate } from '../dateTimeUtils';
 import { isRRuleEntry, isRRuleOverrideEntry, isSingleEntry } from './helpers';
 
 export type CalendarChange =

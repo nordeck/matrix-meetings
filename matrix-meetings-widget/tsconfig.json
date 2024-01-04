@@ -1,5 +1,4 @@
 // Package specific tsconfig that extends the root one.
 {
-  "extends": "../tsconfig.json",
-  "include": ["src"]
+  "extends": "../tsconfig.json"
 }

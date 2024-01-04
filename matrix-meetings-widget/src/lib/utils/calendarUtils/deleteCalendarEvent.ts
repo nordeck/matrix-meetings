@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
+import {
+  CalendarEntry,
+  formatICalDate,
+  parseICalDate,
+} from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
-import { CalendarEntry } from '../../matrix';
-import { formatICalDate, parseICalDate } from '../dateTimeUtils';
 import { getCalendarEvent } from './getCalendarEvent';
 import { isRRuleEntry, isRRuleOverrideEntry } from './helpers';
 

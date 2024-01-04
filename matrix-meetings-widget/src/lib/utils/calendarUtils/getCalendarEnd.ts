@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 
+import {
+  CalendarEntry,
+  parseICalDate,
+} from '@nordeck/matrix-meetings-calendar';
 import { max } from 'lodash';
 import { DateTime } from 'luxon';
-import { CalendarEntry } from '../../matrix';
-import { parseICalDate } from '../dateTimeUtils';
 import { generateRruleSet } from './generateRruleSet';
 import { isRRuleEntry, isRRuleOverrideEntry, isSingleEntry } from './helpers';
 

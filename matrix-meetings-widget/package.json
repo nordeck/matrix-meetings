@@ -26,6 +26,7 @@
     "joi": "^17.11.0",
     "lodash": "^4.17.20",
     "luxon": "^3.3.0",
+    "@nordeck/matrix-meetings-calendar": "0.0.1",
     "matrix-widget-api": "^1.5.0",
     "mustache": "^4.2.0",
     "react": "^17.0.2",
@@ -103,7 +104,10 @@
   "jest": {
     "transformIgnorePatterns": [
       "(?!(/node_modules/(@fullcalendar)/))(/node_modules/.+.(js|jsx|mjs|cjs|ts|tsx)$)"
-    ]
+    ],
+    "moduleNameMapper": {
+      "matrix-meetings-(.*)": "<rootDir>/../packages/$1/src/index.ts"
+    }
   },
   "repository": {
     "type": "git",

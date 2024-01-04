@@ -15,4 +15,3 @@
  */
 
 export { getForceDeletionTime } from './calendarUtils';
-export { formatICalDate, parseICalDate, toISOString } from './dateTimeUtils';

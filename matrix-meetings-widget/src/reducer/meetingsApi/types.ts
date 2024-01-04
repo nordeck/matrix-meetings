@@ -19,7 +19,7 @@ import {
   RoomMemberStateEventContent,
   StateEvent,
 } from '@matrix-widget-toolkit/api';
-import { CalendarEntry } from '../../lib/matrix';
+import { CalendarEntry } from '@nordeck/matrix-meetings-calendar';
 import { CalendarSourceEntries } from '../../lib/utils';
 import { AcknowledgementResponse } from './helpers';
 

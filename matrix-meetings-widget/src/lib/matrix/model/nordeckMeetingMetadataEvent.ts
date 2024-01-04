@@ -15,11 +15,14 @@
  */
 
 import { StateEvent } from '@matrix-widget-toolkit/api';
+import {
+  CalendarEntry,
+  calendarEntrySchema,
+  formatICalDate,
+} from '@nordeck/matrix-meetings-calendar';
 import { nanoid } from '@reduxjs/toolkit';
 import Joi from 'joi';
 import { DateTime } from 'luxon';
-import { formatICalDate } from '../../utils';
-import { CalendarEntry, calendarEntrySchema } from './calendarEntry';
 import { isValidEvent } from './validation';
 
 export const STATE_EVENT_NORDECK_MEETING_METADATA =

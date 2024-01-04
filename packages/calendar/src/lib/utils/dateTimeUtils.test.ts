@@ -16,52 +16,7 @@
 
 import { DateTime } from 'luxon';
 import { mockDateTimeFormatTimeZone } from '../../timezoneMockUtils';
-import { mockMeeting } from '../testUtils';
-import {
-  formatICalDate,
-  isMeetingSpanningMultipleDays,
-  isMeetingSpanningMultipleYears,
-  parseICalDate,
-  toISOString,
-} from './dateTimeUtils';
-
-describe('isMeetingSpanningMultipleDays', () => {
-  it('should be false if start and end time are at the same day', () => {
-    expect(isMeetingSpanningMultipleDays(mockMeeting())).toEqual(false);
-  });
-
-  it('should be true if start and end time are at the different days', () => {
-    expect(
-      isMeetingSpanningMultipleDays(
-        mockMeeting({
-          content: {
-            startTime: '2999-01-01T10:00:00Z',
-            endTime: '2999-01-05T14:00:00Z',
-          },
-        }),
-      ),
-    ).toEqual(true);
-  });
-});
-
-describe('isMeetingSpanningMultipleYears', () => {
-  it('should be false if start and end time are at the same year', () => {
-    expect(isMeetingSpanningMultipleYears(mockMeeting())).toEqual(false);
-  });
-
-  it('should be true if start and end time are at the different years', () => {
-    expect(
-      isMeetingSpanningMultipleYears(
-        mockMeeting({
-          content: {
-            startTime: '2999-01-01T10:00:00Z',
-            endTime: '3000-01-01T14:00:00Z',
-          },
-        }),
-      ),
-    ).toEqual(true);
-  });
-});
+import { formatICalDate, parseICalDate, toISOString } from './dateTimeUtils';
 
 describe('parseICalDate', () => {
   it.each`

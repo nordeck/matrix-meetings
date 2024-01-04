@@ -15,9 +15,9 @@
  */
 
 import { DateTime } from 'luxon';
-import { DateTimeEntryDto } from '../dto/CalendarEntryDto';
+import { DateTimeEntry } from '../matrix/model';
 
-export function parseICalDate(dateTimeEntry: DateTimeEntryDto): DateTime {
+export function parseICalDate(dateTimeEntry: DateTimeEntry): DateTime {
   return DateTime.fromFormat(dateTimeEntry.value, "yyyyMMdd'T'HHmmss", {
     zone: dateTimeEntry.tzid,
   });
@@ -25,8 +25,8 @@ export function parseICalDate(dateTimeEntry: DateTimeEntryDto): DateTime {
 
 export function formatICalDate(
   date: Date | DateTime,
-  targetTzId = 'UTC',
-): DateTimeEntryDto {
+  targetTzId: string = 'UTC',
+): DateTimeEntry {
   const dateTime = DateTime.isDateTime(date) ? date : DateTime.fromJSDate(date);
   return {
     value: dateTime.setZone(targetTzId).toFormat("yyyyMMdd'T'HHmmss"),
@@ -34,7 +34,8 @@ export function formatICalDate(
   };
 }
 
+/** Format the date into an ISO string that will always be in UTC time (yyyy-MM-ddTHH:mm:ssZ) */
 export function toISOString(date: Date | DateTime): string {
   const jsDate = DateTime.isDateTime(date) ? date : DateTime.fromJSDate(date);
-  return jsDate.toISO({ suppressMilliseconds: true });
+  return jsDate.toUTC().toISO({ suppressMilliseconds: true });
 }

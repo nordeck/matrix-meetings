@@ -15,6 +15,7 @@
  */
 
 import { Injectable, Logger } from '@nestjs/common';
+import { parseICalDate } from '@nordeck/matrix-meetings-calendar';
 import i18next from 'i18next';
 import { MatrixClient } from 'matrix-bot-sdk';
 import { MatrixEndpoint } from '../MatrixEndpoint';
@@ -24,7 +25,6 @@ import { ISyncParams } from '../matrix/dto/ISyncParams';
 import { IMeeting } from '../model/IMeeting';
 import { IUserContext } from '../model/IUserContext';
 import { StateEventName } from '../model/StateEventName';
-import { parseICalDate } from '../shared';
 import { formatRRuleText } from '../shared/format';
 import { IMeetingChanges } from '../util/IMeetingChanges';
 

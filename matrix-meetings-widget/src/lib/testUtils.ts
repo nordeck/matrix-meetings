@@ -21,12 +21,15 @@ import {
   StateEvent,
 } from '@matrix-widget-toolkit/api';
 import { MockedWidgetApi } from '@matrix-widget-toolkit/testing';
+import {
+  CalendarEntry,
+  formatICalDate,
+} from '@nordeck/matrix-meetings-calendar';
 import { rest } from 'msw';
 import { SetupServer } from 'msw/node';
 import { AvailableWidget } from '../reducer/meetingBotApi';
 import { Meeting } from '../reducer/meetingsApi';
 import {
-  CalendarEntry,
   NordeckMeetingMetadataEvent,
   ReactionEvent,
   RoomCreateEvent,
@@ -37,7 +40,6 @@ import {
   SpaceParentEvent,
   WidgetsEvent,
 } from './matrix';
-import { formatICalDate } from './utils';
 
 /**
  * Create a matrix room member event with known test data.

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
+import { formatICalDate } from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
 import { v4 as uuiv4 } from 'uuid';
 import { CalendarEntryDto } from '../dto/CalendarEntryDto';
-import { formatICalDate } from '../shared';
 
 export interface IMeetingTime {
   start_time?: string;

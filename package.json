@@ -4,7 +4,8 @@
   "workspaces": [
     "matrix-meetings-widget",
     "matrix-meetings-bot",
-    "e2e"
+    "e2e",
+    "packages/*"
   ],
   "devDependencies": {
     "@changesets/cli": "^2.26.2",
