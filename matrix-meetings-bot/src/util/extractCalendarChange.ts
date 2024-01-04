@@ -15,6 +15,8 @@
  */
 
 import {
+  CalendarEntry,
+  DateTimeEntry,
   formatICalDate,
   isRRuleEntry,
   isRRuleOverrideEntry,
@@ -22,7 +24,6 @@ import {
   parseICalDate,
 } from '@nordeck/matrix-meetings-calendar';
 import { differenceWith, isEqual } from 'lodash';
-import { CalendarEntryDto, DateTimeEntryDto } from '../../dto/CalendarEntryDto';
 
 export type CalendarChange =
   | UpdateSingleOrRecurringTimeChange
@@ -43,8 +44,8 @@ type SingleOrRecurringChangeBase<T> = ChangeBase & {
 };
 
 type UpdateSingleOrRecurringTimeChange = SingleOrRecurringChangeBase<{
-  dtstart: DateTimeEntryDto;
-  dtend: DateTimeEntryDto;
+  dtstart: DateTimeEntry;
+  dtend: DateTimeEntry;
 }> & {
   changeType: 'updateSingleOrRecurringTime';
 };
@@ -59,8 +60,8 @@ type OverrideChangeBase = ChangeBase & {
   /**
    * Override entry.
    */
-  value: CalendarEntryDto & {
-    recurrenceId: DateTimeEntryDto;
+  value: CalendarEntry & {
+    recurrenceId: DateTimeEntry;
   };
 };
 
@@ -70,12 +71,12 @@ type AddOverrideChange = OverrideChangeBase & {
   /**
    * Old occurrence start date and time.
    */
-  oldDtstart: DateTimeEntryDto;
+  oldDtstart: DateTimeEntry;
 
   /**
    * Old occurrence end date and time.
    */
-  oldDtend: DateTimeEntryDto;
+  oldDtend: DateTimeEntry;
 };
 
 type UpdateOverrideChange = OverrideChangeBase & {
@@ -84,8 +85,8 @@ type UpdateOverrideChange = OverrideChangeBase & {
   /**
    * Previous override entry.
    */
-  oldValue: CalendarEntryDto & {
-    recurrenceId: DateTimeEntryDto;
+  oldValue: CalendarEntry & {
+    recurrenceId: DateTimeEntry;
   };
 };
 
@@ -99,20 +100,20 @@ type AddExdateChange = {
   /**
    * Excluded occurrence start date and time.
    */
-  dtstart: DateTimeEntryDto;
+  dtstart: DateTimeEntry;
 
   /**
    * Excluded occurrence end date and time.
    */
-  dtend: DateTimeEntryDto;
+  dtend: DateTimeEntry;
 };
 
 interface MapEntry {
-  singleOrRecurringEntry?: CalendarEntryDto;
+  singleOrRecurringEntry?: CalendarEntry;
   overrideMap?: Map<
     number,
-    CalendarEntryDto & {
-      recurrenceId: DateTimeEntryDto;
+    CalendarEntry & {
+      recurrenceId: DateTimeEntry;
     }
   >;
 }
@@ -125,8 +126,8 @@ interface MapEntry {
  *   - 'addExdate' exdate added to rrule entry change
  */
 export function extractCalendarChange(
-  calendarEntries: CalendarEntryDto[],
-  newCalendarEntries: CalendarEntryDto[],
+  calendarEntries: CalendarEntry[],
+  newCalendarEntries: CalendarEntry[],
 ): CalendarChange[] {
   const changes: CalendarChange[] = [];
 

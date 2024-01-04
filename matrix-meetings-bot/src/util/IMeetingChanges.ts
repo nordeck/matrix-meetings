@@ -15,10 +15,7 @@
  */
 
 import { IMeeting } from '../model/IMeeting';
-import {
-  CalendarChange,
-  extractCalendarChange,
-} from '../shared/calendarUtils/extractCalendarChange';
+import { CalendarChange, extractCalendarChange } from './extractCalendarChange';
 
 export interface IMeetingChanges {
   titleChanged: boolean;
