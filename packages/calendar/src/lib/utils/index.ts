@@ -15,6 +15,7 @@
  */
 
 export { generateRruleSet } from './calendarUtils/generateRruleSet';
+export { getCalendarEnd } from './calendarUtils/getCalendarEnd';
 export {
   isFiniteSeries,
   isRRuleEntry,

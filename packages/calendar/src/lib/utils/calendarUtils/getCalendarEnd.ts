@@ -14,16 +14,12 @@
  * limitations under the License.
  */
 
-import {
-  CalendarEntry,
-  generateRruleSet,
-  isRRuleEntry,
-  isRRuleOverrideEntry,
-  isSingleEntry,
-  parseICalDate,
-} from '@nordeck/matrix-meetings-calendar';
 import { max } from 'lodash';
 import { DateTime } from 'luxon';
+import { CalendarEntry } from '../../matrix/model';
+import { parseICalDate } from '../dateTimeUtils';
+import { generateRruleSet } from './generateRruleSet';
+import { isRRuleEntry, isRRuleOverrideEntry, isSingleEntry } from './helpers';
 
 /**
  * Calculate the last end date of the calendar.

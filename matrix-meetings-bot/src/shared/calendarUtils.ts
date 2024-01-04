@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-import { isRRuleOverrideEntry } from '@nordeck/matrix-meetings-calendar';
+import {
+  getCalendarEnd,
+  isRRuleOverrideEntry,
+} from '@nordeck/matrix-meetings-calendar';
+import { DateTime } from 'luxon';
 import { CalendarEntryDto } from '../dto/CalendarEntryDto';
-import { getCalendarEnd } from './calendarUtils/getCalendarEnd';
 
 /**
  * Extracts first single or recurring calendar entry.
@@ -50,7 +53,7 @@ export function getForceDeletionTime(
   if (auto_deletion_offset !== undefined && calendar && calendar.length > 0) {
     const calendarEnd = getCalendarEnd(calendar);
 
-    return calendarEnd
+    return DateTime.isDateTime(calendarEnd)
       ? calendarEnd
           .plus({ minutes: Math.max(0, auto_deletion_offset) })
           .toMillis()

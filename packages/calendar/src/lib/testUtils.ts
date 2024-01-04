@@ -14,7 +14,35 @@
  * limitations under the License.
  */
 
-import { CalendarEntryDto } from './dto/CalendarEntryDto';
+import { CalendarEntry } from './matrix/model';
+
+/**
+ * Create a calendar entry with a single entry that starts at the given times.
+ *
+ * @param dtstart - the start time in the iCalendar format in UTC
+ * @param dtend - the start time in the iCalendar format in UTC
+ *
+ * @remarks Only use for tests
+ */
+export function mockCalendar({
+  uid = 'entry-0',
+  dtstart,
+  dtend,
+  rrule,
+  exdate,
+  recurrenceId,
+}: {
+  uid?: string;
+  dtstart: string;
+  dtend: string;
+  rrule?: string;
+  exdate?: string[];
+  recurrenceId?: string;
+}): CalendarEntry[] {
+  return [
+    mockCalendarEntry({ uid, dtstart, dtend, rrule, exdate, recurrenceId }),
+  ];
+}
 
 /**
  * Create a calendar entry that starts at the given times.
@@ -38,7 +66,7 @@ export function mockCalendarEntry({
   rrule?: string;
   exdate?: string[];
   recurrenceId?: string;
-}): CalendarEntryDto {
+}): CalendarEntry {
   return {
     uid,
     dtstart: { tzid: 'UTC', value: dtstart },

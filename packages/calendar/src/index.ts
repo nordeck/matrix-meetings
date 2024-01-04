@@ -15,5 +15,6 @@
  */
 
 export * from './lib/matrix/model';
+export * from './lib/testUtils';
 export * from './lib/utils';
 export { mockDateTimeFormatTimeZone } from './timezoneMockUtils';

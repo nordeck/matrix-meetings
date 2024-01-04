@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+import { mockCalendarEntry } from '@nordeck/matrix-meetings-calendar';
 import { CalendarEntryDto, DateTimeEntryDto } from '../dto/CalendarEntryDto';
-import { mockCalendarEntry } from '../testUtils';
 import {
   getForceDeletionTime,
   getSingleOrRecurringEntry,
