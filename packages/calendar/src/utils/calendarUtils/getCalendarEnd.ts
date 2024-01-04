@@ -16,7 +16,7 @@
 
 import { max } from 'lodash';
 import { DateTime } from 'luxon';
-import { CalendarEntry } from '../../matrix/model';
+import { CalendarEntry } from '../../model';
 import { parseICalDate } from '../dateTimeUtils';
 import { generateRruleSet } from './generateRruleSet';
 import { isRRuleEntry, isRRuleOverrideEntry, isSingleEntry } from './helpers';

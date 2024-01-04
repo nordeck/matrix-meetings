@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
-export * from './model';
-export * from './testing';
-export * from './utils';
+export * from './calendarUtils';
+export { formatICalDate, parseICalDate, toISOString } from './dateTimeUtils';
+export { formatRRuleText, getOrdinalLabel, parseRRule } from './format';
+export {
+  isWeekdays,
+  normalizeByWeekday,
+  normalizeNumeric,
+  normalizeWeekday,
+} from './helpers';

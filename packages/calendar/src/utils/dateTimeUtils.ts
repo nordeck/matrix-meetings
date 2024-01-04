@@ -15,7 +15,7 @@
  */
 
 import { DateTime } from 'luxon';
-import { DateTimeEntry } from '../matrix/model';
+import { DateTimeEntry } from '../model';
 
 export function parseICalDate(dateTimeEntry: DateTimeEntry): DateTime {
   return DateTime.fromFormat(dateTimeEntry.value, "yyyyMMdd'T'HHmmss", {

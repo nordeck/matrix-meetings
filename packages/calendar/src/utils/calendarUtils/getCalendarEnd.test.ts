@@ -15,7 +15,7 @@
  */
 
 import { DateTime } from 'luxon';
-import { mockCalendar, mockCalendarEntry } from '../../testUtils';
+import { mockCalendar, mockCalendarEntry } from '../../testing';
 import { getCalendarEnd } from './getCalendarEnd';
 
 describe('getCalendarEnd', () => {

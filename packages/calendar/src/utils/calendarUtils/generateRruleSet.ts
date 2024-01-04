@@ -16,7 +16,7 @@
 
 import { DateTime } from 'luxon';
 import { RRule, RRuleSet } from 'rrule';
-import { CalendarEntry } from '../../matrix/model';
+import { CalendarEntry } from '../../model';
 import { parseICalDate } from '../dateTimeUtils';
 import { isFiniteSeries } from './helpers';
 

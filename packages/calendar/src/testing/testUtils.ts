@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { CalendarEntry } from './matrix/model';
+import { CalendarEntry } from '../model';
 
 /**
  * Create a calendar entry with a single entry that starts at the given times.

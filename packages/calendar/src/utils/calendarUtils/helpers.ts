@@ -15,7 +15,7 @@
  */
 
 import { Options } from 'rrule';
-import { CalendarEntry, DateTimeEntry } from '../../matrix/model';
+import { CalendarEntry, DateTimeEntry } from '../../model';
 
 export function isSingleEntry(
   entry: CalendarEntry,
