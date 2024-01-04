@@ -14,31 +14,33 @@
  * limitations under the License.
  */
 
-import { mockCalendarEntry } from '@nordeck/matrix-meetings-calendar';
-import { CalendarEntryDto, DateTimeEntryDto } from '../dto/CalendarEntryDto';
+import {
+  CalendarEntry,
+  mockCalendarEntry,
+} from '@nordeck/matrix-meetings-calendar';
 import {
   getForceDeletionTime,
   getSingleOrRecurringEntry,
 } from './calendarUtils';
 
-let calendar: CalendarEntryDto[];
-let calendarWithRRule: CalendarEntryDto[];
+let calendar: CalendarEntry[];
+let calendarWithRRule: CalendarEntry[];
 
 beforeEach(() => {
   calendar = [
-    new CalendarEntryDto(
-      'uuid',
-      new DateTimeEntryDto('Europe/Berlin', '20200102T000000'),
-      new DateTimeEntryDto('Europe/Berlin', '20200102T010000'),
-    ),
+    {
+      uid: 'entry-0',
+      dtstart: { tzid: 'Europe/Berlin', value: '20200102T000000' },
+      dtend: { tzid: 'Europe/Berlin', value: '20200102T010000' },
+    },
   ];
   calendarWithRRule = [
-    new CalendarEntryDto(
-      'uuid',
-      new DateTimeEntryDto('Europe/Berlin', '20200102T000000'),
-      new DateTimeEntryDto('Europe/Berlin', '20200102T010000'),
-      'FREQ=DAILY;COUNT=3',
-    ),
+    {
+      uid: 'entry-0',
+      dtstart: { tzid: 'Europe/Berlin', value: '20200102T000000' },
+      dtend: { tzid: 'Europe/Berlin', value: '20200102T010000' },
+      rrule: 'FREQ=DAILY;COUNT=3',
+    },
   ];
 });
 

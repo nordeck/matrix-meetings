@@ -47,8 +47,8 @@ import { MeetingType } from '../model/MeetingType';
 import { Room } from '../model/Room';
 import { RoomEventName } from '../model/RoomEventName';
 import { StateEventName } from '../model/StateEventName';
-import { getForceDeletionTime } from '../shared';
 import { templateHelper } from '../util/TemplateHelper';
+import { getForceDeletionTime } from '../util/calendarUtils';
 import { extractOxRrule } from '../util/extractOxRrule';
 import { migrateMeetingTime } from '../util/migrateMeetingTime';
 

@@ -15,19 +15,19 @@
  */
 
 import {
+  CalendarEntry,
   getCalendarEnd,
   isRRuleOverrideEntry,
 } from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
-import { CalendarEntryDto } from '../dto/CalendarEntryDto';
 
 /**
  * Extracts first single or recurring calendar entry.
  * @param calendar meeting calendar
  */
 export function getSingleOrRecurringEntry(
-  calendar: CalendarEntryDto[],
-): CalendarEntryDto {
+  calendar: CalendarEntry[],
+): CalendarEntry {
   const entry = calendar.find((e) => !isRRuleOverrideEntry(e));
 
   if (entry === undefined) {
@@ -48,7 +48,7 @@ export function getSingleOrRecurringEntry(
  */
 export function getForceDeletionTime(
   auto_deletion_offset: number | undefined,
-  calendar: CalendarEntryDto[] | undefined,
+  calendar: CalendarEntry[] | undefined,
 ): number | undefined {
   if (auto_deletion_offset !== undefined && calendar && calendar.length > 0) {
     const calendarEnd = getCalendarEnd(calendar);
