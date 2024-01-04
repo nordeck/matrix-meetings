@@ -16,9 +16,9 @@
 
 import {
   CalendarEntry,
+  isRRuleOverrideEntry,
   parseICalDate,
 } from '@nordeck/matrix-meetings-calendar';
-import { isRRuleOverrideEntry } from './helpers';
 
 /**
  * A list of updated calendar entries

@@ -16,6 +16,7 @@
 
 import {
   CalendarEntry,
+  isRRuleOverrideEntry,
   parseICalDate,
 } from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
@@ -24,7 +25,6 @@ import {
   calculateCalendarEvents,
 } from './calculateCalendarEvents';
 import { getCalendarEnd } from './getCalendarEnd';
-import { isRRuleOverrideEntry } from './helpers';
 
 /**
  * Get the best fitting entry from a calendar.

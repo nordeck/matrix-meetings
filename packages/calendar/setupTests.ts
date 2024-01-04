@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Nordeck IT + Consulting GmbH
+ * Copyright 2024 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +14,9 @@
  * limitations under the License.
  */
 
-export { generateRruleSet } from './calendarUtils/generateRruleSet';
-export {
-  isFiniteSeries,
-  isRRuleEntry,
-  isRRuleOverrideEntry,
-  isSingleEntry,
-} from './calendarUtils/helpers';
-export { formatICalDate, parseICalDate, toISOString } from './dateTimeUtils';
+import { Settings } from 'luxon';
+
+// We want our tests to be in a reproducible time zone, always resulting in
+// the same results, independent from where they are run.
+Settings.defaultZone = 'UTC';
+Settings.defaultLocale = 'en';

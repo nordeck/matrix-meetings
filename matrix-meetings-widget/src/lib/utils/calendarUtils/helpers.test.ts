@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
+import { isFiniteSeries } from '@nordeck/matrix-meetings-calendar';
 import { mockCalendarEntry } from '../../testUtils';
 import {
   createTimeFilter,
-  isFiniteSeries,
   isRecurringCalendarSourceEntry,
   isSingleCalendarSourceEntry,
 } from './helpers';

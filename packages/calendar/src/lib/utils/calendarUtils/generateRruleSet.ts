@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-import {
-  CalendarEntry,
-  parseICalDate,
-} from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
 import { RRule, RRuleSet } from 'rrule';
+import { CalendarEntry } from '../../matrix/model';
+import { parseICalDate } from '../dateTimeUtils';
 import { isFiniteSeries } from './helpers';
 
 export function generateRruleSet(entry: CalendarEntry & { rrule: string }): {

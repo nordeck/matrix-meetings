@@ -15,24 +15,24 @@
  */
 
 import { Options } from 'rrule';
-import { CalendarEntryDto, DateTimeEntryDto } from '../../dto/CalendarEntryDto';
+import { CalendarEntry, DateTimeEntry } from '../../matrix/model';
 
 export function isSingleEntry(
-  entry: CalendarEntryDto,
-): entry is Omit<CalendarEntryDto, 'rrule' | 'recurrenceId' | 'exdate'> {
+  entry: CalendarEntry,
+): entry is Omit<CalendarEntry, 'rrule' | 'recurrenceId' | 'exdate'> {
   return entry.rrule === undefined && entry.recurrenceId === undefined;
 }
 
 export function isRRuleEntry(
-  entry: CalendarEntryDto,
-): entry is CalendarEntryDto & { rrule: string } {
+  entry: CalendarEntry,
+): entry is CalendarEntry & { rrule: string } {
   return entry.rrule !== undefined && entry.recurrenceId === undefined;
 }
 
 export function isRRuleOverrideEntry(
-  entry: CalendarEntryDto,
-): entry is CalendarEntryDto & {
-  recurrenceId: DateTimeEntryDto;
+  entry: CalendarEntry,
+): entry is CalendarEntry & {
+  recurrenceId: DateTimeEntry;
 } {
   return entry.recurrenceId !== undefined;
 }

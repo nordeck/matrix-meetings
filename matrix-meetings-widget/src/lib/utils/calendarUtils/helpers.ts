@@ -14,37 +14,9 @@
  * limitations under the License.
  */
 
-import {
-  CalendarEntry,
-  DateTimeEntry,
-} from '@nordeck/matrix-meetings-calendar';
+import { CalendarEntry } from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
-import { Options } from 'rrule';
 import { CalendarSourceEntries } from './calculateCalendarEvents';
-
-export function isSingleEntry(
-  entry: CalendarEntry,
-): entry is Omit<CalendarEntry, 'rrule' | 'recurrenceId' | 'exdate'> {
-  return entry.rrule === undefined && entry.recurrenceId === undefined;
-}
-
-export function isRRuleEntry(
-  entry: CalendarEntry,
-): entry is CalendarEntry & { rrule: string } {
-  return entry.rrule !== undefined && entry.recurrenceId === undefined;
-}
-
-export function isRRuleOverrideEntry(
-  entry: CalendarEntry,
-): entry is CalendarEntry & {
-  recurrenceId: DateTimeEntry;
-} {
-  return entry.recurrenceId !== undefined;
-}
-
-export function isFiniteSeries(rruleOptions: Partial<Options>): boolean {
-  return rruleOptions.count !== undefined || rruleOptions.until !== undefined;
-}
 
 export function isSingleCalendarSourceEntry(
   entries?: CalendarSourceEntries,

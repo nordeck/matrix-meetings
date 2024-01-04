@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+import { isRRuleOverrideEntry } from '@nordeck/matrix-meetings-calendar';
 import { CalendarEntryDto } from '../dto/CalendarEntryDto';
 import { getCalendarEnd } from './calendarUtils/getCalendarEnd';
-import { isRRuleOverrideEntry } from './calendarUtils/helpers';
 
 /**
  * Extracts first single or recurring calendar entry.

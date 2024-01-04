@@ -16,11 +16,13 @@
 
 import {
   formatICalDate,
+  isRRuleEntry,
+  isRRuleOverrideEntry,
+  isSingleEntry,
   parseICalDate,
 } from '@nordeck/matrix-meetings-calendar';
 import { differenceWith, isEqual } from 'lodash';
 import { CalendarEntryDto, DateTimeEntryDto } from '../../dto/CalendarEntryDto';
-import { isRRuleEntry, isRRuleOverrideEntry, isSingleEntry } from './helpers';
 
 export type CalendarChange =
   | UpdateSingleOrRecurringTimeChange

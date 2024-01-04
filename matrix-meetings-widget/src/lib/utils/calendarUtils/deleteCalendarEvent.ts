@@ -17,11 +17,12 @@
 import {
   CalendarEntry,
   formatICalDate,
+  isRRuleEntry,
+  isRRuleOverrideEntry,
   parseICalDate,
 } from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
 import { getCalendarEvent } from './getCalendarEvent';
-import { isRRuleEntry, isRRuleOverrideEntry } from './helpers';
 
 export function deleteCalendarEvent(
   calendarEntries: CalendarEntry[],

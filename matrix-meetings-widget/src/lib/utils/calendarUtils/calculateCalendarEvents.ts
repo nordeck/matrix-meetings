@@ -16,17 +16,15 @@
 
 import {
   CalendarEntry,
+  generateRruleSet,
+  isRRuleEntry,
+  isRRuleOverrideEntry,
+  isSingleEntry,
   parseICalDate,
   toISOString,
 } from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
-import { generateRruleSet } from './generateRruleSet';
-import {
-  createTimeFilter,
-  isRRuleEntry,
-  isRRuleOverrideEntry,
-  isSingleEntry,
-} from './helpers';
+import { createTimeFilter } from './helpers';
 
 /**
  * A list of calendar entries that were used to create this event. It will always

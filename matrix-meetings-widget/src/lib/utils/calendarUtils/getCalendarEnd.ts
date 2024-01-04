@@ -16,12 +16,14 @@
 
 import {
   CalendarEntry,
+  generateRruleSet,
+  isRRuleEntry,
+  isRRuleOverrideEntry,
+  isSingleEntry,
   parseICalDate,
 } from '@nordeck/matrix-meetings-calendar';
 import { max } from 'lodash';
 import { DateTime } from 'luxon';
-import { generateRruleSet } from './generateRruleSet';
-import { isRRuleEntry, isRRuleOverrideEntry, isSingleEntry } from './helpers';
 
 /**
  * Calculate the last end date of the calendar.
