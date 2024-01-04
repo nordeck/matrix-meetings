@@ -19,8 +19,8 @@ import i18next from 'i18next';
 import { fullNumericDateFormat } from '../dateFormat';
 import { CalendarEntryDto } from '../dto/CalendarEntryDto';
 import { IUserContext } from '../model/IUserContext';
-import { formatRRuleText } from '../shared/format';
 import { getSingleOrRecurringEntry } from './calendarUtils';
+import { formatRRuleText } from './format';
 
 export class TemplateHelper {
   public makeInviteReasons(

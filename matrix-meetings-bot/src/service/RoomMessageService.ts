@@ -25,8 +25,8 @@ import { ISyncParams } from '../matrix/dto/ISyncParams';
 import { IMeeting } from '../model/IMeeting';
 import { IUserContext } from '../model/IUserContext';
 import { StateEventName } from '../model/StateEventName';
-import { formatRRuleText } from '../shared/format';
 import { IMeetingChanges } from '../util/IMeetingChanges';
+import { formatRRuleText } from '../util/format';
 
 @Injectable()
 export class RoomMessageService {
