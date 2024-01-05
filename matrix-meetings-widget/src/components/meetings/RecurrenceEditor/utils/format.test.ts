@@ -14,10 +14,11 @@
  * limitations under the License.
  */
 
+import { parseRRule } from '@nordeck/matrix-meetings-calendar';
 import { changeLanguage, t } from 'i18next';
 import { Settings } from 'luxon';
 import { Frequency } from 'rrule';
-import { formatRRuleText, parseRRule, stringifyRRule } from './format';
+import { formatRRuleText, stringifyRRule } from './format';
 
 describe('parseRRule', () => {
   it('should parse RRULE', () => {

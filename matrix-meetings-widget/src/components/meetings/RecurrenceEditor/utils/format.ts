@@ -78,5 +78,3 @@ export const formatRRuleText = (rule: string, t: TFunction): string => {
 
   return calendarFormatRRuleText(rule, t, Settings.defaultLocale);
 };
-
-export { parseRRule } from '@nordeck/matrix-meetings-calendar';
