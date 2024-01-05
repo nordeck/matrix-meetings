@@ -99,6 +99,9 @@ MATRIX_SERVER_EVENT_MAX_AGE_MINUTES=5
 # optional - the folder where the bot stores local data like a persisted sessions
 STORAGE_FILE_DATA_PATH=storage
 
+# optional - the folder where the bot stores local encryption data. This is relative to the storage path above, ie 'storage/crypto'
+CRYPTO_DATA_PATH=crypto
+
 # optional - the json file with the session information inside the storage folder
 STORAGE_FILE_FILENAME=bot.json
 
