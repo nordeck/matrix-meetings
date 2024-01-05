@@ -244,7 +244,7 @@ test.describe('Recurring Meetings', () => {
     ).toBeVisible();
   });
 
-  test('should covert a recurring meeting into a single meeting', async ({
+  test('should convert a recurring meeting into a single meeting', async ({
     aliceMeetingsWidgetPage,
     aliceElementWebPage,
   }) => {
