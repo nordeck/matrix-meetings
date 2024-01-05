@@ -58,7 +58,7 @@ export class ScheduleBreakoutSessionsWidgetPage {
       .getByRole('list', { name: 'Groups' })
       .locator(`role=listItem[name="${group}"]`)
       .getByRole('combobox', { name: 'Select participants' });
-    await participantCombobox.type(name);
+    await participantCombobox.fill(name);
     await participantCombobox.press('ArrowDown');
     await participantCombobox.press('Enter');
   }

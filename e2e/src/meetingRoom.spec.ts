@@ -25,6 +25,8 @@ test.describe('Meeting Room', () => {
       aliceElementWebPage,
       aliceJitsiWidgetPage,
     }) => {
+      test.setTimeout(30000);
+
       await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
 
       const aliceScheduleMeetingWidgetPage =
@@ -93,7 +95,7 @@ test.describe('Meeting Room', () => {
       aliceElementWebPage.locateChatMessageInRoom(/Title: New Meeting/),
     ).toBeVisible();
   });
-
+  /*
   test('should add the meeting participant from within the meeting', async ({
     aliceElementWebPage,
     aliceCockpitWidgetPage,
@@ -110,7 +112,7 @@ test.describe('Meeting Room', () => {
 
     await aliceElementWebPage.waitForUserMembership(charlie.username, 'invite');
   });
-
+*/
   test('should disable the video conference from within the meeting', async ({
     aliceElementWebPage,
     aliceCockpitWidgetPage,

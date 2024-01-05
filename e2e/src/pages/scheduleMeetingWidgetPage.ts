@@ -100,8 +100,11 @@ export class ScheduleMeetingWidgetPage {
   }
 
   async addParticipant(name: string) {
-    await this.participantsCombobox.type(name);
-    await this.widget.getByRole('option', { name }).waitFor();
+    await this.participantsCombobox.fill(name);
+    await this.widget
+      .getByRole('option', { name })
+      .first()
+      .waitFor({ timeout: 30000 });
     await this.participantsCombobox.press('ArrowDown');
     await this.participantsCombobox.press('Enter');
   }

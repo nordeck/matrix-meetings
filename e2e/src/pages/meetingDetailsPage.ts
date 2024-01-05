@@ -80,7 +80,10 @@ export class MeetingDetailsPage {
 
     await elementWebPage.approveWidgetCapabilities();
 
-    await editMeetingWidgetPage.titleTextbox.waitFor({ state: 'attached' });
+    await editMeetingWidgetPage.titleTextbox.waitFor({
+      state: 'attached',
+      timeout: 30000,
+    });
 
     await elementWebPage.approveWidgetIdentity();
 

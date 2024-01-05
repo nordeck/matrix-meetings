@@ -51,6 +51,7 @@ export async function fillDate(
   const [year, month, day] = date;
   const monthLabel = new Intl.DateTimeFormat('en', {
     month: 'short',
+    timeZone: 'UTC',
   }).format(new Date(Date.UTC(2021, (month - 1) % 12)));
 
   await pickerModal

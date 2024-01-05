@@ -73,7 +73,7 @@ export class BreakoutSessionsPage {
   }
 
   async sendMessageToAllBreakoutSession(message: string) {
-    await this.sendMessageToBreakoutSessionsTextbox.type(message);
+    await this.sendMessageToBreakoutSessionsTextbox.fill(message);
     await this.sendMessageToBreakoutSessionsTextbox.press('Enter');
   }
 
