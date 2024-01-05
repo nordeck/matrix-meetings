@@ -52,7 +52,7 @@ export async function fillDate(
   const monthLabel = new Intl.DateTimeFormat('en', {
     month: 'short',
     timeZone: 'UTC',
-  }).format(new Date(Date.UTC(2021, (month - 1) % 12)));
+  }).format(new Date(Date.UTC(year, (month - 1) % 12)));
 
   await pickerModal
     .getByRole('button', { name: /switch to year view/ })
