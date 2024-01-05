@@ -114,15 +114,24 @@ export class ElementWebPage {
       async ({ name, encrypted }) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const client = (window as any).mxMatrixClientPeg.get();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let initialState: any[] = [];
 
         if (encrypted) {
-          // TODO: Support encryption in rooms
-
-          throw new Error('Encryption not supported!');
+          initialState = [
+            {
+              type: 'm.room.encryption',
+              state_key: '',
+              content: {
+                algorithm: 'm.megolm.v1.aes-sha2',
+              },
+            },
+          ];
         }
 
         await client.createRoom({
           name,
+          initial_state: initialState,
         });
       },
       { name, encrypted },
