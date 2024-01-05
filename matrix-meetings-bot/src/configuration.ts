@@ -71,6 +71,9 @@ function createConfiguration() {
     data_path: process.env.STORAGE_FILE_DATA_PATH ?? 'storage',
     data_filename: process.env.STORAGE_FILE_FILENAME ?? 'bot.json',
 
+    // encryption
+    crypto_data_path: process.env.CRYPTO_DATA_PATH ?? 'crypto',
+
     enable_welcome_workflow: toBoolean(
       process.env.ENABLE_WELCOME_WORKFLOW,
       true,
@@ -152,6 +155,9 @@ export const ValidationSchema = Joi.object({
   // storage
   STORAGE_FILE_DATA_PATH: Joi.string(),
   STORAGE_FILE_FILENAME: Joi.string(),
+
+  // encryption
+  CRYPTO_DATA_PATH: Joi.string(),
 
   ENABLE_WELCOME_WORKFLOW: Joi.boolean(),
   ENABLE_CONTROL_ROOM_MIGRATION: Joi.boolean(),

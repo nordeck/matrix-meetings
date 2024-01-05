@@ -271,29 +271,32 @@ export class ElementWebPage {
   ) {
     // Instead of controling the UI, we use the matrix client as it is faster.
     await expect
-      .poll(async () => {
-        const roomId = this.getCurrentRoomId();
+      .poll(
+        async () => {
+          const roomId = this.getCurrentRoomId();
 
-        return await this.page.evaluate(
-          async ({ roomId, username }) => {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const client = (window as any).mxMatrixClientPeg.get();
+          return await this.page.evaluate(
+            async ({ roomId, username }) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const client = (window as any).mxMatrixClientPeg.get();
 
-            try {
-              const memberEvent = await client.getStateEvent(
-                roomId,
-                'm.room.member',
-                `@${username}:localhost`,
-              );
+              try {
+                const memberEvent = await client.getStateEvent(
+                  roomId,
+                  'm.room.member',
+                  `@${username}:localhost`,
+                );
 
-              return memberEvent.membership;
-            } catch (err) {
-              return undefined;
-            }
-          },
-          { roomId, username },
-        );
-      })
+                return memberEvent.membership;
+              } catch (err) {
+                return undefined;
+              }
+            },
+            { roomId, username },
+          );
+        },
+        { timeout: 90000 },
+      )
       .toEqual(membership);
   }
 

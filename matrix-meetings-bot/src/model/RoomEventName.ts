@@ -15,6 +15,7 @@
  */
 
 export enum RoomEventName {
+  M_ROOM_ENCRYPTED = 'm.room.encrypted',
   M_ROOM_MESSAGE = 'm.room.message',
   M_ROOM_NOTICE = 'm.notice',
   M_TEXT = 'm.text',
