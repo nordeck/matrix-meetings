@@ -14,8 +14,11 @@
  * limitations under the License.
  */
 
+import {
+  CalendarChange,
+  extractCalendarChange,
+} from '@nordeck/matrix-meetings-calendar';
 import { IMeeting } from '../model/IMeeting';
-import { CalendarChange, extractCalendarChange } from './extractCalendarChange';
 
 export interface IMeetingChanges {
   titleChanged: boolean;

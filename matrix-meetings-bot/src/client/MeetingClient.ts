@@ -48,8 +48,8 @@ import { Room } from '../model/Room';
 import { RoomEventName } from '../model/RoomEventName';
 import { StateEventName } from '../model/StateEventName';
 import { templateHelper } from '../util/TemplateHelper';
-import { getForceDeletionTime } from '../util/calendarUtils';
 import { extractOxRrule } from '../util/extractOxRrule';
+import { getForceDeletionTime } from '../util/getForceDeletionTime';
 import { migrateMeetingTime } from '../util/migrateMeetingTime';
 
 @Injectable()

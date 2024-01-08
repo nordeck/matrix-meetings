@@ -17,10 +17,15 @@
 export { calculateCalendarEvents } from './calculateCalendarEvents';
 export type { CalendarSourceEntries } from './calculateCalendarEvents';
 export { deleteCalendarEvent } from './deleteCalendarEvent';
+export {
+  extractCalendarChange,
+  type CalendarChange,
+} from './extractCalendarChange';
 export { generateRruleSet } from './generateRruleSet';
 export { getCalendarEnd } from './getCalendarEnd';
 export { getCalendarEvent } from './getCalendarEvent';
 export {
+  getSingleOrRecurringEntry,
   isFiniteSeries,
   isRRuleEntry,
   isRRuleOverrideEntry,

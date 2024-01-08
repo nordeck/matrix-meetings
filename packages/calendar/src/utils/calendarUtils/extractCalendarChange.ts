@@ -14,16 +14,10 @@
  * limitations under the License.
  */
 
-import {
-  CalendarEntry,
-  DateTimeEntry,
-  formatICalDate,
-  isRRuleEntry,
-  isRRuleOverrideEntry,
-  isSingleEntry,
-  parseICalDate,
-} from '@nordeck/matrix-meetings-calendar';
 import { differenceWith, isEqual } from 'lodash';
+import { CalendarEntry, DateTimeEntry } from '../../model';
+import { formatICalDate, parseICalDate } from '../dateTimeUtils';
+import { isRRuleEntry, isRRuleOverrideEntry, isSingleEntry } from './helpers';
 
 export type CalendarChange =
   | UpdateSingleOrRecurringTimeChange

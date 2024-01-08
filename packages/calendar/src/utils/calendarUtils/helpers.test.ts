@@ -17,6 +17,7 @@
 import { mockCalendarEntry } from '../../testing';
 import {
   createTimeFilter,
+  getSingleOrRecurringEntry,
   isFiniteSeries,
   isRecurringCalendarSourceEntry,
   isSingleCalendarSourceEntry,
@@ -197,5 +198,97 @@ describe('createTimeFilter', () => {
         endTime: '2020-01-11T11:00:00Z',
       }),
     ).toBe(false);
+  });
+});
+
+describe('getSingleOrRecurringEntry', () => {
+  it('should get from single entry', () => {
+    expect(
+      getSingleOrRecurringEntry([
+        mockCalendarEntry({
+          dtstart: '20200109T100000',
+          dtend: '20200109T110000',
+        }),
+      ]),
+    ).toEqual(
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+      }),
+    );
+  });
+
+  it('should get from single recurring entry', () => {
+    expect(
+      getSingleOrRecurringEntry([
+        mockCalendarEntry({
+          dtstart: '20200109T100000',
+          dtend: '20200109T110000',
+          rrule: 'FREQ=DAILY',
+        }),
+      ]),
+    ).toEqual(
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+      }),
+    );
+  });
+
+  it('should get from single recurring entry with existing overrides', () => {
+    expect(
+      getSingleOrRecurringEntry([
+        mockCalendarEntry({
+          dtstart: '20200109T100000',
+          dtend: '20200109T110000',
+          rrule: 'FREQ=DAILY',
+          exdate: ['20200110T100000'],
+        }),
+        mockCalendarEntry({
+          dtstart: '20200111T120000',
+          dtend: '20200111T130000',
+          recurrenceId: '20200111T100000',
+        }),
+      ]),
+    ).toEqual(
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+        exdate: ['20200110T100000'],
+      }),
+    );
+  });
+
+  it('should get from single recurring entry with existing overrides reordered', () => {
+    expect(
+      getSingleOrRecurringEntry([
+        mockCalendarEntry({
+          dtstart: '20200111T120000',
+          dtend: '20200111T130000',
+          recurrenceId: '20200111T100000',
+        }),
+        mockCalendarEntry({
+          dtstart: '20200109T100000',
+          dtend: '20200109T110000',
+          rrule: 'FREQ=DAILY',
+          exdate: ['20200110T100000'],
+        }),
+      ]),
+    ).toEqual(
+      mockCalendarEntry({
+        dtstart: '20200109T100000',
+        dtend: '20200109T110000',
+        rrule: 'FREQ=DAILY',
+        exdate: ['20200110T100000'],
+      }),
+    );
+  });
+
+  it('should throw if calendar is empty', () => {
+    expect(() => getSingleOrRecurringEntry([])).toThrowError(
+      'calendar must have single or recurring entry',
+    );
   });
 });
