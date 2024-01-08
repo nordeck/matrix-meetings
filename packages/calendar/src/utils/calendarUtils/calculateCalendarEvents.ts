@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
+import { DateTime } from 'luxon';
+import { CalendarEntry } from '../../model';
+import { parseICalDate, toISOString } from '../dateTimeUtils';
+import { generateRruleSet } from './generateRruleSet';
 import {
-  CalendarEntry,
-  generateRruleSet,
+  createTimeFilter,
   isRRuleEntry,
   isRRuleOverrideEntry,
   isSingleEntry,
-  parseICalDate,
-  toISOString,
-} from '@nordeck/matrix-meetings-calendar';
-import { DateTime } from 'luxon';
-import { createTimeFilter } from './helpers';
+} from './helpers';
 
 /**
  * A list of calendar entries that were used to create this event. It will always

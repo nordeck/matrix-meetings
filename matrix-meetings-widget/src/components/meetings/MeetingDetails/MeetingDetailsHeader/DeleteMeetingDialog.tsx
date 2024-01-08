@@ -18,15 +18,15 @@ import { navigateToRoom } from '@matrix-widget-toolkit/api';
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import { LoadingButton } from '@mui/lab';
 import { Alert, AlertTitle } from '@mui/material';
-import { getCalendarEnd } from '@nordeck/matrix-meetings-calendar';
+import {
+  deleteCalendarEvent,
+  getCalendarEnd,
+  isRecurringCalendarSourceEntry,
+} from '@nordeck/matrix-meetings-calendar';
 import { createAsyncThunk, createSelector } from '@reduxjs/toolkit';
 import { isEqual } from 'lodash';
 import { DispatchWithoutAction, Fragment, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  deleteCalendarEvent,
-  isRecurringCalendarSourceEntry,
-} from '../../../../lib/utils';
 import {
   Meeting,
   MutationResponse,

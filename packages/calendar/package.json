@@ -1,6 +1,6 @@
 {
   "name": "@nordeck/matrix-meetings-calendar",
-  "description": "A library sharing calendar utils between meetings widget and bot",
+  "description": "A calendar utils library used by widget and bot",
   "license": "Apache-2.0",
   "private": true,
   "version": "0.0.1",

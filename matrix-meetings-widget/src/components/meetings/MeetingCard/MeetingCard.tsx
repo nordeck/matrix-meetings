@@ -31,13 +31,13 @@ import {
   Typography,
 } from '@mui/material';
 import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
+import { isRecurringCalendarSourceEntry } from '@nordeck/matrix-meetings-calendar';
 import { ReactNode, useCallback, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { ellipsis } from '../../../lib/ellipsis';
 import {
   isMeetingSpanningMultipleDays,
   isMeetingSpanningMultipleYears,
-  isRecurringCalendarSourceEntry,
 } from '../../../lib/utils';
 import {
   fullDateFormat,

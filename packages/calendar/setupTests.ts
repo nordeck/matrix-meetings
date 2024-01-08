@@ -15,8 +15,13 @@
  */
 
 import { Settings } from 'luxon';
+// Make sure to initialize i18n (see mock below)
+import { mockDateTimeFormatTimeZone } from './src';
 
-// We want our tests to be in a reproducible time zone, always resulting in
-// the same results, independent from where they are run.
-Settings.defaultZone = 'UTC';
-Settings.defaultLocale = 'en';
+beforeEach(() => {
+  // We want our tests to be in a reproducible time zone, always resulting in
+  // the same results, independent from where they are run.
+  mockDateTimeFormatTimeZone('UTC');
+
+  Settings.defaultLocale = 'en';
+});

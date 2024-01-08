@@ -14,15 +14,11 @@
  * limitations under the License.
  */
 
-import {
-  CalendarEntry,
-  formatICalDate,
-  isRRuleEntry,
-  isRRuleOverrideEntry,
-  parseICalDate,
-} from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
+import { CalendarEntry } from '../../model';
+import { formatICalDate, parseICalDate } from '../dateTimeUtils';
 import { getCalendarEvent } from './getCalendarEvent';
+import { isRRuleEntry, isRRuleOverrideEntry } from './helpers';
 
 export function deleteCalendarEvent(
   calendarEntries: CalendarEntry[],

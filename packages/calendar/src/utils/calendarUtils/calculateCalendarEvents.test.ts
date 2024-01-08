@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { mockCalendar, mockCalendarEntry } from '../../testUtils';
+import { mockCalendar, mockCalendarEntry } from '../../testing';
 import { calculateCalendarEvents } from './calculateCalendarEvents';
 
 describe('calculateCalendarEvents', () => {

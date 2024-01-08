@@ -14,14 +14,8 @@
  * limitations under the License.
  */
 
-export { calculateCalendarEvents } from './calculateCalendarEvents';
-export type { CalendarSourceEntries } from './calculateCalendarEvents';
-export { deleteCalendarEvent } from './deleteCalendarEvent';
-export { getCalendarEvent } from './getCalendarEvent';
-export {
-  isRecurringCalendarSourceEntry,
-  isSingleCalendarSourceEntry,
-} from './helpers';
-export { isRecurringMeeting } from './isRecurringMeeting';
-export { normalizeCalendarEntry } from './normalizeCalendarEntry';
-export { overrideCalendarEntries } from './overrideCalendarEntries';
+import { CalendarEntry } from '../../model';
+
+export function isRecurringMeeting(calendar: CalendarEntry[]): boolean {
+  return calendar.length > 1 || calendar.some((e) => e.rrule);
+}

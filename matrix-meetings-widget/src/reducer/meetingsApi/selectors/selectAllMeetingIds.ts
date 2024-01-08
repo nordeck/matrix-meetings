@@ -15,11 +15,15 @@
  */
 
 import { StateEvent } from '@matrix-widget-toolkit/api';
-import { parseICalDate, toISOString } from '@nordeck/matrix-meetings-calendar';
+import {
+  calculateCalendarEvents,
+  parseICalDate,
+  toISOString,
+} from '@nordeck/matrix-meetings-calendar';
 import { createSelector } from '@reduxjs/toolkit';
 import { DateTime } from 'luxon';
 import { RoomNameEvent, RoomTopicEvent } from '../../../lib/matrix';
-import { calculateCalendarEvents, isString } from '../../../lib/utils';
+import { isString } from '../../../lib/utils';
 import { RootState } from '../../../store';
 import {
   isMeetingBreakOutRoom,

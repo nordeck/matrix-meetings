@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { mockCalendarEntry } from '../../../lib/testUtils';
+import { mockCalendarEntry } from '../../testing';
 import { overrideCalendarEntries } from './overrideCalendarEntries';
 
 describe('overrideCalendarEntries', () => {

@@ -3,4 +3,4 @@
 '@nordeck/matrix-meetings-bot': patch
 ---
 
-Use `@nordeck/matrix-meetings-calendar` package.
+Use `@nordeck/matrix-meetings-calendar` package

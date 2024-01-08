@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-export * from './calendarUtils';
 export { generateFilterRange } from './generateFilterRange';
 export type { CalendarViewType } from './generateFilterRange';
 export { getBotUserId, isBotUser } from './getBotUserId';

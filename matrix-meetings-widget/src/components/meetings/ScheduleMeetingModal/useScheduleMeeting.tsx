@@ -15,13 +15,15 @@
  */
 
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
-import { formatICalDate } from '@nordeck/matrix-meetings-calendar';
+import {
+  formatICalDate,
+  normalizeCalendarEntry,
+} from '@nordeck/matrix-meetings-calendar';
 import { nanoid } from '@reduxjs/toolkit';
 import { DateTime } from 'luxon';
 import { ModalButtonKind } from 'matrix-widget-api';
 import { useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
-import { normalizeCalendarEntry } from '../../../lib/utils';
 import { useCreateMeetingMutation } from '../../../reducer/meetingsApi';
 import {
   CancelScheduleMeetingModal,

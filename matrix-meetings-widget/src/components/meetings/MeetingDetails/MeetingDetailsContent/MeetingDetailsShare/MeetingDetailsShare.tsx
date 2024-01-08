@@ -30,8 +30,8 @@ import {
   Typography,
 } from '@mui/material';
 import { unstable_useId as useId } from '@mui/utils';
+import { isRecurringCalendarSourceEntry } from '@nordeck/matrix-meetings-calendar';
 import { useTranslation } from 'react-i18next';
-import { isRecurringCalendarSourceEntry } from '../../../../../lib/utils';
 import { Meeting } from '../../../../../reducer/meetingsApi';
 import { CopyableText } from '../../../MeetingCardShareMeetingContent/CopyableText';
 import { useDownloadIcsFile } from '../../../MeetingCardShareMeetingContent/useDownloadIcsFile';

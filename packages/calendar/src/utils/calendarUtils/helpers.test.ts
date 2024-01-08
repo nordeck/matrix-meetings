@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
-import { isFiniteSeries } from './helpers';
+import { mockCalendarEntry } from '../../testing';
+import {
+  createTimeFilter,
+  isFiniteSeries,
+  isRecurringCalendarSourceEntry,
+  isSingleCalendarSourceEntry,
+} from './helpers';
 
 describe('isFiniteSeries', () => {
   it('should detect infinite series', () => {
@@ -29,5 +35,167 @@ describe('isFiniteSeries', () => {
 
   it('should detect finite series with after meeting count', () => {
     expect(isFiniteSeries({ count: 5 })).toBe(true);
+  });
+});
+
+describe('isSingleCalendarSourceEntry', () => {
+  it('should reject undefined entry', () => {
+    expect(isSingleCalendarSourceEntry(undefined)).toBe(false);
+  });
+
+  it('should accept entry with a single meeting', () => {
+    expect(
+      isSingleCalendarSourceEntry([
+        mockCalendarEntry({
+          dtstart: '20200109T100000',
+          dtend: '20200109T110000',
+        }),
+      ]),
+    ).toBe(true);
+  });
+
+  it('should reject entry with a recurring meeting', () => {
+    expect(
+      isSingleCalendarSourceEntry([
+        mockCalendarEntry({
+          dtstart: '20200109T100000',
+          dtend: '20200109T110000',
+          rrule: 'FREQ=DAILY',
+        }),
+      ]),
+    ).toBe(false);
+  });
+
+  it('should reject entry with a recurring meeting and an override', () => {
+    expect(
+      isSingleCalendarSourceEntry([
+        mockCalendarEntry({
+          dtstart: '20200109T100000',
+          dtend: '20200109T110000',
+          rrule: 'FREQ=DAILY',
+        }),
+        mockCalendarEntry({
+          dtstart: '20200110T103000',
+          dtend: '20200110T113000',
+          recurrenceId: '20200110T100000',
+        }),
+      ]),
+    ).toBe(false);
+  });
+});
+
+describe('isRecurringCalendarSourceEntry', () => {
+  it('should reject undefined entry', () => {
+    expect(isRecurringCalendarSourceEntry(undefined)).toBe(false);
+  });
+
+  it('should reject entry with a single meeting', () => {
+    expect(
+      isRecurringCalendarSourceEntry([
+        mockCalendarEntry({
+          dtstart: '20200109T100000',
+          dtend: '20200109T110000',
+        }),
+      ]),
+    ).toBe(false);
+  });
+
+  it('should accept entry with a recurring meeting', () => {
+    expect(
+      isRecurringCalendarSourceEntry([
+        mockCalendarEntry({
+          dtstart: '20200109T100000',
+          dtend: '20200109T110000',
+          rrule: 'FREQ=DAILY',
+        }),
+      ]),
+    ).toBe(true);
+  });
+
+  it('should accept entry with a recurring meeting and an override', () => {
+    expect(
+      isRecurringCalendarSourceEntry([
+        mockCalendarEntry({
+          dtstart: '20200109T100000',
+          dtend: '20200109T110000',
+          rrule: 'FREQ=DAILY',
+        }),
+        mockCalendarEntry({
+          dtstart: '20200110T103000',
+          dtend: '20200110T113000',
+          recurrenceId: '20200110T100000',
+        }),
+      ]),
+    ).toBe(true);
+  });
+});
+
+describe('createTimeFilter', () => {
+  const filter = createTimeFilter(
+    '2020-01-10T00:00:00Z',
+    '2020-01-10T23:59:59Z',
+  );
+
+  it('should skip meeting before filter', () => {
+    expect(
+      filter({
+        startTime: '2020-01-09T10:00:00Z',
+        endTime: '2020-01-09T23:59:59.999Z',
+      }),
+    ).toBe(false);
+  });
+
+  it('should skip meeting that ends on fromDate', () => {
+    expect(
+      filter({
+        startTime: '2020-01-09T10:00:00Z',
+        endTime: '2020-01-10T00:00:00Z',
+      }),
+    ).toBe(false);
+  });
+
+  it('should accept meeting that ends after fromDate', () => {
+    expect(
+      filter({
+        startTime: '2020-01-09T10:00:00Z',
+        endTime: '2020-01-10T00:00:00.001Z',
+      }),
+    ).toBe(true);
+  });
+
+  it('should accept meeting that is between fromDate and toDate', () => {
+    expect(
+      filter({
+        startTime: '2020-01-10T10:00:00Z',
+        endTime: '2020-01-10T11:00:00Z',
+      }),
+    ).toBe(true);
+  });
+
+  it('should accept meeting that starts before toDate', () => {
+    expect(
+      filter({
+        startTime: '2020-01-10T23:59:58.999Z',
+        endTime: '2020-01-11T11:00:00Z',
+      }),
+    ).toBe(true);
+  });
+
+  it('should accept meeting that starts on toDate', () => {
+    expect(
+      filter({
+        startTime: '2020-01-10T23:59:59Z',
+        endTime: '2020-01-11T11:00:00Z',
+      }),
+    ).toBe(true);
+  });
+
+  it('should skip meeting that starts after toDate', () => {
+    expect(
+      filter({
+        startTime: '2020-01-11T00:00:00Z',
+        endTime: '2020-01-11T11:00:00Z',
+      }),
+    ).toBe(false);
   });
 });
