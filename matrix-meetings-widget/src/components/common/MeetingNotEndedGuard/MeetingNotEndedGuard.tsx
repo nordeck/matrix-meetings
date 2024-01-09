@@ -16,6 +16,7 @@
 
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import { Alert } from '@mui/material';
+import { getCalendarEvent } from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
 import React, {
   isValidElement,
@@ -24,7 +25,6 @@ import React, {
   ReactNode,
 } from 'react';
 import { useTranslation } from 'react-i18next';
-import { getCalendarEvent } from '../../../lib/utils';
 import { isMeetingBreakOutRoom, Meeting } from '../../../reducer/meetingsApi';
 import { useUpdateOnDate } from '../hooks';
 

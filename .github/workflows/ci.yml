@@ -32,6 +32,10 @@ jobs:
       - name: type checking and declarations
         run: yarn tsc
 
+      - name: Check Calendar Linting Rules
+        working-directory: ./packages/calendar/
+        run: yarn run lint
+
       - name: Check Linting Rules
         working-directory: ./matrix-meetings-widget/
         run: yarn run lint
@@ -39,6 +43,10 @@ jobs:
       - name: check translations
         working-directory: ./matrix-meetings-widget/
         run: yarn translate --fail-on-update
+
+      - name: test calendar
+        working-directory: ./packages/calendar/
+        run: yarn test:all
 
       - name: test
         working-directory: ./matrix-meetings-widget/
@@ -111,6 +119,10 @@ jobs:
       - name: type checking and declarations
         run: yarn tsc
 
+      - name: Check Calendar Linting Rules
+        working-directory: ./packages/calendar/
+        run: yarn run lint
+
       - name: Check Linting Rules
         working-directory: ./matrix-meetings-bot/
         run: yarn run lint
@@ -118,6 +130,10 @@ jobs:
       - name: check translations
         working-directory: ./matrix-meetings-bot/
         run: yarn translate --fail-on-update
+
+      - name: test calendar
+        working-directory: ./packages/calendar/
+        run: yarn test:all
 
       - name: test
         working-directory: ./matrix-meetings-bot/

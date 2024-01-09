@@ -17,12 +17,12 @@
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import EventRepeatIcon from '@mui/icons-material/EventRepeat';
 import { Box, Stack, Tooltip, Typography } from '@mui/material';
+import { isRecurringCalendarSourceEntry } from '@nordeck/matrix-meetings-calendar';
 import { ReactElement } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   CalendarViewType,
   isMeetingSpanningMultipleDays,
-  isRecurringCalendarSourceEntry,
 } from '../../../lib/utils';
 import {
   fullLongDateFormat,

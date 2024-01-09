@@ -15,7 +15,7 @@
  */
 
 import { setLocale } from '../../../../lib/locale';
-import { convertWeekdayFromLocaleToRRule, isWeekdays } from './helpers';
+import { convertWeekdayFromLocaleToRRule } from './helpers';
 
 describe('convertWeekdayFromLocaleToRRule', () => {
   it('should convert the locale weekday number to the weekday rrule number', () => {
@@ -39,22 +39,4 @@ it('should convert the locale weekday number to the weekday rrule number with ge
   expect(convertWeekdayFromLocaleToRRule(4)).toBe(4);
   expect(convertWeekdayFromLocaleToRRule(5)).toBe(5);
   expect(convertWeekdayFromLocaleToRRule(6)).toBe(6);
-});
-
-describe('isWeekdays', () => {
-  it('should not detect undefined as weekdays', () => {
-    expect(isWeekdays(undefined)).toEqual(false);
-  });
-
-  it('should detect ordered MO-FR as weekdays', () => {
-    expect(isWeekdays([0, 1, 2, 3, 4])).toEqual(true);
-  });
-
-  it('should detect unordered MO-FR as weekdays', () => {
-    expect(isWeekdays([4, 3, 1, 2, 0])).toEqual(true);
-  });
-
-  it('should not detect MO-SA as weekdays', () => {
-    expect(isWeekdays([0, 1, 2, 3, 4, 5])).toEqual(false);
-  });
 });

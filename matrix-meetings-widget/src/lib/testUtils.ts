@@ -21,12 +21,15 @@ import {
   StateEvent,
 } from '@matrix-widget-toolkit/api';
 import { MockedWidgetApi } from '@matrix-widget-toolkit/testing';
+import {
+  formatICalDate,
+  mockCalendar,
+} from '@nordeck/matrix-meetings-calendar';
 import { rest } from 'msw';
 import { SetupServer } from 'msw/node';
 import { AvailableWidget } from '../reducer/meetingBotApi';
 import { Meeting } from '../reducer/meetingsApi';
 import {
-  CalendarEntry,
   NordeckMeetingMetadataEvent,
   ReactionEvent,
   RoomCreateEvent,
@@ -37,7 +40,6 @@ import {
   SpaceParentEvent,
   WidgetsEvent,
 } from './matrix';
-import { formatICalDate } from './utils';
 
 /**
  * Create a matrix room member event with known test data.
@@ -148,70 +150,6 @@ export function mockRoomName({
     origin_server_ts: 0,
     event_id: '$event-id',
     room_id,
-  };
-}
-
-/**
- * Create a calendar entry with a single entry that starts at the given times.
- *
- * @param dtstart - the start time in the iCalendar format in UTC
- * @param dtend - the start time in the iCalendar format in UTC
- *
- * @remarks Only use for tests
- */
-export function mockCalendar({
-  uid = 'entry-0',
-  dtstart,
-  dtend,
-  rrule,
-  exdate,
-  recurrenceId,
-}: {
-  uid?: string;
-  dtstart: string;
-  dtend: string;
-  rrule?: string;
-  exdate?: string[];
-  recurrenceId?: string;
-}): CalendarEntry[] {
-  return [
-    mockCalendarEntry({ uid, dtstart, dtend, rrule, exdate, recurrenceId }),
-  ];
-}
-
-/**
- * Create a calendar entry that starts at the given times.
- *
- * @param dtstart - the start time in the iCalendar format in UTC
- * @param dtend - the start time in the iCalendar format in UTC
- *
- * @remarks Only use for tests
- */
-export function mockCalendarEntry({
-  uid = 'entry-0',
-  dtstart,
-  dtend,
-  rrule,
-  exdate,
-  recurrenceId,
-}: {
-  uid?: string;
-  dtstart: string;
-  dtend: string;
-  rrule?: string;
-  exdate?: string[];
-  recurrenceId?: string;
-}): CalendarEntry {
-  return {
-    uid,
-    dtstart: { tzid: 'UTC', value: dtstart },
-    dtend: { tzid: 'UTC', value: dtend },
-    rrule,
-    exdate: exdate?.map((value) => ({ tzid: 'UTC', value })),
-    recurrenceId:
-      recurrenceId !== undefined
-        ? { tzid: 'UTC', value: recurrenceId }
-        : undefined,
   };
 }
 
@@ -725,3 +663,8 @@ export function mockBreakoutSession({
     },
   });
 }
+
+export {
+  mockCalendar,
+  mockCalendarEntry,
+} from '@nordeck/matrix-meetings-calendar';

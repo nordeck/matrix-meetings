@@ -1,0 +1,42 @@
+{
+  "name": "@nordeck/matrix-meetings-calendar",
+  "description": "A calendar utils library",
+  "license": "Apache-2.0",
+  "private": true,
+  "version": "1.0.0",
+  "source": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
+  "main": "lib/index.js",
+  "scripts": {
+    "docker:build": "echo \"Nothing to build\"",
+    "build": "tsc",
+    "depcheck": "depcheck",
+    "test": "jest --watch",
+    "test:all": "jest --coverage --watchAll=false",
+    "lint": "eslint .",
+    "translate": "echo \"Nothing to translate\"",
+    "generate-disclaimer": "echo \"Nothing to generate\""
+  },
+  "dependencies": {
+    "i18next": "^23.7.16",
+    "joi": "^17.11.0",
+    "lodash": "^4.17.20",
+    "luxon": "^3.3.0",
+    "rrule": "^2.8.1"
+  },
+  "devDependencies": {
+    "@types/lodash": "^4.14.200",
+    "@types/luxon": "^3.2.0"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "rootDir": ".",
+    "roots": [
+      "<rootDir>/src"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/setupTests.ts"
+    ]
+  }
+}
