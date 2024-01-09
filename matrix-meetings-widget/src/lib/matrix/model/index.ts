@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-export type { CalendarEntry, DateTimeEntry } from './calendarEntry';
 export {
   STATE_EVENT_NORDECK_MEETING_METADATA,
   isValidNordeckMeetingMetadataEvent,

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { parseRRuleSafe } from '../shared/format';
+import { parseRRuleSafe } from '../util/format';
 import { OpenXChangeExternalReference } from './OpenXChangeExternalReference';
 
 export const OPEN_XCHANGE_TYPE = 'io.ox';

@@ -24,7 +24,7 @@ import { MeetingSharingInformationDto } from '../dto/MeetingSharingInformationDt
 export class JitsiClient {
   private logger = new Logger(JitsiClient.name);
 
-  private cached_jitsi_dial_in_numbers = null;
+  private cached_jitsi_dial_in_numbers: unknown = null;
 
   constructor(
     @Inject(ModuleProviderToken.APP_CONFIGURATION)
@@ -110,7 +110,7 @@ export class JitsiClient {
         );
         const response = await fetch(url, { method: 'get' });
         if (response.ok) {
-          result = (await response.json()).id;
+          result = ((await response.json()) as any).id;
         } else {
           this.logger.error(
             `Could not fetch jitsi_pin_url ${this.appConfig.jitsi_pin_url} ${

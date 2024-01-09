@@ -26,15 +26,14 @@ import {
   TextField,
 } from '@mui/material';
 import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
+import {
+  isRecurringCalendarSourceEntry,
+  parseICalDate,
+} from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import {
-  getInitialMeetingTimes,
-  isBotUser,
-  isRecurringCalendarSourceEntry,
-  parseICalDate,
-} from '../../../lib/utils';
+import { getInitialMeetingTimes, isBotUser } from '../../../lib/utils';
 import {
   Meeting,
   makeSelectAllRoomMemberEventsByRoomId,

@@ -18,11 +18,11 @@ import {
   getRoomMemberDisplayName,
   StateEvent,
 } from '@matrix-widget-toolkit/api';
+import { getCalendarEvent } from '@nordeck/matrix-meetings-calendar';
 import { isEqual } from 'lodash';
 import { DateTime } from 'luxon';
 import { createSelectorCreator, defaultMemoize } from 'reselect';
 import { NordeckMeetingMetadataEvent } from '../../../lib/matrix';
-import { getCalendarEvent } from '../../../lib/utils';
 import { RootState } from '../../../store';
 import { isMeetingRoomOrBreakOutRoom } from '../helpers';
 import {

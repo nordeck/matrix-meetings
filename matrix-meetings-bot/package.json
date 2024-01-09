@@ -45,11 +45,12 @@
     "html-entities": "^2.4.0",
     "i18next": "^23.7.16",
     "i18next-fs-backend": "^2.3.1",
-    "joi": "^17.11.0",
     "i18next-http-middleware": "^3.5.0",
+    "joi": "^17.11.0",
     "lodash": "^4.17.20",
     "luxon": "^3.3.0",
     "matrix-bot-sdk": "^0.7.0",
+    "@nordeck/matrix-meetings-calendar": "0.0.1",
     "mime-types": "^2.1.35",
     "mustache": "^4.2.0",
     "nestjs-pino": "^3.5.0",
@@ -109,7 +110,10 @@
     "roots": [
       "<rootDir>/src",
       "<rootDir>/test"
-    ]
+    ],
+    "moduleNameMapper": {
+      "matrix-meetings-(.*)": "<rootDir>/../packages/$1/src/index.ts"
+    }
   },
   "files": [
     "test/*",

@@ -5,3 +5,5 @@
 !/matrix-meetings-bot/conf
 !/matrix-meetings-bot/lib
 !/resolutions/matrix-sdk-crypto-nodejs
+!/packages/calendar/package.json
+!/packages/calendar/lib

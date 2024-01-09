@@ -15,12 +15,12 @@
  */
 
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
-import { useEffect, useMemo, useState } from 'react';
 import {
   isRecurringCalendarSourceEntry,
   parseICalDate,
   toISOString,
-} from '../../../lib/utils';
+} from '@nordeck/matrix-meetings-calendar';
+import { useEffect, useMemo, useState } from 'react';
 import { Meeting } from '../../../reducer/meetingsApi';
 import { EditRecurringMessage } from './EditRecurringMessage';
 import { ScheduleMeeting } from './ScheduleMeeting';
