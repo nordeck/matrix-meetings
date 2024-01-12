@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
+import {
+  CalendarEntry,
+  formatICalDate,
+  normalizeCalendarEntry,
+  overrideCalendarEntries,
+} from '@nordeck/matrix-meetings-calendar';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { t } from 'i18next';
 import { DateTime } from 'luxon';
 import { ModalButtonKind } from 'matrix-widget-api';
-import { CalendarEntry } from '../../../lib/matrix';
-import { formatICalDate, normalizeCalendarEntry } from '../../../lib/utils';
-import { overrideCalendarEntries } from '../../../lib/utils/calendarUtils/overrideCalendarEntries';
 import { meetingBotApi } from '../../../reducer/meetingBotApi';
 import {
   Meeting,

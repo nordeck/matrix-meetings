@@ -29,9 +29,9 @@ import {
   ListSubheader,
 } from '@mui/material';
 import { unstable_useId as useId } from '@mui/utils';
+import { isRecurringCalendarSourceEntry } from '@nordeck/matrix-meetings-calendar';
 import { useMemo } from 'react';
 import { useTranslation } from 'react-i18next';
-import { isRecurringCalendarSourceEntry } from '../../../lib/utils';
 import { Meeting } from '../../../reducer/meetingsApi';
 import { MeetingInvitationGuard } from '../../common/MeetingInvitationGuard';
 import { CopyableText } from './CopyableText';

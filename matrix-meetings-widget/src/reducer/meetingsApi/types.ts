@@ -19,8 +19,10 @@ import {
   RoomMemberStateEventContent,
   StateEvent,
 } from '@matrix-widget-toolkit/api';
-import { CalendarEntry } from '../../lib/matrix';
-import { CalendarSourceEntries } from '../../lib/utils';
+import {
+  CalendarEntry,
+  CalendarSourceEntries,
+} from '@nordeck/matrix-meetings-calendar';
 import { AcknowledgementResponse } from './helpers';
 
 export type MutationResponse = {

@@ -47,9 +47,9 @@ import { MeetingType } from '../model/MeetingType';
 import { Room } from '../model/Room';
 import { RoomEventName } from '../model/RoomEventName';
 import { StateEventName } from '../model/StateEventName';
-import { getForceDeletionTime } from '../shared';
 import { templateHelper } from '../util/TemplateHelper';
 import { extractOxRrule } from '../util/extractOxRrule';
+import { getForceDeletionTime } from '../util/getForceDeletionTime';
 import { migrateMeetingTime } from '../util/migrateMeetingTime';
 
 @Injectable()

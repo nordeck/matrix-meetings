@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { mockCalendarEntry } from '@nordeck/matrix-meetings-calendar';
 import { MatrixClient } from 'matrix-bot-sdk';
 import {
   anyString,
@@ -34,7 +35,6 @@ import { IMeeting } from '../src/model/IMeeting';
 import { IUserContext } from '../src/model/IUserContext';
 import { MeetingType } from '../src/model/MeetingType';
 import { RoomMessageService } from '../src/service/RoomMessageService';
-import { mockCalendarEntry } from '../src/testUtils';
 import { meetingChangesHelper } from '../src/util/IMeetingChanges';
 import { createAppConfig } from './util/MockUtils';
 

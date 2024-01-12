@@ -1,5 +1,13 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.7.1
+
+### Patch Changes
+
+- e6edc93: Use `@nordeck/matrix-meetings-calendar` package
+- Updated dependencies [e6edc93]
+  - @nordeck/matrix-meetings-calendar@1.0.0
+
 ## 2.7.0
 
 ### Minor Changes

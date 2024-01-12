@@ -3,7 +3,7 @@
   "description": "A meetings widget for the Element messenger",
   "author": "Nordeck IT + Consulting GmbH",
   "license": "Apache-2.0",
-  "version": "1.6.0",
+  "version": "1.6.1",
   "private": true,
   "dependencies": {
     "@fullcalendar/core": "^6.1.10",
@@ -14,18 +14,19 @@
     "@matrix-widget-toolkit/api": "^3.2.2",
     "@matrix-widget-toolkit/mui": "^1.1.6",
     "@matrix-widget-toolkit/react": "^1.0.5",
-    "@mui/icons-material": "^5.15.2",
-    "@mui/lab": "^5.0.0-alpha.158",
-    "@mui/material": "^5.15.2",
+    "@mui/icons-material": "^5.15.3",
+    "@mui/lab": "^5.0.0-alpha.159",
+    "@mui/material": "^5.15.3",
     "@mui/x-date-pickers": "^6.18.6",
     "@mui/utils": "^5.14.18",
     "@reduxjs/toolkit": "^1.9.7",
-    "i18next": "^23.7.14",
+    "i18next": "^23.7.16",
     "i18next-chained-backend": "^4.6.2",
     "i18next-http-backend": "^2.4.2",
     "joi": "^17.11.0",
     "lodash": "^4.17.20",
     "luxon": "^3.3.0",
+    "@nordeck/matrix-meetings-calendar": "1.0.0",
     "matrix-widget-api": "^1.5.0",
     "mustache": "^4.2.0",
     "react": "^17.0.2",
@@ -103,7 +104,10 @@
   "jest": {
     "transformIgnorePatterns": [
       "(?!(/node_modules/(@fullcalendar)/))(/node_modules/.+.(js|jsx|mjs|cjs|ts|tsx)$)"
-    ]
+    ],
+    "moduleNameMapper": {
+      "matrix-meetings-(.*)": "<rootDir>/../packages/$1/src/index.ts"
+    }
   },
   "repository": {
     "type": "git",

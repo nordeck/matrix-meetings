@@ -3,6 +3,8 @@ WORKDIR /build
 COPY package.json yarn.lock ./
 COPY matrix-meetings-bot/package.json ./matrix-meetings-bot/
 COPY resolutions/matrix-sdk-crypto-nodejs ./resolutions/matrix-sdk-crypto-nodejs/
+COPY packages/calendar/package.json ./packages/calendar/package.json
+COPY packages/calendar/lib ./packages/calendar/lib
 RUN yarn install --production --frozen-lockfile --network-timeout 1000000
 
 FROM node:20-bullseye
@@ -14,6 +16,7 @@ RUN set -x\
     && chmod -R g+w /app/storage
 USER 101
 COPY --from=node_modules /build/node_modules/ ./node_modules
+COPY --from=node_modules /build/packages/calendar/ ./packages/calendar/
 COPY matrix-meetings-bot/conf ./conf
 COPY matrix-meetings-bot/lib ./lib
 CMD ["node", "./lib/index.js"]
