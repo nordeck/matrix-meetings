@@ -66,7 +66,8 @@ jobs:
           context: .
           tags: ${{ steps.meta-new-tags.outputs.tags }}
           labels: ${{ steps.meta-new-tags.outputs.labels }}
-          platforms: linux/amd64,linux/arm64,linux/s390x
+          # platforms: linux/amd64,linux/arm64,linux/s390x
+          platforms: linux/amd64,linux/arm64
 
       - name: Sign the images with GitHub OIDC Token
         env:
