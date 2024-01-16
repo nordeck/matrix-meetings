@@ -104,7 +104,6 @@ export class MeetingCardPage {
   async joinMeeting() {
     await this.card
       .getByRole('button', { name: 'Open the meeting room' })
-      .first()
       .click();
   }
 }
