@@ -148,8 +148,12 @@ const matrixClientFactory: FactoryProvider<Promise<MatrixClient>> = {
     const storage: IStorageProvider =
       await matrixClientFactoryHelper.createStorageProvider(appConfig);
 
-    const cryptoStorage: ICryptoStorageProvider =
-      await matrixClientFactoryHelper.createCryptoStorageProvider(appConfig);
+    let cryptoStorage: ICryptoStorageProvider | undefined = undefined;
+
+    if (appConfig.enable_crypto) {
+      cryptoStorage =
+        await matrixClientFactoryHelper.createCryptoStorageProvider(appConfig);
+    }
 
     // create server object
     const server = matrixClientFactoryHelper.getServer(appConfig);

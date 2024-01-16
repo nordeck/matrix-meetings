@@ -41,6 +41,7 @@ export interface IAppConfiguration {
   data_filename: string;
 
   // encryption
+  enable_crypto: boolean;
   crypto_data_path: string;
 
   enable_welcome_workflow: boolean;
