@@ -60,6 +60,7 @@ export async function startMatrixMeetingsBot({
         'https://webmail-hostname/appsuite/#app=io.ox/calendar&id={{id}}&folder={{folder}}',
       AUTO_DELETION_OFFSET: '60',
       ENABLE_GUEST_USER_POWER_LEVEL_CHANGE: 'true',
+      ENABLE_CRYPTO: 'true',
       LOG_LEVEL: 'debug',
     })
     .withCopyFilesToContainer([
