@@ -14,12 +14,17 @@
  * limitations under the License.
  */
 
+import {
+  CalendarEntry,
+  DateTimeEntry,
+  formatICalDate,
+  parseICalDate,
+} from '@nordeck/matrix-meetings-calendar';
 import { isArray, uniq } from 'lodash';
 import { DateTime } from 'luxon';
 import { useEffect, useMemo, useState } from 'react';
 import { tzlib_get_ical_block } from 'timezones-ical-library';
-import { CalendarEntry, DateTimeEntry } from '../../../lib/matrix';
-import { formatICalDate, isDefined, parseICalDate } from '../../../lib/utils';
+import { isDefined } from '../../../lib/utils';
 import {
   Meeting,
   selectNordeckMeetingMetadataEventByRoomId,

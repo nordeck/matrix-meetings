@@ -22,9 +22,9 @@ import '@testing-library/jest-dom';
 import { toHaveNoViolations } from 'jest-axe';
 import { TextDecoder, TextEncoder } from 'util';
 // Make sure to initialize i18n (see mock below)
+import { mockDateTimeFormatTimeZone } from '@nordeck/matrix-meetings-calendar';
 import './i18n';
 import { setLocale } from './lib/locale';
-import { mockDateTimeFormatTimeZone } from './timezoneMockUtils';
 
 // Use a different configuration for i18next during tests
 jest.mock('./i18n', () => {

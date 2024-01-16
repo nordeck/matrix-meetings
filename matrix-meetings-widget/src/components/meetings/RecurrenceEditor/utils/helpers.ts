@@ -15,68 +15,8 @@
  */
 
 import { Info } from 'luxon';
-import { ByWeekday, RRule, Weekday } from 'rrule';
 import { localeWeekdays } from '../../../../lib/utils';
 
 export function convertWeekdayFromLocaleToRRule(index: number): number {
   return Info.weekdays().indexOf(localeWeekdays()[index]);
-}
-
-export function normalizeNumeric(
-  bymonth: number | number[] | null | undefined,
-): number | undefined {
-  if (bymonth === null || bymonth === undefined) {
-    return undefined;
-  }
-
-  if (Array.isArray(bymonth)) {
-    // Only take the first value and discard the rest
-    // TODO: This can actually be a problem as we don't support all possible
-    // ways data can be modeled.
-    return bymonth[0];
-  }
-
-  return bymonth;
-}
-
-export function normalizeByWeekday(
-  byweekday: ByWeekday | ByWeekday[] | null | undefined,
-): number[] | undefined {
-  if (byweekday === null || byweekday === undefined) {
-    return undefined;
-  }
-
-  if (Array.isArray(byweekday)) {
-    return byweekday.map(normalizeWeekday);
-  }
-
-  return [normalizeWeekday(byweekday)];
-}
-
-export function normalizeWeekday(weekday: ByWeekday): number {
-  if (typeof weekday === 'string') {
-    return Weekday.fromStr(weekday).weekday;
-  } else if (typeof weekday === 'number') {
-    return weekday;
-  } else {
-    return weekday.weekday;
-  }
-}
-
-export function isWeekdays(byweekday: number[] | undefined): boolean {
-  if (byweekday === undefined) {
-    return false;
-  }
-
-  return (
-    // Check for MO-FR
-    byweekday.includes(RRule.MO.weekday) &&
-    byweekday.includes(RRule.TU.weekday) &&
-    byweekday.includes(RRule.WE.weekday) &&
-    byweekday.includes(RRule.TH.weekday) &&
-    byweekday.includes(RRule.FR.weekday) &&
-    // but not SA-SU
-    !byweekday.includes(RRule.SA.weekday) &&
-    !byweekday.includes(RRule.SU.weekday)
-  );
 }

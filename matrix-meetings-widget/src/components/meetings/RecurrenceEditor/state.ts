@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+import {
+  normalizeByWeekday,
+  normalizeNumeric,
+  parseRRule,
+} from '@nordeck/matrix-meetings-calendar';
 import { isEqual, omit } from 'lodash';
 import { DateTime } from 'luxon';
 import { Dispatch, useReducer } from 'react';
@@ -21,9 +26,6 @@ import { Frequency, Options, RRule } from 'rrule';
 import {
   getDefaultCustomRuleProperties,
   getDefaultRecurringMeetingEnd,
-  normalizeByWeekday,
-  normalizeNumeric,
-  parseRRule,
   stringifyRRule,
 } from './utils';
 

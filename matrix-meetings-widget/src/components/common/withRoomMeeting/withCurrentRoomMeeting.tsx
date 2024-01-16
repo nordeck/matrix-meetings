@@ -15,9 +15,9 @@
  */
 
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
+import { getCalendarEvent } from '@nordeck/matrix-meetings-calendar';
 import { ComponentType, useMemo } from 'react';
 import { shallowEqual } from 'react-redux';
-import { getCalendarEvent } from '../../../lib/utils';
 import { selectNordeckMeetingMetadataEventByRoomId } from '../../../reducer/meetingsApi';
 import { useAppSelector } from '../../../store';
 import { useUpdateOnDate } from '../hooks';

@@ -127,8 +127,7 @@ export class MatrixAuthMiddleware implements NestMiddleware {
 
     if (response.ok) {
       const result = await response.json();
-      const userId = result.sub;
-      return userId;
+      return (result as any).sub; // user id
     } else {
       const text = await response.text();
       const status = response.status;
@@ -156,7 +155,7 @@ export class MatrixAuthMiddleware implements NestMiddleware {
     }
     if (response.ok) {
       const json = await response.json();
-      return json.user_id;
+      return (json as any).user_id;
     } else {
       const text = await response.text();
       const status = response.status;
