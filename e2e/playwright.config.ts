@@ -24,8 +24,6 @@ const config: PlaywrightTestConfig = {
   testDir: './src',
   /* Increase default timeout from 30 sec as we often scratch it. */
   timeout: 90000,
-  /* Don't waste time on failing tests */
-  maxFailures: 2,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
