@@ -1,12 +1,33 @@
-FROM node:20-bullseye AS node_modules
+# We must use Ubuntu as Debian has issues(??) with the matrix-rust-sdk-crypto-nodejs
+# build process, being unable to fetch the required crates.io dependencies when
+# entering the napi build phase.
+FROM ubuntu:23.10 AS custom_build
+
 WORKDIR /build
+COPY matrix-meetings-bot/build-s390x.sh ./build-s390x.sh
+RUN chmod +x ./build-s390x.sh
+
+ARG TARGETPLATFORM
+# Run custom build script if we are building for linux/s390x
+RUN if [ "$TARGETPLATFORM" = "linux/s390x" ] ; then \
+    /bin/bash -c './build-s390x.sh'; \
+    fi
+
+# Use a matching node image for the node_modules build
+FROM node:20-bookworm-slim AS node_modules
+
+WORKDIR /build
+# Get the node_modules from the custom build stage, if any
+COPY --from=custom_build /build/node_modules/ ./node_modules
 COPY package.json yarn.lock ./
 COPY matrix-meetings-bot/package.json ./matrix-meetings-bot/
 COPY packages/calendar/package.json ./packages/calendar/package.json
 COPY packages/calendar/lib ./packages/calendar/lib
 RUN yarn install --production --frozen-lockfile --network-timeout 1000000
 
-FROM node:20-bullseye
+# Runner image
+FROM node:20-bookworm-slim
+
 ENV NODE_ENV=production
 WORKDIR /app
 RUN set -x\

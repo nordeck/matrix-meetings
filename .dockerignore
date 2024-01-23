@@ -2,7 +2,7 @@
 !/package.json
 !/yarn.lock
 !/matrix-meetings-bot/package.json
-!/matrix-meetings-bot/s390x
+!/matrix-meetings-bot/build-s390x.sh
 !/matrix-meetings-bot/conf
 !/matrix-meetings-bot/lib
 !/packages/calendar/package.json
