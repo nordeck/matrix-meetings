@@ -6,6 +6,8 @@ FROM ubuntu:23.10 AS custom_build
 WORKDIR /build
 COPY matrix-meetings-bot/build-s390x.sh ./build-s390x.sh
 RUN chmod +x ./build-s390x.sh
+# Make sure the folder is there, even if remains empty
+RUN mkdir -p ./node_modules
 
 ARG TARGETPLATFORM
 # Run custom build script if we are building for linux/s390x
