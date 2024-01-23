@@ -45,4 +45,4 @@ COPY --from=node_modules /src/packages/calendar/ ./packages/calendar/
 COPY matrix-meetings-bot/conf ./conf
 COPY matrix-meetings-bot/lib ./lib
 
-CMD ["node", "/src/main.js"]
+CMD ["node", "./lib/index.js"]
