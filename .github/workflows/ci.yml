@@ -96,7 +96,7 @@ jobs:
 
   build-bot:
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 45
     env:
       DOCKER_IMAGE: ghcr.io/nordeck/matrix-meetings-bot
     steps:
