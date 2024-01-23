@@ -20,7 +20,7 @@ WORKDIR /src
 COPY matrix-meetings-bot/s390x/build.sh ./build.sh
 COPY matrix-meetings-bot/s390x/index.js.patch ./index.js.patch
 RUN chmod +x ./build.sh
-RUN ./build.sh
+RUN /bin/bash -c './build.sh'
 
 # we have everything prepared to build the bot
 WORKDIR /src

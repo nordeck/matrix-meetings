@@ -1,3 +1,5 @@
+#!/bin/bash
+
 source /root/.nvm/nvm.sh
 
 # get the rust crypto nodejs bindings from our fork branch
