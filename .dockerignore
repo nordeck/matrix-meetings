@@ -2,8 +2,8 @@
 !/package.json
 !/yarn.lock
 !/matrix-meetings-bot/package.json
+!/matrix-meetings-bot/s390x
 !/matrix-meetings-bot/conf
 !/matrix-meetings-bot/lib
-!/resolutions/matrix-sdk-crypto-nodejs
 !/packages/calendar/package.json
 !/packages/calendar/lib

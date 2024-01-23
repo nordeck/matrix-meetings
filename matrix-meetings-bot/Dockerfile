@@ -2,7 +2,6 @@ FROM node:20-bullseye AS node_modules
 WORKDIR /build
 COPY package.json yarn.lock ./
 COPY matrix-meetings-bot/package.json ./matrix-meetings-bot/
-COPY resolutions/matrix-sdk-crypto-nodejs ./resolutions/matrix-sdk-crypto-nodejs/
 COPY packages/calendar/package.json ./packages/calendar/package.json
 COPY packages/calendar/lib ./packages/calendar/lib
 RUN yarn install --production --frozen-lockfile --network-timeout 1000000

@@ -1,0 +1,15 @@
+239a240,253
+>       case 's390x':
+>         localFileExisted = existsSync(
+>           join(__dirname, 'matrix-sdk-crypto.linux-s390x-gnu.node')
+>         )
+>         try {
+>           if (localFileExisted) {
+>             nativeBinding = require('./matrix-sdk-crypto.linux-s390x-gnu.node')
+>           } else {
+>             nativeBinding = require('@matrix-org/matrix-sdk-crypto-nodejs-linux-s390x-gnu')
+>           }
+>         } catch (e) {
+>           loadError = e
+>         }
+>         break
