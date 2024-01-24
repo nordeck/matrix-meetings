@@ -1,8 +1,9 @@
 #!/bin/bash
 
+source /root/.nvm/nvm.sh
+
 # get the deps we need to build the bot
-apt-get update && apt-get install --no-install-recommends -y curl git rustc cargo vim python3 nodejs npm
-npm install -g yarn
+apt-get install --no-install-recommends -y curl git rustc cargo vim python3
 
 # get the rust crypto nodejs bindings from our fork branch
 git clone --depth 1 --branch nic/fix/s390x https://github.com/nordeck/matrix-rust-sdk-crypto-nodejs.git /build/matrix-sdk-crypto-nodejs
