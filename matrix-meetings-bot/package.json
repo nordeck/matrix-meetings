@@ -31,11 +31,11 @@
     "yarn": ">=1.22.1 <2.0.0"
   },
   "dependencies": {
-    "@nestjs/common": "^10.3.0",
+    "@nestjs/common": "^10.3.1",
     "@nestjs/config": "^3.1.1",
-    "@nestjs/core": "^10.3.0",
-    "@nestjs/microservices": "^10.3.0",
-    "@nestjs/platform-express": "^10.3.0",
+    "@nestjs/core": "^10.3.1",
+    "@nestjs/microservices": "^10.3.1",
+    "@nestjs/platform-express": "^10.3.1",
     "@nestjs/swagger": "^7.2.0",
     "@supercharge/promise-pool": "^3.1.0",
     "base64url": "^3.0.1",
