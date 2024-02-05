@@ -9054,7 +9054,7 @@ matcher-collection@^2.0.0:
     "@types/minimatch" "^3.0.3"
     minimatch "^3.0.2"
 
-matrix-bot-sdk@^0.7.1:
+matrix-bot-sdk@0.7.1:
   version "0.7.1"
   resolved "https://registry.yarnpkg.com/matrix-bot-sdk/-/matrix-bot-sdk-0.7.1.tgz#b6b80d9f1a2c06795c61f114c12568ea78a1e694"
   integrity sha512-klbuohKoOVdCw3foQyDxAswHLgIvBsEfTvt+SNu1RJYk/80UvKd/03YwYD470vILR/XtRXO8Cm+VC+5DvLwHaA==
