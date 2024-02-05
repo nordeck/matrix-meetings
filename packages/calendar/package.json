@@ -19,7 +19,7 @@
     "generate-disclaimer": "echo \"Nothing to generate\""
   },
   "dependencies": {
-    "i18next": "^23.7.16",
+    "i18next": "^23.8.2",
     "joi": "^17.12.0",
     "lodash": "^4.17.20",
     "luxon": "^3.3.0",
