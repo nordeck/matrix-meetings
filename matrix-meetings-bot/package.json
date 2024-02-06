@@ -54,7 +54,7 @@
     "mime-types": "^2.1.35",
     "mustache": "^4.2.0",
     "nestjs-pino": "^4.0.0",
-    "pino": "^8.17.2",
+    "pino": "^8.18.0",
     "pino-http": "^9.0.0",
     "reflect-metadata": "^0.1.14",
     "rfc4648": "^1.5.3",
