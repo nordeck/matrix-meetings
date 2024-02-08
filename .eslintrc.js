@@ -22,8 +22,8 @@ module.exports = {
     'react-app',
     'react-app/jest',
     'plugin:promise/recommended',
-    'prettier',
     'eslint:recommended',
+    'prettier',
   ],
   rules: {
     'notice/notice': [
