@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.7.2
+
+### Patch Changes
+
+- 73fd982: improve bot message formatting
+
 ## 2.7.1
 
 ### Patch Changes
