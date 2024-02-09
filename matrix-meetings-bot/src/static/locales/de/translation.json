@@ -15,10 +15,10 @@
     }
   },
   "commandErrors": {
-    "badCommand": "Der Hilfe-Befehl ist leider nicht richtig. Schreibe {{trigger}} help",
+    "badCommand": "Der Hilfe-Befehl ist leider nicht richtig. Schreibe <code>{{trigger}} help</code>",
     "badLanguageCode": "Die ausgewählte Sprache wird nicht unterstützt",
     "generic": "Leider konnte Dein Befehl nicht korrekt ausgeführt werden: {{message}}",
-    "noCommandProvided": "Der Befehl steht nicht zur Verfügung. Schreibe {{trigger}} help",
+    "noCommandProvided": "Der Befehl steht nicht zur Verfügung. Schreibe <code>{{trigger}} help</code>",
     "noLanguageCode": "Bitte übergebe einen gültigen Sprach-Code ({{availableLanguageCodes}})"
   },
   "commandHelp": [
