@@ -158,7 +158,7 @@ describe('test CommandService', () => {
 
     const txt = capture(matrixClientMock.replyText).last()[2];
     expect(txt).toEqual(
-      'Der Befehl steht nicht zur Verfügung. Schreibe !meeting help',
+      'Der Befehl steht nicht zur Verfügung. Schreibe <code>!meeting help</code>',
     );
   });
 
@@ -171,7 +171,7 @@ describe('test CommandService', () => {
 
     const txt = capture(matrixClientMock.replyText).last()[2];
     expect(txt).toEqual(
-      'Der Hilfe-Befehl ist leider nicht richtig. Schreibe !meeting help',
+      'Der Hilfe-Befehl ist leider nicht richtig. Schreibe <code>!meeting help</code>',
     );
   });
 
