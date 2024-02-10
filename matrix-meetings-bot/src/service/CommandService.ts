@@ -162,9 +162,9 @@ export class CommandService {
     /*
      * IMPORTANT: This comment defines the keys used for this function and is used to extract them via i18next-parser
      *
-     * t('commandErrors.noCommandProvided', 'No command provided, try {{trigger}} help')
+     * t('commandErrors.noCommandProvided', 'No command provided, try <code>{{trigger}} help</code>')
      * t('commandErrors.generic', 'There was an error processing your command: {{message}}')
-     * t('commandErrors.badCommand', 'Bad command, try {{trigger}} help')
+     * t('commandErrors.badCommand', 'Bad command, try <code>{{trigger}} help</code>')
      *
      */
     // TODO: fix the types of i18next

@@ -15,10 +15,10 @@
     }
   },
   "commandErrors": {
-    "badCommand": "Bad command, try {{trigger}} help",
+    "badCommand": "Bad command, try <code>{{trigger}} help</code>",
     "badLanguageCode": "Language code is not supported",
     "generic": "There was an error processing your command: {{message}}",
-    "noCommandProvided": "No command provided, try {{trigger}} help",
+    "noCommandProvided": "No command provided, try <code>{{trigger}} help</code>",
     "noLanguageCode": "Language code is not provided, use one of these ({{availableLanguageCodes}})"
   },
   "commandHelp": [
