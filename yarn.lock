@@ -2054,10 +2054,10 @@
     globby "^11.0.0"
     read-yaml-file "^1.1.0"
 
-"@matrix-org/matrix-sdk-crypto-nodejs@0.1.0-beta.6":
-  version "0.1.0-beta.6"
-  resolved "https://registry.yarnpkg.com/@matrix-org/matrix-sdk-crypto-nodejs/-/matrix-sdk-crypto-nodejs-0.1.0-beta.6.tgz#0ecae51103ee3c107af0d6d0738f33eb7cc9857e"
-  integrity sha512-JXyrHuCVMydUGgSetWsfqbbvHj3aUMOX5TUghlMtLFromyEu7wIsNgYt7PjJ+k3WdF4GVABRy4P6GNjaEMy2uA==
+"@matrix-org/matrix-sdk-crypto-nodejs@0.1.0-beta.12":
+  version "0.1.0-beta.12"
+  resolved "https://registry.yarnpkg.com/@matrix-org/matrix-sdk-crypto-nodejs/-/matrix-sdk-crypto-nodejs-0.1.0-beta.12.tgz#4adc5a6d93983cf589d64c450c10c6670b88f7c5"
+  integrity sha512-E3409r/kTaHVEc1TfcDxHZlT+NAcnJcMs8j94CYqWy4P4K8y2G4W/E+L+MGvktg7d1YqTiJtA0xQX3b7yWnUjw==
   dependencies:
     https-proxy-agent "^5.0.1"
     node-downloader-helper "^2.1.5"
@@ -9054,12 +9054,12 @@ matcher-collection@^2.0.0:
     "@types/minimatch" "^3.0.3"
     minimatch "^3.0.2"
 
-matrix-bot-sdk@0.7.1:
+"matrix-bot-sdk@npm:@mgcm/matrix-bot-sdk@0.7.1":
   version "0.7.1"
-  resolved "https://registry.yarnpkg.com/matrix-bot-sdk/-/matrix-bot-sdk-0.7.1.tgz#b6b80d9f1a2c06795c61f114c12568ea78a1e694"
-  integrity sha512-klbuohKoOVdCw3foQyDxAswHLgIvBsEfTvt+SNu1RJYk/80UvKd/03YwYD470vILR/XtRXO8Cm+VC+5DvLwHaA==
+  resolved "https://registry.yarnpkg.com/@mgcm/matrix-bot-sdk/-/matrix-bot-sdk-0.7.1.tgz#2f88d8ec47dbfac102b075c55c8fdd85ab5eb8c1"
+  integrity sha512-TNEpFtRGbsoomA+qsrRMQgyOne9PmO422ktPdOG0FjlkN0m5SPYBGUokSJekAcO4vecEJAbvjSAWDuNL9hx89g==
   dependencies:
-    "@matrix-org/matrix-sdk-crypto-nodejs" "0.1.0-beta.6"
+    "@matrix-org/matrix-sdk-crypto-nodejs" "0.1.0-beta.12"
     "@types/express" "^4.17.20"
     another-json "^0.2.0"
     async-lock "^1.4.0"
