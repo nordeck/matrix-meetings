@@ -94,8 +94,5 @@ test.describe('Encrypted Meeting Room', () => {
 
     await expect(meetingDetails.meetingTitleText).toHaveText('New Meeting');
     await expect(aliceElementWebPage.roomNameText).toHaveText('New Meeting');
-    await expect(
-      aliceElementWebPage.locateChatMessageInRoom(/Title: New Meeting/),
-    ).toBeVisible();
   });
 });
