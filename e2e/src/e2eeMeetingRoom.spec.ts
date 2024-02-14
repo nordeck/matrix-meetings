@@ -94,5 +94,109 @@ test.describe('Encrypted Meeting Room', () => {
 
     await expect(meetingDetails.meetingTitleText).toHaveText('New Meeting');
     await expect(aliceElementWebPage.roomNameText).toHaveText('New Meeting');
+    await expect(
+      aliceElementWebPage.locateChatMessageInRoom(/Title: New Meeting/),
+    ).toBeVisible();
+  });
+
+  // eslint-disable-next-line playwright/expect-expect
+  test('should add the meeting participant from within the meeting', async ({
+    aliceElementWebPage,
+    aliceCockpitWidgetPage,
+    charlie,
+  }) => {
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
+
+    const meetingDetails = aliceCockpitWidgetPage.getMeeting();
+    await aliceElementWebPage.approveWidgetIdentity();
+
+    const aliceEditMeetingWidgetPage = await meetingDetails.editMeeting();
+    await aliceEditMeetingWidgetPage.addParticipant(charlie.displayName);
+    await aliceEditMeetingWidgetPage.submit();
+
+    await aliceElementWebPage.waitForUserMembership(charlie.username, 'invite');
+  });
+
+  test('should disable the video conference from within the meeting', async ({
+    aliceElementWebPage,
+    aliceCockpitWidgetPage,
+  }) => {
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
+    const meetingDetails = aliceCockpitWidgetPage.getMeeting();
+    await aliceElementWebPage.approveWidgetIdentity();
+    const aliceEditMeetingWidgetPage = await meetingDetails.editMeeting();
+    await aliceEditMeetingWidgetPage.removeLastWidget();
+    await aliceEditMeetingWidgetPage.submit();
+
+    await aliceElementWebPage
+      .locateChatMessageInRoom('Video conference ended by Bot')
+      .waitFor();
+
+    await aliceElementWebPage.closeWidgetInSidebar();
+
+    await expect
+      .poll(async () => {
+        return await aliceElementWebPage.getWidgets();
+      })
+      .toEqual(['Breakout Sessions', 'NeoDateFix Details']);
+  });
+
+  test('should enable the optional widget from within the meeting', async ({
+    aliceElementWebPage,
+    aliceCockpitWidgetPage,
+  }) => {
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
+    const meetingDetails = aliceCockpitWidgetPage.getMeeting();
+    await aliceElementWebPage.approveWidgetIdentity();
+
+    const aliceEditMeetingWidgetPage = await meetingDetails.editMeeting();
+    await aliceEditMeetingWidgetPage.addWidget('Video Conference (optional)');
+    await aliceEditMeetingWidgetPage.submit();
+
+    await expect
+      .poll(async () => {
+        return await aliceElementWebPage.getWidgets();
+      })
+      .toEqual([
+        'Breakout Sessions',
+        'NeoDateFix Details',
+        'Video Conference',
+        'Video Conference (optional)',
+      ]);
+  });
+
+  test('should toggle whether users can use the chat', async ({
+    aliceElementWebPage,
+    aliceCockpitWidgetPage,
+    bobElementWebPage,
+    bobMeetingsWidgetPage,
+  }) => {
+    await bobElementWebPage.navigateToRoomOrInvitation('Calendar');
+    await bobElementWebPage.acceptRoomInvitation();
+    await bobElementWebPage.approveWidgetWarning();
+    await bobElementWebPage.approveWidgetCapabilities();
+
+    await bobMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
+
+    await bobMeetingsWidgetPage
+      .getMeeting('My Meeting', '10/03/2040')
+      .joinMeeting();
+    await bobElementWebPage.acceptRoomInvitation();
+    await bobElementWebPage.sendMessage('I am Bob');
+    await aliceElementWebPage.sendMessage('I am Alice');
+    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
+    const meetingCard = aliceCockpitWidgetPage.getMeeting();
+    await aliceElementWebPage.approveWidgetIdentity();
+    let aliceEditMeetingWidgetPage = await meetingCard.editMeeting();
+    await aliceEditMeetingWidgetPage.toggleChatPermission();
+    await aliceEditMeetingWidgetPage.submit();
+    await aliceElementWebPage.sendMessage('I am still here');
+    await expect(bobElementWebPage.noChatPermissionText).toBeVisible();
+    aliceEditMeetingWidgetPage = await meetingCard.editMeeting();
+    await aliceEditMeetingWidgetPage.toggleChatPermission();
+    await aliceEditMeetingWidgetPage.submit();
+    await expect(bobElementWebPage.noChatPermissionText).toBeHidden();
+    await bobElementWebPage.sendMessage('I am Bob again');
+    await aliceElementWebPage.sendMessage('I am Alice again');
   });
 });

@@ -4433,9 +4433,9 @@ caniuse-api@^3.0.0:
     lodash.uniq "^4.5.0"
 
 caniuse-lite@^1.0.0, caniuse-lite@^1.0.30001426, caniuse-lite@^1.0.30001517:
-  version "1.0.30001522"
-  resolved "https://registry.yarnpkg.com/caniuse-lite/-/caniuse-lite-1.0.30001522.tgz#44b87a406c901269adcdb834713e23582dd71856"
-  integrity sha512-TKiyTVZxJGhsTszLuzb+6vUZSjVOAhClszBr2Ta2k9IwtNBT/4dzmL6aywt0HCgEZlmwJzXJd8yNiob6HgwTRg==
+  version "1.0.30001587"
+  resolved "https://registry.npmjs.org/caniuse-lite/-/caniuse-lite-1.0.30001587.tgz"
+  integrity sha512-HMFNotUmLXn71BQxg8cijvqxnIAofforZOwGsxyXJ0qugTdspUF4sPSJ2vhgprHCB996tIDzEq1ubumPDV8ULA==
 
 case-sensitive-paths-webpack-plugin@^2.4.0:
   version "2.4.0"
@@ -9054,10 +9054,10 @@ matcher-collection@^2.0.0:
     "@types/minimatch" "^3.0.3"
     minimatch "^3.0.2"
 
-"matrix-bot-sdk@npm:@mgcm/matrix-bot-sdk@0.7.1":
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/@mgcm/matrix-bot-sdk/-/matrix-bot-sdk-0.7.1.tgz#2f88d8ec47dbfac102b075c55c8fdd85ab5eb8c1"
-  integrity sha512-TNEpFtRGbsoomA+qsrRMQgyOne9PmO422ktPdOG0FjlkN0m5SPYBGUokSJekAcO4vecEJAbvjSAWDuNL9hx89g==
+"matrix-bot-sdk@npm:@mgcm/matrix-bot-sdk@0.7.1-crypto.beta12":
+  version "0.7.1-crypto.beta12"
+  resolved "https://registry.yarnpkg.com/@mgcm/matrix-bot-sdk/-/matrix-bot-sdk-0.7.1-crypto.beta12.tgz#9de0187463a01f3663b94fd9f90a21ed9d0bac72"
+  integrity sha512-3UXRCe+tmxEsglw8bMk4WkWVd6XfsbzZ3/J1Heam6rQoTB26a9C1T1p5OhF4GFXfJjZ+5hOsAtm4Zk2LkeVV7g==
   dependencies:
     "@matrix-org/matrix-sdk-crypto-nodejs" "0.1.0-beta.12"
     "@types/express" "^4.17.20"
