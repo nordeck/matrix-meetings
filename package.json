@@ -54,6 +54,5 @@
     "*.{json,js,jsx,ts,tsx}": [
       "bash -c \"yarn translate --fail-on-update\""
     ]
-  },
-  "dependencies": {}
+  }
 }
