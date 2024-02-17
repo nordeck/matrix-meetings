@@ -37,6 +37,11 @@ spec:
               value: "{{ .Values.init.username }}"
             - name: HOMESERVER
               value: "{{ .Values.init.homeserverUrl }}"
+            - name: BOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: meetings-bot-credentials
+                  key: password
           command:
             - sh
             - /scripts/create_bot_account.sh
@@ -89,7 +94,7 @@ spec:
             - name: SERVER
               value: "{{ .Values.init.homeserver }}"
         {{- end }}
-        {{- if .Values.init.readBotTokenFromDB.enabled }}
+        {{- if .Values.init.getFreshDeviceToken.enabled }}
         - name: getbottoken
           image: {{ .Values.init.postgresClient.image }}
           command:
@@ -102,35 +107,15 @@ spec:
             - name: shell-tools
               mountPath: /scripts
           env:
-            - name: PGPORT
-              valueFrom:
-                secretKeyRef:
-                  name: pg-credentials
-                  key: db_port
-            - name: PGPASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: pg-credentials
-                  key: password
-            - name: PGDATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: pg-credentials
-                  key: db_name
-            - name: PGUSER
-              valueFrom:
-                secretKeyRef:
-                  name: pg-credentials
-                  key: username
-            - name: PGHOST
-              valueFrom:
-                secretKeyRef:
-                  name: pg-credentials
-                  key: db_host
             - name: USERTOCREATE
               value: "{{ .Values.init.username }}"
-            - name: SERVER
-              value: "{{ .Values.init.homeserver }}"
+            - name: HOMESERVER
+              value: "{{ .Values.init.homeserverUrl }}"
+            - name: BOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: meetings-bot-credentials
+                  key: password
         {{- end }}
       containers:
         - name: {{ .Chart.Name }}
@@ -165,7 +150,7 @@ spec:
           volumeMounts:
             - name: data
               mountPath: /app/storage
-            {{- if .Values.init.readBotTokenFromDB.enabled }}
+            {{- if .Values.init.getFreshDeviceToken.enabled }}
             - name: workdir
               mountPath: "/app/.env"
               subPath: ".env"
@@ -196,7 +181,7 @@ spec:
           configMap:
             name: {{ include "matrix-meetings-bot.fullname" . }}-cm
             defaultMode: 0777
-        {{- if or .Values.init.createUserAccount.enabled .Values.init.disableRateLimitInDB.enabled .Values.init.readBotTokenFromDB.enabled }}
+        {{- if or .Values.init.createUserAccount.enabled .Values.init.disableRateLimitInDB.enabled .Values.init.getFreshDeviceToken.enabled }}
         - name: shell-tools
           configMap:
             name: {{ include "matrix-meetings-bot.fullname" . }}-sh-tools
