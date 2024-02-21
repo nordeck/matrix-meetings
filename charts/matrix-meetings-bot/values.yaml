@@ -107,7 +107,7 @@ settings:
     # - name: HOMESERVER_URL
     #   value: 'https://matrix-client.matrix.org'
 
-    ## Configure the access token (can be skipped if init.readBotTokenFromDB.enabled is activated)
+    ## Configure the access token (can be skipped if init.getFreshDeviceToken.enabled is activated)
     # - name: ACCESS_TOKEN
     #   secretKeyRef:
     #     name: pg-credentials
@@ -137,5 +137,5 @@ init:
   disableRateLimitInDB:
     enabled: false
 
-  readBotTokenFromDB:
+  getFreshDeviceToken:
     enabled: false

@@ -40,6 +40,10 @@ export interface IAppConfiguration {
   data_path: string;
   data_filename: string;
 
+  // encryption
+  enable_crypto: boolean;
+  crypto_data_path: string;
+
   enable_welcome_workflow: boolean;
   enable_control_room_migration: boolean;
   enable_private_room_error_sending: boolean;

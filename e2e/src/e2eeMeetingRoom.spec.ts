@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2024 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,20 +17,23 @@
 import { expect } from '@playwright/test';
 import { test } from './fixtures';
 
-test.describe('Meeting Room', () => {
+test.describe('Encrypted Meeting Room', () => {
   test.beforeEach(
     async ({
       bob,
-      aliceMeetingsWidgetPage,
+      aliceEncryptedMeetingsWidgetPage,
       aliceElementWebPage,
       aliceJitsiWidgetPage,
     }) => {
-      test.setTimeout(30000);
+      test.setTimeout(60000);
 
-      await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
+      await aliceEncryptedMeetingsWidgetPage.setDateFilter(
+        [2040, 10, 1],
+        [2040, 10, 8],
+      );
 
       const aliceScheduleMeetingWidgetPage =
-        await aliceMeetingsWidgetPage.scheduleMeeting();
+        await aliceEncryptedMeetingsWidgetPage.scheduleMeeting();
 
       await aliceScheduleMeetingWidgetPage.titleTextbox.fill('My Meeting');
       await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
@@ -43,7 +46,7 @@ test.describe('Meeting Room', () => {
       await aliceElementWebPage.inviteUser(bob.username);
 
       await aliceElementWebPage.waitForRoomJoin('My Meeting');
-      await aliceMeetingsWidgetPage
+      await aliceEncryptedMeetingsWidgetPage
         .getMeeting('My Meeting', '10/03/2040')
         .joinMeeting();
       await aliceJitsiWidgetPage.joinConferenceButton.waitFor();
@@ -195,57 +198,5 @@ test.describe('Meeting Room', () => {
     await expect(bobElementWebPage.noChatPermissionText).toBeHidden();
     await bobElementWebPage.sendMessage('I am Bob again');
     await aliceElementWebPage.sendMessage('I am Alice again');
-  });
-
-  test('should cancel the meeting', async ({
-    aliceElementWebPage,
-    bobElementWebPage,
-    aliceCockpitWidgetPage,
-    aliceMeetingsWidgetPage,
-    bobMeetingsWidgetPage,
-  }) => {
-    await bobElementWebPage.navigateToRoomOrInvitation('Calendar');
-    await bobElementWebPage.acceptRoomInvitation();
-    await bobElementWebPage.approveWidgetWarning();
-    await bobElementWebPage.approveWidgetCapabilities();
-
-    await bobMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
-    await bobMeetingsWidgetPage
-      .getMeeting('My Meeting', '10/03/2040')
-      .joinMeeting();
-    await bobElementWebPage.acceptRoomInvitation();
-    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
-    const meetingDetails = aliceCockpitWidgetPage.getMeeting();
-    await aliceElementWebPage.approveWidgetIdentity();
-
-    await meetingDetails.deleteMeeting();
-
-    await expect(aliceElementWebPage.locateTombstone()).toBeVisible();
-    await expect(bobElementWebPage.locateTombstone()).toBeVisible();
-
-    await aliceElementWebPage.followTombstone();
-    await bobElementWebPage.followTombstone();
-
-    await aliceElementWebPage.approveWidgetCapabilities();
-    await bobElementWebPage.approveWidgetCapabilities();
-
-    await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
-    await expect(aliceMeetingsWidgetPage.meetingsEmptyListItem).toBeVisible();
-    await bobMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
-    await expect(bobMeetingsWidgetPage.meetingsEmptyListItem).toBeVisible();
-  });
-
-  test('should navigate to the parent room', async ({
-    aliceElementWebPage,
-    aliceCockpitWidgetPage,
-  }) => {
-    await aliceElementWebPage.showWidgetInSidebar('NeoDateFix Details');
-    await aliceElementWebPage.approveWidgetIdentity();
-
-    await aliceCockpitWidgetPage.backToParentRoom();
-    await aliceElementWebPage.approveWidgetCapabilities();
-
-    await expect(aliceElementWebPage.roomNameText).toHaveText('Calendar');
-    expect(await aliceElementWebPage.getWidgets()).toEqual(['NeoDateFix']);
   });
 });

@@ -32,6 +32,7 @@ type Fixtures = {
   alicePage: Page;
   aliceElementWebPage: ElementWebPage;
   aliceMeetingsWidgetPage: MeetingsWidgetPage;
+  aliceEncryptedMeetingsWidgetPage: MeetingsWidgetPage;
   aliceJitsiWidgetPage: JitsiWidgetPage;
   aliceCockpitWidgetPage: CockpitWidgetPage;
   aliceBreakoutSessionsPage: BreakoutSessionsPage;
@@ -82,6 +83,30 @@ export const test = base.extend<Fixtures>({
 
   aliceMeetingsWidgetPage: async ({ alicePage, aliceElementWebPage }, use) => {
     await aliceElementWebPage.createRoom('Calendar');
+    await aliceElementWebPage.inviteUser(getBotUsername());
+    await aliceElementWebPage.waitForUserToJoin(getBotUsername());
+    await aliceElementWebPage.promoteUserAsModerator(getBotUsername());
+
+    await aliceElementWebPage.approveWidgetWarning();
+    await aliceElementWebPage.approveWidgetCapabilities();
+
+    const meetingsWidgetPage = new MeetingsWidgetPage(
+      alicePage,
+      aliceElementWebPage.widgetByTitle('NeoDateFix'),
+    );
+
+    await meetingsWidgetPage.scheduleMeetingButton.waitFor({
+      state: 'attached',
+    });
+
+    await use(meetingsWidgetPage);
+  },
+
+  aliceEncryptedMeetingsWidgetPage: async (
+    { alicePage, aliceElementWebPage },
+    use,
+  ) => {
+    await aliceElementWebPage.createRoom('Calendar', { encrypted: true });
     await aliceElementWebPage.inviteUser(getBotUsername());
     await aliceElementWebPage.waitForUserToJoin(getBotUsername());
     await aliceElementWebPage.promoteUserAsModerator(getBotUsername());

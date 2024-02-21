@@ -179,6 +179,7 @@ test.describe('Schedule Breakout Sessions', () => {
       ).meetingDescriptionText,
     ).toHaveText(
       'My Description' + repeat('+', 20000 - 'My Description'.length),
+      { timeout: 30000 },
     );
 
     await expect(
@@ -187,6 +188,7 @@ test.describe('Schedule Breakout Sessions', () => {
       ).meetingDescriptionText,
     ).toHaveText(
       'My Description' + repeat('+', 20000 - 'My Description'.length),
+      { timeout: 30000 },
     );
   });
 
@@ -224,11 +226,11 @@ test.describe('Schedule Breakout Sessions', () => {
     await expect(
       aliceBreakoutSessionsPage.getBreakoutSession('Group 1')
         .meetingDescriptionText,
-    ).toHaveText('My Description');
+    ).toHaveText('My Description', { timeout: 30000 });
     await expect(
       aliceBreakoutSessionsPage.getBreakoutSession('Group 2')
         .meetingDescriptionText,
-    ).toHaveText('My Description');
+    ).toHaveText('My Description', { timeout: 30000 });
 
     await aliceBreakoutSessionsPage.sendMessageToAllBreakoutSession(
       'Alice says hi to all breakout session rooms',

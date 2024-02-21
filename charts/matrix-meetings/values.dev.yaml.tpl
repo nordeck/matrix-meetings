@@ -22,3 +22,5 @@ matrix-meetings-bot:
         value: 'info'
       - name: AUTO_DELETION_OFFSET
         value: '60'
+      - name: ENABLE_CRYPTO
+        value: 'true'

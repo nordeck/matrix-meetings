@@ -26,8 +26,10 @@ import i18next from 'i18next';
 import i18nextFsBackend from 'i18next-fs-backend';
 import i18nextMiddleware from 'i18next-http-middleware';
 import {
+  ICryptoStorageProvider,
   IStorageProvider,
   MatrixClient,
+  RustSdkCryptoStorageProvider,
   SimpleFsStorageProvider,
   UserID,
 } from 'matrix-bot-sdk';
@@ -120,6 +122,20 @@ const matrixClientFactoryHelper = {
     return storage;
   },
 
+  createCryptoStorageProvider: async (
+    appConfig: IAppConfiguration,
+  ): Promise<ICryptoStorageProvider> => {
+    const cryptoStorage = new RustSdkCryptoStorageProvider(
+      path.join(appConfig.data_path, appConfig.crypto_data_path),
+    );
+
+    logger.log(
+      `createCryptoStorageProvider.filepath: ${appConfig.data_path}/${appConfig.crypto_data_path}`,
+    );
+
+    return cryptoStorage;
+  },
+
   getServer: (appConfig: IAppConfiguration) => ({
     accessToken: appConfig.access_token,
     url: appConfig.homeserver_url,
@@ -132,10 +148,22 @@ const matrixClientFactory: FactoryProvider<Promise<MatrixClient>> = {
     const storage: IStorageProvider =
       await matrixClientFactoryHelper.createStorageProvider(appConfig);
 
+    let cryptoStorage: ICryptoStorageProvider | undefined = undefined;
+
+    if (appConfig.enable_crypto) {
+      cryptoStorage =
+        await matrixClientFactoryHelper.createCryptoStorageProvider(appConfig);
+    }
+
     // create server object
     const server = matrixClientFactoryHelper.getServer(appConfig);
     // create matrix client
-    const client = new MatrixClient(server.url, server.accessToken, storage);
+    const client = new MatrixClient(
+      server.url,
+      server.accessToken,
+      storage,
+      cryptoStorage,
+    );
 
     // the 'room.archived' event listeners
     AutojoinUpgradedRoomsMixin.setupOnClient(client);

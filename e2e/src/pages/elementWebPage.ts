@@ -67,7 +67,7 @@ export class ElementWebPage {
     await dialogLocator
       .getByRole('switch', { name: 'Remember my selection for this widget' })
       // Increase but also limit the timeout to account for widget load time
-      .click({ timeout: 15000 });
+      .click({ timeout: 30000 });
 
     await dialogLocator.getByRole('button', { name: 'Approve' }).click();
   }
@@ -114,15 +114,24 @@ export class ElementWebPage {
       async ({ name, encrypted }) => {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const client = (window as any).mxMatrixClientPeg.get();
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        let initialState: any[] = [];
 
         if (encrypted) {
-          // TODO: Support encryption in rooms
-
-          throw new Error('Encryption not supported!');
+          initialState = [
+            {
+              type: 'm.room.encryption',
+              state_key: '',
+              content: {
+                algorithm: 'm.megolm.v1.aes-sha2',
+              },
+            },
+          ];
         }
 
         await client.createRoom({
           name,
+          initial_state: initialState,
         });
       },
       { name, encrypted },
@@ -208,7 +217,7 @@ export class ElementWebPage {
 
   async sendMessage(message: string) {
     // Both for encrypted and non-encrypted cases
-    await this.sendMessageTextbox.type(message);
+    await this.sendMessageTextbox.fill(message);
     await this.sendMessageTextbox.press('Enter');
   }
 
@@ -271,29 +280,32 @@ export class ElementWebPage {
   ) {
     // Instead of controling the UI, we use the matrix client as it is faster.
     await expect
-      .poll(async () => {
-        const roomId = this.getCurrentRoomId();
+      .poll(
+        async () => {
+          const roomId = this.getCurrentRoomId();
 
-        return await this.page.evaluate(
-          async ({ roomId, username }) => {
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            const client = (window as any).mxMatrixClientPeg.get();
+          return await this.page.evaluate(
+            async ({ roomId, username }) => {
+              // eslint-disable-next-line @typescript-eslint/no-explicit-any
+              const client = (window as any).mxMatrixClientPeg.get();
 
-            try {
-              const memberEvent = await client.getStateEvent(
-                roomId,
-                'm.room.member',
-                `@${username}:localhost`,
-              );
+              try {
+                const memberEvent = await client.getStateEvent(
+                  roomId,
+                  'm.room.member',
+                  `@${username}:localhost`,
+                );
 
-              return memberEvent.membership;
-            } catch (err) {
-              return undefined;
-            }
-          },
-          { roomId, username },
-        );
-      })
+                return memberEvent.membership;
+              } catch (err) {
+                return undefined;
+              }
+            },
+            { roomId, username },
+          );
+        },
+        { timeout: 90000 },
+      )
       .toEqual(membership);
   }
 
