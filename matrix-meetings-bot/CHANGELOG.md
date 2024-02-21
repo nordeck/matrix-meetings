@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.8.0
+
+### Minor Changes
+
+- 075c456: Enables encryption support for the Bot
+
 ## 2.7.2
 
 ### Patch Changes
