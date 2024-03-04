@@ -214,7 +214,7 @@ jobs:
           private_key: ${{ secrets.GH_APP_OS_PRIVATE_KEY }}
 
       - name: Create Release Pull Request or Publish Packages
-        uses: changesets/action@f13b1baaa620fde937751f5d2c3572b9da32af23
+        uses: changesets/action@e2f8e964d080ae97c874b19e27b12e0a8620fb6c
         with:
           publish: yarn changeset tag
         env:
