@@ -30,11 +30,6 @@ The widgets has multiple parts:
 - [**NeoDateFix Bot**](./matrix-meetings-bot): Matrix bot for creating meeting rooms.
 - [**End-to-end tests**](./e2e): An end-to-end test suite for the Matrix widget and bot for creating meeting rooms.
 
-## Demo
-
-Till now there is no officially hosted demo of the widget.
-See the [Deployment](#deployment) section on how you can host the widget on your own.
-
 ## Getting Started
 
 Development on the widget happens at [GitHub](https://github.com/nordeck/matrix-meetings).
@@ -42,7 +37,8 @@ Development on the widget happens at [GitHub](https://github.com/nordeck/matrix-
 ### How to Contribute
 
 Please take a look at our [Contribution Guidelines](https://github.com/nordeck/.github/blob/main/docs/CONTRIBUTING.md).
-Check the following steps to develop for the widget:
+
+Check the following section on how to setup a development environment for the widget:
 
 ### Requirements
 
@@ -64,7 +60,8 @@ For a list of available options, see [Configuration](./docs/configuration.md).
 ### Running the Widget Locally
 
 Follow the [instructions to run the widget locally](https://github.com/nordeck/matrix-widget-toolkit/tree/main/example-widget-mui#running-the-widget-locally).
-Visit the widget url follow the further instructions: `http(s)://localhost:3000/`
+
+Once running, you can visit the widget URL (`http(s)://localhost:3000/`) and follow the instructions on how to add it to a room within Element Web.
 
 ### Available Scripts
 
@@ -83,6 +80,10 @@ In the project directory, you can run:
   change.
 - `yarn docker:build`: Builds all containers from the output of `yarn build` and `yarn generate-disclaimer`.
 - `yarn e2e`: Runs the end-to-end tests in a single browser. Pass `--debug` to enable the debug UI. Run `yarn docker:build` first.
+
+### Running the bot locally
+
+Follow the instructions in the [README.md](https://github.com/nordeck/matrix-meetings/tree/main/matrix-meetings-bot/README.md) file of the [matrix-meetings-bot](https://github.com/nordeck/matrix-meetings/tree/main/matrix-meetings-bot/) folder.
 
 ### Versioning
 
@@ -148,7 +149,9 @@ The list of dependencies and their licenses are also available in a machine read
    &nbsp;&nbsp;&nbsp;&nbsp;
    <a href="https://www.dataport.de/"><img src="./docs/logos/dataportlogo.png" alt="Dataport" width="20%"></a>
    &nbsp;&nbsp;&nbsp;&nbsp;
+   <a href="https://gitlab.opencode.de/bmi/opendesk/info"><img src="./docs/logos/opendesklogo.png" alt="openDesk" width="20%"></a>
+   &nbsp;&nbsp;&nbsp;&nbsp;
    <a href="https://www.nordeck.net/"><img src="./docs/logos/nordecklogo.png" alt="Nordeck" width="20%"></a>
 </p>
 
-This project is part of the [dPhoenixSuite by Dataport](https://www.dphoenixsuite.de/).
+This project is part of the [dPhoenixSuite by Dataport](https://www.dphoenixsuite.de/) and the [openDesk Sovereign Workplace](https://gitlab.opencode.de/bmi/opendesk/info) by [BMI](https://www.bmi.bund.de/DE/startseite/startseite-node.html)/[ZenDiS](https://zendis.de).
