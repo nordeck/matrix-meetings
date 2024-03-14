@@ -273,6 +273,10 @@ It will update the `io.element.widgets.layout` when creating or updating the mee
 ]
 ```
 
+### Customization
+
+More environment variables for UI customization [@matrix-widget-toolkit/mui](https://www.npmjs.com/package/@matrix-widget-toolkit/mui#customization).
+
 ## Synapse Configuration
 
 The widget requires some specific homeserver configuration changes so it has user
