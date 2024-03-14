@@ -16,6 +16,6 @@
 
 export class MeetingNotFoundError extends Error {
   constructor(public readonly roomId: string) {
-    super(`The meeting of room with id ${roomId} has not ben found`);
+    super(`The meeting room with id ${roomId} has not been found`);
   }
 }
