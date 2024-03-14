@@ -370,23 +370,4 @@ We want to have selectors to:
 - …check if a meeting has active breakout sessions.
 - …get a list of all meetings that a user is invited to.
 
-### TODO: open tasks
-
-- We need to handle rate limits in the widget!
-- ben (new vector):
-  - are `m.presence` events planned for the widget API?
-  - are `m.receipt` (`m.read`) events planned for the widget API?
-
-**Bot tickets**:
-
-1. create a ticket for CORS.
-2. create a ticket to fix the OpenID url.
-
-**Comment on these issues**:
-They are implemented in the bot and not in the frontend.
-However, they will become relevant once the bot is migrated (TODO: create a draft ADR that specifies the requirements for that process?)
-
-- ~~chat in breakout rooms by default PB-1826~~
-- ~~whiteboard should be enabled by default for breakout sessions PB-1801~~
-
 <!-- This template is taken from a blog post by Michael Nygard http://thinkrelevance.com/blog/2011/11/15/documenting-architecture-decisions -->
