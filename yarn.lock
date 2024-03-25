@@ -12732,10 +12732,10 @@ thunky@^1.0.2:
   resolved "https://registry.yarnpkg.com/thunky/-/thunky-1.1.0.tgz#5abaf714a9405db0504732bbccd2cedd9ef9537d"
   integrity sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==
 
-timezones-ical-library@^1.7.2:
-  version "1.7.2"
-  resolved "https://registry.yarnpkg.com/timezones-ical-library/-/timezones-ical-library-1.7.2.tgz#6e8e5441c3c0d84abacdeeba7242218a69303520"
-  integrity sha512-QxZd7SowEZ5/Kg6ZJuBYI2BUqmyDj5HdI9RSWSQtzYm3UeVd5ziFpEBjw715zCzQca6V4xIiHc5j95tUzDTOyg==
+timezones-ical-library@^1.8.2:
+  version "1.8.2"
+  resolved "https://registry.yarnpkg.com/timezones-ical-library/-/timezones-ical-library-1.8.2.tgz#33a96db1f2bcce87d5e00ee64f263b9925c37719"
+  integrity sha512-0bbCp+xXtTUOcBo7bAGkzK5yMiNnY/FmJblTlnkGcqW5O+SChvWNtvsOX9WqbU5/8sT+Nl/MKQ7c9qafIkUstA==
 
 timsort@^0.3.0:
   version "0.3.0"
