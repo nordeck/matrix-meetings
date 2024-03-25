@@ -39,7 +39,7 @@
     "reselect": "^4.1.8",
     "rrule": "^2.8.1",
     "rxjs": "^7.8.1",
-    "timezones-ical-library": "^1.7.2"
+    "timezones-ical-library": "^1.8.2"
   },
   "devDependencies": {
     "@craco/craco": "^7.1.0",
