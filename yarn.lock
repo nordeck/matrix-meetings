@@ -2296,10 +2296,10 @@
     iterare "1.2.1"
     tslib "2.6.2"
 
-"@nestjs/config@^3.2.1":
-  version "3.2.1"
-  resolved "https://registry.yarnpkg.com/@nestjs/config/-/config-3.2.1.tgz#6b264564e70a8d639734e9a583ad1d2ac5351588"
-  integrity sha512-tFZyLJKanSAu51ygQ6ZBSpx95pRcwS6qSpJDW6FFgRQzkOaOUXpL8qD8yMNoYoYxuJCxph+waiBaWKgFWxn3sw==
+"@nestjs/config@^3.2.2":
+  version "3.2.2"
+  resolved "https://registry.yarnpkg.com/@nestjs/config/-/config-3.2.2.tgz#7e895edb2878564e0a7fc411614902b0330ca940"
+  integrity sha512-vGICPOui5vE6kPz1iwQ7oCnp3qWgqxldPmBQ9onkVoKlBtyc83KJCr7CjuVtf4OdovMAVcux1d8Q6jglU2ZphA==
   dependencies:
     dotenv "16.4.5"
     dotenv-expand "10.0.0"
@@ -2353,10 +2353,10 @@
     jsonc-parser "3.2.0"
     pluralize "8.0.0"
 
-"@nestjs/swagger@^7.3.0":
-  version "7.3.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/swagger/-/swagger-7.3.0.tgz#0b5e397cc5a592422df9afb24c79af928fea5954"
-  integrity sha512-zLkfKZ+ioYsIZ3dfv7Bj8YHnZMNAGWFUmx2ZDuLp/fBE4P8BSjB7hldzDueFXsmwaPL90v7lgyd82P+s7KME1Q==
+"@nestjs/swagger@^7.3.1":
+  version "7.3.1"
+  resolved "https://registry.yarnpkg.com/@nestjs/swagger/-/swagger-7.3.1.tgz#353fdd5bd6f23564505117b1c82d7decc145e8fe"
+  integrity sha512-LUC4mr+5oAleEC/a2j8pNRh1S5xhKXJ1Gal5ZdRjt9XebQgbngXCdW7JTA9WOEcwGtFZN9EnKYdquzH971LZfw==
   dependencies:
     "@microsoft/tsdoc" "^0.14.2"
     "@nestjs/mapped-types" "2.0.5"
