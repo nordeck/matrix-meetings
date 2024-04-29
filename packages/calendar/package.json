@@ -22,12 +22,12 @@
     "i18next": "^23.7.16",
     "joi": "^17.12.2",
     "lodash": "^4.17.20",
-    "luxon": "^3.3.0",
+    "luxon": "^3.4.4",
     "rrule": "^2.8.1"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.200",
-    "@types/luxon": "^3.2.0"
+    "@types/luxon": "^3.4.2"
   },
   "jest": {
     "preset": "ts-jest",
