@@ -7401,10 +7401,10 @@ i18next-http-backend@^2.5.0:
   dependencies:
     cross-fetch "4.0.0"
 
-i18next-http-middleware@^3.5.0:
-  version "3.5.0"
-  resolved "https://registry.yarnpkg.com/i18next-http-middleware/-/i18next-http-middleware-3.5.0.tgz#5919dfee4ba8c28782fb8cd5adf9c90d1c9307d4"
-  integrity sha512-BqATaFCMVHJYZX4cBmhvpBqZNvnvjjmcSzxJvLWTwgJ4gn5kwYoyVikn7AB5kxiQrFjSuZsjDFv76CdsAHwpZw==
+i18next-http-middleware@^3.6.0:
+  version "3.6.0"
+  resolved "https://registry.yarnpkg.com/i18next-http-middleware/-/i18next-http-middleware-3.6.0.tgz#4781751fac03e951a74a8c9f95f6bb5bc680fbdd"
+  integrity sha512-pLyTOC8Dzj83byN0s4hd/i/Ewg6T36YjMrc+Zfnqz2Ca0G5ab9IPvPR8xZqr6TS0s/ZtPs2MZucDkWgqoRmNXA==
 
 i18next-parser@^8.9.0:
   version "8.9.0"
