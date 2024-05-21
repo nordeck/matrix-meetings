@@ -62,11 +62,10 @@ export async function acceptMeetingInvitations({
     .filter((m) => m?.creator === userId)
 
     // discard all meetings without invitations
-    .map(
-      (m) =>
-        m?.participants.find(
-          (p) => p.userId === userId && p.membership === 'invite',
-        ),
+    .map((m) =>
+      m?.participants.find(
+        (p) => p.userId === userId && p.membership === 'invite',
+      ),
     )
     .filter(isDefined)
 

@@ -169,8 +169,9 @@ export function extractCalendarChange(
           });
         }
       } else {
-        const calendarEntry = map.get(newCalendarEntry.uid)
-          ?.singleOrRecurringEntry;
+        const calendarEntry = map.get(
+          newCalendarEntry.uid,
+        )?.singleOrRecurringEntry;
         if (calendarEntry && isRRuleEntry(calendarEntry)) {
           const duration = parseICalDate(calendarEntry.dtend).diff(
             parseICalDate(calendarEntry.dtstart),
@@ -188,8 +189,9 @@ export function extractCalendarChange(
       }
     } else {
       // handle series
-      const calendarEntry = map.get(newCalendarEntry.uid)
-        ?.singleOrRecurringEntry;
+      const calendarEntry = map.get(
+        newCalendarEntry.uid,
+      )?.singleOrRecurringEntry;
       if (
         isRRuleEntry(newCalendarEntry) &&
         calendarEntry &&

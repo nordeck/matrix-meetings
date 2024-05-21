@@ -132,8 +132,8 @@ export const MeetingCard = withRoomIdMeeting(
         endDate: spansMultipleYears
           ? fullDateFormat
           : spansMultipleDays
-          ? withoutYearDateFormat
-          : timeOnlyDateFormat,
+            ? withoutYearDateFormat
+            : timeOnlyDateFormat,
       },
     };
 
