@@ -1,4 +1,4 @@
-FROM node:20-bullseye-slim AS node_modules
+FROM node:22-bullseye-slim AS node_modules
 WORKDIR /build
 COPY package.json yarn.lock ./
 COPY matrix-meetings-bot/package.json ./matrix-meetings-bot/
@@ -6,7 +6,7 @@ COPY packages/calendar/package.json ./packages/calendar/package.json
 COPY packages/calendar/lib ./packages/calendar/lib
 RUN yarn install --production --frozen-lockfile --network-timeout 1000000
 
-FROM node:20-bullseye-slim
+FROM node:22-bullseye-slim
 ENV NODE_ENV=production
 WORKDIR /app
 RUN set -x\
