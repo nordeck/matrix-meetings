@@ -324,8 +324,8 @@ export const ScheduleMeeting = ({
         isMessagingEnabled === undefined
           ? undefined
           : isMessagingEnabled
-          ? 0
-          : getMessagingPowerLevel();
+            ? 0
+            : getMessagingPowerLevel();
       const powerLevels =
         messaging !== undefined
           ? {
