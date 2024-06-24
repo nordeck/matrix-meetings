@@ -8,14 +8,14 @@
   "dependencies": {},
   "devDependencies": {
     "@axe-core/playwright": "^4.9.1",
-    "@playwright/test": "^1.44.0",
-    "@types/lodash": "^4.17.4",
+    "@playwright/test": "^1.44.1",
+    "@types/lodash": "^4.17.5",
     "@types/node": "^20.4.6",
-    "eslint": "^8.57.0",
-    "eslint-plugin-playwright": "^1.6.1",
+    "eslint": "^9.5.0",
+    "eslint-plugin-playwright": "^1.6.2",
     "lodash": "^4.17.21",
-    "testcontainers": "^10.9.0",
-    "typescript": "^5.4.5"
+    "testcontainers": "^10.10.0",
+    "typescript": "^5.5.2"
   },
   "engines": {
     "node": ">=20",
