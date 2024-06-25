@@ -85,7 +85,7 @@ jobs:
             type=sha,prefix=
 
       - name: Docker build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         id: dockerBuild
         with:
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'pull_request' && secrets.GH_APP_OS_APP_ID != '' }}
@@ -172,7 +172,7 @@ jobs:
             type=sha,prefix=
 
       - name: Docker build and push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         id: dockerBuild
         with:
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'pull_request' && secrets.GH_APP_OS_APP_ID != '' }}
@@ -250,13 +250,13 @@ jobs:
         run: yarn generate-disclaimer
 
       - name: Docker build widget
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         id: dockerBuildWidget
         with:
           context: ./matrix-meetings-widget/
 
       - name: Docker build bot
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         id: dockerBuildBot
         with:
           context: .
