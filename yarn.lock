@@ -10201,10 +10201,10 @@ pino-abstract-transport@^1.2.0:
     readable-stream "^4.0.0"
     split2 "^4.0.0"
 
-pino-http@^10.1.0:
-  version "10.1.0"
-  resolved "https://registry.yarnpkg.com/pino-http/-/pino-http-10.1.0.tgz#ac052e0a4d9f959d86aa8af310887700cf6d29ac"
-  integrity sha512-rQgRaVfmZnDcOZXvZUUkiG3wDYVTSyYWAhxkGUgw3py3Y1nFXucRSLYPB5HKgG64oy9gLiDARiQxxWXnI1u3zA==
+pino-http@^10.2.0:
+  version "10.2.0"
+  resolved "https://registry.yarnpkg.com/pino-http/-/pino-http-10.2.0.tgz#157b799e84ee4f6fe5a862fa3758f10d25376fed"
+  integrity sha512-am03BxnV3Ckx68OkbH0iZs3indsrH78wncQ6w1w51KroIbvJZNImBKX2X1wjdY8lSyaJ0UrX/dnO2DY3cTeCRw==
   dependencies:
     get-caller-file "^2.0.5"
     pino "^9.0.0"
