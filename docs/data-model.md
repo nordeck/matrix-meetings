@@ -288,7 +288,7 @@ Creates a child meeting for the given room ID taken from the room event.
 | `data.calendar[].recurrenceId`       | —`?`        | The id of the recurrence entry that this entry replaces.                                        |
 | `data.calendar[].recurrenceId.tzid`  | `string`    | The timezone of the value.                                                                      |
 | `data.calendar[].recurrenceId.value` | `string`    | The date and time in the iCalendar format (ex: `20220101T100000`).                              |
-| `data.widget_ids[]`                  | `string[]?` | A list of widget IDs to be added (get IDs from `/v1/api/widgets/list`).                         |
+| `data.widget_ids[]`                  | `string[]?` | A list of widget IDs to be added (get IDs from `/v1/widget/list`).                              |
 | `data.participants[]`                | —`?`        | A list of users to invite to the meeting.                                                       |
 | `data.participants[].user_id`        | `string`    | The ID of the user.                                                                             |
 | `data.participants[].power_level`    | `number?`   | The custom power level of the user. Defaults: `0`. The creator will be `100`.                   |
@@ -404,7 +404,7 @@ Instructs the bot to change what widgets are enabled.
 | --------------------- | ---------- | ------------------------------------------------------------------------------ |
 | `data`                | —          | The payload of this event.                                                     |
 | `data.target_room_id` | `string`   | The id of the meeting that should be updated.                                  |
-| `data.widget_ids[]`   | `string[]` | A list of widget IDs to be changed (get IDs from `/v1/api/widgets/list`).      |
+| `data.widget_ids[]`   | `string[]` | A list of widget IDs to be changed (get IDs from `/v1/widget/list`).           |
 | `data.add`            | `boolean`  | If `true`, the listed widgets will be added. If `false`, they will be removed. |
 | `context`             | —          | The context of this event.                                                     |
 | `context.locale`      | `string`   | The language of formatted messages as BCP 47 language tag.                     |
@@ -566,7 +566,7 @@ Creates breakout sessions for the given room ID taken from the room event.
 | `data.description`                         | `string`    | The description of the breakout sessions.                                          |
 | `data.start_time`                          | `string`    | The start time of the sessions as ISO 8601 timestamp.                              |
 | `data.end_time`                            | `string`    | The end time of the sessions as ISO 8601 timestamp.                                |
-| `data.widget_ids[]`                        | `string[]?` | A list of widget IDs to be enabled (get IDs from `/v1/api/widgets/list`).          |
+| `data.widget_ids[]`                        | `string[]?` | A list of widget IDs to be enabled (get IDs from `/v1/widget/list`).               |
 | `data.enable_auto_deletion`                | `boolean?`  | If `true`, the Room Reaper will delete the meeting after it ends. Default: `true`. |
 | `data.groups[]`                            | —           | A list of sessions to create.                                                      |
 | `data.groups[].title`                      | `string`    | The title of the meeting.                                                          |
@@ -665,7 +665,7 @@ Instructs the bot to create a new meeting.
 | `description`                | `string`    | The description of the meeting.                                                     |
 | `start_time`                 | `string`    | The start time of the meeting as ISO 8601 timestamp.                                |
 | `end_time`                   | `string`    | The end time of the meeting as ISO 8601 timestamp.                                  |
-| `widget_ids[]`               | `string[]?` | A list of widget IDs to be enabled (get IDs from `/v1/api/widgets/list`).           |
+| `widget_ids[]`               | `string[]?` | A list of widget IDs to be enabled (get IDs from `/v1/widget/list`).                |
 | `participants[]`             | —`?`        | A list of users to invite to the meeting.                                           |
 | `participants[].user_id`     | `string`    | The ID of the user.                                                                 |
 | `participants[].power_level` | `number?`   | The custom power level of the user. Defaults: `0`. The creator will be `100`.       |
