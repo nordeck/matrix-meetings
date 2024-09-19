@@ -1,6 +1,7 @@
 # NeoDateFix
 
 ![Build](https://github.com/nordeck/matrix-meetings/workflows/CI/badge.svg)
+[![Matrix](https://img.shields.io/matrix/nordeck%3Amatrix.org)](https://matrix.to/#/#nordeck:matrix.org)
 
 A solution to organizing meetings in [Matrix](https://matrix.org/) chat rooms and video conferences.
 Users can plan meetings, configure options like widgets for meeting rooms, invite participants, perform breakout sessions, and see their calendar.
