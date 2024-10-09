@@ -33,7 +33,7 @@
     "deduplicate": "yarn-deduplicate",
     "generate-disclaimer": "yarn workspaces run generate-disclaimer",
     "docker:build": "yarn workspaces run docker:build",
-    "prepare": "husky install",
+    "prepare": "husky",
     "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
     "translate": "yarn workspaces run translate",
