@@ -41,7 +41,7 @@
     "base64url": "^3.0.1",
     "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
-    "express": "^4.19.2",
+    "express": "^4.20.0",
     "html-entities": "^2.5.2",
     "i18next": "^23.7.16",
     "i18next-fs-backend": "^2.3.1",
