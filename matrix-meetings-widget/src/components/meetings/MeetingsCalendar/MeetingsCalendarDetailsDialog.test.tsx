@@ -19,10 +19,19 @@ import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  vi,
+} from 'vitest';
 import {
   mockCalendar,
   mockConfigEndpoint,
@@ -34,12 +43,14 @@ import { createStore } from '../../../store';
 import { initializeStore } from '../../../store/store';
 import { MeetingsCalendarDetailsDialog } from './MeetingsCalendarDetailsDialog';
 
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  extractWidgetApiParameters: jest.fn(),
+vi.mock('@matrix-widget-toolkit/api', async () => ({
+  ...(await vi.importActual<typeof import('@matrix-widget-toolkit/api')>(
+    '@matrix-widget-toolkit/api',
+  )),
+  extractWidgetApiParameters: vi.fn(),
 }));
 
-jest.mock('@mui/material/useMediaQuery');
+vi.mock('@mui/material/useMediaQuery');
 
 const server = setupServer();
 
@@ -54,12 +65,12 @@ afterEach(() => widgetApi.stop());
 beforeEach(() => (widgetApi = mockWidgetApi()));
 
 describe('<MeetingsCalendarDetailsDialog/>', () => {
-  const onClose = jest.fn();
+  const onClose = vi.fn();
 
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
-    jest.mocked(extractWidgetApiParameters).mockReturnValue({
+    vi.mocked(extractWidgetApiParameters).mockReturnValue({
       clientOrigin: 'http://element.local',
       widgetId: '',
     });
@@ -176,7 +187,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
       }),
     ).resolves.toBeInTheDocument();
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should show a specific recurrence-id', async () => {

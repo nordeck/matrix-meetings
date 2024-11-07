@@ -19,10 +19,11 @@ import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   acknowledgeAllEvents,
   mockCalendar,
@@ -43,14 +44,14 @@ import {
 } from '../../ScheduleMeetingModal';
 import { MeetingDetailsHeader } from './MeetingDetailsHeader';
 
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  extractWidgetApiParameters: jest.fn(),
+vi.mock('@matrix-widget-toolkit/api', async () => ({
+  ...(await vi.importActual<typeof import('@matrix-widget-toolkit/api')>(
+    '@matrix-widget-toolkit/api',
+  )),
+  extractWidgetApiParameters: vi.fn(),
 }));
 
-const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked,
-);
+const extractWidgetApiParameters = vi.mocked(extractWidgetApiParametersMocked);
 
 const server = setupServer();
 
@@ -65,11 +66,11 @@ afterEach(() => widgetApi.stop());
 beforeEach(() => (widgetApi = mockWidgetApi()));
 
 describe('<MeetingDetailsHeader/>', () => {
-  const onClose = jest.fn();
+  const onClose = vi.fn();
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
-    jest.mocked(extractWidgetApiParameters).mockReturnValue({
+    vi.mocked(extractWidgetApiParameters).mockReturnValue({
       clientOrigin: 'http://element.local',
       widgetId: '',
     });
@@ -96,7 +97,7 @@ describe('<MeetingDetailsHeader/>', () => {
 
   afterEach(() => {
     // Restore the spy on Date.now()
-    jest.restoreAllMocks();
+    vi.restoreAllMocks();
   });
 
   it('should render without exploding', () => {
@@ -120,7 +121,7 @@ describe('<MeetingDetailsHeader/>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should close the expended meeting dialog', async () => {

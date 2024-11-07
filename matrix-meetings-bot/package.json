@@ -37,6 +37,7 @@
     "@nestjs/microservices": "^10.3.9",
     "@nestjs/platform-express": "^10.4.6",
     "@nestjs/swagger": "^7.3.1",
+    "@nordeck/matrix-meetings-calendar": "1.0.0",
     "@supercharge/promise-pool": "^3.2.0",
     "base64url": "^3.0.1",
     "class-transformer": "^0.5.1",
@@ -47,10 +48,9 @@
     "i18next-fs-backend": "^2.3.1",
     "i18next-http-middleware": "^3.6.0",
     "joi": "^17.13.3",
-    "lodash": "^4.17.20",
+    "lodash-es": "^4.17.21",
     "luxon": "^3.3.0",
     "matrix-bot-sdk": "npm:@nordeck/matrix-bot-sdk@0.7.1-crypto.beta.12",
-    "@nordeck/matrix-meetings-calendar": "1.0.0",
     "mime-types": "^2.1.35",
     "mustache": "^4.2.0",
     "nestjs-pino": "^4.1.0",
@@ -64,8 +64,8 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^10.1.14",
-    "@types/jest": "^27.5.2",
-    "@types/lodash": "^4.17.4",
+    "@types/jest": "^29.5.14",
+    "@types/lodash-es": "^4.17.12",
     "@types/luxon": "^3.2.0",
     "@types/mime-types": "^2.1.4",
     "@types/mustache": "^4.2.5",
@@ -76,44 +76,9 @@
     "dotenv-cli": "^7.4.2",
     "eslint": "^8.57.0",
     "i18next-parser": "^8.13.0",
-    "jest": "^27.4.3",
-    "jest-fetch-mock": "^3.0.3",
-    "ts-jest": "^27.1.5",
+    "jest": "^29.7.0",
     "ts-mockito": "^2.6.1",
     "typescript": "^5.4.5"
-  },
-  "jest": {
-    "testEnvironment": "node",
-    "automock": false,
-    "resetMocks": true,
-    "setupFiles": [
-      "./setupJest.js"
-    ],
-    "preset": "ts-jest",
-    "verbose": true,
-    "transform": {
-      "^.+\\.(ts|tsx)$": "ts-jest"
-    },
-    "moduleDirectories": [
-      "lib",
-      "node_modules"
-    ],
-    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js"
-    ],
-    "setupFilesAfterEnv": [
-      "<rootDir>/setupTests.ts"
-    ],
-    "roots": [
-      "<rootDir>/src",
-      "<rootDir>/test"
-    ],
-    "moduleNameMapper": {
-      "matrix-meetings-(.*)": "<rootDir>/../packages/$1/src/index.ts"
-    }
   },
   "files": [
     "test/*",

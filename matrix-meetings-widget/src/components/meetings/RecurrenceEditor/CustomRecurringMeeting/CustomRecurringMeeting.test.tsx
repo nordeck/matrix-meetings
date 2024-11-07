@@ -16,28 +16,29 @@
 
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { ComponentType, PropsWithChildren } from 'react';
 import { Frequency } from 'rrule';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { CustomRecurringMeeting } from '.';
 import { LocalizationProvider } from '../../../common/LocalizationProvider';
 import { CustomRuleMode } from '../state';
 
 describe('<CustomRecurringMeeting>', () => {
-  const onCustomFrequencyChange = jest.fn();
-  const onCustomIntervalChange = jest.fn();
-  const onCustomByWeekdayChange = jest.fn();
-  const onCustomRuleModeChange = jest.fn();
-  const onCustomMonthChange = jest.fn();
-  const onCustomNthMonthdayChange = jest.fn();
-  const onCustomWeekdayChange = jest.fn();
-  const onCustomNthChange = jest.fn();
+  const onCustomFrequencyChange = vi.fn();
+  const onCustomIntervalChange = vi.fn();
+  const onCustomByWeekdayChange = vi.fn();
+  const onCustomRuleModeChange = vi.fn();
+  const onCustomMonthChange = vi.fn();
+  const onCustomNthMonthdayChange = vi.fn();
+  const onCustomWeekdayChange = vi.fn();
+  const onCustomNthChange = vi.fn();
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-02T13:10:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-02T13:10:00.000Z'),
+    );
 
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
       return <LocalizationProvider>{children}</LocalizationProvider>;
@@ -104,7 +105,7 @@ describe('<CustomRecurringMeeting>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should render with weekly frequency', () => {
@@ -177,7 +178,7 @@ describe('<CustomRecurringMeeting>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should render with monthly frequency in monthday mode', () => {
@@ -314,7 +315,7 @@ describe('<CustomRecurringMeeting>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations with monthly frequency in weekday mode', async () => {
@@ -340,7 +341,7 @@ describe('<CustomRecurringMeeting>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should render with yearly frequency in monthday mode', () => {
@@ -489,7 +490,7 @@ describe('<CustomRecurringMeeting>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations with yearly frequency in weekday mode', async () => {
@@ -515,7 +516,7 @@ describe('<CustomRecurringMeeting>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should change interval', () => {

@@ -17,12 +17,13 @@
 import { useMediaQuery } from '@mui/material';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { ComponentType, PropsWithChildren } from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { LocalizationProvider } from '../../common/LocalizationProvider';
 import { MeetingsNavigation } from './MeetingsNavigation';
 
-jest.mock('@mui/material/useMediaQuery');
+vi.mock('@mui/material/useMediaQuery');
 
 describe('<MeetingsNavigation/>', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
@@ -35,9 +36,9 @@ describe('<MeetingsNavigation/>', () => {
   });
 
   it('should render without exploding', async () => {
-    jest.mocked(useMediaQuery).mockReturnValue(true);
+    vi.mocked(useMediaQuery).mockReturnValue(true);
 
-    render(<MeetingsNavigation onViewChange={jest.fn()} view="list" />, {
+    render(<MeetingsNavigation onViewChange={vi.fn()} view="list" />, {
       wrapper: Wrapper,
     });
 
@@ -59,35 +60,35 @@ describe('<MeetingsNavigation/>', () => {
   });
 
   it('should have no accessibility violations', async () => {
-    jest.mocked(useMediaQuery).mockReturnValue(true);
+    vi.mocked(useMediaQuery).mockReturnValue(true);
 
     const { container } = render(
-      <MeetingsNavigation onViewChange={jest.fn()} view="list" />,
+      <MeetingsNavigation onViewChange={vi.fn()} view="list" />,
       { wrapper: Wrapper },
     );
 
     await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations with disabled views', async () => {
-    jest.mocked(useMediaQuery).mockReturnValue(false);
+    vi.mocked(useMediaQuery).mockReturnValue(false);
 
     const { container } = render(
-      <MeetingsNavigation onViewChange={jest.fn()} view="list" />,
+      <MeetingsNavigation onViewChange={vi.fn()} view="list" />,
       { wrapper: Wrapper },
     );
 
     await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should select a different view', async () => {
-    const onViewChange = jest.fn();
+    const onViewChange = vi.fn();
 
-    jest.mocked(useMediaQuery).mockReturnValue(true);
+    vi.mocked(useMediaQuery).mockReturnValue(true);
 
     render(<MeetingsNavigation onViewChange={onViewChange} view="week" />, {
       wrapper: Wrapper,
@@ -103,9 +104,9 @@ describe('<MeetingsNavigation/>', () => {
   });
 
   it('should disable some calendar views on a small screen', async () => {
-    jest.mocked(useMediaQuery).mockReturnValue(false);
+    vi.mocked(useMediaQuery).mockReturnValue(false);
 
-    render(<MeetingsNavigation onViewChange={jest.fn()} view="list" />, {
+    render(<MeetingsNavigation onViewChange={vi.fn()} view="list" />, {
       wrapper: Wrapper,
     });
 
@@ -142,9 +143,9 @@ describe('<MeetingsNavigation/>', () => {
   });
 
   it('should switch to the day view if the screen becomes to small', () => {
-    const onViewChange = jest.fn();
+    const onViewChange = vi.fn();
 
-    jest.mocked(useMediaQuery).mockReturnValue(false);
+    vi.mocked(useMediaQuery).mockReturnValue(false);
 
     render(<MeetingsNavigation onViewChange={onViewChange} view="week" />, {
       wrapper: Wrapper,

@@ -19,24 +19,25 @@ import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { configureStore, createReducer } from '@reduxjs/toolkit';
 import { render, screen } from '@testing-library/react';
 import { TypedUseSelectorHook, useSelector } from 'react-redux';
+import { beforeEach, describe, expect, it, MockedFunction, vi } from 'vitest';
 import { StoreProvider } from './StoreProvider';
 import {
   createStore as createStoreMocked,
   initializeStore as initializeStoreMocked,
 } from './store';
 
-jest.mock('./store');
+vi.mock('./store');
 
-const createStore = createStoreMocked as jest.MockedFunction<
+const createStore = createStoreMocked as MockedFunction<
   typeof createStoreMocked
 >;
 
-const initializeStore = initializeStoreMocked as jest.MockedFunction<
+const initializeStore = initializeStoreMocked as MockedFunction<
   typeof initializeStoreMocked
 >;
 
 describe('StoreProvider', () => {
-  const unsubscribe = jest.fn();
+  const unsubscribe = vi.fn();
 
   const widgetApi = {} as WidgetApi;
   const store = configureStore({

@@ -15,6 +15,7 @@
  */
 
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { mockReaction } from '../../lib/testUtils';
 import {
   awaitAcknowledgement,
@@ -230,7 +231,7 @@ describe('withEventContext', () => {
   const data = { my: 'data' };
 
   beforeEach(() => {
-    jest.spyOn(Intl, 'DateTimeFormat').mockImplementation(
+    vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(
       () =>
         ({
           resolvedOptions: () => ({ timeZone: 'UTC+11' }),

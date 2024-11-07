@@ -15,7 +15,7 @@
  */
 
 import { TFunction } from 'i18next';
-import { sortBy } from 'lodash';
+import { sortBy } from 'lodash-es';
 import { Info } from 'luxon';
 import { Frequency, Options, RRule } from 'rrule';
 import { isWeekdays, normalizeByWeekday, normalizeNumeric } from './helpers';

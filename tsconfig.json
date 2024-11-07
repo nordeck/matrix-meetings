@@ -1,22 +1,21 @@
-// This is the root tsconfig that is extended by the individual packages
 {
   "compilerOptions": {
-    "target": "es6",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "target": "es2020",
+    "lib": ["dom", "dom.iterable", "esnext", "es2021.intl"],
+    "allowJs": true,
+    "skipLibCheck": true,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
     "strict": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx",
-    "skipLibCheck": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
     "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": true,
-    // TODO: this option was enabled with the typescript update, but this introduces some errors. we should to revert this to the default and fix the errors
-    "useUnknownInCatchVariables": false
-  }
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": false,
+    "jsx": "react-jsx"
+  },
+  "exclude": ["node_modules"],
+  "include": ["matrix-meetings-widget/src", "packages/*/src"]
 }

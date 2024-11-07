@@ -17,6 +17,7 @@
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
+import { afterAll, afterEach, beforeAll, describe, expect, it } from 'vitest';
 import { createStore } from '../../store';
 import { meetingBotApi } from './meetingBotApi';
 

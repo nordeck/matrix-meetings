@@ -20,9 +20,10 @@ import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { useMediaQuery } from '@mui/material';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   acknowledgeAllEvents,
   mockCalendar,
@@ -38,14 +39,13 @@ import { LocalizationProvider } from '../../common/LocalizationProvider';
 import { SetupBreakoutSessionsModalResult } from '../SetupBreakoutSessionsModal';
 import { MeetingsPanel } from './MeetingsPanel';
 
-// The DOM is quite complex and big, therefore we have to increase the timeout
-jest.setTimeout(15000);
+vi.mock('@mui/material/useMediaQuery');
 
-jest.mock('@mui/material/useMediaQuery');
-
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  extractWidgetApiParameters: jest.fn(),
+vi.mock('@matrix-widget-toolkit/api', async () => ({
+  ...(await vi.importActual<typeof import('@matrix-widget-toolkit/api')>(
+    '@matrix-widget-toolkit/api',
+  )),
+  extractWidgetApiParameters: vi.fn(),
 }));
 
 function enableBreakoutSessionView() {
@@ -76,23 +76,23 @@ afterEach(() => widgetApi.stop());
 
 beforeEach(() => (widgetApi = mockWidgetApi()));
 
-afterEach(() => jest.useRealTimers());
+afterEach(() => vi.useRealTimers());
 
 describe('<MeetingsPanel/>', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
     localStorage.clear();
-    jest.mocked(useMediaQuery).mockReturnValue(true);
+    vi.mocked(useMediaQuery).mockReturnValue(true);
 
-    jest.mocked(extractWidgetApiParametersMocked).mockReturnValue({
+    vi.mocked(extractWidgetApiParametersMocked).mockReturnValue({
       clientOrigin: 'http://element.local',
       widgetId: '',
     });
 
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-03-01T10:10:12.345Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-03-01T10:10:12.345Z'),
+    );
 
     mockCreateMeetingRoom(widgetApi, {
       parentRoomId: '!room-id',
@@ -122,12 +122,12 @@ describe('<MeetingsPanel/>', () => {
     // We mock the offsetHeight as js-dom is not providing layout causing
     // fullcalendar not being able to calculate the size of the events and
     // hiding them instead.
-    jest
-      .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
-      .mockImplementation(() => 10);
+    vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockImplementation(
+      () => 10,
+    );
 
     // We also mock getBoundingClientRect to support the more link
-    jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
       bottom: 1,
       height: 1,
       left: 1,
@@ -136,7 +136,7 @@ describe('<MeetingsPanel/>', () => {
       width: 1,
       x: 1,
       y: 1,
-      toJSON: jest.fn(),
+      toJSON: vi.fn(),
     });
   });
 
@@ -190,7 +190,7 @@ describe('<MeetingsPanel/>', () => {
       screen.findByRole('listitem', { name: /my breakout session/i }),
     ).resolves.toBeInTheDocument();
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations, if list view', async () => {
@@ -200,7 +200,7 @@ describe('<MeetingsPanel/>', () => {
       screen.findByRole('listitem', { name: /an important meeting/i }),
     ).resolves.toBeInTheDocument();
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations, if list view with invitations', async () => {
@@ -214,7 +214,7 @@ describe('<MeetingsPanel/>', () => {
       screen.findByRole('button', { name: /invitations/i }),
     ).resolves.toBeInTheDocument();
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations, if day view', async () => {
@@ -228,7 +228,7 @@ describe('<MeetingsPanel/>', () => {
     // disabled aria-required-children because structure of roles is not correct
     // in fullcalendar
     expect(
-      await axe(container, {
+      await axe.run(container, {
         rules: {
           'aria-required-children': { enabled: false },
         },
@@ -247,7 +247,7 @@ describe('<MeetingsPanel/>', () => {
     // disabled aria-required-children because structure of roles is not correct
     // in fullcalendar
     expect(
-      await axe(container, {
+      await axe.run(container, {
         rules: {
           'aria-required-children': { enabled: false },
         },
@@ -266,7 +266,7 @@ describe('<MeetingsPanel/>', () => {
     // disabled aria-required-children because structure of roles is not correct
     // in fullcalendar
     expect(
-      await axe(container, {
+      await axe.run(container, {
         rules: {
           'aria-required-children': { enabled: false },
         },
@@ -285,7 +285,7 @@ describe('<MeetingsPanel/>', () => {
     // disabled aria-required-children because structure of roles is not correct
     // in fullcalendar
     expect(
-      await axe(container, {
+      await axe.run(container, {
         rules: {
           'aria-required-children': { enabled: false },
         },

@@ -16,9 +16,10 @@
 
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { DateTime } from 'luxon';
 import { ComponentType, PropsWithChildren, useState } from 'react';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { LocalizationProvider } from '../LocalizationProvider';
 import { ButtonDatePicker } from './ButtonDatePicker';
 
@@ -84,6 +85,6 @@ describe('<CalendarDayPicker>', () => {
   it('should have no accessibility violations', async () => {
     const { container } = render(<Component />, { wrapper: Wrapper });
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 });

@@ -17,9 +17,10 @@
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
   mockCalendarEntry,
   mockMeeting,

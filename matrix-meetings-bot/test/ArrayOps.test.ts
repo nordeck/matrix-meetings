@@ -15,6 +15,7 @@
  */
 
 import { ArrayOps } from '../src/ArrayOps';
+import {describe, test, expect} from 'vitest';
 
 describe('ArrayOps suite', () => {
   const arr = [1, 2, 3, 4, 5];

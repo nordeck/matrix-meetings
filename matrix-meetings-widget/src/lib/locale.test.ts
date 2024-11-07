@@ -15,6 +15,7 @@
  */
 
 import { Settings } from 'luxon';
+import { describe, it } from 'vitest';
 import { setLocale } from './locale';
 
 describe('setLocale', () => {

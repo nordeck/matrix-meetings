@@ -17,12 +17,13 @@
 import { render, screen, within } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { act } from 'react-dom/test-utils';
+import { describe, expect, it, vi } from 'vitest';
 import { ShareDialog, useShareDialog } from './ShareDialog';
 
 describe('<ShareDialog/>', () => {
-  const onClose = jest.fn();
+  const onClose = vi.fn();
 
   it('should render without exploring', () => {
     render(
@@ -58,7 +59,7 @@ describe('<ShareDialog/>', () => {
       />,
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should render children in the dialog', () => {

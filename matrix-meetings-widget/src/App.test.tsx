@@ -18,6 +18,7 @@ import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
+import { afterEach, beforeEach, describe, it } from 'vitest';
 import App from './App';
 import { LocalizationProvider } from './components/common/LocalizationProvider';
 import { StoreProvider } from './store';

@@ -16,7 +16,7 @@
 
 import SearchIcon from '@mui/icons-material/Search';
 import { InputAdornment, Stack, TextField } from '@mui/material';
-import { isEqual } from 'lodash';
+import { isEqual } from 'lodash-es';
 import { DateTime } from 'luxon';
 import {
   ChangeEvent,

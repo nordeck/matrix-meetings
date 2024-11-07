@@ -21,6 +21,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it, Mock, vi } from 'vitest';
 import {
   mockCalendarEntry,
   mockConfigEndpoint,
@@ -36,14 +37,14 @@ import {
   useDownloadIcsFile,
 } from './useDownloadIcsFile';
 
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  extractWidgetApiParameters: jest.fn(),
+vi.mock('@matrix-widget-toolkit/api', async () => ({
+  ...(await vi.importActual<typeof import('@matrix-widget-toolkit/api')>(
+    '@matrix-widget-toolkit/api',
+  )),
+  extractWidgetApiParameters: vi.fn(),
 }));
 
-const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked,
-);
+const extractWidgetApiParameters = vi.mocked(extractWidgetApiParametersMocked);
 
 const server = setupServer();
 
@@ -57,14 +58,14 @@ afterEach(() => widgetApi.stop());
 
 beforeEach(() => (widgetApi = mockWidgetApi()));
 
-afterEach(() => jest.useRealTimers());
+afterEach(() => vi.useRealTimers());
 
 describe('useDownloadIcsFile', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2020-01-01T10:00:00Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2020-01-01T10:00:00Z'));
 
     mockConfigEndpoint(server);
     mockMeetingSharingInformationEndpoint(server);
@@ -85,16 +86,16 @@ describe('useDownloadIcsFile', () => {
   });
 
   it('should generate the ics file', async () => {
-    const blobSpy = jest.spyOn(global, 'Blob').mockReturnValue({
+    const blobSpy = vi.spyOn(global, 'Blob').mockReturnValue({
       size: 0,
       type: '',
-      arrayBuffer: jest.fn(),
-      slice: jest.fn(),
-      stream: jest.fn(),
-      text: jest.fn(),
+      arrayBuffer: vi.fn(),
+      slice: vi.fn(),
+      stream: vi.fn(),
+      text: vi.fn(),
     } as unknown as Blob);
 
-    (URL.createObjectURL as jest.Mock).mockReturnValue('blob:url');
+    (URL.createObjectURL as Mock).mockReturnValue('blob:url');
 
     const meeting = mockMeeting();
     mockCreateMeetingRoom(widgetApi);
@@ -130,8 +131,8 @@ END:VEVENT\r`),
 
 describe('createIcsFile', () => {
   beforeEach(() => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2020-01-01T10:00:00Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2020-01-01T10:00:00Z'));
   });
 
   it('should generate the ics file for a single meeting', () => {

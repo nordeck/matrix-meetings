@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-const path = require('path');
+import path from 'path';
 
-module.exports = {
+const __dirname = path.dirname(__filename);
+
+export default {
   plugins: ['promise', 'notice'],
   extends: [
     'react-app',

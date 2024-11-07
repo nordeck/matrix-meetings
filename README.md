@@ -69,7 +69,7 @@ Once running, you can visit the widget URL (`http(s)://localhost:3000/`) and fol
 In the project directory, you can run:
 
 - `yarn dev`: Start the widget for development.
-- `yarn start`: Start the widget for development with a self-signed HTTPS certificate.
+- `yarn dev:https`: Start the widget for development with a self-signed HTTPS certificate.
 - `yarn build`: Run the build step in all projects.
 - `yarn test`: Watch all files for changes and run tests of the widget.
 - `yarn lint`: Run eslint in all projects.

@@ -23,6 +23,7 @@ import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { Subject } from 'rxjs';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   mockMeeting,
   mockRoomMember,
@@ -58,9 +59,9 @@ describe('<SetupBreakoutSessionsModal>', () => {
       }),
     );
 
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-02T13:10:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-02T13:10:00.000Z'),
+    );
 
     widgetApi.getWidgetConfig.mockReturnValue({
       data: {

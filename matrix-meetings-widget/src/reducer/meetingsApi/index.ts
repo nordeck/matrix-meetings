@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-export { RoomEvents } from './RoomEvents';
 export {
   isMeetingBreakOutRoom,
   isMeetingRoom,
@@ -36,6 +35,7 @@ export {
   useUpdateMeetingPermissionsMutation,
   useUpdateMeetingWidgetsMutation,
 } from './meetingsApi';
+export { RoomEvents } from './RoomEvents';
 export * from './selectors';
 export type {
   CreateBreakoutSessionsOptions,

@@ -15,7 +15,8 @@
  */
 
 import { render, screen } from '@testing-library/react';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
+import { describe, expect, it } from 'vitest';
 import { SectionHeadingDivider } from './SectionHeadingDivider';
 
 describe('<SectionHeadingDivider/>', () => {
@@ -30,6 +31,6 @@ describe('<SectionHeadingDivider/>', () => {
   it('should have no accessibility violations', async () => {
     const { container } = render(<SectionHeadingDivider title="Meetings" />);
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 });

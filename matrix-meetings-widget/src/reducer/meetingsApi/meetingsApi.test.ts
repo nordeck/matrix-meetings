@@ -16,6 +16,7 @@
 
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { waitFor } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import {
   acknowledgeAllEvents,
   mockCalendar,
@@ -47,11 +48,13 @@ import {
   UpdateMeetingPermissionsOptions,
 } from './types';
 
-jest.mock('../../lib/utils', () => ({
-  ...jest.requireActual('../../lib/utils'),
-  isBotUser: jest.fn(),
+vi.mock('../../lib/utils', async () => ({
+  ...(await vi.importActual<typeof import('../../lib/utils')>(
+    '../../lib/utils',
+  )),
+  isBotUser: vi.fn(),
 }));
-const isBotUser = jest.mocked(isBotUserMocked);
+const isBotUser = vi.mocked(isBotUserMocked);
 
 let widgetApi: MockedWidgetApi;
 afterEach(() => widgetApi.stop());

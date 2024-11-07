@@ -30,7 +30,7 @@ import {
 } from '@reduxjs/toolkit';
 import { QueryActionCreatorResult } from '@reduxjs/toolkit/dist/query/core/buildInitiate';
 import { createApi, fakeBaseQuery } from '@reduxjs/toolkit/query/react';
-import { xor } from 'lodash';
+import { xor } from 'lodash-es';
 import { Symbols } from 'matrix-widget-api';
 import { bufferTime, filter } from 'rxjs/operators';
 import {

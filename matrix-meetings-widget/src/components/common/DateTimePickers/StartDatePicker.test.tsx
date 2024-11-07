@@ -16,14 +16,15 @@
 
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { DateTime } from 'luxon';
 import { ComponentType, PropsWithChildren } from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { LocalizationProvider } from '../LocalizationProvider';
 import { StartDatePicker } from './StartDatePicker';
 
 describe('<StartDatePicker/>', () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
@@ -60,7 +61,7 @@ describe('<StartDatePicker/>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations, if picker is open', async () => {
@@ -74,7 +75,7 @@ describe('<StartDatePicker/>', () => {
 
     await userEvent.click(screen.getByLabelText(/choose start date/i));
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should update the meeting start date', () => {

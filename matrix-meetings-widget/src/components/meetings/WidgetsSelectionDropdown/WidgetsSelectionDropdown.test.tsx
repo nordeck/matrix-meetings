@@ -18,11 +18,12 @@ import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { mockWidgetEndpoint } from '../../../lib/testUtils';
 import { createStore } from '../../../store';
 import { WidgetsSelectionDropdown } from './WidgetsSelectionDropdown';
@@ -57,7 +58,7 @@ describe('<WidgetsSelectionDropdown>', () => {
   it('should render without exploding', async () => {
     render(
       <WidgetsSelectionDropdown
-        onChange={jest.fn()}
+        onChange={vi.fn()}
         selectedWidgets={['widget-1']}
       />,
       { wrapper: Wrapper },
@@ -90,16 +91,16 @@ describe('<WidgetsSelectionDropdown>', () => {
 
   it('should have no accessibility violations, while loading', async () => {
     const { container } = render(
-      <WidgetsSelectionDropdown onChange={jest.fn()} selectedWidgets={[]} />,
+      <WidgetsSelectionDropdown onChange={vi.fn()} selectedWidgets={[]} />,
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations, after load', async () => {
     const { container } = render(
-      <WidgetsSelectionDropdown onChange={jest.fn()} selectedWidgets={[]} />,
+      <WidgetsSelectionDropdown onChange={vi.fn()} selectedWidgets={[]} />,
       { wrapper: Wrapper },
     );
 
@@ -107,11 +108,11 @@ describe('<WidgetsSelectionDropdown>', () => {
       expect(screen.queryByRole('progressbar')).not.toBeInTheDocument(),
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should start empty', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
 
     render(
       <WidgetsSelectionDropdown onChange={onChange} selectedWidgets={[]} />,
@@ -126,7 +127,7 @@ describe('<WidgetsSelectionDropdown>', () => {
   });
 
   it('should start with all widgets selected if enabled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
 
     render(
       <WidgetsSelectionDropdown
@@ -152,7 +153,7 @@ describe('<WidgetsSelectionDropdown>', () => {
       ],
     });
 
-    const onChange = jest.fn();
+    const onChange = vi.fn();
 
     render(
       <WidgetsSelectionDropdown
@@ -171,7 +172,7 @@ describe('<WidgetsSelectionDropdown>', () => {
   });
 
   it('should select a widget', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
 
     render(
       <WidgetsSelectionDropdown onChange={onChange} selectedWidgets={[]} />,
@@ -193,7 +194,7 @@ describe('<WidgetsSelectionDropdown>', () => {
   it('should show a message if all widgets are selected', async () => {
     render(
       <WidgetsSelectionDropdown
-        onChange={jest.fn()}
+        onChange={vi.fn()}
         selectedWidgets={['widget-1', 'widget-2']}
       />,
       { wrapper: Wrapper },
@@ -220,7 +221,7 @@ describe('<WidgetsSelectionDropdown>', () => {
 
     render(
       <WidgetsSelectionDropdown
-        onChange={jest.fn()}
+        onChange={vi.fn()}
         selectedWidgets={['widget-1', 'widget-2']}
       />,
       { wrapper: Wrapper },
@@ -245,7 +246,7 @@ describe('<WidgetsSelectionDropdown>', () => {
 
     render(
       <WidgetsSelectionDropdown
-        onChange={jest.fn()}
+        onChange={vi.fn()}
         selectedWidgets={['widget-1', 'widget-2']}
       />,
       { wrapper: Wrapper },

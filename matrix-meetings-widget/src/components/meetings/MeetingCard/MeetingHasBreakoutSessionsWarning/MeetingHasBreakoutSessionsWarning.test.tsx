@@ -16,9 +16,10 @@
 
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
   mockCreateBreakoutMeetingRoom,
   mockCreateMeetingRoom,
@@ -54,7 +55,7 @@ describe('<MeetingHasBreakoutSessionsWarning/>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should skip warning', async () => {

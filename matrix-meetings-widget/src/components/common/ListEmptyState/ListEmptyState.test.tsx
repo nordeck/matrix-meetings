@@ -16,7 +16,8 @@
 
 import { List } from '@mui/material';
 import { render, screen } from '@testing-library/react';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
+import { describe, expect, it } from 'vitest';
 import { ListEmptyState } from './ListEmptyState';
 
 describe('<ListEmptyState>', () => {
@@ -37,6 +38,6 @@ describe('<ListEmptyState>', () => {
       </List>,
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 });

@@ -17,7 +17,8 @@
 import DeleteIcon from '@mui/icons-material/Delete';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
+import { describe, expect, it, vi } from 'vitest';
 import { MenuButton } from './MenuButton';
 import { MenuButtonItem } from './MenuButtonItem';
 
@@ -41,7 +42,7 @@ describe('<MenuButton/>', () => {
       </MenuButton>,
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations, if menu is open', async () => {
@@ -53,7 +54,7 @@ describe('<MenuButton/>', () => {
 
     await userEvent.click(screen.getByRole('button', { name: /settings/i }));
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should open the menu', async () => {
@@ -79,7 +80,7 @@ describe('<MenuButton/>', () => {
   });
 
   it('should trigger a callback when the menu is opened', async () => {
-    const onOpen = jest.fn();
+    const onOpen = vi.fn();
 
     render(
       <MenuButton buttonLabel="Settings" onOpen={onOpen}>

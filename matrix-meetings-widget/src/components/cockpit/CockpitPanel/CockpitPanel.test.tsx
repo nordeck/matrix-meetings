@@ -19,10 +19,11 @@ import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   mockCalendar,
   mockConfigEndpoint,
@@ -36,14 +37,14 @@ import { initializeStore } from '../../../store/store';
 import { LocalizationProvider } from '../../common/LocalizationProvider';
 import { CockpitPanel } from './CockpitPanel';
 
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  extractWidgetApiParameters: jest.fn(),
+vi.mock('@matrix-widget-toolkit/api', async () => ({
+  ...(await vi.importActual<typeof import('@matrix-widget-toolkit/api')>(
+    '@matrix-widget-toolkit/api',
+  )),
+  extractWidgetApiParameters: vi.fn(),
 }));
 
-const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked,
-);
+const extractWidgetApiParameters = vi.mocked(extractWidgetApiParametersMocked);
 
 let widgetApi: MockedWidgetApi;
 
@@ -72,9 +73,9 @@ describe('<CockpitPanel>', () => {
       widgetId: '',
     });
 
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-02T13:10:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-02T13:10:00.000Z'),
+    );
 
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
       const [store] = useState(() => {
@@ -114,7 +115,7 @@ describe('<CockpitPanel>', () => {
       screen.findByRole('heading', { name: 'An important meeting' }),
     ).resolves.toBeInTheDocument();
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should display upcoming recurring meeting', async () => {

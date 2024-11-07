@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2024 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,28 @@
  * limitations under the License.
  */
 
-export { createStore, useAppDispatch, useAppSelector } from './store';
-export type { AppDispatch, RootState, ThunkExtraArgument } from './store';
-export { StoreProvider } from './StoreProvider';
+import { defineConfig } from 'vite';
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  esbuild: {
+    target: 'es2020',
+  },
+  build: {
+    outDir: 'lib',
+    commonjsOptions: {
+      strictRequires: true,
+    },
+  },
+  resolve: {
+    dedupe: [
+      '@matrix-widget-toolkit/react',
+      '@mui/material',
+      'react',
+      'react-dom',
+      'react-redux',
+    ],
+  },
+  // Use the env prefix from CRA for backward compatibility.
+  envPrefix: 'REACT_APP_',
+});

@@ -14,9 +14,10 @@
  * limitations under the License.
  */
 
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { moveFilterRange } from './moveFilterRange';
 
-afterEach(() => jest.useRealTimers());
+afterEach(() => vi.useRealTimers());
 
 describe('moveFilterRange', () => {
   it('move filter plus for day', () => {
@@ -48,8 +49,8 @@ describe('moveFilterRange', () => {
   });
 
   it('move filter today for day', () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2020-06-15T13:00:00.000Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2020-06-15T13:00:00.000Z'));
 
     expect(
       moveFilterRange(
@@ -93,8 +94,8 @@ describe('moveFilterRange', () => {
   });
 
   it('move filter today for week', () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2020-06-15T13:00:00.000Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2020-06-15T13:00:00.000Z'));
 
     expect(
       moveFilterRange(
@@ -138,8 +139,8 @@ describe('moveFilterRange', () => {
   });
 
   it('move filter today for work week', () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2020-06-15T13:00:00.000Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2020-06-15T13:00:00.000Z'));
 
     expect(
       moveFilterRange(
@@ -183,8 +184,8 @@ describe('moveFilterRange', () => {
   });
 
   it('move filter today for month', () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2020-07-15T13:00:00.000Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2020-07-15T13:00:00.000Z'));
 
     expect(
       moveFilterRange(
@@ -228,8 +229,8 @@ describe('moveFilterRange', () => {
   });
 
   it('move filter today for list', () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2020-06-15T13:00:00.000Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2020-06-15T13:00:00.000Z'));
 
     expect(
       moveFilterRange(

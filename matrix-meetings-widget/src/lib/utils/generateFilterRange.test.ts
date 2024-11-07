@@ -15,6 +15,7 @@
  */
 
 import { mockDateTimeFormatTimeZone } from '@nordeck/matrix-meetings-calendar';
+import { describe, expect, it } from 'vitest';
 import { setLocale } from '../locale';
 import { generateFilterRange } from './generateFilterRange';
 

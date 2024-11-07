@@ -24,11 +24,12 @@ import {
   within,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
-import { repeat } from 'lodash';
+import axe from 'axe-core';
+import { repeat } from 'lodash-es';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   mockBreakoutSession,
   mockCalendar,
@@ -44,8 +45,6 @@ import { initializeStore } from '../../../store/store';
 import { LocalizationProvider } from '../../common/LocalizationProvider';
 import { ScheduleMeeting } from './ScheduleMeeting';
 
-jest.setTimeout(15000);
-
 const server = setupServer();
 beforeAll(() => server.listen());
 afterEach(() => server.resetHandlers());
@@ -58,7 +57,7 @@ afterEach(() => widgetApi.stop());
 beforeEach(() => (widgetApi = mockWidgetApi()));
 
 describe('<ScheduleMeeting>', () => {
-  const onMeetingChange = jest.fn();
+  const onMeetingChange = vi.fn();
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
@@ -71,9 +70,9 @@ describe('<ScheduleMeeting>', () => {
       }),
     );
 
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-02T13:10:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-02T13:10:00.000Z'),
+    );
 
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
       const store = useMemo(() => {
@@ -157,16 +156,16 @@ describe('<ScheduleMeeting>', () => {
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
-      <ScheduleMeeting onMeetingChange={jest.fn()} />,
+      <ScheduleMeeting onMeetingChange={vi.fn()} />,
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations, if input is invalid', async () => {
     const { container } = render(
-      <ScheduleMeeting onMeetingChange={jest.fn()} />,
+      <ScheduleMeeting onMeetingChange={vi.fn()} />,
       { wrapper: Wrapper },
     );
 
@@ -179,7 +178,7 @@ describe('<ScheduleMeeting>', () => {
       screen.getByRole('textbox', { name: 'Title (required)' }),
     ).toBeInvalid();
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should handle required fields', async () => {
@@ -926,9 +925,9 @@ describe('<ScheduleMeeting>', () => {
       },
     });
 
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-01T13:30:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-01T13:30:00.000Z'),
+    );
 
     render(
       <ScheduleMeeting
@@ -965,9 +964,9 @@ describe('<ScheduleMeeting>', () => {
       },
     });
 
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-02T13:30:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-02T13:30:00.000Z'),
+    );
 
     render(
       <ScheduleMeeting

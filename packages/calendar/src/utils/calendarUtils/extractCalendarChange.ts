@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { differenceWith, isEqual } from 'lodash';
+import { differenceWith, isEqual } from 'lodash-es';
 import { CalendarEntry, DateTimeEntry } from '../../model';
 import { formatICalDate, parseICalDate } from '../dateTimeUtils';
 import { isRRuleEntry, isRRuleOverrideEntry, isSingleEntry } from './helpers';

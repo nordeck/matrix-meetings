@@ -18,10 +18,11 @@ import { extractWidgetApiParameters } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   mockCalendar,
   mockConfigEndpoint,
@@ -33,9 +34,11 @@ import { createStore } from '../../../../store';
 import { initializeStore } from '../../../../store/store';
 import { MeetingDetailsContent } from './MeetingDetailsContent';
 
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  extractWidgetApiParameters: jest.fn(),
+vi.mock('@matrix-widget-toolkit/api', async () => ({
+  ...(await vi.importActual<typeof import('@matrix-widget-toolkit/api')>(
+    '@matrix-widget-toolkit/api',
+  )),
+  extractWidgetApiParameters: vi.fn(),
 }));
 
 const server = setupServer();
@@ -56,7 +59,7 @@ describe('<MeetingDetailsContent/>', () => {
   beforeEach(() => {
     mockConfigEndpoint(server);
     mockMeetingSharingInformationEndpoint(server);
-    jest.mocked(extractWidgetApiParameters).mockReturnValue({
+    vi.mocked(extractWidgetApiParameters).mockReturnValue({
       clientOrigin: 'http://element.local',
       widgetId: '',
     });
@@ -120,7 +123,7 @@ describe('<MeetingDetailsContent/>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should show meeting with recurring rule', () => {

@@ -16,7 +16,7 @@
 
 import { Inject, Injectable } from '@nestjs/common';
 import fs from 'fs';
-import * as _ from 'lodash';
+import * as _ from 'lodash-es';
 import { MatrixClient } from 'matrix-bot-sdk';
 import mime from 'mime-types';
 import path from 'path';

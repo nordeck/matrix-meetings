@@ -22,9 +22,10 @@ import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { mockRoomMember } from '../../../../lib/testUtils';
 import { createStore, initializeStore } from '../../../../store/store';
 import { BreakoutSessionGroupForm } from './BreakoutSessionGroupForm';
@@ -72,7 +73,7 @@ describe('<BreakoutSessionGroupForm>', () => {
           title: 'My Group',
           members: ['@user-id', '@user-1'],
         }}
-        onGroupChange={jest.fn()}
+        onGroupChange={vi.fn()}
         selectableMemberEvents={allMemberEvents}
       />,
       { wrapper: Wrapper },
@@ -95,13 +96,13 @@ describe('<BreakoutSessionGroupForm>', () => {
           title: 'My Group',
           members: ['@user-id', '@user-1'],
         }}
-        onGroupChange={jest.fn()}
+        onGroupChange={vi.fn()}
         selectableMemberEvents={allMemberEvents}
       />,
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should show an error if the group title is empty', () => {
@@ -112,7 +113,7 @@ describe('<BreakoutSessionGroupForm>', () => {
           title: '',
           members: ['@user-id', '@user-1'],
         }}
-        onGroupChange={jest.fn()}
+        onGroupChange={vi.fn()}
         selectableMemberEvents={allMemberEvents}
       />,
       { wrapper: Wrapper },
@@ -129,7 +130,7 @@ describe('<BreakoutSessionGroupForm>', () => {
   });
 
   it('should notify on changes', async () => {
-    const onGroupChange = jest.fn();
+    const onGroupChange = vi.fn();
     render(
       <BreakoutSessionGroupForm
         allMemberEvents={allMemberEvents}

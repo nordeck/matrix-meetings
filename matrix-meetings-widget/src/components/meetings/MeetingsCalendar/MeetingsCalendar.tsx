@@ -27,7 +27,7 @@ import deLocale from '@fullcalendar/core/locales/de';
 import FullCalendar from '@fullcalendar/react';
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import { unstable_useId as useId } from '@mui/utils';
-import { isEqual } from 'lodash';
+import { isEqual } from 'lodash-es';
 import { DateTime } from 'luxon';
 import {
   ReactElement,

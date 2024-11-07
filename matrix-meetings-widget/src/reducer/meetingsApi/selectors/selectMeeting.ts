@@ -19,7 +19,7 @@ import {
   StateEvent,
 } from '@matrix-widget-toolkit/api';
 import { getCalendarEvent } from '@nordeck/matrix-meetings-calendar';
-import { isEqual } from 'lodash';
+import { isEqual } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { createSelectorCreator, defaultMemoize } from 'reselect';
 import { NordeckMeetingMetadataEvent } from '../../../lib/matrix';

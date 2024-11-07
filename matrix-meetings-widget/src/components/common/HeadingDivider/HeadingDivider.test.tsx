@@ -15,14 +15,15 @@
  */
 
 import { render, screen } from '@testing-library/react';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
+import { describe, expect, it } from 'vitest';
 import { HeadingDivider } from './HeadingDivider';
 
 describe('<HeadingDivider/>', () => {
   it('should have no accessibility violations', async () => {
     const { container } = render(<HeadingDivider />);
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations with children', async () => {
@@ -34,7 +35,7 @@ describe('<HeadingDivider/>', () => {
       </HeadingDivider>,
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should render children', async () => {
