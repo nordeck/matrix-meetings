@@ -48,7 +48,7 @@
     "i18next-fs-backend": "^2.3.1",
     "i18next-http-middleware": "^3.6.0",
     "joi": "^17.13.3",
-    "lodash-es": "^4.17.21",
+    "lodash": "^4.17.21",
     "luxon": "^3.3.0",
     "matrix-bot-sdk": "npm:@nordeck/matrix-bot-sdk@0.7.1-crypto.beta.12",
     "mime-types": "^2.1.35",

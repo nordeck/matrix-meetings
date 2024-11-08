@@ -15,7 +15,7 @@
  */
 
 import { Inject, Injectable, Logger } from '@nestjs/common';
-import _ from 'lodash-es';
+import _ from 'lodash';
 import { ModuleProviderToken } from '../ModuleProviderToken';
 import {
   WidgetLayoutConfig,

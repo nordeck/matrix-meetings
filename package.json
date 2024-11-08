@@ -3,10 +3,10 @@
   "private": true,
   "type": "module",
   "workspaces": [
+    "packages/*",
     "matrix-meetings-widget",
     "matrix-meetings-bot",
-    "e2e",
-    "packages/*"
+    "e2e"
   ],
   "devDependencies": {
     "@changesets/cli": "^2.27.3",
@@ -56,5 +56,6 @@
     "*.{json,js,jsx,ts,tsx}": [
       "bash -c \"yarn translate --fail-on-update\""
     ]
-  }
+  },
+  "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
 }

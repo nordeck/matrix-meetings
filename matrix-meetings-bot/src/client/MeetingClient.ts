@@ -15,7 +15,7 @@
  */
 
 import { Injectable, Logger } from '@nestjs/common';
-import * as _ from 'lodash-es';
+import * as _ from 'lodash';
 import {
   MatrixClient,
   PowerLevelsEventContent,

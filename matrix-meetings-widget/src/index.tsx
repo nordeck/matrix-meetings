@@ -44,7 +44,8 @@ const widgetApiPromise = WidgetApiImpl.create({
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
-root.render(  <React.StrictMode>
+root.render(
+  <React.StrictMode>
     <BrowserRouter>
       <AppContainer widgetApiPromise={widgetApiPromise} />
     </BrowserRouter>

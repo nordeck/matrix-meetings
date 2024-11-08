@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { max } from 'lodash-es';
+import { max } from 'lodash';
 import { DateTime } from 'luxon';
 import { CalendarEntry } from '../../model';
 import { parseICalDate } from '../dateTimeUtils';

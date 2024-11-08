@@ -4,7 +4,6 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "commonjs",
-    "moduleResolution": "node",
     "target": "es6",
     "lib": ["esnext"],
     "noImplicitAny": true,
@@ -13,7 +12,8 @@
     "declaration": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "moduleResolution": "node"
   },
   "include": ["./src/**/*"]
 }

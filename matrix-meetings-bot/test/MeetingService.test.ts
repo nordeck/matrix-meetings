@@ -15,7 +15,7 @@
  */
 
 import fetch from 'jest-fetch-mock';
-import _, { last } from 'lodash-es';
+import _, { last } from 'lodash';
 import {
   MatrixClient,
   PowerLevelsEventContent,

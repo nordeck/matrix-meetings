@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { first } from 'lodash-es';
+import { first } from 'lodash';
 import { MeetingCreateDto } from '../dto/MeetingCreateDto';
 import { MeetingUpdateDetailsDto } from '../dto/MeetingUpdateDetailsDto';
 import { extractOpenXChangeExternalReference } from '../model/ExternalData';
