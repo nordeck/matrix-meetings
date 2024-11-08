@@ -4,6 +4,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "module": "commonjs",
+    "moduleResolution": "node",
     "target": "es6",
     "lib": ["esnext"],
     "noImplicitAny": true,
