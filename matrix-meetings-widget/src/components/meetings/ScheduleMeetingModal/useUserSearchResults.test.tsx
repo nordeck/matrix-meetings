@@ -19,6 +19,7 @@ import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { renderHook } from '@testing-library/react-hooks';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { createStore } from '../../../store';
 import { initializeStore } from '../../../store/store';
 import { useUserSearchResults } from './useUserSearchResults';

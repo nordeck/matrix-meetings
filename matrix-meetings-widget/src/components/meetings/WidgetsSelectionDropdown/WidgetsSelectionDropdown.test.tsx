@@ -23,7 +23,16 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
-import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 import { mockWidgetEndpoint } from '../../../lib/testUtils';
 import { createStore } from '../../../store';
 import { WidgetsSelectionDropdown } from './WidgetsSelectionDropdown';

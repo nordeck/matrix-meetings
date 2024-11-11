@@ -40,10 +40,9 @@
     "reselect": "^4.1.8",
     "rrule": "^2.8.1",
     "rxjs": "^7.8.1",
-    "timezones-ical-library": "^1.7.2"
+    "timezones-ical-library": "^1.8.3"
   },
   "devDependencies": {
-    "@craco/craco": "^7.1.0",
     "@matrix-widget-toolkit/testing": "^3.0.1",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",

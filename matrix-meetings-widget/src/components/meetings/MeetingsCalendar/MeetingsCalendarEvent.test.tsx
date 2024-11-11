@@ -140,7 +140,7 @@ describe('<MeetingsCalendarEvent/>', () => {
     );
 
     expect(screen.getByText('An important meeting')).toBeInTheDocument();
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations for month view', async () => {
@@ -154,7 +154,7 @@ describe('<MeetingsCalendarEvent/>', () => {
     );
 
     expect(screen.getByText('An important meeting')).toBeInTheDocument();
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should provide a label text for the event button', () => {

@@ -21,10 +21,8 @@ import {
   StateEvent,
 } from '@matrix-widget-toolkit/api';
 import { MockedWidgetApi } from '@matrix-widget-toolkit/testing';
-import {
-  formatICalDate,
-  mockCalendar,
-} from '@nordeck/matrix-meetings-calendar';
+import { formatICalDate } from '@nordeck/matrix-meetings-calendar';
+import { mockCalendar } from '@nordeck/matrix-meetings-calendar/src/testing';
 import { rest } from 'msw';
 import { SetupServer } from 'msw/node';
 import { AvailableWidget } from '../reducer/meetingBotApi';
@@ -667,4 +665,4 @@ export function mockBreakoutSession({
 export {
   mockCalendar,
   mockCalendarEntry,
-} from '@nordeck/matrix-meetings-calendar';
+} from '@nordeck/matrix-meetings-calendar/src/testing';

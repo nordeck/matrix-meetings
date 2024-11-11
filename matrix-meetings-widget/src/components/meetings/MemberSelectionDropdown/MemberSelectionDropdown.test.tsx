@@ -104,7 +104,7 @@ describe('<MemberSelectionDropdown/>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should add own member', async () => {

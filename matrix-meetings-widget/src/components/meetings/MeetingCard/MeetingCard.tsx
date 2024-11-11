@@ -95,7 +95,7 @@ export const MeetingCard = withRoomIdMeeting(
 
     const closeAction = useCallback(() => setAction(Actions.None), []);
     const handleChangeAction = useCallback(
-      async (_, value: Actions) => {
+      async (_: React.MouseEvent, value: Actions) => {
         if (Object.values(Actions).includes(value)) {
           setAction(value);
         } else {

@@ -274,7 +274,7 @@ export const ScheduleMeeting = ({
   }, []);
 
   const handleChangeMessagingPermissions = useCallback(
-    (_, checked: boolean) => {
+    (_: ChangeEvent, checked: boolean) => {
       setIsDirty(true);
       setIsMessagingEnabled(checked);
     },

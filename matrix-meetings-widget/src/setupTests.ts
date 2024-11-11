@@ -24,7 +24,7 @@ import { cleanup } from '@testing-library/react';
 import { AxeResults } from 'axe-core';
 import { TextDecoder, TextEncoder } from 'util';
 // Make sure to initialize i18n (see mock below)
-import { mockDateTimeFormatTimeZone } from '@nordeck/matrix-meetings-calendar';
+import { mockDateTimeFormatTimeZone } from '@nordeck/matrix-meetings-calendar/src/testing';
 import { afterEach, beforeEach, expect, vi } from 'vitest';
 import './i18n';
 import { setLocale } from './lib/locale';

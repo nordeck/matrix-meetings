@@ -16,6 +16,7 @@
 
 import { DateTime } from 'luxon';
 import { Frequency } from 'rrule';
+import { describe, expect, it } from 'vitest';
 import {
   CustomRuleMode,
   RecurrenceEnd,

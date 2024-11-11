@@ -175,7 +175,12 @@ export const meetingsApi = createApi({
             },
           };
         } catch (error) {
-          return { error: { message: error.message } };
+          return {
+            error: {
+              message:
+                error instanceof Error ? error.message : JSON.stringify(error),
+            },
+          };
         }
       },
     }),
@@ -217,7 +222,12 @@ export const meetingsApi = createApi({
             },
           };
         } catch (error) {
-          return { error: { message: error.message } };
+          return {
+            error: {
+              message:
+                error instanceof Error ? error.message : JSON.stringify(error),
+            },
+          };
         }
       },
     }),
@@ -246,7 +256,12 @@ export const meetingsApi = createApi({
             },
           };
         } catch (error) {
-          return { error: { message: error.message } };
+          return {
+            error: {
+              message:
+                error instanceof Error ? error.message : JSON.stringify(error),
+            },
+          };
         }
       },
     }),
@@ -282,7 +297,12 @@ export const meetingsApi = createApi({
             },
           };
         } catch (error) {
-          return { error: { message: error.message } };
+          return {
+            error: {
+              message:
+                error instanceof Error ? error.message : JSON.stringify(error),
+            },
+          };
         }
       },
     }),
@@ -342,7 +362,12 @@ export const meetingsApi = createApi({
             },
           };
         } catch (error) {
-          return { error: { message: error.message } };
+          return {
+            error: {
+              message:
+                error instanceof Error ? error.message : JSON.stringify(error),
+            },
+          };
         }
       },
     }),
@@ -402,7 +427,12 @@ export const meetingsApi = createApi({
             },
           };
         } catch (error) {
-          return { error: { message: error.message } };
+          return {
+            error: {
+              message:
+                error instanceof Error ? error.message : JSON.stringify(error),
+            },
+          };
         }
       },
     }),
@@ -437,7 +467,12 @@ export const meetingsApi = createApi({
             },
           };
         } catch (error) {
-          return { error: { message: error.message } };
+          return {
+            error: {
+              message:
+                error instanceof Error ? error.message : JSON.stringify(error),
+            },
+          };
         }
       },
     }),
@@ -470,7 +505,12 @@ export const meetingsApi = createApi({
             },
           };
         } catch (error) {
-          return { error: { message: error.message } };
+          return {
+            error: {
+              message:
+                error instanceof Error ? error.message : JSON.stringify(error),
+            },
+          };
         }
       },
     }),

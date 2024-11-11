@@ -116,7 +116,7 @@ export const meetingBotApi = createApi({
             } catch (e) {
               return {
                 error: {
-                  error: e.message,
+                  error: e instanceof Error ? e.message : JSON.stringify(e),
                   status: 'PARSING_ERROR',
                   originalStatus: response.meta?.response?.status ?? 0,
                   data: response.data,
@@ -127,7 +127,13 @@ export const meetingBotApi = createApi({
 
           return { error: response.error as FetchBaseQueryError };
         } catch (error) {
-          return { error: { error: error.message, status: 'CUSTOM_ERROR' } };
+          return {
+            error: {
+              error:
+                error instanceof Error ? error.message : JSON.stringify(error),
+              status: 'CUSTOM_ERROR',
+            },
+          };
         }
       },
     }),
@@ -147,7 +153,7 @@ export const meetingBotApi = createApi({
             } catch (e) {
               return {
                 error: {
-                  error: e.message,
+                  error: e instanceof Error ? e.message : JSON.stringify(e),
                   status: 'PARSING_ERROR',
                   originalStatus: response.meta?.response?.status ?? 0,
                   data: response.data,
@@ -158,7 +164,13 @@ export const meetingBotApi = createApi({
 
           return { error: response.error as FetchBaseQueryError };
         } catch (error) {
-          return { error: { error: error.message, status: 'CUSTOM_ERROR' } };
+          return {
+            error: {
+              error:
+                error instanceof Error ? error.message : JSON.stringify(error),
+              status: 'CUSTOM_ERROR',
+            },
+          };
         }
       },
     }),
@@ -191,7 +203,7 @@ export const meetingBotApi = createApi({
             } catch (e) {
               return {
                 error: {
-                  error: e.message,
+                  error: e instanceof Error ? e.message : JSON.stringify(e),
                   status: 'PARSING_ERROR',
                   originalStatus: response.meta?.response?.status ?? 0,
                   data: response.data,
@@ -202,7 +214,13 @@ export const meetingBotApi = createApi({
 
           return { error: response.error as FetchBaseQueryError };
         } catch (error) {
-          return { error: { error: error.message, status: 'CUSTOM_ERROR' } };
+          return {
+            error: {
+              error:
+                error instanceof Error ? error.message : JSON.stringify(error),
+              status: 'CUSTOM_ERROR',
+            },
+          };
         }
       },
     }),

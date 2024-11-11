@@ -15,6 +15,7 @@
  */
 
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { mockCalendar, mockCreateMeetingRoom } from '../../../lib/testUtils';
 import { createStore } from '../../../store';
 import { RootState, initializeStore } from '../../../store/store';

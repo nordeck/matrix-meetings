@@ -118,7 +118,7 @@ describe('<MeetingsToolbar/>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('hide next, prev and today button when viewport is too small', () => {

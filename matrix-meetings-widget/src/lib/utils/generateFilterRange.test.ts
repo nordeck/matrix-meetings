@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { mockDateTimeFormatTimeZone } from '@nordeck/matrix-meetings-calendar';
+import { mockDateTimeFormatTimeZone } from '@nordeck/matrix-meetings-calendar/src/testing';
 import { describe, expect, it } from 'vitest';
 import { setLocale } from '../locale';
 import { generateFilterRange } from './generateFilterRange';

@@ -18,6 +18,7 @@ import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import { mockCreateMeetingInvitation } from '../../../lib/testUtils';
 import { MeetingInvitation } from '../../../reducer/meetingsApi';
 import { createStore } from '../../../store';

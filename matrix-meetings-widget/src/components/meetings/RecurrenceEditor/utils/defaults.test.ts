@@ -15,6 +15,7 @@
  */
 
 import { Frequency } from 'rrule';
+import { describe, expect, it } from 'vitest';
 import {
   getDefaultCustomRuleProperties,
   getDefaultRecurringMeetingEnd,

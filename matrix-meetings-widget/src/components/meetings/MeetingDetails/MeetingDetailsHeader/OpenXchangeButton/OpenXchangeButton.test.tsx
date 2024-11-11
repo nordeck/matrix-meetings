@@ -21,7 +21,15 @@ import axe from 'axe-core';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
-import { afterEach, beforeEach, describe, expect, it } from 'vitest';
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from 'vitest';
 import { mockConfigEndpoint } from '../../../../../lib/testUtils';
 import { createStore } from '../../../../../store';
 import { initializeStore } from '../../../../../store/store';
