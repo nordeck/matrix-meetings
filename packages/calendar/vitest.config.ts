@@ -14,15 +14,13 @@
  * limitations under the License.
  */
 
-import { Settings } from 'luxon';
-import { beforeEach } from 'vitest';
-// Make sure to initialize i18n (see mock below)
-import { mockDateTimeFormatTimeZone } from './src/testing';
+/// <reference types="vitest" />
 
-beforeEach(() => {
-  // We want our tests to be in a reproducible time zone, always resulting in
-  // the same results, independent from where they are run.
-  mockDateTimeFormatTimeZone('UTC');
+import { defineConfig } from 'vite';
 
-  Settings.defaultLocale = 'en';
+export default defineConfig({
+  test: {
+    setupFiles: ['./setupTests.ts'],
+    exclude: ['lib'],
+  },
 });
