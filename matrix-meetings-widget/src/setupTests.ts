@@ -72,7 +72,7 @@ beforeAll(() => {
     interpolation: {
       escapeValue: false,
     },
-    resources: { de: { translation: de }, en: {translation: en} },
+    resources: { de: { translation: de }, en: { translation: en } },
   });
 
   registerDateRangeFormatter(i18next);

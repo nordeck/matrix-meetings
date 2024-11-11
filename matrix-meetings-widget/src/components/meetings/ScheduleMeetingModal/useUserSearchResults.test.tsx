@@ -16,7 +16,7 @@
 
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
@@ -59,10 +59,9 @@ describe('useUserSearchResults', () => {
       ],
     });
 
-    const { result, waitForValueToChange } = renderHook(
-      () => useUserSearchResults('user', 10),
-      { wrapper: Wrapper },
-    );
+    const { result } = renderHook(() => useUserSearchResults('user', 10), {
+      wrapper: Wrapper,
+    });
 
     expect(result.current).toEqual({
       loading: true,
@@ -70,7 +69,10 @@ describe('useUserSearchResults', () => {
       error: undefined,
     });
 
-    await waitForValueToChange(() => result.current.loading);
+    const loading = result.current.loading;
+    await waitFor(() => {
+      expect(result.current.loading).not.toBe(loading);
+    });
 
     expect(result.current).toEqual({
       loading: false,
@@ -105,10 +107,9 @@ describe('useUserSearchResults', () => {
   it('should return error', async () => {
     widgetApi.searchUserDirectory.mockRejectedValue(new Error('unexpected'));
 
-    const { result, waitForValueToChange } = renderHook(
-      () => useUserSearchResults('user', 10),
-      { wrapper: Wrapper },
-    );
+    const { result } = renderHook(() => useUserSearchResults('user', 10), {
+      wrapper: Wrapper,
+    });
 
     expect(result.current).toEqual({
       loading: true,
@@ -116,7 +117,10 @@ describe('useUserSearchResults', () => {
       error: undefined,
     });
 
-    await waitForValueToChange(() => result.current.loading);
+    const loading = result.current.loading;
+    await waitFor(() => {
+      expect(result.current.loading).not.toBe(loading);
+    });
 
     expect(result.current).toEqual({
       loading: false,

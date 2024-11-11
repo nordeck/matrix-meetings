@@ -15,7 +15,7 @@
  */
 
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook, waitFor } from '@testing-library/react';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
@@ -76,17 +76,19 @@ describe('useJitsiDialInInformation', () => {
   it('should skip jitsi information', async () => {
     mockConfigEndpoint(server);
 
-    const { result, waitForValueToChange } = renderHook(
-      () => useJitsiDialInInformation('!room'),
-      { wrapper: Wrapper },
-    );
+    const { result } = renderHook(() => useJitsiDialInInformation('!room'), {
+      wrapper: Wrapper,
+    });
 
     expect(result.current).toEqual({
       isLoading: true,
       isError: false,
     });
 
-    await waitForValueToChange(() => result.current.isLoading);
+    const isLoading = result.current.isLoading;
+    await waitFor(() => {
+      expect(isLoading).not.toBe(result.current.isLoading);
+    });
 
     expect(result.current).toEqual({
       isLoading: false,
@@ -96,17 +98,19 @@ describe('useJitsiDialInInformation', () => {
   });
 
   it('should return jitsi information', async () => {
-    const { result, waitForValueToChange } = renderHook(
-      () => useJitsiDialInInformation('!room'),
-      { wrapper: Wrapper },
-    );
+    const { result } = renderHook(() => useJitsiDialInInformation('!room'), {
+      wrapper: Wrapper,
+    });
 
     expect(result.current).toEqual({
       isLoading: true,
       isError: false,
     });
 
-    await waitForValueToChange(() => result.current.isLoading);
+    const isLoading = result.current.isLoading;
+    await waitFor(() => {
+      expect(isLoading).not.toBe(result.current.isLoading);
+    });
 
     expect(result.current).toEqual({
       isLoading: false,
@@ -124,17 +128,19 @@ describe('useJitsiDialInInformation', () => {
       ),
     );
 
-    const { result, waitForValueToChange } = renderHook(
-      () => useJitsiDialInInformation('!room'),
-      { wrapper: Wrapper },
-    );
+    const { result } = renderHook(() => useJitsiDialInInformation('!room'), {
+      wrapper: Wrapper,
+    });
 
     expect(result.current).toEqual({
       isLoading: true,
       isError: false,
     });
 
-    await waitForValueToChange(() => result.current.isLoading);
+    const isLoading = result.current.isLoading;
+    await waitFor(() => {
+      expect(isLoading).not.toBe(result.current.isLoading);
+    });
 
     expect(result.current).toEqual({
       isLoading: false,

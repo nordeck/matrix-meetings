@@ -15,7 +15,7 @@
  */
 
 import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '@matrix-widget-toolkit/api';
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { mockMeeting } from '../../../lib/testUtils';
 import { Meeting } from '../../../reducer/meetingsApi';

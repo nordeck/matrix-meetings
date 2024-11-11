@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import { render, screen, within } from '@testing-library/react';
-import { renderHook } from '@testing-library/react-hooks';
+import { render, renderHook, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import axe from 'axe-core';
 import { act } from 'react';
