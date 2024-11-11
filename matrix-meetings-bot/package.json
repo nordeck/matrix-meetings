@@ -14,7 +14,7 @@
     "docker:inspect": "docker inspect nordeck/matrix-meetings-bot",
     "prestart": "yarn build",
     "build": "nest build && yarn copyfiles && yarn copyImages",
-    "depcheck": "depcheck --ignores=\"typescript\"",
+    "depcheck": "depcheck --ignores=\"typescript\",\"@types/jest\"",
     "start": "PORT=3001 nest start",
     "start:dev": "PORT=3001 nest start --watch",
     "start:debug": "PORT=3001 nest start --debug --watch",
@@ -64,6 +64,7 @@
   },
   "devDependencies": {
     "@nestjs/cli": "^10.1.14",
+    "@types/jest": "^29.5.14",
     "@types/lodash": "^4.17.12",
     "@types/luxon": "^3.2.0",
     "@types/mime-types": "^2.1.4",

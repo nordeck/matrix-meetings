@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import { describe, expect, test } from 'vitest';
 import { ArrayOps } from '../src/ArrayOps';
 
 describe('ArrayOps suite', () => {
