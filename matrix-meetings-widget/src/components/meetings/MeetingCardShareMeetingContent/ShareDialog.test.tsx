@@ -18,7 +18,7 @@ import { render, screen, within } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import userEvent from '@testing-library/user-event';
 import axe from 'axe-core';
-import { act } from 'react-dom/test-utils';
+import { act } from 'react';
 import { describe, expect, it, vi } from 'vitest';
 import { ShareDialog, useShareDialog } from './ShareDialog';
 

@@ -57,6 +57,9 @@ i18n
 
     supportedLngs: ['en', 'de'],
     nonExplicitSupportedLngs: true,
+
+    ns: ['translation', 'widget-tookit'],
+    defaultNS: 'translation',
   });
 
 registerDateRangeFormatter(i18n);

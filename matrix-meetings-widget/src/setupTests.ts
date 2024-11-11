@@ -25,8 +25,12 @@ import { AxeResults } from 'axe-core';
 import { TextDecoder, TextEncoder } from 'util';
 // Make sure to initialize i18n (see mock below)
 import { mockDateTimeFormatTimeZone } from '@nordeck/matrix-meetings-calendar/src/testing';
-import { afterEach, beforeEach, expect, vi } from 'vitest';
-import './i18n';
+import i18next from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import { afterEach, beforeAll, beforeEach, expect, vi } from 'vitest';
+import { default as de } from '../public/locales/de/translation.json';
+import { default as en } from '../public/locales/en/translation.json';
+import { registerDateRangeFormatter } from './dateRangeFormatter';
 import { setLocale } from './lib/locale';
 
 // Prevent act warnings https://github.com/testing-library/react-testing-library/issues/1061
@@ -62,21 +66,16 @@ ${violation.helpUrl}
   },
 });
 
-// Use a different configuration for i18next during tests
-vi.mock('./i18n', async () => {
-  const i18n = await vi.importActual<typeof import('i18next')>('i18next');
-  const { initReactI18next } =
-    await vi.importActual<typeof import('react-i18next')>('react-i18next');
-
-  i18n.use(initReactI18next).init({
+beforeAll(() => {
+  i18next.use(initReactI18next).init({
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
     },
-    resources: { en: {} },
+    resources: { de: { translation: de }, en: {translation: en} },
   });
 
-  return i18n;
+  registerDateRangeFormatter(i18next);
 });
 
 beforeEach(() => {
