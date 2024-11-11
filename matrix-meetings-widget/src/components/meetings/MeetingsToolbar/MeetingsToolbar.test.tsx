@@ -29,7 +29,13 @@ import { initializeStore } from '../../../store/store';
 import { LocalizationProvider } from '../../common/LocalizationProvider';
 import { MeetingsToolbar } from './MeetingsToolbar';
 
-vi.mock('@mui/material/useMediaQuery');
+vi.mock(import('@mui/material'), async (importOriginal) => {
+  const muiMaterial = await importOriginal();
+  return {
+    ...muiMaterial,
+    useMediaQuery: vi.fn(),
+  };
+});
 
 describe('<MeetingsToolbar/>', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;

@@ -23,7 +23,13 @@ import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { LocalizationProvider } from '../../common/LocalizationProvider';
 import { MeetingsNavigation } from './MeetingsNavigation';
 
-vi.mock('@mui/material/useMediaQuery');
+vi.mock(import('@mui/material'), async (importOriginal) => {
+  const muiMaterial = await importOriginal();
+  return {
+    ...muiMaterial,
+    useMediaQuery: vi.fn(),
+  };
+});
 
 describe('<MeetingsNavigation/>', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;

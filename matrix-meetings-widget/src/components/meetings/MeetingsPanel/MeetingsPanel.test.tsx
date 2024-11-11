@@ -39,7 +39,13 @@ import { LocalizationProvider } from '../../common/LocalizationProvider';
 import { SetupBreakoutSessionsModalResult } from '../SetupBreakoutSessionsModal';
 import { MeetingsPanel } from './MeetingsPanel';
 
-vi.mock('@mui/material/useMediaQuery');
+vi.mock(import('@mui/material'), async (importOriginal) => {
+  const muiMaterial = await importOriginal();
+  return {
+    ...muiMaterial,
+    useMediaQuery: vi.fn(),
+  };
+});
 
 vi.mock('@matrix-widget-toolkit/api', async () => ({
   ...(await vi.importActual<typeof import('@matrix-widget-toolkit/api')>(

@@ -24,10 +24,11 @@ import { LocalizationProvider } from '../LocalizationProvider';
 import { StartDatePicker } from './StartDatePicker';
 
 describe('<StartDatePicker/>', () => {
-  const onChange = vi.fn();
+  let onChange: ReturnType<typeof vi.fn>;
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
+    onChange = vi.fn();
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
       return <LocalizationProvider>{children}</LocalizationProvider>;
     };

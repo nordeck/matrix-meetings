@@ -51,7 +51,13 @@ vi.mock('@matrix-widget-toolkit/api', async () => ({
   extractWidgetApiParameters: vi.fn(),
 }));
 
-vi.mock('@mui/material/useMediaQuery');
+vi.mock(import('@mui/material'), async (importOriginal) => {
+  const muiMaterial = await importOriginal();
+  return {
+    ...muiMaterial,
+    useMediaQuery: vi.fn(),
+  };
+});
 
 const server = setupServer();
 
