@@ -44,8 +44,8 @@
     "class-validator": "^0.14.1",
     "express": "^4.20.0",
     "html-entities": "^2.5.2",
-    "i18next": "^23.7.16",
-    "i18next-fs-backend": "^2.3.1",
+    "i18next": "^23.16.5",
+    "i18next-fs-backend": "^2.3.2",
     "i18next-http-middleware": "^3.6.0",
     "joi": "^17.13.3",
     "lodash": "^4.17.21",
@@ -78,8 +78,43 @@
     "i18next-parser": "^8.13.0",
     "jest": "^29.7.0",
     "jest-fetch-mock": "^3.0.3",
+    "ts-jest": "^29.2.5",
     "ts-mockito": "^2.6.1",
     "typescript": "^5.4.5"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "automock": false,
+    "resetMocks": true,
+    "setupFiles": [
+      "./setupJest.js"
+    ],
+    "preset": "ts-jest",
+    "verbose": true,
+    "transform": {
+      "^.+\\.(ts|tsx)$": "ts-jest"
+    },
+    "moduleDirectories": [
+      "lib",
+      "node_modules"
+    ],
+    "testRegex": "(/__tests__/.*|\\.(test|spec))\\.(ts|tsx|js)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js"
+    ],
+    "setupFilesAfterEnv": [
+      "<rootDir>/setupTests.ts"
+    ],
+    "roots": [
+      "<rootDir>/src",
+      "<rootDir>/test"
+    ],
+    "moduleNameMapper": {
+      "@nordeck/matrix-meetings-calendar/src/testing/testUtils": "<rootDir>/../packages/calendar/src/testing/testUtils.ts",
+      "matrix-meetings-(.*)": "<rootDir>/../packages/$1/src/index.ts"
+    }
   },
   "files": [
     "test/*",
