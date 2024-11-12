@@ -1,5 +1,14 @@
-// Package specific tsconfig that extends the root one.
 {
   "extends": "../tsconfig.json",
-  "include": ["src"]
+  "compilerOptions": {
+    "rootDir": ".",
+    "noEmit": true,
+    "types": ["vite/client"]
+  },
+  "include": ["src"],
+  "references": [
+    {
+      "path": "./tsconfig.node.json"
+    }
+  ]
 }

@@ -18,6 +18,7 @@ import { parseRRule } from '@nordeck/matrix-meetings-calendar';
 import { changeLanguage, t } from 'i18next';
 import { Settings } from 'luxon';
 import { Frequency } from 'rrule';
+import { afterEach, describe, expect, it } from 'vitest';
 import { formatRRuleText, stringifyRRule } from './format';
 
 describe('parseRRule', () => {

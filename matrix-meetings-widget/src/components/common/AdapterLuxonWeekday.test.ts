@@ -15,6 +15,7 @@
  */
 
 import { DateTime } from 'luxon';
+import { beforeEach, describe, expect, it } from 'vitest';
 import { setLocale } from '../../lib/locale';
 import { AdapterLuxonWeekday } from './AdapterLuxonWeekday';
 

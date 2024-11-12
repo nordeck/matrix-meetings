@@ -15,5 +15,4 @@
  */
 
 export * from './model';
-export * from './testing';
 export * from './utils';

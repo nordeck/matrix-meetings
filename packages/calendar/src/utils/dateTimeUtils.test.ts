@@ -15,6 +15,7 @@
  */
 
 import { DateTime } from 'luxon';
+import { describe, expect, it } from 'vitest';
 import { mockDateTimeFormatTimeZone } from '../testing';
 import { formatICalDate, parseICalDate, toISOString } from './dateTimeUtils';
 

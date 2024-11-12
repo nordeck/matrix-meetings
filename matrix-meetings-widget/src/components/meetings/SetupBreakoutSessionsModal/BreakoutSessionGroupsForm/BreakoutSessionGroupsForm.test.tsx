@@ -18,9 +18,10 @@ import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { mockMeeting, mockRoomMember } from '../../../../lib/testUtils';
 import { createStore, initializeStore } from '../../../../store/store';
 import { BreakoutSessionGroupsForm } from './BreakoutSessionGroupsForm';
@@ -70,7 +71,7 @@ describe('<BreakoutSessionGroupsForm>', () => {
   it('should render without exploding', () => {
     render(
       <BreakoutSessionGroupsForm
-        onGroupsChange={jest.fn()}
+        onGroupsChange={vi.fn()}
         parentMeeting={mockMeeting()}
       />,
       { wrapper: Wrapper },
@@ -96,17 +97,17 @@ describe('<BreakoutSessionGroupsForm>', () => {
   it('should have no accessibility violations', async () => {
     const { container } = render(
       <BreakoutSessionGroupsForm
-        onGroupsChange={jest.fn()}
+        onGroupsChange={vi.fn()}
         parentMeeting={mockMeeting()}
       />,
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should adjust amount of groups', async () => {
-    const onGroupsChange = jest.fn();
+    const onGroupsChange = vi.fn();
     render(
       <BreakoutSessionGroupsForm
         onGroupsChange={onGroupsChange}
@@ -156,7 +157,7 @@ describe('<BreakoutSessionGroupsForm>', () => {
   });
 
   it('should distribute remaining members into groups', async () => {
-    const onGroupsChange = jest.fn();
+    const onGroupsChange = vi.fn();
     render(
       <BreakoutSessionGroupsForm
         onGroupsChange={onGroupsChange}
@@ -189,7 +190,7 @@ describe('<BreakoutSessionGroupsForm>', () => {
   });
 
   it('should show an error if there are to many groups', async () => {
-    const onGroupsChange = jest.fn();
+    const onGroupsChange = vi.fn();
 
     widgetApi.clearStateEvents();
 

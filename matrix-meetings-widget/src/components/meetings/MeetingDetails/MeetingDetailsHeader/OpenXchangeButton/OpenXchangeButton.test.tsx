@@ -17,10 +17,19 @@
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, waitFor } from '@testing-library/react';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+} from 'vitest';
 import { mockConfigEndpoint } from '../../../../../lib/testUtils';
 import { createStore } from '../../../../../store';
 import { initializeStore } from '../../../../../store/store';
@@ -85,7 +94,7 @@ describe('<OpenXchangeButton/>', () => {
       ),
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations, if button is disabled', async () => {
@@ -102,7 +111,7 @@ describe('<OpenXchangeButton/>', () => {
       screen.findByRole('button', { name: /edit/i }),
     ).resolves.toBeInTheDocument();
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should render button if external reference is present', async () => {

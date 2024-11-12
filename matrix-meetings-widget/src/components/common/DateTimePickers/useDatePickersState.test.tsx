@@ -14,16 +14,17 @@
  * limitations under the License.
  */
 
-import { renderHook } from '@testing-library/react-hooks';
+import { renderHook } from '@testing-library/react';
 import { DateTime } from 'luxon';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { mockMeeting } from '../../../lib/testUtils';
 import { useDatePickersState } from './useDatePickersState';
 
 describe('useDatePickersState', () => {
   beforeEach(() => {
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-02T13:10:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-02T13:10:00.000Z'),
+    );
   });
 
   describe('meeting mode', () => {

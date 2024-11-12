@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { mockCalendarEntry } from '@nordeck/matrix-meetings-calendar';
+import { mockCalendarEntry } from '@nordeck/matrix-meetings-calendar/src/testing/testUtils';
 import { MatrixClient } from 'matrix-bot-sdk';
 import {
   anyString,

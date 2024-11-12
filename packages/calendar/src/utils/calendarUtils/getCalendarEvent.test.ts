@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { mockCalendar, mockCalendarEntry } from '../../testing';
 import { getCalendarEvent } from './getCalendarEvent';
 
 describe('getCalendarEvent', () => {
   beforeEach(() => {
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-02T10:10:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-02T10:10:00.000Z'),
+    );
   });
 
   it('should return entry for a single event without uid', () => {

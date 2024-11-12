@@ -24,7 +24,7 @@ import {
   isRecurringCalendarSourceEntry,
 } from '@nordeck/matrix-meetings-calendar';
 import { createAsyncThunk, createSelector } from '@reduxjs/toolkit';
-import { isEqual } from 'lodash';
+import { isEqual } from 'lodash-es';
 import { DispatchWithoutAction, Fragment, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {

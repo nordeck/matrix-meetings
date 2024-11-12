@@ -15,6 +15,7 @@
  */
 
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
   mockCreateMeetingRoom,
   mockNordeckMeetingMetadataEvent,

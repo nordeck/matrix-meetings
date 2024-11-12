@@ -17,7 +17,8 @@
 import { ToggleButtonGroup } from '@mui/material';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
+import { describe, expect, it, vi } from 'vitest';
 import { TooltipToggleButton } from './TooltipToggleButton';
 
 describe('<TooltipToggleButton/>', () => {
@@ -43,7 +44,7 @@ describe('<TooltipToggleButton/>', () => {
       </>,
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations if expanded', async () => {
@@ -59,7 +60,7 @@ describe('<TooltipToggleButton/>', () => {
       </>,
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should add aria-expanded and aria-controls', () => {
@@ -98,7 +99,7 @@ describe('<TooltipToggleButton/>', () => {
   });
 
   it('should be usable in a ToggleButtonGroup', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
 
     const { rerender } = render(
       <ToggleButtonGroup exclusive onChange={onChange}>

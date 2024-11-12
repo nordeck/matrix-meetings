@@ -18,9 +18,10 @@ import { getEnvironment as getEnvironmentMocked } from '@matrix-widget-toolkit/m
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, within } from '@testing-library/react';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   mockMeeting,
   mockPowerLevelsEvent,
@@ -34,12 +35,14 @@ import {
   sortByNameAndStatus,
 } from './MeetingCardEditParticipantsContent';
 
-jest.mock('@matrix-widget-toolkit/mui', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/mui'),
-  getEnvironment: jest.fn(),
+vi.mock('@matrix-widget-toolkit/mui', async () => ({
+  ...(await vi.importActual<typeof import('@matrix-widget-toolkit/mui')>(
+    '@matrix-widget-toolkit/mui',
+  )),
+  getEnvironment: vi.fn(),
 }));
 
-const getEnvironment = jest.mocked(getEnvironmentMocked);
+const getEnvironment = vi.mocked(getEnvironmentMocked);
 
 let widgetApi: MockedWidgetApi;
 
@@ -51,9 +54,13 @@ describe('<MeetingCardEditParticipantsContent/>', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
   let meeting: Meeting;
 
-  beforeEach(() => {
+  beforeEach(async () => {
     getEnvironment.mockImplementation(
-      jest.requireActual('@matrix-widget-toolkit/mui').getEnvironment,
+      (
+        await vi.importActual<typeof import('@matrix-widget-toolkit/mui')>(
+          '@matrix-widget-toolkit/mui',
+        )
+      ).getEnvironment,
     );
 
     widgetApi.mockSendStateEvent(
@@ -140,7 +147,7 @@ describe('<MeetingCardEditParticipantsContent/>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 });
 
