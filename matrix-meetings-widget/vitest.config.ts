@@ -16,10 +16,17 @@
 
 /// <reference types="vitest" />
 
+import path from 'path';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
   test: {
+    alias: {
+      // solve "You are loading @emotion/react when it is already loaded…" issue
+      '@emotion/react': path.resolve(
+        '../node_modules/@emotion/react/dist/emotion-react.cjs.mjs',
+      ),
+    },
     environment: 'jsdom',
     setupFiles: ['./src/setupTests.ts'],
     exclude: ['build', 'lib'],
