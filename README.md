@@ -103,13 +103,16 @@ You can find them at [`/docs/adrs`](./docs/adrs/).
 
 ## Deployment
 
-Yon can run the widget using Docker:
+You can run the widget using Docker:
 
 ```sh
 docker run --rm -p 8080:8080 ghcr.io/nordeck/matrix-meetings-widget:latest
 ```
 
-Yon can run the bot using Docker:
+Our docker image supports customizing the nginx config by supplying additional config files.
+For example, this allows running the image in an IPv4-only environment, as demonstrated at <https://github.com/nordeck/matrix-widget-toolkit/tree/main/containers/widget-server#custom-listen-directive>
+
+You can run the bot using Docker:
 
 ```sh
 docker run --rm -p 3000:3000 ghcr.io/nordeck/matrix-meetings-bot:latest
