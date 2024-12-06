@@ -1,5 +1,12 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.7.0
+
+### Minor Changes
+
+- 6c77bc5: Add Helm values for configuration of ipv4only mode
+- ba24789: New widget-server base image that supports IPv4-only deployments
+
 ## 1.6.1
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.8.1
+
+### Patch Changes
+
+- 205a689: Use Node.JS 20 LTS and Debian Bookworm for the bot image
+
 ## 2.8.0
 
 ### Minor Changes
