@@ -1,4 +1,3 @@
-
 ---
 '@nordeck/matrix-meetings-widget': minor
 ---
