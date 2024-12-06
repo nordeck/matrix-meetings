@@ -1,3 +1,4 @@
+---
 apiVersion: v1
 kind: ConfigMap
 metadata:
@@ -7,3 +8,15 @@ metadata:
 data:
   REACT_APP_API_BASE_URL: "https://matrix-meetings-bot.{{- .Values.settings.hostname -}}"
   REACT_APP_HOME_SERVER_URL: "https://synapse.{{- .Values.settings.hostname -}}"
+{{- if .Values.nginx.ipv4Only }}
+---
+kind: "ConfigMap"
+apiVersion: "v1"
+metadata:
+  name: "{{ include "app.fullname" . }}-nginx-configs"
+  labels:
+{{ include "app.labels" . | indent 4 }}
+data:
+  listen.conf: |
+    listen 8080;
+{{- end }}
