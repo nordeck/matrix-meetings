@@ -104,7 +104,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: 'package.json'
+          node-version-file: 'node-version/package.json'
           cache: 'yarn'
 
       - name: yarn install
@@ -237,7 +237,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: 'package.json'
+          node-version-file: 'e2e/package.json'
           cache: 'yarn'
 
       - name: yarn install
