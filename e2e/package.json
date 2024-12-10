@@ -7,15 +7,15 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "@axe-core/playwright": "^4.9.1",
-    "@playwright/test": "^1.44.0",
-    "@types/lodash": "^4.17.4",
-    "@types/node": "^20.4.6",
-    "eslint": "^8.57.0",
-    "eslint-plugin-playwright": "^1.6.1",
+    "@axe-core/playwright": "^4.10.1",
+    "@playwright/test": "^1.49.1",
+    "@types/lodash": "^4.17.13",
+    "@types/node": "^22.10.1",
+    "eslint": "^9.16.0",
+    "eslint-plugin-playwright": "^2.1.0",
     "lodash": "^4.17.21",
-    "testcontainers": "^10.9.0",
-    "typescript": "^5.4.5"
+    "testcontainers": "^10.16.0",
+    "typescript": "^5.7.2"
   },
   "engines": {
     "node": ">=20",
