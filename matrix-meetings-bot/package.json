@@ -60,7 +60,7 @@
     "rfc4648": "^1.5.3",
     "rrule": "^2.8.1",
     "rxjs": "^7.8.0",
-    "uuid": "^9.0.1"
+    "uuid": "^10.0.0"
   },
   "devDependencies": {
     "@nestjs/cli": "^10.1.14",
