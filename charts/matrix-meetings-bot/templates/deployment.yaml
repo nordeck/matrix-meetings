@@ -33,6 +33,17 @@ spec:
         - name: createbotuser
           image: {{ .Values.init.synapse.image }}
           env:
+          {{- if .Values.init.masAuth.enabled }}
+            - name: MAS_URL
+              value: {{ .Values.init.masUrl }}
+            - name: MAS_CLIENT_ID
+              value: {{ .Values.init.masClientId }}
+            - name: MAS_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: mas-credentials
+                  key: client_secret
+          {{- end }}
             - name: USERTOCREATE
               value: "{{ .Values.init.username }}"
             - name: HOMESERVER
@@ -42,10 +53,17 @@ spec:
                 secretKeyRef:
                   name: meetings-bot-credentials
                   key: password
+          {{- if .Values.init.masAuth.enabled }}
+          command:
+            - sh
+            - /scripts/create_bot_account_mas.sh
+            - secret
+          {{- else }}
           command:
             - sh
             - /scripts/create_bot_account.sh
             - secret
+          {{- end }}
           volumeMounts:
             - name: synapse-config
               mountPath: /data/homeserver.yaml
@@ -96,17 +114,34 @@ spec:
         {{- end }}
         {{- if .Values.init.getFreshDeviceToken.enabled }}
         - name: getbottoken
-          image: {{ .Values.init.postgresClient.image }}
+          image: {{ .Values.init.synape.image }}
+          {{- if .Values.init.masAuth.enabled }}
+          command:
+            - sh
+            - /scripts/get_meetings_bot_token_mas.sh
+          {{- else }}
           command:
             - sh
             - -x
             - /scripts/get_meetings_bot_token.sh
+          {{- end }}
           volumeMounts:
             - name: workdir
               mountPath: "/work-dir"
             - name: shell-tools
               mountPath: /scripts
           env:
+          {{- if .Values.init.masAuth.enabled }}
+            - name: MAS_URL
+              value: {{ .Values.init.masUrl }}
+            - name: MAS_CLIENT_ID
+              value: {{ .Values.init.masClientId }}
+            - name: MAS_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: mas-credentials
+                  key: client_secret
+          {{- end }}
             - name: USERTOCREATE
               value: "{{ .Values.init.username }}"
             - name: HOMESERVER
