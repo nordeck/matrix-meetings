@@ -135,7 +135,7 @@ init:
     enabled: false
 
   masUrl:
-    url: 'https://mas.matrix.org'
+    url: 'https://your-mas-url'
 
   masClientId:
     clientId: 'mas-client-id'
