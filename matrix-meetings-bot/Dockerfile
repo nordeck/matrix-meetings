@@ -9,6 +9,10 @@ RUN yarn install --production --frozen-lockfile --network-timeout 1000000
 FROM node:20-bookworm-slim
 ENV NODE_ENV=production
 WORKDIR /app
+
+#  update npm to address CVE-2024-21538
+RUN npm install -g npm@10.9.2
+
 RUN set -x\
     && mkdir /app/storage \
     && chown -R 101:0 /app/storage \
