@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.8.2
+
+### Patch Changes
+
+- dfccac3: Dependency updates to address CVE-2024-21538, CVE-2024-55565, CVE-2024-52798, CVE-2024-45296 and CVE-2023-26136
+
 ## 2.8.1
 
 ### Patch Changes
