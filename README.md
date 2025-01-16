@@ -109,6 +109,8 @@ You can run the widget using Docker:
 docker run --rm -p 8080:8080 ghcr.io/nordeck/matrix-meetings-widget:latest
 ```
 
+Be sure, that you also read the security notes in the base image [@matrix-widget-toolkit/widget-server](https://github.com/nordeck/matrix-widget-toolkit/tree/main/containers/widget-server) docs.
+
 Our docker image supports customizing the nginx config by supplying additional config files.
 For example, this allows running the image in an IPv4-only environment, as demonstrated at <https://github.com/nordeck/matrix-widget-toolkit/tree/main/containers/widget-server#custom-listen-directive>
 
