@@ -73,7 +73,7 @@
   },
   "scripts": {
     "docker": "yarn run docker:build && yarn run docker:run && yarn run docker:remove",
-    "docker:build": "docker build -t nordeck/matrix-meetings-widget .",
+    "docker:build": "docker build --build-context root=../ -t nordeck/matrix-meetings-widget .",
     "docker:run": "dotenv -c development -- docker run -e REACT_APP_API_BASE_URL -p 3000:8080 --name matrix-meetings-widget nordeck/matrix-meetings-widget",
     "docker:stop": "docker stop matrix-meetings-widget",
     "docker:remove": "yarn run docker:stop && docker rm -v matrix-meetings-widget",
