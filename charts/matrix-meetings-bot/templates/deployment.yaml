@@ -55,44 +55,26 @@ spec:
         {{- end }}
         {{- if .Values.init.disableRateLimitInDB.enabled }}
         - name: setratelimit
-          image: {{ .Values.init.postgresClient.image }}
+          image: {{ .Values.init.nodejs.image }}
           command:
-            - sh
-            - -x
-            - /scripts/set_ratelimit_bot_db.sh
+            - node
+            - --experimental-strip-types
+            - /scripts/set_ratelimit_bot.ts
           volumeMounts:
             - name: shell-tools
               mountPath: /scripts
           env:
-            - name: PGPORT
+            - name: ADMIN_ACCESS_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: pg-credentials
-                  key: db_port
-            - name: PGPASSWORD
-              valueFrom:
-                secretKeyRef:
-                  name: pg-credentials
-                  key: password
-            - name: PGDATABASE
-              valueFrom:
-                secretKeyRef:
-                  name: pg-credentials
-                  key: db_name
-            - name: PGUSER
-              valueFrom:
-                secretKeyRef:
-                  name: pg-credentials
-                  key: username
-            - name: PGHOST
-              valueFrom:
-                secretKeyRef:
-                  name: pg-credentials
-                  key: db_host
+                  name: fixme
+                  key: fixme
             - name: USERTOCREATE
               value: "{{ .Values.init.username }}"
-            - name: SERVER
+            - name: HOMESERVER
               value: "{{ .Values.init.homeserver }}"
+            - name: HOMESERVER_URL
+              value: "{{ .Values.init.homeserverUrl }}"
         {{- end }}
         {{- if .Values.init.getFreshDeviceToken.enabled }}
         - name: getbottoken
