@@ -68,8 +68,8 @@ spec:
             - name: ADMIN_ACCESS_TOKEN
               valueFrom:
                 secretKeyRef:
-                  name: fixme
-                  key: fixme
+                  name: meetings-bot-credentials
+                  key: password
             - name: USERTOCREATE
               value: "{{ .Values.init.username }}"
             - name: HOMESERVER
