@@ -55,7 +55,8 @@ spec:
         {{- end }}
         {{- if .Values.init.disableRateLimitInDB.enabled }}
         - name: setratelimit
-          image: {{ .Values.init.nodejs.image }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
           command:
             - node
             - --experimental-strip-types
