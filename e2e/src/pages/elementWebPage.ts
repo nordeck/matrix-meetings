@@ -481,7 +481,7 @@ export class ElementWebPage {
 
   async login(username: string, password: string): Promise<Credentials> {
     const synapseUrl = getSynapseUrl();
-    const url = `${synapseUrl}/_matrix/client/r0/login`;
+    const url = `${synapseUrl}/_matrix/client/v3/login`;
     const createResp = await fetch(url, {
       method: 'POST',
       headers: {

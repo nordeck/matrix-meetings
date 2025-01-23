@@ -15,7 +15,7 @@
  */
 
 export enum MatrixEndpoint {
-  MATRIX_CLIENT_SYNC = '/_matrix/client/r0/sync',
-  WHO_AM_I = '/_matrix/client/r0/account/whoami',
+  MATRIX_CLIENT_SYNC = '/_matrix/client/v3/sync',
+  WHO_AM_I = '/_matrix/client/v3/account/whoami',
   USER_INFO = '/_matrix/federation/v1/openid/userinfo',
 }
