@@ -95,6 +95,9 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64,linux/s390x
+          sbom: true
+          provenance: true
+          outputs: 'type=image'
 
       - name: Run Trivy to get an SBOM report of the container
         env:
@@ -202,6 +205,9 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64,linux/s390x
+          sbom: true
+          provenance: true
+          outputs: 'type=image'
 
       - name: Run Trivy to get an SBOM report of the container
         env:
