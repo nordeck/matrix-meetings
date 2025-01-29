@@ -166,7 +166,7 @@ The following content is available:
 - `base32_room_id50`: the base32 encoded room id with max character limit of 50 as needed for Etherpad.
 - `title`: the title of the meeting (=the room name).
 - `uuid`: a random UUID.
-- `encodeURIComponent()`: a function to encode any value to make it URL-safe  
+- `encodeURIComponent()`: a function to encode any value to make it URL-safe
   Usage: `{{#encodeURIComponent}}my-text{{/encodeURIComponent}}`
 
 ##### Content

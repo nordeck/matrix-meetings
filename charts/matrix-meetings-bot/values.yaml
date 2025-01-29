@@ -126,10 +126,19 @@ init:
   username: bot-user
 
   synapse:
-    image: matrixdotorg/synapse:v1.55.2
+    image: matrixdotorg/synapse:v1.120.2
 
   postgresClient:
-    image: docker.io/bitnami/postgresql:11.12.0-debian-10-r44 
+    image: postgres:16
+
+  masAuth:
+    enabled: false
+
+  masUrl:
+    url: 'https://your-mas-url'
+
+  masClientId:
+    clientId: 'mas-client-id'
 
   createUserAccount:
     enabled: false
