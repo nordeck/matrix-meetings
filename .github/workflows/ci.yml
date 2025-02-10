@@ -267,7 +267,7 @@ jobs:
       - name: Prepare k8s cluster
         if: steps.list-changed.outputs.changed == 'true'
         run: |
-          kubectl create namespace matrix-neoboard-widget
+          kubectl create namespace matrix-meetings
       - name: Run chart-testing (install)
         if: steps.list-changed.outputs.changed == 'true'
         run: |
