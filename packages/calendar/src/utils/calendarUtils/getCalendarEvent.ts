@@ -22,7 +22,7 @@ import {
   calculateCalendarEvents,
 } from './calculateCalendarEvents';
 import { getCalendarEnd } from './getCalendarEnd';
-import { isRRuleOverrideEntry } from './helpers';
+import { isRRuleOverrideEntry, toISOSave } from './helpers';
 
 /**
  * Get the best fitting entry from a calendar.
@@ -85,10 +85,10 @@ export function getCalendarEvent(
       // only consider events that match the override
       // entry OR include the recurrenceId
       fromDate: overrideEntry
-        ? parseICalDate(overrideEntry.dtstart).toISO()
+        ? toISOSave(parseICalDate(overrideEntry.dtstart))
         : recurrenceId,
       toDate: overrideEntry
-        ? parseICalDate(overrideEntry.dtend).toISO()
+        ? toISOSave(parseICalDate(overrideEntry.dtend))
         : recurrenceId,
     });
 
@@ -113,7 +113,7 @@ export function getCalendarEvent(
         calendar: relatedCalendar,
         // meeting end is exclusive, therefore we need to adjust our search
         // space a bit
-        fromDate: calendarEnd.minus({ milliseconds: 1 }).toISO(),
+        fromDate: toISOSave(calendarEnd.minus({ milliseconds: 1 })),
         limit: 1,
       });
     }

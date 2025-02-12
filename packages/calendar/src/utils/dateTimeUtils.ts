@@ -16,6 +16,7 @@
 
 import { DateTime } from 'luxon';
 import { DateTimeEntry } from '../model';
+import { toISOSave } from './calendarUtils/helpers';
 
 export function parseICalDate(dateTimeEntry: DateTimeEntry): DateTime {
   return DateTime.fromFormat(dateTimeEntry.value, "yyyyMMdd'T'HHmmss", {
@@ -37,5 +38,5 @@ export function formatICalDate(
 /** Format the date into an ISO string that will always be in UTC time (yyyy-MM-ddTHH:mm:ssZ) */
 export function toISOString(date: Date | DateTime): string {
   const jsDate = DateTime.isDateTime(date) ? date : DateTime.fromJSDate(date);
-  return jsDate.toUTC().toISO({ suppressMilliseconds: true });
+  return toISOSave(jsDate.toUTC(), { suppressMilliseconds: true });
 }
