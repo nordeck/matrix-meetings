@@ -156,17 +156,16 @@ describe('useJitsiDialInInformation', () => {
       ),
     );
 
-    const { result, waitForValueToChange } = renderHook(
-      () => useJitsiDialInInformation('!room'),
-      { wrapper: Wrapper },
-    );
+    const { result } = renderHook(() => useJitsiDialInInformation('!room'), {
+      wrapper: Wrapper,
+    });
 
     expect(result.current).toEqual({
       isLoading: true,
       isError: false,
     });
 
-    await waitForValueToChange(() => result.current.isLoading);
+    await waitFor(() => result.current.isLoading);
 
     expect(result.current).toEqual({
       isLoading: false,

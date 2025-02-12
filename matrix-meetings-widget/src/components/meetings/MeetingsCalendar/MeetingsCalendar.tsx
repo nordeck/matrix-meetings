@@ -27,6 +27,7 @@ import deLocale from '@fullcalendar/core/locales/de';
 import FullCalendar from '@fullcalendar/react';
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import { unstable_useId as useId } from '@mui/utils';
+import { toISOSafe } from '@nordeck/matrix-meetings-calendar';
 import { isEqual } from 'lodash-es';
 import { DateTime } from 'luxon';
 import {
@@ -247,10 +248,10 @@ function generateFilters(filters: Filters, view: CalendarViewType): Filters {
   if (view === 'month') {
     return {
       ...filters,
-      startDate: DateTime.fromISO(filters.startDate)
-        .minus({ weeks: 1 })
-        .toISO(),
-      endDate: DateTime.fromISO(filters.endDate).plus({ weeks: 1 }).toISO(),
+      startDate: toISOSafe(
+        DateTime.fromISO(filters.startDate).minus({ weeks: 1 }),
+      ),
+      endDate: toISOSafe(DateTime.fromISO(filters.endDate).plus({ weeks: 1 })),
     };
   }
 

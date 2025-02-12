@@ -2138,15 +2138,6 @@
     https-proxy-agent "^5.0.1"
     node-downloader-helper "^2.1.5"
 
-"@matrix-widget-toolkit/api@^3.4.2":
-  version "3.4.2"
-  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/api/-/api-3.4.2.tgz#ce42a841c8cb51d8c6a61016e9fdff3703a734b9"
-  integrity sha512-zATxVBtlxsEN1VeIp4NGNpy/SdHPdKXaN+NbVMYG1CU3PryVENngCWjr5038fMpem2ZpLtyjxyUSvPlRKT8kbw==
-  dependencies:
-    matrix-widget-api "^1.9.0"
-    qs "^6.13.0"
-    rxjs "^7.8.1"
-
 "@matrix-widget-toolkit/api@^4.0.0":
   version "4.0.0"
   resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/api/-/api-4.0.0.tgz#12586b353f52eccc13be9708351c76bcf8bb444c"
@@ -2156,7 +2147,7 @@
     qs "6.13.1"
     rxjs "7.8.1"
 
-"@matrix-widget-toolkit/mui@^2.0.6":
+"@matrix-widget-toolkit/mui@^2.1.1":
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/mui/-/mui-2.1.1.tgz#12485160d5059ecbd83a3c5ce931ea8784446220"
   integrity sha512-nk9BQvWc9h/NxDY6b19Vgo12JH9VphgTDupLi8e+Z7ufx5/trkPliYUeLjIyyhNiY30/GxiBpR11ZFW56z1K3A==
@@ -2177,7 +2168,7 @@
     react-i18next "15.1.3"
     react-use "17.5.1"
 
-"@matrix-widget-toolkit/react@^2.0.3", "@matrix-widget-toolkit/react@^2.0.4":
+"@matrix-widget-toolkit/react@^2.0.4":
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/react/-/react-2.0.4.tgz#98d4c71e20242c61ab1f677b6d1df5d40e315e20"
   integrity sha512-CFwY/nF5l3uAYTdLFtpbbCCqO/eGexKAxVUG8ERJ3w0xOZ301eJflrwYpOrBLJXWR3EzxE3u5IH9PNqHPDNqSA==
@@ -2187,7 +2178,7 @@
     react-error-boundary "4.1.2"
     react-use "17.5.1"
 
-"@matrix-widget-toolkit/testing@^3.0.1":
+"@matrix-widget-toolkit/testing@^3.0.3":
   version "3.0.3"
   resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/testing/-/testing-3.0.3.tgz#a84a0b55ba3e495b2db2f36ed55331ecabe389ed"
   integrity sha512-jc3uFw3qCL/zwICctCeOwbH9R5NhN6oCTvLq6wXK87pz1Gq+cL1b7qeHuzkihGBuLpSWvqX7iA0HcNVPlUs7qw==
@@ -9455,13 +9446,6 @@ qs@6.13.1:
   integrity sha512-EJPeIn0CYrGu+hli1xilKAPXODtJ12T0sP63Ijx2/khC2JtuaN3JyNIpvmnkmaEtha9ocbG4A4cMcr+TvqvwQg==
   dependencies:
     side-channel "^1.0.6"
-
-qs@^6.13.0:
-  version "6.14.0"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.14.0.tgz#c63fa40680d2c5c941412a0e899c89af60c0a930"
-  integrity sha512-YWWTjgABSKcvs/nWBi9PycY/JiPJqOD4JA6o9Sej2AtvSGarXxKC3OQSk4pAarbdQlKAh5D4FCQkJNkW+GAn3w==
-  dependencies:
-    side-channel "^1.1.0"
 
 qs@~6.5.2:
   version "6.5.3"

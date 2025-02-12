@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { toISOSafe } from '@nordeck/matrix-meetings-calendar';
 import { DateTime, DurationLike } from 'luxon';
 import { generateFilterRange } from '../../../lib/utils';
 import { ViewType } from '../MeetingsNavigation';
@@ -55,17 +56,18 @@ export const moveFilterRange = (
 
   if (view === 'list') {
     return {
-      startDate: startDateTime.toISO(),
-      endDate: startDateTime
-        .plus({
-          days:
-            // 'today' resets the list to the defaults
-            direction === 'today' ? 6 : days - 1,
-        })
-        .endOf('day')
-        .toISO(),
+      startDate: toISOSafe(startDateTime),
+      endDate: toISOSafe(
+        startDateTime
+          .plus({
+            days:
+              // 'today' resets the list to the defaults
+              direction === 'today' ? 6 : days - 1,
+          })
+          .endOf('day'),
+      ),
     };
   }
 
-  return generateFilterRange(view, startDateTime.toISO());
+  return generateFilterRange(view, toISOSafe(startDateTime));
 };

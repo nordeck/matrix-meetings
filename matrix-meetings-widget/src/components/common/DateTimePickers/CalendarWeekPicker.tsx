@@ -19,6 +19,7 @@ import {
   DatePickerSlotsComponentsProps,
   PickersDayProps,
 } from '@mui/x-date-pickers';
+import { toISOSafe } from '@nordeck/matrix-meetings-calendar';
 import { DateTime, Interval } from 'luxon';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -54,7 +55,7 @@ export const CalendarWeekPicker = ({
   const handleRangeChange = useCallback(
     (value: DateTime | null) => {
       if (value?.isValid) {
-        const date = value.toISO();
+        const date = toISOSafe(value);
         const { startDate, endDate } = generateFilterRange('week', date);
         onRangeChange(startDate, endDate);
         onClose();

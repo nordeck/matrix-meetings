@@ -12,9 +12,9 @@
     "@fullcalendar/interaction": "^6.1.14",
     "@fullcalendar/react": "^6.1.14",
     "@fullcalendar/timegrid": "^6.1.14",
-    "@matrix-widget-toolkit/api": "^3.4.2",
-    "@matrix-widget-toolkit/mui": "^2.0.6",
-    "@matrix-widget-toolkit/react": "^2.0.3",
+    "@matrix-widget-toolkit/api": "^4.0.0",
+    "@matrix-widget-toolkit/mui": "^2.1.1",
+    "@matrix-widget-toolkit/react": "^2.0.4",
     "@mui/icons-material": "^5.15.3",
     "@mui/lab": "^5.0.0-alpha.159",
     "@mui/material": "^5.15.3",
@@ -44,7 +44,7 @@
     "timezones-ical-library": "^1.8.3"
   },
   "devDependencies": {
-    "@matrix-widget-toolkit/testing": "^3.0.1",
+    "@matrix-widget-toolkit/testing": "^3.0.3",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",

@@ -814,7 +814,7 @@ describe('<MeetingCard/>', () => {
       await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
-    expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
     expect(widgetApi.sendRoomEvent).not.toBeCalled();
   });
@@ -887,7 +887,7 @@ describe('<MeetingCard/>', () => {
       await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
-    expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
     expect(widgetApi.sendRoomEvent).toBeCalledTimes(4);
   });
@@ -960,7 +960,7 @@ describe('<MeetingCard/>', () => {
       await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
-    expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
     expect(widgetApi.sendRoomEvent).toBeCalledTimes(4);
   });
@@ -1032,7 +1032,7 @@ describe('<MeetingCard/>', () => {
       await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
-    expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
     expect(widgetApi.sendRoomEvent).toBeCalledTimes(4);
   });

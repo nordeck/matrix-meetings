@@ -17,12 +17,13 @@
 import { DateTime } from 'luxon';
 import { CalendarEntry } from '../../model';
 import { parseICalDate } from '../dateTimeUtils';
+import { toISOSafe } from '../helpers';
 import {
   CalendarEvent,
   calculateCalendarEvents,
 } from './calculateCalendarEvents';
 import { getCalendarEnd } from './getCalendarEnd';
-import { isRRuleOverrideEntry, toISOSave } from './helpers';
+import { isRRuleOverrideEntry } from './helpers';
 
 /**
  * Get the best fitting entry from a calendar.
@@ -85,10 +86,10 @@ export function getCalendarEvent(
       // only consider events that match the override
       // entry OR include the recurrenceId
       fromDate: overrideEntry
-        ? toISOSave(parseICalDate(overrideEntry.dtstart))
+        ? toISOSafe(parseICalDate(overrideEntry.dtstart))
         : recurrenceId,
       toDate: overrideEntry
-        ? toISOSave(parseICalDate(overrideEntry.dtend))
+        ? toISOSafe(parseICalDate(overrideEntry.dtend))
         : recurrenceId,
     });
 
@@ -113,7 +114,7 @@ export function getCalendarEvent(
         calendar: relatedCalendar,
         // meeting end is exclusive, therefore we need to adjust our search
         // space a bit
-        fromDate: toISOSave(calendarEnd.minus({ milliseconds: 1 })),
+        fromDate: toISOSafe(calendarEnd.minus({ milliseconds: 1 })),
         limit: 1,
       });
     }

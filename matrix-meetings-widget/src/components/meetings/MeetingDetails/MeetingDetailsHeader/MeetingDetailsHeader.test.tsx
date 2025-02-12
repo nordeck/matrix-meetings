@@ -519,7 +519,7 @@ describe('<MeetingDetailsHeader/>', () => {
       await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
-    expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
     expect(widgetApi.sendRoomEvent).not.toBeCalled();
   });
@@ -589,7 +589,7 @@ describe('<MeetingDetailsHeader/>', () => {
       await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
-    expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
     expect(widgetApi.sendRoomEvent).toBeCalledTimes(4);
   });
@@ -659,7 +659,7 @@ describe('<MeetingDetailsHeader/>', () => {
       await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
-    expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
     expect(widgetApi.sendRoomEvent).toBeCalledTimes(4);
   });
@@ -728,7 +728,7 @@ describe('<MeetingDetailsHeader/>', () => {
       await within(dialog).findByRole('button', { name: 'Close' }),
     );
 
-    expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
+    expect(screen.queryByRole('dialog')).not.toBeInTheDocument();
 
     expect(widgetApi.sendRoomEvent).toBeCalledTimes(4);
   });

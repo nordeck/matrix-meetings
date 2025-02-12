@@ -16,6 +16,7 @@
 
 import SearchIcon from '@mui/icons-material/Search';
 import { InputAdornment, Stack, TextField } from '@mui/material';
+import { toISOSafe } from '@nordeck/matrix-meetings-calendar';
 import { isEqual } from 'lodash-es';
 import { DateTime } from 'luxon';
 import {
@@ -70,8 +71,8 @@ export const MeetingsFilter = ({
   useEffect(() => {
     onFiltersChange((oldFilters) => {
       const newFilters = {
-        startDate: fromDate.toISO(),
-        endDate: toDate.toISO(),
+        startDate: toISOSafe(fromDate),
+        endDate: toISOSafe(toDate),
         filterText,
       };
 
@@ -101,9 +102,9 @@ export const MeetingsFilter = ({
   return (
     <Stack spacing={1}>
       <DateRangePicker
-        endDate={toDate.toISO()}
+        endDate={toISOSafe(toDate)}
         onRangeChange={handleOnRangeChange}
-        startDate={fromDate.toISO()}
+        startDate={toISOSafe(fromDate)}
       />
 
       <TextField

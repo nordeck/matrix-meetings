@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { DateTime } from 'luxon/src/luxon';
 import { ByWeekday, RRule, Weekday } from 'rrule';
 
 export function normalizeNumeric(
@@ -73,4 +74,24 @@ export function isWeekdays(byweekday: number[] | undefined): boolean {
     !byweekday.includes(RRule.SA.weekday) &&
     !byweekday.includes(RRule.SU.weekday)
   );
+}
+
+/**
+ * Always returns an ISO string from a DateTime.
+ *
+ * @param date - date to get the ISO string from
+ * @returns ISO string
+ * @throws when it is not possible to get an ISO string
+ */
+export function toISOSafe(
+  date: DateTime,
+  options?: { suppressMilliseconds?: boolean },
+): string {
+  const iso = date.toISO(options);
+
+  if (iso === null) {
+    throw new Error(`Error getting ISO value of date ${date}`);
+  }
+
+  return iso;
 }

@@ -93,23 +93,3 @@ export function getSingleOrRecurringEntry(
 
   return entry;
 }
-
-/**
- * Always returns an ISO string from a DateTime.
- *
- * @param date - date to get the ISO string from
- * @returns ISO string
- * @throws when it is not possible to get an ISO string
- */
-export function toISOSave(
-  date: DateTime,
-  options?: { suppressMilliseconds?: boolean },
-): string {
-  const iso = date.toISO(options);
-
-  if (iso === null) {
-    throw new Error(`Error getting ISO value of date ${date}`);
-  }
-
-  return iso;
-}

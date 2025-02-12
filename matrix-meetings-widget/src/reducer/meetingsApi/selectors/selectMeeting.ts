@@ -18,7 +18,7 @@ import {
   getRoomMemberDisplayName,
   StateEvent,
 } from '@matrix-widget-toolkit/api';
-import { getCalendarEvent } from '@nordeck/matrix-meetings-calendar';
+import { getCalendarEvent, toISOSafe } from '@nordeck/matrix-meetings-calendar';
 import { isEqual } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { createSelectorCreator, defaultMemoize } from 'reselect';
@@ -152,9 +152,9 @@ function generateDeletionTime(
   meetingMetadataEvent: StateEvent<NordeckMeetingMetadataEvent>,
 ): string | undefined {
   if (meetingMetadataEvent.content.force_deletion_at) {
-    return DateTime.fromMillis(
-      meetingMetadataEvent.content.force_deletion_at,
-    ).toISO();
+    return toISOSafe(
+      DateTime.fromMillis(meetingMetadataEvent.content.force_deletion_at),
+    );
   }
 
   return undefined;
