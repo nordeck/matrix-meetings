@@ -30,6 +30,16 @@ import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { Subject } from 'rxjs';
 import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
+import {
   mockCalendar,
   mockMeeting,
   mockWidgetEndpoint,
@@ -60,9 +70,9 @@ describe('<ScheduleMeetingModal>', () => {
   beforeEach(() => {
     mockWidgetEndpoint(server);
 
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-02T13:10:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-02T13:10:00.000Z'),
+    );
 
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
       const store = useMemo(() => {

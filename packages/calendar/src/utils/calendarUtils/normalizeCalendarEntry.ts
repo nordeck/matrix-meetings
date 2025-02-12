@@ -17,6 +17,7 @@
 import { DateTime } from 'luxon';
 import { CalendarEntry } from '../../model';
 import { formatICalDate, parseICalDate } from '../dateTimeUtils';
+import { toISOSafe } from '../helpers';
 import { calculateCalendarEvents } from './calculateCalendarEvents';
 
 export function normalizeCalendarEntry(
@@ -24,7 +25,7 @@ export function normalizeCalendarEntry(
 ): CalendarEntry {
   const events = calculateCalendarEvents({
     calendar: [calendarEntry],
-    fromDate: parseICalDate(calendarEntry.dtstart).toISO(),
+    fromDate: toISOSafe(parseICalDate(calendarEntry.dtstart)),
     limit: 1,
   });
 

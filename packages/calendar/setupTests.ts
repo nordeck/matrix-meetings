@@ -15,8 +15,9 @@
  */
 
 import { Settings } from 'luxon';
+import { beforeEach } from 'vitest';
 // Make sure to initialize i18n (see mock below)
-import { mockDateTimeFormatTimeZone } from './src';
+import { mockDateTimeFormatTimeZone } from './src/testing';
 
 beforeEach(() => {
   // We want our tests to be in a reproducible time zone, always resulting in

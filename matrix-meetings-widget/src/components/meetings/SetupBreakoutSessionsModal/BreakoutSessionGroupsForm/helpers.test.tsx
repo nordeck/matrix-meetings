@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { describe, expect, it, vi } from 'vitest';
 import i18next from '../../../../i18n';
 import { mockRoomMember } from '../../../../lib/testUtils';
 import {
@@ -22,8 +23,8 @@ import {
   initializeGroups,
 } from './helpers';
 
-jest.mock('lodash', () => {
-  const lodash = jest.requireActual('lodash');
+vi.mock('lodash-es', async () => {
+  const lodash = await vi.importActual<typeof import('lodash-es')>('lodash-es');
   return {
     ...lodash,
     // use reverse as shuffle to skip the randomness

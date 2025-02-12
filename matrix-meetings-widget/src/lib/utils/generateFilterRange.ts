@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { toISOSafe } from '@nordeck/matrix-meetings-calendar';
 import { DateTime, Duration } from 'luxon';
 import { getWeekdayShift } from './getWeekdayShift';
 
@@ -37,8 +38,8 @@ export const generateFilterRange = (
   if (view === 'day') {
     const startDate = referenceDate.startOf('day');
     return {
-      startDate: startDate.toISO(),
-      endDate: startDate.endOf('day').toISO(),
+      startDate: toISOSafe(startDate),
+      endDate: toISOSafe(startDate.endOf('day')),
     };
   }
 
@@ -54,8 +55,8 @@ export const generateFilterRange = (
     }
 
     return {
-      startDate: startDate.toISO(),
-      endDate: startDate.plus({ days: 6 }).endOf('day').toISO(),
+      startDate: toISOSafe(startDate),
+      endDate: toISOSafe(startDate.plus({ days: 6 }).endOf('day')),
     };
   }
 
@@ -68,16 +69,16 @@ export const generateFilterRange = (
     }
 
     return {
-      startDate: startDate.toISO(),
-      endDate: startDate.plus({ days: 4 }).endOf('day').toISO(),
+      startDate: toISOSafe(startDate),
+      endDate: toISOSafe(startDate.plus({ days: 4 }).endOf('day')),
     };
   }
 
   if (view === 'month') {
     const startDate = referenceDate.startOf('month');
     return {
-      startDate: startDate.toISO(),
-      endDate: referenceDate.endOf('month').toISO(),
+      startDate: toISOSafe(startDate),
+      endDate: toISOSafe(referenceDate.endOf('month')),
     };
   }
 

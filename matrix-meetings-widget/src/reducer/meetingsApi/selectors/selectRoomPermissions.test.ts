@@ -22,6 +22,7 @@ import {
   StateEvent,
 } from '@matrix-widget-toolkit/api';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { mockPowerLevelsEvent } from '../../../lib/testUtils';
 import { createStore, RootState } from '../../../store';
 import { initializeStore } from '../../../store/store';
@@ -30,16 +31,18 @@ import {
   makeSelectRoomPermissions,
 } from './selectRoomPermissions';
 
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  hasActionPower: jest.fn(),
-  hasRoomEventPower: jest.fn(),
-  hasStateEventPower: jest.fn(),
+vi.mock('@matrix-widget-toolkit/api', async () => ({
+  ...(await vi.importActual<typeof import('@matrix-widget-toolkit/api')>(
+    '@matrix-widget-toolkit/api',
+  )),
+  hasActionPower: vi.fn(),
+  hasRoomEventPower: vi.fn(),
+  hasStateEventPower: vi.fn(),
 }));
 
-const hasActionPower = jest.mocked(hasActionPowerMocked);
-const hasRoomEventPower = jest.mocked(hasRoomEventPowerMocked);
-const hasStateEventPower = jest.mocked(hasStateEventPowerMocked);
+const hasActionPower = vi.mocked(hasActionPowerMocked);
+const hasRoomEventPower = vi.mocked(hasRoomEventPowerMocked);
+const hasStateEventPower = vi.mocked(hasStateEventPowerMocked);
 
 let widgetApi: MockedWidgetApi;
 
@@ -124,7 +127,9 @@ describe('selectRoomPermissions', () => {
 
   beforeEach(async () => {
     // restore mocks
-    const orig = jest.requireActual('@matrix-widget-toolkit/api');
+    const orig = await vi.importActual<
+      typeof import('@matrix-widget-toolkit/api')
+    >('@matrix-widget-toolkit/api');
     hasRoomEventPower.mockImplementation(orig.hasRoomEventPower);
     hasStateEventPower.mockImplementation(orig.hasStateEventPower);
     hasActionPower.mockImplementation(orig.hasActionPower);

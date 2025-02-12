@@ -19,6 +19,7 @@ import {
   DatePickerSlotsComponentsProps,
   PickersDayProps,
 } from '@mui/x-date-pickers';
+import { toISOSafe } from '@nordeck/matrix-meetings-calendar';
 import { DateTime, Interval } from 'luxon';
 import React, { Dispatch, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -55,9 +56,9 @@ export const DateRangePicker = ({
     (value: DateTime | null) => {
       if (value?.isValid) {
         if (!selectedStartDate) {
-          setSelectedStartDate(value.startOf('day').toISO());
+          setSelectedStartDate(toISOSafe(value.startOf('day')));
         } else {
-          onRangeChange(selectedStartDate, value.endOf('day').toISO());
+          onRangeChange(selectedStartDate, toISOSafe(value.endOf('day')));
           setSelectedStartDate(undefined);
           setOpen(false);
         }

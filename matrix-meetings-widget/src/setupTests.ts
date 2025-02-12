@@ -18,36 +18,64 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom';
-import { toHaveNoViolations } from 'jest-axe';
+import '@testing-library/jest-dom/vitest';
+
+import { cleanup } from '@testing-library/react';
+import { AxeResults } from 'axe-core';
 import { TextDecoder, TextEncoder } from 'util';
 // Make sure to initialize i18n (see mock below)
-import { mockDateTimeFormatTimeZone } from '@nordeck/matrix-meetings-calendar';
-import './i18n';
+import { mockDateTimeFormatTimeZone } from '@nordeck/matrix-meetings-calendar/src/testing';
+import i18next from 'i18next';
+import { initReactI18next } from 'react-i18next';
+import { afterEach, beforeAll, beforeEach, expect, vi } from 'vitest';
+import { default as de } from '../public/locales/de/translation.json';
+import { default as en } from '../public/locales/en/translation.json';
+import { registerDateRangeFormatter } from './dateRangeFormatter';
 import { setLocale } from './lib/locale';
 
-// Use a different configuration for i18next during tests
-jest.mock('./i18n', () => {
-  const i18n = require('i18next');
-  const en = { translation: require('../public/locales/en/translation.json') };
-  const de = { translation: require('../public/locales/de/translation.json') };
-  const { initReactI18next } = require('react-i18next');
-  const { registerDateRangeFormatter } = require('./dateRangeFormatter');
+// Prevent act warnings https://github.com/testing-library/react-testing-library/issues/1061
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(global as any).IS_REACT_ACT_ENVIRONMENT = true;
 
-  i18n.use(initReactI18next).init({
+// Add support for axe
+expect.extend({
+  toHaveNoViolations(results: AxeResults) {
+    const violations = results.violations ?? [];
+
+    return {
+      pass: violations.length === 0,
+      actual: violations,
+      message() {
+        if (violations.length === 0) {
+          return '';
+        }
+
+        return `Expected no accessibility violations but received some.
+
+${violations
+  .map(
+    (violation) => `[${violation.impact}] ${violation.id}
+${violation.description}
+${violation.helpUrl}
+`,
+  )
+  .join('\n')}
+`;
+      },
+    };
+  },
+});
+
+beforeAll(() => {
+  i18next.use(initReactI18next).init({
     fallbackLng: 'en',
     interpolation: {
       escapeValue: false,
     },
-    resources: {
-      en,
-      de,
-    },
+    resources: { de: { translation: de }, en: { translation: en } },
   });
 
-  registerDateRangeFormatter(i18n);
-
-  return i18n;
+  registerDateRangeFormatter(i18next);
 });
 
 beforeEach(() => {
@@ -60,21 +88,18 @@ beforeEach(() => {
 
 // Provide mocks for the object URL related
 // functions that are not provided by jsdom.
-window.URL.createObjectURL = jest.fn();
-window.URL.revokeObjectURL = jest.fn();
-
-// Add support for jest-axe
-expect.extend(toHaveNoViolations);
+window.URL.createObjectURL = vi.fn();
+window.URL.revokeObjectURL = vi.fn();
 
 // Tell MUI that we have a mouse available and that the UI should not fallback
 // to mobile/touch mode
 beforeEach(() => {
-  window.matchMedia = jest.fn().mockImplementation((query) => ({
+  window.matchMedia = vi.fn().mockImplementation((query) => ({
     matches: query === '(pointer: fine)',
     media: '',
     onchange: null,
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
   }));
 });
 
@@ -84,5 +109,9 @@ global.TextDecoder = TextDecoder as typeof global.TextDecoder;
 
 // Provide a mock for the Clipboard API
 Object.defineProperty(navigator, 'clipboard', {
-  value: { writeText: jest.fn() },
+  value: { writeText: vi.fn() },
+});
+
+afterEach(() => {
+  cleanup();
 });

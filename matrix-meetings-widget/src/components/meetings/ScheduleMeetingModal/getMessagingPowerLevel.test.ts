@@ -15,14 +15,17 @@
  */
 
 import { getEnvironment as getEnvironmentMocked } from '@matrix-widget-toolkit/mui';
+import { describe, expect, it, vi } from 'vitest';
 import { getMessagingPowerLevel } from './getMessagingPowerLevel';
 
-jest.mock('@matrix-widget-toolkit/mui', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/mui'),
-  getEnvironment: jest.fn(),
+vi.mock('@matrix-widget-toolkit/mui', async () => ({
+  ...(await vi.importActual<typeof import('@matrix-widget-toolkit/mui')>(
+    '@matrix-widget-toolkit/mui',
+  )),
+  getEnvironment: vi.fn(),
 }));
 
-const getEnvironment = jest.mocked(getEnvironmentMocked);
+const getEnvironment = vi.mocked(getEnvironmentMocked);
 
 describe('getMessagingPowerLevel', () => {
   it.each`

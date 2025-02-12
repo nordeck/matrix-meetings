@@ -18,9 +18,10 @@ import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import {
   mockCreateMeetingInvitation,
   mockRoomMember,
@@ -29,14 +30,14 @@ import { createStore } from '../../../store';
 import { initializeStore } from '../../../store/store';
 import { InvitedMeetingCard } from './InvitedMeetingCard';
 
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  extractWidgetApiParameters: jest.fn(),
+vi.mock('@matrix-widget-toolkit/api', async () => ({
+  ...(await vi.importActual<typeof import('@matrix-widget-toolkit/api')>(
+    '@matrix-widget-toolkit/api',
+  )),
+  extractWidgetApiParameters: vi.fn(),
 }));
 
-const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked,
-);
+const extractWidgetApiParameters = vi.mocked(extractWidgetApiParametersMocked);
 
 let widgetApi: MockedWidgetApi;
 
@@ -120,6 +121,6 @@ describe('<InvitedMeetingCard/>', () => {
 
     await expect(screen.findByRole('heading')).resolves.toBeInTheDocument();
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 });

@@ -15,7 +15,7 @@
  */
 
 import { getRoomMemberDisplayName } from '@matrix-widget-toolkit/api';
-import { isEqual } from 'lodash';
+import { isEqual } from 'lodash-es';
 import { createSelectorCreator, defaultMemoize } from 'reselect';
 import { RootState } from '../../../store';
 import { isMeetingRoomOrBreakOutRoom } from '../helpers';

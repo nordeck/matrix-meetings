@@ -18,10 +18,21 @@ import { extractWidgetApiParameters } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, within } from '@testing-library/react';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
+// @ts-ignore Disabled during migration. Should be re-enabled at some point
 import { setupServer } from 'msw/lib/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import {
+  afterAll,
+  afterEach,
+  beforeAll,
+  beforeEach,
+  describe,
+  expect,
+  it,
+  vi,
+} from 'vitest';
 import {
   mockConfigEndpoint,
   mockCreateMeetingRoom,
@@ -34,9 +45,11 @@ import { createStore } from '../../../../store';
 import { initializeStore } from '../../../../store/store';
 import { MeetingDetailsParticipants } from './MeetingDetailsParticipants';
 
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  extractWidgetApiParameters: jest.fn(),
+vi.mock('@matrix-widget-toolkit/api', async () => ({
+  ...(await vi.importActual<typeof import('@matrix-widget-toolkit/api')>(
+    '@matrix-widget-toolkit/api',
+  )),
+  extractWidgetApiParameters: vi.fn(),
 }));
 
 const server = setupServer();
@@ -99,7 +112,7 @@ describe('<MeetingDetailsParticipants/>', () => {
   ];
 
   beforeEach(() => {
-    jest.mocked(extractWidgetApiParameters).mockReturnValue({
+    vi.mocked(extractWidgetApiParameters).mockReturnValue({
       clientOrigin: 'http://element.local',
       widgetId: '',
     });
@@ -165,7 +178,7 @@ describe('<MeetingDetailsParticipants/>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should just the participants list if the creator not in the room', () => {

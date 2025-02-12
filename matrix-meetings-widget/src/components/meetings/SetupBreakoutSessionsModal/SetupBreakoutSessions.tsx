@@ -23,6 +23,7 @@ import {
   TextField,
 } from '@mui/material';
 import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
+import { toISOSafe } from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -107,8 +108,8 @@ export const SetupBreakoutSessions = ({
     } else {
       onBreakoutSessionsChange({
         description,
-        startTime: startDate.toISO(),
-        endTime: endDate.toISO(),
+        startTime: toISOSafe(startDate),
+        endTime: toISOSafe(endDate),
         widgetIds: widgets,
         groups: groups.map((group) => ({
           title: group.title,

@@ -17,9 +17,10 @@
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
   mockCalendarEntry,
   mockMeeting,
@@ -139,7 +140,7 @@ describe('<MeetingsCalendarEvent/>', () => {
     );
 
     expect(screen.getByText('An important meeting')).toBeInTheDocument();
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations for month view', async () => {
@@ -153,7 +154,7 @@ describe('<MeetingsCalendarEvent/>', () => {
     );
 
     expect(screen.getByText('An important meeting')).toBeInTheDocument();
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should provide a label text for the event button', () => {

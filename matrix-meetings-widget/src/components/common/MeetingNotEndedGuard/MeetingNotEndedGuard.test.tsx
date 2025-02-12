@@ -15,10 +15,11 @@
  */
 
 import { act, render, screen, within } from '@testing-library/react';
+import { afterEach, describe, expect, it, vi } from 'vitest';
 import { mockCalendarEntry, mockMeeting } from '../../../lib/testUtils';
 import { MeetingNotEndedGuard } from './MeetingNotEndedGuard';
 
-afterEach(() => jest.useRealTimers());
+afterEach(() => vi.useRealTimers());
 
 describe('<MeetingNotEndedGuard/>', () => {
   it('should render without exploding', () => {
@@ -200,10 +201,10 @@ describe('<MeetingNotEndedGuard/>', () => {
   });
 
   it('should update rendering if timer elapses', () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     // set clock to before the meeting ended
-    jest.setSystemTime(new Date('2000-01-01T10:00:00Z'));
+    vi.setSystemTime(new Date('2000-01-01T10:00:00Z'));
 
     const futureTime = new Date();
     futureTime.setSeconds(futureTime.getSeconds() + 1);
@@ -220,18 +221,18 @@ describe('<MeetingNotEndedGuard/>', () => {
     expect(screen.getByText(/My Content/)).toBeInTheDocument();
 
     // set clock to after the meeting ended
-    jest.setSystemTime(new Date('2000-01-01T10:00:11Z'));
+    vi.setSystemTime(new Date('2000-01-01T10:00:11Z'));
 
     // should not yet trigger the update
     act(() => {
-      jest.advanceTimersByTime(9_000);
+      vi.advanceTimersByTime(9_000);
     });
 
     expect(screen.getByText(/My Content/)).toBeInTheDocument();
 
     // should trigger the update
     act(() => {
-      jest.advanceTimersByTime(1_000);
+      vi.advanceTimersByTime(1_000);
     });
 
     expect(screen.getByRole('status')).toBeInTheDocument();

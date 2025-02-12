@@ -20,7 +20,7 @@ import {
   formatICalDate,
   parseICalDate,
 } from '@nordeck/matrix-meetings-calendar';
-import { isArray, uniq } from 'lodash';
+import { isArray, uniq } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { useEffect, useMemo, useState } from 'react';
 import { tzlib_get_ical_block } from 'timezones-ical-library';

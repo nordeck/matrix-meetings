@@ -16,13 +16,14 @@
 
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { ComponentType, PropsWithChildren } from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { LocalizationProvider } from '../LocalizationProvider';
 import { CalendarMonthPicker } from './CalendarMonthPicker';
 
 describe('<CalendarMonthPicker>', () => {
-  const onRangeChange = jest.fn();
+  const onRangeChange = vi.fn();
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
@@ -58,7 +59,7 @@ describe('<CalendarMonthPicker>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations, if date picker is open', async () => {
@@ -77,7 +78,7 @@ describe('<CalendarMonthPicker>', () => {
       }),
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should react to input changes', async () => {

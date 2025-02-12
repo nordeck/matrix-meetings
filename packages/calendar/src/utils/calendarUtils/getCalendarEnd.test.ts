@@ -15,6 +15,7 @@
  */
 
 import { DateTime } from 'luxon';
+import { describe, expect, it } from 'vitest';
 import { mockCalendar, mockCalendarEntry } from '../../testing';
 import { getCalendarEnd } from './getCalendarEnd';
 

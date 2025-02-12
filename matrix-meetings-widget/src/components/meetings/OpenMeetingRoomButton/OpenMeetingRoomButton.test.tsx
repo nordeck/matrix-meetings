@@ -19,18 +19,19 @@ import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { ComponentType, PropsWithChildren } from 'react';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { OpenMeetingRoomButton } from './OpenMeetingRoomButton';
 
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  extractWidgetApiParameters: jest.fn(),
+vi.mock('@matrix-widget-toolkit/api', async () => ({
+  ...(await vi.importActual<typeof import('@matrix-widget-toolkit/api')>(
+    '@matrix-widget-toolkit/api',
+  )),
+  extractWidgetApiParameters: vi.fn(),
 }));
 
-const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked,
-);
+const extractWidgetApiParameters = vi.mocked(extractWidgetApiParametersMocked);
 
 let widgetApi: MockedWidgetApi;
 
@@ -61,7 +62,7 @@ describe('<OpenMeetingRoomButton/>', () => {
       wrapper: Wrapper,
     });
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations in breakout session mode', async () => {
@@ -73,7 +74,7 @@ describe('<OpenMeetingRoomButton/>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should navigate to the room', async () => {

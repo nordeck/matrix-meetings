@@ -15,7 +15,7 @@
  */
 
 import { expect } from '@playwright/test';
-import { repeat } from 'lodash';
+import { repeat } from 'lodash-es';
 import { test } from './fixtures';
 
 test.describe('Schedule Breakout Sessions', () => {

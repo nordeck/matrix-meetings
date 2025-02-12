@@ -17,6 +17,7 @@
 import { DateTime } from 'luxon';
 import { CalendarEntry } from '../../model';
 import { parseICalDate } from '../dateTimeUtils';
+import { toISOSafe } from '../helpers';
 import {
   CalendarEvent,
   calculateCalendarEvents,
@@ -85,10 +86,10 @@ export function getCalendarEvent(
       // only consider events that match the override
       // entry OR include the recurrenceId
       fromDate: overrideEntry
-        ? parseICalDate(overrideEntry.dtstart).toISO()
+        ? toISOSafe(parseICalDate(overrideEntry.dtstart))
         : recurrenceId,
       toDate: overrideEntry
-        ? parseICalDate(overrideEntry.dtend).toISO()
+        ? toISOSafe(parseICalDate(overrideEntry.dtend))
         : recurrenceId,
     });
 
@@ -113,7 +114,7 @@ export function getCalendarEvent(
         calendar: relatedCalendar,
         // meeting end is exclusive, therefore we need to adjust our search
         // space a bit
-        fromDate: calendarEnd.minus({ milliseconds: 1 }).toISO(),
+        fromDate: toISOSafe(calendarEnd.minus({ milliseconds: 1 })),
         limit: 1,
       });
     }

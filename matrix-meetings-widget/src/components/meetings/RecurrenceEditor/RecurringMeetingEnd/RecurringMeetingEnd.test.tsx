@@ -16,17 +16,18 @@
 
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { DateTime } from 'luxon';
 import { ComponentType, PropsWithChildren } from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { RecurringMeetingEnd } from '.';
 import { LocalizationProvider } from '../../../common/LocalizationProvider';
 import { RecurrenceEnd } from '../state';
 
 describe('<RecurringMeetingEnd>', () => {
-  const onAfterMeetingCountChange = jest.fn();
-  const onRecurrenceEndChange = jest.fn();
-  const onUntilDateChange = jest.fn();
+  const onAfterMeetingCountChange = vi.fn();
+  const onRecurrenceEndChange = vi.fn();
+  const onUntilDateChange = vi.fn();
   const startDate = new Date('2022-01-01T13:10:00.000Z');
 
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
@@ -156,7 +157,7 @@ describe('<RecurringMeetingEnd>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should select endless repetition', async () => {
@@ -250,7 +251,7 @@ describe('<RecurringMeetingEnd>', () => {
       { target: { value: '05/05/2022' } },
     );
 
-    expect(onUntilDateChange.mock.calls.at(-1).at(0).toJSDate()).toEqual(
+    expect(onUntilDateChange.mock.calls.at(-1)?.at(0).toJSDate()).toEqual(
       // Explicitly choose the end of the day, as until should be inclusive
       new Date('2022-05-05T23:59:59.999Z'),
     );

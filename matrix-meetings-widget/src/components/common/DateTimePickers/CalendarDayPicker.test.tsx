@@ -16,14 +16,15 @@
 
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
 import { ComponentType, PropsWithChildren } from 'react';
+import { beforeEach, describe, expect, it, vi } from 'vitest';
 import { setLocale } from '../../../lib/locale';
 import { LocalizationProvider } from '../LocalizationProvider';
 import { CalendarDayPicker } from './CalendarDayPicker';
 
 describe('<CalendarDayPicker>', () => {
-  const onRangeChange = jest.fn();
+  const onRangeChange = vi.fn();
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
@@ -59,7 +60,7 @@ describe('<CalendarDayPicker>', () => {
       { wrapper: Wrapper },
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations, if date picker is open', async () => {
@@ -78,7 +79,7 @@ describe('<CalendarDayPicker>', () => {
       }),
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have date calendar weekdays starting from Sunday for english locale', async () => {

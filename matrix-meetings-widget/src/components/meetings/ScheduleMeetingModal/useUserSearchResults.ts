@@ -15,7 +15,7 @@
  */
 
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
-import { isError } from 'lodash';
+import { isError } from 'lodash-es';
 import { useEffect, useState } from 'react';
 
 type SearchResults = Array<{

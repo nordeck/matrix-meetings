@@ -17,7 +17,7 @@
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import { Badge, Box, ToggleButton, ToggleButtonGroup } from '@mui/material';
-import { Dispatch, useCallback } from 'react';
+import { Dispatch, MouseEvent, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ellipsis } from '../../../lib/ellipsis';
 
@@ -38,7 +38,7 @@ export function ToggleListView({
   const { t } = useTranslation();
 
   const handleChangeInvitationsView = useCallback(
-    (_, value: string) => {
+    (_: MouseEvent, value: string) => {
       onChange(value === 'invitations');
     },
     [onChange],

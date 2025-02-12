@@ -23,7 +23,7 @@ import {
   useTheme,
 } from '@mui/material';
 import { unstable_useId as useId } from '@mui/utils';
-import { sortBy } from 'lodash';
+import { sortBy } from 'lodash-es';
 import React, { Dispatch, useCallback } from 'react';
 import { useTranslation } from 'react-i18next';
 import { localeWeekdays } from '../../../../lib/utils';

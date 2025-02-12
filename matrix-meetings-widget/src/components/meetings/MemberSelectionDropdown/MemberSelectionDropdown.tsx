@@ -28,6 +28,7 @@ import {
   ListItemProps,
   ListItemText,
   TextField,
+  TextFieldProps,
   Tooltip,
   Typography,
 } from '@mui/material';
@@ -242,7 +243,7 @@ export function MemberSelectionDropdown({
   );
 
   const renderInput = useCallback(
-    (props) => {
+    (props: TextFieldProps) => {
       return (
         <TextField
           {...props}
@@ -261,7 +262,7 @@ export function MemberSelectionDropdown({
                     />
                   </InputAdornment>
                 )}
-                {props.InputProps.endAdornment}
+                {props.InputProps?.endAdornment}
               </>
             ),
           }}

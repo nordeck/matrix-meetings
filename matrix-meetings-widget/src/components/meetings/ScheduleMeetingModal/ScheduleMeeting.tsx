@@ -29,6 +29,7 @@ import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
 import {
   isRecurringCalendarSourceEntry,
   parseICalDate,
+  toISOSafe,
 } from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
 import { ChangeEvent, useCallback, useEffect, useMemo, useState } from 'react';
@@ -274,7 +275,7 @@ export const ScheduleMeeting = ({
   }, []);
 
   const handleChangeMessagingPermissions = useCallback(
-    (_, checked: boolean) => {
+    (_: ChangeEvent, checked: boolean) => {
       setIsDirty(true);
       setIsMessagingEnabled(checked);
     },
@@ -335,8 +336,8 @@ export const ScheduleMeeting = ({
       onMeetingChange({
         title: title.trim(),
         description,
-        startTime: startDate.toISO(),
-        endTime: endDate.toISO(),
+        startTime: toISOSafe(startDate),
+        endTime: toISOSafe(endDate),
         participants,
         powerLevels,
         widgetIds: widgets,

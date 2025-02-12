@@ -16,12 +16,13 @@
 
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import axe from 'axe-core';
+import { describe, expect, it, vi } from 'vitest';
 import { ConfirmDeleteDialog } from './ConfirmDeleteDialog';
 
 describe('<ConfirmDeleteDialog/>', () => {
-  const onCancel = jest.fn();
-  const onConfirm = jest.fn();
+  const onCancel = vi.fn();
+  const onConfirm = vi.fn();
 
   it('should render without exploding', () => {
     const { container } = render(
@@ -50,7 +51,7 @@ describe('<ConfirmDeleteDialog/>', () => {
       />,
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should have no accessibility violations while loading', async () => {
@@ -66,7 +67,7 @@ describe('<ConfirmDeleteDialog/>', () => {
       />,
     );
 
-    expect(await axe(container)).toHaveNoViolations();
+    expect(await axe.run(container)).toHaveNoViolations();
   });
 
   it('should open a confirm dialog if opened', async () => {
@@ -164,7 +165,7 @@ describe('<ConfirmDeleteDialog/>', () => {
   });
 
   it('should call onEnter every time the dialog is displayed', async () => {
-    const onEnter = jest.fn();
+    const onEnter = vi.fn();
 
     const { rerender } = render(
       <ConfirmDeleteDialog

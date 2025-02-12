@@ -19,7 +19,7 @@ import {
   normalizeNumeric,
   parseRRule,
 } from '@nordeck/matrix-meetings-calendar';
-import { isEqual, omit } from 'lodash';
+import { isEqual, omit } from 'lodash-es';
 import { DateTime } from 'luxon';
 import { Dispatch, useReducer } from 'react';
 import { Frequency, Options, RRule } from 'rrule';

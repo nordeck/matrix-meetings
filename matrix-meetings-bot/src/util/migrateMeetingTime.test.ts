@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { mockCalendarEntry } from '@nordeck/matrix-meetings-calendar';
+import { mockCalendarEntry } from '@nordeck/matrix-meetings-calendar/src/testing/testUtils';
 import { migrateMeetingTime } from './migrateMeetingTime';
 
 describe('migrateMeetingTime', () => {

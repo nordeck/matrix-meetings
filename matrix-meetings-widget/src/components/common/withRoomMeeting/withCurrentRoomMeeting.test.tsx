@@ -19,6 +19,7 @@ import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { act, render, screen } from '@testing-library/react';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
+import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { mockCalendar, mockCreateMeetingRoom } from '../../../lib/testUtils';
 import { Meeting } from '../../../reducer/meetingsApi';
 import { createStore } from '../../../store';
@@ -60,7 +61,7 @@ describe('withCurrentRoomMeeting', () => {
   });
 
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('should render without exploding', async () => {
@@ -92,8 +93,8 @@ describe('withCurrentRoomMeeting', () => {
       },
     });
 
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2023-01-01T13:59:59Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2023-01-01T13:59:59Z'));
 
     render(<Component />, { wrapper: Wrapper });
 
@@ -104,7 +105,7 @@ describe('withCurrentRoomMeeting', () => {
     expect(screen.getByText('Start: 2023-01-01T10:00:00Z')).toBeInTheDocument();
 
     act(() => {
-      jest.advanceTimersByTime(30 * 1000);
+      vi.advanceTimersByTime(30 * 1000);
     });
 
     expect(screen.getByText('Start: 2023-01-02T10:00:00Z')).toBeInTheDocument();

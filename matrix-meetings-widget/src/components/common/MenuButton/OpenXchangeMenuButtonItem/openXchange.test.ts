@@ -15,6 +15,7 @@
  */
 
 import { StateEvent } from '@matrix-widget-toolkit/api';
+import { describe, expect, it } from 'vitest';
 import { NordeckMeetingMetadataEvent } from '../../../../lib/matrix';
 import { mockNordeckMeetingMetadataEvent } from '../../../../lib/testUtils';
 import {

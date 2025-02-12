@@ -15,12 +15,13 @@
  */
 
 import { Settings } from 'luxon';
+import { vi } from 'vitest';
 
 // store original instance
 const DateTimeFormat = Intl.DateTimeFormat;
 
 export function mockDateTimeFormatTimeZone(timeZone: string): void {
-  jest.spyOn(Intl, 'DateTimeFormat').mockImplementation((locale, options) => {
+  vi.spyOn(Intl, 'DateTimeFormat').mockImplementation((locale, options) => {
     const format = new DateTimeFormat(locale, {
       ...options,
       timeZone: options?.timeZone ?? timeZone,
@@ -29,20 +30,16 @@ export function mockDateTimeFormatTimeZone(timeZone: string): void {
     // replace all uncommon whitespace characters with ' '. Relates to https://github.com/nodejs/node/pull/45068
     // where the unicode standard decided to use U+2009 in some cases. This breaks some of our tests
     const originalFormatRange = format.formatRange;
-    jest
-      .spyOn(format, 'formatRange')
-      .mockImplementation((startDate, endDate) =>
-        originalFormatRange
-          .call(format, startDate, endDate)
-          .replace(/\s+/g, ' '),
-      );
+    vi.spyOn(format, 'formatRange').mockImplementation((startDate, endDate) =>
+      originalFormatRange.call(format, startDate, endDate).replace(/\s+/g, ' '),
+    );
 
     return format;
   });
 
   // make sure getTimezoneOffset is based on the provided timezone and
   // not the system
-  jest.spyOn(Date.prototype, 'getTimezoneOffset').mockImplementation(function (
+  vi.spyOn(Date.prototype, 'getTimezoneOffset').mockImplementation(function (
     this: Date,
   ) {
     const dateInLocalTZ = new Date(this.toLocaleString('en-US', { timeZone }));

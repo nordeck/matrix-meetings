@@ -15,6 +15,7 @@
  */
 
 import { AdapterLuxon } from '@mui/x-date-pickers/AdapterLuxon';
+import { toISOSafe } from '@nordeck/matrix-meetings-calendar';
 import { DateTime, Duration } from 'luxon';
 import { generateFilterRange, getWeekdayShift } from '../../lib/utils';
 
@@ -46,11 +47,11 @@ export class AdapterLuxonWeekday extends AdapterLuxon {
     }
 
     const normStartOfMonth = DateTime.fromISO(
-      generateFilterRange('week', cleanValue.startOf('month').toISO())
+      generateFilterRange('week', toISOSafe(cleanValue.startOf('month')))
         .startDate,
     );
     const normEndOfMonth = DateTime.fromISO(
-      generateFilterRange('week', cleanValue.endOf('month').toISO()).endDate,
+      generateFilterRange('week', toISOSafe(cleanValue.endOf('month'))).endDate,
     );
 
     const { days } = normEndOfMonth.diff(normStartOfMonth, 'days').toObject();

@@ -15,6 +15,7 @@
  */
 
 import { SxProps } from '@mui/material';
+import { toISOSafe } from '@nordeck/matrix-meetings-calendar';
 import { DateTime } from 'luxon';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -47,7 +48,7 @@ export const CalendarMonthPicker = ({
   const handleRangeChange = useCallback(
     (value: DateTime | null) => {
       if (value?.isValid) {
-        const date = value.toISO();
+        const date = toISOSafe(value);
         const { startDate, endDate } = generateFilterRange('month', date);
         onRangeChange(startDate, endDate);
       }
