@@ -14,9 +14,11 @@
  * limitations under the License.
  */
 
-module.exports = {
+const i18NextParserConfig = {
   locales: ['en', 'de'],
   output: 'public/locales/$LOCALE/$NAMESPACE.json',
   sort: true,
   resetDefaultValueLocale: 'en',
 };
+
+export default i18NextParserConfig;
