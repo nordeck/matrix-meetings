@@ -17,7 +17,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version-file: 'matrix-meetings-widget/package.json'
           cache: 'yarn'
 
       - name: yarn install
@@ -90,9 +90,33 @@ jobs:
         with:
           push: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' || github.event_name == 'pull_request' && secrets.GH_APP_OS_APP_ID != '' }}
           context: ./matrix-meetings-widget/
+          build-contexts: |
+            root=./
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64,linux/s390x
+          sbom: true
+          provenance: true
+          outputs: 'type=image'
+
+      - name: Run Trivy to get an SBOM report of the container
+        env:
+          IMAGE_REF: ${{ env.DOCKER_IMAGE }}@${{ steps.dockerBuild.outputs.digest }}
+        uses: aquasecurity/trivy-action@0.29.0
+        with:
+          scan-type: 'image'
+          scanners: 'license'
+          format: 'spdx-json'
+          output: 'matrix-meetings-widget.sbom.spdx.json'
+          image-ref: ${{ env.IMAGE_REF }}
+          github-pat: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload SBOM report as a build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: matrix-meetings-widget-sbom-spdx-report
+          path: 'matrix-meetings-widget.sbom.spdx.json'
+          retention-days: 30
 
   build-bot:
     runs-on: ubuntu-latest
@@ -104,7 +128,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version-file: 'matrix-meetings-bot/package.json'
           cache: 'yarn'
 
       - name: yarn install
@@ -181,6 +205,28 @@ jobs:
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}
           platforms: linux/amd64,linux/arm64,linux/s390x
+          sbom: true
+          provenance: true
+          outputs: 'type=image'
+
+      - name: Run Trivy to get an SBOM report of the container
+        env:
+          IMAGE_REF: ${{ env.DOCKER_IMAGE }}@${{ steps.dockerBuild.outputs.digest }}
+        uses: aquasecurity/trivy-action@0.29.0
+        with:
+          scan-type: 'image'
+          scanners: 'license'
+          format: 'spdx-json'
+          output: 'matrix-meetings-bot.sbom.spdx.json'
+          image-ref: ${{ env.IMAGE_REF }}
+          github-pat: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload SBOM report as a build artifcat
+        uses: actions/upload-artifact@v4
+        with:
+          name: matrix-meetings-bot-sbom-spdx-report
+          path: 'matrix-meetings-bot.sbom.spdx.json'
+          retention-days: 30
 
   run-changesets:
     runs-on: ubuntu-latest
@@ -200,7 +246,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version-file: 'package.json'
           cache: 'yarn'
 
       - name: yarn install
@@ -214,7 +260,7 @@ jobs:
           private_key: ${{ secrets.GH_APP_OS_PRIVATE_KEY }}
 
       - name: Create Release Pull Request or Publish Packages
-        uses: changesets/action@aba318e9165b45b7948c60273e0b72fce0a64eb9
+        uses: changesets/action@c8bada60c408975afd1a20b3db81d6eee6789308
         with:
           publish: yarn changeset tag
         env:
@@ -237,7 +283,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version-file: 'e2e/package.json'
           cache: 'yarn'
 
       - name: yarn install
@@ -254,6 +300,8 @@ jobs:
         id: dockerBuildWidget
         with:
           context: ./matrix-meetings-widget/
+          build-contexts: |
+            root=./
 
       - name: Docker build bot
         uses: docker/build-push-action@v6

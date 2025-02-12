@@ -78,7 +78,7 @@ test.describe('Meeting Widget Setup', () => {
 
     // Wait for a moment and give the bot a chance to initialize the room. There
     // is no better way to observe that the bot has completed its work.
-    // eslint-disable-next-line
+    // eslint-disable-next-line playwright/no-wait-for-timeout
     await alicePage.waitForTimeout(1000);
 
     expect(await aliceElementWebPage.getWidgets()).toEqual(['NeoDateFix']);
