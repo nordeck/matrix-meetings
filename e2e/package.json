@@ -9,11 +9,9 @@
   "devDependencies": {
     "@axe-core/playwright": "^4.10.1",
     "@playwright/test": "^1.50.1",
-    "@types/lodash": "^4.17.15",
     "@types/node": "^22.13.1",
     "eslint": "^8.57.0",
     "eslint-plugin-playwright": "^1.6.1",
-    "lodash": "^4.17.21",
     "testcontainers": "^10.18.0",
     "typescript": "^5.7.3"
   },
