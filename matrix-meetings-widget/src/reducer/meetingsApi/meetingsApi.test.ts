@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { RoomEvent } from '@matrix-widget-toolkit/api';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { waitFor } from '@testing-library/react';
 import {
@@ -270,7 +271,7 @@ describe('meetingsApi', () => {
 
       widgetApi
         .observeRoomEvents('net.nordeck.meetings.meeting.widgets.handle')
-        .subscribe((event) => {
+        .subscribe((event: RoomEvent) => {
           if (eventIdx++ === 0) {
             return acknowledgeAllEvents(widgetApi)(event);
           } else {
@@ -366,7 +367,7 @@ describe('meetingsApi', () => {
 
       widgetApi
         .observeRoomEvents('net.nordeck.meetings.meeting.participants.handle')
-        .subscribe((event) => {
+        .subscribe((event: RoomEvent) => {
           if (eventIdx++ === 0) {
             return acknowledgeAllEvents(widgetApi)(event);
           } else {

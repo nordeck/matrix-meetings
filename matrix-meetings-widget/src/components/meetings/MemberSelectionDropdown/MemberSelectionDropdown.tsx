@@ -20,6 +20,7 @@ import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import {
   Autocomplete,
   AutocompleteRenderGetTagProps,
+  AutocompleteRenderInputParams,
   Chip,
   CircularProgress,
   InputAdornment,
@@ -242,7 +243,7 @@ export function MemberSelectionDropdown({
   );
 
   const renderInput = useCallback(
-    (props) => {
+    (props: AutocompleteRenderInputParams) => {
       return (
         <TextField
           {...props}

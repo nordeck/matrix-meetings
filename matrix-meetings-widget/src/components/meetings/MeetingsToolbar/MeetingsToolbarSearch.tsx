@@ -52,6 +52,7 @@ export const MeetingsToolbarSearch = ({
       }}
       onChange={handleOnChangeChangeText}
       placeholder={t('meetingsToolbar.filterPlaceholder', 'Search…')}
+      size="small"
       sx={{
         minWidth: '10rem',
         maxWidth: '35rem',
