@@ -14,5 +14,5 @@
  * limitations under the License.
  */
 
-export { OpenXchangeButton } from './OpenXchangeButton';
 export { getOpenXChangeExternalReference } from './openXchange';
+export { OpenXchangeButton } from './OpenXchangeButton';
