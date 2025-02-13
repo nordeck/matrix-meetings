@@ -79,7 +79,8 @@ export async function startSynapse({
   const synapseUrl = `http://${container.getHost()}:${container.getMappedPort(
     8008,
   )}`;
-  const synapseHostUrl = `http://${container.getIpAddress('bridge')}:8008`;
+  const ipAddress = getIpAddress(container);
+  const synapseHostUrl = `http://${ipAddress}:8008`;
 
   console.log('Synapse running at', synapseUrl);
 
@@ -92,4 +93,16 @@ export async function stopSynapse() {
 
     console.log('Stopped synapse');
   }
+}
+
+function getIpAddress(container: StartedTestContainer): string {
+  try {
+    // First try to return the Docker IP address
+    return container.getIpAddress('bridge');
+  } catch {
+    // Ignore
+  }
+
+  // Try the Podman IP address otherwise
+  return container.getIpAddress('podman');
 }
