@@ -19,14 +19,14 @@
     "generate-disclaimer": "echo \"Nothing to generate\""
   },
   "dependencies": {
-    "i18next": "^23.16.5",
+    "i18next": "^24.2.2",
     "joi": "^17.13.3",
-    "lodash": "^4.17.20",
-    "luxon": "^3.3.0",
+    "lodash": "^4.17.21",
+    "luxon": "3.3.0",
     "rrule": "^2.8.1"
   },
   "devDependencies": {
-    "@types/lodash": "^4.17.4",
+    "@types/lodash": "^4.17.15",
     "@types/luxon": "^3.2.0",
     "ts-jest": "^29.2.5"
   },
