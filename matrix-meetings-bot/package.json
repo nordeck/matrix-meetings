@@ -20,7 +20,7 @@
     "start:debug": "PORT=3001 nest start --debug --watch",
     "copyfiles": "copyfiles -E -u 1 src/static/locales/**/*.json lib",
     "copyImages": "copyfiles -E -u 1 src/static/images/* lib",
-    "lint": "eslint . --no-error-on-unmatched-pattern",
+    "lint": "eslint . --max-warnings=0",
     "translate": "i18next 'src/**/*.{ts,tsx}'",
     "test": "jest --watch",
     "test:all": "jest --coverage --watchAll=false",
