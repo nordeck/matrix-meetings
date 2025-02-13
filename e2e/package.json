@@ -12,8 +12,7 @@
     "@types/node": "^22.13.1",
     "eslint": "^8.57.0",
     "eslint-plugin-playwright": "^1.6.1",
-    "testcontainers": "^10.18.0",
-    "typescript": "^5.7.3"
+    "testcontainers": "^10.18.0"
   },
   "engines": {
     "node": ">=20",
