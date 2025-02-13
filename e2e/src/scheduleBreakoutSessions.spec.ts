@@ -15,7 +15,6 @@
  */
 
 import { expect } from '@playwright/test';
-import { repeat } from 'lodash';
 import { test } from './fixtures';
 
 test.describe('Schedule Breakout Sessions', () => {
@@ -150,7 +149,7 @@ test.describe('Schedule Breakout Sessions', () => {
     // For some reason the test fails to enter the description if we enter it
     // first (firefox only?)
     await aliceScheduleBreakoutSessionWidgetPage.descriptionTextbox.fill(
-      'My Description' + repeat('+', 100000),
+      'My Description' + '+'.repeat(100000),
     );
     await aliceScheduleBreakoutSessionWidgetPage.groupNumberSnipButton.fill(
       '2',
@@ -165,29 +164,29 @@ test.describe('Schedule Breakout Sessions', () => {
     );
     await aliceScheduleBreakoutSessionWidgetPage
       .getGroupTitleTextbox('Group 1')
-      .fill('Group 1' + repeat('+', 100000));
+      .fill('Group 1' + '+'.repeat(100000));
     await aliceScheduleBreakoutSessionWidgetPage
       .getGroupTitleTextbox('Group 2')
-      .fill('Group 2' + repeat('+', 100000));
+      .fill('Group 2' + '+'.repeat(100000));
     await aliceScheduleBreakoutSessionWidgetPage.createBreakoutSessions();
 
     await aliceBreakoutSessionsPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
 
     await expect(
       aliceBreakoutSessionsPage.getBreakoutSession(
-        'Group 1' + repeat('+', 255 - 'Group 1'.length),
+        'Group 1' + '+'.repeat(255 - 'Group 1'.length),
       ).meetingDescriptionText,
     ).toHaveText(
-      'My Description' + repeat('+', 20000 - 'My Description'.length),
+      'My Description' + '+'.repeat(20000 - 'My Description'.length),
       { timeout: 30000 },
     );
 
     await expect(
       aliceBreakoutSessionsPage.getBreakoutSession(
-        'Group 2' + repeat('+', 255 - 'Group 2'.length),
+        'Group 2' + '+'.repeat(255 - 'Group 2'.length),
       ).meetingDescriptionText,
     ).toHaveText(
-      'My Description' + repeat('+', 20000 - 'My Description'.length),
+      'My Description' + '+'.repeat(20000 - 'My Description'.length),
       { timeout: 30000 },
     );
   });

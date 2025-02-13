@@ -15,7 +15,6 @@
  */
 
 import { expect } from '@playwright/test';
-import { repeat } from 'lodash';
 import { test } from './fixtures';
 
 test.describe('Schedule Meeting', () => {
@@ -55,21 +54,21 @@ test.describe('Schedule Meeting', () => {
       await aliceMeetingsWidgetPage.scheduleMeeting();
 
     await aliceScheduleMeetingWidgetPage.titleTextbox.fill(
-      'My Meeting' + repeat('+', 100000),
+      'My Meeting' + '+'.repeat(100000),
     );
     await aliceScheduleMeetingWidgetPage.descriptionTextbox.fill(
-      'My Description' + repeat('+', 100000),
+      'My Description' + '+'.repeat(100000),
     );
     await aliceScheduleMeetingWidgetPage.setStart([2040, 10, 3], '10:30 AM');
     await aliceScheduleMeetingWidgetPage.submit();
 
     await expect(
       aliceMeetingsWidgetPage.getMeeting(
-        'My Meeting' + repeat('+', 255 - 'My Meeting'.length),
+        'My Meeting' + '+'.repeat(255 - 'My Meeting'.length),
         '10/03/2040',
       ).meetingDescriptionText,
     ).toHaveText(
-      'My Description' + repeat('+', 20000 - 'My Description'.length),
+      'My Description' + '+'.repeat(20000 - 'My Description'.length),
     );
   });
 
