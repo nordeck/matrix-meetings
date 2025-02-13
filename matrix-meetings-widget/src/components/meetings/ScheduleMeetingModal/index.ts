@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-export { ScheduleMeetingModal } from './ScheduleMeetingModal';
 export { editMeetingThunk } from './editMeetingThunk';
+export { ScheduleMeetingModal } from './ScheduleMeetingModal';
 export {
   CancelScheduleMeetingModal,
   SCHEDULE_MEETING_MODAL_ROUTE,
