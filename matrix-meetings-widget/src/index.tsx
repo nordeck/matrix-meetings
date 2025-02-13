@@ -17,7 +17,7 @@
 import { WidgetApiImpl } from '@matrix-widget-toolkit/api';
 import { getEnvironment, getNonce } from '@matrix-widget-toolkit/mui';
 import React from 'react';
-import ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom';
 import AppContainer from './AppContainer';
 import './i18n';
@@ -42,11 +42,12 @@ const widgetApiPromise = WidgetApiImpl.create({
   capabilities: widgetCapabilities,
 });
 
-ReactDOM.render(
+const container = document.getElementById('root');
+const root = createRoot(container!);
+root.render(
   <React.StrictMode>
     <BrowserRouter>
       <AppContainer widgetApiPromise={widgetApiPromise} />
     </BrowserRouter>
   </React.StrictMode>,
-  document.getElementById('root'),
 );

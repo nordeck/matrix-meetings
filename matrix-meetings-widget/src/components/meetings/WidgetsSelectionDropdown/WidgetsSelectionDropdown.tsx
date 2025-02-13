@@ -17,6 +17,7 @@
 import {
   Autocomplete,
   AutocompleteRenderGetTagProps,
+  AutocompleteRenderInputParams,
   Chip,
   CircularProgress,
   InputAdornment,
@@ -110,7 +111,7 @@ export function WidgetsSelectionDropdown({
   }, [availableWidgets.length, isError, t]);
 
   const renderInput = useCallback(
-    (props) => {
+    (props: AutocompleteRenderInputParams) => {
       return (
         <TextField
           {...props}
