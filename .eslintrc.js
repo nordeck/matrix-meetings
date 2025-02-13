@@ -48,4 +48,7 @@ module.exports = {
   globals: {
     __webpack_nonce__: true,
   },
+  parserOptions: {
+    warnOnUnsupportedTypeScriptVersion: false,
+  },
 };
