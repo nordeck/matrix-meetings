@@ -19,4 +19,7 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 0,
     'testing-library/render-result-naming-convention': 'off',
   },
+  parserOptions: {
+    warnOnUnsupportedTypeScriptVersion: false,
+  },
 };
