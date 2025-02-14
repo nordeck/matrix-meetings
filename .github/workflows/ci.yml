@@ -277,7 +277,7 @@ jobs:
         # Webkit is currently to slow in CI and causes a lot of issues.
         # Therefore we exclude it for now.
         exclude:
-          - browser: chromium
+          - browser: firefox
           - browser: webkit
     steps:
       - uses: actions/checkout@v4
