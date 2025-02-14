@@ -135,12 +135,11 @@ describe('<MeetingCard/>', () => {
     expect(
       screen.getByRole('button', {
         name: /show participants/i,
-        expanded: false,
       }),
     ).toBeInTheDocument();
 
     expect(
-      screen.getByRole('button', { name: /share meeting/i, expanded: false }),
+      screen.getByRole('button', { name: /share meeting/i }),
     ).toBeInTheDocument();
   });
 

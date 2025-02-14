@@ -469,9 +469,7 @@ describe('<MeetingsPanel/>', () => {
     expect(await screen.findByText('An important meeting')).toBeInTheDocument();
     expect(screen.getByText('Meeting 1')).toBeInTheDocument();
 
-    await userEvent.click(
-      screen.getByRole('button', { name: 'Show 2 more events' }),
-    );
+    await userEvent.click(screen.getByRole('button', { name: '+2 more' }));
 
     await waitFor(() => {
       expect(screen.getAllByRole('gridcell')).toHaveLength(1);

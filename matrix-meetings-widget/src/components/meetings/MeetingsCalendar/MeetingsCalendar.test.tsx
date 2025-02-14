@@ -477,7 +477,7 @@ describe('<MeetingsCalendar/>', () => {
     ).toBeInTheDocument();
     expect(
       within(day1).getByRole('button', {
-        name: 'Show 2 more events',
+        name: '+2 more',
       }),
     ).toBeInTheDocument();
     expect(within(day2).getByText('Meeting 5')).toBeInTheDocument();
@@ -532,7 +532,7 @@ describe('<MeetingsCalendar/>', () => {
     const day1 = screen.getByRole('gridcell', { name: /^january 1, 2021/i });
     await userEvent.click(
       await within(day1).findByRole('button', {
-        name: 'Show 2 more events',
+        name: '+2 more',
       }),
     );
 
