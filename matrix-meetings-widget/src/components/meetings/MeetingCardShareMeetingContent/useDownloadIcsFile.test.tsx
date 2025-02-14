@@ -65,6 +65,7 @@ describe('useDownloadIcsFile', () => {
   beforeEach(() => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date('2020-01-01T10:00:00Z'));
+    console.log('MiW time', Date.now());
 
     mockConfigEndpoint(server);
     mockMeetingSharingInformationEndpoint(server);
@@ -190,7 +191,8 @@ describe('createIcsFile', () => {
       BEGIN:VTIMEZONE
       TZID:Europe/Berlin
       X-LIC-LOCATION:Europe/Berlin
-      LAST-MODIFIED:20230517T170335Z
+      LAST-MODIFIED:20250101T220159Z
+      X-LIC-LOCATION:Europe/Berlin
       BEGIN:DAYLIGHT
       TZNAME:CEST
       TZOFFSETFROM:+0100
@@ -401,7 +403,8 @@ describe('createIcsFile', () => {
       BEGIN:VTIMEZONE
       TZID:Europe/Berlin
       X-LIC-LOCATION:Europe/Berlin
-      LAST-MODIFIED:20230517T170335Z
+      LAST-MODIFIED:20250101T220159Z
+      X-LIC-LOCATION:Europe/Berlin
       BEGIN:DAYLIGHT
       TZNAME:CEST
       TZOFFSETFROM:+0100
@@ -420,7 +423,8 @@ describe('createIcsFile', () => {
       BEGIN:VTIMEZONE
       TZID:Europe/London
       X-LIC-LOCATION:Europe/London
-      LAST-MODIFIED:20230517T170335Z
+      LAST-MODIFIED:20250101T220159Z
+      X-LIC-LOCATION:Europe/London
       BEGIN:DAYLIGHT
       TZNAME:BST
       TZOFFSETFROM:+0000
@@ -439,7 +443,8 @@ describe('createIcsFile', () => {
       BEGIN:VTIMEZONE
       TZID:Europe/Moscow
       X-LIC-LOCATION:Europe/Moscow
-      LAST-MODIFIED:20230517T170336Z
+      LAST-MODIFIED:20250101T220159Z
+      X-LIC-LOCATION:Europe/Moscow
       BEGIN:STANDARD
       TZNAME:MSK
       TZOFFSETFROM:+0300

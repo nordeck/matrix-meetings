@@ -14088,7 +14088,7 @@ thunky@^1.0.2:
   resolved "https://registry.yarnpkg.com/thunky/-/thunky-1.1.0.tgz#5abaf714a9405db0504732bbccd2cedd9ef9537d"
   integrity sha512-eHY7nBftgThBqOyHGVN+l8gF0BucP09fMo0oO/Lb0w1OF80dJv+lDVpXG60WMQvkcxAkNybKsrEIE3ZtKGmPrA==
 
-timezones-ical-library@^1.7.2:
+timezones-ical-library@^1.9.1:
   version "1.9.1"
   resolved "https://registry.yarnpkg.com/timezones-ical-library/-/timezones-ical-library-1.9.1.tgz#36021944c3d45d809dac5ad7e71a9db07266cc47"
   integrity sha512-OBC7oPoQi6JZn6u/2xQcFTMbe1BLjPrv+QUh5jHfYmg0QTR5HnuhwsBqHfvScNTHqTrDxqlXofXzSm2hFDC1Ow==

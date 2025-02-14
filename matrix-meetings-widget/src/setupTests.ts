@@ -86,3 +86,9 @@ global.TextDecoder = TextDecoder as typeof global.TextDecoder;
 Object.defineProperty(navigator, 'clipboard', {
   value: { writeText: jest.fn() },
 });
+
+// Polyfill structuredClone
+// @todo may become unnecessary after Vite migration
+global.structuredClone = (val) => {
+  return JSON.parse(JSON.stringify(val));
+};
