@@ -15,11 +15,11 @@
  */
 
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
-import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { LocalizationProvider } from './components/common/LocalizationProvider';
+import { MockedWidgetApi, mockWidgetApi } from './lib/mockWidgetApi';
 import { StoreProvider } from './store';
 
 let widgetApi: MockedWidgetApi;

@@ -48,10 +48,9 @@ jobs:
         working-directory: ./packages/calendar/
         run: yarn test:all
 
-      # Disabled during Vite migration
-      # - name: test
-      #   working-directory: ./matrix-meetings-widget/
-      #   run: yarn test:all
+      - name: test
+        working-directory: ./matrix-meetings-widget/
+        run: yarn test:all
 
       - name: build
         working-directory: ./matrix-meetings-widget/

@@ -15,8 +15,8 @@
  */
 
 import { RoomEvent } from '@matrix-widget-toolkit/api';
-import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { waitFor } from '@testing-library/react';
+import { MockedWidgetApi, mockWidgetApi } from '../../lib/mockWidgetApi';
 import {
   acknowledgeAllEvents,
   mockCalendar,
