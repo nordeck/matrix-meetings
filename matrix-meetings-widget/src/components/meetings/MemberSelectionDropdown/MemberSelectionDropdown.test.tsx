@@ -15,13 +15,13 @@
  */
 
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
-import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { MemberSelectionDropdown } from '.';
+import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import { mockPowerLevelsEvent, mockRoomMember } from '../../../lib/testUtils';
 import { createStore, initializeStore } from '../../../store/store';
 import { MemberSelection } from './MemberSelectionDropdown';

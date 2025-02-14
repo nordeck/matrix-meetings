@@ -15,12 +15,12 @@
  */
 
 import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '@matrix-widget-toolkit/api';
-import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { waitFor } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockCalendarEntry,
   mockConfigEndpoint,

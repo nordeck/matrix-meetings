@@ -15,9 +15,9 @@
  */
 
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
-import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, within } from '@testing-library/react';
 import { ComponentType, PropsWithChildren } from 'react';
+import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import { mockMeeting } from '../../../lib/testUtils';
 import { Meeting } from '../../../reducer/meetingsApi';
 import { MeetingInvitationGuard } from './MeetingInvitationGuard';

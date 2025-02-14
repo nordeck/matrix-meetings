@@ -15,7 +15,6 @@
  */
 
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
-import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
@@ -23,6 +22,7 @@ import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
+import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import { mockWidgetEndpoint } from '../../../lib/testUtils';
 import { createStore } from '../../../store';
 import { WidgetsSelectionDropdown } from './WidgetsSelectionDropdown';

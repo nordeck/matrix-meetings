@@ -16,11 +16,11 @@
 
 import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
-import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { ComponentType, PropsWithChildren } from 'react';
+import { MockedWidgetApi, mockWidgetApi } from '../../../../lib/mockWidgetApi';
 import { MeetingDetailsJoinButton } from './MeetingDetailsJoinButton';
 
 jest.mock('@matrix-widget-toolkit/api', () => ({

@@ -16,13 +16,13 @@
 
 import { extractWidgetApiParameters } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
-import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockCalendar,
   mockConfigEndpoint,
@@ -477,7 +477,7 @@ describe('<MeetingsCalendar/>', () => {
     ).toBeInTheDocument();
     expect(
       within(day1).getByRole('button', {
-        name: 'Show 2 more events',
+        name: '+2 more',
       }),
     ).toBeInTheDocument();
     expect(within(day2).getByText('Meeting 5')).toBeInTheDocument();
@@ -532,7 +532,7 @@ describe('<MeetingsCalendar/>', () => {
     const day1 = screen.getByRole('gridcell', { name: /^january 1, 2021/i });
     await userEvent.click(
       await within(day1).findByRole('button', {
-        name: 'Show 2 more events',
+        name: '+2 more',
       }),
     );
 

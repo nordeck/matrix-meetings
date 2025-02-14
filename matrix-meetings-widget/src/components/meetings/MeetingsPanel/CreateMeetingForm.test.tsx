@@ -15,12 +15,12 @@
  */
 
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
-import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import { createStore } from '../../../store';
 import { initializeStore } from '../../../store/store';
 import { LocalizationProvider } from '../../common/LocalizationProvider';

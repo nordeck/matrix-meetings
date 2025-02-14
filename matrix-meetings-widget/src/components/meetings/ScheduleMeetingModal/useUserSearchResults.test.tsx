@@ -15,10 +15,10 @@
  */
 
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
-import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { renderHook } from '@testing-library/react-hooks';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import { createStore } from '../../../store';
 import { initializeStore } from '../../../store/store';
 import { useUserSearchResults } from './useUserSearchResults';

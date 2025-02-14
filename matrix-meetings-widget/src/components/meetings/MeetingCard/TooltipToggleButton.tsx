@@ -16,7 +16,7 @@
 
 import ToggleButton, { ToggleButtonProps } from '@mui/material/ToggleButton';
 import Tooltip, { TooltipProps } from '@mui/material/Tooltip';
-import { forwardRef, VFC } from 'react';
+import { forwardRef } from 'react';
 
 type TooltipToggleButtonProps = ToggleButtonProps & {
   TooltipProps: Omit<TooltipProps, 'children'>;
@@ -30,18 +30,19 @@ type TooltipToggleButtonProps = ToggleButtonProps & {
 };
 
 // Catch props and forward to ToggleButton
-export const TooltipToggleButton: VFC<TooltipToggleButtonProps> = forwardRef(
-  ({ TooltipProps, expandedId, ...props }, ref) => {
-    const { selected } = props;
-    return (
-      <Tooltip {...TooltipProps}>
-        <ToggleButton
-          aria-controls={selected ? expandedId : undefined}
-          aria-expanded={expandedId ? selected : undefined}
-          ref={ref}
-          {...props}
-        />
-      </Tooltip>
-    );
-  },
-);
+export const TooltipToggleButton = forwardRef<
+  HTMLButtonElement,
+  TooltipToggleButtonProps
+>(({ TooltipProps, expandedId, ...props }, ref) => {
+  const { selected } = props;
+  return (
+    <Tooltip {...TooltipProps}>
+      <ToggleButton
+        aria-controls={selected ? expandedId : undefined}
+        aria-expanded={expandedId ? selected : undefined}
+        ref={ref}
+        {...props}
+      />
+    </Tooltip>
+  );
+});
