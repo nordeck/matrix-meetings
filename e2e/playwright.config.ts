@@ -22,7 +22,7 @@ import { devices } from '@playwright/test';
  */
 const config: PlaywrightTestConfig = {
   testDir: './src',
-  // Tests are really show on CI, increase the timeout
+  // Tests are really slow on CI, increase the timeout
   timeout: 120_000,
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -52,7 +52,7 @@ const config: PlaywrightTestConfig = {
   },
 
   expect: {
-    // Tests are really show on CI, increase the timeout
+    // Tests are really slow on CI, increase the timeout
     timeout: 15_000,
   },
 
