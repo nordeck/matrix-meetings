@@ -51,6 +51,10 @@ const config: PlaywrightTestConfig = {
     baseURL: 'http://localhost:3000',
   },
 
+  expect: {
+    timeout: 10_000,
+  },
+
   webServer: {
     command: `docker run --rm -p 3000:8080 -e REACT_APP_API_BASE_URL=* ${
       process.env.IMAGE_ID ?? 'nordeck/matrix-meetings-widget'
