@@ -110,8 +110,8 @@ settings:
     ## Configure the access token (can be skipped if init.getFreshDeviceToken.enabled is activated)
     # - name: ACCESS_TOKEN
     #   secretKeyRef:
-    #     name: pg-credentials
-    #     key: db_host
+    #     name: matrix-credentials
+    #     key: access-token
 
     ## Other optional variables
     #- name: LOG_LEVEL
