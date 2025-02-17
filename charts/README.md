@@ -15,7 +15,7 @@ The bot requires the following environment variables to work:
 - `HOMESERVER_URL`: The URL of the Matrix homeserver.
 - `ACCESS_TOKEN`: The access token of the Matrix user for the bot.
 
-You can also use the `init` section to automatically create and log in a bot user. However, the `HOMESERVER_URL` must still be provided and must match `init.homeserver`.
+You can also use the `init` section to automatically create and log in a bot user if you provide a secret named "meetings-bot-credentials" with the key "password" present. However, the `HOMESERVER_URL` must still be provided and must match `init.homeserver`.
 
 To set the required values, you need to customize the `values.yaml` file of the charts. Here is an example of how to set the required values:
 
