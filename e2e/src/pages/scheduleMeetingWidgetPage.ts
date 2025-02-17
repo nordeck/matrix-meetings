@@ -72,9 +72,15 @@ export class ScheduleMeetingWidgetPage {
   }
 
   async waitForAvailableWidgets() {
+    await this.participantsCombobox.waitFor();
     await this.widgetsCombobox.waitFor();
 
     await this.widget.getByRole('progressbar').waitFor({ state: 'hidden' });
+
+    // Give everything some time to settle.
+    // @todo find proper fix
+    // eslint-disable-next-line playwright/no-wait-for-timeout
+    await this.page.waitForTimeout(2_500);
   }
 
   async setStart(date: [number, number, number], time: string) {
