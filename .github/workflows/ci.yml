@@ -19,8 +19,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: 'matrix-meetings-widget/package.json'
-          cache: 'yarn'
+          node-version-file: "matrix-meetings-widget/package.json"
+          cache: "yarn"
 
       - name: yarn install
         run: yarn install --frozen-lockfile
@@ -99,17 +99,17 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/s390x
           sbom: true
           provenance: true
-          outputs: 'type=image'
+          outputs: "type=image"
 
       - name: Run Trivy to get an SBOM report of the container
         env:
           IMAGE_REF: ${{ env.DOCKER_IMAGE }}@${{ steps.dockerBuild.outputs.digest }}
         uses: aquasecurity/trivy-action@0.29.0
         with:
-          scan-type: 'image'
-          scanners: 'license'
-          format: 'spdx-json'
-          output: 'matrix-meetings-widget.sbom.spdx.json'
+          scan-type: "image"
+          scanners: "license"
+          format: "spdx-json"
+          output: "matrix-meetings-widget.sbom.spdx.json"
           image-ref: ${{ env.IMAGE_REF }}
           github-pat: ${{ secrets.GITHUB_TOKEN }}
 
@@ -117,7 +117,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: matrix-meetings-widget-sbom-spdx-report
-          path: 'matrix-meetings-widget.sbom.spdx.json'
+          path: "matrix-meetings-widget.sbom.spdx.json"
           retention-days: 30
 
   build-bot:
@@ -132,8 +132,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: 'matrix-meetings-bot/package.json'
-          cache: 'yarn'
+          node-version-file: "matrix-meetings-bot/package.json"
+          cache: "yarn"
 
       - name: yarn install
         run: yarn install --frozen-lockfile
@@ -211,17 +211,17 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/s390x
           sbom: true
           provenance: true
-          outputs: 'type=image'
+          outputs: "type=image"
 
       - name: Run Trivy to get an SBOM report of the container
         env:
           IMAGE_REF: ${{ env.DOCKER_IMAGE }}@${{ steps.dockerBuild.outputs.digest }}
         uses: aquasecurity/trivy-action@0.29.0
         with:
-          scan-type: 'image'
-          scanners: 'license'
-          format: 'spdx-json'
-          output: 'matrix-meetings-bot.sbom.spdx.json'
+          scan-type: "image"
+          scanners: "license"
+          format: "spdx-json"
+          output: "matrix-meetings-bot.sbom.spdx.json"
           image-ref: ${{ env.IMAGE_REF }}
           github-pat: ${{ secrets.GITHUB_TOKEN }}
 
@@ -229,7 +229,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: matrix-meetings-bot-sbom-spdx-report
-          path: 'matrix-meetings-bot.sbom.spdx.json'
+          path: "matrix-meetings-bot.sbom.spdx.json"
           retention-days: 30
 
   helm-lint-test:
@@ -246,7 +246,7 @@ jobs:
         uses: azure/setup-helm@v4
       - uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: "3.12"
           check-latest: true
       - name: Set up chart-testing
         uses: helm/chart-testing-action@v2.6.1
@@ -274,7 +274,7 @@ jobs:
       - name: Run chart-testing (install)
         if: steps.list-changed.outputs.changed == 'true'
         run: |
-          ct install --config=".github/k8s_config.yaml" \
+          ct install --config=".github/k8s_config.yaml" --charts charts/matrix-meetings \
           --target-branch ${{ github.event.repository.default_branch }} \
           --helm-extra-set-args="--set=matrix-meetings-widget.image.tag=${{ needs.build-widget.outputs.docker-tag }} \
           --set=matrix-meetings-bot.image.tag=${{ needs.build-bot.outputs.docker-tag }} \
@@ -296,15 +296,15 @@ jobs:
       - uses: actions/checkout@v4
         with:
           # required for changesets
-          fetch-depth: '0'
+          fetch-depth: "0"
           # don't persist the credentials so the changesets action doesn't use the
           # github actions token but the git token provided via environment variable
           persist-credentials: false
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: 'package.json'
-          cache: 'yarn'
+          node-version-file: "package.json"
+          cache: "yarn"
 
       - name: yarn install
         run: yarn install --frozen-lockfile
@@ -329,7 +329,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        browser: ['chromium', 'firefox', 'webkit']
+        browser: ["chromium", "firefox", "webkit"]
         # Webkit is currently to slow in CI and causes a lot of issues.
         # Therefore we exclude it for now.
         exclude:
@@ -340,8 +340,8 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: 'e2e/package.json'
-          cache: 'yarn'
+          node-version-file: "e2e/package.json"
+          cache: "yarn"
 
       - name: yarn install
         run: yarn install --frozen-lockfile
