@@ -96,7 +96,7 @@ settings:
     #   }
 
     # provide a custom DEFAULT_EVENTS_CONFIG to override the defaults
-    #defaultWidgetLayoutsConfig: |
+    # defaultWidgetLayoutsConfig: |
     #  []
 
   ## Add any environment variable from `docs/configuration.md` to customize the
@@ -114,7 +114,7 @@ settings:
     #     key: access-token
 
     ## Other optional variables
-    #- name: LOG_LEVEL
+    # - name: LOG_LEVEL
     #  value: 'debug'
 
 ## Settings for the automatic creation and login to a bot user. This is optional

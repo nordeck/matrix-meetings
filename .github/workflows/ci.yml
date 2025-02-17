@@ -268,13 +268,22 @@ jobs:
         if: steps.list-changed.outputs.changed == 'true'
         run: |
           kubectl create namespace matrix-meetings
+          # We require a running synapse for the bot to work
+          echo "Deploying synapse"
+          kubectl apply -f ./.github/synapse_deployment.yaml
       - name: Run chart-testing (install)
         if: steps.list-changed.outputs.changed == 'true'
         run: |
           ct install --config=".github/k8s_config.yaml" \
           --target-branch ${{ github.event.repository.default_branch }} \
           --helm-extra-set-args="--set=matrix-meetings-widget.image.tag=${{ needs.build-widget.outputs.docker-tag }} \
-          --set=matrix-meetings-bot.image.tag=${{ needs.build-bot.outputs.docker-tag }}"
+          --set=matrix-meetings-bot.image.tag=${{ needs.build-bot.outputs.docker-tag }} \
+          --set=matrix-meetings-bot.additionalEnv[0].name=HOMESERVER_URL \
+          --set=matrix-meetings-bot.additionalEnv[0].value='http://synapse.matrix-meetings.svc.cluster.local:8008' \
+          --set=matrix-meetings-bot.init.createUserAccount.enabled=true \
+          --set=matrix-meetings-bot.init.getFreshDeviceToken.enabled=true \
+          --set=matrix-meetings-bot.init.homeserver='synapse.matrix-meetings.svc.cluster.local' \
+          --set=matrix-meetings-bot.init.homeserverUrl='http://synapse.matrix-meetings.svc.cluster.local:8008'"
 
   run-changesets:
     runs-on: ubuntu-latest
