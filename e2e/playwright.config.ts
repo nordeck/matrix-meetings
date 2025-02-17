@@ -22,7 +22,7 @@ import { devices } from '@playwright/test';
  */
 const config: PlaywrightTestConfig = {
   testDir: './src',
-  /* Increase default timeout from 30 sec as we often scratch it. */
+  // Tests are really show on CI, increase the timeout
   timeout: 120_000,
   /* Run tests in files in parallel */
   fullyParallel: true,
@@ -52,7 +52,8 @@ const config: PlaywrightTestConfig = {
   },
 
   expect: {
-    timeout: 10_000,
+    // Tests are really show on CI, increase the timeout
+    timeout: 15_000,
   },
 
   webServer: {
