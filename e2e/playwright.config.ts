@@ -56,7 +56,7 @@ const config: PlaywrightTestConfig = {
       process.env.IMAGE_ID ?? 'nordeck/matrix-meetings-widget'
     }`,
     url: 'http://localhost:3000',
-    timeout: 5 * 1000,
+    timeout: 60_000,
     reuseExistingServer: !process.env.CI,
   },
 
@@ -95,9 +95,6 @@ const config: PlaywrightTestConfig = {
       use: {
         ...devices['Desktop Safari'],
       },
-      // Webkit tests are slower than the normal tests, therefore we increase
-      // the timeout
-      timeout: 90000,
     },
   ],
 

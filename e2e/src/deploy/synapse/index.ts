@@ -69,7 +69,7 @@ export async function startSynapse({
     .withHealthCheck({
       test: ['CMD-SHELL', 'curl -f http://localhost:8008/health || exit 1'],
       interval: 1000,
-      timeout: 3000,
+      timeout: 10_000,
       retries: 20,
       startPeriod: 1000,
     })

@@ -25,8 +25,6 @@ test.describe('Encrypted Meeting Room', () => {
       aliceElementWebPage,
       aliceJitsiWidgetPage,
     }) => {
-      test.setTimeout(60000);
-
       await aliceEncryptedMeetingsWidgetPage.setDateFilter(
         [2040, 10, 1],
         [2040, 10, 8],

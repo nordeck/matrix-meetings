@@ -78,9 +78,7 @@ test.describe('Schedule Encrypted Meeting', () => {
     await expect(
       aliceEncryptedMeetingsWidgetPage.getMeeting('My Meeting', '10/03/2040')
         .meetingTimeRangeText,
-    ).toHaveText('10:30 AM – 11:30 AM. Recurrence: Every day for 2 times', {
-      timeout: 30000,
-    });
+    ).toHaveText('10:30 AM – 11:30 AM. Recurrence: Every day for 2 times');
 
     await bobElementWebPage.navigateToRoomOrInvitation('Calendar');
     await bobElementWebPage.acceptRoomInvitation();
