@@ -1,6 +1,6 @@
 #!/bin/sh
 set -x;
-while [ $(curl -k -sw '%{http_code}' "${HOMESERVER}/_matrix/client/versions" -o /dev/null) -ne 200 ]; do
+while [ "$(curl -k -sw '%{http_code}' "$HOMESERVER"/_matrix/client/versions -o /dev/null)" -ne 200 ]; do
   sleep 1;
 done
 response=$(curl -k --write-out '%{http_code}' --silent --output /dev/null -X GET --header 'Accept: application/json' "$HOMESERVER/_matrix/client/r0/register/available?username=$USERTOCREATE")
