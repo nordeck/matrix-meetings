@@ -1,4 +1,4 @@
-#/bin/sh
+#!/bin/sh
 
 USER=$(psql  -X -A -w -t   -c "select user_id from ratelimit_override where user_id='@$USERTOCREATE:$SERVER'")
 if [ "$USER" = 400 ]; then
