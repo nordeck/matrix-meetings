@@ -3,6 +3,8 @@
 # Get the login token
 TOKEN_RESPONSE=$(curl -s -X POST -H "Content-Type: application/json" -d "{\"type\":\"m.login.password\",\"user\":\"${USERTOCREATE}\",\"password\":\"${BOT_PASSWORD}\"}" "${HOMESERVER}/_matrix/client/r0/login")
 
+echo "Got response: $TOKEN_RESPONSE"
+
 # Extract the access token from the response
 ACCESS_TOKEN=$(echo "$TOKEN_RESPONSE" | grep -o '"access_token":"[^"]*' | cut -d'"' -f4)
 
