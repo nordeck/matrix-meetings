@@ -1,0 +1,12 @@
+matrix-meetings-bot:
+  settings:
+    additionalEnv:
+      - name: HOMESERVER_URL
+        value: 'http://synapse.matrix-meetings.svc.cluster.local:8008'
+  init:
+    createUserAccount:
+      enabled: true
+    getFreshDeviceToken:
+      enabled: true
+    homeserver: synapse.matrix-meetings.svc.cluster.local
+    homeserverUrl: 'http://synapse.matrix-meetings.svc.cluster.local:8008'
