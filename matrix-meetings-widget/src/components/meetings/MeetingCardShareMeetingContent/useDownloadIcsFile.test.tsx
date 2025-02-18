@@ -65,7 +65,6 @@ describe('useDownloadIcsFile', () => {
   beforeEach(() => {
     jest.useFakeTimers();
     jest.setSystemTime(new Date('2020-01-01T10:00:00Z'));
-    console.log('MiW time', Date.now());
 
     mockConfigEndpoint(server);
     mockMeetingSharingInformationEndpoint(server);
