@@ -10,7 +10,7 @@
   "main": "lib/index.js",
   "scripts": {
     "docker:build": "echo \"Nothing to build\"",
-    "build": "tsc",
+    "build": "echo \"Nothing to build\"",
     "depcheck": "depcheck",
     "test": "jest --watch",
     "test:all": "jest --coverage --watchAll=false",
