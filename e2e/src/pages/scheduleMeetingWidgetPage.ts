@@ -100,8 +100,10 @@ export class ScheduleMeetingWidgetPage {
   }
 
   async addParticipant(name: string) {
+    // First click into the combobox. Otherwise the autocomplete does not work.
+    await this.participantsCombobox.click();
     await this.participantsCombobox.fill(name);
-    await this.widget.getByRole('option', { name }).waitFor({ timeout: 30000 });
+    await this.widget.getByRole('option', { name }).waitFor();
     await this.participantsCombobox.press('ArrowDown');
     await this.participantsCombobox.press('Enter');
   }

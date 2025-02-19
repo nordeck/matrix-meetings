@@ -32,7 +32,7 @@ import {
 } from '@mui/material';
 import { unstable_useId as useId, visuallyHidden } from '@mui/utils';
 import { isRecurringCalendarSourceEntry } from '@nordeck/matrix-meetings-calendar';
-import { ReactNode, useCallback, useState } from 'react';
+import { MouseEvent, ReactNode, useCallback, useState } from 'react';
 import { Trans, useTranslation } from 'react-i18next';
 import { ellipsis } from '../../../lib/ellipsis';
 import {
@@ -95,7 +95,7 @@ export const MeetingCard = withRoomIdMeeting(
 
     const closeAction = useCallback(() => setAction(Actions.None), []);
     const handleChangeAction = useCallback(
-      async (_, value: Actions) => {
+      async (_event: MouseEvent, value: Actions) => {
         if (Object.values(Actions).includes(value)) {
           setAction(value);
         } else {

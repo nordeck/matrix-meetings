@@ -15,12 +15,12 @@
  */
 
 import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '@matrix-widget-toolkit/api';
-import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { waitFor } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockCalendarEntry,
   mockConfigEndpoint,
@@ -190,7 +190,8 @@ describe('createIcsFile', () => {
       BEGIN:VTIMEZONE
       TZID:Europe/Berlin
       X-LIC-LOCATION:Europe/Berlin
-      LAST-MODIFIED:20230517T170335Z
+      LAST-MODIFIED:20250101T220159Z
+      X-LIC-LOCATION:Europe/Berlin
       BEGIN:DAYLIGHT
       TZNAME:CEST
       TZOFFSETFROM:+0100
@@ -401,7 +402,8 @@ describe('createIcsFile', () => {
       BEGIN:VTIMEZONE
       TZID:Europe/Berlin
       X-LIC-LOCATION:Europe/Berlin
-      LAST-MODIFIED:20230517T170335Z
+      LAST-MODIFIED:20250101T220159Z
+      X-LIC-LOCATION:Europe/Berlin
       BEGIN:DAYLIGHT
       TZNAME:CEST
       TZOFFSETFROM:+0100
@@ -420,7 +422,8 @@ describe('createIcsFile', () => {
       BEGIN:VTIMEZONE
       TZID:Europe/London
       X-LIC-LOCATION:Europe/London
-      LAST-MODIFIED:20230517T170335Z
+      LAST-MODIFIED:20250101T220159Z
+      X-LIC-LOCATION:Europe/London
       BEGIN:DAYLIGHT
       TZNAME:BST
       TZOFFSETFROM:+0000
@@ -439,7 +442,8 @@ describe('createIcsFile', () => {
       BEGIN:VTIMEZONE
       TZID:Europe/Moscow
       X-LIC-LOCATION:Europe/Moscow
-      LAST-MODIFIED:20230517T170336Z
+      LAST-MODIFIED:20250101T220159Z
+      X-LIC-LOCATION:Europe/Moscow
       BEGIN:STANDARD
       TZNAME:MSK
       TZOFFSETFROM:+0300

@@ -22,8 +22,8 @@ import { devices } from '@playwright/test';
  */
 const config: PlaywrightTestConfig = {
   testDir: './src',
-  /* Increase default timeout from 30 sec as we often scratch it. */
-  timeout: 90000,
+  // Tests are really slow on CI, increase the timeout
+  timeout: 120_000,
   /* Run tests in files in parallel */
   fullyParallel: true,
   /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -51,12 +51,17 @@ const config: PlaywrightTestConfig = {
     baseURL: 'http://localhost:3000',
   },
 
+  expect: {
+    // Tests are really slow on CI, increase the timeout
+    timeout: 15_000,
+  },
+
   webServer: {
     command: `docker run --rm -p 3000:8080 -e REACT_APP_API_BASE_URL=* ${
       process.env.IMAGE_ID ?? 'nordeck/matrix-meetings-widget'
     }`,
     url: 'http://localhost:3000',
-    timeout: 5 * 1000,
+    timeout: 60_000,
     reuseExistingServer: !process.env.CI,
   },
 
@@ -95,9 +100,6 @@ const config: PlaywrightTestConfig = {
       use: {
         ...devices['Desktop Safari'],
       },
-      // Webkit tests are slower than the normal tests, therefore we increase
-      // the timeout
-      timeout: 90000,
     },
   ],
 

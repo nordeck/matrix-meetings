@@ -67,7 +67,7 @@ export class ElementWebPage {
     await dialogLocator
       .getByRole('switch', { name: 'Remember my selection for this widget' })
       // Increase but also limit the timeout to account for widget load time
-      .click({ timeout: 30000 });
+      .click();
 
     await dialogLocator.getByRole('button', { name: 'Approve' }).click();
   }
@@ -280,32 +280,29 @@ export class ElementWebPage {
   ) {
     // Instead of controling the UI, we use the matrix client as it is faster.
     await expect
-      .poll(
-        async () => {
-          const roomId = this.getCurrentRoomId();
+      .poll(async () => {
+        const roomId = this.getCurrentRoomId();
 
-          return await this.page.evaluate(
-            async ({ roomId, username }) => {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              const client = (window as any).mxMatrixClientPeg.get();
+        return await this.page.evaluate(
+          async ({ roomId, username }) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const client = (window as any).mxMatrixClientPeg.get();
 
-              try {
-                const memberEvent = await client.getStateEvent(
-                  roomId,
-                  'm.room.member',
-                  `@${username}:localhost`,
-                );
+            try {
+              const memberEvent = await client.getStateEvent(
+                roomId,
+                'm.room.member',
+                `@${username}:localhost`,
+              );
 
-                return memberEvent.membership;
-              } catch (err) {
-                return undefined;
-              }
-            },
-            { roomId, username },
-          );
-        },
-        { timeout: 90000 },
-      )
+              return memberEvent.membership;
+            } catch (err) {
+              return undefined;
+            }
+          },
+          { roomId, username },
+        );
+      })
       .toEqual(membership);
   }
 
@@ -314,32 +311,29 @@ export class ElementWebPage {
     powerLevel: number | undefined,
   ): Promise<void> {
     await expect
-      .poll(
-        async () => {
-          const roomId = this.getCurrentRoomId();
+      .poll(async () => {
+        const roomId = this.getCurrentRoomId();
 
-          return await this.page.evaluate(
-            async ({ roomId, username }) => {
-              // eslint-disable-next-line @typescript-eslint/no-explicit-any
-              const client = (window as any).mxMatrixClientPeg.get();
+        return await this.page.evaluate(
+          async ({ roomId, username }) => {
+            // eslint-disable-next-line @typescript-eslint/no-explicit-any
+            const client = (window as any).mxMatrixClientPeg.get();
 
-              try {
-                const powerLevels = await client.getStateEvent(
-                  roomId,
-                  'm.room.power_levels',
-                  '',
-                );
+            try {
+              const powerLevels = await client.getStateEvent(
+                roomId,
+                'm.room.power_levels',
+                '',
+              );
 
-                return powerLevels.users?.[`@${username}:localhost`];
-              } catch (err) {
-                return 'error';
-              }
-            },
-            { roomId, username },
-          );
-        },
-        { timeout: 60000 },
-      )
+              return powerLevels.users?.[`@${username}:localhost`];
+            } catch (err) {
+              return 'error';
+            }
+          },
+          { roomId, username },
+        );
+      })
       .toEqual(powerLevel);
   }
 

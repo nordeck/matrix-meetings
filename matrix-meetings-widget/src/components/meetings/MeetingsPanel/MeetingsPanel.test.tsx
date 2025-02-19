@@ -16,13 +16,13 @@
 
 import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
-import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { useMediaQuery } from '@mui/material';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { axe } from 'jest-axe';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   acknowledgeAllEvents,
   mockCalendar,
@@ -469,9 +469,7 @@ describe('<MeetingsPanel/>', () => {
     expect(await screen.findByText('An important meeting')).toBeInTheDocument();
     expect(screen.getByText('Meeting 1')).toBeInTheDocument();
 
-    await userEvent.click(
-      screen.getByRole('button', { name: 'Show 2 more events' }),
-    );
+    await userEvent.click(screen.getByRole('button', { name: '+2 more' }));
 
     await waitFor(() => {
       expect(screen.getAllByRole('gridcell')).toHaveLength(1);

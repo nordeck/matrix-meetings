@@ -25,8 +25,6 @@ test.describe('Meeting Room', () => {
       aliceElementWebPage,
       aliceJitsiWidgetPage,
     }) => {
-      test.setTimeout(30000);
-
       await aliceMeetingsWidgetPage.setDateFilter([2040, 10, 1], [2040, 10, 8]);
 
       const aliceScheduleMeetingWidgetPage =

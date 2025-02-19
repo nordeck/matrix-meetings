@@ -25,6 +25,13 @@
     </script>
     <% } %>
     <!--#echo var="__INJECT_SCRIPT_TAG__" encoding="none"-->
+
+    <script nonce='<!--#echo var="cspNonce"-->'>
+      __webpack_nonce__ = '<!--#echo var="cspNonce"-->';
+      // Set global for compatibility reason.
+      // globalThis ?? window is required to make with work in  all environments (dev / prod).
+      global = globalThis ?? window;
+    </script>
   </head>
 
   <body>
