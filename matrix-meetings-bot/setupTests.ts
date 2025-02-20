@@ -20,16 +20,23 @@ import { Settings } from 'luxon';
 import 'reflect-metadata';
 import { registerDateRangeFormatter } from './src/dateRangeFormatter';
 
+// @ts-expect-error Ignore error. TypeScript complains, even if 'resolveJsonModule' is enabled.
+import translationDe from './src/static/locales/de/translation.json';
+// @ts-expect-error Ignore error. TypeScript complains, even if 'resolveJsonModule' is enabled.
+import translationEn from './src/static/locales/en/translation.json';
+
 // Use a different configuration for i18next during tests
 i18next.use(i18nextBackend).init({
   debug: false,
   saveMissing: true,
   fallbackLng: 'en',
+  preload: ['en', 'de'],
   interpolation: {
     escapeValue: false,
   },
   resources: {
-    en: {},
+    en: { translation: translationEn },
+    de: { translation: translationDe },
   },
 });
 
