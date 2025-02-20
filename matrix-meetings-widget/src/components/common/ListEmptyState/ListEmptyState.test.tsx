@@ -16,7 +16,8 @@
 
 import { List } from '@mui/material';
 import { render, screen } from '@testing-library/react';
-import { axe } from 'jest-axe';
+import { expect } from 'vitest';
+import { axe } from 'vitest-axe';
 import { ListEmptyState } from './ListEmptyState';
 
 describe('<ListEmptyState>', () => {

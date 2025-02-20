@@ -28,6 +28,7 @@ import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { Subject } from 'rxjs';
+import { expect, vi } from 'vitest';
 import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockCalendar,
@@ -49,10 +50,11 @@ afterEach(() => server.resetHandlers());
 afterAll(() => server.close());
 
 let widgetApi: MockedWidgetApi;
-
-afterEach(() => widgetApi.stop());
-
 beforeEach(() => (widgetApi = mockWidgetApi()));
+afterEach(() => {
+  widgetApi.stop();
+  vi.resetAllMocks();
+});
 
 describe('<ScheduleMeetingModal>', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
@@ -60,9 +62,9 @@ describe('<ScheduleMeetingModal>', () => {
   beforeEach(() => {
     mockWidgetEndpoint(server);
 
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-02T13:10:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-02T13:10:00.000Z'),
+    );
 
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
       const store = useMemo(() => {

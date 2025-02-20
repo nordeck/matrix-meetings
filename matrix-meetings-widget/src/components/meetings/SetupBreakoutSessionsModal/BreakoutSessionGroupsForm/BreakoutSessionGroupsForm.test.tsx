@@ -17,9 +17,10 @@
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { MockedWidgetApi, mockWidgetApi } from '../../../../lib/mockWidgetApi';
 import { mockMeeting, mockRoomMember } from '../../../../lib/testUtils';
 import { createStore, initializeStore } from '../../../../store/store';
@@ -70,7 +71,7 @@ describe('<BreakoutSessionGroupsForm>', () => {
   it('should render without exploding', () => {
     render(
       <BreakoutSessionGroupsForm
-        onGroupsChange={jest.fn()}
+        onGroupsChange={vi.fn()}
         parentMeeting={mockMeeting()}
       />,
       { wrapper: Wrapper },
@@ -96,7 +97,7 @@ describe('<BreakoutSessionGroupsForm>', () => {
   it('should have no accessibility violations', async () => {
     const { container } = render(
       <BreakoutSessionGroupsForm
-        onGroupsChange={jest.fn()}
+        onGroupsChange={vi.fn()}
         parentMeeting={mockMeeting()}
       />,
       { wrapper: Wrapper },
@@ -106,7 +107,7 @@ describe('<BreakoutSessionGroupsForm>', () => {
   });
 
   it('should adjust amount of groups', async () => {
-    const onGroupsChange = jest.fn();
+    const onGroupsChange = vi.fn();
     render(
       <BreakoutSessionGroupsForm
         onGroupsChange={onGroupsChange}
@@ -156,7 +157,7 @@ describe('<BreakoutSessionGroupsForm>', () => {
   });
 
   it('should distribute remaining members into groups', async () => {
-    const onGroupsChange = jest.fn();
+    const onGroupsChange = vi.fn();
     render(
       <BreakoutSessionGroupsForm
         onGroupsChange={onGroupsChange}
@@ -189,7 +190,7 @@ describe('<BreakoutSessionGroupsForm>', () => {
   });
 
   it('should show an error if there are to many groups', async () => {
-    const onGroupsChange = jest.fn();
+    const onGroupsChange = vi.fn();
 
     widgetApi.clearStateEvents();
 

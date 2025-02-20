@@ -17,9 +17,10 @@
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { useMediaQuery } from '@mui/material';
 import { render, screen, waitFor } from '@testing-library/react';
-import { axe } from 'jest-axe';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import { mockPowerLevelsEvent } from '../../../lib/testUtils';
 import { Filters } from '../../../reducer/meetingsApi';
@@ -28,7 +29,10 @@ import { initializeStore } from '../../../store/store';
 import { LocalizationProvider } from '../../common/LocalizationProvider';
 import { MeetingsToolbar } from './MeetingsToolbar';
 
-jest.mock('@mui/material/useMediaQuery');
+vi.mock('@mui/material', async (importOriginal) => ({
+  ...(await importOriginal()),
+  useMediaQuery: vi.fn(),
+}));
 
 describe('<MeetingsToolbar/>', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
@@ -38,7 +42,7 @@ describe('<MeetingsToolbar/>', () => {
   afterEach(() => widgetApi.stop());
 
   beforeEach(() => {
-    jest.mocked(useMediaQuery).mockReturnValue(true);
+    vi.mocked(useMediaQuery).mockReturnValue(true);
 
     filters = {
       startDate: '2020-06-07T00:00:00.000+00:00',
@@ -70,9 +74,9 @@ describe('<MeetingsToolbar/>', () => {
     render(
       <MeetingsToolbar
         filters={filters}
-        onRangeChange={jest.fn()}
-        onSearchChange={jest.fn()}
-        onViewChange={jest.fn()}
+        onRangeChange={vi.fn()}
+        onSearchChange={vi.fn()}
+        onViewChange={vi.fn()}
         view="day"
       />,
       { wrapper: Wrapper },
@@ -109,9 +113,9 @@ describe('<MeetingsToolbar/>', () => {
     const { container } = render(
       <MeetingsToolbar
         filters={filters}
-        onRangeChange={jest.fn()}
-        onSearchChange={jest.fn()}
-        onViewChange={jest.fn()}
+        onRangeChange={vi.fn()}
+        onSearchChange={vi.fn()}
+        onViewChange={vi.fn()}
         view="day"
       />,
       { wrapper: Wrapper },
@@ -124,9 +128,9 @@ describe('<MeetingsToolbar/>', () => {
     const { rerender } = render(
       <MeetingsToolbar
         filters={filters}
-        onRangeChange={jest.fn()}
-        onSearchChange={jest.fn()}
-        onViewChange={jest.fn()}
+        onRangeChange={vi.fn()}
+        onSearchChange={vi.fn()}
+        onViewChange={vi.fn()}
         view="day"
       />,
       { wrapper: Wrapper },
@@ -138,14 +142,14 @@ describe('<MeetingsToolbar/>', () => {
       name: 'Previous day',
     });
 
-    jest.mocked(useMediaQuery).mockReturnValue(false);
+    vi.mocked(useMediaQuery).mockReturnValue(false);
 
     rerender(
       <MeetingsToolbar
         filters={filters}
-        onRangeChange={jest.fn()}
-        onSearchChange={jest.fn()}
-        onViewChange={jest.fn()}
+        onRangeChange={vi.fn()}
+        onSearchChange={vi.fn()}
+        onViewChange={vi.fn()}
         view="day"
       />,
     );
@@ -159,9 +163,9 @@ describe('<MeetingsToolbar/>', () => {
     render(
       <MeetingsToolbar
         filters={filters}
-        onRangeChange={jest.fn()}
-        onSearchChange={jest.fn()}
-        onViewChange={jest.fn()}
+        onRangeChange={vi.fn()}
+        onSearchChange={vi.fn()}
+        onViewChange={vi.fn()}
         view="day"
       />,
       { wrapper: Wrapper },

@@ -96,7 +96,7 @@ export function MeetingDetailsHeader({
       if (meeting) {
         await dispatch(editMeetingThunk(meeting)).unwrap();
       }
-    } catch {
+    } catch (e) {
       setShowErrorDialog(true);
     }
   }, [dispatch, meeting]);

@@ -16,14 +16,15 @@
 
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { ComponentType, PropsWithChildren } from 'react';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { setLocale } from '../../../lib/locale';
 import { LocalizationProvider } from '../LocalizationProvider';
 import { CalendarDayPicker } from './CalendarDayPicker';
 
 describe('<CalendarDayPicker>', () => {
-  const onRangeChange = jest.fn();
+  const onRangeChange = vi.fn();
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {

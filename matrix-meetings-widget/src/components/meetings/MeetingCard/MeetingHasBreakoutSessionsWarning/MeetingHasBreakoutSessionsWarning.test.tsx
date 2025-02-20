@@ -15,9 +15,10 @@
  */
 
 import { render, screen } from '@testing-library/react';
-import { axe } from 'jest-axe';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { expect } from 'vitest';
+import { axe } from 'vitest-axe';
 import { MockedWidgetApi, mockWidgetApi } from '../../../../lib/mockWidgetApi';
 import {
   mockCreateBreakoutMeetingRoom,

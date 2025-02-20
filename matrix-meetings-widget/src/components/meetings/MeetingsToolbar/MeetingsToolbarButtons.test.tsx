@@ -16,17 +16,18 @@
 
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { MeetingsToolbarButtons } from './MeetingsToolbarButtons';
 
-afterEach(() => jest.restoreAllMocks());
+afterEach(() => vi.restoreAllMocks());
 
 describe('<MeetingsToolbarButtons/>', () => {
   it('should render without exploding in list view', () => {
     render(
       <MeetingsToolbarButtons
         endDate="2020-06-13T23:59:59.999+00:00"
-        onRangeChange={jest.fn()}
+        onRangeChange={vi.fn()}
         startDate="2020-06-07T00:00:00.000+00:00"
         view="list"
       />,
@@ -45,7 +46,7 @@ describe('<MeetingsToolbarButtons/>', () => {
     render(
       <MeetingsToolbarButtons
         endDate="2020-06-13T23:59:59.999+00:00"
-        onRangeChange={jest.fn()}
+        onRangeChange={vi.fn()}
         startDate="2020-06-07T00:00:00.000+00:00"
         view="day"
       />,
@@ -64,7 +65,7 @@ describe('<MeetingsToolbarButtons/>', () => {
     render(
       <MeetingsToolbarButtons
         endDate="2020-06-13T23:59:59.999+00:00"
-        onRangeChange={jest.fn()}
+        onRangeChange={vi.fn()}
         startDate="2020-06-07T00:00:00.000+00:00"
         view="workWeek"
       />,
@@ -83,7 +84,7 @@ describe('<MeetingsToolbarButtons/>', () => {
     render(
       <MeetingsToolbarButtons
         endDate="2020-06-13T23:59:59.999+00:00"
-        onRangeChange={jest.fn()}
+        onRangeChange={vi.fn()}
         startDate="2020-06-07T00:00:00.000+00:00"
         view="week"
       />,
@@ -102,7 +103,7 @@ describe('<MeetingsToolbarButtons/>', () => {
     render(
       <MeetingsToolbarButtons
         endDate="2020-06-13T23:59:59.999+00:00"
-        onRangeChange={jest.fn()}
+        onRangeChange={vi.fn()}
         startDate="2020-06-07T00:00:00.000+00:00"
         view="month"
       />,
@@ -121,7 +122,7 @@ describe('<MeetingsToolbarButtons/>', () => {
     const { container } = render(
       <MeetingsToolbarButtons
         endDate="2020-06-13T23:59:59.999+00:00"
-        onRangeChange={jest.fn()}
+        onRangeChange={vi.fn()}
         startDate="2020-06-07T00:00:00.000+00:00"
         view="week"
       />,
@@ -131,11 +132,11 @@ describe('<MeetingsToolbarButtons/>', () => {
   });
 
   it('should change the filter to the current week', async () => {
-    const onRangeChange = jest.fn();
+    const onRangeChange = vi.fn();
 
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2020-06-15T13:00:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2020-06-15T13:00:00.000Z'),
+    );
 
     render(
       <MeetingsToolbarButtons
@@ -155,7 +156,7 @@ describe('<MeetingsToolbarButtons/>', () => {
   });
 
   it('should change the filter to the previous week', async () => {
-    const onRangeChange = jest.fn();
+    const onRangeChange = vi.fn();
 
     render(
       <MeetingsToolbarButtons
@@ -177,7 +178,7 @@ describe('<MeetingsToolbarButtons/>', () => {
   });
 
   it('should change the filter to the next week', async () => {
-    const onRangeChange = jest.fn();
+    const onRangeChange = vi.fn();
 
     render(
       <MeetingsToolbarButtons

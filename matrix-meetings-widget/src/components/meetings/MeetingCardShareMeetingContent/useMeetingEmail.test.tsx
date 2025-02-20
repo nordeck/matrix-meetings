@@ -20,6 +20,7 @@ import { renderHook } from '@testing-library/react-hooks';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { vi } from 'vitest';
 import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockCalendarEntry,
@@ -30,14 +31,12 @@ import {
 import { createStore } from '../../../store';
 import { useMeetingEmail } from './useMeetingEmail';
 
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  extractWidgetApiParameters: jest.fn(),
+vi.mock('@matrix-widget-toolkit/api', async () => ({
+  ...(await vi.importActual('@matrix-widget-toolkit/api')),
+  extractWidgetApiParameters: vi.fn(),
 }));
 
-const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked,
-);
+const extractWidgetApiParameters = vi.mocked(extractWidgetApiParametersMocked);
 
 const server = setupServer();
 

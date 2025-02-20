@@ -17,7 +17,8 @@
 import { ToggleButtonGroup } from '@mui/material';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { TooltipToggleButton } from './TooltipToggleButton';
 
 describe('<TooltipToggleButton/>', () => {
@@ -98,7 +99,7 @@ describe('<TooltipToggleButton/>', () => {
   });
 
   it('should be usable in a ToggleButtonGroup', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
 
     const { rerender } = render(
       <ToggleButtonGroup exclusive onChange={onChange}>

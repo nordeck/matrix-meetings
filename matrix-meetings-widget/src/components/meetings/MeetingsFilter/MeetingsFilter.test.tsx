@@ -16,9 +16,10 @@
 
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { last } from 'lodash';
 import { ComponentType, PropsWithChildren } from 'react';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { Filters } from '../../../reducer/meetingsApi';
 import { LocalizationProvider } from '../../common/LocalizationProvider';
 import { MeetingsFilter } from './MeetingsFilter';
@@ -40,7 +41,7 @@ describe('<MeetingsFilter/>', () => {
   });
 
   it('should render without exploding', () => {
-    render(<MeetingsFilter filters={filters} onFiltersChange={jest.fn()} />, {
+    render(<MeetingsFilter filters={filters} onFiltersChange={vi.fn()} />, {
       wrapper: Wrapper,
     });
     expect(
@@ -54,7 +55,7 @@ describe('<MeetingsFilter/>', () => {
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
-      <MeetingsFilter filters={filters} onFiltersChange={jest.fn()} />,
+      <MeetingsFilter filters={filters} onFiltersChange={vi.fn()} />,
       { wrapper: Wrapper },
     );
 
@@ -62,7 +63,7 @@ describe('<MeetingsFilter/>', () => {
   });
 
   it('should update the date', async () => {
-    const onFiltersChange = jest.fn();
+    const onFiltersChange = vi.fn();
 
     render(
       <MeetingsFilter filters={filters} onFiltersChange={onFiltersChange} />,
@@ -95,7 +96,7 @@ describe('<MeetingsFilter/>', () => {
   }, 10000);
 
   it('should update the text', async () => {
-    const onFiltersChange = jest.fn();
+    const onFiltersChange = vi.fn();
 
     render(
       <MeetingsFilter filters={filters} onFiltersChange={onFiltersChange} />,
@@ -114,7 +115,7 @@ describe('<MeetingsFilter/>', () => {
   });
 
   it('should clear the text', async () => {
-    const onFiltersChange = jest.fn();
+    const onFiltersChange = vi.fn();
 
     filters = {
       startDate: '2020-01-01T00:00:00Z',
@@ -141,7 +142,7 @@ describe('<MeetingsFilter/>', () => {
   });
 
   it('should update external filter updates', () => {
-    const onFiltersChange = jest.fn();
+    const onFiltersChange = vi.fn();
     const filters1 = {
       startDate: '2021-01-01T00:00:00.000Z',
       endDate: '2021-01-08T23:59:59.000Z',

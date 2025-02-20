@@ -18,21 +18,30 @@
 // allows you to do things like:
 // expect(element).toHaveTextContent(/react/i)
 // learn more: https://github.com/testing-library/jest-dom
-import '@testing-library/jest-dom';
-import { toHaveNoViolations } from 'jest-axe';
-import { TextDecoder, TextEncoder } from 'util';
-// Make sure to initialize i18n (see mock below)
-import { mockDateTimeFormatTimeZone } from '@nordeck/matrix-meetings-calendar';
+import '@testing-library/jest-dom/vitest';
+
+import { cleanup } from '@testing-library/react';
+import { TextDecoder, TextEncoder } from 'node:util';
+import { expect, vi } from 'vitest';
+import * as axeMatchers from 'vitest-axe/matchers';
 import './i18n';
 import { setLocale } from './lib/locale';
+import { mockDateTimeFormatTimeZone } from './testing';
 
 // Use a different configuration for i18next during tests
-jest.mock('./i18n', () => {
-  const i18n = require('i18next');
-  const en = { translation: require('../public/locales/en/translation.json') };
-  const de = { translation: require('../public/locales/de/translation.json') };
-  const { initReactI18next } = require('react-i18next');
-  const { registerDateRangeFormatter } = require('./dateRangeFormatter');
+vi.mock('./i18n', async () => {
+  const i18n = await vi.importActual<typeof import('i18next')>('i18next');
+  const en = {
+    translation: await vi.importActual('../public/locales/en/translation.json'),
+  };
+  const de = {
+    translation: await vi.importActual('../public/locales/de/translation.json'),
+  };
+  const { initReactI18next } =
+    await vi.importActual<typeof import('react-i18next')>('react-i18next');
+  const { registerDateRangeFormatter } = await vi.importActual<
+    typeof import('./dateRangeFormatter')
+  >('./dateRangeFormatter');
 
   i18n.use(initReactI18next).init({
     fallbackLng: 'en',
@@ -45,10 +54,15 @@ jest.mock('./i18n', () => {
     },
   });
 
+  // @ts-ignore for tests
   registerDateRangeFormatter(i18n);
 
   return i18n;
 });
+
+// Prevent act warnings https://github.com/testing-library/react-testing-library/issues/1061
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+(global as any).IS_REACT_ACT_ENVIRONMENT = true;
 
 beforeEach(() => {
   // We want our tests to be in a reproducible time zone, always resulting in
@@ -60,21 +74,21 @@ beforeEach(() => {
 
 // Provide mocks for the object URL related
 // functions that are not provided by jsdom.
-window.URL.createObjectURL = jest.fn();
-window.URL.revokeObjectURL = jest.fn();
+window.URL.createObjectURL = vi.fn();
+window.URL.revokeObjectURL = vi.fn();
 
-// Add support for jest-axe
-expect.extend(toHaveNoViolations);
+// Add support for vitest-axe
+expect.extend(axeMatchers);
 
 // Tell MUI that we have a mouse available and that the UI should not fallback
 // to mobile/touch mode
 beforeEach(() => {
-  window.matchMedia = jest.fn().mockImplementation((query) => ({
+  window.matchMedia = vi.fn().mockImplementation((query) => ({
     matches: query === '(pointer: fine)',
     media: '',
     onchange: null,
-    addListener: jest.fn(),
-    removeListener: jest.fn(),
+    addListener: vi.fn(),
+    removeListener: vi.fn(),
   }));
 });
 
@@ -84,7 +98,7 @@ global.TextDecoder = TextDecoder as typeof global.TextDecoder;
 
 // Provide a mock for the Clipboard API
 Object.defineProperty(navigator, 'clipboard', {
-  value: { writeText: jest.fn() },
+  value: { writeText: vi.fn() },
 });
 
 // Polyfill structuredClone
@@ -92,3 +106,7 @@ Object.defineProperty(navigator, 'clipboard', {
 global.structuredClone = (val) => {
   return JSON.parse(JSON.stringify(val));
 };
+
+afterEach(() => {
+  cleanup();
+});

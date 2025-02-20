@@ -15,14 +15,15 @@
  */
 
 import { render, screen } from '@testing-library/react';
-import { axe } from 'jest-axe';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { ScheduledDeletionWarning } from './ScheduledDeletionWarning';
 
 describe('<ScheduledDeletionWarning>', () => {
   beforeEach(() => {
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-02-01T12:00:00Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-02-01T12:00:00Z'),
+    );
   });
 
   it.each`

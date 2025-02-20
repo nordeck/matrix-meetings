@@ -17,9 +17,10 @@
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { MemberSelectionDropdown } from '.';
 import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import { mockPowerLevelsEvent, mockRoomMember } from '../../../lib/testUtils';
@@ -71,7 +72,7 @@ describe('<MemberSelectionDropdown/>', () => {
         availableMembers={allMembers}
         selectedMembers={allMembers.filter((se) => se.userId === '@user-id')}
         label="Members"
-        onSelectedMembersUpdated={jest.fn()}
+        onSelectedMembersUpdated={vi.fn()}
         ownUserPopupContent="This is you"
       />,
       { wrapper: Wrapper },
@@ -97,7 +98,7 @@ describe('<MemberSelectionDropdown/>', () => {
         availableMembers={allMembers}
         selectedMembers={allMembers.filter((se) => se.userId === '@user-id')}
         label="Members"
-        onSelectedMembersUpdated={jest.fn()}
+        onSelectedMembersUpdated={vi.fn()}
         ownUserPopupContent="This is you"
       />,
       { wrapper: Wrapper },
@@ -107,7 +108,7 @@ describe('<MemberSelectionDropdown/>', () => {
   });
 
   it('should add own member', async () => {
-    const onUpdate = jest.fn();
+    const onUpdate = vi.fn();
 
     render(
       <MemberSelectionDropdown
@@ -129,7 +130,7 @@ describe('<MemberSelectionDropdown/>', () => {
   });
 
   it('should not duplicate own member', async () => {
-    const onUpdate = jest.fn();
+    const onUpdate = vi.fn();
 
     render(
       <MemberSelectionDropdown
@@ -151,7 +152,7 @@ describe('<MemberSelectionDropdown/>', () => {
   });
 
   it('should not add own member if member event is missing', async () => {
-    const onUpdate = jest.fn();
+    const onUpdate = vi.fn();
 
     render(
       <MemberSelectionDropdown
@@ -173,7 +174,7 @@ describe('<MemberSelectionDropdown/>', () => {
   });
 
   it('should remove member', async () => {
-    const onUpdate = jest.fn();
+    const onUpdate = vi.fn();
 
     render(
       <MemberSelectionDropdown
@@ -198,7 +199,7 @@ describe('<MemberSelectionDropdown/>', () => {
   });
 
   it('should not remove own member', async () => {
-    const onUpdate = jest.fn();
+    const onUpdate = vi.fn();
 
     render(
       <MemberSelectionDropdown
@@ -219,7 +220,7 @@ describe('<MemberSelectionDropdown/>', () => {
   });
 
   it('should not remove member with higher power level', async () => {
-    const onUpdate = jest.fn();
+    const onUpdate = vi.fn();
 
     widgetApi.mockSendStateEvent(
       mockRoomMember({
@@ -267,7 +268,7 @@ describe('<MemberSelectionDropdown/>', () => {
   });
 
   it('should be able to remove the member with higher power level if he has not joined the room yet', async () => {
-    const onUpdate = jest.fn();
+    const onUpdate = vi.fn();
 
     widgetApi.mockSendStateEvent(
       mockRoomMember({
@@ -335,7 +336,7 @@ describe('<MemberSelectionDropdown/>', () => {
         availableMembers={allMembers.slice(1)}
         selectedMembers={allMembers}
         label="Members"
-        onSelectedMembersUpdated={jest.fn()}
+        onSelectedMembersUpdated={vi.fn()}
         ownUserPopupContent="This is you"
       />,
       { wrapper: Wrapper },
@@ -353,7 +354,7 @@ describe('<MemberSelectionDropdown/>', () => {
         availableMembers={[]}
         selectedMembers={[]}
         label="Members"
-        onSelectedMembersUpdated={jest.fn()}
+        onSelectedMembersUpdated={vi.fn()}
         ownUserPopupContent="This is you"
         loading
       />,
@@ -368,7 +369,7 @@ describe('<MemberSelectionDropdown/>', () => {
         availableMembers={[]}
         selectedMembers={[]}
         label="Members"
-        onSelectedMembersUpdated={jest.fn()}
+        onSelectedMembersUpdated={vi.fn()}
         ownUserPopupContent="This is you"
         loading={false}
         error

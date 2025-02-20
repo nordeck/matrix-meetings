@@ -19,21 +19,17 @@ import i18nextBackend from 'i18next-fs-backend';
 import { Settings } from 'luxon';
 import 'reflect-metadata';
 import { registerDateRangeFormatter } from './src/dateRangeFormatter';
-import translationDe from './src/static/locales/de/translation.json';
-import translationEn from './src/static/locales/en/translation.json';
 
 // Use a different configuration for i18next during tests
 i18next.use(i18nextBackend).init({
   debug: false,
   saveMissing: true,
   fallbackLng: 'en',
-  preload: ['en', 'de'],
   interpolation: {
     escapeValue: false,
   },
   resources: {
-    en: { translation: translationEn },
-    de: { translation: translationDe },
+    en: {},
   },
 });
 

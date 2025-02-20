@@ -23,11 +23,12 @@ import {
   within,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { repeat } from 'lodash';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockMeeting,
@@ -66,9 +67,9 @@ describe('<SetupBreakoutSessions>', () => {
       }),
     );
 
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-02T13:10:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-02T13:10:00.000Z'),
+    );
 
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
       const store = useMemo(() => {
@@ -88,7 +89,7 @@ describe('<SetupBreakoutSessions>', () => {
 
   // Deactivated during Vite migration
   it.skip('should render without exploding', async () => {
-    const onBreakoutSessionsChange = jest.fn();
+    const onBreakoutSessionsChange = vi.fn();
     render(
       <SetupBreakoutSessions
         onBreakoutSessionsChange={onBreakoutSessionsChange}
@@ -143,7 +144,7 @@ describe('<SetupBreakoutSessions>', () => {
   it('should have no accessibility violations', async () => {
     const { container } = render(
       <SetupBreakoutSessions
-        onBreakoutSessionsChange={jest.fn()}
+        onBreakoutSessionsChange={vi.fn()}
         parentMeeting={mockMeeting()}
       />,
       { wrapper: Wrapper },
@@ -155,7 +156,7 @@ describe('<SetupBreakoutSessions>', () => {
   it('should have a date picker if meeting start and end date are different', async () => {
     render(
       <SetupBreakoutSessions
-        onBreakoutSessionsChange={jest.fn()}
+        onBreakoutSessionsChange={vi.fn()}
         parentMeeting={mockMeeting({
           content: {
             startTime: '2022-01-02T13:00:00.000Z',
@@ -189,7 +190,7 @@ describe('<SetupBreakoutSessions>', () => {
   }, 10000);
 
   it('should adjust the breakout session end time if the start time is changed', async () => {
-    const onBreakoutSessionsChange = jest.fn();
+    const onBreakoutSessionsChange = vi.fn();
     render(
       <SetupBreakoutSessions
         onBreakoutSessionsChange={onBreakoutSessionsChange}
@@ -229,7 +230,7 @@ describe('<SetupBreakoutSessions>', () => {
   });
 
   it('should warn if a group title is missing', async () => {
-    const onBreakoutSessionsChange = jest.fn();
+    const onBreakoutSessionsChange = vi.fn();
     render(
       <SetupBreakoutSessions
         onBreakoutSessionsChange={onBreakoutSessionsChange}
@@ -251,7 +252,7 @@ describe('<SetupBreakoutSessions>', () => {
   });
 
   it('should warn if the start time is to early', () => {
-    const onBreakoutSessionsChange = jest.fn();
+    const onBreakoutSessionsChange = vi.fn();
     render(
       <SetupBreakoutSessions
         onBreakoutSessionsChange={onBreakoutSessionsChange}
@@ -281,7 +282,7 @@ describe('<SetupBreakoutSessions>', () => {
   });
 
   it('should warn if the start time is to late', () => {
-    const onBreakoutSessionsChange = jest.fn();
+    const onBreakoutSessionsChange = vi.fn();
     render(
       <SetupBreakoutSessions
         onBreakoutSessionsChange={onBreakoutSessionsChange}
@@ -311,7 +312,7 @@ describe('<SetupBreakoutSessions>', () => {
   });
 
   it('should warn if the start time is to early, when the meeting spans multiple days', () => {
-    const onBreakoutSessionsChange = jest.fn();
+    const onBreakoutSessionsChange = vi.fn();
     render(
       <SetupBreakoutSessions
         onBreakoutSessionsChange={onBreakoutSessionsChange}
@@ -342,7 +343,7 @@ describe('<SetupBreakoutSessions>', () => {
   });
 
   it('should warn if the end time is to early', () => {
-    const onBreakoutSessionsChange = jest.fn();
+    const onBreakoutSessionsChange = vi.fn();
     render(
       <SetupBreakoutSessions
         onBreakoutSessionsChange={onBreakoutSessionsChange}
@@ -375,7 +376,7 @@ describe('<SetupBreakoutSessions>', () => {
   });
 
   it('should warn if the end time is to late', () => {
-    const onBreakoutSessionsChange = jest.fn();
+    const onBreakoutSessionsChange = vi.fn();
     render(
       <SetupBreakoutSessions
         onBreakoutSessionsChange={onBreakoutSessionsChange}
@@ -405,7 +406,7 @@ describe('<SetupBreakoutSessions>', () => {
   });
 
   it('should warn if the breakout session ends before it starts', () => {
-    const onBreakoutSessionsChange = jest.fn();
+    const onBreakoutSessionsChange = vi.fn();
     render(
       <SetupBreakoutSessions
         onBreakoutSessionsChange={onBreakoutSessionsChange}
@@ -435,7 +436,7 @@ describe('<SetupBreakoutSessions>', () => {
   });
 
   it('should warn if the end time is to early, when the meeting spans multiple days', () => {
-    const onBreakoutSessionsChange = jest.fn();
+    const onBreakoutSessionsChange = vi.fn();
     render(
       <SetupBreakoutSessions
         onBreakoutSessionsChange={onBreakoutSessionsChange}
@@ -469,7 +470,7 @@ describe('<SetupBreakoutSessions>', () => {
   });
 
   it('should limit the length of the title and description', async () => {
-    const onBreakoutSessionsChange = jest.fn();
+    const onBreakoutSessionsChange = vi.fn();
 
     render(
       <SetupBreakoutSessions

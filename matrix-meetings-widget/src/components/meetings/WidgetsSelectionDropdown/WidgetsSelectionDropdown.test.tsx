@@ -17,11 +17,12 @@
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import { mockWidgetEndpoint } from '../../../lib/testUtils';
 import { createStore } from '../../../store';
@@ -57,7 +58,7 @@ describe('<WidgetsSelectionDropdown>', () => {
   it('should render without exploding', async () => {
     render(
       <WidgetsSelectionDropdown
-        onChange={jest.fn()}
+        onChange={vi.fn()}
         selectedWidgets={['widget-1']}
       />,
       { wrapper: Wrapper },
@@ -90,7 +91,7 @@ describe('<WidgetsSelectionDropdown>', () => {
 
   it('should have no accessibility violations, while loading', async () => {
     const { container } = render(
-      <WidgetsSelectionDropdown onChange={jest.fn()} selectedWidgets={[]} />,
+      <WidgetsSelectionDropdown onChange={vi.fn()} selectedWidgets={[]} />,
       { wrapper: Wrapper },
     );
 
@@ -99,7 +100,7 @@ describe('<WidgetsSelectionDropdown>', () => {
 
   it('should have no accessibility violations, after load', async () => {
     const { container } = render(
-      <WidgetsSelectionDropdown onChange={jest.fn()} selectedWidgets={[]} />,
+      <WidgetsSelectionDropdown onChange={vi.fn()} selectedWidgets={[]} />,
       { wrapper: Wrapper },
     );
 
@@ -111,7 +112,7 @@ describe('<WidgetsSelectionDropdown>', () => {
   });
 
   it('should start empty', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
 
     render(
       <WidgetsSelectionDropdown onChange={onChange} selectedWidgets={[]} />,
@@ -126,7 +127,7 @@ describe('<WidgetsSelectionDropdown>', () => {
   });
 
   it('should start with all widgets selected if enabled', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
 
     render(
       <WidgetsSelectionDropdown
@@ -152,7 +153,7 @@ describe('<WidgetsSelectionDropdown>', () => {
       ],
     });
 
-    const onChange = jest.fn();
+    const onChange = vi.fn();
 
     render(
       <WidgetsSelectionDropdown
@@ -171,7 +172,7 @@ describe('<WidgetsSelectionDropdown>', () => {
   });
 
   it('should select a widget', async () => {
-    const onChange = jest.fn();
+    const onChange = vi.fn();
 
     render(
       <WidgetsSelectionDropdown onChange={onChange} selectedWidgets={[]} />,
@@ -193,7 +194,7 @@ describe('<WidgetsSelectionDropdown>', () => {
   it('should show a message if all widgets are selected', async () => {
     render(
       <WidgetsSelectionDropdown
-        onChange={jest.fn()}
+        onChange={vi.fn()}
         selectedWidgets={['widget-1', 'widget-2']}
       />,
       { wrapper: Wrapper },
@@ -220,7 +221,7 @@ describe('<WidgetsSelectionDropdown>', () => {
 
     render(
       <WidgetsSelectionDropdown
-        onChange={jest.fn()}
+        onChange={vi.fn()}
         selectedWidgets={['widget-1', 'widget-2']}
       />,
       { wrapper: Wrapper },
@@ -245,7 +246,7 @@ describe('<WidgetsSelectionDropdown>', () => {
 
     render(
       <WidgetsSelectionDropdown
-        onChange={jest.fn()}
+        onChange={vi.fn()}
         selectedWidgets={['widget-1', 'widget-2']}
       />,
       { wrapper: Wrapper },

@@ -16,26 +16,27 @@
 
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { MeetingsToolbarSearch } from './MeetingsToolbarSearch';
 
 describe('<MeetingsToolbarSearch/>', () => {
   it('should render without exploding', () => {
-    render(<MeetingsToolbarSearch onSearchChange={jest.fn()} search="" />);
+    render(<MeetingsToolbarSearch onSearchChange={vi.fn()} search="" />);
 
     expect(screen.getByRole('textbox', { name: /Search/i })).toHaveValue('');
   });
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
-      <MeetingsToolbarSearch onSearchChange={jest.fn()} search="" />,
+      <MeetingsToolbarSearch onSearchChange={vi.fn()} search="" />,
     );
 
     expect(await axe(container)).toHaveNoViolations();
   });
 
   it('should call onSearchChange when the search field is updated', async () => {
-    const onSearchChange = jest.fn();
+    const onSearchChange = vi.fn();
 
     render(<MeetingsToolbarSearch onSearchChange={onSearchChange} search="" />);
 
@@ -47,7 +48,7 @@ describe('<MeetingsToolbarSearch/>', () => {
 
   it('should update the search when the filter changes', () => {
     const { rerender } = render(
-      <MeetingsToolbarSearch onSearchChange={jest.fn()} search="Meeting" />,
+      <MeetingsToolbarSearch onSearchChange={vi.fn()} search="Meeting" />,
     );
 
     expect(screen.getByRole('textbox', { name: 'Search' })).toHaveValue(
@@ -55,7 +56,7 @@ describe('<MeetingsToolbarSearch/>', () => {
     );
 
     rerender(
-      <MeetingsToolbarSearch onSearchChange={jest.fn()} search="Other text" />,
+      <MeetingsToolbarSearch onSearchChange={vi.fn()} search="Other text" />,
     );
     expect(screen.getByRole('textbox', { name: 'Search' })).toHaveValue(
       'Other text',

@@ -23,11 +23,12 @@ import {
   within,
 } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { repeat } from 'lodash';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockBreakoutSession,
@@ -44,7 +45,7 @@ import { initializeStore } from '../../../store/store';
 import { LocalizationProvider } from '../../common/LocalizationProvider';
 import { ScheduleMeeting } from './ScheduleMeeting';
 
-jest.setTimeout(15000);
+vi.setConfig({ testTimeout: 15000 });
 
 const server = setupServer();
 beforeAll(() => server.listen());
@@ -58,7 +59,7 @@ afterEach(() => widgetApi.stop());
 beforeEach(() => (widgetApi = mockWidgetApi()));
 
 describe('<ScheduleMeeting>', () => {
-  const onMeetingChange = jest.fn();
+  const onMeetingChange = vi.fn();
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
@@ -71,9 +72,9 @@ describe('<ScheduleMeeting>', () => {
       }),
     );
 
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-02T13:10:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-02T13:10:00.000Z'),
+    );
 
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
       const store = useMemo(() => {
@@ -157,7 +158,7 @@ describe('<ScheduleMeeting>', () => {
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
-      <ScheduleMeeting onMeetingChange={jest.fn()} />,
+      <ScheduleMeeting onMeetingChange={vi.fn()} />,
       { wrapper: Wrapper },
     );
 
@@ -166,7 +167,7 @@ describe('<ScheduleMeeting>', () => {
 
   it('should have no accessibility violations, if input is invalid', async () => {
     const { container } = render(
-      <ScheduleMeeting onMeetingChange={jest.fn()} />,
+      <ScheduleMeeting onMeetingChange={vi.fn()} />,
       { wrapper: Wrapper },
     );
 
@@ -926,9 +927,9 @@ describe('<ScheduleMeeting>', () => {
       },
     });
 
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-01T13:30:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-01T13:30:00.000Z'),
+    );
 
     render(
       <ScheduleMeeting
@@ -965,9 +966,9 @@ describe('<ScheduleMeeting>', () => {
       },
     });
 
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-02T13:30:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-02T13:30:00.000Z'),
+    );
 
     render(
       <ScheduleMeeting

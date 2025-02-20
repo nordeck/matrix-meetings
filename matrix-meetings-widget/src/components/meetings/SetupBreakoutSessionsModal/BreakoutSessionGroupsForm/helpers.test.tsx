@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { vi } from 'vitest';
 import i18next from '../../../../i18n';
 import { mockRoomMember } from '../../../../lib/testUtils';
 import {
@@ -22,14 +23,9 @@ import {
   initializeGroups,
 } from './helpers';
 
-jest.mock('lodash', () => {
-  const lodash = jest.requireActual('lodash');
-  return {
-    ...lodash,
-    // use reverse as shuffle to skip the randomness
-    shuffle: lodash.reverse,
-  };
-});
+vi.mock('lodash/shuffle', () => ({
+  default: (value: Array<unknown>) => value.reverse(),
+}));
 
 describe('initializeGroups', () => {
   it('should not add groups when not changed', () => {

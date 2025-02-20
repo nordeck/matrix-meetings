@@ -16,9 +16,10 @@
 
 import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { DateTime } from 'luxon';
 import { ComponentType, PropsWithChildren, useState } from 'react';
+import { expect } from 'vitest';
+import { axe } from 'vitest-axe';
 import { LocalizationProvider } from '../LocalizationProvider';
 import { ButtonDatePicker } from './ButtonDatePicker';
 
