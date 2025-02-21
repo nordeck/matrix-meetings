@@ -45,7 +45,6 @@ export function OpenXchangeButton({
   return (
     <Button
       component="a"
-      role="button"
       disabled={!urlTemplate || isLoadingConfiguration || isErrorConfiguration}
       href={urlTemplate && buildOpenXChangeLink(reference, urlTemplate)}
       onClick={onClick}
