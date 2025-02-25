@@ -26,6 +26,7 @@ import {
 } from '@matrix-widget-toolkit/api';
 import { Symbols } from 'matrix-widget-api';
 import { NEVER, Subject, concat, filter, from, map, of, takeUntil } from 'rxjs';
+import { Mocked, vi } from 'vitest';
 
 // This entire file will be gone after the Vite migration
 
@@ -106,7 +107,7 @@ export type MockedWidgetApi = {
    *
    */
   clearStateEvents(opts?: { type?: string }): void;
-} & jest.Mocked<WidgetApi>;
+} & Mocked<WidgetApi>;
 
 /**
  * Create a `WidgetApi` mock.
@@ -211,35 +212,43 @@ export function mockWidgetApi(opts?: {
     return m;
   };
 
-  const widgetApi: jest.Mocked<WidgetApi> = {
+  const widgetApi: Mocked<WidgetApi> = {
     widgetId,
     widgetParameters: {
       roomId,
       userId,
       isOpenedByClient: true,
     },
-    openModal: jest.fn().mockResolvedValue(undefined),
-    receiveRoomEvents: jest.fn(),
-    receiveStateEvents: jest.fn(),
-    receiveSingleStateEvent: jest.fn(),
-    observeStateEvents: jest.fn(),
-    observeRoomEvents: jest.fn(),
-    sendStateEvent: jest.fn(),
-    sendRoomEvent: jest.fn(),
-    closeModal: jest.fn().mockResolvedValue(undefined),
-    getWidgetConfig: jest.fn(),
-    hasInitialCapabilities: jest.fn().mockReturnValue(true),
-    hasCapabilities: jest.fn().mockReturnValue(true),
-    navigateTo: jest.fn().mockResolvedValue(undefined),
-    observeModalButtons: jest.fn().mockReturnValue(NEVER),
-    rerequestInitialCapabilities: jest.fn().mockResolvedValue(undefined),
-    requestCapabilities: jest.fn().mockResolvedValue(undefined),
-    requestOpenIDConnectToken: jest.fn().mockResolvedValue({}),
-    setModalButtonEnabled: jest.fn().mockResolvedValue(undefined),
-    readEventRelations: jest.fn(),
-    sendToDeviceMessage: jest.fn(),
-    observeToDeviceMessages: jest.fn(),
-    observeTurnServers: jest.fn().mockReturnValue(
+    openModal: vi.fn().mockResolvedValue(undefined),
+    // @ts-expect-error -- Mocks are expected to return no proper T type
+    receiveRoomEvents: vi.fn(),
+    // @ts-expect-error -- Mocks are expected to return no proper T type
+    receiveStateEvents: vi.fn(),
+    // @ts-expect-error -- Mocks are expected to return no proper T type
+    receiveSingleStateEvent: vi.fn(),
+    // @ts-expect-error -- Mocks are expected to return no proper T type
+    observeStateEvents: vi.fn(),
+    // @ts-expect-error -- Mocks are expected to return no proper T type
+    observeRoomEvents: vi.fn(),
+    sendStateEvent: vi.fn(),
+    // @ts-expect-error -- Mocks are expected to return no proper T type
+    sendRoomEvent: vi.fn(),
+    closeModal: vi.fn().mockResolvedValue(undefined),
+    // @ts-expect-error -- Mocks are expected to return no proper T type
+    getWidgetConfig: vi.fn(),
+    hasInitialCapabilities: vi.fn().mockReturnValue(true),
+    hasCapabilities: vi.fn().mockReturnValue(true),
+    navigateTo: vi.fn().mockResolvedValue(undefined),
+    observeModalButtons: vi.fn().mockReturnValue(NEVER),
+    rerequestInitialCapabilities: vi.fn().mockResolvedValue(undefined),
+    requestCapabilities: vi.fn().mockResolvedValue(undefined),
+    requestOpenIDConnectToken: vi.fn().mockResolvedValue({}),
+    setModalButtonEnabled: vi.fn().mockResolvedValue(undefined),
+    readEventRelations: vi.fn(),
+    sendToDeviceMessage: vi.fn(),
+    // @ts-expect-error -- Mocks are expected to return no proper T type
+    observeToDeviceMessages: vi.fn(),
+    observeTurnServers: vi.fn().mockReturnValue(
       concat(
         of({
           urls: ['turn:turn.matrix.org'],
@@ -249,12 +258,12 @@ export function mockWidgetApi(opts?: {
         NEVER,
       ),
     ),
-    searchUserDirectory: jest.fn().mockResolvedValue({ results: [] }),
-    getMediaConfig: jest.fn().mockResolvedValue({}),
-    uploadFile: jest.fn().mockResolvedValue({
+    searchUserDirectory: vi.fn().mockResolvedValue({ results: [] }),
+    getMediaConfig: vi.fn().mockResolvedValue({}),
+    uploadFile: vi.fn().mockResolvedValue({
       content_uri: 'mxc://example.com/imageACSshaw',
     }),
-    downloadFile: jest.fn().mockResolvedValue({
+    downloadFile: vi.fn().mockResolvedValue({
       file: new Blob(['image content'], { type: 'image/png' }),
     }),
   };

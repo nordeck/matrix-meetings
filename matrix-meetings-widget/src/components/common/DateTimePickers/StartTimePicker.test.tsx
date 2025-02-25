@@ -16,20 +16,25 @@
 
 import { fireEvent, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { DateTime } from 'luxon';
 import { ComponentType, PropsWithChildren } from 'react';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { LocalizationProvider } from '../LocalizationProvider';
 import { StartTimePicker } from './StartTimePicker';
 
 describe('<StartTimePicker/>', () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
       return <LocalizationProvider>{children}</LocalizationProvider>;
     };
+  });
+
+  afterEach(() => {
+    vi.resetAllMocks();
   });
 
   it('should render without exploding', () => {

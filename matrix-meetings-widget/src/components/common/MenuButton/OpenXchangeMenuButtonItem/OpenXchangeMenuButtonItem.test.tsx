@@ -17,16 +17,15 @@
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import EditIcon from '@mui/icons-material/Edit';
 import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { expect } from 'vitest';
+import { axe } from 'vitest-axe';
 import { MockedWidgetApi, mockWidgetApi } from '../../../../lib/mockWidgetApi';
 import { mockConfigEndpoint } from '../../../../lib/testUtils';
 import { createStore } from '../../../../store';
 import { initializeStore } from '../../../../store/store';
-import { MenuButton } from '../MenuButton';
 import { OpenXchangeMenuButtonItem } from './OpenXchangeMenuButtonItem';
 
 const server = setupServer();
@@ -56,7 +55,7 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
       return (
         <Provider store={store}>
           <WidgetApiMockProvider value={widgetApi}>
-            <MenuButton buttonLabel="Menu">{children}</MenuButton>
+            <div role="menu">{children}</div>
           </WidgetApiMockProvider>
         </Provider>
       );
@@ -80,8 +79,6 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
       { wrapper: Wrapper },
     );
 
-    await userEvent.click(screen.getByRole('button', { name: 'Menu' }));
-
     const linkEl = await screen.findByRole('menuitem', { name: 'Edit' });
 
     await waitFor(() =>
@@ -104,8 +101,6 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
       </OpenXchangeMenuButtonItem>,
       { wrapper: Wrapper },
     );
-
-    await userEvent.click(screen.getByRole('button', { name: 'Menu' }));
 
     await expect(
       screen.findByRole('menuitem', { name: /edit/i }),
@@ -131,8 +126,6 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
       { wrapper: Wrapper },
     );
 
-    await userEvent.click(screen.getByRole('button', { name: 'Menu' }));
-
     const linkEl = await screen.findByRole('menuitem', { name: 'Edit' });
 
     await waitFor(() =>
@@ -157,8 +150,6 @@ describe('<OpenXchangeMenuButtonItem/>', () => {
       </OpenXchangeMenuButtonItem>,
       { wrapper: Wrapper },
     );
-
-    await userEvent.click(screen.getByRole('button', { name: 'Menu' }));
 
     const linkEl = await screen.findByRole('menuitem', { name: 'Edit' });
 

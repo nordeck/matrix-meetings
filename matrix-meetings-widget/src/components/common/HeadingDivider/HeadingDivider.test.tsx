@@ -15,7 +15,8 @@
  */
 
 import { render, screen } from '@testing-library/react';
-import { axe } from 'jest-axe';
+import { expect } from 'vitest';
+import { axe } from 'vitest-axe';
 import { HeadingDivider } from './HeadingDivider';
 
 describe('<HeadingDivider/>', () => {

@@ -15,6 +15,7 @@
  */
 
 import { DateTime } from 'luxon';
+import { vi } from 'vitest';
 import { mockMeeting } from '../testUtils';
 import {
   getInitialMeetingTimes,
@@ -22,11 +23,11 @@ import {
 } from './getInitialMeetingTimes';
 
 describe('getInitialMeetingTimes', () => {
-  afterEach(() => jest.useRealTimers());
+  afterEach(() => vi.useRealTimers());
 
   it('should calculate start and end date of a new meeting', () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
 
     const { initialStartDate, initialEndDate } = getInitialMeetingTimes({
       meetingMinutes: 60,
@@ -38,8 +39,8 @@ describe('getInitialMeetingTimes', () => {
   });
 
   it('should provide callbacks for getting min and max date of a new meeting', () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
 
     const { getMinStartDate, maxEndDate } = getInitialMeetingTimes({
       meetingMinutes: 60,
@@ -49,14 +50,14 @@ describe('getInitialMeetingTimes', () => {
     expect(getMinStartDate().toISO()).toEqual('2022-01-02T13:10:00.000Z');
     expect(maxEndDate.toISO()).toEqual('9999-12-31T00:00:00.000Z');
 
-    jest.setSystemTime(new Date('2022-01-02T13:20:00.000Z'));
+    vi.setSystemTime(new Date('2022-01-02T13:20:00.000Z'));
 
     expect(getMinStartDate().toISO()).toEqual('2022-01-02T13:20:00.000Z');
   });
 
   it('should provide callbacks for getting min and max date of a new meeting (with overridden min start date, in the past)', () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
 
     const { getMinStartDate, maxEndDate } = getInitialMeetingTimes({
       meetingMinutes: 60,
@@ -69,8 +70,8 @@ describe('getInitialMeetingTimes', () => {
   });
 
   it('should provide callbacks for getting min and max date of a new meeting (with overridden min start date, in the future)', () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2022-01-01T10:00:00.000Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2022-01-01T10:00:00.000Z'));
 
     const { getMinStartDate, maxEndDate } = getInitialMeetingTimes({
       meetingMinutes: 60,
@@ -83,8 +84,8 @@ describe('getInitialMeetingTimes', () => {
   });
 
   it('should calculate start and end date of a breakout session in a future meeting', () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
 
     const { initialStartDate, initialEndDate } = getInitialMeetingTimes({
       minutesToRound: 15,
@@ -102,8 +103,8 @@ describe('getInitialMeetingTimes', () => {
   });
 
   it('should calculate start and end date of a breakout session in a running meeting', () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
 
     const { initialStartDate, initialEndDate } = getInitialMeetingTimes({
       minutesToRound: 15,
@@ -121,8 +122,8 @@ describe('getInitialMeetingTimes', () => {
   });
 
   it('should provide callbacks for getting min and max date of breakout session in a future meeting', () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
 
     const { getMinStartDate, maxEndDate } = getInitialMeetingTimes({
       minutesToRound: 15,
@@ -140,8 +141,8 @@ describe('getInitialMeetingTimes', () => {
   });
 
   it('should provide callbacks for getting min and max date of breakout session in a running meeting', () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
 
     const { getMinStartDate, maxEndDate } = getInitialMeetingTimes({
       minutesToRound: 15,
@@ -157,14 +158,14 @@ describe('getInitialMeetingTimes', () => {
     expect(getMinStartDate().toISO()).toEqual('2022-01-02T13:10:00.000Z');
     expect(maxEndDate.toISO()).toEqual('2022-01-02T14:00:00.000Z');
 
-    jest.setSystemTime(new Date('2022-01-02T13:20:00.000Z'));
+    vi.setSystemTime(new Date('2022-01-02T13:20:00.000Z'));
 
     expect(getMinStartDate().toISO()).toEqual('2022-01-02T13:20:00.000Z');
   });
 
   it('should provide callbacks for getting min and max date of breakout session in a ended meeting', () => {
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2022-01-02T13:10:00.000Z'));
 
     const { getMinStartDate, maxEndDate } = getInitialMeetingTimes({
       minutesToRound: 15,

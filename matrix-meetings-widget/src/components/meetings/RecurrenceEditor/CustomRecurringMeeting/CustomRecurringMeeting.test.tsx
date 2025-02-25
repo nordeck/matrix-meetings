@@ -16,28 +16,29 @@
 
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { ComponentType, PropsWithChildren } from 'react';
 import { Frequency } from 'rrule';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { CustomRecurringMeeting } from '.';
 import { LocalizationProvider } from '../../../common/LocalizationProvider';
 import { CustomRuleMode } from '../state';
 
 describe('<CustomRecurringMeeting>', () => {
-  const onCustomFrequencyChange = jest.fn();
-  const onCustomIntervalChange = jest.fn();
-  const onCustomByWeekdayChange = jest.fn();
-  const onCustomRuleModeChange = jest.fn();
-  const onCustomMonthChange = jest.fn();
-  const onCustomNthMonthdayChange = jest.fn();
-  const onCustomWeekdayChange = jest.fn();
-  const onCustomNthChange = jest.fn();
+  const onCustomFrequencyChange = vi.fn();
+  const onCustomIntervalChange = vi.fn();
+  const onCustomByWeekdayChange = vi.fn();
+  const onCustomRuleModeChange = vi.fn();
+  const onCustomMonthChange = vi.fn();
+  const onCustomNthMonthdayChange = vi.fn();
+  const onCustomWeekdayChange = vi.fn();
+  const onCustomNthChange = vi.fn();
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-02T13:10:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-02T13:10:00.000Z'),
+    );
 
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
       return <LocalizationProvider>{children}</LocalizationProvider>;

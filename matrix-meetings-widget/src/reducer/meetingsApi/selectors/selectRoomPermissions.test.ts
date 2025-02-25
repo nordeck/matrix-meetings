@@ -21,6 +21,7 @@ import {
   PowerLevelsStateEvent,
   StateEvent,
 } from '@matrix-widget-toolkit/api';
+import { vi } from 'vitest';
 import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import { mockPowerLevelsEvent } from '../../../lib/testUtils';
 import { createStore, RootState } from '../../../store';
@@ -30,22 +31,23 @@ import {
   makeSelectRoomPermissions,
 } from './selectRoomPermissions';
 
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  hasActionPower: jest.fn(),
-  hasRoomEventPower: jest.fn(),
-  hasStateEventPower: jest.fn(),
+vi.mock('@matrix-widget-toolkit/api', async () => ({
+  ...(await vi.importActual('@matrix-widget-toolkit/api')),
+  hasActionPower: vi.fn(),
+  hasRoomEventPower: vi.fn(),
+  hasStateEventPower: vi.fn(),
 }));
 
-const hasActionPower = jest.mocked(hasActionPowerMocked);
-const hasRoomEventPower = jest.mocked(hasRoomEventPowerMocked);
-const hasStateEventPower = jest.mocked(hasStateEventPowerMocked);
+const hasActionPower = vi.mocked(hasActionPowerMocked);
+const hasRoomEventPower = vi.mocked(hasRoomEventPowerMocked);
+const hasStateEventPower = vi.mocked(hasStateEventPowerMocked);
 
 let widgetApi: MockedWidgetApi;
-
-afterEach(() => widgetApi.stop());
-
 beforeEach(() => (widgetApi = mockWidgetApi()));
+afterEach(() => {
+  widgetApi.stop();
+  vi.resetAllMocks();
+});
 
 describe('hasPermissions', () => {
   const event = { content: {} } as StateEvent<PowerLevelsStateEvent>;
@@ -123,10 +125,13 @@ describe('selectRoomPermissions', () => {
   let state: RootState;
 
   beforeEach(async () => {
-    // restore mocks
-    const orig = jest.requireActual('@matrix-widget-toolkit/api');
+    // restore mocks - ignore TS errors in tests
+    const orig = await vi.importActual('@matrix-widget-toolkit/api');
+    // @ts-ignore-error
     hasRoomEventPower.mockImplementation(orig.hasRoomEventPower);
+    // @ts-ignore-error
     hasStateEventPower.mockImplementation(orig.hasStateEventPower);
+    // @ts-ignore-error
     hasActionPower.mockImplementation(orig.hasActionPower);
 
     widgetApi.mockSendStateEvent(

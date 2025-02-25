@@ -1,5 +1,9 @@
 // Package specific tsconfig that extends the root one.
 {
   "extends": "../tsconfig.json",
+  "compilerOptions": {
+    "noEmit": true,
+    "types": ["vitest/globals"]
+  },
   "include": ["src"]
 }

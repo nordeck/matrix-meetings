@@ -14,18 +14,14 @@
  * limitations under the License.
  */
 
+import { vi } from 'vitest';
 import i18next from '../../../../i18n';
 import { mockRoomMember } from '../../../../lib/testUtils';
 import { initializer, reducer } from './state';
 
-jest.mock('lodash', () => {
-  const lodash = jest.requireActual('lodash');
-  return {
-    ...lodash,
-    // use reverse as shuffle as it is
-    shuffle: lodash.reverse,
-  };
-});
+vi.mock('lodash/shuffle', () => ({
+  default: (value: Array<unknown>) => value.reverse(),
+}));
 
 describe('reducer', () => {
   describe('initializer', () => {

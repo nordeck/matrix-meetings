@@ -19,7 +19,8 @@ import {
   StateEvent,
 } from '@matrix-widget-toolkit/api';
 import { TFunction } from 'i18next';
-import { range, shuffle } from 'lodash';
+import range from 'lodash/range';
+import shuffle from 'lodash/shuffle';
 import { BreakoutSessionGroup } from './types';
 
 /**

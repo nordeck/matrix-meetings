@@ -18,10 +18,11 @@ import { extractWidgetApiParameters } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockCalendar,
@@ -33,9 +34,9 @@ import { createStore } from '../../../store';
 import { initializeStore } from '../../../store/store';
 import { MeetingsCalendar } from './MeetingsCalendar';
 
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  extractWidgetApiParameters: jest.fn(),
+vi.mock('@matrix-widget-toolkit/api', async () => ({
+  ...(await vi.importActual('@matrix-widget-toolkit/api')),
+  extractWidgetApiParameters: vi.fn(),
 }));
 
 const server = setupServer();
@@ -51,15 +52,15 @@ afterEach(() => widgetApi.stop());
 beforeEach(() => (widgetApi = mockWidgetApi()));
 
 // The DOM is quite complex and big, therefore we have to increase the timeout
-jest.setTimeout(15000);
+vi.setConfig({ testTimeout: 15_000 });
 
 describe('<MeetingsCalendar/>', () => {
-  const onShowMore = jest.fn();
+  const onShowMore = vi.fn();
 
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
-    jest.mocked(extractWidgetApiParameters).mockReturnValue({
+    vi.mocked(extractWidgetApiParameters).mockReturnValue({
       clientOrigin: 'http://element.local',
       widgetId: '',
     });
@@ -163,12 +164,12 @@ describe('<MeetingsCalendar/>', () => {
     // We mock the offsetHeight as js-dom is not providing layout causing
     // fullcalendar not being able to calculate the size of the events and
     // hiding them instead.
-    jest
-      .spyOn(HTMLElement.prototype, 'offsetHeight', 'get')
-      .mockImplementation(() => 10);
+    vi.spyOn(HTMLElement.prototype, 'offsetHeight', 'get').mockImplementation(
+      () => 10,
+    );
 
     // We also mock getBoundingClientRect to support the more link
-    jest.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
+    vi.spyOn(HTMLElement.prototype, 'getBoundingClientRect').mockReturnValue({
       bottom: 1,
       height: 1,
       left: 1,
@@ -177,7 +178,7 @@ describe('<MeetingsCalendar/>', () => {
       width: 1,
       x: 1,
       y: 1,
-      toJSON: jest.fn(),
+      toJSON: vi.fn(),
     });
   });
 

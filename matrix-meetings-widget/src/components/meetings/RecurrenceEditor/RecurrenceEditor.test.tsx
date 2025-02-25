@@ -16,20 +16,21 @@
 
 import { fireEvent, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { ComponentType, PropsWithChildren } from 'react';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { LocalizationProvider } from '../../common/LocalizationProvider';
 import { RecurrenceEditor } from './RecurrenceEditor';
 
 describe('<RecurrenceEditor>', () => {
-  const onChange = jest.fn();
+  const onChange = vi.fn();
   const startDate = new Date('2022-01-02T13:10:00.000Z');
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
-    jest
-      .spyOn(Date, 'now')
-      .mockImplementation(() => +new Date('2022-01-01T13:10:00.000Z'));
+    vi.spyOn(Date, 'now').mockImplementation(
+      () => +new Date('2022-01-01T13:10:00.000Z'),
+    );
 
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
       return <LocalizationProvider>{children}</LocalizationProvider>;

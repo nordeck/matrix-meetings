@@ -53,7 +53,7 @@ const config: PlaywrightTestConfig = {
 
   expect: {
     // Tests are really slow on CI, increase the timeout
-    timeout: 15_000,
+    timeout: 30_000,
   },
 
   webServer: {

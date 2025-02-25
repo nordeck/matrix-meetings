@@ -15,14 +15,19 @@
  */
 
 import { getEnvironment as getEnvironmentMocked } from '@matrix-widget-toolkit/mui';
+import { vi } from 'vitest';
 import { getBotUserId, isBotUser } from './getBotUserId';
 
-jest.mock('@matrix-widget-toolkit/mui', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/mui'),
-  getEnvironment: jest.fn(),
+vi.mock('@matrix-widget-toolkit/mui', async () => ({
+  ...(await vi.importActual('@matrix-widget-toolkit/mui')),
+  getEnvironment: vi.fn(),
 }));
 
-const getEnvironment = jest.mocked(getEnvironmentMocked);
+afterEach(() => {
+  vi.resetAllMocks();
+});
+
+const getEnvironment = vi.mocked(getEnvironmentMocked);
 
 describe('getBotUserId', () => {
   it('should return undefined if not set', () => {

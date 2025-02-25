@@ -16,18 +16,17 @@
 
 import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '@matrix-widget-toolkit/api';
 import { renderHook } from '@testing-library/react-hooks';
+import { vi } from 'vitest';
 import { mockMeeting } from '../../../lib/testUtils';
 import { Meeting } from '../../../reducer/meetingsApi';
 import { useMeetingUrl } from './useMeetingUrl';
 
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  extractWidgetApiParameters: jest.fn(),
+vi.mock('@matrix-widget-toolkit/api', async () => ({
+  ...(await vi.importActual('@matrix-widget-toolkit/api')),
+  extractWidgetApiParameters: vi.fn(),
 }));
 
-const extractWidgetApiParameters = jest.mocked(
-  extractWidgetApiParametersMocked,
-);
+const extractWidgetApiParameters = vi.mocked(extractWidgetApiParametersMocked);
 
 describe('useMeetingUrl', () => {
   let meeting: Meeting;

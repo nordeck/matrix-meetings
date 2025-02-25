@@ -17,10 +17,11 @@
 import { extractWidgetApiParameters } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { render, screen } from '@testing-library/react';
-import { axe } from 'jest-axe';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { MockedWidgetApi, mockWidgetApi } from '../../../../lib/mockWidgetApi';
 import {
   mockCalendar,
@@ -33,9 +34,9 @@ import { createStore } from '../../../../store';
 import { initializeStore } from '../../../../store/store';
 import { MeetingDetailsContent } from './MeetingDetailsContent';
 
-jest.mock('@matrix-widget-toolkit/api', () => ({
-  ...jest.requireActual('@matrix-widget-toolkit/api'),
-  extractWidgetApiParameters: jest.fn(),
+vi.mock('@matrix-widget-toolkit/api', async () => ({
+  ...(await vi.importActual('@matrix-widget-toolkit/api')),
+  extractWidgetApiParameters: vi.fn(),
 }));
 
 const server = setupServer();
@@ -56,7 +57,7 @@ describe('<MeetingDetailsContent/>', () => {
   beforeEach(() => {
     mockConfigEndpoint(server);
     mockMeetingSharingInformationEndpoint(server);
-    jest.mocked(extractWidgetApiParameters).mockReturnValue({
+    vi.mocked(extractWidgetApiParameters).mockReturnValue({
       clientOrigin: 'http://element.local',
       widgetId: '',
     });

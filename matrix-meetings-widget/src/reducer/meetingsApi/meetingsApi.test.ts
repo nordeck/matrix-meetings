@@ -16,6 +16,7 @@
 
 import { RoomEvent } from '@matrix-widget-toolkit/api';
 import { waitFor } from '@testing-library/react';
+import { vi } from 'vitest';
 import { MockedWidgetApi, mockWidgetApi } from '../../lib/mockWidgetApi';
 import {
   acknowledgeAllEvents,
@@ -48,15 +49,18 @@ import {
   UpdateMeetingPermissionsOptions,
 } from './types';
 
-jest.mock('../../lib/utils', () => ({
-  ...jest.requireActual('../../lib/utils'),
-  isBotUser: jest.fn(),
+vi.mock('../../lib/utils', async (importOriginal) => ({
+  ...(await importOriginal()),
+  isBotUser: vi.fn(),
 }));
-const isBotUser = jest.mocked(isBotUserMocked);
+const isBotUser = vi.mocked(isBotUserMocked);
 
 let widgetApi: MockedWidgetApi;
-afterEach(() => widgetApi.stop());
 beforeEach(() => (widgetApi = mockWidgetApi()));
+afterEach(() => {
+  widgetApi.stop();
+  vi.resetAllMocks();
+});
 
 describe('meetingsApi', () => {
   describe('createMeeting', () => {

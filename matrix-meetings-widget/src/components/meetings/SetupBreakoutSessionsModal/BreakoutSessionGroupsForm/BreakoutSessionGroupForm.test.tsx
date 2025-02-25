@@ -21,9 +21,10 @@ import {
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { MockedWidgetApi, mockWidgetApi } from '../../../../lib/mockWidgetApi';
 import { mockRoomMember } from '../../../../lib/testUtils';
 import { createStore, initializeStore } from '../../../../store/store';
@@ -72,7 +73,7 @@ describe('<BreakoutSessionGroupForm>', () => {
           title: 'My Group',
           members: ['@user-id', '@user-1'],
         }}
-        onGroupChange={jest.fn()}
+        onGroupChange={vi.fn()}
         selectableMemberEvents={allMemberEvents}
       />,
       { wrapper: Wrapper },
@@ -95,7 +96,7 @@ describe('<BreakoutSessionGroupForm>', () => {
           title: 'My Group',
           members: ['@user-id', '@user-1'],
         }}
-        onGroupChange={jest.fn()}
+        onGroupChange={vi.fn()}
         selectableMemberEvents={allMemberEvents}
       />,
       { wrapper: Wrapper },
@@ -112,7 +113,7 @@ describe('<BreakoutSessionGroupForm>', () => {
           title: '',
           members: ['@user-id', '@user-1'],
         }}
-        onGroupChange={jest.fn()}
+        onGroupChange={vi.fn()}
         selectableMemberEvents={allMemberEvents}
       />,
       { wrapper: Wrapper },
@@ -129,7 +130,7 @@ describe('<BreakoutSessionGroupForm>', () => {
   });
 
   it('should notify on changes', async () => {
-    const onGroupChange = jest.fn();
+    const onGroupChange = vi.fn();
     render(
       <BreakoutSessionGroupForm
         allMemberEvents={allMemberEvents}

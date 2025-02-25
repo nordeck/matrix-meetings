@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { vi } from 'vitest';
 import { MockedWidgetApi, mockWidgetApi } from '../../lib/mockWidgetApi';
 import { mockReaction } from '../../lib/testUtils';
 import {
@@ -230,7 +231,7 @@ describe('withEventContext', () => {
   const data = { my: 'data' };
 
   beforeEach(() => {
-    jest.spyOn(Intl, 'DateTimeFormat').mockImplementation(
+    vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(
       () =>
         ({
           resolvedOptions: () => ({ timeZone: 'UTC+11' }),

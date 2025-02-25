@@ -16,11 +16,12 @@
 
 import { render, screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
+import { vi } from 'vitest';
 import { useUpdateOnDate } from './useUpdateOnDate';
 
 describe('useUpdateOnDate', () => {
   afterEach(() => {
-    jest.useRealTimers();
+    vi.useRealTimers();
   });
 
   it('should rerender at date', () => {
@@ -30,15 +31,15 @@ describe('useUpdateOnDate', () => {
       return <div>{new Date(Date.now()).toISOString()}</div>;
     }
 
-    jest.useFakeTimers();
-    jest.setSystemTime(new Date('2022-12-07T20:30:00.000Z'));
+    vi.useFakeTimers();
+    vi.setSystemTime(new Date('2022-12-07T20:30:00.000Z'));
 
     render(<Component date={'2022-12-07T20:31:00.000Z'}></Component>);
 
     expect(screen.getByText('2022-12-07T20:30:00.000Z')).toBeInTheDocument();
 
     act(() => {
-      jest.advanceTimersByTime(60 * 1000);
+      vi.advanceTimersByTime(60 * 1000);
     });
 
     expect(screen.getByText('2022-12-07T20:31:00.000Z')).toBeInTheDocument();

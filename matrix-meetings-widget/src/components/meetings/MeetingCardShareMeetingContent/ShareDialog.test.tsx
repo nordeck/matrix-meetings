@@ -17,12 +17,13 @@
 import { render, screen, within } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import userEvent from '@testing-library/user-event';
-import { axe } from 'jest-axe';
 import { act } from 'react-dom/test-utils';
+import { expect, vi } from 'vitest';
+import { axe } from 'vitest-axe';
 import { ShareDialog, useShareDialog } from './ShareDialog';
 
 describe('<ShareDialog/>', () => {
-  const onClose = jest.fn();
+  const onClose = vi.fn();
 
   it('should render without exploring', () => {
     render(
