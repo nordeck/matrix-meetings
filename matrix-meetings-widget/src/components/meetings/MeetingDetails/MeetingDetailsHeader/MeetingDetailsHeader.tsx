@@ -96,7 +96,8 @@ export function MeetingDetailsHeader({
       if (meeting) {
         await dispatch(editMeetingThunk(meeting)).unwrap();
       }
-    } catch (e) {
+    } catch (error) {
+      console.error('Error updating meeting', error);
       setShowErrorDialog(true);
     }
   }, [dispatch, meeting]);
