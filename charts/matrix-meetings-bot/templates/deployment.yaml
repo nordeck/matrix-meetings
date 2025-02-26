@@ -96,7 +96,7 @@ spec:
         {{- end }}
         {{- if .Values.init.getFreshDeviceToken.enabled }}
         - name: getbottoken
-          image: {{ .Values.init.postgresClient.image }}
+          image: {{ .Values.init.synapse.image }}
           command:
             - sh
             - -x

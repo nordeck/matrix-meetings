@@ -1,0 +1,109 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: synapse-config
+  namespace: matrix-meetings
+data:
+  homeserver.yaml: |
+    # We use sqlite for simplicity. This is NOT a produiction ready config.
+    server_name: "synapse.matrix-meetings.svc.cluster.local"
+    enable_registration: true
+    # NEVER set this in production!
+    enable_registration_without_verification: true
+    pid_file: /data/homeserver.pid
+    registration_shared_secret: "random_registration_shared_secret"
+    macaroon_secret_key: random_secret_key
+    listeners:
+      - port: 8008
+        tls: false
+        type: http
+        x_forwarded: true
+        resources:
+          - names: [client, federation]
+            compress: false
+    database:
+      name: sqlite3
+      args:
+        database: /data/homeserver.db
+    log_config: "/data/synapse.matrix-meetings.svc.cluster.local.log.config"
+    media_store_path: /data/media_store
+    report_stats: false
+    signing_key_path: "/data/synapse.matrix-meetings.svc.cluster.local.signing.key"
+  # This is needed to fix the log file path. Its otherwise https://element-hq.github.io/synapse/latest/usage/configuration/logging_sample_config.html
+  synapse.matrix-meetings.svc.cluster.local.log.config: |
+    version: 1
+    formatters:
+      precise:
+        format: '%(asctime)s - %(name)s - %(lineno)d - %(levelname)s - %(request)s - %(message)s'
+    handlers:
+      console:
+        class: logging.StreamHandler
+        formatter: precise
+    loggers:
+      synapse:
+        handlers: [console]
+        level: INFO
+    root:
+      handlers: [console]
+      level: INFO
+    disable_existing_loggers: true
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: synapse
+  namespace: matrix-meetings
+spec:
+  selector:
+    matchLabels:
+      app: synapse
+  template:
+    metadata:
+      labels:
+        app: synapse
+    spec:
+      containers:
+        - name: synapse
+          image: ghcr.io/element-hq/synapse:latest
+          resources:
+            limits:
+              memory: '128Mi'
+              cpu: '500m'
+          ports:
+            - containerPort: 8008
+          volumeMounts:
+            - name: synapse-config
+              mountPath: /data/homeserver.yaml
+              subPath: homeserver.yaml
+            - name: synapse-config
+              mountPath: /data/synapse.matrix-meetings.svc.cluster.local.log.config
+              subPath: synapse.matrix-meetings.svc.cluster.local.log.config
+            - name: synapse-data
+              mountPath: /data
+          livenessProbe:
+            httpGet:
+              path: /_matrix/client/versions
+              port: 8008
+          readinessProbe:
+            httpGet:
+              path: /_matrix/client/versions
+              port: 8008
+      volumes:
+        - name: synapse-config
+          configMap:
+            name: synapse-config
+        - name: synapse-data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: synapse
+  namespace: matrix-meetings
+spec:
+  selector:
+    app: synapse
+  ports:
+    - port: 8008
+      targetPort: 8008
