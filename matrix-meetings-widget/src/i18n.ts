@@ -55,7 +55,7 @@ i18n
       backends: [HttpBackend, WidgetToolkitI18nBackend],
     },
 
-    supportedLngs: ['en', 'de'],
+    supportedLngs: ['pt', 'en', 'fr', 'es', 'de'],
     nonExplicitSupportedLngs: true,
   });
 

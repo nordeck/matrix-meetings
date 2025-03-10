@@ -24,6 +24,9 @@ import {
   MoreLinkSimpleAction,
 } from '@fullcalendar/core';
 import deLocale from '@fullcalendar/core/locales/de';
+import esLocale from '@fullcalendar/core/locales/es';
+import frLocale from '@fullcalendar/core/locales/fr';
+import ptLocale from '@fullcalendar/core/locales/pt';
 import FullCalendar from '@fullcalendar/react';
 import { useWidgetApi } from '@matrix-widget-toolkit/react';
 import { unstable_useId as useId } from '@mui/utils';
@@ -83,7 +86,13 @@ export const MeetingsCalendar = ({
   const locale =
     language && new Intl.Locale(language).language === 'de'
       ? deLocale
-      : undefined;
+      : language && new Intl.Locale(language).language === 'es'
+        ? esLocale
+        : language && new Intl.Locale(language).language === 'fr'
+          ? frLocale
+          : language && new Intl.Locale(language).language === 'pt'
+            ? ptLocale
+            : undefined;
   const [detailsMeetingId, setDetailsMeetingId] = useState<
     | { meetingId: string; uid: string; recurrenceId: string | undefined }
     | undefined

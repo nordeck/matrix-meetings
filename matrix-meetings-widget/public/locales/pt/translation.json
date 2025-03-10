@@ -1,0 +1,421 @@
+{
+  "breakoutSessionGroup": {
+    "groupTitle": "Nome do Grupo (necessário)",
+    "groupTitleHelperText": "É necessário um nome para o grupo",
+    "selectUser": "Selecionar participantes",
+    "youAreAlwaysMember": "O organizador vai aceder a todas as sessões de breakout."
+  },
+  "calendarDayPicker": {
+    "chooseDate": "Selecione a data, a data selecionada é {{date, datetime}}",
+    "label": "{{date, datetime}}"
+  },
+  "calendarMonthPicker": {
+    "chooseMonth": "Selecione o mês, o mês selecionado é {{date, datetime}}",
+    "label": "{{date, datetime}}"
+  },
+  "calendarWeekPicker": {
+    "chooseWeek": "Selecione a semana, a semana selecionada é {{range, daterange}}",
+    "label": "{{range, daterange}}"
+  },
+  "calendarWorkWeekPicker": {
+    "chooseWorkWeek": "Selecione a semana de trabalho, a semana de trabalho selecionada é {{range, daterange}}",
+    "label": "{{range, daterange}}"
+  },
+  "cancel": "Cancelar",
+  "close": "Fechar",
+  "cockpitPanel": {
+    "toParentRoom": "Voltar à sala de pais"
+  },
+  "copyableTextButton": {
+    "copy-to-clipboard": "Copiar para a área de transferência"
+  },
+  "dateRangePicker": {
+    "chooseDate": "Selecione o intervalo de datas, o intervalo selecionado é {{range, daterange}}",
+    "dateRange": "{{range, daterange}}"
+  },
+  "dateTimePickers": {
+    "endDate": "Data de fim",
+    "endTime": "Hora de fim",
+    "error": {
+      "breakoutSessionInvalidEndTime": "As sessões de Breakout devem terminar entre {{minDate, datetime}} e {{maxDate, datetime}}.",
+      "breakoutSessionInvalidStartTime": "As sessões de Breakout devem iniciar entre {{minDate, datetime}} e {{maxDate, datetime}}.",
+      "breakoutSessionStartBeforeEnd": "A data e hora das sessões de Breakout devem ser anteriores à data e hora de término.",
+      "meetingStartBeforeEnd": "A data e hora da reunião devem ser anteriores à data e hora de término.",
+      "meetingStartTooEarly": "A data e hora da reunião devem ser posteriores à data e hora atuais."
+    },
+    "invalidEndDate": "Data inválida",
+    "invalidEndTime": "Hora inválida",
+    "invalidStartDate": "Data inválida",
+    "invalidStartTime": "Hora inválida",
+    "openEndDatePicker": "Selecione a data de fim, a data selecionada é {{date, datetime}}",
+    "openEndTimePicker": "Selecione a hora de fim, a hora selecionada é {{date, datetime}}",
+    "openStartDatePicker": "Selecione a data de início, a data selecionada é {{date, datetime}}",
+    "openStartTimePicker": "Selecione a hora de início, a hora selecionada é {{date, datetime}}",
+    "startDate": "Data de início",
+    "startTime": "Hora de início"
+  },
+  "editMeetingModal": {
+    "cancel": "Cancelar",
+    "save": "Guardar",
+    "title": "Editar reunião"
+  },
+  "editRecurringMessage": {
+    "message": "Todas as definições da reunião recorrente são editáveis",
+    "titleOne": "Editar a série de reuniões recorrentes"
+  },
+  "invitedMeetingList": {
+    "detail": {
+      "invitedBy": "Convidado por: {{name}}"
+    }
+  },
+  "invitedMeetingsList": {
+    "title": "Convites"
+  },
+  "meetingCard": {
+    "actions": "Ações",
+    "deleteInOpenXchangeMenu": "Apagar reunião em Open-Xchange",
+    "deleteMenu": "Apagar reunião",
+    "durationSubheader_default": "{{startDate, datetime}} – {{endDate, datetime}}",
+    "durationSubheader_recurring": "$t(meetingCard.durationSubheader_default)<0>. Recurrence: {{recurrence}}</0>",
+    "editInOpenXchangeMenu": "Editar reunião em Open-Xchange",
+    "editMenu": "Editar reunião",
+    "editParticipants": {
+      "buttonTitle": "Mostrar participantes",
+      "membership_invite": "Convidado",
+      "membership_join": "Aceite",
+      "menuTitle": "Participantes"
+    },
+    "meetingRoomWillBeDeleted": "A sala de reunião vai ser apagada automaticamente {{remainingTime, relativetime}}.",
+    "meetingRoomWillBeDeletedSoon": "A sala de reunião vai ser apagada automaticamente em breve.",
+    "moreSettings": "Mais configurações",
+    "recurrenceTooltip": "Recorrência: {{recurrence}}",
+    "share": {
+      "buttonTitle": "Partilhar reunião",
+      "dialInCopyNumber": "Número de acesso",
+      "dialInCopyPin": "Pin de acesso",
+      "dialInDescription": "Utilize a informação seguinte para aceder à conferência através do telemóvel:",
+      "dialInTitle": "Convidar mais pessoas",
+      "downloadIcsFile": "Transferir ficheiro ICS",
+      "emailCopyMessage": "Mensagem",
+      "emailDescription": "Utilize a informação seguinte para partilhar a conferência, por exemplo, por email:",
+      "emailTitle": "Partilhar o convite para a reunião",
+      "icsDescription": "Transferir a reunião no formato iCalendar e adicionar à aplicação de calendário:",
+      "icsTitle": "Transferir o ficheiro de calendário",
+      "linkCopyMeetingLink": "Link para a reunião",
+      "linkDescription": "Utilize o link seguinte para aceder à reunião:",
+      "linkTitle": "Partilhe o link pra a sala de reunião",
+      "menuTitle": "Partilhar reunião",
+      "message": "{{title}}\n\n📅 {{date, daterange}}\n$t(meetingCard.share.messageRecurrence, {\"context\": \"{{recurrenceContext}}\" })\n$t(meetingCard.share.messageDescription, {\"context\": \"{{descriptionContext}}\" })\n__________________________\nRoom: {{link}}\n$t(meetingCard.share.messageDialIn, {\"context\": \"{{dialInContext}}\" })",
+      "messageDescription_none": "",
+      "messageDescription_present": "{{description}}\n",
+      "messageDialIn_none": "",
+      "messageDialIn_nopin": "Número de acesso: {{dialInNumber}}\nDial-In Pin: Pin not required\n",
+      "messageDialIn_pin": "Número de acesso: {{dialInNumber}}\nDial-In Pin: {{dialInPin}}\n",
+      "messageRecurrence_none": "",
+      "messageRecurrence_present": "🔁 Recorrência: {{recurrence}}\n",
+      "shareByMail": "Partilhar por email",
+      "shareDialInNumber": "Partilhar o número de acesso",
+      "shareDialInNumberError": "Erro ao carregar as informações de acesso.",
+      "shareDialInNumberNotPresent": "Sem informação de acesso disponível",
+      "shareLink": "Partilhar o link para a reunião",
+      "warningRecurringMeetingDialInNumber": "Este é um número de acesso para a série de reuniões. Ao partilhar este número de acesso, convida os utilizadores para todas as reuniões da série.",
+      "warningRecurringMeetingEmail": "Este é um email convite para a série de reuniões. Ao partilhar este email, convida os utilizadores para todas as reuniões da série.",
+      "warningRecurringMeetingICalFile": "Este é um ficheiro iCal para a série de reuniões. Ao partilhar este ficheiro, convida os utilizadores para todas as reuniões da série",
+      "warningRecurringMeetingLink": "Este é um link de acesso à série de reuniões. Ao partilhar este link, convida os utilizadores para todas as reuniões da série."
+    },
+    "updateFailed": "Por favor, tente de novo",
+    "updateFailedClose": "Fechar",
+    "updateFailedTitle": "Falha ao atualizar a reunião"
+  },
+  "meetingDetails": {
+    "content": {
+      "dateAndTime": "{{range, daterange}}",
+      "description": "Descrição",
+      "details": "Detalhes",
+      "organizer": "Organizador",
+      "participants": "Participantes",
+      "shareMeeting": {
+        "download": "Transferir",
+        "downloadIcsFile": "Transferir o ficheiro ICS",
+        "emailCopyMessage": "Mensagem",
+        "emailDescription": "Utilize a informação seguinte para partilhar a conferência, por exemplo, por email:",
+        "emailTitle": "Partilhar o convite para a reunião",
+        "icsDescription": "Transferir a reunião no formato iCalendar e adicionar à aplicação de calendário:",
+        "icsTitle": "Transferir um ficheiro de calendário",
+        "shareByMail": "Partilhar por email",
+        "title": "Partilhar reunião",
+        "warningRecurringMeetingEmail": "Este é um email convite para a série de reuniões. Ao partilhar este email, convida os utilizadores para todas as reuniões da série.",
+        "warningRecurringMeetingICalFile": "Este é um ficheiro iCal para a série de reuniões. Ao partilhar este ficheiro, convida os utilizadores para todas as reuniões da série."
+      }
+    },
+    "header": {
+      "deleteConfirmButton": "Apagar",
+      "deleteConfirmHeader": "Apagar reunião",
+      "deleteConfirmMessage": "Tem a certeza que pretende apagar a reunião “{{title}}” em {{startTime, datetime}} e todo o conteúdo relacionado com a mesma?",
+      "deleteFailed": "Por favor, tente de novo.",
+      "deleteFailedTitle": "Falha ao apagar a reunião",
+      "deleteInOpenXchangeMenu": "Apagar a reunião em Open-Xchange",
+      "deleteMeetingConfirmButton": "Apagar reunião",
+      "deleteMenu": "Apagar",
+      "deleteSeriesConfirmButton": "Apagar série",
+      "deleteSeriesConfirmMessage": "Tem a certeza que pretende apagara a reunião ou a série de reuniões “{{title}}” em {{startTime, datetime}} e todo o conteúdo relacionado com a mesma?",
+      "editInOpenXchangeMenu": "Editar reunião em Open-Xchange",
+      "editMenu": "Editar",
+      "join": "Aceder",
+      "joinBreakout_breakout": "Aceder"
+    }
+  },
+  "meetingHasBreakoutSessionsWarning": {
+    "message": "Se pretender alterar a hora de início ou fim desta reunião, as sessões de breakout não serão movidas!",
+    "title": "A reunião já tem sessões de breakout."
+  },
+  "meetingInvitationGuard": {
+    "meetingInvitation": "Por favor, aceite o convite para a reunião para ver todos os detalhes."
+  },
+  "meetingList": {
+    "groupTitle": "{{date, datetime}}",
+    "noBreakoutSessionsScheduled": "Não existem sessões de breakout agendadas que correspondam aos filtros selecionados.",
+    "noMeetingsScheduled": "Não existem reuniões agendadas que correspondam aos filtros selecionados.",
+    "openInvitationsDetail": "Por favor, aceda a todas as salas de reunião.",
+    "openInvitationsTitle": "Tem convites abertos.",
+    "title": "Reuniões"
+  },
+  "meetingsCalendar": {
+    "event": {
+      "startTime": "{{startTime, datetime}}",
+      "summary_default": "{{startTime, datetime}}–{{endTime, datetime}}: “{{title}}” por {{creator}}",
+      "summary_recurring": "{{startTime, datetime}}–{{endTime, datetime}}: “{{title}}” por {{creator}}, reunião recorrente"
+    }
+  },
+  "meetingsFilter": {
+    "filterAriaLabel": "Procurar",
+    "filterPlaceholder": "Procurar..."
+  },
+  "meetingsNavigation": {
+    "increaseWidth": "Aumentar a largura do widget",
+    "increaseWidthToShowMore": "Aumentar a largura do widget para permitir mais visualizações.",
+    "label": "Visualizar",
+    "views": {
+      "day": "Dia",
+      "list": "Lista",
+      "month": "Mês",
+      "week": "Semana",
+      "workWeek": "Semana útil"
+    }
+  },
+  "meetingsPanel": {
+    "actionsTitle": "Ações",
+    "filtersTitle": "Filtros",
+    "messageToAllBreakoutRoom": {
+      "placeholder": "Enviar uma mensagem...",
+      "sendFailed": "Por favor, tente de novo.",
+      "sendFailedTitle": "Falha ao enviar a mensagem",
+      "sendLabel": "Enviar mensagem para todas as salas",
+      "sendTimeout": "A alteração foi submetida com sucesso e será aplicada em breve.",
+      "sendTimeoutTitle": "O pedido foi enviado",
+      "title": "Enviar mensagem para todas as salas de sessões de breakout"
+    },
+    "scheduleBreakoutSession": "Agendar sessão de Breakout",
+    "scheduleMeeting": "Agendar reunião",
+    "tabTitle": "Visualizações",
+    "tabTitleInvitations": "Convites",
+    "tabTitleMeetings": "Reuniões"
+  },
+  "meetingsToolbar": {
+    "filterAriaLabel": "Procurar",
+    "filterPlaceholder": "Procurar...",
+    "next": {
+      "day": "Dia seguinte",
+      "month": "Mês seguinte",
+      "period": "Período seguinte",
+      "week": "Semana seguinte",
+      "workweek": "Próxima semana útil"
+    },
+    "previous": {
+      "day": "Dia anterior",
+      "month": "Mês anterior",
+      "period": "Período anterior",
+      "week": "Semana anterior",
+      "workweek": "Semana útil anterior"
+    },
+    "today": "Hoje"
+  },
+  "meetingViewEditMeeting": {
+    "breakoutSessionIsOver": "A sessão de breakout já terminou e não pode ser alterada.",
+    "meetingIsOver": "A reunião já terminou e não pode ser alterada."
+  },
+  "memberSelectionDropdown": {
+    "instructions_one": "{{selectedCount}} de {{count}} entrada selecionado. Utilize as teclas de setas para a esquerda e para a direita para navegar entre eles. Utilize as teclas de setas para cima e para baixo para aceder às opções disponíveis.",
+    "instructions_many": "{{selectedCount}} de {{count}} entrada selecionado. Utilize as teclas de setas para a esquerda e para a direita para navegar entre eles. Utilize as teclas de setas para cima e para baixo para aceder às opções disponíveis.",
+    "instructions_other": "{{selectedCount}} de {{count}} entrada selecionado. Utilize as teclas de setas para a esquerda e para a direita para navegar entre eles. Utilize as teclas de setas para cima e para baixo para aceder às opções disponíveis.",
+    "loadingError": "Erro ao carregar os utilizadores disponíveis.",
+    "loadingUsers": "Carregando utilizadores...",
+    "noMembers": "Sem membros disponíveis.",
+    "tagInstructions": "Utilize a tecla backspace para apagar a entrada."
+  },
+  "openMeetingRoomButton": {
+    "openMeetingRoom": "Abrir a sala de reunião",
+    "openMeetingRoom_breakout": "Abrir a sala de sessões de breakout"
+  },
+  "recurrenceEditor": {
+    "custom": {
+      "frequency": {
+        "days": "Dias",
+        "months": "Meses",
+        "weeks": "Semanas",
+        "years": "Anos"
+      },
+      "frequencyLabel": "Repetir",
+      "intervalLabel": "{{frequencyLabel}} até que a reunião seja repetida",
+      "invalidInput": "Entrada inválida",
+      "monthly": {
+        "byMonthday": "No dia",
+        "byMonthdayLong": "A reunião será repetida mensalmente em {{nthMonthday}}",
+        "byWeekday": "Em",
+        "byWeekdayLong": "A reunião será repetida mensalmente em {{ordinalLabel}} {{weekday}}",
+        "customRuleMode": "Regra personalizada",
+        "invalidInput": "Entrada inválida",
+        "monthdayInput": "Dia"
+      },
+      "repeatEvery": "Repetir a cada",
+      "title": "Reunião recorrente personalizada",
+      "weekly": {
+        "repeatOnWeekday": "No dia"
+      },
+      "yearly": {
+        "byMonthday": "On day",
+        "byMonthdayLong": "A reunião será repetida anualmente em {{nthMonthday}} {{month}}",
+        "byWeekday": "No",
+        "byWeekdayLong": "A reunião será repetida anualmente em {{ordinalLabel}} {{weekday}} de {{month}}",
+        "byWeekdayOf": "de",
+        "customRuleMode": "Regra personalizada",
+        "invalidInput": "Entrada inválida",
+        "monthdayInput": "Dia"
+      }
+    },
+    "monthLabel": "Mês",
+    "ordinalLabel": "Ordinal",
+    "ordinals": {
+      "first": "primeiro",
+      "fourth": "quarto",
+      "last": "último",
+      "second": "segundo",
+      "third": "terceiro"
+    },
+    "recurrencePreset": {
+      "custom": "Personalizada",
+      "daily": "Diariamente",
+      "mondayToFriday": "De segunda a sexta-feira",
+      "monthly": "Mensalmente",
+      "once": "Sem repetição",
+      "weekly": "Semanalmente",
+      "yearly": "Anualmente"
+    },
+    "recurringMeetingEnd": {
+      "afterMeetingCount": "Após",
+      "afterMeetingCountInput": "Contagem de reuniões",
+      "afterMeetingCountInputUnit": "Reuniões",
+      "afterMeetingCountLong_one": "Termina após {{count}} reuniões",
+      "afterMeetingCountLong_many": "Termina após {{count}} reuniões",
+      "afterMeetingCountLong_other": "Termina após {{count}} reuniões",
+      "endOfRecurringMeeting": "Fim da reunião recorrente",
+      "invalidInput": "Entrada inválida",
+      "never": "Nunca",
+      "neverLong": "A reunião será repetida para sempre",
+      "untilDate": "Em",
+      "untilDateInput": "Data em que a reunião recorrente termina",
+      "untilDateInputInvalid": "Data inválida",
+      "untilDateInputOpenDatePicker": "Selecione a data em que a reunião recorrente termina, a data selecionada {{date, datetime}}",
+      "untilDateLong": "A reunião será repetida até {{date,datetime}}"
+    },
+    "repeatMeeting": "Repetir reunião",
+    "ruleText": {
+      "afterMeetingCount_one": "uma vez",
+      "afterMeetingCount_many": "por {{count}} vezes",
+      "afterMeetingCount_other": "por {{count}} vezes",
+      "daily_one": "Todos day$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "daily_other": "Todos {{count}} days$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_bymonthday_one": "Todos os $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true })$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_bymonthday_other": "A cada {{count}} meses, em $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true })$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_byweekday_one": "Mensalmente, em {{ordinalLabel}} {{byweekday}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_byweekday_other": "A cada  {{count}} meses, em {{ordinalLabel}} {{byweekday}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_simple_one": "Todos os month$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_simple_other": "A cada {{count}} months$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "ordinal_ordinal_one": "{{count}}º",
+      "ordinal_ordinal_two": "{{count}}º",
+      "ordinal_ordinal_few": "{{count}}º",
+      "ordinal_ordinal_other": "{{count}}º",
+      "recurrenceEnd_count": " $t(recurrenceEditor.ruleText.afterMeetingCount, {\"count\": {{afterMeetingCount}}, \"ordinal\": false })",
+      "recurrenceEnd_never": "",
+      "recurrenceEnd_until": " até {{ untilDate, datetime(year: 'numeric'; month: 'long'; day: 'numeric') }}",
+      "unknown": "Recorrência não suportada",
+      "weekly_all_one": "Todos os week$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_all_other": "Todos os {{count}} weeks$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_some_one": "Semanalmente, em {{weekdays, list}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_some_other": "A cada {{count}} semanas, em {{weekdays, list}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_weekdays_one": "Todos os weekday$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_weekdays_other": "A cada {{count}} semanas, em weekdays$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_bymonthday_one": "Todos os {{monthLabel}} em $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true })$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_bymonthday_other": "Todos os {{count}} anos, em $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true }) of {{monthLabel}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_byweekday_one": "Todos os {{monthLabel}} em {{ordinalLabel}} {{byweekday}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_byweekday_other": "A cada {{count}} anos, em {{ordinalLabel}} {{byweekday}} of {{monthLabel}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_simple_one": "Todos os year$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_simple_other": "Todos os {{count}} years$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })"
+    },
+    "weekdayLabel": "Semanalmente"
+  },
+  "scheduleMeeting": {
+    "allowMessaging": "Permitir enviar mensagens a todos os participantes",
+    "cannotRemoveOwnUser": "Não pode remover o seu utilizador da reunião.",
+    "description": "Descrição",
+    "endAt": "Termina em",
+    "hasPowerToKickUser": "Não tem permissão para remover este participante.",
+    "meetingAlreadyStarted": "A reunião já iniciou.",
+    "participants": "Participantes",
+    "startAt": "Inicia em",
+    "title": "Título (necessário)",
+    "titleHelperText": "É necessário um título",
+    "typeToSearch": "Digite para procurar um utilizador...",
+    "youAreAlwaysMember": "O organizador vai sempre aceder à reunião."
+  },
+  "scheduleMeetingModal": {
+    "cancel": "Cancelar",
+    "create": "Criar reunião",
+    "scheduleTitle": "Agendar reunião"
+  },
+  "setupBreakoutSessions": {
+    "description": "Descrição",
+    "distributeAllRoomMembers": "Distribuir todos os {{amount}} participantes",
+    "endAt": "Termina em",
+    "groupNumber": "Número de grupos (necessário)",
+    "groupNumberErrorMessage": "Não existem participantes suficientes para o número de grupos que você inscreveu.",
+    "groups": "Grupos",
+    "groupTitleDefaultValue": "Grupo {{index}}",
+    "meetingIsOver": "A reunião já terminou e não pode criar sessões de breakout.",
+    "notAssignedMessage": "Alguns participantes não estão atribuídos a um grupo.",
+    "notAssignedTitle": "Observação",
+    "startAt": "Inicia em"
+  },
+  "setupBreakoutSessionsModal": {
+    "cancel": "Cancelar",
+    "create": "Criar uma sessão de Breakout",
+    "title": "Agendar uma sessão de Breakout"
+  },
+  "timeDistance": {
+    "futureText": "{{duration, relativetime}}",
+    "futureTextExact": "em {{duration}}",
+    "remainingText": "Termina {{duration, relativetime}}",
+    "remainingTextExact": "Termina em {{duration}}"
+  },
+  "widgetSelectionDropdown": {
+    "allActive": "Todos os widgets disponíveis estão ativos.",
+    "instructions_one": "{{selectedCount}} de {{count}} entrada selecionados. Utilize as teclas de setas para a esquerda e para a direita para navegar entre elas. Utilize as teclas de setas para cima e para baixo para selecionar as opções.",
+    "instructions_many": "{{selectedCount}} de {{count}} entrada selecionados. Utilize as teclas de setas para a esquerda e para a direita para navegar entre elas. Utilize as teclas de setas para cima e para baixo para selecionar as opções.",
+    "instructions_other": "{{selectedCount}} de {{count}} entrada selecionados. Utilize as teclas de setas para a esquerda e para a direita para navegar entre elas. Utilize as teclas de setas para cima e para baixo para selecionar as opções.",
+    "label": "Widgets",
+    "loading": "A carregar widgets...",
+    "loadingError": "Erro ao carregar Widgets disponíveis.",
+    "noWidgets": "Sem Widgets disponíveis.",
+    "tagInstructions": "Utilize a tecla backspace para apagar a entrada."
+  }
+}
