@@ -21,21 +21,30 @@ import 'reflect-metadata';
 import { registerDateRangeFormatter } from './src/dateRangeFormatter';
 
 // @ts-ignore Ignore error. TypeScript complains, even if 'resolveJsonModule' is enabled.
-import translationDe from './src/static/locales/de/translation.json';
+import translationPt from './src/static/locales/pt/translation.json';
 // @ts-ignore Ignore error. TypeScript complains, even if 'resolveJsonModule' is enabled.
 import translationEn from './src/static/locales/en/translation.json';
+// @ts-ignore Ignore error. TypeScript complains, even if 'resolveJsonModule' is enabled.
+import translationFr from './src/static/locales/fr/translation.json';
+// @ts-ignore Ignore error. TypeScript complains, even if 'resolveJsonModule' is enabled.
+import translationEs from './src/static/locales/es/translation.json';
+// @ts-ignore Ignore error. TypeScript complains, even if 'resolveJsonModule' is enabled.
+import translationDe from './src/static/locales/de/translation.json';
 
 // Use a different configuration for i18next during tests
 i18next.use(i18nextBackend).init({
   debug: false,
   saveMissing: true,
   fallbackLng: 'en',
-  preload: ['en', 'de'],
+  preload: ['pt', 'en', 'fr', 'es', 'de'],
   interpolation: {
     escapeValue: false,
   },
   resources: {
+    pt: { translation: translationPt },
     en: { translation: translationEn },
+    fr: { translation: translationFr },
+    es: { translation: translationEs },
     de: { translation: translationDe },
   },
 });

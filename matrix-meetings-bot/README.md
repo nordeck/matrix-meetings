@@ -20,7 +20,7 @@ There are two ways to setup the NeoDateFix widget using the bot:
 In a private chat-room you can use the following commands:
 
 - `!meeting help`: shows all available commands.
-- `!meeting lang <en|de>` Change bot's language in this room
+- `!meeting lang <pt|en|fr|es|de>` Change bot's language in this room
 - `!meeting detail` Show the manual about NeoDateFix widget setup in the room
 - `!meeting setup` Adds a NeoDateFix widget to the room
 - `!meeting status` Check the ability to add the NeoDateFix widget

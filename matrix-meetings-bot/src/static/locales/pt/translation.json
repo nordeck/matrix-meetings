@@ -1,0 +1,159 @@
+{
+  "base": {
+    "exception": {
+      "message": "Um erro \"{{errorName}}\" ocorreu enquanto se processavam os eventos na sala {{roomId}} {{roomName}}. <br> Por favor forneça este número: [{{requestId}}] para mais questões."
+    }
+  },
+  "bot": {
+    "private": {
+      "errorRoom": {
+        "create": {
+          "message": "Mensagens de erro de NeoDateFix-Bot",
+          "topic": "Mais detalhes"
+        }
+      }
+    }
+  },
+  "commandErrors": {
+    "badCommand": "Comando incorreto, tente <code>{{trigger}} help</code>",
+    "badLanguageCode": "A linguagem de código não é suportada",
+    "generic": "Ocorreu um erro ao processar o seu comando: {{message}}",
+    "noCommandProvided": "Nenhum comando fornecido, tente <code>{{trigger}} help</code>",
+    "noLanguageCode": "A linguagem de código não é fornecida, use uma das seguintes ({{availableLanguageCodes}})"
+  },
+  "commandHelp": [
+    "<p>Comandos disponíveis:</p>",
+    "<ul>",
+    "<li><code>!meeting lang &lt;pt|en|fr|es|de&gt;</code> (Mude o idioma do bot nesta sala.)</li>",
+    "<li><code>!meeting setup</code> (Adiciona o calendário à sala.)</li>",
+    "<li><code>!meeting status</code> (Verifica a capacidade de adicionar o calendário.)</li>",
+    "</ul>"
+  ],
+  "meeting": {
+    "invite": {
+      "message": "📅 {{range, daterange}}<br/>$t(meeting.invite.messageRecurrence, {\"context\": \"{{recurrenceContext}}\" })<br/>$t(meeting.invite.messageByOrganizer, {\"context\": \"{{organizerContext}}\" })$t(meeting.invite.messageDescription, {\"context\": \"{{descriptionContext}}\" })",
+      "messageByOrganizer_none": "",
+      "messageByOrganizer_present": "\nverifica a capacidade de adicionar o calendário {{organizerDisplayName}}",
+      "messageDescription_none": "",
+      "messageDescription_present": "\n<hr><i>{{description}}</i>",
+      "messageRecurrence_none": "",
+      "messageRecurrence_present": "\n🔁 Recorrência: {{recurrence}}<br/>"
+    },
+    "room": {
+      "notification": {
+        "changed": {
+          "date": {
+            "current": "Data: {{range, daterange}}",
+            "previous": "(previamente: {{range, daterange}})"
+          },
+          "description": {
+            "current": "Descrição: {{description}}",
+            "previous": "(previamente: {{description}})"
+          },
+          "headLine": "ALTERAÇÕES",
+          "occurrence": {
+            "current": "Uma só reunião de uma série de reuniões é mudada para {{range, daterange}}",
+            "deleted": "Uma só reunião de uma série de reuniões é {{range, daterange}} apagada",
+            "previous": "(previamente: {{value, daterange}})"
+          },
+          "repetition": {
+            "current": "Repetir reunião: {{repetitionText}}",
+            "previous": "(previamente: {{repetitionText}})"
+          },
+          "title": {
+            "current": "Título: {{title}}",
+            "previous": "(previamente: {{title}})"
+          }
+        },
+        "closed": {
+          "message": "A sala foi fechada pelo administrador"
+        },
+        "noRepetition": "Sem repetição"
+      }
+    },
+    "user": {
+      "kicked": "Utilizador {{userId}} foi removido pelo {{sender}}"
+    }
+  },
+  "recurrenceEditor": {
+    "ordinals": {
+      "first": "primeiro",
+      "fourth": "quarto",
+      "last": "último",
+      "second": "segundo",
+      "third": "terceiro"
+    },
+    "ruleText": {
+      "afterMeetingCount_one": "uma vez",
+      "afterMeetingCount_many": "for {{count}} times",
+      "afterMeetingCount_other": "por {{count}} vezes",
+      "daily_one": "Todos os dias$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "daily_other": "Todos {{count}} dias$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_bymonthday_one": "Todos os meses em $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true })$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_bymonthday_other": "Todos {{count}} os meses em $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true })$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_byweekday_one": "Todos os meses em {{ordinalLabel}} {{byweekday}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_byweekday_other": "Todos {{count}} os meses em {{ordinalLabel}} {{byweekday}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_simple_one": "Todos os meses$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "monthly_simple_other": "Todos {{count}} meses$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "ordinal_ordinal_one": "{{count}}º",
+      "ordinal_ordinal_two": "{{count}}º",
+      "ordinal_ordinal_few": "{{count}}º",
+      "ordinal_ordinal_other": "{{count}}º",
+      "recurrenceEnd_count": "$t(recurrenceEditor.ruleText.afterMeetingCount, {\"count\": {{afterMeetingCount}}, \"ordinal\": false })",
+      "recurrenceEnd_never": "",
+      "recurrenceEnd_until": " até {{ untilDate, datetime(year: 'numeric'; month: 'long'; day: 'numeric') }}",
+      "unknown": "Recorrência não suportada",
+      "weekly_all_one": "Todas as semanas $t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_all_other": "Todas {{count}} as semanas $t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_some_one": "Todas as semanas em {{weekdays, list}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_some_other": "Todas {{count}} as semanas em {{weekdays, list}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_weekdays_one": "Todos os dias de semana$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "weekly_weekdays_other": "Todas {{count}} semanas nos os dias de semana$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_bymonthday_one": "Todos {{monthLabel}} em $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true })$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_bymonthday_other": "Todos {{count}} anos em $t(recurrenceEditor.ruleText.ordinal, {\"count\": {{bymonthday}}, \"ordinal\": true }) de {{monthLabel}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_byweekday_one": "Todos {{monthLabel}} em {{ordinalLabel}} {{byweekday}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_byweekday_other": "Todos {{count}} anos em {{ordinalLabel}} {{byweekday}} de {{monthLabel}}$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_simple_one": "Todos os anos$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
+      "yearly_simple_other": "Todos {{count}} anos$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })"
+    }
+  },
+  "welcome": {
+    "botIsAdmin": "O bot é um moderador na sala <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>. Se introduzir o comando <code>!meeting setup</code>, o widget NeoDateFix será adicionado à sala.",
+    "botNotAdmin": "O bot não é um moderador na sala <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>.",
+    "errors": {
+      "meetingWidgetExists": "Impossível adicionar um novo widget porque já existe.",
+      "notEnoughPermissions": "Infelizmente, não consigo adicionar a funcionalidade do calendário. Não tenho a permissão necessária. Por favor dê-me direitos de moderador na sua sala <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>."
+    },
+    "helpWhenNotAdmin": "Infelizmente, não consigo adicionar a funcionalidade do calendário. Não tenho a permissão necessária. Por favor dê-me direitos de moderador na sua sala <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>.",
+    "intro": [
+      "<p>Olá {{userDisplayName}}, obrigado por me convidar para <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>.</p>",
+      "<p>Gostaria muito de o ajudar a colocar o calendário naquela sala.</p>",
+      "<p>Para que eu possa adicionar a função do calendário à sua sala, por favor dê-me a permissão necessária para adicionar widgets à sua sala <a href='{{originalRoomLink}}'>{{originalRoomName}}</a> (A função de moderador, por exemplo). Pode fazê-lo no meu perfil de utilizador que encontra no menu do lado direito através de \"info\"-icon.</p>",
+      "<p>Se não me quiser dar a autorização necessária, pode adicionar a funcionalidade do calendário à sua sala manualmente, enviando a seguinte mensagem para a sala: <code>/addwidget {{widgetURL}}</code></p>",
+      "<p>Para ter uma vista geral dos comandos pode enviar <code>!meeting help</code></p>"
+    ],
+    "introDone": [
+      "<p>Olá {{userDisplayName}}, obrigado por me convidar para <a href='{{originalRoomLink}}'>{{originalRoomName}}</a>.</p>",
+      "<p>A minha função foi ajudá-lo a instalar o calendário.</p>",
+      "<p>O calendário já foi instalado com sucesso na sua sala. Assim, já pode deixar esta caixa de chat.</p>",
+      "<p>Para ter uma vista geral dos comandos pode enviar <code>!meeting help</code></p>"
+    ],
+    "introLanguage": [
+      "Informação sobre as definições de idioma: Para possibilitar a comunicação na sua língua, pode usar os seguintes comandos: ",
+      "<ul>",
+      "<li>Mudar o idioma para Português: <code>!meeting lang pt</code></li>",
+      "<li>Mudar o idioma para Inglês: <code>!meeting lang en</code></li>",
+      "<li>Mudar o idioma para Francês: <code>!meeting lang fr</code></li>",
+      "<li>Mudar o idioma para Espanhol: <code>!meeting lang es</code></li>",
+      "<li>Mudar o idioma para Alemão: <code>!meeting lang de</code></li>",
+      "</ul>"
+    ],
+    "languageWasChanged": "O idioma foi alterado para <b>{{locale}}</b>.",
+    "meetingWidgetAdded": "<p>A minha função está cumprida.</p><p>O calendário já foi instalado na sua sala com sucesso. Já pode sair desta sala privada de chat.</p>",
+    "privateRoom": {
+      "inviteReason": "Nesta sala privada, o “bot” pode ajudar a adicionar um NeoDateFix widget à sala '{{originalRoomName}}'.",
+      "name": "Ajuda para {{originalRoomName}}",
+      "topic": "Como usar este “bot” para adicionar o widget bot na sala {{originalRoomName}}."
+    }
+  }
+}
