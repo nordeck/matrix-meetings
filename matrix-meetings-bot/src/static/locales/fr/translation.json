@@ -85,7 +85,7 @@
     },
     "ruleText": {
       "afterMeetingCount_one": "pour une fois",
-      "afterMeetingCount_many": "for {{count}} times",
+      "afterMeetingCount_many": "pour {{count}} fois",
       "afterMeetingCount_other": "pour {{count}} fois",
       "daily_one": "Tous les jours$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
       "daily_other": "Tous {{count}} jours$t(recurrenceEditor.ruleText.recurrenceEnd, {\"context\": \"{{recurrenceEnd}}\" })",
