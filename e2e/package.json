@@ -8,11 +8,11 @@
   "dependencies": {},
   "devDependencies": {
     "@axe-core/playwright": "^4.10.1",
-    "@playwright/test": "^1.50.1",
-    "@types/node": "^22.13.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-playwright": "^1.6.1",
-    "testcontainers": "^10.18.0"
+    "@playwright/test": "^1.51.0",
+    "@types/node": "^22.13.10",
+    "eslint": "^9.22.0",
+    "eslint-plugin-playwright": "^2.2.0",
+    "testcontainers": "^10.20.0"
   },
   "engines": {
     "node": ">=20",
