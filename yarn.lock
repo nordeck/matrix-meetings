@@ -2114,16 +2114,7 @@
     https-proxy-agent "^5.0.1"
     node-downloader-helper "^2.1.5"
 
-"@matrix-widget-toolkit/api@^4.0.0":
-  version "4.0.0"
-  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/api/-/api-4.0.0.tgz#12586b353f52eccc13be9708351c76bcf8bb444c"
-  integrity sha512-A6VaQw5shEWMoM1qKr+400lTpM13qWnwujS/htftEBV93caKHf3zHfgYcLq55miYgVFrPafaTTnNPxSpHGGPIQ==
-  dependencies:
-    matrix-widget-api "1.10.0"
-    qs "6.13.1"
-    rxjs "7.8.1"
-
-"@matrix-widget-toolkit/api@^4.1.0", "@matrix-widget-toolkit/api@^4.1.1":
+"@matrix-widget-toolkit/api@^4.0.0", "@matrix-widget-toolkit/api@^4.1.0", "@matrix-widget-toolkit/api@^4.1.1":
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/api/-/api-4.1.1.tgz#016dcce6be0970d9718658249c043fa949cb713a"
   integrity sha512-Qk39u5x2hAHxoll3l4mXPRLbZ2hZko59fBgSoARiZm1ZJAGAniVBjSleo4TEMIFSdLpVe0gfYqqGtyx2g8z5LA==
@@ -2354,17 +2345,12 @@
     csstype "^3.1.3"
     prop-types "^15.8.1"
 
-"@mui/types@^7.2.15", "@mui/types@^7.2.21":
-  version "7.2.21"
-  resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.2.21.tgz#63f50874eda8e4a021a69aaa8ba9597369befda2"
-  integrity sha512-6HstngiUxNqLU+/DPqlUJDIPbzUBxIVHb1MmXP0eTWDIROiCR2viugXpEif0PPe2mLqqakPzzRClWAnK+8UJww==
-
-"@mui/types@~7.2.24":
+"@mui/types@^7.2.15", "@mui/types@^7.2.21", "@mui/types@~7.2.24":
   version "7.2.24"
   resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.2.24.tgz#5eff63129d9c29d80bbf2d2e561bd0690314dec2"
   integrity sha512-3c8tRt/CbWZ+pEg7QpSwbdxOk36EfmhbKf6AGZsD1EcLDLTSZoxxJ86FVtcjxvjuhdyBiWKSTGZFaXCnidO2kw==
 
-"@mui/utils@6.4.3", "@mui/utils@^6.4.3":
+"@mui/utils@6.4.3":
   version "6.4.3"
   resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-6.4.3.tgz#e08bc3a5ae1552a48dd13ddc7c65e3eebdb4cd58"
   integrity sha512-jxHRHh3BqVXE9ABxDm+Tc3wlBooYz/4XPa0+4AI+iF38rV1/+btJmSUgG4shDtSWVs/I97aDn5jBCt6SF2Uq2A==
@@ -2388,7 +2374,7 @@
     prop-types "^15.8.1"
     react-is "^19.0.0"
 
-"@mui/utils@^6.4.8":
+"@mui/utils@^6.4.3", "@mui/utils@^6.4.8":
   version "6.4.8"
   resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-6.4.8.tgz#f80ee0c0ac47f1cd47c2031a5fb87243322b6bf3"
   integrity sha512-C86gfiZ5BfZ51KqzqoHi1WuuM2QdSKoFhbkZeAfQRB+jCc4YNhhj11UXFVMMsqBgZ+Zy8IHNJW3M9Wj/LOwRXQ==
@@ -6866,17 +6852,10 @@ hyphenate-style-name@^1.0.3:
   resolved "https://registry.yarnpkg.com/hyphenate-style-name/-/hyphenate-style-name-1.1.0.tgz#1797bf50369588b47b72ca6d5e65374607cf4436"
   integrity sha512-WDC/ui2VVRrz3jOVi+XtjqkDjiVjTtFaAGiW37k6b+ohyQ5wYDOGkvCZa8+H0nx3gyvv0+BST9xuOgIyGQ00gw==
 
-i18next-browser-languagedetector@8.0.4:
+i18next-browser-languagedetector@8.0.4, i18next-browser-languagedetector@^8.0.2:
   version "8.0.4"
   resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-8.0.4.tgz#9b16f6440b6aad3521f2ab1a2ffbb7d917397df2"
   integrity sha512-f3frU3pIxD50/Tz20zx9TD9HobKYg47fmAETb117GKGPrhwcSSPJDoCposXlVycVebQ9GQohC3Efbpq7/nnJ5w==
-  dependencies:
-    "@babel/runtime" "^7.23.2"
-
-i18next-browser-languagedetector@^8.0.2:
-  version "8.0.2"
-  resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-8.0.2.tgz#037ca25c26877cad778f060a9e177054d9f8eaa3"
-  integrity sha512-shBvPmnIyZeD2VU5jVGIOWP7u9qNG3Lj7mpaiPFpbJ3LVfHZJvVzKR4v1Cb91wAOFpNw442N+LGPzHOHsten2g==
   dependencies:
     "@babel/runtime" "^7.23.2"
 
@@ -8308,14 +8287,6 @@ math-intrinsics@^1.1.0:
     request-promise "^4.2.6"
     sanitize-html "^2.11.0"
 
-matrix-widget-api@1.10.0:
-  version "1.10.0"
-  resolved "https://registry.yarnpkg.com/matrix-widget-api/-/matrix-widget-api-1.10.0.tgz#d31ea073a5871a1fb1a511ef900b0c125a37bf55"
-  integrity sha512-rkAJ29briYV7TJnfBVLVSKtpeBrBju15JZFSDP6wj8YdbCu1bdmlplJayQ+vYaw1x4fzI49Q+Nz3E85s46sRDw==
-  dependencies:
-    "@types/events" "^3.0.0"
-    events "^3.2.0"
-
 matrix-widget-api@1.13.1, matrix-widget-api@^1.13.1:
   version "1.13.1"
   resolved "https://registry.yarnpkg.com/matrix-widget-api/-/matrix-widget-api-1.13.1.tgz#5b1caeed2fc58148bcd2984e0546d2d06a1713ad"
@@ -9338,13 +9309,6 @@ qs@6.13.0:
   dependencies:
     side-channel "^1.0.6"
 
-qs@6.13.1:
-  version "6.13.1"
-  resolved "https://registry.yarnpkg.com/qs/-/qs-6.13.1.tgz#3ce5fc72bd3a8171b85c99b93c65dd20b7d1b16e"
-  integrity sha512-EJPeIn0CYrGu+hli1xilKAPXODtJ12T0sP63Ijx2/khC2JtuaN3JyNIpvmnkmaEtha9ocbG4A4cMcr+TvqvwQg==
-  dependencies:
-    side-channel "^1.0.6"
-
 qs@6.14.0:
   version "6.14.0"
   resolved "https://registry.yarnpkg.com/qs/-/qs-6.14.0.tgz#c63fa40680d2c5c941412a0e899c89af60c0a930"
@@ -9425,15 +9389,7 @@ react-error-boundary@^3.1.0:
   dependencies:
     "@babel/runtime" "^7.12.5"
 
-react-i18next@*:
-  version "15.4.0"
-  resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-15.4.0.tgz#87c755fb6d7a567eec134e4759b022a0baacb19e"
-  integrity sha512-Py6UkX3zV08RTvL6ZANRoBh9sL/ne6rQq79XlkHEdd82cZr2H9usbWpUNVadJntIZP2pu3M2rL1CN+5rQYfYFw==
-  dependencies:
-    "@babel/runtime" "^7.25.0"
-    html-parse-stringify "^3.0.1"
-
-react-i18next@15.4.1:
+react-i18next@*, react-i18next@15.4.1:
   version "15.4.1"
   resolved "https://registry.yarnpkg.com/react-i18next/-/react-i18next-15.4.1.tgz#33f3e89c2f6c68e2bfcbf9aa59986ad42fe78758"
   integrity sha512-ahGab+IaSgZmNPYXdV1n+OYky95TGpFwnKRflX/16dY04DsYYKHtVLjeny7sBSCREEcoMbAgSkFiGLF5g5Oofw==
@@ -9976,14 +9932,14 @@ run-parallel@^1.1.9:
   dependencies:
     queue-microtask "^1.2.2"
 
-rxjs@7.8.1, rxjs@^7.5.5, rxjs@^7.8.0, rxjs@^7.8.1:
+rxjs@7.8.1:
   version "7.8.1"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.1.tgz#6f6f3d99ea8044291efd92e7c7fcf562c4057543"
   integrity sha512-AA3TVj+0A2iuIoQkWEK/tqFjBq2j+6PO6Y0zJcvzLAFhEFIO3HL0vls9hWLncZbAAbK0mar7oZ4V079I/qPMxg==
   dependencies:
     tslib "^2.1.0"
 
-rxjs@7.8.2:
+rxjs@7.8.2, rxjs@^7.5.5, rxjs@^7.8.0, rxjs@^7.8.1:
   version "7.8.2"
   resolved "https://registry.yarnpkg.com/rxjs/-/rxjs-7.8.2.tgz#955bc473ed8af11a002a2be52071bf475638607b"
   integrity sha512-dhKf903U/PQZY6boNNtAGdWbG85WAbjT/1xYoZIC7FAY0yWapOBQVsVrDl58W86//e1VpMNBtRV4MaXfdMySFA==
