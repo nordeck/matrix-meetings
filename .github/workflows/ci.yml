@@ -251,7 +251,7 @@ jobs:
           python-version: '3.12'
           check-latest: true
       - name: Set up chart-testing
-        uses: helm/chart-testing-action@v2.6.1
+        uses: helm/chart-testing-action@v2.7.0
       - name: Check if Helm charts updated (run chart-testing list-changed)
         id: list-changed
         run: |
