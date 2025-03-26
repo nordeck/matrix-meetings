@@ -2114,10 +2114,10 @@
     https-proxy-agent "^5.0.1"
     node-downloader-helper "^2.1.5"
 
-"@matrix-widget-toolkit/api@^4.0.0", "@matrix-widget-toolkit/api@^4.1.0", "@matrix-widget-toolkit/api@^4.1.1":
-  version "4.1.1"
-  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/api/-/api-4.1.1.tgz#016dcce6be0970d9718658249c043fa949cb713a"
-  integrity sha512-Qk39u5x2hAHxoll3l4mXPRLbZ2hZko59fBgSoARiZm1ZJAGAniVBjSleo4TEMIFSdLpVe0gfYqqGtyx2g8z5LA==
+"@matrix-widget-toolkit/api@^4.0.0", "@matrix-widget-toolkit/api@^4.1.0", "@matrix-widget-toolkit/api@^4.1.2":
+  version "4.1.2"
+  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/api/-/api-4.1.2.tgz#78042191989a5f9003a9887963acd3a83f5c145f"
+  integrity sha512-JRxHF30/54g4gmx1k7zZhOBu0VSSVE1xdAxwagNT6G5hO6IzXPD1U/lwlugY9V50QQoXemKLmStfM2ssTSppWA==
   dependencies:
     joi "17.13.3"
     matrix-widget-api "1.13.1"
