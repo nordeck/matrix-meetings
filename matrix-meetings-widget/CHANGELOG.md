@@ -1,5 +1,13 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.7.1
+
+### Patch Changes
+
+- 13c8607: React was updated to version 18
+- fc1d974: @nordeck/matrix-meetings-widget does now use Vite and Vitest instead of CRA and Jest.
+- 348ac70: Adds SBOM report to widget, build and release assets
+
 ## 1.7.0
 
 ### Minor Changes
