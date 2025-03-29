@@ -15,10 +15,7 @@
  */
 
 import { SxProps } from '@mui/material';
-import {
-  DatePickerSlotsComponentsProps,
-  PickersDayProps,
-} from '@mui/x-date-pickers';
+import { DatePickerSlotProps, PickersDayProps } from '@mui/x-date-pickers';
 import { DateTime, Interval } from 'luxon';
 import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -97,7 +94,7 @@ export const CalendarWorkWeekPicker = ({
         day: {
           start,
           end,
-        } as DatePickerSlotsComponentsProps<DateTime>['day'] & {
+        } as DatePickerSlotProps<DateTime, boolean>['day'] & {
           start?: DateTime;
           end?: DateTime;
         },

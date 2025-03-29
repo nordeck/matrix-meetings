@@ -14,11 +14,8 @@
  * limitations under the License.
  */
 
-import {
-  deDE,
-  enUS,
-  LocalizationProvider as MuiLocalizationProvider,
-} from '@mui/x-date-pickers';
+import { LocalizationProvider as MuiLocalizationProvider } from '@mui/x-date-pickers';
+import { deDE, enUS } from '@mui/x-date-pickers/locales';
 import { PropsWithChildren } from 'react';
 import { useTranslation } from 'react-i18next';
 import { AdapterLuxonWeekday } from './AdapterLuxonWeekday';
