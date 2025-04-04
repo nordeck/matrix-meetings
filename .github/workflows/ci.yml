@@ -99,9 +99,9 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/s390x
           sbom: true
           provenance: true
-          outputs: 'type=image'
 
       - name: Run Trivy to get an SBOM report of the container
+        if: ${{ success() && steps.dockerBuild.outputs.digest }}
         env:
           IMAGE_REF: ${{ env.DOCKER_IMAGE }}@${{ steps.dockerBuild.outputs.digest }}
         uses: aquasecurity/trivy-action@0.29.0
@@ -114,6 +114,7 @@ jobs:
           github-pat: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload SBOM report as a build artifact
+        if: ${{ success() && steps.dockerBuild.outputs.digest }}
         uses: actions/upload-artifact@v4
         with:
           name: matrix-meetings-widget-sbom-spdx-report
@@ -211,9 +212,9 @@ jobs:
           platforms: linux/amd64,linux/arm64,linux/s390x
           sbom: true
           provenance: true
-          outputs: 'type=image'
 
       - name: Run Trivy to get an SBOM report of the container
+        if: ${{ success() && steps.dockerBuild.outputs.digest }}
         env:
           IMAGE_REF: ${{ env.DOCKER_IMAGE }}@${{ steps.dockerBuild.outputs.digest }}
         uses: aquasecurity/trivy-action@0.29.0
@@ -226,6 +227,7 @@ jobs:
           github-pat: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload SBOM report as a build artifcat
+        if: ${{ success() && steps.dockerBuild.outputs.digest }}
         uses: actions/upload-artifact@v4
         with:
           name: matrix-meetings-bot-sbom-spdx-report
