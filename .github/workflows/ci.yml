@@ -104,7 +104,7 @@ jobs:
         if: ${{ success() && steps.dockerBuild.outputs.digest }}
         env:
           IMAGE_REF: ${{ env.DOCKER_IMAGE }}@${{ steps.dockerBuild.outputs.digest }}
-        uses: aquasecurity/trivy-action@0.29.0
+        uses: aquasecurity/trivy-action@0.30.0
         with:
           scan-type: 'image'
           scanners: 'license'
@@ -217,7 +217,7 @@ jobs:
         if: ${{ success() && steps.dockerBuild.outputs.digest }}
         env:
           IMAGE_REF: ${{ env.DOCKER_IMAGE }}@${{ steps.dockerBuild.outputs.digest }}
-        uses: aquasecurity/trivy-action@0.29.0
+        uses: aquasecurity/trivy-action@0.30.0
         with:
           scan-type: 'image'
           scanners: 'license'
