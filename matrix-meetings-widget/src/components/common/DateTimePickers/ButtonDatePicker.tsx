@@ -16,7 +16,7 @@
 
 import ExpandLessIcon from '@mui/icons-material/ExpandLess';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
-import { Button, SxProps } from '@mui/material';
+import { Button, SxProps, Theme } from '@mui/material';
 import {
   BaseSingleInputFieldProps,
   DatePicker,
@@ -30,12 +30,13 @@ type ButtonFieldProps = BaseSingleInputFieldProps<
   DateTime | null,
   DateTime,
   FieldSection,
+  false,
   unknown
 > & {
   open?: boolean;
   onOpen?: DispatchWithoutAction;
   onClose?: DispatchWithoutAction;
-  sx?: SxProps;
+  sx?: SxProps<Theme>;
 };
 
 function ButtonField(props: ButtonFieldProps) {
