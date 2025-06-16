@@ -7,12 +7,12 @@
   "private": true,
   "dependencies": {},
   "devDependencies": {
-    "@axe-core/playwright": "^4.10.1",
-    "@playwright/test": "^1.50.1",
-    "@types/node": "^22.13.1",
-    "eslint": "^8.57.0",
-    "eslint-plugin-playwright": "^1.6.1",
-    "testcontainers": "^10.18.0"
+    "@axe-core/playwright": "^4.10.2",
+    "@playwright/test": "^1.53.0",
+    "@types/node": "^24.0.1",
+    "eslint": "^9.29.0",
+    "eslint-plugin-playwright": "^2.2.0",
+    "testcontainers": "^11.0.3"
   },
   "engines": {
     "node": ">=20",
