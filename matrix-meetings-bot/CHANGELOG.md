@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.8.3
+
+### Patch Changes
+
+- 348ac70: Adds SBOM report to widget, build and release assets
+
 ## 2.8.2
 
 ### Patch Changes
