@@ -12,12 +12,6 @@ updates:
     schedule:
       interval: 'weekly'
     groups:
-      production-dependencies:
-        dependency-type: 'production'
-      development-dependencies:
-        dependency-type: 'development'
-        exclude-patterns:
-          - '@nestjs/*'
       matrix-widget-toolkit:
         # Group all dependencies that are managed by the widget toolkit
         patterns:
@@ -37,6 +31,10 @@ updates:
       fullcalendar:
         patterns:
           - '@fullcalendar/*'
+      production-dependencies:
+        dependency-type: 'production'
+      development-dependencies:
+        dependency-type: 'development'
   - package-ecosystem: 'github-actions'
     directory: '/'
     open-pull-requests-limit: 15
