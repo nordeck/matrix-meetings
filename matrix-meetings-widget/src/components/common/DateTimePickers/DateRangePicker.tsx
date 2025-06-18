@@ -15,10 +15,7 @@
  */
 
 import { SxProps } from '@mui/material';
-import {
-  DatePickerSlotsComponentsProps,
-  PickersDayProps,
-} from '@mui/x-date-pickers';
+import { DatePickerSlotProps, PickersDayProps } from '@mui/x-date-pickers';
 import { DateTime, Interval } from 'luxon';
 import React, { Dispatch, useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
@@ -108,7 +105,7 @@ export const DateRangePicker = ({
           startDate,
           endDate,
           onDaySelect: handleDaySelect,
-        } as DatePickerSlotsComponentsProps<DateTime>['day'] & {
+        } as DatePickerSlotProps<DateTime, boolean>['day'] & {
           selectedStartDate?: string;
           startDate: string;
           endDate: string;
