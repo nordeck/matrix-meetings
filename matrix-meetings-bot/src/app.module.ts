@@ -196,7 +196,13 @@ const appRuntimeContextFactory: FactoryProvider<Promise<AppRuntimeContext>> = {
     } catch (_err) {
       displayName = localpart;
     }
-    return new AppRuntimeContext(userId, displayName, localpart, ['en', 'de']);
+    return new AppRuntimeContext(userId, displayName, localpart, [
+      'pt',
+      'en',
+      'fr',
+      'es',
+      'de',
+    ]);
   },
   inject: [MatrixClient],
 };
