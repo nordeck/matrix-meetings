@@ -122,9 +122,19 @@
       addLabels: ['Vite'],
     },
     {
-      groupName: 'rollup dependencies',
-      matchPackageNames: ['@rollup/*'],
-      addLabels: ['Rollup'],
+      groupName: 'nestjs dependencies',
+      matchPackageNames: ['@nestjs/*'],
+      addLabels: ['NestJS'],
+    },
+    {
+      groupName: 'jest dependencies',
+      matchPackageNames: ['jest', 'jest*', 'ts-jest', 'ts-mockito'],
+      addLabels: ['Jest'],
+    },
+    {
+      groupName: 'matrix-widget-toolkit dependencies',
+      matchPackageNames: ['@matrix-widget-toolkit/*'],
+      addLabels: ['Matrix-Widget-Toolkit'],
     },
   ],
 }
