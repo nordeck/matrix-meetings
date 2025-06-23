@@ -1,0 +1,130 @@
+{
+  $schema: 'https://docs.renovatebot.com/renovate-schema.json',
+  // We default to using the normal recommended config. Everything else is layered on top of this.
+  extends: [
+    'group:allNonMajor',
+    'config:recommended',
+    // https://docs.renovatebot.com/presets-default/#automergepatch - Automerge lockfile maintenance, path, pin and separate minor and patch
+    ':automergePatch',
+    // Pin docker
+    'docker:pinDigests',
+    // Pin Github Actions
+    'helpers:pinGitHubActionDigests',
+    // Pin dev dependencies (See https://docs.renovatebot.com/upgrade-best-practices/#extends-pindevdependencies why this is a good idea for us)
+    ':pinDevDependencies',
+    // https://docs.renovatebot.com/presets-schedule/#scheduleweekly - Run renovate on early mondays instead of running it too often
+    'schedule:weekly',
+    // https://docs.renovatebot.com/presets-schedule/#scheduleautomergeweekdays - Run automerge on a weekdays (so it doesnt break on the weekend)
+    'schedule:automergeWeekdays',
+  ],
+  dependencyDashboard: true,
+  // https://docs.renovatebot.com/configuration-options/#osvvulnerabilityalerts - we use osv.dev here to not rely on Github
+  osvVulnerabilityAlerts: true,
+  // https://docs.renovatebot.com/configuration-options/#automergetype - We use branch to not get raced by commits to main
+  automergeType: 'branch',
+  npm: {
+    // https://docs.renovatebot.com/presets-npm/#npmunpublishsafe - This effectively waits 14 days before making a PR. This is somewhat of a safety measure and recommended by renovate at https://docs.renovatebot.com/upgrade-best-practices/#wait-two-weeks-before-automerging-third-party-dependencies
+    minimumReleaseAge: '14 days',
+  },
+  // https://docs.renovatebot.com/configuration-options/#lockfilemaintenance - Ensure the lockfile is maintained properly
+  lockFileMaintenance: {
+    enabled: true,
+  },
+  // Set the timezone for schedules
+  timezone: 'Europe/Berlin',
+  // Ensures that appVersion in the helm chart is tracked/updated too
+  customManagers: [
+    {
+      customType: 'regex',
+      datasourceTemplate: 'docker',
+      managerFilePatterns: ['/(^|/)Chart\\.yaml$/'],
+      matchStrings: [
+        '#\\s?renovate: image=(?<depName>.*?)\\s?appVersion:\\s?("|\')?(?<currentValue>[\\w+\\.\\-]*)("|\')',
+      ],
+    },
+  ],
+  // https://docs.renovatebot.com/configuration-options/#packagerules - Note that later overrides earlier rules
+  packageRules: [
+    {
+      groupName: 'patch updates',
+      matchUpdateTypes: ['patch'],
+      addLabels: ['Patch'],
+    },
+    {
+      groupName: 'lockFileMaintenance updates',
+      matchUpdateTypes: ['lockFileMaintenance'],
+      addLabels: ['lockFileMaintenance'],
+    },
+    {
+      groupName: 'development-dependencies',
+      matchDepTypes: ['devDependencies'],
+      addLabels: ['Dev'],
+    },
+    {
+      groupName: 'production-dependencies',
+      matchDepTypes: ['dependencies'],
+      addLabels: ['Prod'],
+    },
+    {
+      groupName: 'major updates',
+      matchUpdateTypes: ['major'],
+      addLabels: ['Major'],
+    },
+    // Do not automerge matrix-widget-api updates as they dont follow semver
+    {
+      matchPackageNames: ['matrix-widget-api'],
+      automerge: false,
+      addLabels: ['matrix-widget-api'],
+    },
+    // https://docs.renovatebot.com/node/#configuring-which-version-of-npm-renovate-uses - Update engines (for example npm) in the package.json
+    {
+      groupName: 'engines',
+      matchDepTypes: ['engines'],
+      labels: ['Engines'],
+      rangeStrategy: 'replace',
+    },
+    {
+      groupName: 'react monorepo',
+      matchPackageNames: ['@types/react', '@types/react-*', 'react', 'react-*'],
+      addLabels: ['React'],
+    },
+    {
+      groupName: 'i18next dependencies',
+      matchPackageNames: ['i18next', 'i18next-*', 'react-i18next'],
+      addLabels: ['i18next'],
+    },
+    {
+      groupName: 'linter dependencies',
+      extends: ['group:linters'],
+      matchPackageNames: [
+        '@eslint/*',
+        'eslint',
+        'eslint-*',
+        'typescript-eslint',
+        'prettier',
+        'prettier-*',
+      ],
+      addLabels: ['Linting'],
+    },
+    {
+      groupName: 'mui dependencies',
+      matchPackageNames: ['@emotion/*', '@mui/*'],
+      addLabels: ['MUI'],
+    },
+    {
+      groupName: 'testing-library dependencies',
+      matchPackageNames: ['@testing-library/*'],
+      addLabels: ['testing-library'],
+    },
+    {
+      groupName: 'vite dependencies',
+      matchPackageNames: ['vite', '@vitejs/*', 'vitest', '@vitest/*'],
+      addLabels: ['Vite'],
+    },
+    {
+      groupName: 'rollup dependencies',
+      matchPackageNames: ['@rollup/*'],
+      addLabels: ['Rollup'],
+    },
+  ],
+}
