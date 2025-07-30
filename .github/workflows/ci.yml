@@ -19,7 +19,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: 'matrix-meetings-widget/package.json'
+          node-version: 'lts/*'
           cache: 'yarn'
 
       - name: yarn install
@@ -133,7 +133,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: 'matrix-meetings-bot/package.json'
+          node-version: 'lts/*'
           cache: 'yarn'
 
       - name: yarn install
@@ -303,7 +303,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: 'package.json'
+          node-version: 'lts/*'
           cache: 'yarn'
 
       - name: yarn install
@@ -340,7 +340,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version-file: 'e2e/package.json'
+          node-version: 'lts/*'
           cache: 'yarn'
 
       - name: yarn install
