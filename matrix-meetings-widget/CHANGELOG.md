@@ -125,7 +125,6 @@
 - 0f02a47: Include `arm64` and `s390x` builds.
 - e0626ae: Rework the user interface to resolve accessibility issues and comply to BITV 2.0 and WCAG 2.1.
   Notable changes are:
-
   - Screen reader users can now interact with the widget.
   - The widget is now keyboard accessible.
   - Adds support for a high contrast theme for visually impaired users.
