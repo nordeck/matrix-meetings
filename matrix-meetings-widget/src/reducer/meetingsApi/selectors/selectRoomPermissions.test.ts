@@ -21,8 +21,8 @@ import {
   PowerLevelsStateEvent,
   StateEvent,
 } from '@matrix-widget-toolkit/api';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { vi } from 'vitest';
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import { mockPowerLevelsEvent } from '../../../lib/testUtils';
 import { createStore, RootState } from '../../../store';
 import { initializeStore } from '../../../store/store';

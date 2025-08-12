@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { rest } from 'msw';
 import { setupServer } from 'msw/node';
-import { MockedWidgetApi, mockWidgetApi } from '../../lib/mockWidgetApi';
 import { createStore } from '../../store';
 import { meetingBotApi } from './meetingBotApi';
 

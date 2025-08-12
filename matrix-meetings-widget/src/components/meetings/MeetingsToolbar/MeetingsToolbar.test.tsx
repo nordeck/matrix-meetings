@@ -15,13 +15,13 @@
  */
 
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { useMediaQuery } from '@mui/material';
 import { render, screen, waitFor } from '@testing-library/react';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
 import { expect, vi } from 'vitest';
 import { axe } from 'vitest-axe';
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import { mockPowerLevelsEvent } from '../../../lib/testUtils';
 import { Filters } from '../../../reducer/meetingsApi';
 import { createStore } from '../../../store';

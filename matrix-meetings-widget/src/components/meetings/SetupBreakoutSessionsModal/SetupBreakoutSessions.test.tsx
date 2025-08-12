@@ -15,6 +15,7 @@
  */
 
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import {
   fireEvent,
   render,
@@ -29,7 +30,6 @@ import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { expect, vi } from 'vitest';
 import { axe } from 'vitest-axe';
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockMeeting,
   mockRoomMember,

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { mockCalendar, mockCreateMeetingRoom } from '../../../lib/testUtils';
 import { createStore } from '../../../store';
 import { RootState, initializeStore } from '../../../store/store';

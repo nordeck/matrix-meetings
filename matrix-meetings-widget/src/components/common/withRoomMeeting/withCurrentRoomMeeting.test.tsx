@@ -15,11 +15,11 @@
  */
 
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { act, render, screen } from '@testing-library/react';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { vi } from 'vitest';
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import { mockCalendar, mockCreateMeetingRoom } from '../../../lib/testUtils';
 import { Meeting } from '../../../reducer/meetingsApi';
 import { createStore } from '../../../store';
