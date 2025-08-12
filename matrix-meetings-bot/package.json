@@ -63,7 +63,7 @@
     "uuid": "^10.0.0"
   },
   "devDependencies": {
-    "@nestjs/cli": "^10.4.9",
+    "@nestjs/cli": "10.4.9",
     "@types/jest": "^29.5.14",
     "@types/lodash": "^4.17.15",
     "@types/luxon": "3.2.0",
