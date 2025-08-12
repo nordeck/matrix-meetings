@@ -37,19 +37,19 @@ describe('<BreakoutSessionGroupsForm>', () => {
 
   beforeEach(() => {
     widgetApi.mockSendStateEvent(
-      mockRoomMember({ room_id: '!meeting-room-id' }),
+      mockRoomMember({ room_id: '!meeting-room-id:example.com' }),
     );
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        room_id: '!meeting-room-id',
-        state_key: '@user-1',
+        room_id: '!meeting-room-id:example.com',
+        state_key: '@user-1:example.com',
         content: { displayname: undefined },
       }),
     );
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        room_id: '!meeting-room-id',
-        state_key: '@user-2',
+        room_id: '!meeting-room-id:example.com',
+        state_key: '@user-2:example.com',
         content: { displayname: undefined },
       }),
     );
@@ -151,8 +151,8 @@ describe('<BreakoutSessionGroupsForm>', () => {
     ).toBeInTheDocument();
 
     expect(onGroupsChange).toHaveBeenLastCalledWith([
-      { members: ['@user-id'], title: 'Group 1' },
-      { members: ['@user-id'], title: 'Group 2' },
+      { members: ['@user-id:example.com'], title: 'Group 1' },
+      { members: ['@user-id:example.com'], title: 'Group 2' },
     ]);
   });
 
@@ -183,7 +183,11 @@ describe('<BreakoutSessionGroupsForm>', () => {
     expect(alert).not.toBeInTheDocument();
     expect(onGroupsChange).toHaveBeenLastCalledWith([
       {
-        members: expect.arrayContaining(['@user-id', '@user-1', '@user-2']),
+        members: expect.arrayContaining([
+          '@user-id:example.com',
+          '@user-1:example.com',
+          '@user-2:example.com',
+        ]),
         title: 'Group 1',
       },
     ]);

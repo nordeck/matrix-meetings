@@ -72,7 +72,7 @@ describe('<InvitedMeetingCard/>', () => {
   });
 
   it('should render meeting without inviter', async () => {
-    render(<InvitedMeetingCard roomId="!meeting-room-id" />, {
+    render(<InvitedMeetingCard roomId="!meeting-room-id:example.com" />, {
       wrapper: Wrapper,
     });
 
@@ -90,13 +90,13 @@ describe('<InvitedMeetingCard/>', () => {
   it('should render meeting with inviter', async () => {
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        state_key: '@inviter-id',
-        room_id: '!meeting-room-id',
+        state_key: '@inviter-id:example.com',
+        room_id: '!meeting-room-id:example.com',
         content: { displayname: 'Inviter' },
       }),
     );
 
-    render(<InvitedMeetingCard roomId="!meeting-room-id" />, {
+    render(<InvitedMeetingCard roomId="!meeting-room-id:example.com" />, {
       wrapper: Wrapper,
     });
 
@@ -113,7 +113,7 @@ describe('<InvitedMeetingCard/>', () => {
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
-      <InvitedMeetingCard roomId="!meeting-room-id" />,
+      <InvitedMeetingCard roomId="!meeting-room-id:example.com" />,
       { wrapper: Wrapper },
     );
 

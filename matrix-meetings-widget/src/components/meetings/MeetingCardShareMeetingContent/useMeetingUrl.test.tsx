@@ -44,7 +44,7 @@ describe('useMeetingUrl', () => {
     const { result } = renderHook(() => useMeetingUrl(meeting));
 
     expect(result.current).toEqual({
-      url: 'http://element.local/#/room/!meeting-room-id',
+      url: 'http://element.local/#/room/!meeting-room-id:example.com',
     });
   });
 });

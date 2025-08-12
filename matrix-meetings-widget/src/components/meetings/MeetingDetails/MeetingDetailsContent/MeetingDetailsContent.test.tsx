@@ -105,7 +105,7 @@ describe('<MeetingDetailsContent/>', () => {
 
     expect(
       screen.getByRole('link', {
-        name: 'http://element.local/#/room/!meeting-room-id',
+        name: 'http://element.local/#/room/!meeting-room-id:example.com',
       }),
     ).toBeInTheDocument();
 
@@ -167,13 +167,13 @@ describe('<MeetingDetailsContent/>', () => {
       { wrapper: Wrapper },
     );
     const link = screen.getByRole('link', {
-      name: 'http://element.local/#/room/!meeting-room-id',
+      name: 'http://element.local/#/room/!meeting-room-id:example.com',
     });
 
     expect(link).toHaveAttribute('target', '_blank');
     expect(link).toHaveAttribute(
       'href',
-      'http://element.local/#/room/!meeting-room-id',
+      'http://element.local/#/room/!meeting-room-id:example.com',
     );
   });
 });

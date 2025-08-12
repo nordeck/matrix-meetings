@@ -42,14 +42,14 @@ describe('<MeetingsCalendarEvent/>', () => {
 
   const meetingFromBob: Meeting = mockMeeting({
     content: {
-      creator: '@user-id-2',
+      creator: '@user-id-2:example.com',
       participants: [
         {
-          userId: '@user-id-2',
+          userId: '@user-id-2:example.com',
           displayName: 'Bob',
           membership: 'join',
           rawEvent: mockRoomMember({
-            state_key: '@user-id-2',
+            state_key: '@user-id-2:example.com',
           }),
         },
       ],

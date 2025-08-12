@@ -37,13 +37,13 @@ describe('acceptMeetingInvitations', () => {
 
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
         content: { membership: 'invite' },
       }),
     );
 
     widgetApi.mockSendStateEvent(
-      mockSpaceParent({ room_id: '!meeting-room-id' }),
+      mockSpaceParent({ room_id: '!meeting-room-id:example.com' }),
     );
   });
 
@@ -56,7 +56,7 @@ describe('acceptMeetingInvitations', () => {
     await expect(
       acceptMeetingInvitations({
         state: store.getState(),
-        userId: '@user-id',
+        userId: '@user-id:example.com',
         widgetApi,
         acceptedMeetingIds,
       }),
@@ -66,7 +66,7 @@ describe('acceptMeetingInvitations', () => {
     await expect(
       acceptMeetingInvitations({
         state: store.getState(),
-        userId: '@user-id',
+        userId: '@user-id:example.com',
         widgetApi,
         acceptedMeetingIds,
       }),
@@ -80,7 +80,10 @@ describe('acceptMeetingInvitations', () => {
         membership: 'join',
         avatar_url: expect.any(String),
       },
-      { stateKey: '@user-id', roomId: '!meeting-room-id' },
+      {
+        stateKey: '@user-id:example.com',
+        roomId: '!meeting-room-id:example.com',
+      },
     );
   });
 
@@ -101,7 +104,7 @@ describe('acceptMeetingInvitations', () => {
     await expect(
       acceptMeetingInvitations({
         state: store.getState(),
-        userId: '@user-id',
+        userId: '@user-id:example.com',
         widgetApi,
         acceptedMeetingIds,
       }),
@@ -115,7 +118,10 @@ describe('acceptMeetingInvitations', () => {
         membership: 'join',
         avatar_url: expect.any(String),
       },
-      { stateKey: '@user-id', roomId: '!meeting-room-id' },
+      {
+        stateKey: '@user-id:example.com',
+        roomId: '!meeting-room-id:example.com',
+      },
     );
   });
 
@@ -124,7 +130,7 @@ describe('acceptMeetingInvitations', () => {
 
     widgetApi.mockSendStateEvent(
       mockNordeckMeetingMetadataEvent({
-        content: { creator: '@another-user' },
+        content: { creator: '@another-user:example.com' },
       }),
     );
 
@@ -134,7 +140,7 @@ describe('acceptMeetingInvitations', () => {
     await expect(
       acceptMeetingInvitations({
         state: store.getState(),
-        userId: '@user-id',
+        userId: '@user-id:example.com',
         widgetApi,
         acceptedMeetingIds,
       }),
@@ -148,7 +154,7 @@ describe('acceptMeetingInvitations', () => {
 
     widgetApi.mockSendStateEvent(
       mockSpaceParent({
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
         state_key: widgetApi.widgetParameters.roomId,
         content: { via: [] },
       }),
@@ -156,8 +162,8 @@ describe('acceptMeetingInvitations', () => {
 
     widgetApi.mockSendStateEvent(
       mockSpaceParent({
-        room_id: '!meeting-room-id',
-        state_key: '!anotherRoomId',
+        room_id: '!meeting-room-id:example.com',
+        state_key: '!anotherRoomId:example.com',
         content: { via: ['matrix.to'] },
       }),
     );
@@ -168,7 +174,7 @@ describe('acceptMeetingInvitations', () => {
     await expect(
       acceptMeetingInvitations({
         state: store.getState(),
-        userId: '@user-id',
+        userId: '@user-id:example.com',
         widgetApi,
         acceptedMeetingIds,
       }),
@@ -189,7 +195,7 @@ describe('acceptMeetingInvitations', () => {
     await expect(
       acceptMeetingInvitations({
         state: store.getState(),
-        userId: '@user-id',
+        userId: '@user-id:example.com',
         widgetApi,
         acceptedMeetingIds,
       }),
@@ -199,7 +205,7 @@ describe('acceptMeetingInvitations', () => {
     await expect(
       acceptMeetingInvitations({
         state: store.getState(),
-        userId: '@user-id',
+        userId: '@user-id:example.com',
         widgetApi,
         acceptedMeetingIds,
       }),
@@ -213,7 +219,10 @@ describe('acceptMeetingInvitations', () => {
         membership: 'join',
         avatar_url: expect.any(String),
       },
-      { stateKey: '@user-id', roomId: '!meeting-room-id' },
+      {
+        stateKey: '@user-id:example.com',
+        roomId: '!meeting-room-id:example.com',
+      },
     );
   });
 });

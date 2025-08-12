@@ -61,10 +61,15 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-1', undefined),
+      selectMeeting(
+        state,
+        '!meeting-room-id:example.com',
+        'entry-1',
+        undefined,
+      ),
     ).toEqual({
       type: 'net.nordeck.meetings.meeting',
-      meetingId: '!meeting-room-id',
+      meetingId: '!meeting-room-id:example.com',
       calendarUid: 'entry-1',
       title: 'An important meeting',
       description: 'A brief description',
@@ -72,17 +77,17 @@ describe('selectMeeting', () => {
       endTime: '2999-01-02T14:00:00Z',
       participants: [
         {
-          userId: '@user-id',
+          userId: '@user-id:example.com',
           displayName: 'Alice',
           membership: 'join',
           rawEvent: expect.objectContaining({
-            state_key: '@user-id',
+            state_key: '@user-id:example.com',
           }),
         },
       ],
       widgets: [],
-      parentRoomId: '!room-id',
-      creator: '@user-id',
+      parentRoomId: '!room-id:example.com',
+      creator: '@user-id:example.com',
       calendarEntries: mockCalendar({
         uid: 'entry-1',
         dtstart: '29990102T100000',
@@ -116,13 +121,13 @@ describe('selectMeeting', () => {
     expect(
       selectMeeting(
         state,
-        '!meeting-room-id',
+        '!meeting-room-id:example.com',
         'entry-1',
         '2999-02-15T10:00:00Z',
       ),
     ).toEqual({
       type: 'net.nordeck.meetings.meeting',
-      meetingId: '!meeting-room-id',
+      meetingId: '!meeting-room-id:example.com',
       calendarUid: 'entry-1',
       title: 'An important meeting',
       description: 'A brief description',
@@ -130,32 +135,39 @@ describe('selectMeeting', () => {
       endTime: '2999-02-15T14:00:00Z',
       participants: [
         {
-          userId: '@user-id',
+          userId: '@user-id:example.com',
           displayName: 'Alice',
           membership: 'join',
           rawEvent: expect.objectContaining({
-            state_key: '@user-id',
+            state_key: '@user-id:example.com',
           }),
         },
       ],
       widgets: [],
-      parentRoomId: '!room-id',
-      creator: '@user-id',
+      parentRoomId: '!room-id:example.com',
+      creator: '@user-id:example.com',
       calendarEntries: [rruleEntry],
       recurrenceId: '2999-02-15T10:00:00Z',
     });
   });
 
   it('should generate breakout meeting', async () => {
-    mockCreateBreakoutMeetingRoom(widgetApi, { room_id: '!meeting-room-id' });
+    mockCreateBreakoutMeetingRoom(widgetApi, {
+      room_id: '!meeting-room-id:example.com',
+    });
 
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
+      selectMeeting(
+        state,
+        '!meeting-room-id:example.com',
+        'entry-0',
+        undefined,
+      ),
     ).toEqual({
       type: 'net.nordeck.meetings.breakoutsession',
-      meetingId: '!meeting-room-id',
+      meetingId: '!meeting-room-id:example.com',
       calendarUid: 'entry-0',
       title: 'An important meeting',
       description: 'A brief description',
@@ -163,17 +175,17 @@ describe('selectMeeting', () => {
       endTime: '2999-01-01T14:00:00Z',
       participants: [
         {
-          userId: '@user-id',
+          userId: '@user-id:example.com',
           displayName: 'Alice',
           membership: 'join',
           rawEvent: expect.objectContaining({
-            state_key: '@user-id',
+            state_key: '@user-id:example.com',
           }),
         },
       ],
       widgets: [],
-      parentRoomId: '!meeting-room-id',
-      creator: '@user-id',
+      parentRoomId: '!meeting-room-id:example.com',
+      creator: '@user-id:example.com',
       calendarEntries: mockCalendar({
         dtstart: '29990101T100000',
         dtend: '29990101T140000',
@@ -189,10 +201,15 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
+      selectMeeting(
+        state,
+        '!meeting-room-id:example.com',
+        'entry-0',
+        undefined,
+      ),
     ).toEqual({
       type: 'net.nordeck.meetings.meeting',
-      meetingId: '!meeting-room-id',
+      meetingId: '!meeting-room-id:example.com',
       calendarUid: 'entry-0',
       title: 'An important meeting',
       description: 'A brief description',
@@ -200,16 +217,16 @@ describe('selectMeeting', () => {
       endTime: '2999-01-01T14:00:00Z',
       participants: [
         {
-          userId: '@user-id',
+          userId: '@user-id:example.com',
           displayName: 'Alice',
           membership: 'join',
           rawEvent: expect.objectContaining({
-            state_key: '@user-id',
+            state_key: '@user-id:example.com',
           }),
         },
       ],
       widgets: [],
-      creator: '@user-id',
+      creator: '@user-id:example.com',
       calendarEntries: mockCalendar({
         dtstart: '29990101T100000',
         dtend: '29990101T140000',
@@ -229,10 +246,15 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
+      selectMeeting(
+        state,
+        '!meeting-room-id:example.com',
+        'entry-0',
+        undefined,
+      ),
     ).toEqual({
       type: 'net.nordeck.meetings.meeting',
-      meetingId: '!meeting-room-id',
+      meetingId: '!meeting-room-id:example.com',
       calendarUid: 'entry-0',
       title: 'An important meeting',
       description: undefined,
@@ -240,8 +262,8 @@ describe('selectMeeting', () => {
       endTime: '2999-01-01T14:00:00Z',
       participants: [],
       widgets: ['widget-1', 'widget-2'],
-      parentRoomId: '!room-id',
-      creator: '@user-id',
+      parentRoomId: '!room-id:example.com',
+      creator: '@user-id:example.com',
       calendarEntries: mockCalendar({
         dtstart: '29990101T100000',
         dtend: '29990101T140000',
@@ -257,10 +279,15 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
+      selectMeeting(
+        state,
+        '!meeting-room-id:example.com',
+        'entry-0',
+        undefined,
+      ),
     ).toEqual({
       type: 'net.nordeck.meetings.meeting',
-      meetingId: '!meeting-room-id',
+      meetingId: '!meeting-room-id:example.com',
       calendarUid: 'entry-0',
       title: 'An important meeting',
       description: 'A brief description',
@@ -268,18 +295,18 @@ describe('selectMeeting', () => {
       endTime: '2999-01-01T14:00:00Z',
       participants: [
         {
-          userId: '@user-id',
+          userId: '@user-id:example.com',
           displayName: 'Alice',
           membership: 'join',
           rawEvent: expect.objectContaining({
-            state_key: '@user-id',
+            state_key: '@user-id:example.com',
           }),
         },
       ],
       widgets: [],
-      parentRoomId: '!room-id',
+      parentRoomId: '!room-id:example.com',
       deletionTime: '2020-01-01T02:00:00.000Z',
-      creator: '@user-id',
+      creator: '@user-id:example.com',
       calendarEntries: mockCalendar({
         dtstart: '29990101T100000',
         dtend: '29990101T140000',
@@ -292,8 +319,8 @@ describe('selectMeeting', () => {
 
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        room_id: '!meeting-room-id',
-        state_key: '@invited-user-id',
+        room_id: '!meeting-room-id:example.com',
+        state_key: '@invited-user-id:example.com',
         content: {
           displayname: 'Bob',
           membership: 'invite',
@@ -304,10 +331,15 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
+      selectMeeting(
+        state,
+        '!meeting-room-id:example.com',
+        'entry-0',
+        undefined,
+      ),
     ).toEqual({
       type: 'net.nordeck.meetings.meeting',
-      meetingId: '!meeting-room-id',
+      meetingId: '!meeting-room-id:example.com',
       calendarUid: 'entry-0',
       title: 'An important meeting',
       description: 'A brief description',
@@ -315,25 +347,25 @@ describe('selectMeeting', () => {
       endTime: '2999-01-01T14:00:00Z',
       participants: [
         {
-          userId: '@user-id',
+          userId: '@user-id:example.com',
           displayName: 'Alice',
           membership: 'join',
           rawEvent: expect.objectContaining({
-            state_key: '@user-id',
+            state_key: '@user-id:example.com',
           }),
         },
         {
-          userId: '@invited-user-id',
+          userId: '@invited-user-id:example.com',
           displayName: 'Bob',
           membership: 'invite',
           rawEvent: expect.objectContaining({
-            state_key: '@invited-user-id',
+            state_key: '@invited-user-id:example.com',
           }),
         },
       ],
       widgets: [],
-      parentRoomId: '!room-id',
-      creator: '@user-id',
+      parentRoomId: '!room-id:example.com',
+      creator: '@user-id:example.com',
       calendarEntries: mockCalendar({
         dtstart: '29990101T100000',
         dtend: '29990101T140000',
@@ -349,7 +381,12 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
+      selectMeeting(
+        state,
+        '!meeting-room-id:example.com',
+        'entry-0',
+        undefined,
+      ),
     ).toBeUndefined();
   });
 
@@ -361,7 +398,12 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
+      selectMeeting(
+        state,
+        '!meeting-room-id:example.com',
+        'entry-0',
+        undefined,
+      ),
     ).toBeUndefined();
   });
 
@@ -373,7 +415,12 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
+      selectMeeting(
+        state,
+        '!meeting-room-id:example.com',
+        'entry-0',
+        undefined,
+      ),
     ).toBeUndefined();
   });
 
@@ -385,7 +432,12 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-0', undefined),
+      selectMeeting(
+        state,
+        '!meeting-room-id:example.com',
+        'entry-0',
+        undefined,
+      ),
     ).toBeUndefined();
   });
 
@@ -395,7 +447,12 @@ describe('selectMeeting', () => {
     const state = await generateRootState();
 
     expect(
-      selectMeeting(state, '!meeting-room-id', 'entry-1', undefined),
+      selectMeeting(
+        state,
+        '!meeting-room-id:example.com',
+        'entry-1',
+        undefined,
+      ),
     ).toBeUndefined();
   });
 
@@ -415,7 +472,7 @@ describe('selectMeeting', () => {
     expect(
       selectMeeting(
         state,
-        '!meeting-room-id',
+        '!meeting-room-id:example.com',
         'entry-0',
         '2999-02-15T10:00:01Z',
       ),

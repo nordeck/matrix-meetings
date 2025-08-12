@@ -56,7 +56,9 @@ describe('withRoomIdInvitedMeeting', () => {
   });
 
   it('should render without exploding', async () => {
-    render(<Component roomId="!meeting-room-id" />, { wrapper: Wrapper });
+    render(<Component roomId="!meeting-room-id:example.com" />, {
+      wrapper: Wrapper,
+    });
 
     await expect(
       screen.findByRole('heading', { name: /an important meeting/i }),
@@ -65,9 +67,12 @@ describe('withRoomIdInvitedMeeting', () => {
   });
 
   it('should hide content', async () => {
-    const { container } = render(<Component roomId="!another-room-id" />, {
-      wrapper: Wrapper,
-    });
+    const { container } = render(
+      <Component roomId="!another-room-id:example.com" />,
+      {
+        wrapper: Wrapper,
+      },
+    );
 
     expect(container).toBeEmptyDOMElement();
   });

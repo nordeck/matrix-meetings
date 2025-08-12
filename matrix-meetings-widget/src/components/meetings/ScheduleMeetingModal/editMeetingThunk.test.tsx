@@ -25,16 +25,20 @@ describe('diffMeeting', () => {
       content: {
         participants: [
           {
-            userId: '@alice-user',
+            userId: '@alice-user:example.com',
             displayName: 'Alice',
             membership: 'join',
-            rawEvent: mockRoomMember({ room_id: '!meeting-room-id' }),
+            rawEvent: mockRoomMember({
+              room_id: '!meeting-room-id:example.com',
+            }),
           },
           {
-            userId: '@bob-user',
+            userId: '@bob-user:example.com',
             displayName: 'Bob',
             membership: 'join',
-            rawEvent: mockRoomMember({ room_id: '!meeting-room-id' }),
+            rawEvent: mockRoomMember({
+              room_id: '!meeting-room-id:example.com',
+            }),
           },
         ],
         widgets: ['poll', 'jitsi', 'whiteboard'],
@@ -46,7 +50,7 @@ describe('diffMeeting', () => {
       description: 'My new Description',
       startTime: '2040-10-29T12:00:00.000Z',
       endTime: '2040-10-29T13:00:00.000Z',
-      participants: ['@alice-user', '@charlie-user'],
+      participants: ['@alice-user:example.com', '@charlie-user:example.com'],
       widgetIds: ['poll', 'poll_groups'],
     };
 
@@ -61,8 +65,8 @@ describe('diffMeeting', () => {
     expect(
       diffMeeting(oldMeeting, true, newMeeting, availableWidgets, []),
     ).toEqual({
-      addUserIds: ['@charlie-user'],
-      removeUserIds: ['@bob-user'],
+      addUserIds: ['@charlie-user:example.com'],
+      removeUserIds: ['@bob-user:example.com'],
       addWidgets: ['poll_groups'],
       removeWidgets: ['jitsi', 'whiteboard'],
       meetingDetails: {

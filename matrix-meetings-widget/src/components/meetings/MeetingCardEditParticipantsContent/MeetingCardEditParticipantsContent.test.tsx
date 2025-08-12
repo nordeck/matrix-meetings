@@ -64,10 +64,10 @@ describe('<MeetingCardEditParticipantsContent/>', () => {
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
         content: {
-          users: { '@user-id': 100 },
+          users: { '@user-id:example.com': 100 },
           users_default: 0,
         },
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
       }),
     );
 

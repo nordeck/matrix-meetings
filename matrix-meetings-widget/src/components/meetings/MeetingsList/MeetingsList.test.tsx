@@ -54,7 +54,7 @@ describe('<MeetingsList/>', () => {
     });
 
     mockCreateMeetingRoom(widgetApi, {
-      room_id: '!meeting-room-id-1',
+      room_id: '!meeting-room-id-1:example.com',
       name: { name: 'Meeting 1' },
       metadata: {
         calendar: mockCalendar({
@@ -65,7 +65,7 @@ describe('<MeetingsList/>', () => {
     });
 
     mockCreateMeetingRoom(widgetApi, {
-      room_id: '!meeting-room-id-2',
+      room_id: '!meeting-room-id-2:example.com',
       name: { name: 'Meeting 2' },
       metadata: {
         calendar: mockCalendar({
@@ -87,7 +87,7 @@ describe('<MeetingsList/>', () => {
     });
 
     mockCreateMeetingRoom(widgetApi, {
-      room_id: '!meeting-room-id-4',
+      room_id: '!meeting-room-id-4:example.com',
       name: { name: 'Meeting 4' },
       metadata: {
         calendar: mockCalendar({
@@ -98,7 +98,7 @@ describe('<MeetingsList/>', () => {
     });
 
     mockCreateMeetingRoom(widgetApi, {
-      room_id: '!meeting-room-id-5',
+      room_id: '!meeting-room-id-5:example.com',
       name: { name: 'Meeting 5' },
       metadata: {
         calendar: mockCalendar({
@@ -112,7 +112,7 @@ describe('<MeetingsList/>', () => {
     });
 
     mockCreateMeetingRoom(widgetApi, {
-      room_id: '!meeting-room-id-6',
+      room_id: '!meeting-room-id-6:example.com',
       name: { name: 'Meeting 6' },
       metadata: {
         calendar: mockCalendar({
@@ -238,11 +238,11 @@ describe('<MeetingsList/>', () => {
   it.each([false, true])(
     'should render without exploding when breakoutSessionMode and displayAllMeetings = %s',
     async (displayAllMeetings) => {
-      mockCreateMeetingRoom(widgetApi, { room_id: '!room-id' });
-      mockCreateMeetingRoom(widgetApi, { room_id: '!room-id-2' });
+      mockCreateMeetingRoom(widgetApi, { room_id: '!room-id:example.com' });
+      mockCreateMeetingRoom(widgetApi, { room_id: '!room-id-2:example.com' });
 
       mockCreateBreakoutMeetingRoom(widgetApi, {
-        meeting_room_id: '!room-id',
+        meeting_room_id: '!room-id:example.com',
         metadata: {
           calendar: mockCalendar({
             dtstart: '20220101T100000',
@@ -253,8 +253,8 @@ describe('<MeetingsList/>', () => {
 
       // create breakout for another room
       mockCreateBreakoutMeetingRoom(widgetApi, {
-        room_id: '!breakout-room-id-2',
-        meeting_room_id: '!room-id-2',
+        room_id: '!breakout-room-id-2:example.com',
+        meeting_room_id: '!room-id-2:example.com',
         metadata: {
           calendar: mockCalendar({
             dtstart: '20220101T100000',

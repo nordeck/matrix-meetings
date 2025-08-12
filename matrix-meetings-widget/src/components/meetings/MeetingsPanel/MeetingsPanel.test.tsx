@@ -54,7 +54,7 @@ vi.mock('@matrix-widget-toolkit/api', async () => ({
 
 function enableBreakoutSessionView() {
   mockCreateMeetingRoom(widgetApi, {
-    room_id: '!room-id',
+    room_id: '!room-id:example.com',
     metadata: {
       calendar: mockCalendar({
         dtstart: '20220301T100000',
@@ -63,7 +63,7 @@ function enableBreakoutSessionView() {
     },
   });
   mockCreateBreakoutMeetingRoom(widgetApi, {
-    meeting_room_id: '!room-id',
+    meeting_room_id: '!room-id:example.com',
     name: { name: 'My Breakout Session' },
     metadata: {
       calendar: mockCalendar({
@@ -99,7 +99,7 @@ describe('<MeetingsPanel/>', () => {
     );
 
     mockCreateMeetingRoom(widgetApi, {
-      parentRoomId: '!room-id',
+      parentRoomId: '!room-id:example.com',
       metadata: {
         calendar: mockCalendar({
           dtstart: '20220301T100000',
@@ -209,7 +209,7 @@ describe('<MeetingsPanel/>', () => {
 
   it('should have no accessibility violations, if list view with invitations', async () => {
     mockCreateMeetingInvitation(widgetApi, {
-      room_id: '!invitation-meeting-room-id',
+      room_id: '!invitation-meeting-room-id:example.com',
     });
 
     const { container } = render(<MeetingsPanel />, { wrapper: Wrapper });
@@ -348,7 +348,8 @@ describe('<MeetingsPanel/>', () => {
   });
 
   it('should save month view in localStorage', async () => {
-    const localStorageKey = 'meeting_view_!room-id_@user-id';
+    const localStorageKey =
+      'meeting_view_!room-id:example.com_@user-id:example.com';
 
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
@@ -363,7 +364,8 @@ describe('<MeetingsPanel/>', () => {
   });
 
   it('should read month view from localStorage', async () => {
-    const localStorageKey = 'meeting_view_!room-id_@user-id';
+    const localStorageKey =
+      'meeting_view_!room-id:example.com_@user-id:example.com';
     localStorage.setItem(localStorageKey, 'month');
 
     render(<MeetingsPanel />, { wrapper: Wrapper });
@@ -374,7 +376,8 @@ describe('<MeetingsPanel/>', () => {
   });
 
   it('should fallback to list view when reading invalid value from localStorage', async () => {
-    const localStorageKey = 'meeting_view_!room-id_@user-id';
+    const localStorageKey =
+      'meeting_view_!room-id:example.com_@user-id:example.com';
     localStorage.setItem(localStorageKey, 'year');
 
     render(<MeetingsPanel />, { wrapper: Wrapper });
@@ -434,7 +437,7 @@ describe('<MeetingsPanel/>', () => {
 
   it('should switch to day view if clicking on the more button in month view', async () => {
     mockCreateMeetingRoom(widgetApi, {
-      room_id: '!meeting-room-id-1',
+      room_id: '!meeting-room-id-1:example.com',
       name: { name: 'Meeting 1' },
       metadata: {
         calendar: mockCalendar({
@@ -444,7 +447,7 @@ describe('<MeetingsPanel/>', () => {
       },
     });
     mockCreateMeetingRoom(widgetApi, {
-      room_id: '!meeting-room-id-2',
+      room_id: '!meeting-room-id-2:example.com',
       name: { name: 'Meeting 2' },
       metadata: {
         calendar: mockCalendar({
@@ -454,7 +457,7 @@ describe('<MeetingsPanel/>', () => {
       },
     });
     mockCreateMeetingRoom(widgetApi, {
-      room_id: '!meeting-room-id-3',
+      room_id: '!meeting-room-id-3:example.com',
       name: { name: 'Meeting 3' },
       metadata: {
         calendar: mockCalendar({
@@ -562,7 +565,7 @@ describe('<MeetingsPanel/>', () => {
     ).toBeInTheDocument();
 
     // change to be a meeting room
-    mockCreateMeetingRoom(widgetApi, { room_id: '!room-id' });
+    mockCreateMeetingRoom(widgetApi, { room_id: '!room-id:example.com' });
 
     await expect(
       within(list).findByRole('listitem', {
@@ -710,7 +713,7 @@ describe('<MeetingsPanel/>', () => {
   });
 
   it('should create new breakout session', async () => {
-    mockCreateMeetingRoom(widgetApi, { room_id: '!room-id' });
+    mockCreateMeetingRoom(widgetApi, { room_id: '!room-id:example.com' });
 
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
@@ -741,8 +744,8 @@ describe('<MeetingsPanel/>', () => {
         ],
         data: {
           parentMeeting: mockMeeting({
-            room_id: '!room-id',
-            parentRoomId: '!room-id',
+            room_id: '!room-id:example.com',
+            parentRoomId: '!room-id:example.com',
           }),
         },
       },
@@ -755,7 +758,7 @@ describe('<MeetingsPanel/>', () => {
     widgetApi.openModal.mockResolvedValue({
       type: 'nic.schedule.breakoutsessions.submit',
       breakoutSessions: {
-        groups: [{ title: 'First', participants: ['@user-id'] }],
+        groups: [{ title: 'First', participants: ['@user-id:example.com'] }],
         description: 'A short description',
         startTime: '2999-01-01T11:00:00Z',
         endTime: '2999-01-01T11:30:00Z',
@@ -763,7 +766,7 @@ describe('<MeetingsPanel/>', () => {
       },
     } as SetupBreakoutSessionsModalResult);
 
-    mockCreateMeetingRoom(widgetApi, { room_id: '!room-id' });
+    mockCreateMeetingRoom(widgetApi, { room_id: '!room-id:example.com' });
 
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
@@ -794,8 +797,8 @@ describe('<MeetingsPanel/>', () => {
         ],
         data: {
           parentMeeting: mockMeeting({
-            room_id: '!room-id',
-            parentRoomId: '!room-id',
+            room_id: '!room-id:example.com',
+            parentRoomId: '!room-id:example.com',
           }),
         },
       },
@@ -808,7 +811,10 @@ describe('<MeetingsPanel/>', () => {
           context: expect.anything(),
           data: {
             groups: [
-              { title: 'First', participants: [{ user_id: '@user-id' }] },
+              {
+                title: 'First',
+                participants: [{ user_id: '@user-id:example.com' }],
+              },
             ],
             description: 'A short description',
             start_time: '2999-01-01T11:00:00Z',
@@ -850,7 +856,7 @@ describe('<MeetingsPanel/>', () => {
 
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
-        room_id: '!room-id',
+        room_id: '!room-id:example.com',
         content: {
           events: { 'net.nordeck.meetings.breakoutsessions.create': 101 },
         },
@@ -888,7 +894,7 @@ describe('<MeetingsPanel/>', () => {
 
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
-        room_id: '!room-id',
+        room_id: '!room-id:example.com',
         content: {
           events: { 'net.nordeck.meetings.sub_meetings.send_message': 101 },
         },
@@ -901,7 +907,7 @@ describe('<MeetingsPanel/>', () => {
   });
 
   it('should hide the actions navigation section if the user has no permission to create breakout sessions', async () => {
-    mockCreateMeetingRoom(widgetApi, { room_id: '!room-id' });
+    mockCreateMeetingRoom(widgetApi, { room_id: '!room-id:example.com' });
 
     render(<MeetingsPanel />, { wrapper: Wrapper });
 
@@ -914,7 +920,7 @@ describe('<MeetingsPanel/>', () => {
 
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
-        room_id: '!room-id',
+        room_id: '!room-id:example.com',
         content: {
           events: { 'net.nordeck.meetings.breakoutsessions.create': 101 },
         },

@@ -177,7 +177,7 @@ describe('<MeetingsToolbar/>', () => {
 
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
-        room_id: '!room-id',
+        room_id: '!room-id:example.com',
         content: { events: { 'net.nordeck.meetings.meeting.create': 101 } },
       }),
     );

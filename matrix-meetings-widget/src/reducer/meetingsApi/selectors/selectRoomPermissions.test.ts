@@ -20,6 +20,7 @@ import {
   hasStateEventPower as hasStateEventPowerMocked,
   PowerLevelsStateEvent,
   StateEvent,
+  StateEventCreateContent,
 } from '@matrix-widget-toolkit/api';
 import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { vi } from 'vitest';
@@ -51,6 +52,9 @@ afterEach(() => {
 
 describe('hasPermissions', () => {
   const event = { content: {} } as StateEvent<PowerLevelsStateEvent>;
+  const roomCreateEvent = {
+    content: {},
+  } as StateEvent<StateEventCreateContent>;
 
   it('should allow', () => {
     hasRoomEventPower.mockReturnValue(true);
@@ -58,25 +62,50 @@ describe('hasPermissions', () => {
     hasActionPower.mockReturnValue(true);
 
     expect(
-      hasPermissions(event, '@user', {
+      hasPermissions(event, roomCreateEvent, '@user', {
         roomEventTypes: ['room-1', 'room-2'],
         stateEventTypes: ['state-1', 'state-2'],
         actions: ['invite'],
       }),
     ).toBe(true);
 
-    expect(hasRoomEventPower).toBeCalledWith({}, '@user', 'room-1');
-    expect(hasRoomEventPower).toBeCalledWith({}, '@user', 'room-2');
-    expect(hasStateEventPower).toBeCalledWith({}, '@user', 'state-1');
-    expect(hasStateEventPower).toBeCalledWith({}, '@user', 'state-2');
-    expect(hasActionPower).toBeCalledWith({}, '@user', 'invite');
+    expect(hasRoomEventPower).toBeCalledWith(
+      {},
+      { content: {} },
+      '@user',
+      'room-1',
+    );
+    expect(hasRoomEventPower).toBeCalledWith(
+      {},
+      { content: {} },
+      '@user',
+      'room-2',
+    );
+    expect(hasStateEventPower).toBeCalledWith(
+      {},
+      { content: {} },
+      '@user',
+      'state-1',
+    );
+    expect(hasStateEventPower).toBeCalledWith(
+      {},
+      { content: {} },
+      '@user',
+      'state-2',
+    );
+    expect(hasActionPower).toBeCalledWith(
+      {},
+      { content: {} },
+      '@user',
+      'invite',
+    );
   });
 
   it('should reject on room event', () => {
     hasRoomEventPower.mockReturnValue(false);
 
     expect(
-      hasPermissions(event, '@user', {
+      hasPermissions(event, roomCreateEvent, '@user', {
         roomEventTypes: ['room-1', 'room-2'],
         stateEventTypes: ['state-1', 'state-2'],
         actions: ['invite'],
@@ -84,7 +113,12 @@ describe('hasPermissions', () => {
     ).toBe(false);
 
     expect(hasRoomEventPower).toBeCalledTimes(1);
-    expect(hasRoomEventPower).toBeCalledWith({}, '@user', 'room-1');
+    expect(hasRoomEventPower).toBeCalledWith(
+      {},
+      { content: {} },
+      '@user',
+      'room-1',
+    );
     expect(hasStateEventPower).not.toBeCalled();
     expect(hasActionPower).not.toBeCalled();
   });
@@ -93,7 +127,7 @@ describe('hasPermissions', () => {
     hasStateEventPower.mockReturnValue(false);
 
     expect(
-      hasPermissions(event, '@user', {
+      hasPermissions(event, roomCreateEvent, '@user', {
         stateEventTypes: ['state-1', 'state-2'],
         actions: ['invite'],
       }),
@@ -101,7 +135,12 @@ describe('hasPermissions', () => {
 
     expect(hasRoomEventPower).not.toBeCalled();
     expect(hasStateEventPower).toBeCalledTimes(1);
-    expect(hasStateEventPower).toBeCalledWith({}, '@user', 'state-1');
+    expect(hasStateEventPower).toBeCalledWith(
+      {},
+      { content: {} },
+      '@user',
+      'state-1',
+    );
     expect(hasActionPower).not.toBeCalled();
   });
 
@@ -109,7 +148,7 @@ describe('hasPermissions', () => {
     hasActionPower.mockReturnValue(false);
 
     expect(
-      hasPermissions(event, '@user', {
+      hasPermissions(event, roomCreateEvent, '@user', {
         actions: ['invite', 'kick'],
       }),
     ).toBe(false);
@@ -117,7 +156,12 @@ describe('hasPermissions', () => {
     expect(hasRoomEventPower).not.toBeCalled();
     expect(hasStateEventPower).not.toBeCalled();
     expect(hasActionPower).toBeCalledTimes(1);
-    expect(hasActionPower).toBeCalledWith({}, '@user', 'invite');
+    expect(hasActionPower).toBeCalledWith(
+      {},
+      { content: {} },
+      '@user',
+      'invite',
+    );
   });
 });
 

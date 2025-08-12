@@ -113,7 +113,7 @@ describe('<BreakoutSessionsMessageForm/>', () => {
       {
         context: expect.anything(),
         data: {
-          target_room_id: '!room-id',
+          target_room_id: '!room-id:example.com',
           message: 'Hello folks',
         },
       },
@@ -145,7 +145,7 @@ describe('<BreakoutSessionsMessageForm/>', () => {
       {
         context: expect.anything(),
         data: {
-          target_room_id: '!room-id',
+          target_room_id: '!room-id:example.com',
           message: 'Hello folks\nWhats up?',
         },
       },

@@ -17,9 +17,12 @@
 import {
   PowerLevelsStateEvent,
   RoomMemberStateEventContent,
+  STATE_EVENT_CREATE,
   STATE_EVENT_POWER_LEVELS,
   STATE_EVENT_ROOM_MEMBER,
   StateEvent,
+  StateEventCreateContent,
+  isValidCreateEventSchema,
   isValidPowerLevelStateEvent,
   isValidRoomMemberStateEvent,
 } from '@matrix-widget-toolkit/api';
@@ -35,12 +38,10 @@ import { Symbols } from 'matrix-widget-api';
 import { bufferTime, filter } from 'rxjs/operators';
 import {
   NordeckMeetingMetadataEvent,
-  RoomCreateEvent,
   RoomNameEvent,
   RoomTombstoneEvent,
   RoomTopicEvent,
   STATE_EVENT_NORDECK_MEETING_METADATA,
-  STATE_EVENT_ROOM_CREATE,
   STATE_EVENT_ROOM_NAME,
   STATE_EVENT_ROOM_TOMBSTONE,
   STATE_EVENT_ROOM_TOPIC,
@@ -51,7 +52,6 @@ import {
   SpaceParentEvent,
   WidgetsEvent,
   isValidNordeckMeetingMetadataEvent,
-  isValidRoomCreateEvent,
   isValidRoomNameEvent,
   isValidRoomTombstoneEvent,
   isValidRoomTopicEvent,
@@ -86,7 +86,7 @@ const roomParentEventEntityAdapter = createEntityAdapter<
 });
 
 const roomCreateEventEntityAdapter = createEntityAdapter<
-  StateEvent<RoomCreateEvent>
+  StateEvent<StateEventCreateContent>
 >({
   selectId: (event) => event.room_id,
 });
@@ -612,21 +612,20 @@ export const meetingsApi = createApi({
     }),
 
     getRoomCreateEvents: builder.query<
-      EntityState<StateEvent<RoomCreateEvent>>,
+      EntityState<StateEvent<StateEventCreateContent>>,
       void
     >({
       queryFn: async (_, { extra }) => {
         const { widgetApi } = extra as ThunkExtraArgument;
 
-        const events = await widgetApi.receiveStateEvents(
-          STATE_EVENT_ROOM_CREATE,
-          { roomIds: Symbols.AnyRoom },
-        );
+        const events = await widgetApi.receiveStateEvents(STATE_EVENT_CREATE, {
+          roomIds: Symbols.AnyRoom,
+        });
 
         return {
           data: roomCreateEventEntityAdapter.upsertMany(
             roomCreateEventEntityAdapter.getInitialState(),
-            events.filter(isValidRoomCreateEvent),
+            events.filter(isValidCreateEventSchema),
           ),
         };
       },
@@ -640,11 +639,11 @@ export const meetingsApi = createApi({
         await cacheDataLoaded;
 
         const subscription = widgetApi
-          .observeStateEvents(STATE_EVENT_ROOM_CREATE, {
+          .observeStateEvents(STATE_EVENT_CREATE, {
             roomIds: Symbols.AnyRoom,
           })
           .pipe(
-            filter(isValidRoomCreateEvent),
+            filter(isValidCreateEventSchema),
             bufferTime(100),
             filter((list) => list.length > 0),
           )

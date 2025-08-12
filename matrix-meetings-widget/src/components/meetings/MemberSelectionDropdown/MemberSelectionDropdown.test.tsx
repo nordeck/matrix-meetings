@@ -23,7 +23,11 @@ import { Provider } from 'react-redux';
 import { expect, vi } from 'vitest';
 import { axe } from 'vitest-axe';
 import { MemberSelectionDropdown } from '.';
-import { mockPowerLevelsEvent, mockRoomMember } from '../../../lib/testUtils';
+import {
+  mockPowerLevelsEvent,
+  mockRoomCreate,
+  mockRoomMember,
+} from '../../../lib/testUtils';
 import { createStore, initializeStore } from '../../../store/store';
 import { MemberSelection } from './MemberSelectionDropdown';
 
@@ -38,11 +42,15 @@ describe('<MemberSelectionDropdown/>', () => {
   let allMembers: MemberSelection[];
 
   beforeEach(() => {
+    widgetApi.mockSendStateEvent(
+      mockRoomCreate({ room_id: '!meeting-room-id:example.com' }),
+    );
+
     allMembers = [
       widgetApi.mockSendStateEvent(mockRoomMember()),
       widgetApi.mockSendStateEvent(
         mockRoomMember({
-          state_key: '@user-1',
+          state_key: '@user-1:example.com',
           content: { displayname: undefined },
         }),
       ),
@@ -70,7 +78,9 @@ describe('<MemberSelectionDropdown/>', () => {
     render(
       <MemberSelectionDropdown
         availableMembers={allMembers}
-        selectedMembers={allMembers.filter((se) => se.userId === '@user-id')}
+        selectedMembers={allMembers.filter(
+          (se) => se.userId === '@user-id:example.com',
+        )}
         label="Members"
         onSelectedMembersUpdated={vi.fn()}
         ownUserPopupContent="This is you"
@@ -96,7 +106,9 @@ describe('<MemberSelectionDropdown/>', () => {
     const { container } = render(
       <MemberSelectionDropdown
         availableMembers={allMembers}
-        selectedMembers={allMembers.filter((se) => se.userId === '@user-id')}
+        selectedMembers={allMembers.filter(
+          (se) => se.userId === '@user-id:example.com',
+        )}
         label="Members"
         onSelectedMembersUpdated={vi.fn()}
         ownUserPopupContent="This is you"
@@ -124,9 +136,14 @@ describe('<MemberSelectionDropdown/>', () => {
     await userEvent.click(
       screen.getByRole('combobox', { name: 'Members', expanded: false }),
     );
-    await userEvent.click(screen.getByRole('option', { name: '@user-1' }));
+    await userEvent.click(
+      screen.getByRole('option', { name: '@user-1:example.com' }),
+    );
 
-    expect(onUpdate).toHaveBeenLastCalledWith(['@user-id', '@user-1']);
+    expect(onUpdate).toHaveBeenLastCalledWith([
+      '@user-id:example.com',
+      '@user-1:example.com',
+    ]);
   });
 
   it('should not duplicate own member', async () => {
@@ -135,7 +152,9 @@ describe('<MemberSelectionDropdown/>', () => {
     render(
       <MemberSelectionDropdown
         availableMembers={allMembers}
-        selectedMembers={allMembers.filter((se) => se.userId === '@user-id')}
+        selectedMembers={allMembers.filter(
+          (se) => se.userId === '@user-id:example.com',
+        )}
         label="Members"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
@@ -146,9 +165,14 @@ describe('<MemberSelectionDropdown/>', () => {
     await userEvent.click(
       screen.getByRole('combobox', { name: 'Members', expanded: false }),
     );
-    await userEvent.click(screen.getByRole('option', { name: '@user-1' }));
+    await userEvent.click(
+      screen.getByRole('option', { name: '@user-1:example.com' }),
+    );
 
-    expect(onUpdate).toHaveBeenLastCalledWith(['@user-id', '@user-1']);
+    expect(onUpdate).toHaveBeenLastCalledWith([
+      '@user-id:example.com',
+      '@user-1:example.com',
+    ]);
   });
 
   it('should not add own member if member event is missing', async () => {
@@ -168,9 +192,11 @@ describe('<MemberSelectionDropdown/>', () => {
     await userEvent.click(
       screen.getByRole('combobox', { name: 'Members', expanded: false }),
     );
-    await userEvent.click(screen.getByRole('option', { name: '@user-1' }));
+    await userEvent.click(
+      screen.getByRole('option', { name: '@user-1:example.com' }),
+    );
 
-    expect(onUpdate).toHaveBeenLastCalledWith(['@user-1']);
+    expect(onUpdate).toHaveBeenLastCalledWith(['@user-1:example.com']);
   });
 
   it('should remove member', async () => {
@@ -189,13 +215,13 @@ describe('<MemberSelectionDropdown/>', () => {
 
     await userEvent.type(
       screen.getByRole('button', {
-        name: '@user-1',
+        name: '@user-1:example.com',
         description: /Use the backspace key/,
       }),
       '{Backspace}',
     );
 
-    expect(onUpdate).toHaveBeenLastCalledWith(['@user-id']);
+    expect(onUpdate).toHaveBeenLastCalledWith(['@user-id:example.com']);
   });
 
   it('should not remove own member', async () => {
@@ -216,7 +242,7 @@ describe('<MemberSelectionDropdown/>', () => {
     await userEvent.type(combobox, '{Backspace}');
     await userEvent.type(combobox, '{Backspace}');
 
-    expect(onUpdate).toHaveBeenLastCalledWith(['@user-id']);
+    expect(onUpdate).toHaveBeenLastCalledWith(['@user-id:example.com']);
   });
 
   it('should not remove member with higher power level', async () => {
@@ -224,19 +250,19 @@ describe('<MemberSelectionDropdown/>', () => {
 
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        state_key: '@user-1',
+        state_key: '@user-1:example.com',
         content: { displayname: undefined },
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
       }),
     );
 
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
         content: {
-          users: { '@user-1': 101 },
+          users: { '@user-1:example.com': 101 },
           users_default: 0,
         },
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
       }),
     );
 
@@ -246,7 +272,7 @@ describe('<MemberSelectionDropdown/>', () => {
         selectedMembers={allMembers}
         hasPowerToKickPopupContent="user has higher power level"
         label="Members"
-        meetingId="!meeting-room-id"
+        meetingId="!meeting-room-id:example.com"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
       />,
@@ -257,14 +283,17 @@ describe('<MemberSelectionDropdown/>', () => {
 
     expect(
       await screen.findByRole('button', {
-        name: '@user-1',
+        name: '@user-1:example.com',
         description: 'user has higher power level',
       }),
     ).toBeInTheDocument();
     await userEvent.type(combobox, '{Backspace}');
     await userEvent.type(combobox, '{Backspace}');
 
-    expect(onUpdate).toHaveBeenLastCalledWith(['@user-id', '@user-1']);
+    expect(onUpdate).toHaveBeenLastCalledWith([
+      '@user-id:example.com',
+      '@user-1:example.com',
+    ]);
   });
 
   it('should be able to remove the member with higher power level if he has not joined the room yet', async () => {
@@ -272,19 +301,19 @@ describe('<MemberSelectionDropdown/>', () => {
 
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        state_key: '@user-1',
+        state_key: '@user-1:example.com',
         content: { displayname: undefined },
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
       }),
     );
 
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
         content: {
-          users: { '@user-1': 101 },
+          users: { '@user-1:example.com': 101 },
           users_default: 0,
         },
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
       }),
     );
 
@@ -294,7 +323,7 @@ describe('<MemberSelectionDropdown/>', () => {
         selectedMembers={allMembers}
         hasPowerToKickPopupContent="user has higher power level"
         label="Members"
-        meetingId="!meeting-room-id"
+        meetingId="!meeting-room-id:example.com"
         onSelectedMembersUpdated={onUpdate}
         ownUserPopupContent="This is you"
       />,
@@ -303,7 +332,7 @@ describe('<MemberSelectionDropdown/>', () => {
 
     await expect(
       screen.findByRole('button', {
-        name: '@user-1',
+        name: '@user-1:example.com',
         description: 'user has higher power level',
       }),
     ).resolves.toBeInTheDocument();
@@ -311,15 +340,15 @@ describe('<MemberSelectionDropdown/>', () => {
     // remove user from the room
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        state_key: '@user-1',
+        state_key: '@user-1:example.com',
         content: { displayname: undefined, membership: 'leave' },
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
       }),
     );
 
     await expect(
       screen.findByRole('button', {
-        name: '@user-1',
+        name: '@user-1:example.com',
         description: 'Use the backspace key to delete the entry.',
       }),
     ).resolves.toBeInTheDocument();
@@ -327,7 +356,7 @@ describe('<MemberSelectionDropdown/>', () => {
     const combobox = screen.getByRole('combobox', { name: 'Members' });
     await userEvent.type(combobox, '{Backspace}');
 
-    expect(onUpdate).toHaveBeenLastCalledWith(['@user-id']);
+    expect(onUpdate).toHaveBeenLastCalledWith(['@user-id:example.com']);
   });
 
   it('should show selected users even if they are not part of the selectableMemberEvents', async () => {
@@ -345,7 +374,9 @@ describe('<MemberSelectionDropdown/>', () => {
     await userEvent.click(
       screen.getByRole('button', { name: 'Alice', description: 'This is you' }),
     );
-    await userEvent.click(screen.getByRole('button', { name: '@user-1' }));
+    await userEvent.click(
+      screen.getByRole('button', { name: '@user-1:example.com' }),
+    );
   });
 
   it('should show a message if members could not be loaded', async () => {

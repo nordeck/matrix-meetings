@@ -128,7 +128,7 @@ describe('<DeleteMeetingDialog/>', () => {
         'net.nordeck.meetings.meeting.close',
         {
           context: { locale: 'en', timezone: 'UTC' },
-          data: { target_room_id: '!meeting-room-id' },
+          data: { target_room_id: '!meeting-room-id:example.com' },
         },
       );
     });
@@ -178,7 +178,7 @@ describe('<DeleteMeetingDialog/>', () => {
         'net.nordeck.meetings.meeting.close',
         {
           context: { locale: 'en', timezone: 'UTC' },
-          data: { target_room_id: '!meeting-room-id' },
+          data: { target_room_id: '!meeting-room-id:example.com' },
         },
       );
     });
@@ -232,7 +232,7 @@ describe('<DeleteMeetingDialog/>', () => {
         {
           context: expect.anything(),
           data: {
-            target_room_id: '!meeting-room-id',
+            target_room_id: '!meeting-room-id:example.com',
             calendar: [
               mockCalendarEntry({
                 dtstart: '29990101T100000',
@@ -295,7 +295,7 @@ describe('<DeleteMeetingDialog/>', () => {
         'net.nordeck.meetings.meeting.close',
         {
           context: { locale: 'en', timezone: 'UTC' },
-          data: { target_room_id: '!meeting-room-id' },
+          data: { target_room_id: '!meeting-room-id:example.com' },
         },
       );
     });
@@ -479,14 +479,14 @@ describe('<DeleteMeetingDialog/>', () => {
       .subscribe(acknowledgeAllEvents(widgetApi));
 
     const meeting = mockMeeting({
-      room_id: '!room-id',
-      parentRoomId: '!parent-room-id',
+      room_id: '!room-id:example.com',
+      parentRoomId: '!parent-room-id:example.com',
     });
 
     mockCreateMeetingRoom(widgetApi, {
       metadata: { calendar: meeting.calendarEntries },
-      room_id: "'!room-id",
-      parentRoomId: '!parent-room-id',
+      room_id: '!room-id:example.com',
+      parentRoomId: '!parent-room-id:example.com',
     });
 
     render(<DeleteMeetingDialog open meeting={meeting} onClose={onClose} />, {
@@ -504,14 +504,14 @@ describe('<DeleteMeetingDialog/>', () => {
         'net.nordeck.meetings.meeting.close',
         {
           context: { locale: 'en', timezone: 'UTC' },
-          data: { target_room_id: '!room-id' },
+          data: { target_room_id: '!room-id:example.com' },
         },
       );
     });
 
     await waitFor(() => {
       expect(widgetApi.navigateTo).toBeCalledWith(
-        'https://matrix.to/#/!parent-room-id',
+        'https://matrix.to/#/!parent-room-id%3Aexample.com',
       );
     });
 
@@ -652,7 +652,7 @@ describe('deleteSingleMeetingOccurrenceThunk', () => {
           data: {
             title: undefined,
             description: undefined,
-            target_room_id: '!meeting-room-id',
+            target_room_id: '!meeting-room-id:example.com',
             calendar: [
               mockCalendarEntry({
                 dtstart: '29990101T100000',
@@ -665,8 +665,8 @@ describe('deleteSingleMeetingOccurrenceThunk', () => {
         },
         event_id: expect.any(String),
         origin_server_ts: expect.any(Number),
-        room_id: '!room-id',
-        sender: '@user-id',
+        room_id: '!room-id:example.com',
+        sender: '@user-id:example.com',
         type: 'net.nordeck.meetings.meeting.update',
       },
     });
@@ -676,7 +676,7 @@ describe('deleteSingleMeetingOccurrenceThunk', () => {
       {
         context: expect.anything(),
         data: {
-          target_room_id: '!meeting-room-id',
+          target_room_id: '!meeting-room-id:example.com',
           calendar: [
             mockCalendarEntry({
               dtstart: '29990101T100000',

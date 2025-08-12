@@ -100,7 +100,7 @@ describe('<ScheduleMeetingModal>', () => {
         meeting: {
           description: '',
           endTime: '2022-01-02T14:15:00.000Z',
-          participants: ['@user-id'],
+          participants: ['@user-id:example.com'],
           startTime: '2022-01-02T13:15:00.000Z',
           title: 'My Meeting',
           widgetIds: ['widget-1', 'widget-2'],
@@ -133,7 +133,7 @@ describe('<ScheduleMeetingModal>', () => {
         meeting: {
           description: 'A brief description',
           endTime: '2999-01-01T14:00:00.000Z',
-          participants: ['@user-id'],
+          participants: ['@user-id:example.com'],
           startTime: '2999-01-01T10:00:00.000Z',
           title: 'My Meeting',
           widgetIds: [],
@@ -187,7 +187,7 @@ describe('<ScheduleMeetingModal>', () => {
         meeting: {
           description: 'A brief description',
           endTime: '2999-01-02T20:00:00.000Z',
-          participants: ['@user-id'],
+          participants: ['@user-id:example.com'],
           startTime: '2999-01-02T10:00:00.000Z',
           title: 'An important meeting',
           widgetIds: [],
@@ -242,7 +242,7 @@ describe('<ScheduleMeetingModal>', () => {
         meeting: {
           description: 'A brief description',
           endTime: '2999-01-01T20:00:00.000Z',
-          participants: ['@user-id'],
+          participants: ['@user-id:example.com'],
           startTime: '2999-01-01T10:00:00.000Z',
           title: 'An important meeting',
           widgetIds: [],

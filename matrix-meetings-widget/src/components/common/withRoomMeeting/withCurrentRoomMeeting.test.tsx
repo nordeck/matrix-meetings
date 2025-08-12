@@ -65,7 +65,7 @@ describe('withCurrentRoomMeeting', () => {
   });
 
   it('should render without exploding', async () => {
-    mockCreateMeetingRoom(widgetApi, { room_id: '!room-id' });
+    mockCreateMeetingRoom(widgetApi, { room_id: '!room-id:example.com' });
 
     render(<Component />, { wrapper: Wrapper });
 
@@ -83,7 +83,7 @@ describe('withCurrentRoomMeeting', () => {
 
   it('should rerender after a meeting instance ended', async () => {
     mockCreateMeetingRoom(widgetApi, {
-      room_id: '!room-id',
+      room_id: '!room-id:example.com',
       metadata: {
         calendar: mockCalendar({
           dtstart: '20230101T100000',

@@ -103,7 +103,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     render(
       <MeetingsCalendarDetailsDialog
         meetingId={{
-          meetingId: '!meeting-room-id',
+          meetingId: '!meeting-room-id:example.com',
           uid: 'entry-0',
           recurrenceId: undefined,
         }}
@@ -154,7 +154,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
 
     expect(
       within(dialog).getByRole('link', {
-        name: 'http://element.local/#/room/!meeting-room-id',
+        name: 'http://element.local/#/room/!meeting-room-id:example.com',
       }),
     ).toBeInTheDocument();
   });
@@ -163,7 +163,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     const { container } = render(
       <MeetingsCalendarDetailsDialog
         meetingId={{
-          meetingId: '!meeting-room-id',
+          meetingId: '!meeting-room-id:example.com',
           uid: 'entry-0',
           recurrenceId: undefined,
         }}
@@ -196,7 +196,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     render(
       <MeetingsCalendarDetailsDialog
         meetingId={{
-          meetingId: '!meeting-room-id',
+          meetingId: '!meeting-room-id:example.com',
           uid: 'entry-0',
           recurrenceId: '2999-01-10T10:00:00Z',
         }}
@@ -228,7 +228,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     render(
       <MeetingsCalendarDetailsDialog
         meetingId={{
-          meetingId: '!meeting-room-id',
+          meetingId: '!meeting-room-id:example.com',
           uid: 'entry-0',
           recurrenceId: undefined,
         }}
@@ -253,7 +253,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     render(
       <MeetingsCalendarDetailsDialog
         meetingId={{
-          meetingId: '!meeting-room-id',
+          meetingId: '!meeting-room-id:example.com',
           uid: 'entry-0',
           recurrenceId: undefined,
         }}
@@ -268,7 +268,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     });
 
     widgetApi.mockSendStateEvent(
-      mockRoomTombstone({ room_id: '!meeting-room-id' }),
+      mockRoomTombstone({ room_id: '!meeting-room-id:example.com' }),
     );
 
     await waitFor(() => {

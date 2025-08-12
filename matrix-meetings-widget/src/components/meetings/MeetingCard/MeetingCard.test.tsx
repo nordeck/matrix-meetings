@@ -110,7 +110,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },
@@ -146,7 +146,7 @@ describe('<MeetingCard/>', () => {
     const { container } = render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         showOpenMeetingRoomButton
         titleId="title-id"
         uid="entry-0"
@@ -173,7 +173,7 @@ describe('<MeetingCard/>', () => {
     const { container } = render(
       <MeetingCard
         recurrenceId="2999-01-01T10:00:00Z"
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         showOpenMeetingRoomButton
         titleId="title-id"
         uid="entry-0"
@@ -190,7 +190,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         showOpenMeetingRoomButton
         titleId="title-id"
         uid="entry-0"
@@ -217,7 +217,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         shortDateFormat
         uid="entry-0"
       />,
@@ -244,7 +244,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },
@@ -270,7 +270,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         shortDateFormat
         uid="entry-0"
       />,
@@ -297,7 +297,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },
@@ -325,7 +325,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         shortDateFormat
         uid="entry-0"
       />,
@@ -341,7 +341,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         showOpenMeetingRoomButton
         uid="entry-0"
       />,
@@ -361,7 +361,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },
@@ -390,7 +390,7 @@ describe('<MeetingCard/>', () => {
         'net.nordeck.meetings.meeting.close',
         {
           context: { locale: 'en', timezone: 'UTC' },
-          data: { target_room_id: '!meeting-room-id' },
+          data: { target_room_id: '!meeting-room-id:example.com' },
         },
       );
     });
@@ -413,19 +413,19 @@ describe('<MeetingCard/>', () => {
 
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        state_key: '@user-id-2',
+        state_key: '@user-id-2:example.com',
         content: { displayname: 'Bob', membership: 'invite' },
       }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
         state_key: 'widget-1',
       }),
     );
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
         content: { events_default: 0 },
       }),
     );
@@ -435,7 +435,7 @@ describe('<MeetingCard/>', () => {
       description: 'My New Description',
       startTime: '2099-01-01T10:00:00Z',
       endTime: '2099-01-01T14:00:00Z',
-      participants: ['@user-id', '@user-id-2'],
+      participants: ['@user-id:example.com', '@user-id-2:example.com'],
       widgetIds: ['widget-2'],
     };
     widgetApi.openModal.mockResolvedValue({
@@ -446,7 +446,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },
@@ -481,7 +481,7 @@ describe('<MeetingCard/>', () => {
         ],
         data: {
           meeting: mockMeeting({
-            parentRoomId: '!room-id',
+            parentRoomId: '!room-id:example.com',
             content: { widgets: ['widget-1'] },
           }),
           isMessagingEnabled: true,
@@ -495,7 +495,7 @@ describe('<MeetingCard/>', () => {
         {
           context: expect.anything(),
           data: {
-            target_room_id: '!meeting-room-id',
+            target_room_id: '!meeting-room-id:example.com',
             title: 'My new Meeting',
             description: 'My New Description',
             calendar: [
@@ -516,9 +516,9 @@ describe('<MeetingCard/>', () => {
         {
           context: expect.anything(),
           data: {
-            target_room_id: '!meeting-room-id',
+            target_room_id: '!meeting-room-id:example.com',
             invite: true,
-            userIds: ['@user-id-2'],
+            userIds: ['@user-id-2:example.com'],
           },
         },
       );
@@ -531,7 +531,7 @@ describe('<MeetingCard/>', () => {
           context: expect.anything(),
           data: {
             add: true,
-            target_room_id: '!meeting-room-id',
+            target_room_id: '!meeting-room-id:example.com',
             widget_ids: ['widget-2'],
           },
         },
@@ -545,7 +545,7 @@ describe('<MeetingCard/>', () => {
           context: expect.anything(),
           data: {
             add: false,
-            target_room_id: '!meeting-room-id',
+            target_room_id: '!meeting-room-id:example.com',
             widget_ids: ['widget-1'],
           },
         },
@@ -566,13 +566,13 @@ describe('<MeetingCard/>', () => {
 
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        state_key: '@user-id-2',
+        state_key: '@user-id-2:example.com',
         content: { displayname: 'Bob', membership: 'invite' },
       }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
         state_key: 'widget-1',
       }),
     );
@@ -589,7 +589,7 @@ describe('<MeetingCard/>', () => {
     );
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
         content: { events_default: 0 },
       }),
     );
@@ -612,7 +612,7 @@ describe('<MeetingCard/>', () => {
       <MeetingCard
         // We edit it from the card of the second recurring meeting instance
         recurrenceId="2999-01-02T10:00:00Z"
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },
@@ -647,7 +647,7 @@ describe('<MeetingCard/>', () => {
         ],
         data: {
           meeting: mockMeeting({
-            parentRoomId: '!room-id',
+            parentRoomId: '!room-id:example.com',
             content: {
               startTime: '2999-01-02T10:00:00Z',
               endTime: '2999-01-02T14:00:00Z',
@@ -671,7 +671,7 @@ describe('<MeetingCard/>', () => {
         {
           context: expect.anything(),
           data: {
-            target_room_id: '!meeting-room-id',
+            target_room_id: '!meeting-room-id:example.com',
             title: 'My new Meeting',
             description: 'My New Description',
             calendar: [
@@ -691,7 +691,7 @@ describe('<MeetingCard/>', () => {
   it('should skip editing the meeting if the user aborts the action', async () => {
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
         content: { events_default: 0 },
       }),
     );
@@ -699,7 +699,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },
@@ -733,7 +733,7 @@ describe('<MeetingCard/>', () => {
           },
         ],
         data: {
-          meeting: mockMeeting({ parentRoomId: '!room-id' }),
+          meeting: mockMeeting({ parentRoomId: '!room-id:example.com' }),
           isMessagingEnabled: true,
         },
       },
@@ -749,13 +749,13 @@ describe('<MeetingCard/>', () => {
 
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        state_key: '@user-id-2',
+        state_key: '@user-id-2:example.com',
         content: { displayname: 'Bob', membership: 'invite' },
       }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
         state_key: 'widget-1',
       }),
     );
@@ -765,7 +765,7 @@ describe('<MeetingCard/>', () => {
       description: 'My New Description',
       startTime: '2099-01-01T10:00:00Z',
       endTime: '2099-01-01T14:00:00Z',
-      participants: ['@user-id', '@user-id-2'],
+      participants: ['@user-id:example.com', '@user-id-2:example.com'],
       widgetIds: ['widget-2'],
     };
     widgetApi.openModal.mockResolvedValue({
@@ -776,7 +776,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },
@@ -828,7 +828,7 @@ describe('<MeetingCard/>', () => {
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
         state_key: 'widget-1',
       }),
     );
@@ -838,7 +838,7 @@ describe('<MeetingCard/>', () => {
       description: 'My New Description',
       startTime: '2099-01-01T10:00:00Z',
       endTime: '2099-01-01T14:00:00Z',
-      participants: ['@user-id', '@user-id-2'],
+      participants: ['@user-id:example.com', '@user-id-2:example.com'],
       widgetIds: ['widget-2'],
     };
     widgetApi.openModal.mockResolvedValue({
@@ -849,7 +849,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },
@@ -895,13 +895,13 @@ describe('<MeetingCard/>', () => {
 
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        state_key: '@user-id-2',
+        state_key: '@user-id-2:example.com',
         content: { displayname: 'Bob', membership: 'invite' },
       }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
         state_key: 'widget-1',
       }),
     );
@@ -911,7 +911,7 @@ describe('<MeetingCard/>', () => {
       description: 'My New Description',
       startTime: '2099-01-01T10:00:00Z',
       endTime: '2099-01-01T14:00:00Z',
-      participants: ['@user-id', '@user-id-2'],
+      participants: ['@user-id:example.com', '@user-id-2:example.com'],
       widgetIds: ['widget-2'],
     };
     widgetApi.openModal.mockResolvedValue({
@@ -922,7 +922,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },
@@ -967,13 +967,13 @@ describe('<MeetingCard/>', () => {
 
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        state_key: '@user-id-2',
+        state_key: '@user-id-2:example.com',
         content: { displayname: 'Bob', membership: 'invite' },
       }),
     );
     widgetApi.mockSendStateEvent(
       mockWidgetEvent({
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
         state_key: 'widget-1',
       }),
     );
@@ -983,7 +983,7 @@ describe('<MeetingCard/>', () => {
       description: 'My New Description',
       startTime: '2099-01-01T10:00:00Z',
       endTime: '2099-01-01T14:00:00Z',
-      participants: ['@user-id', '@user-id-2'],
+      participants: ['@user-id:example.com', '@user-id-2:example.com'],
       widgetIds: ['widget-2'],
     };
     widgetApi.openModal.mockResolvedValue({
@@ -994,7 +994,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },
@@ -1027,8 +1027,8 @@ describe('<MeetingCard/>', () => {
 
   it('should go to parent room if the current meeting room is deleted', async () => {
     mockCreateMeetingRoom(widgetApi, {
-      room_id: '!room-id',
-      parentRoomId: '!parent-room-id',
+      room_id: '!room-id:example.com',
+      parentRoomId: '!parent-room-id:example.com',
     });
 
     widgetApi
@@ -1036,7 +1036,11 @@ describe('<MeetingCard/>', () => {
       .subscribe(acknowledgeAllEvents(widgetApi));
 
     render(
-      <MeetingCard recurrenceId={undefined} roomId="!room-id" uid="entry-0" />,
+      <MeetingCard
+        recurrenceId={undefined}
+        roomId="!room-id:example.com"
+        uid="entry-0"
+      />,
       { wrapper: Wrapper },
     );
 
@@ -1063,14 +1067,14 @@ describe('<MeetingCard/>', () => {
         'net.nordeck.meetings.meeting.close',
         {
           context: { locale: 'en', timezone: 'UTC' },
-          data: { target_room_id: '!room-id' },
+          data: { target_room_id: '!room-id:example.com' },
         },
       );
     });
 
     await waitFor(() => {
       expect(widgetApi.navigateTo).toBeCalledWith(
-        'https://matrix.to/#/!parent-room-id',
+        'https://matrix.to/#/!parent-room-id%3Aexample.com',
       );
     });
 
@@ -1085,15 +1089,19 @@ describe('<MeetingCard/>', () => {
     );
 
     mockCreateMeetingRoom(widgetApi, {
-      room_id: '!room-id',
-      parentRoomId: '!parent-room-id',
+      room_id: '!room-id:example.com',
+      parentRoomId: '!parent-room-id:example.com',
       metadata: {
         force_deletion_at: +new Date('2023-02-01T12:00:00Z'),
       },
     });
 
     render(
-      <MeetingCard recurrenceId={undefined} roomId="!room-id" uid="entry-0" />,
+      <MeetingCard
+        recurrenceId={undefined}
+        roomId="!room-id:example.com"
+        uid="entry-0"
+      />,
       { wrapper: Wrapper },
     );
 
@@ -1124,7 +1132,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },
@@ -1168,7 +1176,7 @@ describe('<MeetingCard/>', () => {
     async (eventType) => {
       widgetApi.mockSendStateEvent(
         mockPowerLevelsEvent({
-          room_id: '!meeting-room-id',
+          room_id: '!meeting-room-id:example.com',
           content: { events: { [eventType]: 101 } },
         }),
       );
@@ -1176,7 +1184,7 @@ describe('<MeetingCard/>', () => {
       render(
         <MeetingCard
           recurrenceId={undefined}
-          roomId="!meeting-room-id"
+          roomId="!meeting-room-id:example.com"
           uid="entry-0"
         />,
         { wrapper: Wrapper },
@@ -1197,7 +1205,7 @@ describe('<MeetingCard/>', () => {
   it('should hide edit actions if meeting is an invitation', async () => {
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
         content: {
           membership: 'invite',
         },
@@ -1207,7 +1215,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },
@@ -1247,7 +1255,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         titleId="title-id"
         uid="entry-0"
       />,
@@ -1276,7 +1284,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         titleId="title-id"
         uid="entry-0"
       />,
@@ -1310,7 +1318,7 @@ describe('<MeetingCard/>', () => {
     render(
       <MeetingCard
         recurrenceId="2999-01-01T10:00:00Z"
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         titleId="title-id"
         uid="entry-0"
       />,

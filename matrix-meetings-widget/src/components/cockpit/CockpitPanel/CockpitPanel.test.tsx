@@ -48,7 +48,9 @@ let widgetApi: MockedWidgetApi;
 
 afterEach(() => widgetApi.stop());
 
-beforeEach(() => (widgetApi = mockWidgetApi({ roomId: '!meeting-room-id' })));
+beforeEach(
+  () => (widgetApi = mockWidgetApi({ roomId: '!meeting-room-id:example.com' })),
+);
 
 const server = setupServer();
 
@@ -201,6 +203,8 @@ describe('<CockpitPanel>', () => {
       screen.getByRole('button', { name: /back to parent room/i }),
     );
 
-    expect(widgetApi.navigateTo).toBeCalledWith('https://matrix.to/#/!room-id');
+    expect(widgetApi.navigateTo).toBeCalledWith(
+      'https://matrix.to/#/!room-id%3Aexample.com',
+    );
   });
 });

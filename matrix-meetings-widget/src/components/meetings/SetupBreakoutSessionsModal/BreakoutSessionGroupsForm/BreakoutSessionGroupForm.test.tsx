@@ -44,7 +44,7 @@ describe('<BreakoutSessionGroupForm>', () => {
     allMemberEvents = [
       mockRoomMember(),
       mockRoomMember({
-        state_key: '@user-1',
+        state_key: '@user-1:example.com',
         content: { displayname: undefined },
       }),
     ];
@@ -71,7 +71,7 @@ describe('<BreakoutSessionGroupForm>', () => {
         allMemberEvents={allMemberEvents}
         group={{
           title: 'My Group',
-          members: ['@user-id', '@user-1'],
+          members: ['@user-id:example.com', '@user-1:example.com'],
         }}
         onGroupChange={vi.fn()}
         selectableMemberEvents={allMemberEvents}
@@ -85,7 +85,9 @@ describe('<BreakoutSessionGroupForm>', () => {
       within(listItem).getByRole('textbox', { name: 'Group title (required)' }),
     ).toHaveValue('My Group');
     expect(within(listItem).getByText('Alice')).toBeInTheDocument();
-    expect(within(listItem).getByText('@user-1')).toBeInTheDocument();
+    expect(
+      within(listItem).getByText('@user-1:example.com'),
+    ).toBeInTheDocument();
   });
 
   it('should have no accessibility violations', async () => {
@@ -94,7 +96,7 @@ describe('<BreakoutSessionGroupForm>', () => {
         allMemberEvents={allMemberEvents}
         group={{
           title: 'My Group',
-          members: ['@user-id', '@user-1'],
+          members: ['@user-id:example.com', '@user-1:example.com'],
         }}
         onGroupChange={vi.fn()}
         selectableMemberEvents={allMemberEvents}
@@ -111,7 +113,7 @@ describe('<BreakoutSessionGroupForm>', () => {
         allMemberEvents={allMemberEvents}
         group={{
           title: '',
-          members: ['@user-id', '@user-1'],
+          members: ['@user-id:example.com', '@user-1:example.com'],
         }}
         onGroupChange={vi.fn()}
         selectableMemberEvents={allMemberEvents}
@@ -136,7 +138,7 @@ describe('<BreakoutSessionGroupForm>', () => {
         allMemberEvents={allMemberEvents}
         group={{
           title: 'My Group',
-          members: ['@user-id', '@user-1'],
+          members: ['@user-id:example.com', '@user-1:example.com'],
         }}
         onGroupChange={onGroupChange}
         selectableMemberEvents={allMemberEvents}
@@ -147,12 +149,14 @@ describe('<BreakoutSessionGroupForm>', () => {
     const listItem = screen.getByRole('listitem', { name: 'My Group' });
 
     await userEvent.type(
-      within(listItem).getByRole('button', { name: '@user-1' }),
+      within(listItem).getByRole('button', { name: '@user-1:example.com' }),
       '{Backspace}',
     );
 
     await waitFor(() =>
-      expect(onGroupChange).toHaveBeenLastCalledWith({ members: ['@user-id'] }),
+      expect(onGroupChange).toHaveBeenLastCalledWith({
+        members: ['@user-id:example.com'],
+      }),
     );
   });
 });

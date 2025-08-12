@@ -61,7 +61,7 @@ describe('selectAllMeetingIds', () => {
 
       expect(selectAllMeetingIds(state, filters)).toEqual([
         {
-          id: '!meeting-room-id',
+          id: '!meeting-room-id:example.com',
           uid: 'entry-0',
           startTime: '2999-01-01T10:00:00Z',
           endTime: '2999-01-01T14:00:00Z',
@@ -84,14 +84,14 @@ describe('selectAllMeetingIds', () => {
 
       expect(selectAllMeetingIds(state, filters)).toEqual([
         {
-          id: '!meeting-room-id',
+          id: '!meeting-room-id:example.com',
           uid: 'entry-0',
           recurrenceId: '2999-01-01T10:00:00Z',
           startTime: '2999-01-01T10:00:00Z',
           endTime: '2999-01-01T14:00:00Z',
         },
         {
-          id: '!meeting-room-id',
+          id: '!meeting-room-id:example.com',
           uid: 'entry-0',
           recurrenceId: '2999-01-02T10:00:00Z',
           startTime: '2999-01-02T10:00:00Z',
@@ -117,7 +117,7 @@ describe('selectAllMeetingIds', () => {
 
       expect(selectAllMeetingIds(state, filters)).toEqual([
         {
-          id: '!meeting-room-id',
+          id: '!meeting-room-id:example.com',
           uid: 'entry-0',
           startTime: '2999-01-01T10:00:00Z',
           endTime: '2999-01-01T14:00:00Z',
@@ -137,7 +137,7 @@ describe('selectAllMeetingIds', () => {
 
       expect(selectAllMeetingIds(state, filters)).toEqual([
         {
-          id: '!meeting-room-id',
+          id: '!meeting-room-id:example.com',
           uid: 'entry-0',
           startTime: '2999-01-01T10:00:00Z',
           endTime: '2999-01-01T14:00:00Z',
@@ -204,7 +204,7 @@ describe('selectAllMeetingIds', () => {
         }),
       ).toEqual([
         {
-          id: '!meeting-room-id',
+          id: '!meeting-room-id:example.com',
           uid: 'entry-0',
           startTime: '2020-01-01T00:00:00Z',
           endTime: '2020-01-01T01:00:00Z',
@@ -252,7 +252,7 @@ describe('selectAllMeetingIds', () => {
         }),
       ).toEqual([
         {
-          id: '!meeting-room-id',
+          id: '!meeting-room-id:example.com',
           uid: 'entry-0',
           startTime: '2020-01-01T00:00:00Z',
           endTime: '2020-01-01T01:00:00Z',
@@ -283,7 +283,7 @@ describe('selectAllMeetingIds', () => {
 
     it('should sort the meetings', async () => {
       mockCreateMeetingRoom(widgetApi, {
-        room_id: '!roomId1',
+        room_id: '!roomId1:example.com',
         metadata: {
           calendar: mockCalendar({
             dtstart: '20210101T000000',
@@ -293,7 +293,7 @@ describe('selectAllMeetingIds', () => {
       });
 
       mockCreateMeetingRoom(widgetApi, {
-        room_id: '!roomId2',
+        room_id: '!roomId2:example.com',
         metadata: {
           calendar: mockCalendar({
             dtstart: '20200101T000000',
@@ -303,7 +303,7 @@ describe('selectAllMeetingIds', () => {
       });
 
       mockCreateMeetingRoom(widgetApi, {
-        room_id: '!roomId3',
+        room_id: '!roomId3:example.com',
         metadata: {
           calendar: mockCalendar({
             dtstart: '20220101T000000',
@@ -313,7 +313,7 @@ describe('selectAllMeetingIds', () => {
       });
 
       mockCreateMeetingRoom(widgetApi, {
-        room_id: '!roomId0',
+        room_id: '!roomId0:example.com',
         metadata: {
           calendar: mockCalendar({
             dtstart: '20200101T000000',
@@ -330,10 +330,10 @@ describe('selectAllMeetingIds', () => {
           startDate: '2000-01-01T00:00:00Z',
         }),
       ).toEqual([
-        expect.objectContaining({ id: '!roomId0' }),
-        expect.objectContaining({ id: '!roomId2' }),
-        expect.objectContaining({ id: '!roomId1' }),
-        expect.objectContaining({ id: '!roomId3' }),
+        expect.objectContaining({ id: '!roomId0:example.com' }),
+        expect.objectContaining({ id: '!roomId2:example.com' }),
+        expect.objectContaining({ id: '!roomId1:example.com' }),
+        expect.objectContaining({ id: '!roomId3:example.com' }),
       ]);
     });
   });
@@ -354,7 +354,9 @@ describe('selectAllMeetingIds', () => {
     });
 
     it('should ignore meeting with different parent', async () => {
-      mockCreateMeetingRoom(widgetApi, { parentRoomId: '!another-roomId' });
+      mockCreateMeetingRoom(widgetApi, {
+        parentRoomId: '!another-roomId:example.com',
+      });
 
       const state = await generateRootState();
 
@@ -375,7 +377,7 @@ describe('selectAllMeetingIds', () => {
 
       expect(selectAllMeetingIds(state, filters)).toEqual([
         {
-          id: '!breakout-room-id',
+          id: '!breakout-room-id:example.com',
           uid: 'entry-0',
           startTime: '2999-01-01T10:00:00Z',
           endTime: '2999-01-01T14:00:00Z',
@@ -404,7 +406,7 @@ describe('selectAllMeetingIds', () => {
 
       expect(selectAllMeetingIds(state, filters)).toEqual([
         {
-          id: '!meeting-room-id',
+          id: '!meeting-room-id:example.com',
           uid: 'entry-0',
           startTime: '2999-01-01T10:00:00Z',
           endTime: '2999-01-01T14:00:00Z',
@@ -419,7 +421,7 @@ describe('selectAllMeetingIds', () => {
 
       expect(selectAllMeetingIds(state, filters)).toEqual([
         {
-          id: '!breakout-room-id',
+          id: '!breakout-room-id:example.com',
           uid: 'entry-0',
           startTime: '2999-01-01T10:00:00Z',
           endTime: '2999-01-01T14:00:00Z',
@@ -435,12 +437,12 @@ describe('selectAllMeetingIds', () => {
       const state = await generateRootState();
 
       const selectAllMeetingIds = makeSelectAllMeetingIds({
-        hasMemberId: '@user-id',
+        hasMemberId: '@user-id:example.com',
       });
 
       expect(selectAllMeetingIds(state, filters)).toEqual([
         {
-          id: '!meeting-room-id',
+          id: '!meeting-room-id:example.com',
           uid: 'entry-0',
           startTime: '2999-01-01T10:00:00Z',
           endTime: '2999-01-01T14:00:00Z',
@@ -454,7 +456,7 @@ describe('selectAllMeetingIds', () => {
       const state = await generateRootState();
 
       const selectAllMeetingIds = makeSelectAllMeetingIds({
-        hasMemberId: '@another-user:matrix',
+        hasMemberId: '@another-user:example.com',
       });
 
       expect(selectAllMeetingIds(state, filters)).toEqual([]);
@@ -473,7 +475,7 @@ describe('selectAllMeetingIds', () => {
 
       expect(selectAllMeetingIds(state, filters)).toEqual([
         {
-          id: '!meeting-room-id',
+          id: '!meeting-room-id:example.com',
           uid: 'entry-0',
           startTime: '2999-01-01T10:00:00Z',
           endTime: '2999-01-01T14:00:00Z',
@@ -496,7 +498,7 @@ describe('selectAllMeetingIds', () => {
 
       expect(selectAllMeetingIds(state, filters)).toEqual([
         {
-          id: '!meeting-room-id',
+          id: '!meeting-room-id:example.com',
           uid: 'entry-0',
           startTime: '2999-01-01T10:00:00Z',
           endTime: '2999-01-01T14:00:00Z',

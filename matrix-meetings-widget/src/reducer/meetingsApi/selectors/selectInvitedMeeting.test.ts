@@ -44,23 +44,25 @@ describe('selectInvitedMeeting', () => {
 
     const state = await generateRootState();
 
-    expect(selectInvitedMeeting(state, '!meeting-room-id')).toEqual({
-      type: 'net.nordeck.meetings.meeting',
-      meetingId: '!meeting-room-id',
-      title: 'An important meeting',
-      description: 'A brief description',
-      participants: [
-        {
-          userId: '@user-id',
-          displayName: 'Alice',
-          membership: 'invite',
-          rawEvent: expect.objectContaining({
-            state_key: '@user-id',
-          }),
-        },
-      ],
-      parentRoomId: undefined,
-    });
+    expect(selectInvitedMeeting(state, '!meeting-room-id:example.com')).toEqual(
+      {
+        type: 'net.nordeck.meetings.meeting',
+        meetingId: '!meeting-room-id:example.com',
+        title: 'An important meeting',
+        description: 'A brief description',
+        participants: [
+          {
+            userId: '@user-id:example.com',
+            displayName: 'Alice',
+            membership: 'invite',
+            rawEvent: expect.objectContaining({
+              state_key: '@user-id:example.com',
+            }),
+          },
+        ],
+        parentRoomId: undefined,
+      },
+    );
   });
 
   it('should generate breakout meeting', async () => {
@@ -70,22 +72,24 @@ describe('selectInvitedMeeting', () => {
 
     const state = await generateRootState();
 
-    expect(selectInvitedMeeting(state, '!meeting-room-id')).toEqual({
-      type: 'net.nordeck.meetings.breakoutsession',
-      meetingId: '!meeting-room-id',
-      title: 'An important meeting',
-      description: 'A brief description',
-      participants: [
-        {
-          userId: '@user-id',
-          displayName: 'Alice',
-          membership: 'invite',
-          rawEvent: expect.objectContaining({
-            state_key: '@user-id',
-          }),
-        },
-      ],
-    });
+    expect(selectInvitedMeeting(state, '!meeting-room-id:example.com')).toEqual(
+      {
+        type: 'net.nordeck.meetings.breakoutsession',
+        meetingId: '!meeting-room-id:example.com',
+        title: 'An important meeting',
+        description: 'A brief description',
+        participants: [
+          {
+            userId: '@user-id:example.com',
+            displayName: 'Alice',
+            membership: 'invite',
+            rawEvent: expect.objectContaining({
+              state_key: '@user-id:example.com',
+            }),
+          },
+        ],
+      },
+    );
   });
 
   it('should generate meeting with parent', async () => {
@@ -94,30 +98,32 @@ describe('selectInvitedMeeting', () => {
     widgetApi.mockSendStateEvent(mockRoomCreate({ room_id: '!parentRoomId' }));
     widgetApi.mockSendStateEvent(
       mockSpaceChild({
-        room_id: '!parentRoomId',
-        state_key: '!meeting-room-id',
+        room_id: '!parentRoomId:example.com',
+        state_key: '!meeting-room-id:example.com',
       }),
     );
 
     const state = await generateRootState();
 
-    expect(selectInvitedMeeting(state, '!meeting-room-id')).toEqual({
-      type: 'net.nordeck.meetings.meeting',
-      meetingId: '!meeting-room-id',
-      title: 'An important meeting',
-      description: 'A brief description',
-      participants: [
-        {
-          userId: '@user-id',
-          displayName: 'Alice',
-          membership: 'invite',
-          rawEvent: expect.objectContaining({
-            state_key: '@user-id',
-          }),
-        },
-      ],
-      parentRoomId: '!parentRoomId',
-    });
+    expect(selectInvitedMeeting(state, '!meeting-room-id:example.com')).toEqual(
+      {
+        type: 'net.nordeck.meetings.meeting',
+        meetingId: '!meeting-room-id:example.com',
+        title: 'An important meeting',
+        description: 'A brief description',
+        participants: [
+          {
+            userId: '@user-id:example.com',
+            displayName: 'Alice',
+            membership: 'invite',
+            rawEvent: expect.objectContaining({
+              state_key: '@user-id:example.com',
+            }),
+          },
+        ],
+        parentRoomId: '!parentRoomId:example.com',
+      },
+    );
   });
 
   it('should generate meeting with space parent', async () => {
@@ -125,36 +131,38 @@ describe('selectInvitedMeeting', () => {
 
     widgetApi.mockSendStateEvent(
       mockRoomCreate({
-        room_id: '!parentRoomId',
+        room_id: '!parentRoomId:example.com',
         content: { type: 'm.space' },
       }),
     );
     widgetApi.mockSendStateEvent(
       mockSpaceChild({
-        room_id: '!parentRoomId',
-        state_key: '!meeting-room-id',
+        room_id: '!parentRoomId:example.com',
+        state_key: '!meeting-room-id:example.com',
       }),
     );
 
     const state = await generateRootState();
 
-    expect(selectInvitedMeeting(state, '!meeting-room-id')).toEqual({
-      type: 'net.nordeck.meetings.meeting',
-      meetingId: '!meeting-room-id',
-      title: 'An important meeting',
-      description: 'A brief description',
-      participants: [
-        {
-          userId: '@user-id',
-          displayName: 'Alice',
-          membership: 'invite',
-          rawEvent: expect.objectContaining({
-            state_key: '@user-id',
-          }),
-        },
-      ],
-      parentRoomId: undefined,
-    });
+    expect(selectInvitedMeeting(state, '!meeting-room-id:example.com')).toEqual(
+      {
+        type: 'net.nordeck.meetings.meeting',
+        meetingId: '!meeting-room-id:example.com',
+        title: 'An important meeting',
+        description: 'A brief description',
+        participants: [
+          {
+            userId: '@user-id:example.com',
+            displayName: 'Alice',
+            membership: 'invite',
+            rawEvent: expect.objectContaining({
+              state_key: '@user-id:example.com',
+            }),
+          },
+        ],
+        parentRoomId: undefined,
+      },
+    );
   });
 
   it('should generate meeting without participants and description', async () => {
@@ -167,14 +175,16 @@ describe('selectInvitedMeeting', () => {
 
     const state = await generateRootState();
 
-    expect(selectInvitedMeeting(state, '!meeting-room-id')).toEqual({
-      type: 'net.nordeck.meetings.meeting',
-      meetingId: '!meeting-room-id',
-      title: 'An important meeting',
-      description: undefined,
-      participants: [],
-      parentRoomId: undefined,
-    });
+    expect(selectInvitedMeeting(state, '!meeting-room-id:example.com')).toEqual(
+      {
+        type: 'net.nordeck.meetings.meeting',
+        meetingId: '!meeting-room-id:example.com',
+        title: 'An important meeting',
+        description: undefined,
+        participants: [],
+        parentRoomId: undefined,
+      },
+    );
   });
 
   it('should ignore meeting without create event', async () => {
@@ -184,7 +194,9 @@ describe('selectInvitedMeeting', () => {
 
     const state = await generateRootState();
 
-    expect(selectInvitedMeeting(state, '!meeting-room-id')).toBeUndefined();
+    expect(
+      selectInvitedMeeting(state, '!meeting-room-id:example.com'),
+    ).toBeUndefined();
   });
 
   it('should ignore meeting without name', async () => {
@@ -194,6 +206,8 @@ describe('selectInvitedMeeting', () => {
 
     const state = await generateRootState();
 
-    expect(selectInvitedMeeting(state, '!meeting-room-id')).toBeUndefined();
+    expect(
+      selectInvitedMeeting(state, '!meeting-room-id:example.com'),
+    ).toBeUndefined();
   });
 });

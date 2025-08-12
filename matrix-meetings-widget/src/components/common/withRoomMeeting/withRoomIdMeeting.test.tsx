@@ -63,7 +63,7 @@ describe('withRoomIdMeeting', () => {
     render(
       <Component
         recurrenceId={undefined}
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },
@@ -92,7 +92,7 @@ describe('withRoomIdMeeting', () => {
     render(
       <Component
         recurrenceId="2999-01-10T10:00:00Z"
-        roomId="!meeting-room-id"
+        roomId="!meeting-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },
@@ -120,7 +120,7 @@ describe('withRoomIdMeeting', () => {
     render(
       <Component
         recurrenceId={undefined}
-        roomId="!another-room-id"
+        roomId="!another-room-id:example.com"
         uid="entry-0"
       />,
       { wrapper: Wrapper },

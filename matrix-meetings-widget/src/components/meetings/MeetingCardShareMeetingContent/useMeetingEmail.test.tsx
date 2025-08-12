@@ -81,7 +81,7 @@ describe('useMeetingEmail', () => {
 A brief description
 
 __________________________
-Room: http://element.local/#/room/!meeting-room-id
+Room: http://element.local/#/room/!meeting-room-id:example.com
 `,
     });
   });
@@ -117,7 +117,7 @@ Room: http://element.local/#/room/!meeting-room-id
 A brief description
 
 __________________________
-Room: http://element.local/#/room/!meeting-room-id
+Room: http://element.local/#/room/!meeting-room-id:example.com
 `,
     });
   });
@@ -139,7 +139,7 @@ Room: http://element.local/#/room/!meeting-room-id
 A brief description
 
 __________________________
-Room: http://element.local/#/room/!meeting-room-id
+Room: http://element.local/#/room/!meeting-room-id:example.com
 `,
     });
   });
@@ -164,7 +164,7 @@ Room: http://element.local/#/room/!meeting-room-id
 
 
 __________________________
-Room: http://element.local/#/room/!meeting-room-id
+Room: http://element.local/#/room/!meeting-room-id:example.com
 `,
     });
   });
@@ -188,7 +188,7 @@ Room: http://element.local/#/room/!meeting-room-id
 A brief description
 
 __________________________
-Room: http://element.local/#/room/!meeting-room-id
+Room: http://element.local/#/room/!meeting-room-id:example.com
 Dial-In Number: 0123
 Dial-In Pin: Pin not required
 `,
@@ -216,7 +216,7 @@ Dial-In Pin: Pin not required
 A brief description
 
 __________________________
-Room: http://element.local/#/room/!meeting-room-id
+Room: http://element.local/#/room/!meeting-room-id:example.com
 Dial-In Number: 0123
 Dial-In Pin: 5555
 `,

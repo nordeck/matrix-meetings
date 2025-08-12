@@ -19,6 +19,7 @@ import {
   RoomEvent,
   RoomMemberStateEventContent,
   StateEvent,
+  StateEventCreateContent,
 } from '@matrix-widget-toolkit/api';
 import { MockedWidgetApi } from '@matrix-widget-toolkit/testing';
 import {
@@ -32,7 +33,6 @@ import { Meeting } from '../reducer/meetingsApi';
 import {
   NordeckMeetingMetadataEvent,
   ReactionEvent,
-  RoomCreateEvent,
   RoomNameEvent,
   RoomTombstoneEvent,
   RoomTopicEvent,
@@ -47,10 +47,10 @@ import {
  * @remarks Only use for tests
  */
 export function mockRoomMember({
-  state_key = '@user-id',
+  state_key = '@user-id:example.com',
   event_id = '$event-id-0',
-  room_id = '!room-id',
-  sender = '@inviter-id',
+  room_id = '!room-id:example.com',
+  sender = '@inviter-id:example.com',
   content = {},
 }: {
   state_key?: string;
@@ -81,7 +81,7 @@ export function mockRoomMember({
  * @remarks Only use for tests
  */
 export function mockPowerLevelsEvent({
-  room_id = '!room-id',
+  room_id = '!room-id:example.com',
   content = {},
 }: {
   room_id?: string;
@@ -89,7 +89,7 @@ export function mockPowerLevelsEvent({
 } = {}): StateEvent<PowerLevelsStateEvent> {
   return {
     type: 'm.room.power_levels',
-    sender: '@user-id',
+    sender: '@user-id:example.com',
     content: {
       users_default: 100,
       ...content,
@@ -107,17 +107,18 @@ export function mockPowerLevelsEvent({
  * @remarks Only use for tests
  */
 export function mockRoomCreate({
-  room_id = '!room-id',
+  room_id = '!room-id:example.com',
   content = {},
 }: {
   room_id?: string;
-  content?: Partial<RoomCreateEvent>;
-} = {}): StateEvent<RoomCreateEvent> {
+  content?: Partial<StateEventCreateContent>;
+} = {}): StateEvent<StateEventCreateContent> {
   return {
     type: 'm.room.create',
-    sender: '@user-id',
+    sender: '@user-id:example.com',
     state_key: '',
     content: {
+      room_version: '11',
       type: 'net.nordeck.meetings.meeting',
       ...content,
     },
@@ -133,7 +134,7 @@ export function mockRoomCreate({
  * @remarks Only use for tests
  */
 export function mockRoomName({
-  room_id = '!room-id',
+  room_id = '!room-id:example.com',
   content = {},
 }: {
   room_id?: string;
@@ -141,7 +142,7 @@ export function mockRoomName({
 } = {}): StateEvent<RoomNameEvent> {
   return {
     type: 'm.room.name',
-    sender: '@user-id',
+    sender: '@user-id:example.com',
     state_key: '',
     content: {
       name: 'An important meeting',
@@ -159,7 +160,7 @@ export function mockRoomName({
  * @remarks Only use for tests
  */
 export function mockNordeckMeetingMetadataEvent({
-  room_id = '!meeting-room-id',
+  room_id = '!meeting-room-id:example.com',
   content = {},
 }: {
   room_id?: string;
@@ -169,10 +170,10 @@ export function mockNordeckMeetingMetadataEvent({
 } = {}): StateEvent<NordeckMeetingMetadataEvent> {
   return {
     type: 'net.nordeck.meetings.metadata',
-    sender: '@user-id',
+    sender: '@user-id:example.com',
     state_key: '',
     content: {
-      creator: '@user-id',
+      creator: '@user-id:example.com',
       calendar: mockCalendar({
         dtstart: '29990101T100000',
         dtend: '29990101T140000',
@@ -194,7 +195,7 @@ export function mockNordeckMeetingMetadataEvent({
  * @remarks Only use for tests
  */
 export function mockRoomTopic({
-  room_id = '!room-id',
+  room_id = '!room-id:example.com',
   content = {},
 }: {
   room_id?: string;
@@ -202,7 +203,7 @@ export function mockRoomTopic({
 } = {}): StateEvent<RoomTopicEvent> {
   return {
     type: 'm.room.topic',
-    sender: '@user-id',
+    sender: '@user-id:example.com',
     state_key: '',
     content: {
       topic: 'A brief description',
@@ -220,7 +221,7 @@ export function mockRoomTopic({
  * @remarks Only use for tests
  */
 export function mockRoomTombstone({
-  room_id = '!room-id',
+  room_id = '!room-id:example.com',
   content = {},
 }: {
   room_id?: string;
@@ -228,7 +229,7 @@ export function mockRoomTombstone({
 } = {}): StateEvent<RoomTombstoneEvent> {
   return {
     type: 'm.room.tombstone',
-    sender: '@user-id',
+    sender: '@user-id:example.com',
     state_key: '',
     content: {
       ...content,
@@ -245,7 +246,7 @@ export function mockRoomTombstone({
  * @remarks Only use for tests
  */
 export function mockReaction({
-  room_id = '!room-id',
+  room_id = '!room-id:example.com',
   content = {},
 }: {
   room_id?: string;
@@ -253,7 +254,7 @@ export function mockReaction({
 } = {}): RoomEvent<ReactionEvent> {
   return {
     type: 'm.reaction',
-    sender: '@user-id',
+    sender: '@user-id:example.com',
     content: {
       'm.relates_to': {
         rel_type: 'm.annotation',
@@ -278,7 +279,7 @@ export function mockReaction({
  */
 export function mockSpaceParent({
   room_id,
-  state_key = '!room-id',
+  state_key = '!room-id:example.com',
   content = {},
 }: {
   room_id: string;
@@ -287,7 +288,7 @@ export function mockSpaceParent({
 }): StateEvent<SpaceParentEvent> {
   return {
     type: 'm.space.parent',
-    sender: '@user-id',
+    sender: '@user-id:example.com',
     state_key,
     content: {
       via: ['matrix.to'],
@@ -306,7 +307,7 @@ export function mockSpaceParent({
  */
 export function mockSpaceChild({
   room_id,
-  state_key = '!room-id',
+  state_key = '!room-id:example.com',
   content = {},
 }: {
   room_id: string;
@@ -315,14 +316,14 @@ export function mockSpaceChild({
 }): StateEvent<SpaceChildEvent> {
   return {
     type: 'm.space.child',
-    sender: '@user-id',
+    sender: '@user-id:example.com',
     state_key,
     content: {
       via: ['matrix.to'],
       ...content,
     },
     room_id,
-    event_id: '$event-id',
+    event_id: '$event-id:example.com',
     origin_server_ts: 0,
   };
 }
@@ -333,7 +334,7 @@ export function mockSpaceChild({
  * @remarks Only use for tests
  */
 export function mockWidgetEvent({
-  room_id = '!room-id',
+  room_id = '!room-id:example.com',
   state_key = 'widget-0',
   content = {},
 }: {
@@ -343,7 +344,7 @@ export function mockWidgetEvent({
 } = {}): StateEvent<WidgetsEvent> {
   return {
     type: 'im.vector.modular.widgets',
-    sender: '@user-id',
+    sender: '@user-id:example.com',
     state_key,
     content: {
       type: 'm.custom',
@@ -447,8 +448,8 @@ export function acknowledgeAllEvents(
 export function mockCreateMeetingRoom(
   widgetApi: MockedWidgetApi,
   {
-    room_id = '!meeting-room-id',
-    parentRoomId = '!room-id',
+    room_id = '!meeting-room-id:example.com',
+    parentRoomId = '!room-id:example.com',
     metadata,
     name,
     roomOptions,
@@ -521,8 +522,8 @@ export function mockCreateMeetingRoom(
 export function mockCreateBreakoutMeetingRoom(
   widgetApi: MockedWidgetApi,
   {
-    room_id = '!breakout-room-id',
-    meeting_room_id = '!meeting-room-id',
+    room_id = '!breakout-room-id:example.com',
+    meeting_room_id = '!meeting-room-id:example.com',
     metadata,
     name,
   }: {
@@ -559,12 +560,12 @@ export function mockCreateBreakoutMeetingRoom(
 export function mockCreateMeetingInvitation(
   widgetApi: MockedWidgetApi,
   {
-    room_id = '!meeting-room-id',
+    room_id = '!meeting-room-id:example.com',
     create,
     roomOptions,
   }: {
     room_id?: string;
-    create?: Partial<RoomCreateEvent>;
+    create?: Partial<StateEventCreateContent>;
     roomOptions?: {
       skipCreateEvent?: boolean;
       skipNameEvent?: boolean;
@@ -598,7 +599,7 @@ export function mockCreateMeetingInvitation(
  * @remarks Only use for tests
  */
 export function mockMeeting({
-  room_id = '!meeting-room-id',
+  room_id = '!meeting-room-id:example.com',
   parentRoomId,
   content = {},
 }: {
@@ -627,7 +628,7 @@ export function mockMeeting({
     calendarUid,
     participants: [
       {
-        userId: '@user-id',
+        userId: '@user-id:example.com',
         displayName: 'Alice',
         membership: 'join',
         rawEvent: mockRoomMember({ room_id }),
@@ -636,7 +637,7 @@ export function mockMeeting({
     widgets: [],
     deletionTime: undefined,
     parentRoomId,
-    creator: '@user-id',
+    creator: '@user-id:example.com',
     calendarEntries,
     recurrenceId: calendarEntries[0].rrule ? startTime : undefined,
     ...content,
@@ -650,8 +651,8 @@ export function mockMeeting({
  * @remarks Only use for tests
  */
 export function mockBreakoutSession({
-  room_id = '!breakout-room-id',
-  parentRoomId = '!meeting-room-id',
+  room_id = '!breakout-room-id:example.com',
+  parentRoomId = '!meeting-room-id:example.com',
   content = {},
 }): Meeting {
   return mockMeeting({
