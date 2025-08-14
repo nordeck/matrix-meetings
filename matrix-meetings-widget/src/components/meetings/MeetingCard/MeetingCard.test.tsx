@@ -80,8 +80,6 @@ describe('<MeetingCard/>', () => {
       widgetId: '',
     });
 
-    mockCreateMeetingRoom(widgetApi);
-
     Wrapper = ({ children }: PropsWithChildren<{}>) => {
       const [store] = useState(() => {
         const store = createStore({ widgetApi });
@@ -106,43 +104,63 @@ describe('<MeetingCard/>', () => {
     vi.restoreAllMocks();
   });
 
-  it('should render without exploding', async () => {
-    render(
-      <MeetingCard
-        recurrenceId={undefined}
-        roomId="!meeting-room-id:example.com"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper },
-    );
+  it.each([
+    ['10', 100],
+    ['12', 150],
+  ])(
+    'should render without exploding for roomVersion: %s',
+    async (room_version, userPowerLevel) => {
+      mockCreateMeetingRoom(widgetApi, {
+        room_version,
+        powerLevelsEventContent: {
+          users: {
+            '@user-id:example.com': userPowerLevel,
+          },
+        },
+      });
 
-    await expect(
-      screen.findByRole('heading', { level: 5, name: /An important meeting/i }),
-    ).resolves.toBeInTheDocument();
+      render(
+        <MeetingCard
+          recurrenceId={undefined}
+          roomId="!meeting-room-id:example.com"
+          uid="entry-0"
+        />,
+        { wrapper: Wrapper },
+      );
 
-    expect(
-      screen.getByText(/^Jan 1, 2999(,| at) 10:00 AM – 2:00 PM$/),
-    ).toBeInTheDocument();
-    expect(screen.getByText('A brief description')).toBeInTheDocument();
+      await expect(
+        screen.findByRole('heading', {
+          level: 5,
+          name: /An important meeting/i,
+        }),
+      ).resolves.toBeInTheDocument();
 
-    expect(
-      screen.getByRole('button', {
-        name: /more settings/i,
-      }),
-    ).toBeInTheDocument();
+      expect(
+        screen.getByText(/^Jan 1, 2999(,| at) 10:00 AM – 2:00 PM$/),
+      ).toBeInTheDocument();
+      expect(screen.getByText('A brief description')).toBeInTheDocument();
 
-    expect(
-      screen.getByRole('button', {
-        name: /show participants/i,
-      }),
-    ).toBeInTheDocument();
+      expect(
+        screen.getByRole('button', {
+          name: /more settings/i,
+        }),
+      ).toBeInTheDocument();
 
-    expect(
-      screen.getByRole('button', { name: /share meeting/i }),
-    ).toBeInTheDocument();
-  });
+      expect(
+        screen.getByRole('button', {
+          name: /show participants/i,
+        }),
+      ).toBeInTheDocument();
+
+      expect(
+        screen.getByRole('button', { name: /share meeting/i }),
+      ).toBeInTheDocument();
+    },
+  );
 
   it('should have no accessibility violations', async () => {
+    mockCreateMeetingRoom(widgetApi);
+
     const { container } = render(
       <MeetingCard
         recurrenceId={undefined}
@@ -160,6 +178,8 @@ describe('<MeetingCard/>', () => {
   });
 
   it('should have no accessibility violations, when the recurrence icon is displayed', async () => {
+    mockCreateMeetingRoom(widgetApi);
+
     mockCreateMeetingRoom(widgetApi, {
       metadata: {
         calendar: mockCalendar({
@@ -187,6 +207,8 @@ describe('<MeetingCard/>', () => {
   });
 
   it('should have accessible description', async () => {
+    mockCreateMeetingRoom(widgetApi);
+
     render(
       <MeetingCard
         recurrenceId={undefined}
@@ -214,6 +236,8 @@ describe('<MeetingCard/>', () => {
   });
 
   it('should show short day format', async () => {
+    mockCreateMeetingRoom(widgetApi);
+
     render(
       <MeetingCard
         recurrenceId={undefined}
@@ -230,6 +254,8 @@ describe('<MeetingCard/>', () => {
   });
 
   it('should show that a meeting spans multiple days', async () => {
+    mockCreateMeetingRoom(widgetApi);
+
     widgetApi.mockSendStateEvent(
       mockNordeckMeetingMetadataEvent({
         content: {
@@ -256,6 +282,8 @@ describe('<MeetingCard/>', () => {
   });
 
   it('should show that a meeting spans multiple days with short date format', async () => {
+    mockCreateMeetingRoom(widgetApi);
+
     widgetApi.mockSendStateEvent(
       mockNordeckMeetingMetadataEvent({
         content: {
@@ -283,6 +311,8 @@ describe('<MeetingCard/>', () => {
   });
 
   it('should show that a meeting spans multiple years', async () => {
+    mockCreateMeetingRoom(widgetApi);
+
     widgetApi.mockSendStateEvent(
       mockNordeckMeetingMetadataEvent({
         content: {
@@ -311,6 +341,8 @@ describe('<MeetingCard/>', () => {
   });
 
   it('should show that a meeting spans multiple years with short day format', async () => {
+    mockCreateMeetingRoom(widgetApi);
+
     widgetApi.mockSendStateEvent(
       mockNordeckMeetingMetadataEvent({
         content: {
@@ -338,6 +370,8 @@ describe('<MeetingCard/>', () => {
   });
 
   it('should show the open meeting room button', async () => {
+    mockCreateMeetingRoom(widgetApi);
+
     render(
       <MeetingCard
         recurrenceId={undefined}
@@ -353,850 +387,1022 @@ describe('<MeetingCard/>', () => {
     ).resolves.toBeInTheDocument();
   });
 
-  it('should delete the meeting', async () => {
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.close')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-
-    render(
-      <MeetingCard
-        recurrenceId={undefined}
-        roomId="!meeting-room-id:example.com"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper },
-    );
-
-    await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i }),
-    );
-
-    const menu = screen.getByRole('menu', { name: /more settings/i });
-
-    await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /delete meeting/i }),
-    );
-
-    const deleteModal = screen.getByRole('dialog', {
-      name: /delete meeting/i,
-    });
-
-    await userEvent.click(
-      within(deleteModal).getByRole('button', { name: 'Delete' }),
-    );
-
-    await waitFor(() => {
-      expect(widgetApi.sendRoomEvent).toBeCalledWith(
-        'net.nordeck.meetings.meeting.close',
-        {
-          context: { locale: 'en', timezone: 'UTC' },
-          data: { target_room_id: '!meeting-room-id:example.com' },
-        },
-      );
-    });
-
-    await waitFor(() => {
-      expect(deleteModal).not.toBeInTheDocument();
-    });
-  });
-
-  it('should edit meeting', async () => {
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.update')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.participants.handle')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.widgets.handle')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-
-    widgetApi.mockSendStateEvent(
-      mockRoomMember({
-        state_key: '@user-id-2:example.com',
-        content: { displayname: 'Bob', membership: 'invite' },
-      }),
-    );
-    widgetApi.mockSendStateEvent(
-      mockWidgetEvent({
-        room_id: '!meeting-room-id:example.com',
-        state_key: 'widget-1',
-      }),
-    );
-    widgetApi.mockSendStateEvent(
-      mockPowerLevelsEvent({
-        room_id: '!meeting-room-id:example.com',
-        content: {
+  it.each([
+    ['10', 100],
+    ['12', 150],
+  ])(
+    'should delete the meeting for roomVersion: %s',
+    async (room_version, userPowerLevel) => {
+      mockCreateMeetingRoom(widgetApi, {
+        room_version,
+        powerLevelsEventContent: {
           users: {
-            '@user-id:example.com': 100,
+            '@user-id:example.com': userPowerLevel,
           },
-          events_default: 0,
         },
-      }),
-    );
+      });
 
-    const newMeeting: CreateMeeting = {
-      title: 'My new Meeting',
-      description: 'My New Description',
-      startTime: '2099-01-01T10:00:00Z',
-      endTime: '2099-01-01T14:00:00Z',
-      participants: ['@user-id:example.com', '@user-id-2:example.com'],
-      widgetIds: ['widget-2'],
-    };
-    widgetApi.openModal.mockResolvedValue({
-      type: 'nic.schedule.meeting.submit',
-      meeting: newMeeting,
-    } as ScheduleMeetingModalResult);
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.close')
+        .subscribe(acknowledgeAllEvents(widgetApi));
 
-    render(
-      <MeetingCard
-        recurrenceId={undefined}
-        roomId="!meeting-room-id:example.com"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper },
-    );
+      render(
+        <MeetingCard
+          recurrenceId={undefined}
+          roomId="!meeting-room-id:example.com"
+          uid="entry-0"
+        />,
+        { wrapper: Wrapper },
+      );
 
-    await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i }),
-    );
+      await userEvent.click(
+        await screen.findByRole('button', { name: /more settings/i }),
+      );
 
-    const menu = screen.getByRole('menu', { name: /more settings/i });
+      const menu = screen.getByRole('menu', { name: /more settings/i });
 
-    await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /edit meeting/i }),
-    );
+      await userEvent.click(
+        within(menu).getByRole('menuitem', { name: /delete meeting/i }),
+      );
 
-    expect(widgetApi.openModal).toBeCalledWith(
-      '/schedule-meeting',
-      'Edit Meeting',
-      {
-        buttons: [
+      const deleteModal = screen.getByRole('dialog', {
+        name: /delete meeting/i,
+      });
+
+      await userEvent.click(
+        within(deleteModal).getByRole('button', { name: 'Delete' }),
+      );
+
+      await waitFor(() => {
+        expect(widgetApi.sendRoomEvent).toBeCalledWith(
+          'net.nordeck.meetings.meeting.close',
           {
-            disabled: true,
-            id: 'nic.schedule.meeting.submit',
-            kind: 'm.primary',
-            label: 'Save',
+            context: { locale: 'en', timezone: 'UTC' },
+            data: { target_room_id: '!meeting-room-id:example.com' },
           },
-          {
-            id: 'nic.schedule.meeting.cancel',
-            kind: 'm.secondary',
-            label: 'Cancel',
-          },
-        ],
-        data: {
-          meeting: mockMeeting({
-            parentRoomId: '!room-id:example.com',
-            content: { widgets: ['widget-1'] },
-          }),
-          isMessagingEnabled: true,
-        },
-      },
-    );
-
-    await waitFor(() => {
-      expect(widgetApi.sendRoomEvent).toBeCalledWith(
-        'net.nordeck.meetings.meeting.update',
-        {
-          context: expect.anything(),
-          data: {
-            target_room_id: '!meeting-room-id:example.com',
-            title: 'My new Meeting',
-            description: 'My New Description',
-            calendar: [
-              {
-                uid: 'entry-0',
-                dtstart: { tzid: 'UTC', value: '20990101T100000' },
-                dtend: { tzid: 'UTC', value: '20990101T140000' },
-              },
-            ],
-          },
-        },
-      );
-    });
-
-    await waitFor(() => {
-      expect(widgetApi.sendRoomEvent).toBeCalledWith(
-        'net.nordeck.meetings.meeting.participants.handle',
-        {
-          context: expect.anything(),
-          data: {
-            target_room_id: '!meeting-room-id:example.com',
-            invite: true,
-            userIds: ['@user-id-2:example.com'],
-          },
-        },
-      );
-    });
-
-    await waitFor(() => {
-      expect(widgetApi.sendRoomEvent).toBeCalledWith(
-        'net.nordeck.meetings.meeting.widgets.handle',
-        {
-          context: expect.anything(),
-          data: {
-            add: true,
-            target_room_id: '!meeting-room-id:example.com',
-            widget_ids: ['widget-2'],
-          },
-        },
-      );
-    });
-
-    await waitFor(() => {
-      expect(widgetApi.sendRoomEvent).toBeCalledWith(
-        'net.nordeck.meetings.meeting.widgets.handle',
-        {
-          context: expect.anything(),
-          data: {
-            add: false,
-            target_room_id: '!meeting-room-id:example.com',
-            widget_ids: ['widget-1'],
-          },
-        },
-      );
-    });
-  });
-
-  it('should edit recurring meeting from the card of a later recurrence', async () => {
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.update')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.participants.handle')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.widgets.handle')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-
-    widgetApi.mockSendStateEvent(
-      mockRoomMember({
-        state_key: '@user-id-2:example.com',
-        content: { displayname: 'Bob', membership: 'invite' },
-      }),
-    );
-    widgetApi.mockSendStateEvent(
-      mockWidgetEvent({
-        room_id: '!meeting-room-id:example.com',
-        state_key: 'widget-1',
-      }),
-    );
-    widgetApi.mockSendStateEvent(
-      mockNordeckMeetingMetadataEvent({
-        content: {
-          calendar: mockCalendar({
-            dtstart: '29990101T100000',
-            dtend: '29990101T140000',
-            rrule: 'FREQ=DAILY',
-          }),
-        },
-      }),
-    );
-    widgetApi.mockSendStateEvent(
-      mockPowerLevelsEvent({
-        room_id: '!meeting-room-id:example.com',
-        content: {
-          users: {
-            '@user-id:example.com': 100,
-          },
-          events_default: 0,
-        },
-      }),
-    );
-
-    const newMeeting: CreateMeeting = {
-      title: 'My new Meeting',
-      description: 'My New Description',
-      startTime: '2999-01-01T10:00:00Z',
-      endTime: '2999-01-01T15:00:00Z',
-      participants: ['@user-id'],
-      widgetIds: ['widget-1'],
-      rrule: 'FREQ=DAILY',
-    };
-    widgetApi.openModal.mockResolvedValue({
-      type: 'nic.schedule.meeting.submit',
-      meeting: newMeeting,
-    } as ScheduleMeetingModalResult);
-
-    render(
-      <MeetingCard
-        // We edit it from the card of the second recurring meeting instance
-        recurrenceId="2999-01-02T10:00:00Z"
-        roomId="!meeting-room-id:example.com"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper },
-    );
-
-    await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i }),
-    );
-
-    const menu = screen.getByRole('menu', { name: /more settings/i });
-
-    await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /edit meeting/i }),
-    );
-
-    expect(widgetApi.openModal).toBeCalledWith(
-      '/schedule-meeting',
-      'Edit Meeting',
-      {
-        buttons: [
-          {
-            disabled: true,
-            id: 'nic.schedule.meeting.submit',
-            kind: 'm.primary',
-            label: 'Save',
-          },
-          {
-            id: 'nic.schedule.meeting.cancel',
-            kind: 'm.secondary',
-            label: 'Cancel',
-          },
-        ],
-        data: {
-          meeting: mockMeeting({
-            parentRoomId: '!room-id:example.com',
-            content: {
-              startTime: '2999-01-02T10:00:00Z',
-              endTime: '2999-01-02T14:00:00Z',
-              calendarEntries: mockCalendar({
-                dtstart: '29990101T100000',
-                dtend: '29990101T140000',
-                rrule: 'FREQ=DAILY',
-              }),
-              widgets: ['widget-1'],
-              recurrenceId: '2999-01-02T10:00:00Z',
-            },
-          }),
-          isMessagingEnabled: true,
-        },
-      },
-    );
-
-    await waitFor(() => {
-      expect(widgetApi.sendRoomEvent).toBeCalledWith(
-        'net.nordeck.meetings.meeting.update',
-        {
-          context: expect.anything(),
-          data: {
-            target_room_id: '!meeting-room-id:example.com',
-            title: 'My new Meeting',
-            description: 'My New Description',
-            calendar: [
-              {
-                uid: 'entry-0',
-                dtstart: { tzid: 'UTC', value: '29990101T100000' },
-                dtend: { tzid: 'UTC', value: '29990101T150000' },
-                rrule: 'FREQ=DAILY',
-              },
-            ],
-          },
-        },
-      );
-    });
-  });
-
-  it('should skip editing the meeting if the user aborts the action', async () => {
-    widgetApi.mockSendStateEvent(
-      mockPowerLevelsEvent({
-        room_id: '!meeting-room-id:example.com',
-        content: {
-          users: {
-            '@user-id:example.com': 100,
-          },
-          events_default: 0,
-        },
-      }),
-    );
-
-    render(
-      <MeetingCard
-        recurrenceId={undefined}
-        roomId="!meeting-room-id:example.com"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper },
-    );
-
-    await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i }),
-    );
-
-    const menu = screen.getByRole('menu', { name: /more settings/i });
-
-    await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /edit meeting/i }),
-    );
-
-    expect(widgetApi.openModal).toBeCalledWith(
-      '/schedule-meeting',
-      'Edit Meeting',
-      {
-        buttons: [
-          {
-            disabled: true,
-            id: 'nic.schedule.meeting.submit',
-            kind: 'm.primary',
-            label: 'Save',
-          },
-          {
-            id: 'nic.schedule.meeting.cancel',
-            kind: 'm.secondary',
-            label: 'Cancel',
-          },
-        ],
-        data: {
-          meeting: mockMeeting({ parentRoomId: '!room-id:example.com' }),
-          isMessagingEnabled: true,
-        },
-      },
-    );
-
-    expect(widgetApi.sendRoomEvent).not.toBeCalled();
-  });
-
-  it('should show error dialog when loading the widgets failed because the user rejected the oidc token', async () => {
-    widgetApi.requestOpenIDConnectToken.mockRejectedValue(
-      new Error('some error'),
-    );
-
-    widgetApi.mockSendStateEvent(
-      mockRoomMember({
-        state_key: '@user-id-2:example.com',
-        content: { displayname: 'Bob', membership: 'invite' },
-      }),
-    );
-    widgetApi.mockSendStateEvent(
-      mockWidgetEvent({
-        room_id: '!meeting-room-id:example.com',
-        state_key: 'widget-1',
-      }),
-    );
-
-    const newMeeting: CreateMeeting = {
-      title: 'My new Meeting',
-      description: 'My New Description',
-      startTime: '2099-01-01T10:00:00Z',
-      endTime: '2099-01-01T14:00:00Z',
-      participants: ['@user-id:example.com', '@user-id-2:example.com'],
-      widgetIds: ['widget-2'],
-    };
-    widgetApi.openModal.mockResolvedValue({
-      type: 'nic.schedule.meeting.submit',
-      meeting: newMeeting,
-    } as ScheduleMeetingModalResult);
-
-    render(
-      <MeetingCard
-        recurrenceId={undefined}
-        roomId="!meeting-room-id:example.com"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper },
-    );
-
-    await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i }),
-    );
-
-    const menu = screen.getByRole('menu', { name: /more settings/i });
-
-    await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /edit meeting/i }),
-    );
-
-    const dialog = await screen.findByRole('dialog', {
-      name: 'Failed to update the meeting',
-    });
-
-    expect(dialog).toHaveTextContent('Please try again');
-
-    await userEvent.click(
-      await within(dialog).findByRole('button', { name: 'Close' }),
-    );
-
-    expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
-
-    expect(widgetApi.sendRoomEvent).not.toBeCalled();
-  });
-
-  it('should show error dialog when updating the meeting details failed', async () => {
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.update')
-      .subscribe(acknowledgeAllEvents(widgetApi, { key: 'X' }));
-
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.participants.handle')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.widgets.handle')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-
-    widgetApi.mockSendStateEvent(
-      mockRoomMember({
-        state_key: '@user-id-2',
-        content: { displayname: 'Bob', membership: 'invite' },
-      }),
-    );
-    widgetApi.mockSendStateEvent(
-      mockWidgetEvent({
-        room_id: '!meeting-room-id:example.com',
-        state_key: 'widget-1',
-      }),
-    );
-
-    const newMeeting: CreateMeeting = {
-      title: 'My new Meeting',
-      description: 'My New Description',
-      startTime: '2099-01-01T10:00:00Z',
-      endTime: '2099-01-01T14:00:00Z',
-      participants: ['@user-id:example.com', '@user-id-2:example.com'],
-      widgetIds: ['widget-2'],
-    };
-    widgetApi.openModal.mockResolvedValue({
-      type: 'nic.schedule.meeting.submit',
-      meeting: newMeeting,
-    } as ScheduleMeetingModalResult);
-
-    render(
-      <MeetingCard
-        recurrenceId={undefined}
-        roomId="!meeting-room-id:example.com"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper },
-    );
-
-    await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i }),
-    );
-
-    const menu = screen.getByRole('menu', { name: /more settings/i });
-
-    await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /edit meeting/i }),
-    );
-
-    const dialog = await screen.findByRole('dialog', {
-      name: 'Failed to update the meeting',
-    });
-
-    expect(dialog).toHaveTextContent('Please try again');
-
-    await userEvent.click(
-      await within(dialog).findByRole('button', { name: 'Close' }),
-    );
-
-    expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
-
-    expect(widgetApi.sendRoomEvent).toBeCalledTimes(4);
-  });
-
-  it('should show error dialog when updating the meeting participants failed', async () => {
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.update')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.participants.handle')
-      .subscribe(acknowledgeAllEvents(widgetApi, { key: 'X' }));
-
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.widgets.handle')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-
-    widgetApi.mockSendStateEvent(
-      mockRoomMember({
-        state_key: '@user-id-2:example.com',
-        content: { displayname: 'Bob', membership: 'invite' },
-      }),
-    );
-    widgetApi.mockSendStateEvent(
-      mockWidgetEvent({
-        room_id: '!meeting-room-id:example.com',
-        state_key: 'widget-1',
-      }),
-    );
-
-    const newMeeting: CreateMeeting = {
-      title: 'My new Meeting',
-      description: 'My New Description',
-      startTime: '2099-01-01T10:00:00Z',
-      endTime: '2099-01-01T14:00:00Z',
-      participants: ['@user-id:example.com', '@user-id-2:example.com'],
-      widgetIds: ['widget-2'],
-    };
-    widgetApi.openModal.mockResolvedValue({
-      type: 'nic.schedule.meeting.submit',
-      meeting: newMeeting,
-    } as ScheduleMeetingModalResult);
-
-    render(
-      <MeetingCard
-        recurrenceId={undefined}
-        roomId="!meeting-room-id:example.com"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper },
-    );
-
-    await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i }),
-    );
-
-    const menu = screen.getByRole('menu', { name: /more settings/i });
-
-    await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /edit meeting/i }),
-    );
-
-    const dialog = await screen.findByRole('dialog', {
-      name: 'Failed to update the meeting',
-    });
-
-    expect(dialog).toHaveTextContent('Please try again');
-
-    await userEvent.click(
-      await within(dialog).findByRole('button', { name: 'Close' }),
-    );
-
-    expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
-
-    expect(widgetApi.sendRoomEvent).toBeCalledTimes(4);
-  });
-
-  it('should show error dialog when updating the meeting widgets failed', async () => {
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.update')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.participants.handle')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.widgets.handle')
-      .subscribe(acknowledgeAllEvents(widgetApi, { key: 'X' }));
-
-    widgetApi.mockSendStateEvent(
-      mockRoomMember({
-        state_key: '@user-id-2:example.com',
-        content: { displayname: 'Bob', membership: 'invite' },
-      }),
-    );
-    widgetApi.mockSendStateEvent(
-      mockWidgetEvent({
-        room_id: '!meeting-room-id:example.com',
-        state_key: 'widget-1',
-      }),
-    );
-
-    const newMeeting: CreateMeeting = {
-      title: 'My new Meeting',
-      description: 'My New Description',
-      startTime: '2099-01-01T10:00:00Z',
-      endTime: '2099-01-01T14:00:00Z',
-      participants: ['@user-id:example.com', '@user-id-2:example.com'],
-      widgetIds: ['widget-2'],
-    };
-    widgetApi.openModal.mockResolvedValue({
-      type: 'nic.schedule.meeting.submit',
-      meeting: newMeeting,
-    } as ScheduleMeetingModalResult);
-
-    render(
-      <MeetingCard
-        recurrenceId={undefined}
-        roomId="!meeting-room-id:example.com"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper },
-    );
-
-    await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i }),
-    );
-
-    const menu = screen.getByRole('menu', { name: /more settings/i });
-
-    await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /edit meeting/i }),
-    );
-
-    const dialog = await screen.findByRole('dialog', {
-      name: 'Failed to update the meeting',
-    });
-
-    expect(dialog).toHaveTextContent('Please try again');
-
-    await userEvent.click(
-      await within(dialog).findByRole('button', { name: 'Close' }),
-    );
-
-    expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
-
-    expect(widgetApi.sendRoomEvent).toBeCalledTimes(4);
-  });
-
-  it('should go to parent room if the current meeting room is deleted', async () => {
-    mockCreateMeetingRoom(widgetApi, {
-      room_id: '!room-id:example.com',
-      parentRoomId: '!parent-room-id:example.com',
-    });
-
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.close')
-      .subscribe(acknowledgeAllEvents(widgetApi));
-
-    render(
-      <MeetingCard
-        recurrenceId={undefined}
-        roomId="!room-id:example.com"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper },
-    );
-
-    await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i }),
-    );
-
-    const menu = screen.getByRole('menu', { name: /more settings/i });
-
-    await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /delete meeting/i }),
-    );
-
-    const deleteModal = screen.getByRole('dialog', {
-      name: /delete meeting/i,
-    });
-
-    await userEvent.click(
-      within(deleteModal).getByRole('button', { name: 'Delete' }),
-    );
-
-    await waitFor(() => {
-      expect(widgetApi.sendRoomEvent).toBeCalledWith(
-        'net.nordeck.meetings.meeting.close',
-        {
-          context: { locale: 'en', timezone: 'UTC' },
-          data: { target_room_id: '!room-id:example.com' },
-        },
-      );
-    });
-
-    await waitFor(() => {
-      expect(widgetApi.navigateTo).toBeCalledWith(
-        'https://matrix.to/#/!parent-room-id%3Aexample.com',
-      );
-    });
-
-    await waitFor(() => {
-      expect(deleteModal).not.toBeInTheDocument();
-    });
-  });
-
-  it('should show a warning if deletion is scheduled', async () => {
-    vi.spyOn(Date, 'now').mockImplementation(
-      () => +new Date('2022-02-01T12:00:00Z'),
-    );
-
-    mockCreateMeetingRoom(widgetApi, {
-      room_id: '!room-id:example.com',
-      parentRoomId: '!parent-room-id:example.com',
-      metadata: {
-        force_deletion_at: +new Date('2023-02-01T12:00:00Z'),
-      },
-    });
-
-    render(
-      <MeetingCard
-        recurrenceId={undefined}
-        roomId="!room-id:example.com"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper },
-    );
-
-    await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i }),
-    );
-
-    const menu = screen.getByRole('menu', { name: /more settings/i });
-
-    await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /delete meeting/i }),
-    );
-
-    const deleteModal = screen.getByRole('dialog', {
-      name: /delete meeting/i,
-    });
-
-    expect(within(deleteModal).getByRole('status')).toHaveTextContent(
-      /meeting room will be automatically deleted in 365 days/i,
-    );
-  });
-
-  it('should show error if deletion failed', async () => {
-    widgetApi
-      .observeRoomEvents('net.nordeck.meetings.meeting.close')
-      .subscribe(acknowledgeAllEvents(widgetApi, { key: 'X' }));
-
-    render(
-      <MeetingCard
-        recurrenceId={undefined}
-        roomId="!meeting-room-id:example.com"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper },
-    );
-
-    await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i }),
-    );
-
-    const menu = screen.getByRole('menu', { name: /more settings/i });
-    await userEvent.click(
-      within(menu).getByRole('menuitem', { name: /delete meeting/i }),
-    );
-
-    const deleteModal = screen.getByRole('dialog', {
-      name: /delete meeting/i,
-    });
-
-    const deleteButton = within(deleteModal).getByRole('button', {
-      name: 'Delete',
-    });
-
-    await userEvent.click(deleteButton);
-
-    const alert = await screen.findByRole('alert');
-    expect(
-      within(alert).getByText(/failed to delete the meeting/i),
-    ).toBeInTheDocument();
-    expect(within(alert).getByText(/please try again/i)).toBeInTheDocument();
-
-    expect(deleteButton).toBeEnabled();
-  });
+        );
+      });
+
+      await waitFor(() => {
+        expect(deleteModal).not.toBeInTheDocument();
+      });
+    },
+  );
 
   it.each([
-    'net.nordeck.meetings.meeting.update',
-    'net.nordeck.meetings.meeting.widgets.handle',
-    'net.nordeck.meetings.meeting.participants.handle',
-    'net.nordeck.meetings.meeting.close',
+    ['10', 100],
+    ['12', 150],
   ])(
-    'should hide edit actions if the "%s" permission is missing',
-    async (eventType) => {
+    'should edit meeting for roomVersion: %s',
+    async (room_version, userPowerLevel) => {
+      mockCreateMeetingRoom(widgetApi, {
+        room_version,
+        powerLevelsEventContent: {
+          users: {
+            '@user-id:example.com': userPowerLevel,
+          },
+        },
+      });
+
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.update')
+        .subscribe(acknowledgeAllEvents(widgetApi));
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.participants.handle')
+        .subscribe(acknowledgeAllEvents(widgetApi));
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.widgets.handle')
+        .subscribe(acknowledgeAllEvents(widgetApi));
+
+      widgetApi.mockSendStateEvent(
+        mockRoomMember({
+          state_key: '@user-id-2:example.com',
+          content: { displayname: 'Bob', membership: 'invite' },
+        }),
+      );
+      widgetApi.mockSendStateEvent(
+        mockWidgetEvent({
+          room_id: '!meeting-room-id:example.com',
+          state_key: 'widget-1',
+        }),
+      );
       widgetApi.mockSendStateEvent(
         mockPowerLevelsEvent({
           room_id: '!meeting-room-id:example.com',
           content: {
             users: {
-              '@user-id:example.com': 100,
+              '@user-id:example.com': userPowerLevel,
             },
-            events: { [eventType]: 101 },
+            events_default: 0,
+          },
+        }),
+      );
+
+      const newMeeting: CreateMeeting = {
+        title: 'My new Meeting',
+        description: 'My New Description',
+        startTime: '2099-01-01T10:00:00Z',
+        endTime: '2099-01-01T14:00:00Z',
+        participants: ['@user-id:example.com', '@user-id-2:example.com'],
+        widgetIds: ['widget-2'],
+      };
+      widgetApi.openModal.mockResolvedValue({
+        type: 'nic.schedule.meeting.submit',
+        meeting: newMeeting,
+      } as ScheduleMeetingModalResult);
+
+      render(
+        <MeetingCard
+          recurrenceId={undefined}
+          roomId="!meeting-room-id:example.com"
+          uid="entry-0"
+        />,
+        { wrapper: Wrapper },
+      );
+
+      await userEvent.click(
+        await screen.findByRole('button', { name: /more settings/i }),
+      );
+
+      const menu = screen.getByRole('menu', { name: /more settings/i });
+
+      await userEvent.click(
+        within(menu).getByRole('menuitem', { name: /edit meeting/i }),
+      );
+
+      expect(widgetApi.openModal).toBeCalledWith(
+        '/schedule-meeting',
+        'Edit Meeting',
+        {
+          buttons: [
+            {
+              disabled: true,
+              id: 'nic.schedule.meeting.submit',
+              kind: 'm.primary',
+              label: 'Save',
+            },
+            {
+              id: 'nic.schedule.meeting.cancel',
+              kind: 'm.secondary',
+              label: 'Cancel',
+            },
+          ],
+          data: {
+            meeting: mockMeeting({
+              parentRoomId: '!room-id:example.com',
+              content: { widgets: ['widget-1'] },
+            }),
+            isMessagingEnabled: true,
+          },
+        },
+      );
+
+      await waitFor(() => {
+        expect(widgetApi.sendRoomEvent).toBeCalledWith(
+          'net.nordeck.meetings.meeting.update',
+          {
+            context: expect.anything(),
+            data: {
+              target_room_id: '!meeting-room-id:example.com',
+              title: 'My new Meeting',
+              description: 'My New Description',
+              calendar: [
+                {
+                  uid: 'entry-0',
+                  dtstart: { tzid: 'UTC', value: '20990101T100000' },
+                  dtend: { tzid: 'UTC', value: '20990101T140000' },
+                },
+              ],
+            },
+          },
+        );
+      });
+
+      await waitFor(() => {
+        expect(widgetApi.sendRoomEvent).toBeCalledWith(
+          'net.nordeck.meetings.meeting.participants.handle',
+          {
+            context: expect.anything(),
+            data: {
+              target_room_id: '!meeting-room-id:example.com',
+              invite: true,
+              userIds: ['@user-id-2:example.com'],
+            },
+          },
+        );
+      });
+
+      await waitFor(() => {
+        expect(widgetApi.sendRoomEvent).toBeCalledWith(
+          'net.nordeck.meetings.meeting.widgets.handle',
+          {
+            context: expect.anything(),
+            data: {
+              add: true,
+              target_room_id: '!meeting-room-id:example.com',
+              widget_ids: ['widget-2'],
+            },
+          },
+        );
+      });
+
+      await waitFor(() => {
+        expect(widgetApi.sendRoomEvent).toBeCalledWith(
+          'net.nordeck.meetings.meeting.widgets.handle',
+          {
+            context: expect.anything(),
+            data: {
+              add: false,
+              target_room_id: '!meeting-room-id:example.com',
+              widget_ids: ['widget-1'],
+            },
+          },
+        );
+      });
+    },
+  );
+
+  it.each([
+    ['10', 100],
+    ['12', 150],
+  ])(
+    'should edit recurring meeting from the card of a later recurrence for roomVersion: %s',
+    async (room_version, userPowerLevel) => {
+      mockCreateMeetingRoom(widgetApi, {
+        room_version,
+        powerLevelsEventContent: {
+          users: {
+            '@user-id:example.com': userPowerLevel,
+          },
+        },
+      });
+
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.update')
+        .subscribe(acknowledgeAllEvents(widgetApi));
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.participants.handle')
+        .subscribe(acknowledgeAllEvents(widgetApi));
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.widgets.handle')
+        .subscribe(acknowledgeAllEvents(widgetApi));
+
+      widgetApi.mockSendStateEvent(
+        mockRoomMember({
+          state_key: '@user-id-2:example.com',
+          content: { displayname: 'Bob', membership: 'invite' },
+        }),
+      );
+      widgetApi.mockSendStateEvent(
+        mockWidgetEvent({
+          room_id: '!meeting-room-id:example.com',
+          state_key: 'widget-1',
+        }),
+      );
+      widgetApi.mockSendStateEvent(
+        mockNordeckMeetingMetadataEvent({
+          content: {
+            calendar: mockCalendar({
+              dtstart: '29990101T100000',
+              dtend: '29990101T140000',
+              rrule: 'FREQ=DAILY',
+            }),
+          },
+        }),
+      );
+      widgetApi.mockSendStateEvent(
+        mockPowerLevelsEvent({
+          room_id: '!meeting-room-id:example.com',
+          content: {
+            users: {
+              '@user-id:example.com': userPowerLevel,
+            },
+            events_default: 0,
+          },
+        }),
+      );
+
+      const newMeeting: CreateMeeting = {
+        title: 'My new Meeting',
+        description: 'My New Description',
+        startTime: '2999-01-01T10:00:00Z',
+        endTime: '2999-01-01T15:00:00Z',
+        participants: ['@user-id'],
+        widgetIds: ['widget-1'],
+        rrule: 'FREQ=DAILY',
+      };
+      widgetApi.openModal.mockResolvedValue({
+        type: 'nic.schedule.meeting.submit',
+        meeting: newMeeting,
+      } as ScheduleMeetingModalResult);
+
+      render(
+        <MeetingCard
+          // We edit it from the card of the second recurring meeting instance
+          recurrenceId="2999-01-02T10:00:00Z"
+          roomId="!meeting-room-id:example.com"
+          uid="entry-0"
+        />,
+        { wrapper: Wrapper },
+      );
+
+      await userEvent.click(
+        await screen.findByRole('button', { name: /more settings/i }),
+      );
+
+      const menu = screen.getByRole('menu', { name: /more settings/i });
+
+      await userEvent.click(
+        within(menu).getByRole('menuitem', { name: /edit meeting/i }),
+      );
+
+      expect(widgetApi.openModal).toBeCalledWith(
+        '/schedule-meeting',
+        'Edit Meeting',
+        {
+          buttons: [
+            {
+              disabled: true,
+              id: 'nic.schedule.meeting.submit',
+              kind: 'm.primary',
+              label: 'Save',
+            },
+            {
+              id: 'nic.schedule.meeting.cancel',
+              kind: 'm.secondary',
+              label: 'Cancel',
+            },
+          ],
+          data: {
+            meeting: mockMeeting({
+              parentRoomId: '!room-id:example.com',
+              content: {
+                startTime: '2999-01-02T10:00:00Z',
+                endTime: '2999-01-02T14:00:00Z',
+                calendarEntries: mockCalendar({
+                  dtstart: '29990101T100000',
+                  dtend: '29990101T140000',
+                  rrule: 'FREQ=DAILY',
+                }),
+                widgets: ['widget-1'],
+                recurrenceId: '2999-01-02T10:00:00Z',
+              },
+            }),
+            isMessagingEnabled: true,
+          },
+        },
+      );
+
+      await waitFor(() => {
+        expect(widgetApi.sendRoomEvent).toBeCalledWith(
+          'net.nordeck.meetings.meeting.update',
+          {
+            context: expect.anything(),
+            data: {
+              target_room_id: '!meeting-room-id:example.com',
+              title: 'My new Meeting',
+              description: 'My New Description',
+              calendar: [
+                {
+                  uid: 'entry-0',
+                  dtstart: { tzid: 'UTC', value: '29990101T100000' },
+                  dtend: { tzid: 'UTC', value: '29990101T150000' },
+                  rrule: 'FREQ=DAILY',
+                },
+              ],
+            },
+          },
+        );
+      });
+    },
+  );
+
+  it.each([
+    ['10', 100],
+    ['12', 150],
+  ])(
+    'should skip editing the meeting if the user aborts the action for roomVersion: %s',
+    async (room_version, userPowerLevel) => {
+      mockCreateMeetingRoom(widgetApi, {
+        room_version,
+        powerLevelsEventContent: {
+          users: {
+            '@user-id:example.com': userPowerLevel,
+          },
+        },
+      });
+
+      widgetApi.mockSendStateEvent(
+        mockPowerLevelsEvent({
+          room_id: '!meeting-room-id:example.com',
+          content: {
+            users: {
+              '@user-id:example.com': userPowerLevel,
+            },
+            events_default: 0,
+          },
+        }),
+      );
+
+      render(
+        <MeetingCard
+          recurrenceId={undefined}
+          roomId="!meeting-room-id:example.com"
+          uid="entry-0"
+        />,
+        { wrapper: Wrapper },
+      );
+
+      await userEvent.click(
+        await screen.findByRole('button', { name: /more settings/i }),
+      );
+
+      const menu = screen.getByRole('menu', { name: /more settings/i });
+
+      await userEvent.click(
+        within(menu).getByRole('menuitem', { name: /edit meeting/i }),
+      );
+
+      expect(widgetApi.openModal).toBeCalledWith(
+        '/schedule-meeting',
+        'Edit Meeting',
+        {
+          buttons: [
+            {
+              disabled: true,
+              id: 'nic.schedule.meeting.submit',
+              kind: 'm.primary',
+              label: 'Save',
+            },
+            {
+              id: 'nic.schedule.meeting.cancel',
+              kind: 'm.secondary',
+              label: 'Cancel',
+            },
+          ],
+          data: {
+            meeting: mockMeeting({ parentRoomId: '!room-id:example.com' }),
+            isMessagingEnabled: true,
+          },
+        },
+      );
+
+      expect(widgetApi.sendRoomEvent).not.toBeCalled();
+    },
+  );
+
+  it.each([
+    ['10', 100],
+    ['12', 150],
+  ])(
+    'should show error dialog when loading the widgets failed because the user rejected the oidc token for roomVersion: %s',
+    async (room_version, userPowerLevel) => {
+      mockCreateMeetingRoom(widgetApi, {
+        room_version,
+        powerLevelsEventContent: {
+          users: {
+            '@user-id:example.com': userPowerLevel,
+          },
+        },
+      });
+
+      widgetApi.requestOpenIDConnectToken.mockRejectedValue(
+        new Error('some error'),
+      );
+
+      widgetApi.mockSendStateEvent(
+        mockRoomMember({
+          state_key: '@user-id-2:example.com',
+          content: { displayname: 'Bob', membership: 'invite' },
+        }),
+      );
+      widgetApi.mockSendStateEvent(
+        mockWidgetEvent({
+          room_id: '!meeting-room-id:example.com',
+          state_key: 'widget-1',
+        }),
+      );
+
+      const newMeeting: CreateMeeting = {
+        title: 'My new Meeting',
+        description: 'My New Description',
+        startTime: '2099-01-01T10:00:00Z',
+        endTime: '2099-01-01T14:00:00Z',
+        participants: ['@user-id:example.com', '@user-id-2:example.com'],
+        widgetIds: ['widget-2'],
+      };
+      widgetApi.openModal.mockResolvedValue({
+        type: 'nic.schedule.meeting.submit',
+        meeting: newMeeting,
+      } as ScheduleMeetingModalResult);
+
+      render(
+        <MeetingCard
+          recurrenceId={undefined}
+          roomId="!meeting-room-id:example.com"
+          uid="entry-0"
+        />,
+        { wrapper: Wrapper },
+      );
+
+      await userEvent.click(
+        await screen.findByRole('button', { name: /more settings/i }),
+      );
+
+      const menu = screen.getByRole('menu', { name: /more settings/i });
+
+      await userEvent.click(
+        within(menu).getByRole('menuitem', { name: /edit meeting/i }),
+      );
+
+      const dialog = await screen.findByRole('dialog', {
+        name: 'Failed to update the meeting',
+      });
+
+      expect(dialog).toHaveTextContent('Please try again');
+
+      await userEvent.click(
+        await within(dialog).findByRole('button', { name: 'Close' }),
+      );
+
+      expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
+
+      expect(widgetApi.sendRoomEvent).not.toBeCalled();
+    },
+  );
+
+  it.each([
+    ['10', 100],
+    ['12', 150],
+  ])(
+    'should show error dialog when updating the meeting details failed for roomVersion: %s',
+    async (room_version, userPowerLevel) => {
+      mockCreateMeetingRoom(widgetApi, {
+        room_version,
+        powerLevelsEventContent: {
+          users: {
+            '@user-id:example.com': userPowerLevel,
+          },
+        },
+      });
+
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.update')
+        .subscribe(acknowledgeAllEvents(widgetApi, { key: 'X' }));
+
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.participants.handle')
+        .subscribe(acknowledgeAllEvents(widgetApi));
+
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.widgets.handle')
+        .subscribe(acknowledgeAllEvents(widgetApi));
+
+      widgetApi.mockSendStateEvent(
+        mockRoomMember({
+          state_key: '@user-id-2',
+          content: { displayname: 'Bob', membership: 'invite' },
+        }),
+      );
+      widgetApi.mockSendStateEvent(
+        mockWidgetEvent({
+          room_id: '!meeting-room-id:example.com',
+          state_key: 'widget-1',
+        }),
+      );
+
+      const newMeeting: CreateMeeting = {
+        title: 'My new Meeting',
+        description: 'My New Description',
+        startTime: '2099-01-01T10:00:00Z',
+        endTime: '2099-01-01T14:00:00Z',
+        participants: ['@user-id:example.com', '@user-id-2:example.com'],
+        widgetIds: ['widget-2'],
+      };
+      widgetApi.openModal.mockResolvedValue({
+        type: 'nic.schedule.meeting.submit',
+        meeting: newMeeting,
+      } as ScheduleMeetingModalResult);
+
+      render(
+        <MeetingCard
+          recurrenceId={undefined}
+          roomId="!meeting-room-id:example.com"
+          uid="entry-0"
+        />,
+        { wrapper: Wrapper },
+      );
+
+      await userEvent.click(
+        await screen.findByRole('button', { name: /more settings/i }),
+      );
+
+      const menu = screen.getByRole('menu', { name: /more settings/i });
+
+      await userEvent.click(
+        within(menu).getByRole('menuitem', { name: /edit meeting/i }),
+      );
+
+      const dialog = await screen.findByRole('dialog', {
+        name: 'Failed to update the meeting',
+      });
+
+      expect(dialog).toHaveTextContent('Please try again');
+
+      await userEvent.click(
+        await within(dialog).findByRole('button', { name: 'Close' }),
+      );
+
+      expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
+
+      expect(widgetApi.sendRoomEvent).toBeCalledTimes(4);
+    },
+  );
+
+  it.each([
+    ['10', 100],
+    ['12', 150],
+  ])(
+    'should show error dialog when updating the meeting participants failed for roomVersion: %s',
+    async (room_version, userPowerLevel) => {
+      mockCreateMeetingRoom(widgetApi, {
+        room_version,
+        powerLevelsEventContent: {
+          users: {
+            '@user-id:example.com': userPowerLevel,
+          },
+        },
+      });
+
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.update')
+        .subscribe(acknowledgeAllEvents(widgetApi));
+
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.participants.handle')
+        .subscribe(acknowledgeAllEvents(widgetApi, { key: 'X' }));
+
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.widgets.handle')
+        .subscribe(acknowledgeAllEvents(widgetApi));
+
+      widgetApi.mockSendStateEvent(
+        mockRoomMember({
+          state_key: '@user-id-2:example.com',
+          content: { displayname: 'Bob', membership: 'invite' },
+        }),
+      );
+      widgetApi.mockSendStateEvent(
+        mockWidgetEvent({
+          room_id: '!meeting-room-id:example.com',
+          state_key: 'widget-1',
+        }),
+      );
+
+      const newMeeting: CreateMeeting = {
+        title: 'My new Meeting',
+        description: 'My New Description',
+        startTime: '2099-01-01T10:00:00Z',
+        endTime: '2099-01-01T14:00:00Z',
+        participants: ['@user-id:example.com', '@user-id-2:example.com'],
+        widgetIds: ['widget-2'],
+      };
+      widgetApi.openModal.mockResolvedValue({
+        type: 'nic.schedule.meeting.submit',
+        meeting: newMeeting,
+      } as ScheduleMeetingModalResult);
+
+      render(
+        <MeetingCard
+          recurrenceId={undefined}
+          roomId="!meeting-room-id:example.com"
+          uid="entry-0"
+        />,
+        { wrapper: Wrapper },
+      );
+
+      await userEvent.click(
+        await screen.findByRole('button', { name: /more settings/i }),
+      );
+
+      const menu = screen.getByRole('menu', { name: /more settings/i });
+
+      await userEvent.click(
+        within(menu).getByRole('menuitem', { name: /edit meeting/i }),
+      );
+
+      const dialog = await screen.findByRole('dialog', {
+        name: 'Failed to update the meeting',
+      });
+
+      expect(dialog).toHaveTextContent('Please try again');
+
+      await userEvent.click(
+        await within(dialog).findByRole('button', { name: 'Close' }),
+      );
+
+      expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
+
+      expect(widgetApi.sendRoomEvent).toBeCalledTimes(4);
+    },
+  );
+
+  it.each([
+    ['10', 100],
+    ['12', 150],
+  ])(
+    'should show error dialog when updating the meeting widgets failed for roomVersion: %s',
+    async (room_version, userPowerLevel) => {
+      mockCreateMeetingRoom(widgetApi, {
+        room_version,
+        powerLevelsEventContent: {
+          users: {
+            '@user-id:example.com': userPowerLevel,
+          },
+        },
+      });
+
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.update')
+        .subscribe(acknowledgeAllEvents(widgetApi));
+
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.participants.handle')
+        .subscribe(acknowledgeAllEvents(widgetApi));
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.widgets.handle')
+        .subscribe(acknowledgeAllEvents(widgetApi, { key: 'X' }));
+
+      widgetApi.mockSendStateEvent(
+        mockRoomMember({
+          state_key: '@user-id-2:example.com',
+          content: { displayname: 'Bob', membership: 'invite' },
+        }),
+      );
+      widgetApi.mockSendStateEvent(
+        mockWidgetEvent({
+          room_id: '!meeting-room-id:example.com',
+          state_key: 'widget-1',
+        }),
+      );
+
+      const newMeeting: CreateMeeting = {
+        title: 'My new Meeting',
+        description: 'My New Description',
+        startTime: '2099-01-01T10:00:00Z',
+        endTime: '2099-01-01T14:00:00Z',
+        participants: ['@user-id:example.com', '@user-id-2:example.com'],
+        widgetIds: ['widget-2'],
+      };
+      widgetApi.openModal.mockResolvedValue({
+        type: 'nic.schedule.meeting.submit',
+        meeting: newMeeting,
+      } as ScheduleMeetingModalResult);
+
+      render(
+        <MeetingCard
+          recurrenceId={undefined}
+          roomId="!meeting-room-id:example.com"
+          uid="entry-0"
+        />,
+        { wrapper: Wrapper },
+      );
+
+      await userEvent.click(
+        await screen.findByRole('button', { name: /more settings/i }),
+      );
+
+      const menu = screen.getByRole('menu', { name: /more settings/i });
+
+      await userEvent.click(
+        within(menu).getByRole('menuitem', { name: /edit meeting/i }),
+      );
+
+      const dialog = await screen.findByRole('dialog', {
+        name: 'Failed to update the meeting',
+      });
+
+      expect(dialog).toHaveTextContent('Please try again');
+
+      await userEvent.click(
+        await within(dialog).findByRole('button', { name: 'Close' }),
+      );
+
+      expect(screen.queryByRole(dialog)).not.toBeInTheDocument();
+
+      expect(widgetApi.sendRoomEvent).toBeCalledTimes(4);
+    },
+  );
+
+  it.each([
+    ['10', 100],
+    ['12', 150],
+  ])(
+    'should go to parent room if the current meeting room is deleted  for roomVersion: %s',
+    async (room_version, userPowerLevel) => {
+      mockCreateMeetingRoom(widgetApi, {
+        room_id: '!room-id:example.com',
+        parentRoomId: '!parent-room-id:example.com',
+        room_version,
+        powerLevelsEventContent: {
+          users: {
+            '@user-id:example.com': userPowerLevel,
+          },
+        },
+      });
+
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.close')
+        .subscribe(acknowledgeAllEvents(widgetApi));
+
+      render(
+        <MeetingCard
+          recurrenceId={undefined}
+          roomId="!room-id:example.com"
+          uid="entry-0"
+        />,
+        { wrapper: Wrapper },
+      );
+
+      await userEvent.click(
+        await screen.findByRole('button', { name: /more settings/i }),
+      );
+
+      const menu = screen.getByRole('menu', { name: /more settings/i });
+
+      await userEvent.click(
+        within(menu).getByRole('menuitem', { name: /delete meeting/i }),
+      );
+
+      const deleteModal = screen.getByRole('dialog', {
+        name: /delete meeting/i,
+      });
+
+      await userEvent.click(
+        within(deleteModal).getByRole('button', { name: 'Delete' }),
+      );
+
+      await waitFor(() => {
+        expect(widgetApi.sendRoomEvent).toBeCalledWith(
+          'net.nordeck.meetings.meeting.close',
+          {
+            context: { locale: 'en', timezone: 'UTC' },
+            data: { target_room_id: '!room-id:example.com' },
+          },
+        );
+      });
+
+      await waitFor(() => {
+        expect(widgetApi.navigateTo).toBeCalledWith(
+          'https://matrix.to/#/!parent-room-id%3Aexample.com',
+        );
+      });
+
+      await waitFor(() => {
+        expect(deleteModal).not.toBeInTheDocument();
+      });
+    },
+  );
+
+  it.each([
+    ['10', 100],
+    ['12', 150],
+  ])(
+    'should show a warning if deletion is scheduled for roomVersion: %s',
+    async (room_version, userPowerLevel) => {
+      vi.spyOn(Date, 'now').mockImplementation(
+        () => +new Date('2022-02-01T12:00:00Z'),
+      );
+
+      mockCreateMeetingRoom(widgetApi, {
+        room_id: '!room-id:example.com',
+        parentRoomId: '!parent-room-id:example.com',
+        room_version,
+        powerLevelsEventContent: {
+          users: {
+            '@user-id:example.com': userPowerLevel,
+          },
+        },
+        metadata: {
+          force_deletion_at: +new Date('2023-02-01T12:00:00Z'),
+        },
+      });
+
+      render(
+        <MeetingCard
+          recurrenceId={undefined}
+          roomId="!room-id:example.com"
+          uid="entry-0"
+        />,
+        { wrapper: Wrapper },
+      );
+
+      await userEvent.click(
+        await screen.findByRole('button', { name: /more settings/i }),
+      );
+
+      const menu = screen.getByRole('menu', { name: /more settings/i });
+
+      await userEvent.click(
+        within(menu).getByRole('menuitem', { name: /delete meeting/i }),
+      );
+
+      const deleteModal = screen.getByRole('dialog', {
+        name: /delete meeting/i,
+      });
+
+      expect(within(deleteModal).getByRole('status')).toHaveTextContent(
+        /meeting room will be automatically deleted in 365 days/i,
+      );
+    },
+  );
+
+  it.each([
+    ['10', 100],
+    ['12', 150],
+  ])(
+    'should show error if deletion failed for roomVersion: %s',
+    async (room_version, userPowerLevel) => {
+      mockCreateMeetingRoom(widgetApi, {
+        room_version,
+        powerLevelsEventContent: {
+          users: {
+            '@user-id:example.com': userPowerLevel,
+          },
+        },
+      });
+
+      widgetApi
+        .observeRoomEvents('net.nordeck.meetings.meeting.close')
+        .subscribe(acknowledgeAllEvents(widgetApi, { key: 'X' }));
+
+      render(
+        <MeetingCard
+          recurrenceId={undefined}
+          roomId="!meeting-room-id:example.com"
+          uid="entry-0"
+        />,
+        { wrapper: Wrapper },
+      );
+
+      await userEvent.click(
+        await screen.findByRole('button', { name: /more settings/i }),
+      );
+
+      const menu = screen.getByRole('menu', { name: /more settings/i });
+      await userEvent.click(
+        within(menu).getByRole('menuitem', { name: /delete meeting/i }),
+      );
+
+      const deleteModal = screen.getByRole('dialog', {
+        name: /delete meeting/i,
+      });
+
+      const deleteButton = within(deleteModal).getByRole('button', {
+        name: 'Delete',
+      });
+
+      await userEvent.click(deleteButton);
+
+      const alert = await screen.findByRole('alert');
+      expect(
+        within(alert).getByText(/failed to delete the meeting/i),
+      ).toBeInTheDocument();
+      expect(within(alert).getByText(/please try again/i)).toBeInTheDocument();
+
+      expect(deleteButton).toBeEnabled();
+    },
+  );
+
+  it.each([
+    ['10', 100, 'net.nordeck.meetings.meeting.update'],
+    ['10', 100, 'net.nordeck.meetings.meeting.widgets.handle'],
+    ['10', 100, 'net.nordeck.meetings.meeting.participants.handle'],
+    ['10', 100, 'net.nordeck.meetings.meeting.close'],
+    ['12', 150, 'net.nordeck.meetings.meeting.update'],
+    ['12', 150, 'net.nordeck.meetings.meeting.widgets.handle'],
+    ['12', 150, 'net.nordeck.meetings.meeting.participants.handle'],
+    ['12', 150, 'net.nordeck.meetings.meeting.close'],
+  ])(
+    'should hide edit actions for roomVersion: %s, userPowerLevel: %s if the "%s" permission is missing',
+    async (room_version, userPowerLevel, eventType) => {
+      mockCreateMeetingRoom(widgetApi, {
+        room_version,
+        powerLevelsEventContent: {
+          users: {
+            '@user-id:example.com': userPowerLevel,
+          },
+        },
+      });
+
+      widgetApi.mockSendStateEvent(
+        mockPowerLevelsEvent({
+          room_id: '!meeting-room-id:example.com',
+          content: {
+            users: {
+              '@user-id:example.com': userPowerLevel,
+            },
+            events: { [eventType]: userPowerLevel + 1 },
           },
         }),
       );
@@ -1223,6 +1429,8 @@ describe('<MeetingCard/>', () => {
   );
 
   it('should hide edit actions if meeting is an invitation', async () => {
+    mockCreateMeetingRoom(widgetApi);
+
     widgetApi.mockSendStateEvent(
       mockRoomMember({
         room_id: '!meeting-room-id:example.com',
@@ -1252,55 +1460,72 @@ describe('<MeetingCard/>', () => {
     ).not.toBeInTheDocument();
   });
 
-  it('should link from edit and delete button to Open-Xchange if enabled', async () => {
-    mockConfigEndpoint(server, {
-      jitsiDialInEnabled: true,
-      openXchangeMeetingUrlTemplate:
-        'https://ox.io/appsuite/#app=io.ox/calendar&id={{id}}&folder={{folder}}',
-    });
-
-    widgetApi.mockSendStateEvent(
-      mockNordeckMeetingMetadataEvent({
-        content: {
-          external_data: {
-            'io.ox': {
-              folder: 'cal://0/31',
-              id: 'cal://0/31.1.0',
-            },
+  it.each([
+    ['10', 100],
+    ['12', 150],
+  ])(
+    'should link from edit and delete button to Open-Xchange if enabled for roomVersion: %s',
+    async (room_version, userPowerLevel) => {
+      mockCreateMeetingRoom(widgetApi, {
+        room_version,
+        powerLevelsEventContent: {
+          users: {
+            '@user-id:example.com': userPowerLevel,
           },
         },
-      }),
-    );
+      });
 
-    render(
-      <MeetingCard
-        recurrenceId={undefined}
-        roomId="!meeting-room-id:example.com"
-        titleId="title-id"
-        uid="entry-0"
-      />,
-      { wrapper: Wrapper },
-    );
+      mockConfigEndpoint(server, {
+        jitsiDialInEnabled: true,
+        openXchangeMeetingUrlTemplate:
+          'https://ox.io/appsuite/#app=io.ox/calendar&id={{id}}&folder={{folder}}',
+      });
 
-    await userEvent.click(
-      await screen.findByRole('button', { name: /more settings/i }),
-    );
+      widgetApi.mockSendStateEvent(
+        mockNordeckMeetingMetadataEvent({
+          content: {
+            external_data: {
+              'io.ox': {
+                folder: 'cal://0/31',
+                id: 'cal://0/31.1.0',
+              },
+            },
+          },
+        }),
+      );
 
-    const menu = screen.getByRole('menu');
+      render(
+        <MeetingCard
+          recurrenceId={undefined}
+          roomId="!meeting-room-id:example.com"
+          titleId="title-id"
+          uid="entry-0"
+        />,
+        { wrapper: Wrapper },
+      );
 
-    expect(
-      within(menu).getByRole('menuitem', {
-        name: /edit meeting in open-xchange/i,
-      }),
-    ).toBeInTheDocument();
-    expect(
-      within(menu).getByRole('menuitem', {
-        name: /delete meeting in open-xchange/i,
-      }),
-    ).toBeInTheDocument();
-  });
+      await userEvent.click(
+        await screen.findByRole('button', { name: /more settings/i }),
+      );
+
+      const menu = screen.getByRole('menu');
+
+      expect(
+        within(menu).getByRole('menuitem', {
+          name: /edit meeting in open-xchange/i,
+        }),
+      ).toBeInTheDocument();
+      expect(
+        within(menu).getByRole('menuitem', {
+          name: /delete meeting in open-xchange/i,
+        }),
+      ).toBeInTheDocument();
+    },
+  );
 
   it('should share', async () => {
+    mockCreateMeetingRoom(widgetApi);
+
     render(
       <MeetingCard
         recurrenceId={undefined}

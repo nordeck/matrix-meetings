@@ -108,9 +108,11 @@ export function mockPowerLevelsEvent({
  */
 export function mockRoomCreate({
   room_id = '!room-id:example.com',
+  room_version = '10',
   content = {},
 }: {
   room_id?: string;
+  room_version?: string;
   content?: Partial<StateEventCreateContent>;
 } = {}): StateEvent<StateEventCreateContent> {
   return {
@@ -118,7 +120,7 @@ export function mockRoomCreate({
     sender: '@bot:example.com',
     state_key: '',
     content: {
-      room_version: '10',
+      room_version,
       type: 'net.nordeck.meetings.meeting',
       ...content,
     },
@@ -449,20 +451,29 @@ export function mockCreateMeetingRoom(
   widgetApi: MockedWidgetApi,
   {
     room_id = '!meeting-room-id:example.com',
+    room_version = '10',
     parentRoomId = '!room-id:example.com',
     metadata,
     name,
+    powerLevelsEventContent = {
+      users: {
+        '@user-id:example.com': 100,
+      },
+    },
     roomOptions,
   }: {
     room_id?: string;
+    room_version?: string;
     parentRoomId?: string;
     metadata?: Partial<
       Omit<NordeckMeetingMetadataEvent, 'start_time' | 'end_time'>
     >;
     name?: Partial<RoomNameEvent>;
+    powerLevelsEventContent?: PowerLevelsStateEvent;
     roomOptions?: {
       skipParentEvent?: boolean;
       skipCreateEvent?: boolean;
+      skipPowerLevelsEvent?: boolean;
       skipNameEvent?: boolean;
       skipTopicEvent?: boolean;
       skipMetadataEvent?: boolean;
@@ -473,19 +484,17 @@ export function mockCreateMeetingRoom(
   } = {},
 ) {
   if (!roomOptions?.skipCreateEvent) {
-    widgetApi.mockSendStateEvent(mockRoomCreate({ room_id }));
+    widgetApi.mockSendStateEvent(mockRoomCreate({ room_id, room_version }));
   }
 
-  widgetApi.mockSendStateEvent(
-    mockPowerLevelsEvent({
-      room_id,
-      content: {
-        users: {
-          '@user-id:example.com': 100,
-        },
-      },
-    }),
-  );
+  if (!roomOptions?.skipPowerLevelsEvent) {
+    widgetApi.mockSendStateEvent(
+      mockPowerLevelsEvent({
+        room_id,
+        content: powerLevelsEventContent,
+      }),
+    );
+  }
 
   if (!roomOptions?.skipNameEvent) {
     widgetApi.mockSendStateEvent(mockRoomName({ room_id, content: name }));
