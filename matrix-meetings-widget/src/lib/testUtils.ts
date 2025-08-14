@@ -89,9 +89,9 @@ export function mockPowerLevelsEvent({
 } = {}): StateEvent<PowerLevelsStateEvent> {
   return {
     type: 'm.room.power_levels',
-    sender: '@user-id:example.com',
+    sender: '@bot:example.com',
     content: {
-      users_default: 100,
+      users_default: 0,
       ...content,
     },
     state_key: '',
@@ -115,10 +115,10 @@ export function mockRoomCreate({
 } = {}): StateEvent<StateEventCreateContent> {
   return {
     type: 'm.room.create',
-    sender: '@user-id:example.com',
+    sender: '@bot:example.com',
     state_key: '',
     content: {
-      room_version: '11',
+      room_version: '10',
       type: 'net.nordeck.meetings.meeting',
       ...content,
     },
@@ -142,7 +142,7 @@ export function mockRoomName({
 } = {}): StateEvent<RoomNameEvent> {
   return {
     type: 'm.room.name',
-    sender: '@user-id:example.com',
+    sender: '@bot:example.com',
     state_key: '',
     content: {
       name: 'An important meeting',
@@ -170,7 +170,7 @@ export function mockNordeckMeetingMetadataEvent({
 } = {}): StateEvent<NordeckMeetingMetadataEvent> {
   return {
     type: 'net.nordeck.meetings.metadata',
-    sender: '@user-id:example.com',
+    sender: '@bot:example.com',
     state_key: '',
     content: {
       creator: '@user-id:example.com',
@@ -203,7 +203,7 @@ export function mockRoomTopic({
 } = {}): StateEvent<RoomTopicEvent> {
   return {
     type: 'm.room.topic',
-    sender: '@user-id:example.com',
+    sender: '@bot:example.com',
     state_key: '',
     content: {
       topic: 'A brief description',
@@ -229,7 +229,7 @@ export function mockRoomTombstone({
 } = {}): StateEvent<RoomTombstoneEvent> {
   return {
     type: 'm.room.tombstone',
-    sender: '@user-id:example.com',
+    sender: '@bot:example.com',
     state_key: '',
     content: {
       ...content,
@@ -254,7 +254,7 @@ export function mockReaction({
 } = {}): RoomEvent<ReactionEvent> {
   return {
     type: 'm.reaction',
-    sender: '@user-id:example.com',
+    sender: '@bot:example.com',
     content: {
       'm.relates_to': {
         rel_type: 'm.annotation',
@@ -288,7 +288,7 @@ export function mockSpaceParent({
 }): StateEvent<SpaceParentEvent> {
   return {
     type: 'm.space.parent',
-    sender: '@user-id:example.com',
+    sender: '@bot:example.com',
     state_key,
     content: {
       via: ['matrix.to'],
@@ -316,7 +316,7 @@ export function mockSpaceChild({
 }): StateEvent<SpaceChildEvent> {
   return {
     type: 'm.space.child',
-    sender: '@user-id:example.com',
+    sender: '@bot:example.com',
     state_key,
     content: {
       via: ['matrix.to'],
@@ -344,7 +344,7 @@ export function mockWidgetEvent({
 } = {}): StateEvent<WidgetsEvent> {
   return {
     type: 'im.vector.modular.widgets',
-    sender: '@user-id:example.com',
+    sender: '@bot:example.com',
     state_key,
     content: {
       type: 'm.custom',
@@ -475,6 +475,17 @@ export function mockCreateMeetingRoom(
   if (!roomOptions?.skipCreateEvent) {
     widgetApi.mockSendStateEvent(mockRoomCreate({ room_id }));
   }
+
+  widgetApi.mockSendStateEvent(
+    mockPowerLevelsEvent({
+      room_id,
+      content: {
+        users: {
+          '@user-id:example.com': 100,
+        },
+      },
+    }),
+  );
 
   if (!roomOptions?.skipNameEvent) {
     widgetApi.mockSendStateEvent(mockRoomName({ room_id, content: name }));

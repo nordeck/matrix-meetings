@@ -426,7 +426,12 @@ describe('<MeetingCard/>', () => {
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
         room_id: '!meeting-room-id:example.com',
-        content: { events_default: 0 },
+        content: {
+          users: {
+            '@user-id:example.com': 100,
+          },
+          events_default: 0,
+        },
       }),
     );
 
@@ -590,7 +595,12 @@ describe('<MeetingCard/>', () => {
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
         room_id: '!meeting-room-id:example.com',
-        content: { events_default: 0 },
+        content: {
+          users: {
+            '@user-id:example.com': 100,
+          },
+          events_default: 0,
+        },
       }),
     );
 
@@ -692,7 +702,12 @@ describe('<MeetingCard/>', () => {
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
         room_id: '!meeting-room-id:example.com',
-        content: { events_default: 0 },
+        content: {
+          users: {
+            '@user-id:example.com': 100,
+          },
+          events_default: 0,
+        },
       }),
     );
 
@@ -1177,7 +1192,12 @@ describe('<MeetingCard/>', () => {
       widgetApi.mockSendStateEvent(
         mockPowerLevelsEvent({
           room_id: '!meeting-room-id:example.com',
-          content: { events: { [eventType]: 101 } },
+          content: {
+            users: {
+              '@user-id:example.com': 100,
+            },
+            events: { [eventType]: 101 },
+          },
         }),
       );
 
