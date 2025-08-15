@@ -87,6 +87,7 @@ export class MeetingClient {
     userContext: IUserContext,
     autoDeletionOffset?: number,
     messagingPowerLevel?: number,
+    defaultRoomVersion?: string,
   ): Promise<
     [string, DeepReadonlyArray<IStateEvent<IElementMembershipEventContent>>]
   > {
@@ -141,8 +142,10 @@ export class MeetingClient {
       ? configPowerLevel?.users
       : {};
     if (!saveConfigUserPowerLevels[userContext.userId])
-      powerLevelUsers[userContext.userId] = 100;
-    if (!saveConfigUserPowerLevels[botUser]) powerLevelUsers[botUser] = 101;
+      powerLevelUsers[userContext.userId] =
+        defaultRoomVersion === '12' ? 150 : 100;
+    if (defaultRoomVersion !== '12' && !saveConfigUserPowerLevels[botUser])
+      powerLevelUsers[botUser] = 101;
 
     let invites: string[] = [];
     invites.push(userContext.userId);

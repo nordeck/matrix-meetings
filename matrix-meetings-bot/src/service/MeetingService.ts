@@ -177,6 +177,7 @@ export class MeetingService {
       userContext,
       autoDeletionOffset,
       meetingCreate.messaging_power_level,
+      this.appConfig.default_room_version,
     );
 
     const promises: Promise<any>[] = [];

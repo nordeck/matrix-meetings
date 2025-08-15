@@ -149,6 +149,9 @@ GUEST_USER_DEFAULT_POWER_LEVEL=0
 
 # optional - if true, bot deletes guest user power level from power level event when guest user leaves the room. It makes sure power level is cleaned up if guest user is deactivated later.
 GUEST_USER_DELETE_POWER_LEVEL_ON_LEAVE=true
+
+# optional - configure a default room version configured for synapse. It is used to make power levels changes when rooms are created the by bot. It supports room version 12. It defaults to room 10 version behaviour.
+DEFAULT_ROOM_VERSION=
 #
 ```
 

@@ -25,7 +25,7 @@ export const IS_MATRIX_ROOM_ID = 'isMatrixRoomId';
 
 export function isMatrixRoomId(value: unknown): boolean {
   if (isString(value)) {
-    return value.startsWith('!') && value.includes(':');
+    return value.startsWith('!');
   } else {
     return false;
   }
