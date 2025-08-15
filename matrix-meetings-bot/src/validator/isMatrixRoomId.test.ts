@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2025 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,11 +17,11 @@
 import { isMatrixRoomId } from './IsMatrixRoomId';
 
 describe('IsMatrixRoomId', () => {
-  it('should accept prior room version 12 room id', () => {
+  it('should accept room if from before room version 12', () => {
     expect(isMatrixRoomId('!meeting-room-id:example.com')).toBe(true);
   });
 
-  it('should accept room version 12 room id', () => {
+  it('should accept room id from version 12', () => {
     expect(isMatrixRoomId('!meeting-room-id')).toBe(true);
   });
 
