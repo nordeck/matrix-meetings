@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.7.2
+
+### Patch Changes
+
+- d3072da: Add support for Matrix Room Version 12. Added a new option `DEFAULT_ROOM_VERSION` to configure room version for the Bot.
+
 ## 1.7.1
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.8.4
+
+### Patch Changes
+
+- d3072da: Add support for Matrix Room Version 12. Added a new option `DEFAULT_ROOM_VERSION` to configure room version for the Bot.
+- b4e01aa: Updates form-data package to mitigate CVE-2025-7783
+
 ## 2.8.3
 
 ### Patch Changes
