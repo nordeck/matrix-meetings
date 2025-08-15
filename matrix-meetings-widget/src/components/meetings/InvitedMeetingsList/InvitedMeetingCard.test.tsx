@@ -16,12 +16,12 @@
 
 import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
 import { expect, vi } from 'vitest';
 import { axe } from 'vitest-axe';
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockCreateMeetingInvitation,
   mockRoomMember,
@@ -72,7 +72,7 @@ describe('<InvitedMeetingCard/>', () => {
   });
 
   it('should render meeting without inviter', async () => {
-    render(<InvitedMeetingCard roomId="!meeting-room-id" />, {
+    render(<InvitedMeetingCard roomId="!meeting-room-id:example.com" />, {
       wrapper: Wrapper,
     });
 
@@ -90,13 +90,13 @@ describe('<InvitedMeetingCard/>', () => {
   it('should render meeting with inviter', async () => {
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        state_key: '@inviter-id',
-        room_id: '!meeting-room-id',
+        state_key: '@inviter-id:example.com',
+        room_id: '!meeting-room-id:example.com',
         content: { displayname: 'Inviter' },
       }),
     );
 
-    render(<InvitedMeetingCard roomId="!meeting-room-id" />, {
+    render(<InvitedMeetingCard roomId="!meeting-room-id:example.com" />, {
       wrapper: Wrapper,
     });
 
@@ -113,7 +113,7 @@ describe('<InvitedMeetingCard/>', () => {
 
   it('should have no accessibility violations', async () => {
     const { container } = render(
-      <InvitedMeetingCard roomId="!meeting-room-id" />,
+      <InvitedMeetingCard roomId="!meeting-room-id:example.com" />,
       { wrapper: Wrapper },
     );
 

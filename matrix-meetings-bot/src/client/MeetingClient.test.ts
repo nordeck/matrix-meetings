@@ -43,7 +43,7 @@ describe('MeetingClient', () => {
         await expect(
           client.createMeeting(
             undefined,
-            '@bot-user-id:example',
+            '@bot-user-id:example.org',
             {
               title: 'My Meeting',
               description: 'My Description',
@@ -56,7 +56,7 @@ describe('MeetingClient', () => {
               ],
             },
             MeetingType.MEETING,
-            { via: ['example'] },
+            { via: ['example.org'] },
             {
               stateEvents: [],
               roomEvents: [],
@@ -67,7 +67,7 @@ describe('MeetingClient', () => {
             {
               locale: 'en',
               timezone: 'Europe/Berlin',
-              userId: '@user-id:example',
+              userId: '@user-id:example.og',
             },
             60,
             messagingPowerLevel,
@@ -77,7 +77,7 @@ describe('MeetingClient', () => {
           [
             {
               type: 'm.room.member',
-              state_key: '@user-id:example',
+              state_key: '@user-id:example.og',
               content: {
                 membership: 'invite',
                 'io.element.html_reason':
@@ -99,15 +99,15 @@ describe('MeetingClient', () => {
           power_level_content_override: {
             events_default: messagingPowerLevel,
             users: {
-              '@bot-user-id:example': 101,
-              '@user-id:example': 100,
+              '@bot-user-id:example.org': 101,
+              '@user-id:example.og': 100,
             },
           },
           initial_state: [
             {
               type: 'net.nordeck.meetings.metadata',
               content: {
-                creator: '@user-id:example',
+                creator: '@user-id:example.og',
                 calendar: [
                   {
                     uid: 'uid-0',
@@ -131,7 +131,7 @@ describe('MeetingClient', () => {
       },
     );
 
-    it('should create a meeting with the legacy data format', async () => {
+    it('should create a meeting when default room version is 12', async () => {
       const client = new MeetingClient(
         new MatrixClient('', ''),
         new EventContentRenderer({} as any),
@@ -140,15 +140,20 @@ describe('MeetingClient', () => {
       await expect(
         client.createMeeting(
           undefined,
-          '@bot-user-id:example',
+          '@bot-user-id:example.org',
           {
             title: 'My Meeting',
             description: 'My Description',
-            start_time: '2020-05-07T10:00:00+02:00',
-            end_time: '2020-05-07T11:00:00+02:00',
+            calendar: [
+              {
+                uid: 'uid-0',
+                dtstart: { tzid: 'Europe/Berlin', value: '20200507T100000' },
+                dtend: { tzid: 'Europe/Berlin', value: '20200507T110000' },
+              },
+            ],
           },
           MeetingType.MEETING,
-          { via: ['example'] },
+          { via: ['example.org'] },
           {
             stateEvents: [],
             roomEvents: [],
@@ -159,16 +164,18 @@ describe('MeetingClient', () => {
           {
             locale: 'en',
             timezone: 'Europe/Berlin',
-            userId: '@user-id:example',
+            userId: '@user-id:example.og',
           },
           60,
+          undefined,
+          '12',
         ),
       ).resolves.toEqual([
         '!new-room-id',
         [
           {
             type: 'm.room.member',
-            state_key: '@user-id:example',
+            state_key: '@user-id:example.og',
             content: {
               membership: 'invite',
               'io.element.html_reason':
@@ -189,15 +196,103 @@ describe('MeetingClient', () => {
         },
         power_level_content_override: {
           users: {
-            '@bot-user-id:example': 101,
-            '@user-id:example': 100,
+            '@user-id:example.og': 150,
           },
         },
         initial_state: [
           {
             type: 'net.nordeck.meetings.metadata',
             content: {
-              creator: '@user-id:example',
+              creator: '@user-id:example.og',
+              calendar: [
+                {
+                  uid: 'uid-0',
+                  dtstart: {
+                    tzid: 'Europe/Berlin',
+                    value: '20200507T100000',
+                  },
+                  dtend: { tzid: 'Europe/Berlin', value: '20200507T110000' },
+                },
+              ],
+              start_time: undefined,
+              end_time: undefined,
+              auto_deletion_offset: undefined,
+              force_deletion_at: new Date(
+                '2020-05-07T12:00:00+02:00',
+              ).getTime(),
+            },
+          },
+        ],
+      });
+    });
+
+    it('should create a meeting with the legacy data format', async () => {
+      const client = new MeetingClient(
+        new MatrixClient('', ''),
+        new EventContentRenderer({} as any),
+      );
+
+      await expect(
+        client.createMeeting(
+          undefined,
+          '@bot-user-id:example.org',
+          {
+            title: 'My Meeting',
+            description: 'My Description',
+            start_time: '2020-05-07T10:00:00+02:00',
+            end_time: '2020-05-07T11:00:00+02:00',
+          },
+          MeetingType.MEETING,
+          { via: ['example.org'] },
+          {
+            stateEvents: [],
+            roomEvents: [],
+            widgetContents: [],
+            allWidgetIds: [],
+            defaultWidgetIds: [],
+          },
+          {
+            locale: 'en',
+            timezone: 'Europe/Berlin',
+            userId: '@user-id:example.og',
+          },
+          60,
+        ),
+      ).resolves.toEqual([
+        '!new-room-id',
+        [
+          {
+            type: 'm.room.member',
+            state_key: '@user-id:example.og',
+            content: {
+              membership: 'invite',
+              'io.element.html_reason':
+                '📅 5/7/2020, 10:00 – 11:00 AM GMT+2<br/><br/>\n<hr><i>My Description</i>',
+              reason: '📅 5/7/2020, 10:00 – 11:00 AM GMT+2\nMy Description',
+            },
+          },
+        ],
+      ]);
+
+      expect(jest.mocked(MatrixClient).prototype.createRoom).toBeCalledWith({
+        name: 'My Meeting',
+        topic: 'My Description',
+        visibility: 'private',
+        preset: 'private_chat',
+        creation_content: {
+          type: 'net.nordeck.meetings.meeting',
+        },
+        power_level_content_override: {
+          users: {
+            '@bot-user-id:example.org': 101,
+            '@user-id:example.og': 100,
+          },
+        },
+        initial_state: [
+          {
+            type: 'net.nordeck.meetings.metadata',
+            content: {
+              creator: '@user-id:example.og',
               calendar: [
                 {
                   uid: expect.any(String),

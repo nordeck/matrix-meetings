@@ -16,12 +16,12 @@
 
 import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { ComponentType, PropsWithChildren } from 'react';
 import { expect, vi } from 'vitest';
 import { axe } from 'vitest-axe';
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import { OpenMeetingRoomButton } from './OpenMeetingRoomButton';
 
 vi.mock('@matrix-widget-toolkit/api', async () => ({
@@ -56,9 +56,12 @@ describe('<OpenMeetingRoomButton/>', () => {
   });
 
   it('should have no accessibility violations', async () => {
-    const { container } = render(<OpenMeetingRoomButton roomId="!room-id" />, {
-      wrapper: Wrapper,
-    });
+    const { container } = render(
+      <OpenMeetingRoomButton roomId="!room-id:example.com" />,
+      {
+        wrapper: Wrapper,
+      },
+    );
 
     expect(await axe(container)).toHaveNoViolations();
   });
@@ -67,7 +70,7 @@ describe('<OpenMeetingRoomButton/>', () => {
     const { container } = render(
       <OpenMeetingRoomButton
         meetingType="net.nordeck.meetings.breakoutsession"
-        roomId="!room-id"
+        roomId="!room-id:example.com"
       />,
       { wrapper: Wrapper },
     );
@@ -79,7 +82,7 @@ describe('<OpenMeetingRoomButton/>', () => {
     render(
       <OpenMeetingRoomButton
         meetingType="net.nordeck.meetings.meeting"
-        roomId="!room-id"
+        roomId="!room-id:example.com"
       />,
       { wrapper: Wrapper },
     );
@@ -90,14 +93,16 @@ describe('<OpenMeetingRoomButton/>', () => {
 
     await userEvent.click(button);
 
-    expect(widgetApi.navigateTo).toBeCalledWith('https://matrix.to/#/!room-id');
+    expect(widgetApi.navigateTo).toBeCalledWith(
+      'https://matrix.to/#/!room-id%3Aexample.com',
+    );
   });
 
   it('should navigate to the breakout room', () => {
     render(
       <OpenMeetingRoomButton
         meetingType="net.nordeck.meetings.breakoutsession"
-        roomId="!room-id"
+        roomId="!room-id:example.com"
       />,
       { wrapper: Wrapper },
     );
@@ -109,7 +114,7 @@ describe('<OpenMeetingRoomButton/>', () => {
     expect(button).toHaveAttribute('target', '_blank');
     expect(button).toHaveAttribute(
       'href',
-      'http://element.local/#/room/!room-id',
+      'http://element.local/#/room/!room-id:example.com',
     );
   });
 
@@ -117,7 +122,10 @@ describe('<OpenMeetingRoomButton/>', () => {
     render(
       <>
         <p id="title-id">Example context</p>
-        <OpenMeetingRoomButton aria-describedby="title-id" roomId="!room-id" />
+        <OpenMeetingRoomButton
+          aria-describedby="title-id"
+          roomId="!room-id:example.com"
+        />
       </>,
       { wrapper: Wrapper },
     );

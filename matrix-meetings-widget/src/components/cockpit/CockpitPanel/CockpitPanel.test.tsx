@@ -16,6 +16,7 @@
 
 import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { setupServer } from 'msw/node';
@@ -23,7 +24,6 @@ import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
 import { expect, vi } from 'vitest';
 import { axe } from 'vitest-axe';
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockCalendar,
   mockConfigEndpoint,
@@ -48,7 +48,9 @@ let widgetApi: MockedWidgetApi;
 
 afterEach(() => widgetApi.stop());
 
-beforeEach(() => (widgetApi = mockWidgetApi({ roomId: '!meeting-room-id' })));
+beforeEach(
+  () => (widgetApi = mockWidgetApi({ roomId: '!meeting-room-id:example.com' })),
+);
 
 const server = setupServer();
 
@@ -201,6 +203,8 @@ describe('<CockpitPanel>', () => {
       screen.getByRole('button', { name: /back to parent room/i }),
     );
 
-    expect(widgetApi.navigateTo).toBeCalledWith('https://matrix.to/#/!room-id');
+    expect(widgetApi.navigateTo).toBeCalledWith(
+      'https://matrix.to/#/!room-id%3Aexample.com',
+    );
   });
 });

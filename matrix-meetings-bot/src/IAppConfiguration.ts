@@ -63,4 +63,6 @@ export interface IAppConfiguration {
   guest_user_prefix: string;
   guest_user_default_power_level: number;
   guest_user_delete_power_level_on_leave: boolean;
+
+  default_room_version?: string;
 }

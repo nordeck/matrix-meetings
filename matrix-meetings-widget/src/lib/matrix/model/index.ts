@@ -22,11 +22,6 @@ export {
 export type { NordeckMeetingMetadataEvent } from './nordeckMeetingMetadataEvent';
 export { ROOM_EVENT_REACTION, isValidReactionEvent } from './reactionEvent';
 export type { ReactionEvent } from './reactionEvent';
-export {
-  STATE_EVENT_ROOM_CREATE,
-  isValidRoomCreateEvent,
-} from './roomCreateEvent';
-export type { RoomCreateEvent } from './roomCreateEvent';
 export { STATE_EVENT_ROOM_NAME, isValidRoomNameEvent } from './roomNameEvent';
 export type { RoomNameEvent } from './roomNameEvent';
 export {

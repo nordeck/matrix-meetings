@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import { mockCreateMeetingInvitation } from '../../../lib/testUtils';
 import { MeetingInvitation } from '../../../reducer/meetingsApi';
 import { createStore } from '../../../store';
@@ -56,7 +56,9 @@ describe('withRoomIdInvitedMeeting', () => {
   });
 
   it('should render without exploding', async () => {
-    render(<Component roomId="!meeting-room-id" />, { wrapper: Wrapper });
+    render(<Component roomId="!meeting-room-id:example.com" />, {
+      wrapper: Wrapper,
+    });
 
     await expect(
       screen.findByRole('heading', { name: /an important meeting/i }),
@@ -65,9 +67,12 @@ describe('withRoomIdInvitedMeeting', () => {
   });
 
   it('should hide content', async () => {
-    const { container } = render(<Component roomId="!another-room-id" />, {
-      wrapper: Wrapper,
-    });
+    const { container } = render(
+      <Component roomId="!another-room-id:example.com" />,
+      {
+        wrapper: Wrapper,
+      },
+    );
 
     expect(container).toBeEmptyDOMElement();
   });

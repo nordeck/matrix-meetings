@@ -43,7 +43,10 @@ import React, {
 import { useTranslation } from 'react-i18next';
 import { shallowEqual } from 'react-redux';
 import { ellipsis } from '../../../lib/ellipsis';
-import { selectRoomPowerLevelsEventByRoomId } from '../../../reducer/meetingsApi';
+import {
+  selectRoomCreateEventByRoomId,
+  selectRoomPowerLevelsEventByRoomId,
+} from '../../../reducer/meetingsApi';
 import {
   filterAllRoomMemberEventsByRoomId,
   selectRoomMemberEventEntities,
@@ -145,6 +148,10 @@ export function MemberSelectionDropdown({
       meetingId && selectRoomPowerLevelsEventByRoomId(state, meetingId),
   );
 
+  const roomCreateEvent = useAppSelector(
+    (state) => meetingId && selectRoomCreateEventByRoomId(state, meetingId),
+  );
+
   const hasPowerToRemove = useCallback(
     (memberId: string) => {
       if (!powerLevelsEvent) {
@@ -161,17 +168,27 @@ export function MemberSelectionDropdown({
       const ownUserPowerLevel = powerLevelsEvent
         ? calculateUserPowerLevel(
             powerLevelsEvent.content,
-            widgetApi.widgetParameters.userId,
+            roomCreateEvent ? roomCreateEvent : undefined,
+            widgetApi.widgetParameters.userId ?? '',
           )
         : 0;
 
       const userPowerLevel = powerLevelsEvent
-        ? calculateUserPowerLevel(powerLevelsEvent.content, memberId)
+        ? calculateUserPowerLevel(
+            powerLevelsEvent.content,
+            roomCreateEvent ? roomCreateEvent : undefined,
+            memberId,
+          )
         : 0;
 
       return userPowerLevel < ownUserPowerLevel;
     },
-    [allMembersInTheRoom, powerLevelsEvent, widgetApi.widgetParameters.userId],
+    [
+      allMembersInTheRoom,
+      powerLevelsEvent,
+      roomCreateEvent,
+      widgetApi.widgetParameters.userId,
+    ],
   );
 
   const ensureUsers = useCallback(

@@ -15,13 +15,13 @@
  */
 
 import { extractWidgetApiParameters as extractWidgetApiParametersMocked } from '@matrix-widget-toolkit/api';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { waitFor } from '@testing-library/react';
 import { renderHook } from '@testing-library/react-hooks';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
 import { vi } from 'vitest';
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockCalendarEntry,
   mockConfigEndpoint,
@@ -81,7 +81,7 @@ describe('useMeetingEmail', () => {
 A brief description
 
 __________________________
-Room: http://element.local/#/room/!meeting-room-id
+Room: http://element.local/#/room/!meeting-room-id:example.com
 `,
     });
   });
@@ -117,7 +117,7 @@ Room: http://element.local/#/room/!meeting-room-id
 A brief description
 
 __________________________
-Room: http://element.local/#/room/!meeting-room-id
+Room: http://element.local/#/room/!meeting-room-id:example.com
 `,
     });
   });
@@ -139,7 +139,7 @@ Room: http://element.local/#/room/!meeting-room-id
 A brief description
 
 __________________________
-Room: http://element.local/#/room/!meeting-room-id
+Room: http://element.local/#/room/!meeting-room-id:example.com
 `,
     });
   });
@@ -164,7 +164,7 @@ Room: http://element.local/#/room/!meeting-room-id
 
 
 __________________________
-Room: http://element.local/#/room/!meeting-room-id
+Room: http://element.local/#/room/!meeting-room-id:example.com
 `,
     });
   });
@@ -188,7 +188,7 @@ Room: http://element.local/#/room/!meeting-room-id
 A brief description
 
 __________________________
-Room: http://element.local/#/room/!meeting-room-id
+Room: http://element.local/#/room/!meeting-room-id:example.com
 Dial-In Number: 0123
 Dial-In Pin: Pin not required
 `,
@@ -216,7 +216,7 @@ Dial-In Pin: Pin not required
 A brief description
 
 __________________________
-Room: http://element.local/#/room/!meeting-room-id
+Room: http://element.local/#/room/!meeting-room-id:example.com
 Dial-In Number: 0123
 Dial-In Pin: 5555
 `,

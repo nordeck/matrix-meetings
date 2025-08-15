@@ -25,6 +25,7 @@ export {
   meetingsApi,
   selectNordeckMeetingMetadataEventByRoomId,
   selectNordeckMeetingMetadataEventEntities,
+  selectRoomCreateEventByRoomId,
   selectRoomPowerLevelsEventByRoomId,
   useCloseMeetingMutation,
   useCreateBreakoutSessionsMutation,

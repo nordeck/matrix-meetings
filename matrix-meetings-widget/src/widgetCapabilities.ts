@@ -16,6 +16,7 @@
 
 import {
   generateRoomTimelineCapabilities,
+  STATE_EVENT_CREATE,
   STATE_EVENT_POWER_LEVELS,
   STATE_EVENT_ROOM_MEMBER,
   WIDGET_CAPABILITY_NAVIGATE,
@@ -29,7 +30,6 @@ import {
 import {
   ROOM_EVENT_REACTION,
   STATE_EVENT_NORDECK_MEETING_METADATA,
-  STATE_EVENT_ROOM_CREATE,
   STATE_EVENT_ROOM_NAME,
   STATE_EVENT_ROOM_TOMBSTONE,
   STATE_EVENT_ROOM_TOPIC,
@@ -53,7 +53,7 @@ export const widgetCapabilities = [
   ),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,
-    STATE_EVENT_ROOM_CREATE,
+    STATE_EVENT_CREATE,
   ),
   WidgetEventCapability.forStateEvent(
     EventDirection.Receive,

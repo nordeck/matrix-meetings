@@ -16,12 +16,12 @@
 
 import { getEnvironment as getEnvironmentMocked } from '@matrix-widget-toolkit/mui';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, within } from '@testing-library/react';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
 import { expect, vi } from 'vitest';
 import { axe } from 'vitest-axe';
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockMeeting,
   mockPowerLevelsEvent,
@@ -64,10 +64,10 @@ describe('<MeetingCardEditParticipantsContent/>', () => {
     widgetApi.mockSendStateEvent(
       mockPowerLevelsEvent({
         content: {
-          users: { '@user-id': 100 },
+          users: { '@user-id:example.com': 100 },
           users_default: 0,
         },
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
       }),
     );
 

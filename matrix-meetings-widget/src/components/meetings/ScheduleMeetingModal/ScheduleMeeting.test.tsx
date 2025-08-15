@@ -15,6 +15,7 @@
  */
 
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import {
   fireEvent,
   render,
@@ -29,7 +30,6 @@ import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { expect, vi } from 'vitest';
 import { axe } from 'vitest-axe';
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockBreakoutSession,
   mockCalendar,
@@ -148,7 +148,7 @@ describe('<ScheduleMeeting>', () => {
       expect(onMeetingChange).toHaveBeenLastCalledWith({
         description: 'My Description',
         endTime: '2022-01-02T14:15:00.000Z',
-        participants: ['@user-id'],
+        participants: ['@user-id:example.com'],
         startTime: '2022-01-02T13:15:00.000Z',
         title: 'My Meeting',
         widgetIds: ['widget-1'],
@@ -232,7 +232,7 @@ describe('<ScheduleMeeting>', () => {
       expect(onMeetingChange).toHaveBeenLastCalledWith({
         description: '',
         endTime: '2022-01-02T19:00:00.000Z',
-        participants: ['@user-id'],
+        participants: ['@user-id:example.com'],
         startTime: '2022-01-02T18:00:00.000Z',
         title: 'My Meeting',
         widgetIds: ['widget-1', 'widget-2'],
@@ -263,7 +263,7 @@ describe('<ScheduleMeeting>', () => {
     expect(onMeetingChange).toHaveBeenLastCalledWith({
       description: '',
       endTime: '2022-01-02T14:15:00.000Z',
-      participants: ['@user-id'],
+      participants: ['@user-id:example.com'],
       startTime: '2022-01-02T13:15:00.000Z',
       title: 'My Meeting',
       widgetIds: ['widget-1', 'widget-2'],
@@ -275,12 +275,12 @@ describe('<ScheduleMeeting>', () => {
     widgetApi.searchUserDirectory.mockResolvedValue({
       results: [
         {
-          userId: '@user-1',
+          userId: '@user-1:example.com',
           displayName: undefined,
           avatarUrl: undefined,
         },
         {
-          userId: '@user-2',
+          userId: '@user-2:example.com',
           displayName: undefined,
           avatarUrl: undefined,
         },
@@ -301,7 +301,7 @@ describe('<ScheduleMeeting>', () => {
       'user-1',
     );
     await userEvent.click(
-      await screen.findByRole('option', { name: '@user-1' }),
+      await screen.findByRole('option', { name: '@user-1:example.com' }),
     );
 
     await userEvent.type(
@@ -309,14 +309,18 @@ describe('<ScheduleMeeting>', () => {
       'user-2',
     );
     await userEvent.click(
-      await screen.findByRole('option', { name: '@user-2' }),
+      await screen.findByRole('option', { name: '@user-2:example.com' }),
     );
 
     await waitFor(() => {
       expect(onMeetingChange).toHaveBeenLastCalledWith({
         description: '',
         endTime: '2022-01-02T14:15:00.000Z',
-        participants: ['@user-id', '@user-1', '@user-2'],
+        participants: [
+          '@user-id:example.com',
+          '@user-1:example.com',
+          '@user-2:example.com',
+        ],
         startTime: '2022-01-02T13:15:00.000Z',
         title: 'My Meeting',
         widgetIds: ['widget-1', 'widget-2'],
@@ -354,7 +358,7 @@ describe('<ScheduleMeeting>', () => {
     widgetApi.searchUserDirectory.mockResolvedValue({
       results: [
         {
-          userId: '@user-id-3',
+          userId: '@user-id-3:example.com',
           displayName: undefined,
           avatarUrl: undefined,
         },
@@ -363,13 +367,13 @@ describe('<ScheduleMeeting>', () => {
 
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
       }),
     );
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        state_key: '@user-id-2',
-        room_id: '!meeting-room-id',
+        state_key: '@user-id-2:example.com',
+        room_id: '!meeting-room-id:example.com',
         content: { displayname: 'Bob', membership: 'invite' },
       }),
     );
@@ -378,16 +382,20 @@ describe('<ScheduleMeeting>', () => {
       content: {
         participants: [
           {
-            userId: '@user-id',
+            userId: '@user-id:example.com',
             displayName: 'Alice',
             membership: 'join',
-            rawEvent: mockRoomMember({ room_id: '!meeting-room-id' }),
+            rawEvent: mockRoomMember({
+              room_id: '!meeting-room-id:example.com',
+            }),
           },
           {
-            userId: '@user-id-2',
+            userId: '@user-id-2:example.com',
             displayName: 'Bob',
             membership: 'join',
-            rawEvent: mockRoomMember({ room_id: '!meeting-room-id' }),
+            rawEvent: mockRoomMember({
+              room_id: '!meeting-room-id:example.com',
+            }),
           },
         ],
       },
@@ -403,17 +411,21 @@ describe('<ScheduleMeeting>', () => {
 
     await userEvent.type(
       screen.getByRole('combobox', { name: 'Participants' }),
-      'user-id-3',
+      'user-id-3:example.com',
     );
 
     await userEvent.click(
-      await screen.findByRole('option', { name: '@user-id-3' }),
+      await screen.findByRole('option', { name: '@user-id-3:example.com' }),
     );
 
     await waitFor(() => {
       expect(onMeetingChange).toHaveBeenLastCalledWith(
         expect.objectContaining({
-          participants: ['@user-id', '@user-id-2', '@user-id-3'],
+          participants: [
+            '@user-id:example.com',
+            '@user-id-2:example.com',
+            '@user-id-3:example.com',
+          ],
         }),
       );
     });
@@ -618,7 +630,7 @@ describe('<ScheduleMeeting>', () => {
       startTime: '2023-01-02T00:34:00.000Z',
       endTime: '2023-01-03T12:34:00.000Z',
       widgetIds: [],
-      participants: ['@user-id'],
+      participants: ['@user-id:example.com'],
       powerLevels: {
         messaging: 100,
       },
@@ -630,7 +642,7 @@ describe('<ScheduleMeeting>', () => {
     render(
       <ScheduleMeeting
         initialMeeting={mockMeeting({
-          room_id: '!room-id',
+          room_id: '!room-id:example.com',
           content: {
             startTime: '2022-01-02T10:00:00Z',
             endTime: '2022-01-02T14:00:00Z',
@@ -708,7 +720,7 @@ describe('<ScheduleMeeting>', () => {
     render(
       <ScheduleMeeting
         initialMeeting={mockMeeting({
-          room_id: '!room-id',
+          room_id: '!room-id:example.com',
           content: {
             startTime: '2022-01-01T10:00:00Z',
             endTime: '2022-01-01T14:00:00Z',
@@ -824,7 +836,7 @@ describe('<ScheduleMeeting>', () => {
       expect(onMeetingChange).toHaveBeenLastCalledWith({
         description: 'A brief description',
         endTime: '2022-01-03T22:00:00.000Z',
-        participants: ['@user-id'],
+        participants: ['@user-id:example.com'],
         startTime: '0001-01-01T00:00:00.000Z',
         title: 'An important meeting',
         widgetIds: [],
@@ -1030,8 +1042,8 @@ describe('<ScheduleMeeting>', () => {
   it('should show the old meeting data in edit dialog', async () => {
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        state_key: '@user-id-2',
-        room_id: '!meeting-room-id',
+        state_key: '@user-id-2:example.com',
+        room_id: '!meeting-room-id:example.com',
         content: { displayname: 'Bob', membership: 'invite' },
       }),
     );
@@ -1039,16 +1051,20 @@ describe('<ScheduleMeeting>', () => {
       content: {
         participants: [
           {
-            userId: '@user-id',
+            userId: '@user-id:example.com',
             displayName: 'Alice',
             membership: 'join',
-            rawEvent: mockRoomMember({ room_id: '!meeting-room-id' }),
+            rawEvent: mockRoomMember({
+              room_id: '!meeting-room-id:example.com',
+            }),
           },
           {
-            userId: '@user-id-2',
+            userId: '@user-id-2:example.com',
             displayName: 'Bob',
             membership: 'join',
-            rawEvent: mockRoomMember({ room_id: '!meeting-room-id' }),
+            rawEvent: mockRoomMember({
+              room_id: '!meeting-room-id:example.com',
+            }),
           },
         ],
         widgets: ['widget-2'],
@@ -1159,7 +1175,7 @@ describe('<ScheduleMeeting>', () => {
       <ScheduleMeeting
         initialMeeting={meeting}
         onMeetingChange={onMeetingChange}
-        parentRoomId="!meeting-room-id"
+        parentRoomId="!meeting-room-id:example.com"
       />,
       { wrapper: Wrapper },
     );
@@ -1178,7 +1194,7 @@ describe('<ScheduleMeeting>', () => {
       expect(onMeetingChange).toHaveBeenLastCalledWith({
         description: 'A brief description',
         endTime: '2999-01-01T11:30:00.000Z',
-        participants: ['@user-id'],
+        participants: ['@user-id:example.com'],
         startTime: '2999-01-01T11:00:00.000Z',
         title: 'Group A',
         widgetIds: [],
@@ -1202,7 +1218,7 @@ describe('<ScheduleMeeting>', () => {
       <ScheduleMeeting
         initialMeeting={meeting}
         onMeetingChange={onMeetingChange}
-        parentRoomId="!meeting-room-id"
+        parentRoomId="!meeting-room-id:example.com"
       />,
       { wrapper: Wrapper },
     );
@@ -1225,7 +1241,7 @@ describe('<ScheduleMeeting>', () => {
     expect(onMeetingChange).toHaveBeenLastCalledWith({
       description: 'A brief description',
       endTime: '2999-01-01T12:30:00.000Z',
-      participants: ['@user-id'],
+      participants: ['@user-id:example.com'],
       startTime: '2999-01-01T12:00:00.000Z',
       title: 'Group 1',
       widgetIds: [],
@@ -1247,7 +1263,7 @@ describe('<ScheduleMeeting>', () => {
       <ScheduleMeeting
         initialMeeting={meeting}
         onMeetingChange={onMeetingChange}
-        parentRoomId="!meeting-room-id"
+        parentRoomId="!meeting-room-id:example.com"
       />,
       { wrapper: Wrapper },
     );
@@ -1275,7 +1291,7 @@ describe('<ScheduleMeeting>', () => {
 
   it('should warn if the breakout session ends before it starts', async () => {
     mockCreateMeetingRoom(widgetApi, {
-      parentRoomId: '!meeting-room-id',
+      parentRoomId: '!meeting-room-id:example.com',
     });
 
     mockCreateBreakoutMeetingRoom(widgetApi);
@@ -1291,7 +1307,7 @@ describe('<ScheduleMeeting>', () => {
       <ScheduleMeeting
         initialMeeting={meeting}
         onMeetingChange={onMeetingChange}
-        parentRoomId="!meeting-room-id"
+        parentRoomId="!meeting-room-id:example.com"
       />,
       { wrapper: Wrapper },
     );
@@ -1342,7 +1358,7 @@ describe('<ScheduleMeeting>', () => {
 
     expect(onMeetingChange).toHaveBeenLastCalledWith({
       endTime: '2999-01-01T14:00:00.000Z',
-      participants: ['@user-id'],
+      participants: ['@user-id:example.com'],
       startTime: '2999-01-01T10:00:00.000Z',
       widgetIds: [],
       title: title + repeat('+', 5),

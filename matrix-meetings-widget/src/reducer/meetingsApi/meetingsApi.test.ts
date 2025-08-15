@@ -15,9 +15,9 @@
  */
 
 import { RoomEvent } from '@matrix-widget-toolkit/api';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { waitFor } from '@testing-library/react';
 import { vi } from 'vitest';
-import { MockedWidgetApi, mockWidgetApi } from '../../lib/mockWidgetApi';
 import {
   acknowledgeAllEvents,
   mockCalendar,
@@ -74,7 +74,7 @@ describe('meetingsApi', () => {
           dtstart: '20200101T000000',
           dtend: '20200101T010000',
         }),
-        participants: ['@user1:matrix'],
+        participants: ['@user1:example.com'],
         widgetIds: ['widget1'],
       },
     };
@@ -101,7 +101,7 @@ describe('meetingsApi', () => {
                   dtend: { tzid: 'UTC', value: '20200101T010000' },
                 },
               ],
-              participants: [{ user_id: '@user1:matrix' }],
+              participants: [{ user_id: '@user1:example.com' }],
               widget_ids: ['widget1'],
             }),
           }),
@@ -130,7 +130,7 @@ describe('meetingsApi', () => {
         groups: [
           {
             title: 'My Meeting',
-            participants: ['@user1:matrix'],
+            participants: ['@user1:example.com'],
           },
         ],
         description: 'My description',
@@ -156,7 +156,7 @@ describe('meetingsApi', () => {
               groups: [
                 {
                   title: 'My Meeting',
-                  participants: [{ user_id: '@user1:matrix' }],
+                  participants: [{ user_id: '@user1:example.com' }],
                 },
               ],
               description: 'My description',
@@ -385,8 +385,8 @@ describe('meetingsApi', () => {
         await dispatch(
           initiate({
             roomId: '!roomId',
-            addUserIds: ['@user-1:matrix'],
-            removeUserIds: ['@user-2:matrix'],
+            addUserIds: ['@user-1:example.com'],
+            removeUserIds: ['@user-2:example.com'],
           }),
         ),
       ).toEqual({
@@ -405,7 +405,7 @@ describe('meetingsApi', () => {
               content: withEventContext(widgetApi, {
                 target_room_id: '!roomId',
                 invite: true,
-                userIds: ['@user-1:matrix'],
+                userIds: ['@user-1:example.com'],
               }),
             }),
             expect.objectContaining({
@@ -414,7 +414,7 @@ describe('meetingsApi', () => {
               content: withEventContext(widgetApi, {
                 target_room_id: '!roomId',
                 invite: false,
-                userIds: ['@user-2:matrix'],
+                userIds: ['@user-2:example.com'],
               }),
             }),
           ],
@@ -452,7 +452,7 @@ describe('meetingsApi', () => {
         await dispatch(
           initiate({
             roomId: '!roomId',
-            addUserIds: ['@user-1:matrix'],
+            addUserIds: ['@user-1:example.com'],
           }),
         ),
       ).toEqual({
@@ -1039,13 +1039,13 @@ describe('meetingsApi', () => {
       const events = [
         widgetApi.mockSendStateEvent(
           mockRoomMember({
-            state_key: '@user1:matrix',
+            state_key: '@user1:example.com',
             content: { membership: 'join' },
           }),
         ),
         widgetApi.mockSendStateEvent(
           mockRoomMember({
-            state_key: '@user2:matrix',
+            state_key: '@user2:example.com',
             content: { membership: 'invite' },
           }),
         ),
@@ -1077,13 +1077,13 @@ describe('meetingsApi', () => {
       const events = [
         widgetApi.mockSendStateEvent(
           mockRoomMember({
-            state_key: '@user1:matrix',
+            state_key: '@user1:example.com',
             content: { membership: 'join' },
           }),
         ),
         widgetApi.mockSendStateEvent(
           mockRoomMember({
-            state_key: '@user2:matrix',
+            state_key: '@user2:example.com',
             content: { membership: 'invite' },
           }),
         ),
@@ -1110,7 +1110,7 @@ describe('meetingsApi', () => {
     it('should remove event', async () => {
       widgetApi.mockSendStateEvent(
         mockRoomMember({
-          state_key: '@user1:matrix',
+          state_key: '@user1:example.com',
           content: { membership: 'join' },
         }),
       );
@@ -1121,7 +1121,7 @@ describe('meetingsApi', () => {
 
       widgetApi.mockSendStateEvent(
         mockRoomMember({
-          state_key: '@user1:matrix',
+          state_key: '@user1:example.com',
           content: { membership: 'leave' },
         }),
       );
@@ -1141,7 +1141,7 @@ describe('meetingsApi', () => {
     it('should ignore the bot user', async () => {
       const botUser = widgetApi.mockSendStateEvent(
         mockRoomMember({
-          state_key: '@user1:matrix',
+          state_key: '@user1:example.com',
           content: { membership: 'join' },
         }),
       );
@@ -1163,7 +1163,7 @@ describe('meetingsApi', () => {
 
       const event = widgetApi.mockSendStateEvent(
         mockRoomMember({
-          state_key: '@user2:matrix',
+          state_key: '@user2:example.com',
           content: { membership: 'invite' },
         }),
       );
@@ -1297,21 +1297,21 @@ describe('selectAllRoomMemberEventsByRoomId', () => {
       widgetApi.mockSendStateEvent(
         mockRoomMember({
           room_id: '!roomId1',
-          state_key: '@user1:matrix',
+          state_key: '@user1:example.com',
           content: { membership: 'join' },
         }),
       ),
       widgetApi.mockSendStateEvent(
         mockRoomMember({
           room_id: '!roomId1',
-          state_key: '@user2:matrix',
+          state_key: '@user2:example.com',
           content: { membership: 'invite' },
         }),
       ),
       widgetApi.mockSendStateEvent(
         mockRoomMember({
           room_id: '!roomId2',
-          state_key: '@user3:matrix',
+          state_key: '@user3:example.com',
           content: { membership: 'invite' },
         }),
       ),

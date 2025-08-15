@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { vi } from 'vitest';
-import { MockedWidgetApi, mockWidgetApi } from '../../lib/mockWidgetApi';
 import { mockReaction } from '../../lib/testUtils';
 import {
   awaitAcknowledgement,

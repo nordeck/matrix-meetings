@@ -16,6 +16,7 @@
 
 import { extractWidgetApiParameters } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { setupServer } from 'msw/node';
@@ -23,7 +24,6 @@ import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
 import { expect, vi } from 'vitest';
 import { axe } from 'vitest-axe';
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockCalendar,
   mockConfigEndpoint,
@@ -103,7 +103,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     render(
       <MeetingsCalendarDetailsDialog
         meetingId={{
-          meetingId: '!meeting-room-id',
+          meetingId: '!meeting-room-id:example.com',
           uid: 'entry-0',
           recurrenceId: undefined,
         }}
@@ -154,7 +154,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
 
     expect(
       within(dialog).getByRole('link', {
-        name: 'http://element.local/#/room/!meeting-room-id',
+        name: 'http://element.local/#/room/!meeting-room-id:example.com',
       }),
     ).toBeInTheDocument();
   });
@@ -163,7 +163,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     const { container } = render(
       <MeetingsCalendarDetailsDialog
         meetingId={{
-          meetingId: '!meeting-room-id',
+          meetingId: '!meeting-room-id:example.com',
           uid: 'entry-0',
           recurrenceId: undefined,
         }}
@@ -196,7 +196,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     render(
       <MeetingsCalendarDetailsDialog
         meetingId={{
-          meetingId: '!meeting-room-id',
+          meetingId: '!meeting-room-id:example.com',
           uid: 'entry-0',
           recurrenceId: '2999-01-10T10:00:00Z',
         }}
@@ -228,7 +228,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     render(
       <MeetingsCalendarDetailsDialog
         meetingId={{
-          meetingId: '!meeting-room-id',
+          meetingId: '!meeting-room-id:example.com',
           uid: 'entry-0',
           recurrenceId: undefined,
         }}
@@ -253,7 +253,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     render(
       <MeetingsCalendarDetailsDialog
         meetingId={{
-          meetingId: '!meeting-room-id',
+          meetingId: '!meeting-room-id:example.com',
           uid: 'entry-0',
           recurrenceId: undefined,
         }}
@@ -268,7 +268,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
     });
 
     widgetApi.mockSendStateEvent(
-      mockRoomTombstone({ room_id: '!meeting-room-id' }),
+      mockRoomTombstone({ room_id: '!meeting-room-id:example.com' }),
     );
 
     await waitFor(() => {

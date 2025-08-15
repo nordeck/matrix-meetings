@@ -16,13 +16,13 @@
 
 import { extractWidgetApiParameters } from '@matrix-widget-toolkit/api';
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { render, screen } from '@testing-library/react';
 import { setupServer } from 'msw/node';
 import { ComponentType, PropsWithChildren, useState } from 'react';
 import { Provider } from 'react-redux';
 import { expect, vi } from 'vitest';
 import { axe } from 'vitest-axe';
-import { MockedWidgetApi, mockWidgetApi } from '../../../../lib/mockWidgetApi';
 import {
   mockCalendar,
   mockConfigEndpoint,
@@ -105,7 +105,7 @@ describe('<MeetingDetailsContent/>', () => {
 
     expect(
       screen.getByRole('link', {
-        name: 'http://element.local/#/room/!meeting-room-id',
+        name: 'http://element.local/#/room/!meeting-room-id:example.com',
       }),
     ).toBeInTheDocument();
 
@@ -167,13 +167,13 @@ describe('<MeetingDetailsContent/>', () => {
       { wrapper: Wrapper },
     );
     const link = screen.getByRole('link', {
-      name: 'http://element.local/#/room/!meeting-room-id',
+      name: 'http://element.local/#/room/!meeting-room-id:example.com',
     });
 
     expect(link).toHaveAttribute('target', '_blank');
     expect(link).toHaveAttribute(
       'href',
-      'http://element.local/#/room/!meeting-room-id',
+      'http://element.local/#/room/!meeting-room-id:example.com',
     );
   });
 });

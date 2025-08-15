@@ -15,6 +15,7 @@
  */
 
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import {
   fireEvent,
   render,
@@ -29,7 +30,6 @@ import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { expect, vi } from 'vitest';
 import { axe } from 'vitest-axe';
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import {
   mockMeeting,
   mockRoomMember,
@@ -57,12 +57,12 @@ describe('<SetupBreakoutSessions>', () => {
   beforeEach(() => {
     mockWidgetEndpoint(server);
     widgetApi.mockSendStateEvent(
-      mockRoomMember({ room_id: '!meeting-room-id' }),
+      mockRoomMember({ room_id: '!meeting-room-id:example.com' }),
     );
     widgetApi.mockSendStateEvent(
       mockRoomMember({
-        room_id: '!meeting-room-id',
-        state_key: '@user-1',
+        room_id: '!meeting-room-id:example.com',
+        state_key: '@user-1:example.com',
         content: { displayname: undefined },
       }),
     );
@@ -136,7 +136,7 @@ describe('<SetupBreakoutSessions>', () => {
       description: 'My description',
       endTime: '2022-01-02T13:30:00.000Z',
       startTime: '2022-01-02T13:15:00.000Z',
-      groups: [{ participants: ['@user-id'], title: 'Group 1' }],
+      groups: [{ participants: ['@user-id:example.com'], title: 'Group 1' }],
       widgetIds: ['widget-1'],
     });
   });
@@ -224,7 +224,7 @@ describe('<SetupBreakoutSessions>', () => {
       description: '',
       endTime: '2022-01-02T13:45:00.000Z',
       startTime: '2022-01-02T13:30:00.000Z',
-      groups: [{ participants: ['@user-id'], title: 'Group 1' }],
+      groups: [{ participants: ['@user-id:example.com'], title: 'Group 1' }],
       widgetIds: ['widget-1', 'widget-2'],
     });
   });
@@ -499,7 +499,7 @@ describe('<SetupBreakoutSessions>', () => {
       startTime: '2022-01-02T13:15:00.000Z',
       groups: [
         {
-          participants: ['@user-id'],
+          participants: ['@user-id:example.com'],
           title: 'Group 1' + repeat('+', 255 - 'Group 1'.length),
         },
       ],

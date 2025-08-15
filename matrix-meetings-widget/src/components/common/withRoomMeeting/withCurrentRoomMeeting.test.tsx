@@ -15,11 +15,11 @@
  */
 
 import { WidgetApiMockProvider } from '@matrix-widget-toolkit/react';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import { act, render, screen } from '@testing-library/react';
 import { ComponentType, PropsWithChildren, useMemo } from 'react';
 import { Provider } from 'react-redux';
 import { vi } from 'vitest';
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
 import { mockCalendar, mockCreateMeetingRoom } from '../../../lib/testUtils';
 import { Meeting } from '../../../reducer/meetingsApi';
 import { createStore } from '../../../store';
@@ -65,7 +65,7 @@ describe('withCurrentRoomMeeting', () => {
   });
 
   it('should render without exploding', async () => {
-    mockCreateMeetingRoom(widgetApi, { room_id: '!room-id' });
+    mockCreateMeetingRoom(widgetApi, { room_id: '!room-id:example.com' });
 
     render(<Component />, { wrapper: Wrapper });
 
@@ -83,7 +83,7 @@ describe('withCurrentRoomMeeting', () => {
 
   it('should rerender after a meeting instance ended', async () => {
     mockCreateMeetingRoom(widgetApi, {
-      room_id: '!room-id',
+      room_id: '!room-id:example.com',
       metadata: {
         calendar: mockCalendar({
           dtstart: '20230101T100000',

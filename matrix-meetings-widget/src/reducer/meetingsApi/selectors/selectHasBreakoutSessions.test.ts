@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import { MockedWidgetApi, mockWidgetApi } from '../../../lib/mockWidgetApi';
+import { MockedWidgetApi, mockWidgetApi } from '@matrix-widget-toolkit/testing';
 import {
   mockCreateBreakoutMeetingRoom,
   mockCreateMeetingRoom,
@@ -36,27 +36,29 @@ describe('selectHasBreakoutSessions', () => {
   it('should return true', async () => {
     mockCreateMeetingRoom(widgetApi);
     mockCreateBreakoutMeetingRoom(widgetApi, {
-      meeting_room_id: '!meeting-room-id',
-      room_id: '!breakout-room-id',
+      meeting_room_id: '!meeting-room-id:example.com',
+      room_id: '!breakout-room-id:example.com',
     });
 
     const store = createStore({ widgetApi });
     await initializeStore(store);
     const state = store.getState();
 
-    expect(selectHasBreakoutSessions(state, '!meeting-room-id')).toBe(true);
+    expect(
+      selectHasBreakoutSessions(state, '!meeting-room-id:example.com'),
+    ).toBe(true);
   });
 
   it('should return false if invalid children type', async () => {
     mockCreateMeetingRoom(widgetApi);
     mockCreateBreakoutMeetingRoom(widgetApi, {
-      meeting_room_id: '!meeting-room-id',
-      room_id: '!breakout-room-id',
+      meeting_room_id: '!meeting-room-id:example.com',
+      room_id: '!breakout-room-id:example.com',
     });
 
     widgetApi.mockSendStateEvent(
       mockRoomCreate({
-        room_id: '!breakout-room-id',
+        room_id: '!breakout-room-id:example.com',
         content: { type: undefined },
       }),
     );
@@ -65,19 +67,21 @@ describe('selectHasBreakoutSessions', () => {
     await initializeStore(store);
     const state = store.getState();
 
-    expect(selectHasBreakoutSessions(state, '!meeting-room-id')).toBe(false);
+    expect(
+      selectHasBreakoutSessions(state, '!meeting-room-id:example.com'),
+    ).toBe(false);
   });
 
   it('should return false if no meeting room', async () => {
     mockCreateMeetingRoom(widgetApi);
     mockCreateBreakoutMeetingRoom(widgetApi, {
-      meeting_room_id: '!meeting-room-id',
-      room_id: '!breakout-room-id',
+      meeting_room_id: '!meeting-room-id:example.com',
+      room_id: '!breakout-room-id:example.com',
     });
 
     widgetApi.mockSendStateEvent(
       mockRoomCreate({
-        room_id: '!meeting-room-id',
+        room_id: '!meeting-room-id:example.com',
         content: { type: undefined },
       }),
     );
@@ -86,6 +90,8 @@ describe('selectHasBreakoutSessions', () => {
     await initializeStore(store);
     const state = store.getState();
 
-    expect(selectHasBreakoutSessions(state, '!meeting-room-id')).toBe(false);
+    expect(
+      selectHasBreakoutSessions(state, '!meeting-room-id:example.com'),
+    ).toBe(false);
   });
 });
