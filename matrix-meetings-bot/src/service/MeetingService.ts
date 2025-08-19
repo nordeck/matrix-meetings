@@ -179,9 +179,9 @@ export class MeetingService {
       spaceParentEventContent,
       this.roomMatrixEvents,
       userContext,
+      defaultRoomVersion,
       autoDeletionOffset,
       meetingCreate.messaging_power_level,
-      defaultRoomVersion,
     );
 
     const promises: Promise<any>[] = [];
