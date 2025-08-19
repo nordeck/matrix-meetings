@@ -28,7 +28,7 @@
   "devDependencies": {
     "@types/lodash": "^4.17.15",
     "@types/luxon": "3.2.2",
-    "ts-jest": "29.2.5"
+    "ts-jest": "29.2.6"
   },
   "jest": {
     "preset": "ts-jest",
