@@ -31,7 +31,6 @@ describe('MatrixClientAdapter', () => {
                   'm.room_versions': {
                     default: '12',
                     available: {},
-                    'org.matrix.msc3244.room_capabilities': {},
                   },
                   'm.change_password': { enabled: true },
                   'm.set_displayname': { enabled: true },
