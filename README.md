@@ -153,6 +153,16 @@ cosign verify \
 ghcr.io/nordeck/matrix-meetings-widget:<version> | jq
 ```
 
+### Matrix Room Upgrades
+
+While the calendar or one-to-one chat room with the bot can be upgraded, we recommend creating a new room instead.
+By creating a new room, you'll get the default room version from the Synapse.
+
+In the case of meeting rooms, it is also recommended to delete those (if necessary) and create new ones using
+the meetings widget. New meeting rooms will get the default room version from the Synapse.
+
+The widget and the bot are supported to work with multiple different room versions. Room 12 version is included.
+
 ## License
 
 This project is licensed under [Apache 2.0 license](./LICENSE).
