@@ -36,6 +36,7 @@ import { EventContentRenderer } from '../src/EventContentRenderer';
 import { IAppConfiguration } from '../src/IAppConfiguration';
 import { MatrixEndpoint } from '../src/MatrixEndpoint';
 import { JitsiClient } from '../src/client/JitsiClient';
+import { MatrixClientAdapter } from '../src/client/MatrixClientAdapter';
 import { MeetingClient } from '../src/client/MeetingClient';
 import { WidgetClient } from '../src/client/WidgetClient';
 import { BreakoutSessionsDetailDto } from '../src/dto/BreakoutSessionsDetailDto';
@@ -94,7 +95,10 @@ describe('test relevant functionality of MeetingService', () => {
   let appConfig: IAppConfiguration;
 
   const clientMock: MatrixClient = mock(MatrixClient);
+  const matrixClientAdapterMock: MatrixClientAdapter =
+    mock(MatrixClientAdapter);
   const client: MatrixClient = instance(clientMock);
+  const matrixClientAdapter = instance(matrixClientAdapterMock);
   const MAIN_NON_MEETING_ROOM_ID = 'MAIN_NON_MEETING_ROOM_ID';
   const PARENT_MEETING_ROOM_ID = 'PARENT_MEETING_ROOM_ID';
   const MEETINGROOM_WITHOUT_WIDGETS_UNDER_MEETING_ROOM_ID =
@@ -295,6 +299,9 @@ describe('test relevant functionality of MeetingService', () => {
     when(clientMock.getRoomState('childRoom2')).thenResolve(childRoom2); // TODO load the room with configured json
     when(clientMock.getRoomState('i1')).thenResolve(i1); // TODO load the room with configured json
     when(clientMock.getRoomState('i2')).thenResolve(i2); // TODO load the room with configured json
+    when(
+      matrixClientAdapterMock.getCapabilitiesDefaultRoomVersion(),
+    ).thenResolve('10');
 
     const input: [string, IStateEvent<any>[]][] = [
       ['childRoom1', childRoom1],
@@ -388,6 +395,7 @@ describe('test relevant functionality of MeetingService', () => {
     meetingService = new MeetingService(
       instance(jitsiClientMock),
       client,
+      matrixClientAdapter,
       new RoomMessageService(client, meetingClient),
       new MeetingClient(client, eventContentRenderer),
       appConfig,
@@ -632,6 +640,21 @@ describe('test relevant functionality of MeetingService', () => {
     });
   });
 
+  test('check the levels of powerusers for synapse default room version 12', async () => {
+    when(
+      matrixClientAdapterMock.getCapabilitiesDefaultRoomVersion(),
+    ).thenResolve('12');
+
+    const room_props = createEvent(PARENT_MEETING_ROOM_ID);
+    await meetingService.createMeeting(userContext, room_props);
+    verify(clientMock.createRoom(anything())).once();
+    const roomEvent = capture(clientMock.createRoom).first()[0];
+    checkStandardFields(roomEvent);
+    expect(roomEvent?.power_level_content_override?.users).toEqual({
+      [CURRENT_USER]: 150,
+    });
+  });
+
   test('check the levels of powerusers botuser=101 others 100 if sender is botuser', async () => {
     const room_props = createEvent(PARENT_MEETING_ROOM_ID);
     const newUserContext = { ...userContext, userId: BOT_USER };
@@ -680,6 +703,7 @@ describe('test relevant functionality of MeetingService', () => {
     meetingService = new MeetingService(
       jitsiClientMock,
       client,
+      matrixClientAdapter,
       new RoomMessageService(client, meetingClient),
       new MeetingClient(client, eventContentRenderer),
       appConfig,

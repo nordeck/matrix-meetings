@@ -69,6 +69,7 @@ describe('MeetingClient', () => {
               timezone: 'Europe/Berlin',
               userId: '@user-id:example.og',
             },
+            '10',
             60,
             messagingPowerLevel,
           ),
@@ -166,9 +167,9 @@ describe('MeetingClient', () => {
             timezone: 'Europe/Berlin',
             userId: '@user-id:example.og',
           },
+          '12',
           60,
           undefined,
-          '12',
         ),
       ).resolves.toEqual([
         '!new-room-id',
@@ -256,6 +257,7 @@ describe('MeetingClient', () => {
             timezone: 'Europe/Berlin',
             userId: '@user-id:example.og',
           },
+          '10',
           60,
         ),
       ).resolves.toEqual([
