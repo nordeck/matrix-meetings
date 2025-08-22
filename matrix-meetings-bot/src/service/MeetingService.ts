@@ -29,6 +29,7 @@ import {
 } from '../IEventContentParams';
 import { ModuleProviderToken } from '../ModuleProviderToken';
 import { JitsiClient } from '../client/JitsiClient';
+import { MatrixClientAdapter } from '../client/MatrixClientAdapter';
 import { MeetingClient } from '../client/MeetingClient';
 import { WidgetClient } from '../client/WidgetClient';
 import { BreakoutSessionsDto } from '../dto/BreakoutSessionsDto';
@@ -76,6 +77,7 @@ export class MeetingService {
   constructor(
     private jitsiClient: JitsiClient,
     private matrixClient: MatrixClient,
+    private matrixClientAdapter: MatrixClientAdapter,
     private roomMessageService: RoomMessageService,
     private meetingClient: MeetingClient,
     @Inject(ModuleProviderToken.APP_CONFIGURATION)
@@ -164,6 +166,8 @@ export class MeetingService {
       via: [new UserID(await this.matrixClient.getUserId()).domain],
     };
 
+    const defaultRoomVersion =
+      await this.matrixClientAdapter.getCapabilitiesDefaultRoomVersion();
     const [roomId, renderedMemberEventsWithReason]: [
       string,
       DeepReadonlyArray<IStateEvent<IElementMembershipEventContent>>,
@@ -175,9 +179,9 @@ export class MeetingService {
       spaceParentEventContent,
       this.roomMatrixEvents,
       userContext,
+      defaultRoomVersion,
       autoDeletionOffset,
       meetingCreate.messaging_power_level,
-      this.appConfig.default_room_version,
     );
 
     const promises: Promise<any>[] = [];

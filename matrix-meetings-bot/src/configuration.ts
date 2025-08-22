@@ -119,8 +119,6 @@ function createConfiguration() {
       process.env.GUEST_USER_DELETE_POWER_LEVEL_ON_LEAVE,
       true,
     ),
-
-    default_room_version: process.env.DEFAULT_ROOM_VERSION,
   };
 
   return {
@@ -189,8 +187,6 @@ export const ValidationSchema = Joi.object({
   GUEST_USER_PREFIX: Joi.string(),
   GUEST_USER_DEFAULT_POWER_LEVEL: Joi.number(),
   GUEST_USER_DELETE_POWER_LEVEL_ON_LEAVE: Joi.boolean(),
-
-  DEFAULT_ROOM_VERSION: Joi.string(),
 });
 
 export default createConfiguration;

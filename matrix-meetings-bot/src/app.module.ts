@@ -41,6 +41,7 @@ import { EventContentRenderer } from './EventContentRenderer';
 import { IAppConfiguration } from './IAppConfiguration';
 import { ModuleProviderToken } from './ModuleProviderToken';
 import { JitsiClient } from './client/JitsiClient';
+import { MatrixClientAdapter } from './client/MatrixClientAdapter';
 import { MeetingClient } from './client/MeetingClient';
 import { ReactionClient } from './client/ReactionClient';
 import { WidgetClient } from './client/WidgetClient';
@@ -262,6 +263,7 @@ const i18nFactory: FactoryProvider<void> = {
     EventContentRenderer,
     JitsiClient,
     MeetingClient,
+    MatrixClientAdapter,
     ReactionClient,
     WidgetClient,
     CommandService,

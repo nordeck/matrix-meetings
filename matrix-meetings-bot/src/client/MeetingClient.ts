@@ -85,9 +85,9 @@ export class MeetingClient {
     spaceParentEventContent: ISpaceParentEventContent,
     roomMatrixEvents: DeepReadonly<IRoomMatrixEvents>,
     userContext: IUserContext,
+    defaultRoomVersion: string,
     autoDeletionOffset?: number,
     messagingPowerLevel?: number,
-    defaultRoomVersion?: string,
   ): Promise<
     [string, DeepReadonlyArray<IStateEvent<IElementMembershipEventContent>>]
   > {
