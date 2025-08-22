@@ -153,6 +153,35 @@ cosign verify \
 ghcr.io/nordeck/matrix-meetings-widget:<version> | jq
 ```
 
+### Matrix Room Upgrades
+
+It may be necessary to upgrade meeting rooms to a different Matrix room version, for example to use room version 12.
+You can learn more about Matrix room upgrades in general [on the Matrix.org website](https://matrix.org/docs/communities/administration/#room-upgrades).
+
+Rooms used with NeoDateFix have special attributes.
+These rooms cannot simply be upgraded, as this will not keep the widget-specific events and
+will make the state stored in the meetings inconsistent.
+
+**The recommended way to "upgrade" instead is to recreate the rooms that were created or modified by the bot.**
+All the necessary content must be exported from these rooms.
+
+This applies to all the rooms: one-to-one chat with the bot, calendar room with meetings widget,
+meetings rooms, and breakout session rooms.
+
+In the case of one-to-one chat: the user has to leave the room and interact with the bot anew using a direct message.
+
+In the case of calendar room: the user has to leave the room, create a new one and invite the bot to the new room.
+
+In the case of meeting rooms and breakout rooms: the meeting creator should export any widget contents in the old meeting room and then has to delete their meetings via the meetings widget UI and create new meetings.
+
+A new room gets the default room version from the Matrix server. This applies to the bot: new meeting rooms
+will use the default room version.
+
+The widget and the bot are supported to work with multiple different room versions. It is not
+required to have the same room version for all bot rooms.
+
+Room version 12 is supported from [widget version 1.7.2](https://github.com/nordeck/matrix-meetings/releases/tag/%40nordeck%2Fmatrix-meetings-widget%401.7.2) and [bot version 2.8.4](https://github.com/nordeck/matrix-meetings/releases/tag/%40nordeck%2Fmatrix-meetings-bot%402.8.4).
+
 ## License
 
 This project is licensed under [Apache 2.0 license](./LICENSE).
