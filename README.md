@@ -153,7 +153,7 @@ cosign verify \
 ghcr.io/nordeck/matrix-meetings-widget:<version> | jq
 ```
 
-### Matrix Room Upgrades
+## Matrix Room Upgrades
 
 It may be necessary to upgrade meeting rooms to a different Matrix room version, for example to use room version 12.
 You can learn more about Matrix room upgrades in general [on the Matrix.org website](https://matrix.org/docs/communities/administration/#room-upgrades).
