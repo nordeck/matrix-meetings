@@ -153,7 +153,7 @@ cosign verify \
 ghcr.io/nordeck/matrix-meetings-widget:<version> | jq
 ```
 
-### Matrix Room Upgrades
+## Matrix Room Upgrades
 
 It may be necessary to upgrade meeting rooms to a different Matrix room version, for example to use room version 12.
 You can learn more about Matrix room upgrades in general [on the Matrix.org website](https://matrix.org/docs/communities/administration/#room-upgrades).
@@ -168,11 +168,9 @@ All the necessary content must be exported from these rooms.
 This applies to all the rooms: one-to-one chat with the bot, calendar room with meetings widget,
 meetings rooms, and breakout session rooms.
 
-In the case of one-to-one chat: the user has to leave the room and interact with the bot anew using a direct message.
-
-In the case of calendar room: the user has to leave the room, create a new one and invite the bot to the new room.
-
-In the case of meeting rooms and breakout rooms: the meeting creator should export any widget contents in the old meeting room and then has to delete their meetings via the meetings widget UI and create new meetings.
+- In the case of one-to-one chat: the user has to leave the room and interact with the bot anew using a direct message.
+- In the case of calendar room: the user has to leave the room, create a new one and invite the bot to the new room.
+- In the case of meeting rooms and breakout rooms: the meeting creator should export any widget contents in the old meeting room and then has to delete their meetings via the meetings widget UI and create new meetings.
 
 A new room gets the default room version from the Matrix server. This applies to the bot: new meeting rooms
 will use the default room version.
