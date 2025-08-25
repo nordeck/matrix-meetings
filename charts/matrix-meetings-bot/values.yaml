@@ -130,7 +130,7 @@ init:
     image: matrixdotorg/synapse:v1.123.0
 
   postgresClient:
-    image: docker.io/bitnami/postgresql:17.2.0-debian-12-r10
+    image: docker.io/bitnami/postgresql:17.2.0-debian-12-r12@sha256:92b20bf4d9cc329a4c815a3f436dac1fa058e441b1d329b06693d3dee086a309
 
   createUserAccount:
     enabled: false
