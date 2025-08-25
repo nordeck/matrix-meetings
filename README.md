@@ -168,11 +168,9 @@ All the necessary content must be exported from these rooms.
 This applies to all the rooms: one-to-one chat with the bot, calendar room with meetings widget,
 meetings rooms, and breakout session rooms.
 
-In the case of one-to-one chat: the user has to leave the room and interact with the bot anew using a direct message.
-
-In the case of calendar room: the user has to leave the room, create a new one and invite the bot to the new room.
-
-In the case of meeting rooms and breakout rooms: the meeting creator should export any widget contents in the old meeting room and then has to delete their meetings via the meetings widget UI and create new meetings.
+- In the case of one-to-one chat: the user has to leave the room and interact with the bot anew using a direct message.
+- In the case of calendar room: the user has to leave the room, create a new one and invite the bot to the new room.
+- In the case of meeting rooms and breakout rooms: the meeting creator should export any widget contents in the old meeting room and then has to delete their meetings via the meetings widget UI and create new meetings.
 
 A new room gets the default room version from the Matrix server. This applies to the bot: new meeting rooms
 will use the default room version.
