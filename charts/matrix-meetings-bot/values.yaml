@@ -8,7 +8,7 @@ image:
   repository: ghcr.io/nordeck/matrix-meetings-bot
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "@sha256:201744dffdb6bca5393ac478a5a68a450dc6c93f3a23a52923c4173011d2d9c3"
 
 imagePullSecrets: []
 nameOverride: ""
@@ -127,10 +127,10 @@ init:
 
   # use the same version as your homeserver
   synapse:
-    image: matrixdotorg/synapse:v1.123.0
+    image: matrixdotorg/synapse:v1.123.0@sha256:7e8e20f2c0e7b344ce4d31bab943cb1677ee66de4de0f6a24107e8641a4a8122
 
   postgresClient:
-    image: docker.io/bitnami/postgresql:17.2.0-debian-12-r10
+    image: docker.io/bitnami/postgresql:17.2.0-debian-12-r10@sha256:089eae04d854b51162aadc48b3c29748fc4f28d8c7d992a6c3d7def490757223
 
   createUserAccount:
     enabled: false
