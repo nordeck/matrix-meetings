@@ -127,10 +127,10 @@ init:
 
   # use the same version as your homeserver
   synapse:
-    image: matrixdotorg/synapse:v1.123.0
+    image: matrixdotorg/synapse:v1.138.2@sha256:c11ac8a552b84433cc991827b38050096f6e3292229e3c1860208a68afeae5eb
 
   postgresClient:
-    image: docker.io/bitnami/postgresql:17.2.0-debian-12-r10
+    image: docker.io/bitnami/postgresql:17.6.0-debian-12-r4@sha256:926356130b77d5742d8ce605b258d35db9b62f2f8fd1601f9dbaef0c8a710a8d
 
   createUserAccount:
     enabled: false
