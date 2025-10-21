@@ -15,7 +15,7 @@
  */
 
 module.exports = {
-  locales: ['en', 'de'],
+  locales: ['pt', 'en', 'fr', 'es', 'de'],
   output: 'src/static/locales/$LOCALE/$NAMESPACE.json',
   sort: true,
   resetDefaultValueLocale: 'en',

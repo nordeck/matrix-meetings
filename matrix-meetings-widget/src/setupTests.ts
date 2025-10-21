@@ -31,8 +31,17 @@ import { mockDateTimeFormatTimeZone } from './testing';
 // Use a different configuration for i18next during tests
 vi.mock('./i18n', async () => {
   const i18n = await vi.importActual<typeof import('i18next')>('i18next');
+  const pt = {
+    translation: await vi.importActual('../public/locales/pt/translation.json'),
+  };
   const en = {
     translation: await vi.importActual('../public/locales/en/translation.json'),
+  };
+  const fr = {
+    translation: await vi.importActual('../public/locales/fr/translation.json'),
+  };
+  const es = {
+    translation: await vi.importActual('../public/locales/es/translation.json'),
   };
   const de = {
     translation: await vi.importActual('../public/locales/de/translation.json'),
@@ -49,7 +58,10 @@ vi.mock('./i18n', async () => {
       escapeValue: false,
     },
     resources: {
+      pt,
       en,
+      fr,
+      es,
       de,
     },
   });

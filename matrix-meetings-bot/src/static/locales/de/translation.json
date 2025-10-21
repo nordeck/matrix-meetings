@@ -24,7 +24,7 @@
   "commandHelp": [
     "<p>Verfügbare Befehle:</p>",
     "<ul>",
-    "<li><code>!meeting lang &lt;en|de&gt;</code> (Die Sprache des {{botName}} in diesem Raum ändern.)</li>",
+    "<li><code>!meeting lang &lt;pt|en|fr|es|de&gt;</code> (Die Sprache des {{botName}} in diesem Raum ändern.)</li>",
     "<li><code>!meeting setup</code> (Fügt den Kalender zum Raum hinzu.)</li>",
     "<li><code>!meeting status</code> (Überprüft die Fähigkeit, den Kalender hinzufügen zu können.)</li>",
     "</ul>"
@@ -137,8 +137,11 @@
     "introLanguage": [
       "Information zur Spracheinstellung: Um eine Kommunikation in deiner gewohnten Sprache zu ermöglichen, kannst du folgende Befehle benutzen:",
       "<ul>",
-      "<li>Sprache auf Deutsch umstellen: <code>!meeting lang de</code></li>",
-      "<li>Change language to English: <code>!meeting lang en</code></li>",
+      "<li>Sprache auf Portugiesisch ändern: <code>!meeting lang pt</code></li>",
+      "<li>Sprache auf Englisch ändern: <code>!meeting lang en</code></li>",
+      "<li>Sprache auf Französisch ändern: <code>!meeting lang fr</code></li>",
+      "<li>Sprache auf Spanisch ändern: <code>!meeting lang es</code></li>",
+      "<li>Sprache auf Deutsch ändern: <code>!meeting lang de</code></li>",
       "</ul>"
     ],
     "languageWasChanged": "Die Sprache wurde auf <b>{{locale}}</b> geändert.",
