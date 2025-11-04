@@ -72,8 +72,12 @@ export const formatRRuleText = (rule: string, t: TFunction): string => {
 
      This keys are required to support multiple plurals:
 
-    t('recurrenceEditor.ruleText.afterMeetingCount', { defaultValue_one: 'for one time', defaultValue: 'for {{count}} times', count: 0 })
-    t('recurrenceEditor.ruleText.ordinal', { defaultValue_one: '{{count}}st', defaultValue_two: '{{count}}nd', defaultValue_few: '{{count}}rd', defaultValue: '{{count}}th', count: 0, ordinal: true })
+    t('recurrenceEditor.ruleText.afterMeetingCount_one', 'for one time')
+    t('recurrenceEditor.ruleText.afterMeetingCount_other', 'for {{count}} times')
+    t('recurrenceEditor.ruleText.ordinal_ordinal_one', '{{count}}st', { ordinal: true })
+    t('recurrenceEditor.ruleText.ordinal_ordinal_two', '{{count}}nd', { ordinal: true })
+    t('recurrenceEditor.ruleText.ordinal_ordinal_few', '{{count}}rd', { ordinal: true })
+    t('recurrenceEditor.ruleText.ordinal_ordinal_other', '{{count}}th', { ordinal: true })
   */
 
   return calendarFormatRRuleText(rule, t, Settings.defaultLocale);
