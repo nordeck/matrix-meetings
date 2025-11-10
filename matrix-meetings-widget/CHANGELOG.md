@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.7.3
+
+### Patch Changes
+
+- 0e678c8: Use i18next-cli instead of i18next-parser
+
 ## 1.7.2
 
 ### Patch Changes
