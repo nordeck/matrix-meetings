@@ -44,7 +44,7 @@ jobs:
 
       - name: check translations
         working-directory: ./matrix-meetings-widget/
-        run: yarn translate --fail-on-update
+        run: yarn translate --ci --dry-run
 
       - name: test calendar
         working-directory: ./packages/calendar/
@@ -158,7 +158,7 @@ jobs:
 
       - name: check translations
         working-directory: ./matrix-meetings-bot/
-        run: yarn translate --fail-on-update
+        run: yarn translate --ci --dry-run
 
       - name: test calendar
         working-directory: ./packages/calendar/

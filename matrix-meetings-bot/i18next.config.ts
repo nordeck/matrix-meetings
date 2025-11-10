@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2025 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,9 +14,12 @@
  * limitations under the License.
  */
 
-module.exports = {
+import { defineConfig } from 'i18next-cli';
+
+export default defineConfig({
   locales: ['en', 'de'],
-  output: 'src/static/locales/$LOCALE/$NAMESPACE.json',
-  sort: true,
-  resetDefaultValueLocale: 'en',
-};
+  extract: {
+    input: 'src/**/*.{js,jsx,ts,tsx}',
+    output: 'src/static/locales/{{language}}/{{namespace}}.json',
+  },
+});

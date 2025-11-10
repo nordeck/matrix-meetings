@@ -71,7 +71,7 @@
       "prettier --write"
     ],
     "*.{json,js,jsx,ts,tsx}": [
-      "bash -c \"yarn translate --fail-on-update\""
+      "bash -c \"yarn translate --ci --dry-run\""
     ]
   },
   "packageManager": "yarn@1.22.22+sha1.ac34549e6aa8e7ead463a7407e1c7390f61a6610"
