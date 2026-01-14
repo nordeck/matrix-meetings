@@ -43,7 +43,7 @@
     "timezones-ical-library": "^1.9.1"
   },
   "devDependencies": {
-    "@matrix-widget-toolkit/testing": "^4.0.0",
+    "@matrix-widget-toolkit/testing": "^4.0.1",
     "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.1",
