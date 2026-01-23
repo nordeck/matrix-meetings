@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.8.6
+
+### Patch Changes
+
+- 0e678c8: Use i18next-cli instead of i18next-parser
+
 ## 2.8.5
 
 ### Patch Changes
