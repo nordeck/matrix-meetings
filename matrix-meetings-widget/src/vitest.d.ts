@@ -28,6 +28,8 @@ declare module 'vitest' {
 /* eslint-disable @typescript-eslint/no-explicit-any */
 declare module 'vitest' {
   interface Assertion<T = any> extends TestingLibraryMatchers<any, T> {}
-  interface AsymmetricMatchersContaining
-    extends TestingLibraryMatchers<any, any> {}
+  interface AsymmetricMatchersContaining extends TestingLibraryMatchers<
+    any,
+    any
+  > {}
 }

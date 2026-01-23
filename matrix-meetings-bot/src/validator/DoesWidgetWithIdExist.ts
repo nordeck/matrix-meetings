@@ -27,9 +27,7 @@ import { IRoomMatrixEvents } from '../model/IRoomMatrixEvents';
 
 @ValidatorConstraint({ async: false })
 @Injectable()
-export class DoesWidgetWithIdExistConstraint
-  implements ValidatorConstraintInterface
-{
+export class DoesWidgetWithIdExistConstraint implements ValidatorConstraintInterface {
   constructor(
     @Inject(ModuleProviderToken.ROOM_MATRIX_EVENTS)
     private roomMatrixEvents: DeepReadonly<IRoomMatrixEvents>,
