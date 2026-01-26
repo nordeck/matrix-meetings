@@ -1,5 +1,13 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.7.3
+
+### Patch Changes
+
+- 0f10e8d: Update vite to 7, vitest to 3.2.4
+- 0e678c8: Use i18next-cli instead of i18next-parser
+- 79379a1: Update minor dependencies. Update `widget-server` to 1.2.1 for CVEs: `CVE-2024-56171`, `CVE-2025-49794`, `CVE-2025-49796`.
+
 ## 1.7.2
 
 ### Patch Changes
