@@ -1,4 +1,4 @@
-name: Release Bot Charts
+name: Release Bot Chart
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - '@nordeck/helm-matrix-meetings-bot-*'
 
 jobs:
-  helm-release-charts:
+  helm-release-chart:
     runs-on: ubuntu-latest
     permissions:
       contents: write
