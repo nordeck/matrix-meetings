@@ -122,6 +122,18 @@ docker run --rm -p 3000:3000 ghcr.io/nordeck/matrix-meetings-bot:latest
 
 We also provide [HELM charts](./charts/).
 
+Install via OCI Registry for the widget:
+
+```sh
+helm install matrix-meetings-widget oci://ghcr.io/nordeck/charts/matrix-meetings-widget
+```
+
+Install via OCI Registry for the bot:
+
+```sh
+helm install matrix-meetings-bot oci://ghcr.io/nordeck/charts/matrix-meetings-bot
+```
+
 ## Supply Chain Security
 
 To ensure transparency and security in our software supply chain, we provide comprehensive Software Bill of Materials (SBOM) reports for this project and signed container images.
@@ -151,6 +163,24 @@ cosign verify \
 --certificate-identity-regexp https://github.com/nordeck/matrix-meetings/.github/workflows/publish-release-widget.yml@refs/tags/@nordeck/matrix-meetings-widget \
 --certificate-oidc-issuer https://token.actions.githubusercontent.com \
 ghcr.io/nordeck/matrix-meetings-widget:<version> | jq
+```
+
+Execute the following command to verify the signature of a chart container image for the bot (example for version: `@nordeck/helm-matrix-meetings-bot-0.1.1`):
+
+```sh
+cosign verify \
+--certificate-identity-regexp https://github.com/nordeck/matrix-meetings-bot/.github/workflows/helm-release.yml@refs/tags/@nordeck/helm-matrix-meetings-bot-0.1.1 \
+--certificate-oidc-issuer https://token.actions.githubusercontent.com \
+ghcr.io/nordeck/charts/matrix-meetings-bot:0.1.1 | jq
+```
+
+Execute the following command to verify the signature of a chart container image for the widget (example for version: `@nordeck/helm-matrix-meetings-widget-0.2.0`):
+
+```sh
+cosign verify \
+--certificate-identity-regexp https://github.com/nordeck/matrix-meetings-bot/.github/workflows/helm-release.yml@refs/tags/@nordeck/helm-matrix-meetings-widget-0.2.0 \
+--certificate-oidc-issuer https://token.actions.githubusercontent.com \
+ghcr.io/nordeck/charts/matrix-meetings-widget:0.2.0 | jq
 ```
 
 ## Matrix Room Upgrades
