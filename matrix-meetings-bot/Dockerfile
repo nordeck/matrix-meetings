@@ -1,10 +1,10 @@
-FROM aquasec/trivy:latest AS scanner
+FROM aquasec/trivy:latest@sha256:1c78ed1ef824ab8bb05b04359d186e4c1229d0b3e67005faacb54a7d71974f73 AS scanner
 
 # Copy yarn.lock to run SBOM scan
 COPY yarn.lock /tmp
 RUN trivy fs --format spdx-json --scanners "license" /tmp/yarn.lock > /tmp/sbom.spdx.json
 
-FROM node:20-bookworm-slim AS builder
+FROM node:20-bookworm-slim@sha256:c6585df72c34172bebd8d36abed961e231d7d3b5cee2e01294c4495e8a03f687 AS builder
 
 WORKDIR /build
 
@@ -15,7 +15,7 @@ COPY packages/calendar/lib ./packages/calendar/lib
 RUN yarn install --production --frozen-lockfile --network-timeout 1000000
 
 # Runtime image
-FROM node:20-bookworm-slim
+FROM node:20-bookworm-slim@sha256:c6585df72c34172bebd8d36abed961e231d7d3b5cee2e01294c4495e8a03f687
 
 ENV NODE_ENV=production
 WORKDIR /app
