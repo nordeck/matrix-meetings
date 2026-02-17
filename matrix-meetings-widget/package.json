@@ -6,11 +6,11 @@
   "version": "1.7.3",
   "private": true,
   "dependencies": {
-    "@fullcalendar/core": "^6.1.14",
-    "@fullcalendar/daygrid": "^6.1.14",
-    "@fullcalendar/interaction": "^6.1.14",
-    "@fullcalendar/react": "^6.1.14",
-    "@fullcalendar/timegrid": "^6.1.14",
+    "@fullcalendar/core": "^6.1.20",
+    "@fullcalendar/daygrid": "^6.1.20",
+    "@fullcalendar/interaction": "^6.1.20",
+    "@fullcalendar/react": "^6.1.20",
+    "@fullcalendar/timegrid": "^6.1.20",
     "@matrix-widget-toolkit/api": "^5.0.3",
     "@matrix-widget-toolkit/mui": "^2.2.1",
     "@matrix-widget-toolkit/react": "^2.1.1",
@@ -39,7 +39,7 @@
     "redux": "^5.0.1",
     "reselect": "^4.1.8",
     "rrule": "^2.8.1",
-    "rxjs": "^7.8.1",
+    "rxjs": "^7.8.2",
     "timezones-ical-library": "^1.9.1"
   },
   "devDependencies": {
