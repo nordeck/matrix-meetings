@@ -10,8 +10,8 @@
     "@axe-core/playwright": "^4.11.0",
     "@playwright/test": "^1.57.0",
     "@types/node": "^22.19.3",
-    "eslint": "^8.57.0",
-    "eslint-plugin-playwright": "^1.6.1",
+    "eslint": "^10.0.0",
+    "eslint-plugin-playwright": "^2.0.0",
     "testcontainers": "^11.11.0"
   },
   "engines": {
