@@ -22,7 +22,7 @@
     "@nordeck/matrix-meetings-calendar": "1.0.0",
     "@reduxjs/toolkit": "^1.9.7",
     "i18next": "^24.2.3",
-    "i18next-browser-languagedetector": "^8.2.0",
+    "i18next-browser-languagedetector": "^8.2.1",
     "i18next-chained-backend": "^4.6.3",
     "i18next-http-backend": "^2.7.3",
     "joi": "^17.13.3",
