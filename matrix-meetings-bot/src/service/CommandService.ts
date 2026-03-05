@@ -133,11 +133,7 @@ export class CommandService {
       });
       await this.matrixClient.sendHtmlText(roomId, html);
     } else if (LANG_COMMANDS.includes(commandName)) {
-      await this.welcomeWorkflowService.handleLanguageChange(
-        roomId,
-        event,
-        cmdArgs,
-      );
+      await this.welcomeWorkflowService.handleLanguageChange(roomId, cmdArgs);
     } else if (SETUP_COMMANDS.includes(commandName)) {
       await this.welcomeWorkflowService.handleAddWidgetCommand(roomId);
     } else if (STATUS_COMMANDS.includes(commandName)) {

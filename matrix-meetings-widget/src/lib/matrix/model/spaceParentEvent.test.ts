@@ -64,7 +64,7 @@ describe('isValidSpaceParentEvent', () => {
     ).toBe(true);
   });
 
-  it.each<Object>([
+  it.each<object>([
     { via: [undefined] },
     { via: null },
     { via: '111' },
@@ -73,7 +73,7 @@ describe('isValidSpaceParentEvent', () => {
     { via: 111 },
     { via: [null] },
     { via: [111] },
-  ])('should reject event with patch %j', (patch: Object) => {
+  ])('should reject event with patch %j', (patch: object) => {
     expect(
       isValidSpaceParentEvent({
         content: {

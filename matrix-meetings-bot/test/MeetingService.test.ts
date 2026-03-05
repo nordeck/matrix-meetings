@@ -339,7 +339,7 @@ describe('test relevant functionality of MeetingService', () => {
     expect(map[StateEventName.M_ROOM_HISTORY_VISIBILITY_EVENT]).toBeDefined();
     expect(map[StateEventName.NIC_MEETINGS_METADATA_EVENT]).toBeDefined();
     expect(map[StateEventName.M_ROOM_JOIN_RULES_EVENT]).toBeDefined();
-    expect(map[StateEventName.M_ROOM_GUEST_ACCESS]).toBeDefined();
+    expect(map[StateEventName.M_ROOM_GUEST_ACCESS_EVENT]).toBeDefined();
 
     const nic_meeting = map[StateEventName.NIC_MEETINGS_METADATA_EVENT];
     expect(nic_meeting.content.start_time).toBeUndefined();
@@ -361,7 +361,7 @@ describe('test relevant functionality of MeetingService', () => {
       expect(map[StateEventName.M_SPACE_PARENT_EVENT]).toBeUndefined();
     }
 
-    const guest_access = map[StateEventName.M_ROOM_GUEST_ACCESS];
+    const guest_access = map[StateEventName.M_ROOM_GUEST_ACCESS_EVENT];
     expect(guest_access.content.guest_access).toBe('forbidden');
 
     if (!appConfig.auto_deletion_offset) {

@@ -102,7 +102,7 @@ describe('validateReactionEvent', () => {
     ).toBe(false);
   });
 
-  it.each<Object>([
+  it.each<object>([
     { 'm.relates_to': undefined },
     { 'm.relates_to': null },
     { 'm.relates_to': 111 },
@@ -175,7 +175,7 @@ describe('validateReactionEvent', () => {
         room_id: 111,
       },
     },
-  ])('should reject event with patch %p', (patch: Object) => {
+  ])('should reject event with patch %p', (patch: object) => {
     expect(
       isValidReactionEvent({
         content: {

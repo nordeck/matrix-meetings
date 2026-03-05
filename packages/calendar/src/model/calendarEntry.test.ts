@@ -76,7 +76,7 @@ describe('calendarEntrySchema', () => {
     ).toBeUndefined();
   });
 
-  it.each<Object>([
+  it.each<object>([
     { uid: null },
     { uid: undefined },
     { uid: 111 },
@@ -123,7 +123,7 @@ describe('calendarEntrySchema', () => {
     { recurrenceId: { tzid: null, value: '20200101T000000' } },
     { recurrenceId: { tzid: undefined, value: '20200101T000000' } },
     { recurrenceId: { tzid: 111, value: '20200101T000000' } },
-  ])('should reject event with patch %p', (patch: Object) => {
+  ])('should reject event with patch %p', (patch: object) => {
     expect(
       calendarEntrySchema.validate({
         uid: 'uuid',

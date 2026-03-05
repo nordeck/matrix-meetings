@@ -54,7 +54,7 @@ vi.mock('./i18n', async () => {
     },
   });
 
-  // @ts-ignore for tests
+  // @ts-expect-error for tests
   registerDateRangeFormatter(i18n);
 
   return i18n;
