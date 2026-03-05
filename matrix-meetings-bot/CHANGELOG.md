@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.8.7
+
+### Patch Changes
+
+- cfd73bc: Upload helm charts to OCI Registry, release helm charts
+
 ## 2.8.6
 
 ### Patch Changes

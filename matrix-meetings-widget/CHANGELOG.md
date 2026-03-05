@@ -1,5 +1,12 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.7.4
+
+### Patch Changes
+
+- 88b6417: Update `widget-server` base image to v1.2.2
+- cfd73bc: Upload helm charts to OCI Registry, release helm charts
+
 ## 1.7.3
 
 ### Patch Changes
