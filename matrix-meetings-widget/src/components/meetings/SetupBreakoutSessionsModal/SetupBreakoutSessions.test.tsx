@@ -88,7 +88,7 @@ describe('<SetupBreakoutSessions>', () => {
   });
 
   // Deactivated during Vite migration
-  it.skip('should render without exploding', async () => {
+  it.todo('should render without exploding', async () => {
     const onBreakoutSessionsChange = vi.fn();
     render(
       <SetupBreakoutSessions

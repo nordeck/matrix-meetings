@@ -26,9 +26,14 @@
     "rrule": "^2.8.1"
   },
   "devDependencies": {
+    "@eslint/js": "^9.39.4",
     "@types/lodash": "^4.17.15",
     "@types/luxon": "3.2.2",
-    "ts-jest": "29.2.6"
+    "eslint": "^9.39.4",
+    "eslint-plugin-notice": "^1.0.0",
+    "eslint-plugin-promise": "^7.2.1",
+    "ts-jest": "29.2.6",
+    "typescript-eslint": "^8.56.0"
   },
   "jest": {
     "preset": "ts-jest",

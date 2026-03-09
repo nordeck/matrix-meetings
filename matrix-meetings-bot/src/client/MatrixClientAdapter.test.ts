@@ -23,7 +23,7 @@ describe('MatrixClientAdapter', () => {
   beforeEach(() => {
     jest
       .spyOn(MatrixClient.prototype, 'doRequest')
-      .mockImplementation((method, endpoint) => {
+      .mockImplementation((_method, endpoint) => {
         const response =
           endpoint === '/_matrix/client/v3/capabilities'
             ? {

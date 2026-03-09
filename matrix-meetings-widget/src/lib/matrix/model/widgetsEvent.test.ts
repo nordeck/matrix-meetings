@@ -69,14 +69,14 @@ describe('isValidWidgetsEvent', () => {
     ).toBe(false);
   });
 
-  it.each<Object>([
+  it.each<object>([
     { type: undefined },
     { type: null },
     { type: 111 },
     { url: undefined },
     { url: null },
     { url: 111 },
-  ])('should reject event with patch %j', (patch: Object) => {
+  ])('should reject event with patch %j', (patch: object) => {
     expect(
       isValidWidgetsEvent({
         content: {

@@ -131,7 +131,7 @@ describe('isValidNordeckMeetingMetadataEvent', () => {
     ).toBe(false);
   });
 
-  it.each<Object>([
+  it.each<object>([
     { creator: null },
     { creator: undefined },
     { creator: 111 },
@@ -145,7 +145,7 @@ describe('isValidNordeckMeetingMetadataEvent', () => {
     { force_deletion_at: 'text' },
     { external_data: [] },
     { external_data: { 'my.provider': [] } },
-  ])('should reject event with patch %p', (patch: Object) => {
+  ])('should reject event with patch %p', (patch: object) => {
     expect(
       isValidNordeckMeetingMetadataEvent({
         content: {
@@ -204,7 +204,7 @@ describe('isValidNordeckMeetingMetadataEvent', () => {
     },
   ];
 
-  it.each<Object>([
+  it.each<object>([
     { start_time: null },
     { start_time: undefined },
     { start_time: 111 },
@@ -218,7 +218,7 @@ describe('isValidNordeckMeetingMetadataEvent', () => {
     { calendar, end_time: undefined },
     { auto_deletion_offset: 'text' },
     { auto_deletion_offset: null },
-  ])('should reject legacy format event with patch %p', (patch: Object) => {
+  ])('should reject legacy format event with patch %p', (patch: object) => {
     expect(
       isValidNordeckMeetingMetadataEvent({
         content: {

@@ -21,7 +21,7 @@ import { paramExtractor, ParamName } from './IParamExtractor';
  * Extracts roomId
  */
 export const RoomIdParam = createParamDecorator(
-  (data: unknown, executionContext: ExecutionContext) => {
+  (_data: unknown, executionContext: ExecutionContext) => {
     return paramExtractor(executionContext, ParamName.ROOM_ID);
   },
 );

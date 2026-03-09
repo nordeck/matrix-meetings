@@ -41,10 +41,10 @@ export class MatrixAuthMiddleware implements NestMiddleware {
   /**
    * sets request.netNordeckContext with IUserContext if matrix user token is presented in headers and valid
    * @param request
-   * @param response
+   * @param _response
    * @param next
    */
-  async use(request: Request, response: Response, next: NextFunction) {
+  async use(request: Request, _response: Response, next: NextFunction) {
     let userContext: IUserContext | undefined;
     try {
       userContext = await this.extractUserContext(request);

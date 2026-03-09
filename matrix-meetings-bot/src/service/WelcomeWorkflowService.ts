@@ -182,7 +182,7 @@ export class WelcomeWorkflowService {
       );
 
       // invite the user and provide a reason
-      await this.inviteUser(privateRoomId, roomType, sender, roomId);
+      await this.inviteUser(privateRoomId, sender, roomId);
 
       this.logger.debug(
         `invite to private room originalroom: ${roomId}, sender: ${sender}, privateRoomId:${privateRoomId}`,
@@ -448,11 +448,7 @@ export class WelcomeWorkflowService {
     );
   }
 
-  public async handleLanguageChange(
-    roomId: string,
-    event: any,
-    args: string[],
-  ) {
+  public async handleLanguageChange(roomId: string, args: string[]) {
     const locale: string = args[0];
 
     if (!locale) {
@@ -693,7 +689,7 @@ export class WelcomeWorkflowService {
   ): Promise<string> {
     const initialState: any[] = [
       {
-        type: StateEventName.M_ROOM_GUEST_ACCESS,
+        type: StateEventName.M_ROOM_GUEST_ACCESS_EVENT,
         state_key: '',
         content: { guest_access: 'forbidden' },
       },
@@ -746,7 +742,6 @@ export class WelcomeWorkflowService {
 
   private async inviteUser(
     privateRoomId: string,
-    roomType: RoomType,
     userId: string,
     originalRoomId: string | undefined,
   ) {

@@ -47,17 +47,20 @@ describe('<MenuButton/>', () => {
 
   // Disabled during Vite migration.
   // @todo should be fixed
-  it.skip('should have no accessibility violations, if menu is open', async () => {
-    const { container } = render(
-      <MenuButton buttonLabel="Settings">
-        <MenuButtonItem icon={<DeleteIcon />}>Delete</MenuButtonItem>
-      </MenuButton>,
-    );
+  it.todo(
+    'should have no accessibility violations, if menu is open',
+    async () => {
+      const { container } = render(
+        <MenuButton buttonLabel="Settings">
+          <MenuButtonItem icon={<DeleteIcon />}>Delete</MenuButtonItem>
+        </MenuButton>,
+      );
 
-    await userEvent.click(screen.getByRole('button', { name: /settings/i }));
+      await userEvent.click(screen.getByRole('button', { name: /settings/i }));
 
-    expect(await axe(container)).toHaveNoViolations();
-  });
+      expect(await axe(container)).toHaveNoViolations();
+    },
+  );
 
   it('should open the menu', async () => {
     render(

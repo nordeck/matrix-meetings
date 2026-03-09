@@ -64,7 +64,7 @@ describe('<MeetingsNavigation/>', () => {
 
   // Disabled during Vite migration.
   // @todo should be fixed
-  it.skip('should have no accessibility violations', async () => {
+  it.todo('should have no accessibility violations', async () => {
     vi.mocked(useMediaQuery).mockReturnValue(true);
 
     const { container } = render(
@@ -79,18 +79,21 @@ describe('<MeetingsNavigation/>', () => {
 
   // Disabled during Vite migration.
   // @todo should be fixed
-  it.skip('should have no accessibility violations with disabled views', async () => {
-    vi.mocked(useMediaQuery).mockReturnValue(false);
+  it.todo(
+    'should have no accessibility violations with disabled views',
+    async () => {
+      vi.mocked(useMediaQuery).mockReturnValue(false);
 
-    const { container } = render(
-      <MeetingsNavigation onViewChange={vi.fn()} view="list" />,
-      { wrapper: Wrapper },
-    );
+      const { container } = render(
+        <MeetingsNavigation onViewChange={vi.fn()} view="list" />,
+        { wrapper: Wrapper },
+      );
 
-    await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
+      await userEvent.click(screen.getByRole('combobox', { name: 'View' }));
 
-    expect(await axe(container)).toHaveNoViolations();
-  });
+      expect(await axe(container)).toHaveNoViolations();
+    },
+  );
 
   it('should select a different view', async () => {
     const onViewChange = vi.fn();

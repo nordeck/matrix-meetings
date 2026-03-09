@@ -86,7 +86,7 @@ describe('<MeetingsCalendarDetailsDialog/>', () => {
 
   // Disabled during Vite migration. For some reason snapshot tests are broken.
   // @todo fix snapshot tests and enable test again
-  it.skip('should render nothing if no meeting is passed', () => {
+  it.todo('should render nothing if no meeting is passed', () => {
     const { baseElement } = render(
       <MeetingsCalendarDetailsDialog meetingId={undefined} onClose={onClose} />,
       { wrapper: Wrapper },

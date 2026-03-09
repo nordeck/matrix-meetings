@@ -47,12 +47,9 @@ beforeEach(() => {
 
     // replace all uncommon whitespace characters with ' '. Relates to https://github.com/nodejs/node/pull/45068
     // where the unicode standard decided to use U+2009 in some cases. This breaks some of our tests
-    // @ts-ignore: DateTimeFormat#formatRange will be available in TypeScript >4.7.2
     const originalFormatRange = format.formatRange;
     jest
-      // @ts-ignore: DateTimeFormat#formatRange will be available in TypeScript >4.7.2
       .spyOn(format, 'formatRange')
-      // @ts-ignore: DateTimeFormat#formatRange will be available in TypeScript >4.7.2
       .mockImplementation((startDate, endDate) =>
         originalFormatRange
           .call(format, startDate, endDate)

@@ -66,9 +66,9 @@ describe('isValidRoomTopicEvent', () => {
     ).toBe(true);
   });
 
-  it.each<Object>([{ topic: undefined }, { topic: null }, { topic: 111 }])(
+  it.each<object>([{ topic: undefined }, { topic: null }, { topic: 111 }])(
     'should reject event with patch %j',
-    (patch: Object) => {
+    (patch: object) => {
       expect(
         isValidRoomTopicEvent({
           content: {

@@ -82,7 +82,11 @@ export function MeetingNotEndedGuard({
     }
 
     if (isValidElement(withMessage)) {
-      return <Alert children={withMessage} role="status" severity="info" />;
+      return (
+        <Alert role="status" severity="info">
+          {withMessage}
+        </Alert>
+      );
     }
 
     const isBreakOutRoom = isMeetingBreakOutRoom(meeting.type);

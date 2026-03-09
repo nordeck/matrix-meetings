@@ -64,7 +64,7 @@ afterEach(() => widgetApi.stop());
 // Disabled during Vite migration.
 // This test raised unhandled exception errors.
 // @todo should be fixed
-describe.skip('<MeetingDetailsHeader/>', () => {
+describe.todo('<MeetingDetailsHeader/>', () => {
   const onClose = vi.fn();
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
