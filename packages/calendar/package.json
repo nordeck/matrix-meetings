@@ -22,7 +22,7 @@
     "i18next": "^24.2.3",
     "joi": "^17.13.3",
     "lodash": "^4.17.21",
-    "luxon": "3.3.0",
+    "luxon": "3.7.2",
     "rrule": "^2.8.1"
   },
   "devDependencies": {
