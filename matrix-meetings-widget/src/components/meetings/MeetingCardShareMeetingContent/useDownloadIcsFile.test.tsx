@@ -60,7 +60,7 @@ afterEach(() => vi.useRealTimers());
 
 // Disabled during Vite migration. For some reason snapshot tests are broken.
 // @todo fix snapshot tests and enable test again
-describe.skip('useDownloadIcsFile', () => {
+describe.todo('useDownloadIcsFile', () => {
   let Wrapper: ComponentType<PropsWithChildren<{}>>;
 
   beforeEach(() => {
@@ -131,7 +131,7 @@ END:VEVENT\r`),
 
 // Disabled during Vite migration. For some reason snapshot tests are broken.
 // @todo fix snapshot tests and enable test again
-describe.skip('createIcsFile', () => {
+describe.todo('createIcsFile', () => {
   beforeEach(() => {
     vi.useFakeTimers();
     vi.setSystemTime(new Date('2020-01-01T10:00:00Z'));

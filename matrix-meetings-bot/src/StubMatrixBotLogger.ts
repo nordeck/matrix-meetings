@@ -17,18 +17,18 @@
 import { ILogger } from 'matrix-bot-sdk';
 
 export class StubMatrixBotLogger implements ILogger {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   debug(module: string, ...messageOrObject: any[]): any {}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   error(module: string, ...messageOrObject: any[]): any {}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   info(module: string, ...messageOrObject: any[]): any {}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   trace(module: string, ...messageOrObject: any[]): any {}
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars,@typescript-eslint/no-empty-function
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   warn(module: string, ...messageOrObject: any[]): any {}
 }

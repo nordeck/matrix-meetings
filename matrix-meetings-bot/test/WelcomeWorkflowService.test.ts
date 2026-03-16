@@ -610,7 +610,7 @@ describe('test WelcomeWorkflowService', () => {
     });
 
     it('commands - LangCommand', async () => {
-      await service.handleLanguageChange(ROOM_ID, {}, ['de']);
+      await service.handleLanguageChange(ROOM_ID, ['de']);
       verify(
         clientMock.sendStateEvent(
           ROOM_ID,

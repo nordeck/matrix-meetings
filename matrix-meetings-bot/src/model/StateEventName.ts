@@ -30,7 +30,6 @@ export enum StateEventName {
   M_SPACE_PARENT_EVENT = 'm.space.parent',
   M_SPACE_CHILD_EVENT = 'm.space.child',
   M_ROOM_ENCRYPTION = 'm.room.encryption',
-  M_ROOM_GUEST_ACCESS = 'm.room.guest_access',
 
   NIC_MEETINGS_METADATA_EVENT = 'net.nordeck.meetings.metadata',
   NIC_MEETINGS_WELCOME_ROOM = 'net.nordeck.meetings.private_welcome_room',

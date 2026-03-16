@@ -16,11 +16,10 @@
 
 export type DeepReadonly<T> = T extends (infer R)[]
   ? DeepReadonlyArray<R>
-  : // eslint-disable-next-line @typescript-eslint/ban-types
+  : // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
     T extends Function
     ? T
-    : // eslint-disable-next-line @typescript-eslint/ban-types
-      T extends object
+    : T extends object
       ? DeepReadonlyObject<T>
       : T;
 
