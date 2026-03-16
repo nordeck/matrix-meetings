@@ -61,6 +61,7 @@ export default ts.config(
           ignoreRestSiblings: true,
         },
       ],
+      'object-shorthand': 'error',
     },
   },
 );

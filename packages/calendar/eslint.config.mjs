@@ -63,6 +63,7 @@ export default ts.config(
         },
       ],
       '@typescript-eslint/ban-ts-comment': 'off',
+      'object-shorthand': 'error',
     },
   },
 );
