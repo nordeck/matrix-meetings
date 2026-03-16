@@ -63,7 +63,6 @@ export default ts.config(
         },
       ],
       '@typescript-eslint/no-explicit-any': 0,
-      '@typescript-eslint/no-wrapper-object-types': 0,
       '@typescript-eslint/ban-ts-comment': 'off',
       'object-shorthand': 'error',
     },

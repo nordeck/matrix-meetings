@@ -150,7 +150,7 @@ describe('schema', () => {
     ).toBeUndefined();
   });
 
-  it.each<Object>([
+  it.each<object>([
     { state_events: null },
     { state_events: 'text' },
     { state_events: [{ type: undefined, content: {} }] },
@@ -199,7 +199,7 @@ describe('schema', () => {
     { room_events: [{ type: 't', content: undefined }] },
     { room_events: [{ type: 't', content: null }] },
     { room_events: [{ type: 't', content: 111 }] },
-  ])('should reject file with patch %j', (patch: Object) => {
+  ])('should reject file with patch %j', (patch: object) => {
     expect(
       schema.validate({
         ...patch,
@@ -207,7 +207,7 @@ describe('schema', () => {
     ).toBeDefined();
   });
 
-  it.each<Object>([
+  it.each<object>([
     { type: undefined },
     { type: null },
     { type: 111 },
@@ -226,7 +226,7 @@ describe('schema', () => {
     { avatar_url: 'http://example.com/image.png' },
     { data: null },
     { data: 111 },
-  ])('should reject widget event content with patch %p', (patch: Object) => {
+  ])('should reject widget event content with patch %p', (patch: object) => {
     expect(
       schema.validate({
         state_events: [
