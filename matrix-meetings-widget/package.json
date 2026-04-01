@@ -21,7 +21,7 @@
     "@mui/x-date-pickers": "^6.20.2",
     "@nordeck/matrix-meetings-calendar": "1.0.0",
     "@reduxjs/toolkit": "^1.9.7",
-    "i18next": "^24.2.3",
+    "i18next": "^25.10.10",
     "i18next-browser-languagedetector": "^8.2.1",
     "i18next-chained-backend": "^4.6.3",
     "i18next-http-backend": "^2.7.3",
