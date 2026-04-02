@@ -48,6 +48,7 @@ interface IPrivateRoomContext {
 
 // variables for i18n
 interface TranslationContext extends TOptions {
+  context?: string; // i18next context
   locale?: string; // locale of the message ('en', 'de')
   roomName?: string; // name of the room that will display the message
   roomId?: string; // roomId of the room that will display the message

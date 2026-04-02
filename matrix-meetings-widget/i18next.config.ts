@@ -21,5 +21,7 @@ export default defineConfig({
   extract: {
     input: 'src/**/*.{js,jsx,ts,tsx}',
     output: 'public/locales/{{language}}/{{namespace}}.json',
+    // override prefix to disable nested translations to avoid extraction of context variants
+    nestingPrefix: '_$t(',
   },
 });
