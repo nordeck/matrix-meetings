@@ -32,7 +32,7 @@
     "eslint": "^9.39.4",
     "eslint-plugin-notice": "^1.0.0",
     "eslint-plugin-promise": "^7.2.1",
-    "ts-jest": "29.2.6",
+    "ts-jest": "29.4.9",
     "typescript-eslint": "^8.56.0"
   },
   "jest": {
