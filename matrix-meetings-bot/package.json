@@ -1,6 +1,6 @@
 {
   "name": "@nordeck/matrix-meetings-bot",
-  "version": "2.8.6",
+  "version": "2.8.7",
   "description": "A Matrix bot that creates rooms for meetings triggered by custom events from the NeoDateFix widget",
   "author": "Nordeck IT + Consulting GmbH",
   "license": "Apache-2.0",
@@ -37,7 +37,7 @@
     "@nestjs/microservices": "^10.4.22",
     "@nestjs/platform-express": "^10.4.22",
     "@nestjs/swagger": "^7.4.2",
-    "@nordeck/matrix-meetings-calendar": "1.0.0",
+    "@nordeck/matrix-meetings-calendar": "1.0.1",
     "@supercharge/promise-pool": "^3.2.0",
     "base64url": "^3.0.1",
     "class-transformer": "^0.5.1",
