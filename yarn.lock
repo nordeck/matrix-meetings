@@ -6064,9 +6064,9 @@ i18next-http-backend@^2.7.3:
     cross-fetch "4.0.0"
 
 i18next-http-middleware@^3.9.2:
-  version "3.9.2"
-  resolved "https://registry.yarnpkg.com/i18next-http-middleware/-/i18next-http-middleware-3.9.2.tgz#b98deef779257bf15d04460886ae11982d53bf04"
-  integrity sha512-vzd0Z89xR1yF2V2USVS2G6oOzNilTXsBkxQ16GFPGJO4whQI/LIreh4p4Qy7HXQlGrWVp83YaekuG36+t9anJA==
+  version "3.9.6"
+  resolved "https://registry.yarnpkg.com/i18next-http-middleware/-/i18next-http-middleware-3.9.6.tgz#23144e0f039dabf934fd3760542298840d745815"
+  integrity sha512-zKOft9iNCbOM4cWxThpq9gikpCuftCFh9s7V+vXPoB0+AJw13mXZe/O2VCfZO0AKNHplFTDYkJASoK+J3iWFeQ==
 
 i18next-resources-for-ts@^2.0.2:
   version "2.0.2"
