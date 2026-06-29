@@ -1,5 +1,16 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.8.7
+
+### Patch Changes
+
+- 4bfd2ca: Pin trivy version to 0.69.3
+  Pin trivy-action to v0.35.0
+- f5f26e8: Update i18next-cli to 1.50.3, i18next to 25.10.10
+- cfd73bc: Upload helm charts to OCI Registry, release helm charts
+- Updated dependencies [f5f26e8]
+  - @nordeck/matrix-meetings-calendar@1.0.1
+
 ## 2.8.6
 
 ### Patch Changes
