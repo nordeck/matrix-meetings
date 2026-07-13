@@ -117,9 +117,15 @@ export class WelcomeWorkflowService {
     const roomMemberEvents = room.roomEventsByName(
       StateEventName.M_ROOM_MEMBER_EVENT,
     ) as IStateEvent<MembershipEventContent>[];
-    const botIsDirect = !!roomMemberEvents.find(
-      (e) => e.state_key === this.botId && e.unsigned?.prev_content?.is_direct,
-    );
+
+    // The `is_direct` flag is set either on the content of an invite or in the
+    // prev_content of the updated membership event after the bot joins.
+    const botIsDirect =
+      !!event.content?.is_direct ||
+      !!roomMemberEvents.find(
+        (e) =>
+          e.state_key === this.botId && e.unsigned?.prev_content?.is_direct,
+      );
 
     const roomType: RoomType = botIsDirect
       ? RoomType.CALENDAR_ROOM

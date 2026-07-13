@@ -330,6 +330,93 @@ describe('test WelcomeWorkflowService', () => {
     expect(membership).toBe('invite');
   });
 
+  describe('processRoomInvite - direct message detection', () => {
+    let service: WelcomeWorkflowService;
+    let meetingClientMock: MeetingClient;
+    let controlRoomMigrationServiceMock: ControlRoomMigrationService;
+
+    const createInviteEvent = (
+      is_direct?: boolean,
+    ): IStateEvent<MembershipEventContent> => ({
+      ...createMembershipEvent(),
+      sender: USER_ID,
+      content: {
+        membership: 'invite',
+        ...(is_direct === undefined ? {} : { is_direct }),
+      },
+    });
+
+    beforeEach(() => {
+      meetingClientMock = mock(MeetingClient);
+      controlRoomMigrationServiceMock = mock(ControlRoomMigrationService);
+      service = buildWelcomeWorkflowService(instance(clientMock), appConfig, {
+        meetingClient: instance(meetingClientMock),
+        controlRoomMigrationService: instance(controlRoomMigrationServiceMock),
+      });
+      when(meetingClientMock.fetchRoomAsync(ROOM_ID)).thenResolve(
+        new Room(ROOM_ID, []),
+      );
+    });
+
+    it('migrates to a calendar room when the invite event content has is_direct', async () => {
+      await service.processRoomInvite(ROOM_ID, createInviteEvent(true));
+
+      verify(clientMock.joinRoom(ROOM_ID)).once();
+      verify(
+        controlRoomMigrationServiceMock.migrateSingleRoom(
+          anything(),
+          anything(),
+          anything(),
+        ),
+      ).once();
+      verify(clientMock.createRoom(anything())).never();
+    });
+
+    it('migrates to a calendar room when the bot member event has prev_content.is_direct', async () => {
+      const botMemberEvent = {
+        ...createStateEvent(StateEventName.M_ROOM_MEMBER_EVENT, BOT_ID),
+        content: {
+          membership: 'join',
+        },
+        unsigned: {
+          prev_content: {
+            membership: 'invite',
+            is_direct: true,
+          },
+        },
+      };
+      when(meetingClientMock.fetchRoomAsync(ROOM_ID)).thenResolve(
+        new Room(ROOM_ID, [botMemberEvent]),
+      );
+
+      await service.processRoomInvite(ROOM_ID, createInviteEvent());
+
+      verify(
+        controlRoomMigrationServiceMock.migrateSingleRoom(
+          anything(),
+          anything(),
+          anything(),
+        ),
+      ).once();
+      verify(clientMock.createRoom(anything())).never();
+    });
+
+    it('creates a help room when no is_direct flag is present', async () => {
+      when(clientMock.createRoom(anything())).thenResolve('new_room_id');
+
+      await service.processRoomInvite(ROOM_ID, createInviteEvent());
+
+      verify(
+        controlRoomMigrationServiceMock.migrateSingleRoom(
+          anything(),
+          anything(),
+          anything(),
+        ),
+      ).never();
+      verify(clientMock.createRoom(anything())).once();
+    });
+  });
+
   test('processUserLeavePrivateRoom - undefined membership', async () => {
     const service = buildWelcomeWorkflowService(
       instance(clientMock),
