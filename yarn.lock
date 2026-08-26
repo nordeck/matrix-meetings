@@ -6141,10 +6141,10 @@ i18next-cli@^1.50.3:
     react-i18next "^16.5.8"
     yaml "^2.8.2"
 
-i18next-fs-backend@^2.6.6:
-  version "2.6.6"
-  resolved "https://registry.yarnpkg.com/i18next-fs-backend/-/i18next-fs-backend-2.6.6.tgz#d7a0b4595cc3d504c9d0b267e527d2b4926d9418"
-  integrity sha512-mYGu6Nt8RIp3X/U8Y+Gej1wo5xmYWmGKLqBGMCC2OCAou5rW5epeHgHmVcw20mJs9Z9+DAPHIxQPNCgFyPRMeg==
+i18next-fs-backend@^2.6.7:
+  version "2.6.7"
+  resolved "https://registry.yarnpkg.com/i18next-fs-backend/-/i18next-fs-backend-2.6.7.tgz#4cb4aba9d165748bb6b2f19ed0892061a98c1c81"
+  integrity sha512-nN2TIycyR/d+OVuLm1ugPyOlMprqPRnQ7QktBgn44F3H8l7TeTH4ffHJ7nUsd4QVJfetWW7/VZ3s+4g7FoAZUA==
 
 i18next-http-backend@^3.0.6:
   version "3.0.6"
@@ -6153,10 +6153,10 @@ i18next-http-backend@^3.0.6:
   dependencies:
     cross-fetch "4.1.0"
 
-i18next-http-middleware@^3.9.7:
-  version "3.9.7"
-  resolved "https://registry.yarnpkg.com/i18next-http-middleware/-/i18next-http-middleware-3.9.7.tgz#2cc8973e8c210767ae45e141ee54878b527dd0d3"
-  integrity sha512-k4Aa39thnQXGox5ZeKvlOwbDsFz+iGxtPJITWm6xmmErNZOeGMXIoH9XwK3ITUq7lqHaywnIH9gLwOraU4jJvQ==
+i18next-http-middleware@^3.9.8:
+  version "3.9.8"
+  resolved "https://registry.yarnpkg.com/i18next-http-middleware/-/i18next-http-middleware-3.9.8.tgz#e6079a58fe9fe8cdcbf8adcb38237d00f40873e2"
+  integrity sha512-HMKPc/P/v3qI+JX1k8RLsc4IKT3nKwKFt4cPDZB+iSLlEkUblpjiJ2z3YZYgHgY2Xs6cnnqFkJIg4AU3JSTNaA==
 
 i18next-resources-for-ts@^2.0.2:
   version "2.0.2"
