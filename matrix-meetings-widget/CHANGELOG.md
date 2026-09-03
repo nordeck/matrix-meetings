@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.7.5
+
+### Patch Changes
+
+- 28feb37: Bump @matrix-widget-toolkit (api 5.1.0, mui 2.2.2, react 2.1.2, testing 4.1.0) and the widget-server base image to 1.2.3
+
 ## 1.7.4
 
 ### Patch Changes
