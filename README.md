@@ -62,7 +62,7 @@ For a list of available options, see [Configuration](./docs/configuration.md).
 
 Follow the [instructions to run the widget locally](https://github.com/nordeck/matrix-widget-toolkit/tree/main/example-widget-mui#running-the-widget-locally).
 
-Once running, you can visit the widget URL (`http(s)://localhost:3000/`) and follow the instructions on how to add it to a room within Element Web.
+Once running, you can visit the widget URL (`http(s)://localhost:5273/`) and follow the instructions on how to add it to a room within Element Web.
 
 ### Available Scripts
 
