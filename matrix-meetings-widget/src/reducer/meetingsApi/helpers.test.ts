@@ -231,12 +231,11 @@ describe('withEventContext', () => {
   const data = { my: 'data' };
 
   beforeEach(() => {
-    vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(
-      () =>
-        ({
-          resolvedOptions: () => ({ timeZone: 'UTC+11' }),
-        }) as Intl.DateTimeFormat,
-    );
+    vi.spyOn(Intl, 'DateTimeFormat').mockImplementation(function () {
+      return {
+        resolvedOptions: () => ({ timeZone: 'UTC+11' }),
+      } as Intl.DateTimeFormat;
+    });
   });
 
   it('should use default language', () => {
