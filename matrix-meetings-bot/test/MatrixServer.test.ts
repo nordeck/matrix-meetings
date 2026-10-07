@@ -256,6 +256,150 @@ describe('MatrixServer suite', () => {
     verify(matrixClientMock.getRoomMembers(roomId)).times(1); // no room state loading, origin_server_ts is taken from invite event sent before
   });
 
+  /**
+   * The bot listens for commands in rooms it is a member of.
+   * It keeps a map of room ID's and timestamps from the invite event, which
+   * originally came from the `invite_state` of the sync response.
+   *
+   * In Synapse <= 1.161, it sends the invite as a full event, including `origin_server_ts`.
+   * In Synapse >= 1.162 sends it as stripped state event without `origin_server_ts`,
+   * so it gets the timestamp from the join event instead.
+   */
+  describe('bot membership timestamp', () => {
+    const inviter = '@user:matrix.org';
+    const joinedAt = Date.now();
+
+    let meetingCreateHandler: jest.Mock;
+
+    beforeEach(async () => {
+      await matrixServer.onModuleInit();
+
+      meetingCreateHandler = jest.fn();
+      matrixServer.addHandler(
+        matrixPattern.roomEvent(RoomEventName.NIC_MEETINGS_MEETING_CREATE),
+        (): Promise<Observable<any>> => {
+          meetingCreateHandler();
+          return Promise.resolve(undefined as any);
+        },
+        true,
+      );
+    });
+
+    /** Invite as sent by Synapse <= 1.161 */
+    const fullInviteEvent = (
+      originServerTs: number,
+    ): IStateEvent<MembershipEventContent> => ({
+      event_id: '$invite',
+      origin_server_ts: originServerTs,
+      sender: inviter,
+      type: StateEventName.M_ROOM_MEMBER_EVENT,
+      content: { membership: 'invite' },
+      state_key: sender,
+    });
+
+    /** Invite as sent by Synapse >= 1.162 */
+    const strippedInviteEvent = (): IStateEvent<MembershipEventContent> =>
+      ({
+        sender: inviter,
+        type: StateEventName.M_ROOM_MEMBER_EVENT,
+        content: { membership: 'invite' },
+        state_key: sender,
+      }) as unknown as IStateEvent<MembershipEventContent>;
+
+    /** The join member event of the bot, as returned by `getRoomMembers` */
+    const botJoinMemberEvent = (originServerTs: number) =>
+      new MembershipEvent({
+        event_id: '$join',
+        origin_server_ts: originServerTs,
+        sender,
+        type: StateEventName.M_ROOM_MEMBER_EVENT,
+        content: { membership: 'join' },
+        state_key: sender,
+      });
+
+    const meetingCreateEvent = (
+      originServerTs: number,
+    ): IRoomEvent<unknown> => ({
+      ...roomEvent(RoomEventName.NIC_MEETINGS_MEETING_CREATE),
+      origin_server_ts: originServerTs,
+    });
+
+    const receiveInvite = (event: IStateEvent<MembershipEventContent>) =>
+      matrixServer.processEvent(BotEventType.ROOM_INVITE, roomId, event);
+
+    const receiveMeetingCreate = (originServerTs: number) =>
+      matrixServer.processEvent(
+        BotEventType.ROOM_EVENT,
+        roomId,
+        meetingCreateEvent(originServerTs),
+      );
+
+    test('should use the timestamp of a full invite event (Synapse <= 1.161)', async () => {
+      await receiveInvite(fullInviteEvent(joinedAt));
+
+      await receiveMeetingCreate(joinedAt - 1000);
+      expect(meetingCreateHandler).not.toHaveBeenCalled(); // sent before the invite
+
+      await receiveMeetingCreate(joinedAt + 1000);
+      expect(meetingCreateHandler).toHaveBeenCalledTimes(1);
+
+      // the timestamp is taken from the invite, nothing is loaded
+      verify(matrixClientMock.getRoomMembers(anything())).never();
+    });
+
+    test('should load the timestamp of the bot join event if the invite is stripped (Synapse >= 1.162)', async () => {
+      when(matrixClientMock.getRoomMembers(roomId)).thenResolve([
+        botJoinMemberEvent(joinedAt),
+      ]);
+
+      await receiveInvite(strippedInviteEvent());
+
+      await receiveMeetingCreate(joinedAt - 1000);
+      expect(meetingCreateHandler).not.toHaveBeenCalled(); // sent before the join
+
+      await receiveMeetingCreate(joinedAt + 1000);
+      await receiveMeetingCreate(joinedAt + 2000);
+      expect(meetingCreateHandler).toHaveBeenCalledTimes(2);
+
+      // the loaded timestamp is cached for all following events
+      verify(matrixClientMock.getRoomMembers(roomId)).once();
+    });
+
+    test('should retry loading the timestamp if the bot join event is not found', async () => {
+      when(matrixClientMock.getRoomMembers(roomId))
+        .thenResolve([]) // the bot has not joined the room yet
+        .thenResolve([botJoinMemberEvent(joinedAt)]);
+
+      await receiveInvite(strippedInviteEvent());
+
+      await receiveMeetingCreate(joinedAt + 1000);
+      expect(meetingCreateHandler).not.toHaveBeenCalled();
+
+      await receiveMeetingCreate(joinedAt + 2000);
+      expect(meetingCreateHandler).toHaveBeenCalledTimes(1);
+
+      verify(matrixClientMock.getRoomMembers(roomId)).twice();
+    });
+
+    test('should retry loading the timestamp if loading fails', async () => {
+      when(matrixClientMock.getRoomMembers(roomId))
+        .thenReject(new Error('request failed'))
+        .thenResolve([botJoinMemberEvent(joinedAt)]);
+
+      await receiveInvite(strippedInviteEvent());
+
+      await expect(receiveMeetingCreate(joinedAt + 1000)).rejects.toThrow(
+        'request failed',
+      );
+      expect(meetingCreateHandler).not.toHaveBeenCalled();
+
+      await receiveMeetingCreate(joinedAt + 2000);
+      expect(meetingCreateHandler).toHaveBeenCalledTimes(1);
+
+      verify(matrixClientMock.getRoomMembers(roomId)).twice();
+    });
+  });
+
   test('addHandler/processEvent test', async () => {
     await matrixServer.onModuleInit();
 
