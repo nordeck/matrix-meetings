@@ -2235,4 +2235,539 @@ describe('test relevant functionality of MeetingService', () => {
       new MeetingCreateResponseDto(ROOM_ID, `https://matrix.to/#/${ROOM_ID}`),
     );
   });
+
+  /**
+   * The bot and the users need power levels for most operations. Before room
+   * version 12, everyone's power level is listed in the power levels. Since
+   * room version 12, the room creators have an infinite power level and are
+   * not listed in the PL state event but in the `additional_creators` of the
+   * room create event. (MSC4289).
+   */
+  describe('power levels in room version 11 and 12', () => {
+    const ROOM = 'ROOM_UNDER_TEST';
+    const PARTICIPANT = '@participant:matrix.org';
+
+    type RoomSetup = {
+      roomVersion: '11' | '12';
+      creator: string;
+      additionalCreators?: string[];
+      users: Record<string, number>;
+      powerLevels?: Partial<PowerLevelsEventContent>;
+    };
+
+    /** The state of a meeting room with the given room version and power levels */
+    const createRoomState = (
+      roomId: string,
+      {
+        roomVersion,
+        creator,
+        additionalCreators = [],
+        users,
+        powerLevels = {},
+      }: RoomSetup,
+      parentRoomId: string | null = null,
+    ): IStateEvent<any>[] =>
+      create_test_meeting(creator, roomId, parentRoomId).map((se) => {
+        if (se.type === StateEventName.M_ROOM_CREATION_EVENT) {
+          return {
+            ...se,
+            content: {
+              ...se.content,
+              room_version: roomVersion,
+              additional_creators: additionalCreators,
+            },
+          };
+        }
+        if (se.type === StateEventName.M_ROOM_POWER_LEVELS_EVENT) {
+          return {
+            ...se,
+            content: {
+              users,
+              users_default: 0,
+              events_default: 0,
+              state_default: 50,
+              invite: 0,
+              kick: 50,
+              ...powerLevels,
+            },
+          };
+        }
+        return se;
+      });
+
+    const setupRoom = (roomId: string, setup: RoomSetup) => {
+      when(clientMock.getRoomState(roomId)).thenResolve(
+        createRoomState(roomId, setup),
+      );
+      when(
+        matrixClientAdapterMock.getCapabilitiesDefaultRoomVersion(),
+      ).thenResolve(setup.roomVersion);
+    };
+
+    const meetingRoom: Record<'11' | '12', RoomSetup> = {
+      '11': {
+        roomVersion: '11',
+        creator: BOT_USER,
+        users: { [BOT_USER]: 101, [CURRENT_USER]: 100 },
+      },
+      '12': {
+        roomVersion: '12',
+        creator: BOT_USER,
+        users: { [CURRENT_USER]: 150 },
+      },
+    };
+
+    const controlRoom: Record<'11' | '12', RoomSetup> = {
+      '11': {
+        roomVersion: '11',
+        creator: CURRENT_USER,
+        users: { [CURRENT_USER]: 100, [BOT_USER]: 100 },
+      },
+      '12': {
+        roomVersion: '12',
+        creator: CURRENT_USER,
+        additionalCreators: [BOT_USER],
+        users: {},
+      },
+    };
+
+    /** A room of the user that the bot joined without any power level */
+    const roomWithoutBotPower: Record<'11' | '12', RoomSetup> = {
+      '11': {
+        roomVersion: '11',
+        creator: CURRENT_USER,
+        users: { [CURRENT_USER]: 100 },
+      },
+      '12': {
+        roomVersion: '12',
+        creator: CURRENT_USER,
+        users: {},
+      },
+    };
+
+    const BREAKOUT_ROOMS = ['BREAKOUT_ROOM_1', 'BREAKOUT_ROOM_2'];
+
+    /**
+     * A meeting with two breakout sessions, linked via m.space.child and
+     * m.space.parent. The breakout sessions are loaded fully with
+     * getRoomState, and partially with getRoomStateEvent, which only returns
+     * the content of an event, like the real client.
+     */
+    const setupMeetingWithBreakoutSessions = (
+      meetingSetup: RoomSetup,
+      breakoutSetup: RoomSetup = meetingSetup,
+    ) => {
+      when(clientMock.getRoomState(ROOM)).thenResolve([
+        ...createRoomState(ROOM, meetingSetup),
+        ...BREAKOUT_ROOMS.map((roomId) =>
+          iStateEventHelper.fromPartial({
+            type: StateEventName.M_SPACE_CHILD_EVENT,
+            state_key: roomId,
+            content: { via: ['matrix.org'] },
+          }),
+        ),
+      ]);
+
+      for (const roomId of BREAKOUT_ROOMS) {
+        const state = createRoomState(roomId, breakoutSetup, ROOM);
+        when(clientMock.getRoomState(roomId)).thenResolve(state);
+        when(
+          clientMock.getRoomStateEvent(roomId, anything(), anything()),
+        ).thenCall(
+          async (_roomId: string, eventType: string, stateKey: string) =>
+            state.find(
+              (se) =>
+                se.type === eventType &&
+                (eventType !== StateEventName.M_SPACE_PARENT_EVENT ||
+                  se.state_key === stateKey),
+            )?.content,
+        );
+      }
+    };
+
+    const isSpaceChildOf = (parentId: string, childId: string) =>
+      getArgsFromCaptor(capture(clientMock.sendStateEvent)).some(
+        ([roomId, eventType, stateKey]) =>
+          roomId === parentId &&
+          eventType === StateEventName.M_SPACE_CHILD_EVENT &&
+          stateKey === childId,
+      );
+
+    beforeEach(() => {
+      when(clientMock.createRoom(anything())).thenResolve(ROOM_ID);
+      when(
+        clientMock.sendStateEvent(
+          anything(),
+          anything(),
+          anything(),
+          anything(),
+        ),
+      ).thenResolve('event-id');
+      when(clientMock.kickUser(anything(), anything(), anything())).thenResolve(
+        undefined,
+      );
+    });
+
+    describe.each([['11' as const], ['12' as const]])(
+      'room version %s',
+      (roomVersion) => {
+        describe('createMeeting', () => {
+          test('should add the meeting as space child of a meeting room', async () => {
+            setupRoom(ROOM, meetingRoom[roomVersion]);
+
+            await meetingService.createMeeting(userContext, createEvent(ROOM));
+
+            expect(isSpaceChildOf(ROOM, ROOM_ID)).toBe(true);
+          });
+
+          test('should add the meeting as space child of a control room', async () => {
+            setupRoom(ROOM, controlRoom[roomVersion]);
+
+            await meetingService.createMeeting(userContext, createEvent(ROOM));
+
+            expect(isSpaceChildOf(ROOM, ROOM_ID)).toBe(true);
+          });
+
+          test('should not add the meeting as space child if the bot has no power level in the parent room', async () => {
+            setupRoom(ROOM, roomWithoutBotPower[roomVersion]);
+
+            await meetingService.createMeeting(userContext, createEvent(ROOM));
+
+            expect(isSpaceChildOf(ROOM, ROOM_ID)).toBe(false);
+          });
+        });
+
+        describe('createBreakOutSessions', () => {
+          test('should add the breakout sessions as space children of the meeting', async () => {
+            setupRoom(ROOM, meetingRoom[roomVersion]);
+            when(clientMock.createRoom(anything()))
+              .thenResolve('breakout-room-0')
+              .thenResolve('breakout-room-1');
+
+            await meetingService.createBreakOutSessions(
+              userContext,
+              ROOM,
+              new BreakoutSessionsDto(
+                [
+                  new BreakoutSessionsDetailDto('Group 1', []),
+                  new BreakoutSessionsDetailDto('Group 2', []),
+                ],
+                TOPIC,
+                START,
+                END,
+                [],
+                true,
+              ),
+            );
+
+            expect(isSpaceChildOf(ROOM, 'breakout-room-0')).toBe(true);
+            expect(isSpaceChildOf(ROOM, 'breakout-room-1')).toBe(true);
+          });
+        });
+
+        describe('updateMeetingDetails', () => {
+          const updateMeetingTime = () =>
+            meetingService.updateMeetingDetails(
+              userContext,
+              new MeetingUpdateDetailsDto(
+                ROOM,
+                '2022-02-01T00:00:00Z',
+                '2022-02-03T00:00:00Z',
+                undefined,
+                undefined,
+                undefined,
+                undefined,
+              ),
+            );
+
+          test('should notify about the changed time if messaging is restricted to moderators', async () => {
+            setupRoom(ROOM, {
+              ...meetingRoom[roomVersion],
+              powerLevels: { events_default: 100 },
+            });
+
+            await updateMeetingTime();
+
+            verify(clientMock.sendHtmlText(ROOM, anything())).once();
+          });
+
+          test('should not notify about the changed time if the bot has no power level for messages', async () => {
+            setupRoom(ROOM, {
+              ...roomWithoutBotPower[roomVersion],
+              users: {
+                ...roomWithoutBotPower[roomVersion].users,
+                [BOT_USER]: 50,
+              },
+              powerLevels: { events_default: 100 },
+            });
+
+            await updateMeetingTime();
+
+            verify(clientMock.sendHtmlText(ROOM, anything())).never();
+          });
+        });
+
+        describe('handleParticipants', () => {
+          const removeParticipants = (userIds: string[]) =>
+            meetingService.handleParticipants(
+              userContext,
+              new MeetingParticipantsHandleDto(ROOM, false, userIds),
+            );
+
+          test('should remove a participant', async () => {
+            setupRoom(ROOM, meetingRoom[roomVersion]);
+
+            await removeParticipants([PARTICIPANT]);
+
+            verify(clientMock.kickUser(PARTICIPANT, ROOM, anything())).once();
+          });
+
+          test('should not remove the bot, which has a higher power level than the meeting creator', async () => {
+            setupRoom(ROOM, meetingRoom[roomVersion]);
+
+            await expect(removeParticipants([BOT_USER])).rejects.toThrow(
+              new PermissionError(
+                `User ${CURRENT_USER} has not enough power level to kick ${BOT_USER}`,
+              ),
+            );
+            verify(
+              clientMock.kickUser(anything(), anything(), anything()),
+            ).never();
+          });
+        });
+
+        describe('closeMeeting', () => {
+          test('should close the meeting with a tombstone', async () => {
+            setupRoom(ROOM, meetingRoom[roomVersion]);
+
+            await meetingService.closeMeeting(
+              userContext,
+              new MeetingCloseDto(ROOM, MeetingCloseMethod.TOMBSTONE),
+            );
+
+            verify(
+              clientMock.sendStateEvent(
+                ROOM,
+                StateEventName.M_ROOM_TOMBSTONE_EVENT,
+                anything(),
+                anything(),
+              ),
+            ).once();
+          });
+
+          test('should close the breakout sessions together with the meeting', async () => {
+            setupMeetingWithBreakoutSessions(meetingRoom[roomVersion]);
+
+            await meetingService.closeMeeting(
+              userContext,
+              new MeetingCloseDto(ROOM, MeetingCloseMethod.TOMBSTONE),
+            );
+
+            for (const roomId of [ROOM, ...BREAKOUT_ROOMS]) {
+              verify(
+                clientMock.sendStateEvent(
+                  roomId,
+                  StateEventName.M_ROOM_TOMBSTONE_EVENT,
+                  anything(),
+                  anything(),
+                ),
+              ).once();
+            }
+          });
+        });
+
+        describe('subMeetingsSendMessage', () => {
+          test('should send the message to all breakout sessions', async () => {
+            setupMeetingWithBreakoutSessions(meetingRoom[roomVersion]);
+
+            await meetingService.subMeetingsSendMessage(
+              userContext,
+              new SubMeetingsSendMessageDto(ROOM, 'hello'),
+            );
+
+            for (const roomId of BREAKOUT_ROOMS) {
+              verify(
+                clientMock.sendHtmlNotice(roomId, '<b>displayname:</b> hello'),
+              ).once();
+            }
+          });
+
+          test('should not send the message to breakout sessions in which messaging is restricted', async () => {
+            setupMeetingWithBreakoutSessions(meetingRoom[roomVersion], {
+              ...meetingRoom[roomVersion],
+              powerLevels: { events_default: 200 },
+            });
+
+            await meetingService.subMeetingsSendMessage(
+              userContext,
+              new SubMeetingsSendMessageDto(ROOM, 'hello'),
+            );
+
+            verify(clientMock.sendHtmlNotice(anything(), anything())).never();
+          });
+        });
+
+        describe('changeMessagingPermissions', () => {
+          const restrictMessaging = (context: IUserContext) =>
+            meetingService.changeMessagingPermissions(
+              context,
+              new MeetingChangeMessagingPermissionDto(ROOM, 100),
+            );
+
+          test('should allow the meeting creator to restrict messaging', async () => {
+            setupRoom(ROOM, meetingRoom[roomVersion]);
+
+            await restrictMessaging(userContext);
+
+            verify(
+              clientMock.sendStateEvent(
+                ROOM,
+                StateEventName.M_ROOM_POWER_LEVELS_EVENT,
+                '',
+                anything(),
+              ),
+            ).once();
+          });
+
+          test('should not allow a participant to restrict messaging', async () => {
+            setupRoom(ROOM, meetingRoom[roomVersion]);
+
+            await expect(
+              restrictMessaging({ ...userContext, userId: PARTICIPANT }),
+            ).rejects.toThrow(
+              new PermissionError(
+                `user: ${PARTICIPANT} has no permission for event: m.room.power_levels in room: ${ROOM}`,
+              ),
+            );
+            verify(
+              clientMock.sendStateEvent(
+                anything(),
+                StateEventName.M_ROOM_POWER_LEVELS_EVENT,
+                anything(),
+                anything(),
+              ),
+            ).never();
+          });
+        });
+
+        describe('handleWidgets', () => {
+          const addPollWidget = (context: IUserContext) =>
+            meetingService.handleWidgets(
+              context,
+              new MeetingWidgetsHandleDto(ROOM, true, ['poll']),
+            );
+
+          test('should allow the meeting creator to add a widget', async () => {
+            setupRoom(ROOM, meetingRoom[roomVersion]);
+
+            await addPollWidget(userContext);
+
+            verify(
+              clientMock.sendStateEvent(
+                ROOM,
+                StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
+                'poll',
+                anything(),
+              ),
+            ).once();
+          });
+
+          test('should not allow a participant to add a widget', async () => {
+            setupRoom(ROOM, meetingRoom[roomVersion]);
+
+            await expect(
+              addPollWidget({ ...userContext, userId: PARTICIPANT }),
+            ).rejects.toThrow(
+              new PermissionError(
+                `user: ${PARTICIPANT} has no permission for event: im.vector.modular.widgets in room: ${ROOM}`,
+              ),
+            );
+            verify(
+              clientMock.sendStateEvent(
+                anything(),
+                StateEventName.IM_VECTOR_MODULAR_WIDGETS_EVENT,
+                anything(),
+                anything(),
+              ),
+            ).never();
+          });
+        });
+      },
+    );
+
+    describe('closeMeeting with a user at power level 100', () => {
+      const closeMeeting = () =>
+        meetingService.closeMeeting(
+          userContext,
+          new MeetingCloseDto(ROOM, MeetingCloseMethod.TOMBSTONE),
+        );
+
+      test('should close the meeting in room version 11', async () => {
+        setupRoom(ROOM, meetingRoom['11']);
+
+        await closeMeeting();
+
+        verify(
+          clientMock.sendStateEvent(
+            ROOM,
+            StateEventName.M_ROOM_TOMBSTONE_EVENT,
+            anything(),
+            anything(),
+          ),
+        ).once();
+      });
+
+      test('should not close breakout sessions in room version 12, in which the user only has 100', async () => {
+        setupMeetingWithBreakoutSessions(meetingRoom['12'], {
+          ...meetingRoom['12'],
+          users: { [CURRENT_USER]: 100 },
+        });
+
+        await expect(closeMeeting()).rejects.toEqual([
+          expect.any(PermissionError),
+          expect.any(PermissionError),
+        ]);
+        // the meeting itself is closed, but the breakout sessions remain
+        verify(
+          clientMock.sendStateEvent(
+            ROOM,
+            StateEventName.M_ROOM_TOMBSTONE_EVENT,
+            anything(),
+            anything(),
+          ),
+        ).once();
+        for (const roomId of BREAKOUT_ROOMS) {
+          verify(
+            clientMock.sendStateEvent(
+              roomId,
+              StateEventName.M_ROOM_TOMBSTONE_EVENT,
+              anything(),
+              anything(),
+            ),
+          ).never();
+        }
+      });
+
+      test('should not close the meeting in room version 12, which requires 150 for tombstones', async () => {
+        setupRoom(ROOM, {
+          ...meetingRoom['12'],
+          users: { [CURRENT_USER]: 100 },
+        });
+
+        await expect(closeMeeting()).rejects.toThrow(
+          new PermissionError(
+            `user: ${CURRENT_USER} has no permission for event: m.room.tombstone in room: ${ROOM}`,
+          ),
+        );
+        verify(
+          clientMock.sendStateEvent(
+            anything(),
+            StateEventName.M_ROOM_TOMBSTONE_EVENT,
+            anything(),
+            anything(),
+          ),
+        ).never();
+      });
+    });
+  });
 });
