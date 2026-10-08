@@ -330,7 +330,7 @@ export class MatrixServer
               return botFetchedMemberTs;
             } else {
               this.logger.error(
-                `failed to load origin_server_ts for the room: ${roomId} triggered by event: ${event.event_id}, event is ignored and loading is retried with the next event`,
+                `Failed to load origin_server_ts for the room: ${roomId} triggered by event: ${event.event_id}, event is ignored and loading is retried with the next event`,
               );
               evictFromCache();
               return undefined;
@@ -338,7 +338,8 @@ export class MatrixServer
           })
           .catch((err) => {
             evictFromCache();
-            throw err;
+            this.logger.error(err, `Failed to get room members for ${roomId}`);
+            return undefined;
           });
         botMemberTsPromise = fetchedMemberTsPromise;
 
@@ -393,8 +394,9 @@ export class MatrixServer
       if (this.eventIsRegisteredByBot(botEventType, event)) {
         try {
           await this.reactionClient.sendSuccess(roomId, event.event_id);
-        } catch (e) {
-          this.logger.warn(
+        } catch (err) {
+          this.logger.error(
+            err,
             `Could not send success to user ${args.context?.userContext?.userId} and room : ${roomId}`,
           );
         }
