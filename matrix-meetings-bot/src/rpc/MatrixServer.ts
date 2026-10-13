@@ -265,15 +265,24 @@ export class MatrixServer
 
     if (botEventType === BotEventType.ROOM_INVITE) {
       /**
-       * bot 'room.invite' is sent first when bot is invited to the room
-       * matrix event passed is of type 'm.room.member' with bot membership set to 'invite'
-       * origin_server_ts is used as filter for all upcoming matrix events
-       * origin_server_ts considered equal to bot join 'origin_server_ts' because of bot auto join
+       * A 'room.invite' is sent first when the bot is invited to a room.
+       * The matrix event received is of type 'm.room.member' with membership set to 'invite'.
+       *
+       * The origin_server_ts from the invite is used as filter for all upcoming
+       * matrix events, otherwise we need to get it from the join member event.
+       *
+       * Recent Synapse versions (>=1.162) are sending stripped state events, so
+       * we don't expect `origin_server_ts` to be available but keep this here for
+       * backwards compatibility.
        */
-      this.roomIdToBotMemberTimestampMap.set(
-        roomId,
-        Promise.resolve(event.origin_server_ts),
-      );
+      if (Number.isFinite(event.origin_server_ts)) {
+        this.roomIdToBotMemberTimestampMap.set(
+          roomId,
+          Promise.resolve(event.origin_server_ts),
+        );
+      } else {
+        this.roomIdToBotMemberTimestampMap.delete(roomId);
+      }
     } else if (botEventType === BotEventType.ROOM_LEAVE) {
       // delete the entry to fetch origin_server_ts later when events will come again from this room
       this.roomIdToBotMemberTimestampMap.delete(roomId);
@@ -295,7 +304,18 @@ export class MatrixServer
       if (memberTsPromiseFromMap) {
         botMemberTsPromise = memberTsPromiseFromMap;
       } else {
-        botMemberTsPromise = this.matrixClient
+        // don't cache a missing timestamp or a failed request, otherwise all
+        // upcoming events of this room are ignored until the bot is restarted
+        const evictFromCache = () => {
+          if (
+            this.roomIdToBotMemberTimestampMap.get(roomId) ===
+            fetchedMemberTsPromise
+          ) {
+            this.roomIdToBotMemberTimestampMap.delete(roomId);
+          }
+        };
+
+        const fetchedMemberTsPromise = this.matrixClient
           .getRoomMembers(roomId)
           .then((membershipEvents: MembershipEvent[]) => {
             const botFetchedMemberTs: number | undefined =
@@ -310,13 +330,20 @@ export class MatrixServer
               return botFetchedMemberTs;
             } else {
               this.logger.error(
-                `failed to load origin_server_ts for the room: ${roomId} triggered by event: ${event.event_id}, bot will not process events of this room!`,
+                `Failed to load origin_server_ts for the room: ${roomId} triggered by event: ${event.event_id}, event is ignored and loading is retried with the next event`,
               );
-              return undefined; // should not happen
+              evictFromCache();
+              return undefined;
             }
+          })
+          .catch((err) => {
+            evictFromCache();
+            this.logger.error(err, `Failed to get room members for ${roomId}`);
+            return undefined;
           });
+        botMemberTsPromise = fetchedMemberTsPromise;
 
-        this.roomIdToBotMemberTimestampMap.set(roomId, botMemberTsPromise);
+        this.roomIdToBotMemberTimestampMap.set(roomId, fetchedMemberTsPromise);
       }
 
       // waiting for bot member invite origin_server_ts to resolve
@@ -367,8 +394,9 @@ export class MatrixServer
       if (this.eventIsRegisteredByBot(botEventType, event)) {
         try {
           await this.reactionClient.sendSuccess(roomId, event.event_id);
-        } catch (e) {
-          this.logger.warn(
+        } catch (err) {
+          this.logger.error(
+            err,
             `Could not send success to user ${args.context?.userContext?.userId} and room : ${roomId}`,
           );
         }
