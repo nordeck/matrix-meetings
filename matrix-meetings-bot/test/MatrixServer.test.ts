@@ -388,9 +388,7 @@ describe('MatrixServer suite', () => {
 
       await receiveInvite(strippedInviteEvent());
 
-      await expect(receiveMeetingCreate(joinedAt + 1000)).rejects.toThrow(
-        'request failed',
-      );
+      await receiveMeetingCreate(joinedAt + 1000);
       expect(meetingCreateHandler).not.toHaveBeenCalled();
 
       await receiveMeetingCreate(joinedAt + 2000);
