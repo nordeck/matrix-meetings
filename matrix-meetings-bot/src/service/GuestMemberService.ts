@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Nordeck IT + Consulting GmbH
+ * Copyright 2023-2026 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+import {
+  hasStateEventPower,
+  PowerLevelsStateEvent,
+  StateEvent,
+  StateEventCreateContent,
+} from '@matrix-widget-toolkit/api';
 import { Inject, Injectable } from '@nestjs/common';
 import {
   MatrixClient,
@@ -50,8 +56,6 @@ export class GuestMemberService {
     roomId: string,
     memberEvent: IStateEvent<MembershipEventContent>,
   ): Promise<void> {
-    const { botUserId } = this.appRuntimeContext;
-
     const {
       enable_guest_user_power_level_change,
       guest_user_prefix,
@@ -87,18 +91,11 @@ export class GuestMemberService {
     }
 
     const usersDefaultPower = powerLevels.users_default ?? 0;
-    const botPower = powerLevels.users?.[botUserId] ?? usersDefaultPower;
 
-    const powerLevelsPower =
-      powerLevels.events?.['m.room.power_levels'] ??
-      powerLevels.state_default ??
-      50;
-
-    const powerLevelsMatch =
-      usersDefaultPower > guest_user_default_power_level &&
-      botPower >= powerLevelsPower;
-
-    if (!powerLevelsMatch) {
+    if (
+      usersDefaultPower <= guest_user_default_power_level ||
+      !(await this.botCanChangePowerLevels(roomId, powerLevels))
+    ) {
       return;
     }
 
@@ -148,8 +145,6 @@ export class GuestMemberService {
     roomId: string,
     powerLevelEvent: IStateEvent<PowerLevelsEventContent>,
   ): Promise<void> {
-    const { botUserId } = this.appRuntimeContext;
-
     const {
       enable_guest_user_power_level_change,
       guest_user_prefix,
@@ -163,17 +158,6 @@ export class GuestMemberService {
     }
 
     const usersDefaultPower = powerLevels.users_default ?? 0;
-    const botPower = powerLevels.users?.[botUserId] ?? usersDefaultPower;
-
-    const powerLevelsPower =
-      powerLevels.events?.['m.room.power_levels'] ??
-      powerLevels.state_default ??
-      50;
-
-    if (botPower < powerLevelsPower) {
-      return;
-    }
-
     const users = powerLevels.users ?? {};
 
     const hasGuestPowerModified = Object.entries(users).some(
@@ -182,7 +166,10 @@ export class GuestMemberService {
         userPower !== guest_user_default_power_level,
     );
 
-    if (!hasGuestPowerModified) {
+    if (
+      !hasGuestPowerModified ||
+      !(await this.botCanChangePowerLevels(roomId, powerLevels))
+    ) {
       return;
     }
 
@@ -216,6 +203,30 @@ export class GuestMemberService {
       StateEventName.M_ROOM_POWER_LEVELS_EVENT,
       '',
       newPowerLevels,
+    );
+  }
+
+  private async botCanChangePowerLevels(
+    roomId: string,
+    powerLevels: PowerLevelsEventContent,
+  ): Promise<boolean> {
+    let createEvent: StateEvent<StateEventCreateContent> | undefined;
+
+    try {
+      const roomState: IStateEvent<unknown>[] =
+        await this.matrixClient.getRoomState(roomId);
+      createEvent = roomState?.find(
+        (se) => se.type === StateEventName.M_ROOM_CREATION_EVENT,
+      ) as StateEvent<StateEventCreateContent> | undefined;
+    } catch (err) {
+      createEvent = undefined;
+    }
+
+    return hasStateEventPower(
+      powerLevels as PowerLevelsStateEvent,
+      createEvent,
+      this.appRuntimeContext.botUserId,
+      StateEventName.M_ROOM_POWER_LEVELS_EVENT,
     );
   }
 }

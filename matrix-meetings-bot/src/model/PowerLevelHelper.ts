@@ -126,11 +126,22 @@ export class PowerLevelHelper {
     );
   }
 
+  /**
+   * Returns the content of the power levels event of a room.
+   * @param {IRoom} room room
+   * @returns {PowerLevelsStateEvent | undefined} the power levels, or undefined if the room has none
+   */
   public getPowerLevels(room: IRoom): PowerLevelsStateEvent | undefined {
     return room.roomEventsByName(StateEventName.M_ROOM_POWER_LEVELS_EVENT)[0]
       ?.content as PowerLevelsStateEvent | undefined;
   }
 
+  /**
+   * Returns the create event of a room. It is needed to calculate power
+   * levels since room version 12.
+   * @param {IRoom} room room
+   * @returns {StateEvent<StateEventCreateContent> | undefined} the full create event, or undefined if it is missing
+   */
   public getCreateEvent(
     room: IRoom,
   ): StateEvent<StateEventCreateContent> | undefined {
