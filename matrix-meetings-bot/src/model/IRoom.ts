@@ -15,14 +15,11 @@
  */
 
 import {
-  StateEvent,
-  StateEventCreateContent,
-} from '@matrix-widget-toolkit/api';
-import {
   MembershipEventContent,
   PowerLevelsEventContent,
   SpaceEntityMap,
 } from 'matrix-bot-sdk';
+import { ICreationContent } from '../matrix/dto/ICreationContent';
 import { EncryptionEventContent } from '../matrix/event/EncryptionEventContent';
 import { IStateEvent } from '../matrix/event/IStateEvent';
 import { IMeeting } from './IMeeting';
@@ -39,7 +36,7 @@ export interface IRoom {
   readonly spaceSubRooms: SpaceEntityMap;
   widgetEvents(removeEmpty: boolean): IStateEvent<IWidgetContent>[];
   readonly encryptionEvent: IStateEvent<EncryptionEventContent> | undefined;
-  readonly createEvent: StateEvent<StateEventCreateContent> | undefined;
+  readonly createEvent: IStateEvent<ICreationContent> | undefined;
   widgetEventById(widgetId: string): IStateEvent<IWidgetContent> | undefined;
   roomMemberMap(toIgnore: string[]): Map<string, IRoomMember>;
   readonly powerLevelContent: PowerLevelsEventContent;

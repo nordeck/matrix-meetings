@@ -14,10 +14,6 @@
  * limitations under the License.
  */
 
-import {
-  StateEvent,
-  StateEventCreateContent,
-} from '@matrix-widget-toolkit/api';
 import { Logger } from '@nestjs/common';
 import {
   MembershipEventContent,
@@ -72,9 +68,7 @@ export class Room implements IRoom {
     }
 
     try {
-      const roomCreate = this.roomEventsByName(
-        StateEventName.M_ROOM_CREATION_EVENT,
-      )[0] as IStateEvent<ICreationContent>;
+      const roomCreate = this.createEvent;
       const content = this.roomEventsByName(
         StateEventName.NIC_MEETINGS_METADATA_EVENT,
       )[0]?.content as IMeetingsMetadataEventContent;
@@ -196,9 +190,9 @@ export class Room implements IRoom {
     )[0] as IStateEvent<EncryptionEventContent>;
   }
 
-  public get createEvent(): StateEvent<StateEventCreateContent> | undefined {
+  public get createEvent(): IStateEvent<ICreationContent> | undefined {
     return this.roomEventsByName(StateEventName.M_ROOM_CREATION_EVENT)[0] as
-      | StateEvent<StateEventCreateContent>
+      | IStateEvent<ICreationContent>
       | undefined;
   }
 

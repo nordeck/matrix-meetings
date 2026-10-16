@@ -14,11 +14,6 @@
  * limitations under the License.
  */
 
-import {
-  calculateUserPowerLevel,
-  compareUserPowerLevelToNormalPowerLevel,
-  ROOM_VERSION_12_CREATOR,
-} from '@matrix-widget-toolkit/api';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { PromisePool } from '@supercharge/promise-pool';
 import { encode } from 'html-entities';
@@ -626,25 +621,11 @@ export class MeetingService {
     );
 
     if (action === PowerLevelAction.Kick) {
-      const userContextPowerLevel = calculateUserPowerLevel(
-        room.powerLevelContent,
-        room.createEvent,
+      const powerUserId = powerLevelHelper.findUserWithEqualOrHigherPowerLevel(
+        room,
         userContext.userId,
+        userIds,
       );
-      const powerUserId = userIds.find((userId) => {
-        const userPowerLevel = calculateUserPowerLevel(
-          room.powerLevelContent,
-          room.createEvent,
-          userId,
-        );
-        if (userContextPowerLevel === ROOM_VERSION_12_CREATOR) {
-          return userPowerLevel === ROOM_VERSION_12_CREATOR;
-        }
-        return compareUserPowerLevelToNormalPowerLevel(
-          userPowerLevel,
-          userContextPowerLevel,
-        );
-      });
 
       if (powerUserId) {
         throw new PermissionError(

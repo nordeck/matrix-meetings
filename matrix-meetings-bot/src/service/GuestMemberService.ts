@@ -14,12 +14,6 @@
  * limitations under the License.
  */
 
-import {
-  hasStateEventPower,
-  PowerLevelsStateEvent,
-  StateEvent,
-  StateEventCreateContent,
-} from '@matrix-widget-toolkit/api';
 import { Inject, Injectable } from '@nestjs/common';
 import {
   MatrixClient,
@@ -29,7 +23,9 @@ import {
 import { AppRuntimeContext } from '../AppRuntimeContext';
 import { IAppConfiguration } from '../IAppConfiguration';
 import { ModuleProviderToken } from '../ModuleProviderToken';
+import { ICreationContent } from '../matrix/dto/ICreationContent';
 import { IStateEvent } from '../matrix/event/IStateEvent';
+import { powerLevelHelper } from '../model/PowerLevelHelper';
 import { StateEventName } from '../model/StateEventName';
 
 @Injectable()
@@ -210,20 +206,20 @@ export class GuestMemberService {
     roomId: string,
     powerLevels: PowerLevelsEventContent,
   ): Promise<boolean> {
-    let createEvent: StateEvent<StateEventCreateContent> | undefined;
+    let createEvent: IStateEvent<ICreationContent> | undefined;
 
     try {
       const roomState: IStateEvent<unknown>[] =
         await this.matrixClient.getRoomState(roomId);
       createEvent = roomState?.find(
         (se) => se.type === StateEventName.M_ROOM_CREATION_EVENT,
-      ) as StateEvent<StateEventCreateContent> | undefined;
+      ) as IStateEvent<ICreationContent> | undefined;
     } catch (err) {
       createEvent = undefined;
     }
 
-    return hasStateEventPower(
-      powerLevels as PowerLevelsStateEvent,
+    return powerLevelHelper.userHasPowerLevelForEvent(
+      powerLevels,
       createEvent,
       this.appRuntimeContext.botUserId,
       StateEventName.M_ROOM_POWER_LEVELS_EVENT,
