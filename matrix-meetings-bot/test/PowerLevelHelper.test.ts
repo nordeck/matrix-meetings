@@ -49,6 +49,25 @@ function createRoom(powerLevels: PowerLevelsEventContent = {}): Room {
 }
 
 describe('PowerLevelHelper', () => {
+  test('should use state_default for state events and events_default for room events', () => {
+    const room = createRoom({ state_default: 60, events_default: 40 });
+
+    expect(
+      powerLevelHelper.userHasPowerLevelFor(
+        room,
+        moderator,
+        StateEventName.M_ROOM_NAME_EVENT,
+      ),
+    ).toBe(false);
+    expect(
+      powerLevelHelper.userHasPowerLevelFor(
+        room,
+        moderator,
+        RoomEventName.M_ROOM_MESSAGE,
+      ),
+    ).toBe(true);
+  });
+
   describe('userHasPowerLevelForAction', () => {
     test.each([
       [PowerLevelAction.Ban, 'ban'],
