@@ -2,4 +2,4 @@
 '@nordeck/matrix-meetings-bot': patch
 ---
 
-Fix the power level calculation for room creators in room version 12
+Fix power level calculations for the bot in v12 rooms

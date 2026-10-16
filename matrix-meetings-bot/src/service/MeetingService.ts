@@ -14,6 +14,11 @@
  * limitations under the License.
  */
 
+import {
+  calculateUserPowerLevel,
+  compareUserPowerLevelToNormalPowerLevel,
+  ROOM_VERSION_12_CREATOR,
+} from '@matrix-widget-toolkit/api';
 import { Inject, Injectable, Logger } from '@nestjs/common';
 import { PromisePool } from '@supercharge/promise-pool';
 import { encode } from 'html-entities';
@@ -24,8 +29,8 @@ import { DeepReadonly, DeepReadonlyArray } from '../DeepReadOnly';
 import { EventContentRenderer } from '../EventContentRenderer';
 import { IAppConfiguration } from '../IAppConfiguration';
 import {
-  IEventContentParams,
   eventContentParams,
+  IEventContentParams,
 } from '../IEventContentParams';
 import { ModuleProviderToken } from '../ModuleProviderToken';
 import { JitsiClient } from '../client/JitsiClient';
@@ -621,16 +626,26 @@ export class MeetingService {
     );
 
     if (action === PowerLevelAction.Kick) {
-      const userContextPowerLevel = powerLevelHelper.calculateUserPowerLevel(
-        room,
+      const powerLevels = powerLevelHelper.getPowerLevels(room);
+      const createEvent = powerLevelHelper.getCreateEvent(room);
+      const userContextPowerLevel = calculateUserPowerLevel(
+        powerLevels,
+        createEvent,
         userContext.userId,
       );
       const powerUserId = userIds.find((userId) => {
-        const userPowerLevel = powerLevelHelper.calculateUserPowerLevel(
-          room,
+        const userPowerLevel = calculateUserPowerLevel(
+          powerLevels,
+          createEvent,
           userId,
         );
-        return userContextPowerLevel <= userPowerLevel;
+        if (userContextPowerLevel === ROOM_VERSION_12_CREATOR) {
+          return userPowerLevel === ROOM_VERSION_12_CREATOR;
+        }
+        return compareUserPowerLevelToNormalPowerLevel(
+          userPowerLevel,
+          userContextPowerLevel,
+        );
       });
 
       if (powerUserId) {

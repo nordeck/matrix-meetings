@@ -15,13 +15,11 @@
  */
 
 import {
-  calculateUserPowerLevel,
   hasActionPower,
   hasRoomEventPower,
   hasStateEventPower,
   PowerLevelsActions,
   PowerLevelsStateEvent,
-  ROOM_VERSION_12_CREATOR,
   StateEvent,
   StateEventCreateContent,
 } from '@matrix-widget-toolkit/api';
@@ -80,7 +78,7 @@ export class PowerLevelHelper {
     userId: string,
     eventType: StateEventName | RoomEventName,
   ): boolean {
-    const powerLevels = getPowerLevels(room);
+    const powerLevels = this.getPowerLevels(room);
     if (!powerLevels) {
       // This is technically supposed to be non-fatal, but it's pretty unreasonable for a room to be missing
       // power levels.
@@ -88,8 +86,18 @@ export class PowerLevelHelper {
     }
 
     return eventTypeHelper.isState(eventType)
-      ? hasStateEventPower(powerLevels, getCreateEvent(room), userId, eventType)
-      : hasRoomEventPower(powerLevels, getCreateEvent(room), userId, eventType);
+      ? hasStateEventPower(
+          powerLevels,
+          this.getCreateEvent(room),
+          userId,
+          eventType,
+        )
+      : hasRoomEventPower(
+          powerLevels,
+          this.getCreateEvent(room),
+          userId,
+          eventType,
+        );
   }
 
   /**
@@ -104,7 +112,7 @@ export class PowerLevelHelper {
     userId: string,
     action: PowerLevelAction,
   ): boolean {
-    const powerLevels = getPowerLevels(room);
+    const powerLevels = this.getPowerLevels(room);
     const toolkitAction = toolkitActions[action];
     if (!powerLevels || !toolkitAction) {
       return false;
@@ -112,43 +120,24 @@ export class PowerLevelHelper {
 
     return hasActionPower(
       powerLevels,
-      getCreateEvent(room),
+      this.getCreateEvent(room),
       userId,
       toolkitAction,
     );
   }
 
-  /**
-   * Calculates the power level of a user in a room. The room creators of room
-   * version 12 have an infinite power level.
-   * @param {IRoom} room room
-   * @param {string} userId the user ID to calculate the power level of
-   * @returns {number} the power level of the user
-   */
-  public calculateUserPowerLevel(room: IRoom, userId: string): number {
-    const powerLevel = calculateUserPowerLevel(
-      getPowerLevels(room),
-      getCreateEvent(room),
-      userId,
-    );
-
-    return powerLevel === ROOM_VERSION_12_CREATOR
-      ? Number.POSITIVE_INFINITY
-      : powerLevel;
+  public getPowerLevels(room: IRoom): PowerLevelsStateEvent | undefined {
+    return room.roomEventsByName(StateEventName.M_ROOM_POWER_LEVELS_EVENT)[0]
+      ?.content as PowerLevelsStateEvent | undefined;
   }
-}
 
-function getPowerLevels(room: IRoom): PowerLevelsStateEvent | undefined {
-  return room.roomEventsByName(StateEventName.M_ROOM_POWER_LEVELS_EVENT)[0]
-    ?.content as PowerLevelsStateEvent | undefined;
-}
-
-function getCreateEvent(
-  room: IRoom,
-): StateEvent<StateEventCreateContent> | undefined {
-  return room.roomEventsByName(StateEventName.M_ROOM_CREATION_EVENT)[0] as
-    | StateEvent<StateEventCreateContent>
-    | undefined;
+  public getCreateEvent(
+    room: IRoom,
+  ): StateEvent<StateEventCreateContent> | undefined {
+    return room.roomEventsByName(StateEventName.M_ROOM_CREATION_EVENT)[0] as
+      | StateEvent<StateEventCreateContent>
+      | undefined;
+  }
 }
 
 export const powerLevelHelper = new PowerLevelHelper();

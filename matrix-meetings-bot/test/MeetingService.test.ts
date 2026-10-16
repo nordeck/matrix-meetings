@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2022-2026 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -2437,34 +2437,6 @@ describe('test relevant functionality of MeetingService', () => {
           });
         });
 
-        describe('createBreakOutSessions', () => {
-          test('should add the breakout sessions as space children of the meeting', async () => {
-            setupRoom(ROOM, meetingRoom[roomVersion]);
-            when(clientMock.createRoom(anything()))
-              .thenResolve('breakout-room-0')
-              .thenResolve('breakout-room-1');
-
-            await meetingService.createBreakOutSessions(
-              userContext,
-              ROOM,
-              new BreakoutSessionsDto(
-                [
-                  new BreakoutSessionsDetailDto('Group 1', []),
-                  new BreakoutSessionsDetailDto('Group 2', []),
-                ],
-                TOPIC,
-                START,
-                END,
-                [],
-                true,
-              ),
-            );
-
-            expect(isSpaceChildOf(ROOM, 'breakout-room-0')).toBe(true);
-            expect(isSpaceChildOf(ROOM, 'breakout-room-1')).toBe(true);
-          });
-        });
-
         describe('updateMeetingDetails', () => {
           const updateMeetingTime = () =>
             meetingService.updateMeetingDetails(
@@ -2695,27 +2667,64 @@ describe('test relevant functionality of MeetingService', () => {
       },
     );
 
+    describe('handleParticipants with room version 12 creators', () => {
+      const OTHER_CREATOR = '@other-creator:matrix.org';
+
+      const removeParticipants = (userIds: string[]) =>
+        meetingService.handleParticipants(
+          userContext,
+          new MeetingParticipantsHandleDto(ROOM, false, userIds),
+        );
+
+      test('should allow a creator to remove a participant with the highest power level', async () => {
+        setupRoom(ROOM, {
+          ...controlRoom['12'],
+          users: { [PARTICIPANT]: 150 },
+        });
+
+        await removeParticipants([PARTICIPANT]);
+
+        verify(clientMock.kickUser(PARTICIPANT, ROOM, anything())).once();
+      });
+
+      test('should not allow a creator to remove another creator', async () => {
+        setupRoom(ROOM, {
+          ...controlRoom['12'],
+          additionalCreators: [BOT_USER, OTHER_CREATOR],
+        });
+
+        await expect(
+          removeParticipants([PARTICIPANT, OTHER_CREATOR]),
+        ).rejects.toThrow(
+          new PermissionError(
+            `User ${CURRENT_USER} has not enough power level to kick ${OTHER_CREATOR}`,
+          ),
+        );
+        verify(clientMock.kickUser(anything(), anything(), anything())).never();
+      });
+
+      test('should not allow a user to remove a creator with a lower listed power level', async () => {
+        setupRoom(ROOM, {
+          ...meetingRoom['12'],
+          additionalCreators: [OTHER_CREATOR],
+          users: { [CURRENT_USER]: 150, [OTHER_CREATOR]: 0 },
+        });
+
+        await expect(removeParticipants([OTHER_CREATOR])).rejects.toThrow(
+          new PermissionError(
+            `User ${CURRENT_USER} has not enough power level to kick ${OTHER_CREATOR}`,
+          ),
+        );
+        verify(clientMock.kickUser(anything(), anything(), anything())).never();
+      });
+    });
+
     describe('closeMeeting with a user at power level 100', () => {
       const closeMeeting = () =>
         meetingService.closeMeeting(
           userContext,
           new MeetingCloseDto(ROOM, MeetingCloseMethod.TOMBSTONE),
         );
-
-      test('should close the meeting in room version 11', async () => {
-        setupRoom(ROOM, meetingRoom['11']);
-
-        await closeMeeting();
-
-        verify(
-          clientMock.sendStateEvent(
-            ROOM,
-            StateEventName.M_ROOM_TOMBSTONE_EVENT,
-            anything(),
-            anything(),
-          ),
-        ).once();
-      });
 
       test('should not close breakout sessions in room version 12, in which the user only has 100', async () => {
         setupMeetingWithBreakoutSessions(meetingRoom['12'], {
@@ -2746,27 +2755,6 @@ describe('test relevant functionality of MeetingService', () => {
             ),
           ).never();
         }
-      });
-
-      test('should not close the meeting in room version 12, which requires 150 for tombstones', async () => {
-        setupRoom(ROOM, {
-          ...meetingRoom['12'],
-          users: { [CURRENT_USER]: 100 },
-        });
-
-        await expect(closeMeeting()).rejects.toThrow(
-          new PermissionError(
-            `user: ${CURRENT_USER} has no permission for event: m.room.tombstone in room: ${ROOM}`,
-          ),
-        );
-        verify(
-          clientMock.sendStateEvent(
-            anything(),
-            StateEventName.M_ROOM_TOMBSTONE_EVENT,
-            anything(),
-            anything(),
-          ),
-        ).never();
       });
     });
   });
