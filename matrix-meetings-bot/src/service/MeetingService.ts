@@ -626,17 +626,15 @@ export class MeetingService {
     );
 
     if (action === PowerLevelAction.Kick) {
-      const powerLevels = powerLevelHelper.getPowerLevels(room);
-      const createEvent = powerLevelHelper.getCreateEvent(room);
       const userContextPowerLevel = calculateUserPowerLevel(
-        powerLevels,
-        createEvent,
+        room.powerLevelContent,
+        room.createEvent,
         userContext.userId,
       );
       const powerUserId = userIds.find((userId) => {
         const userPowerLevel = calculateUserPowerLevel(
-          powerLevels,
-          createEvent,
+          room.powerLevelContent,
+          room.createEvent,
           userId,
         );
         if (userContextPowerLevel === ROOM_VERSION_12_CREATOR) {

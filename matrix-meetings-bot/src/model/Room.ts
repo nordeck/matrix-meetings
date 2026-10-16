@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2022-2026 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import {
+  StateEvent,
+  StateEventCreateContent,
+} from '@matrix-widget-toolkit/api';
 import { Logger } from '@nestjs/common';
 import {
   MembershipEventContent,
@@ -190,6 +194,12 @@ export class Room implements IRoom {
     return this.roomEventsByName(
       StateEventName.M_ROOM_ENCRYPTION,
     )[0] as IStateEvent<EncryptionEventContent>;
+  }
+
+  public get createEvent(): StateEvent<StateEventCreateContent> | undefined {
+    return this.roomEventsByName(StateEventName.M_ROOM_CREATION_EVENT)[0] as
+      | StateEvent<StateEventCreateContent>
+      | undefined;
   }
 
   private findWidgetEvent(

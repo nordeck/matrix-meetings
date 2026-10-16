@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2022-2026 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,6 +14,10 @@
  * limitations under the License.
  */
 
+import {
+  StateEvent,
+  StateEventCreateContent,
+} from '@matrix-widget-toolkit/api';
 import {
   MembershipEventContent,
   PowerLevelsEventContent,
@@ -35,6 +39,7 @@ export interface IRoom {
   readonly spaceSubRooms: SpaceEntityMap;
   widgetEvents(removeEmpty: boolean): IStateEvent<IWidgetContent>[];
   readonly encryptionEvent: IStateEvent<EncryptionEventContent> | undefined;
+  readonly createEvent: StateEvent<StateEventCreateContent> | undefined;
   widgetEventById(widgetId: string): IStateEvent<IWidgetContent> | undefined;
   roomMemberMap(toIgnore: string[]): Map<string, IRoomMember>;
   readonly powerLevelContent: PowerLevelsEventContent;

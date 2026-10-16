@@ -19,9 +19,6 @@ import {
   hasRoomEventPower,
   hasStateEventPower,
   PowerLevelsActions,
-  PowerLevelsStateEvent,
-  StateEvent,
-  StateEventCreateContent,
 } from '@matrix-widget-toolkit/api';
 import { PowerLevelAction } from 'matrix-bot-sdk/lib/models/PowerLevelAction';
 import { PermissionError } from '../error/PermissionError';
@@ -78,7 +75,7 @@ export class PowerLevelHelper {
     userId: string,
     eventType: StateEventName | RoomEventName,
   ): boolean {
-    const powerLevels = this.getPowerLevels(room);
+    const powerLevels = room.powerLevelContent;
     if (!powerLevels) {
       // This is technically supposed to be non-fatal, but it's pretty unreasonable for a room to be missing
       // power levels.
@@ -86,18 +83,8 @@ export class PowerLevelHelper {
     }
 
     return eventTypeHelper.isState(eventType)
-      ? hasStateEventPower(
-          powerLevels,
-          this.getCreateEvent(room),
-          userId,
-          eventType,
-        )
-      : hasRoomEventPower(
-          powerLevels,
-          this.getCreateEvent(room),
-          userId,
-          eventType,
-        );
+      ? hasStateEventPower(powerLevels, room.createEvent, userId, eventType)
+      : hasRoomEventPower(powerLevels, room.createEvent, userId, eventType);
   }
 
   /**
@@ -112,42 +99,13 @@ export class PowerLevelHelper {
     userId: string,
     action: PowerLevelAction,
   ): boolean {
-    const powerLevels = this.getPowerLevels(room);
+    const powerLevels = room.powerLevelContent;
     const toolkitAction = toolkitActions[action];
     if (!powerLevels || !toolkitAction) {
       return false;
     }
 
-    return hasActionPower(
-      powerLevels,
-      this.getCreateEvent(room),
-      userId,
-      toolkitAction,
-    );
-  }
-
-  /**
-   * Returns the content of the power levels event of a room.
-   * @param {IRoom} room room
-   * @returns {PowerLevelsStateEvent | undefined} the power levels, or undefined if the room has none
-   */
-  public getPowerLevels(room: IRoom): PowerLevelsStateEvent | undefined {
-    return room.roomEventsByName(StateEventName.M_ROOM_POWER_LEVELS_EVENT)[0]
-      ?.content as PowerLevelsStateEvent | undefined;
-  }
-
-  /**
-   * Returns the create event of a room. It is needed to calculate power
-   * levels since room version 12.
-   * @param {IRoom} room room
-   * @returns {StateEvent<StateEventCreateContent> | undefined} the full create event, or undefined if it is missing
-   */
-  public getCreateEvent(
-    room: IRoom,
-  ): StateEvent<StateEventCreateContent> | undefined {
-    return room.roomEventsByName(StateEventName.M_ROOM_CREATION_EVENT)[0] as
-      | StateEvent<StateEventCreateContent>
-      | undefined;
+    return hasActionPower(powerLevels, room.createEvent, userId, toolkitAction);
   }
 }
 
