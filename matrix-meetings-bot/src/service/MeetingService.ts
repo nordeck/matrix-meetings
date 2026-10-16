@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2022-2026 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,8 +24,8 @@ import { DeepReadonly, DeepReadonlyArray } from '../DeepReadOnly';
 import { EventContentRenderer } from '../EventContentRenderer';
 import { IAppConfiguration } from '../IAppConfiguration';
 import {
-  IEventContentParams,
   eventContentParams,
+  IEventContentParams,
 } from '../IEventContentParams';
 import { ModuleProviderToken } from '../ModuleProviderToken';
 import { JitsiClient } from '../client/JitsiClient';
@@ -621,17 +621,11 @@ export class MeetingService {
     );
 
     if (action === PowerLevelAction.Kick) {
-      const userContextPowerLevel = powerLevelHelper.calculateUserPowerLevel(
-        room.powerLevelContent,
+      const powerUserId = powerLevelHelper.findUserWithEqualOrHigherPowerLevel(
+        room,
         userContext.userId,
+        userIds,
       );
-      const powerUserId = userIds.find((userId) => {
-        const userPowerLevel = powerLevelHelper.calculateUserPowerLevel(
-          room.powerLevelContent,
-          userId,
-        );
-        return userContextPowerLevel <= userPowerLevel;
-      });
 
       if (powerUserId) {
         throw new PermissionError(

@@ -1,5 +1,5 @@
 /*
- * Copyright 2023 Nordeck IT + Consulting GmbH
+ * Copyright 2023-2026 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -692,5 +692,96 @@ describe('GuestMemberService', () => {
         ([, , , content]) => content,
       ),
     ).toEqual([]);
+  });
+
+  describe('room version 12', () => {
+    /** The bot is the room creator and not listed in the power levels */
+    const powerLevelsWithoutBot = {
+      users: { '@user1:matrix.org': 50 },
+      users_default: 25,
+      events: {},
+      events_default: 0,
+      state_default: 50,
+      ban: 50,
+      kick: 50,
+      redact: 50,
+      invite: 0,
+    } satisfies PowerLevelsEventContent;
+
+    beforeEach(() => {
+      when(matrixClientMock.getRoomState(roomId)).thenResolve([
+        {
+          event_id: '$createEventId',
+          origin_server_ts: Date.now(),
+          sender: botUserId,
+          type: StateEventName.M_ROOM_CREATION_EVENT,
+          content: { room_version: '12' },
+          state_key: '',
+        },
+      ]);
+    });
+    test('assigns power level to guest when it joins a meeting / breakout room', async () => {
+      when(
+        matrixClientMock.getRoomStateEvent(
+          roomId,
+          StateEventName.M_ROOM_POWER_LEVELS_EVENT,
+          '',
+        ),
+      ).thenResolve(powerLevelsWithoutBot);
+
+      await guestMemberService.processMember(roomId, {
+        event_id: '$eventId1',
+        origin_server_ts: Date.now(),
+        sender: '@guest-userId1:matrix.org',
+        type: StateEventName.M_ROOM_MEMBER_EVENT,
+        content: { membership: 'join' },
+        state_key: '@guest-userId1:matrix.org',
+      });
+
+      expect(
+        getArgsFromCaptor(capture(matrixClientMock.sendStateEvent)).map(
+          ([, , , content]) => content,
+        ),
+      ).toEqual([
+        {
+          ...powerLevelsWithoutBot,
+          users: {
+            '@user1:matrix.org': 50,
+            '@guest-userId1:matrix.org': 0,
+          },
+        },
+      ]);
+    });
+
+    test('demotes a guest if it is promoted in a meeting / breakout room', async () => {
+      await guestMemberService.processPowerLevels(roomId, {
+        event_id: '$eventId1',
+        origin_server_ts: Date.now(),
+        sender: '@user1:matrix.org',
+        type: StateEventName.M_ROOM_POWER_LEVELS_EVENT,
+        content: {
+          ...powerLevelsWithoutBot,
+          users: {
+            '@user1:matrix.org': 50,
+            '@guest-userId1:matrix.org': 25,
+          },
+        },
+        state_key: '',
+      });
+
+      expect(
+        getArgsFromCaptor(capture(matrixClientMock.sendStateEvent)).map(
+          ([, , , content]) => content,
+        ),
+      ).toEqual([
+        {
+          ...powerLevelsWithoutBot,
+          users: {
+            '@user1:matrix.org': 50,
+            '@guest-userId1:matrix.org': 0,
+          },
+        },
+      ]);
+    });
   });
 });
