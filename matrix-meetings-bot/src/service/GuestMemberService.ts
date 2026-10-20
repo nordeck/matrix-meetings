@@ -209,6 +209,8 @@ export class GuestMemberService {
     let createEvent: IStateEvent<ICreationContent> | undefined;
 
     try {
+      // getRoomStateEvent only returns the content, but the sender is required
+      // to detect the creator in room version 12.
       const roomState: IStateEvent<unknown>[] =
         await this.matrixClient.getRoomState(roomId);
       createEvent = roomState?.find(
@@ -219,6 +221,7 @@ export class GuestMemberService {
     }
 
     return powerLevelHelper.userHasPowerLevelForEvent(
+      roomId,
       powerLevels,
       createEvent,
       this.appRuntimeContext.botUserId,

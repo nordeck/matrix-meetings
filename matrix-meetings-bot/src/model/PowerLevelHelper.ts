@@ -24,7 +24,7 @@ import {
   ROOM_VERSION_12_CREATOR,
   StateEvent,
   StateEventCreateContent,
-} from '@matrix-widget-toolkit/api';
+} from '@matrix-widget-toolkit/events';
 import { PowerLevelsEventContent } from 'matrix-bot-sdk';
 import { PowerLevelAction } from 'matrix-bot-sdk/lib/models/PowerLevelAction';
 import { PermissionError } from '../error/PermissionError';
@@ -45,16 +45,15 @@ const toolkitActions: Record<PowerLevelAction, PowerLevelsActions | undefined> =
   };
 
 /**
- * Converts the create event to the type of @matrix-widget-toolkit/api. This
+ * Converts the create event to the type of @matrix-widget-toolkit/events. This
  * file is the only place that uses the toolkit, so it can be replaced easily.
- * The toolkit only reads the `sender` and the `content` of the event.
+ * The event type of the bot has no `room_id`, so it is added from the room.
  */
 function toToolkitCreateEvent(
+  roomId: string,
   createEvent: IStateEvent<ICreationContent> | undefined,
 ): StateEvent<StateEventCreateContent> | undefined {
-  return createEvent as unknown as
-    | StateEvent<StateEventCreateContent>
-    | undefined;
+  return createEvent && { ...createEvent, room_id: roomId };
 }
 
 export class PowerLevelHelper {
@@ -97,6 +96,7 @@ export class PowerLevelHelper {
     eventType: StateEventName | RoomEventName,
   ): boolean {
     return this.userHasPowerLevelForEvent(
+      room.id,
       room.powerLevelContent,
       room.createEvent,
       userId,
@@ -107,6 +107,7 @@ export class PowerLevelHelper {
   /**
    * Checks if a given user has the power level required to send the given
    * event, based on the given power levels instead of the ones of a room.
+   * @param {string} roomId the ID of the room
    * @param {PowerLevelsEventContent | undefined} powerLevels the content of the power levels event
    * @param {IStateEvent<ICreationContent> | undefined} createEvent the create event of the room
    * @param {string} userId the user ID to check the power level of
@@ -114,6 +115,7 @@ export class PowerLevelHelper {
    * @returns {boolean} true if the user has the required power level, false otherwise
    */
   public userHasPowerLevelForEvent(
+    roomId: string,
     powerLevels: PowerLevelsEventContent | undefined,
     createEvent: IStateEvent<ICreationContent> | undefined,
     userId: string,
@@ -125,7 +127,7 @@ export class PowerLevelHelper {
       return false;
     }
 
-    const toolkitCreateEvent = toToolkitCreateEvent(createEvent);
+    const toolkitCreateEvent = toToolkitCreateEvent(roomId, createEvent);
     return eventTypeHelper.isState(eventType)
       ? hasStateEventPower(powerLevels, toolkitCreateEvent, userId, eventType)
       : hasRoomEventPower(powerLevels, toolkitCreateEvent, userId, eventType);
@@ -151,7 +153,7 @@ export class PowerLevelHelper {
 
     return hasActionPower(
       powerLevels,
-      toToolkitCreateEvent(room.createEvent),
+      toToolkitCreateEvent(room.id, room.createEvent),
       userId,
       toolkitAction,
     );
@@ -171,7 +173,7 @@ export class PowerLevelHelper {
     userId: string,
     userIds: string[],
   ): string | undefined {
-    const createEvent = toToolkitCreateEvent(room.createEvent);
+    const createEvent = toToolkitCreateEvent(room.id, room.createEvent);
     const userPowerLevel = calculateUserPowerLevel(
       room.powerLevelContent,
       createEvent,

@@ -1483,6 +1483,13 @@
     qs "^6.15.3"
     rxjs "^7.8.2"
 
+"@matrix-widget-toolkit/events@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/events/-/events-1.0.0.tgz#863fc4facb295a42b4be2d98aac8f4711c90fd13"
+  integrity sha512-1kr3UsmCGnImuUxbBa3XSW3Jrp/GAIFnFZKLHWN04JbCm5MIyIbBfsJk02AK8ZhkP9i6nKSo3eYHerxlIPZMzA==
+  dependencies:
+    joi "^17.13.6"
+
 "@matrix-widget-toolkit/mui@^2.2.2":
   version "2.2.2"
   resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/mui/-/mui-2.2.2.tgz#920a8f43c650f3dcceba4fa4c77b956c16a6f144"
@@ -7034,7 +7041,7 @@ jiti@^2.6.1:
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-2.6.1.tgz#178ef2fc9a1a594248c20627cd820187a4d78d92"
   integrity sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==
 
-joi@^17.13.3, joi@^17.13.4:
+joi@^17.13.3, joi@^17.13.4, joi@^17.13.6:
   version "17.13.8"
   resolved "https://registry.yarnpkg.com/joi/-/joi-17.13.8.tgz#92069d521eea09fd709d8abbb86b0ef02862224f"
   integrity sha512-iPKOGmiRw1jxf/JOPwxmCcUQAOdF359mdzYiP2DJ+TMX0YK2zjK3D+zYOaGjpumWxOFF/l2xVWjRVK5bGSLdEw==
