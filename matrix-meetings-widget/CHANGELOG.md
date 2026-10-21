@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.7.6
+
+### Patch Changes
+
+- 90ac072: Bump the widget server to v1.2.4
+
 ## 1.7.5
 
 ### Patch Changes
