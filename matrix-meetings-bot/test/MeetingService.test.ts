@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2022-2026 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -2234,5 +2234,128 @@ describe('test relevant functionality of MeetingService', () => {
     expect(meetingLink).toStrictEqual(
       new MeetingCreateResponseDto(ROOM_ID, `https://matrix.to/#/${ROOM_ID}`),
     );
+  });
+
+  /**
+   * Since room version 12, the room creators have an infinite power level and
+   * are not listed in the PL state event, but in the `sender` and the
+   * `additional_creators` of the room create event (MSC4289).
+   */
+  describe('power levels in room version 12', () => {
+    const ROOM = 'ROOM_UNDER_TEST';
+
+    type RoomSetup = {
+      creator: string;
+      users: Record<string, number>;
+      powerLevels?: Partial<PowerLevelsEventContent>;
+    };
+
+    const setupRoom = ({ creator, users, powerLevels = {} }: RoomSetup) => {
+      when(clientMock.getRoomState(ROOM)).thenResolve(
+        create_test_meeting(creator, ROOM, null).map((se) => {
+          if (se.type === StateEventName.M_ROOM_CREATION_EVENT) {
+            return {
+              ...se,
+              content: {
+                ...se.content,
+                room_version: '12',
+              },
+            };
+          }
+          if (se.type === StateEventName.M_ROOM_POWER_LEVELS_EVENT) {
+            return {
+              ...se,
+              content: {
+                users,
+                users_default: 0,
+                events_default: 0,
+                state_default: 50,
+                invite: 0,
+                kick: 50,
+                ...powerLevels,
+              },
+            };
+          }
+          return se;
+        }),
+      );
+      when(
+        matrixClientAdapterMock.getCapabilitiesDefaultRoomVersion(),
+      ).thenResolve('12');
+    };
+
+    /** A meeting room created by the bot */
+    const meetingRoom: RoomSetup = {
+      creator: BOT_USER,
+      users: { [CURRENT_USER]: 150 },
+    };
+
+    beforeEach(() => {
+      when(clientMock.createRoom(anything())).thenResolve(ROOM_ID);
+      when(
+        clientMock.sendStateEvent(
+          anything(),
+          anything(),
+          anything(),
+          anything(),
+        ),
+      ).thenResolve('event-id');
+      when(clientMock.kickUser(anything(), anything(), anything())).thenResolve(
+        undefined,
+      );
+    });
+
+    test('should add the meeting as space child of a meeting room created by the bot', async () => {
+      setupRoom(meetingRoom);
+
+      await meetingService.createMeeting(userContext, createEvent(ROOM));
+
+      verify(
+        clientMock.sendStateEvent(
+          ROOM,
+          StateEventName.M_SPACE_CHILD_EVENT,
+          ROOM_ID,
+          anything(),
+        ),
+      ).once();
+    });
+
+    test('should notify about the changed time if messaging is restricted to moderators', async () => {
+      setupRoom({ ...meetingRoom, powerLevels: { events_default: 100 } });
+
+      await meetingService.updateMeetingDetails(
+        userContext,
+        new MeetingUpdateDetailsDto(
+          ROOM,
+          '2022-02-01T00:00:00Z',
+          '2022-02-03T00:00:00Z',
+          undefined,
+          undefined,
+          undefined,
+          undefined,
+        ),
+      );
+
+      verify(clientMock.sendHtmlText(ROOM, anything())).once();
+    });
+
+    describe('handleParticipants', () => {
+      const removeParticipants = (userIds: string[]) =>
+        meetingService.handleParticipants(
+          userContext,
+          new MeetingParticipantsHandleDto(ROOM, false, userIds),
+        );
+
+      test('should not allow a user to remove a creator', async () => {
+        setupRoom(meetingRoom);
+
+        await expect(removeParticipants([BOT_USER])).rejects.toThrow(
+          new PermissionError(
+            `User ${CURRENT_USER} has not enough power level to kick ${BOT_USER}`,
+          ),
+        );
+        verify(clientMock.kickUser(anything(), anything(), anything())).never();
+      });
+    });
   });
 });

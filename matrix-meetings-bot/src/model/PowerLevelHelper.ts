@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2022-2026 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +14,47 @@
  * limitations under the License.
  */
 
+import {
+  calculateUserPowerLevel,
+  compareUserPowerLevelToNormalPowerLevel,
+  hasActionPower,
+  hasRoomEventPower,
+  hasStateEventPower,
+  PowerLevelsActions,
+  ROOM_VERSION_12_CREATOR,
+  StateEvent,
+  StateEventCreateContent,
+} from '@matrix-widget-toolkit/events';
 import { PowerLevelsEventContent } from 'matrix-bot-sdk';
 import { PowerLevelAction } from 'matrix-bot-sdk/lib/models/PowerLevelAction';
 import { PermissionError } from '../error/PermissionError';
+import { ICreationContent } from '../matrix/dto/ICreationContent';
+import { IStateEvent } from '../matrix/event/IStateEvent';
 import { eventTypeHelper } from './EventTypeHelper';
 import { IRoom } from './IRoom';
 import { RoomEventName } from './RoomEventName';
 import { StateEventName } from './StateEventName';
+
+const toolkitActions: Record<PowerLevelAction, PowerLevelsActions | undefined> =
+  {
+    [PowerLevelAction.Ban]: 'ban',
+    [PowerLevelAction.Invite]: 'invite',
+    [PowerLevelAction.Kick]: 'kick',
+    [PowerLevelAction.RedactEvents]: 'redact',
+    [PowerLevelAction.NotifyRoom]: undefined,
+  };
+
+/**
+ * Converts the create event to the type of @matrix-widget-toolkit/events. This
+ * file is the only place that uses the toolkit, so it can be replaced easily.
+ * The event type of the bot has no `room_id`, so it is added from the room.
+ */
+function toToolkitCreateEvent(
+  roomId: string,
+  createEvent: IStateEvent<ICreationContent> | undefined,
+): StateEvent<StateEventCreateContent> | undefined {
+  return createEvent && { ...createEvent, room_id: roomId };
+}
 
 export class PowerLevelHelper {
   public assertUserHasPowerLevelFor(
@@ -49,109 +83,117 @@ export class PowerLevelHelper {
     }
   }
 
-  //------In the MatrixBot there are now 2 implementations one for actions one for events
-  //------Copied the matrixBot-code, removed the async to avoid too much requests, because we have already the power_levels fetched for the room
-  //------set isState to be optional parameter, if 'undefined' then will try to find isState value for passed eventType
   /**
-   * Checks if a given user has a required power level required to send the given event.
+   * Checks if a given user has the power level required to send the given event.
    * @param {IRoom} room room
    * @param {string} userId the user ID to check the power level of
-   * @param {string} eventType the event type to look for in the `events` property of the power levels
-   * @param {boolean} isState true to indicate the event is intended to be a state event
-   * @returns {Promise<boolean>} resolves to true if the user has the required power level, resolves to false otherwise
+   * @param {string} eventType the type of the state or room event
+   * @returns {boolean} true if the user has the required power level, false otherwise
    */
-  // TODO should we maybe use PowerLevelAction here too and switch on undefined to userHasPowerLevelForAction ?
-  // TODO so we have a single point where it can be checked ?
   public userHasPowerLevelFor(
     room: IRoom,
     userId: string,
     eventType: StateEventName | RoomEventName,
   ): boolean {
-    const isState = eventTypeHelper.isState(eventType);
+    return this.userHasPowerLevelForEvent(
+      room.id,
+      room.powerLevelContent,
+      room.createEvent,
+      userId,
+      eventType,
+    );
+  }
 
-    const powerLevelsEvent = room.roomEventsByName(
-      StateEventName.M_ROOM_POWER_LEVELS_EVENT,
-    )[0]?.content as any; // cast to any to keep original matrix bot sdk code
-    if (!powerLevelsEvent) {
+  /**
+   * Checks if a given user has the power level required to send the given
+   * event, based on the given power levels instead of the ones of a room.
+   * @param {string} roomId the ID of the room
+   * @param {PowerLevelsEventContent | undefined} powerLevels the content of the power levels event
+   * @param {IStateEvent<ICreationContent> | undefined} createEvent the create event of the room
+   * @param {string} userId the user ID to check the power level of
+   * @param {string} eventType the type of the state or room event
+   * @returns {boolean} true if the user has the required power level, false otherwise
+   */
+  public userHasPowerLevelForEvent(
+    roomId: string,
+    powerLevels: PowerLevelsEventContent | undefined,
+    createEvent: IStateEvent<ICreationContent> | undefined,
+    userId: string,
+    eventType: StateEventName | RoomEventName,
+  ): boolean {
+    if (!powerLevels) {
       // This is technically supposed to be non-fatal, but it's pretty unreasonable for a room to be missing
       // power levels.
       return false;
     }
 
-    let requiredPower = isState ? 50 : 0;
-    if (isState && Number.isFinite(powerLevelsEvent['state_default']))
-      requiredPower = powerLevelsEvent['state_default'];
-    if (!isState && Number.isFinite(powerLevelsEvent['events_default']))
-      requiredPower = powerLevelsEvent['events_default'];
-    if (Number.isFinite(powerLevelsEvent['events']?.[eventType]))
-      requiredPower = powerLevelsEvent['events'][eventType];
-    // We also handle the action here although is now outsourced to userHasPowerLevelForAction
-    if (Number.isFinite(powerLevelsEvent[eventType]))
-      requiredPower = powerLevelsEvent[eventType];
-
-    let userPower = 0;
-    if (Number.isFinite(powerLevelsEvent['users_default']))
-      userPower = powerLevelsEvent['users_default'];
-    if (Number.isFinite(powerLevelsEvent['users']?.[userId]))
-      userPower = powerLevelsEvent['users'][userId];
-
-    return userPower >= requiredPower;
+    const toolkitCreateEvent = toToolkitCreateEvent(roomId, createEvent);
+    return eventTypeHelper.isState(eventType)
+      ? hasStateEventPower(powerLevels, toolkitCreateEvent, userId, eventType)
+      : hasRoomEventPower(powerLevels, toolkitCreateEvent, userId, eventType);
   }
 
   /**
-   * Checks if a given user has a required power level to perform the given action
+   * Checks if a given user has the power level required to perform the given action.
    * @param {IRoom} room room
    * @param {string} userId the user ID to check the power level of
-   * @param {PowerLevelAction} action the action to check power level for
-   * @returns {Promise<boolean>} resolves to true if the user has the required power level, resolves to false otherwise
+   * @param {PowerLevelAction} action the action to check the power level for
+   * @returns {boolean} true if the user has the required power level, false otherwise
    */
-
   public userHasPowerLevelForAction(
     room: IRoom,
     userId: string,
     action: PowerLevelAction,
   ): boolean {
-    const powerLevelsEvent = room.roomEventsByName(
-      StateEventName.M_ROOM_POWER_LEVELS_EVENT,
-    )[0]?.content as any; // cast to any to keep original matrix bot sdk code
-    if (!powerLevelsEvent) {
-      // This is technically supposed to be non-fatal, but it's pretty unreasonable for a room to be missing
-      // power levels.
+    const powerLevels = room.powerLevelContent;
+    const toolkitAction = toolkitActions[action];
+    if (!powerLevels || !toolkitAction) {
       return false;
     }
-    const defaultForActions: { [A in PowerLevelAction]: number } = {
-      [PowerLevelAction.Ban]: 50,
-      [PowerLevelAction.Invite]: 50,
-      [PowerLevelAction.Kick]: 50,
-      [PowerLevelAction.RedactEvents]: 50,
-      [PowerLevelAction.NotifyRoom]: 50,
-    };
 
-    let requiredPower = defaultForActions[action];
-
-    let investigate = powerLevelsEvent;
-    action.split('.').forEach((k) => (investigate = investigate?.[k]));
-    if (Number.isFinite(investigate)) requiredPower = investigate;
-
-    let userPower = 0;
-    if (Number.isFinite(powerLevelsEvent['users_default']))
-      userPower = powerLevelsEvent['users_default'];
-    if (Number.isFinite(powerLevelsEvent['users']?.[userId]))
-      userPower = powerLevelsEvent['users'][userId];
-
-    return userPower >= requiredPower;
+    return hasActionPower(
+      powerLevels,
+      toToolkitCreateEvent(room.id, room.createEvent),
+      userId,
+      toolkitAction,
+    );
   }
 
-  public calculateUserPowerLevel(
-    powerLevelStateEvent: PowerLevelsEventContent,
-    userId?: string,
-  ): number {
-    // See https://github.com/matrix-org/matrix-spec/blob/203b9756f52adfc2a3b63d664f18cdbf9f8bf126/data/event-schemas/schema/m.room.power_levels.yaml#L8-L12
-    return (
-      (userId ? powerLevelStateEvent.users?.[userId] : undefined) ??
-      powerLevelStateEvent.users_default ??
-      0
+  /**
+   * Finds a user whose power level is greater than or equal to the power level
+   * of a given user. Room version 12 creators are only matched by other
+   * creators.
+   * @param {IRoom} room room
+   * @param {string} userId the user ID to compare the power levels to
+   * @param {string[]} userIds the user IDs to search
+   * @returns {string | undefined} the first matching user ID, or undefined if there is none
+   */
+  public findUserWithEqualOrHigherPowerLevel(
+    room: IRoom,
+    userId: string,
+    userIds: string[],
+  ): string | undefined {
+    const createEvent = toToolkitCreateEvent(room.id, room.createEvent);
+    const userPowerLevel = calculateUserPowerLevel(
+      room.powerLevelContent,
+      createEvent,
+      userId,
     );
+
+    return userIds.find((otherUserId) => {
+      const otherUserPowerLevel = calculateUserPowerLevel(
+        room.powerLevelContent,
+        createEvent,
+        otherUserId,
+      );
+      if (userPowerLevel === ROOM_VERSION_12_CREATOR) {
+        return otherUserPowerLevel === ROOM_VERSION_12_CREATOR;
+      }
+      return compareUserPowerLevelToNormalPowerLevel(
+        otherUserPowerLevel,
+        userPowerLevel,
+      );
+    });
   }
 }
 

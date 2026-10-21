@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2022-2026 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -68,9 +68,7 @@ export class Room implements IRoom {
     }
 
     try {
-      const roomCreate = this.roomEventsByName(
-        StateEventName.M_ROOM_CREATION_EVENT,
-      )[0] as IStateEvent<ICreationContent>;
+      const roomCreate = this.createEvent;
       const content = this.roomEventsByName(
         StateEventName.NIC_MEETINGS_METADATA_EVENT,
       )[0]?.content as IMeetingsMetadataEventContent;
@@ -190,6 +188,12 @@ export class Room implements IRoom {
     return this.roomEventsByName(
       StateEventName.M_ROOM_ENCRYPTION,
     )[0] as IStateEvent<EncryptionEventContent>;
+  }
+
+  public get createEvent(): IStateEvent<ICreationContent> | undefined {
+    return this.roomEventsByName(StateEventName.M_ROOM_CREATION_EVENT)[0] as
+      | IStateEvent<ICreationContent>
+      | undefined;
   }
 
   private findWidgetEvent(

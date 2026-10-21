@@ -1,5 +1,5 @@
 /*
- * Copyright 2022 Nordeck IT + Consulting GmbH
+ * Copyright 2022-2026 Nordeck IT + Consulting GmbH
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -19,6 +19,7 @@ import {
   PowerLevelsEventContent,
   SpaceEntityMap,
 } from 'matrix-bot-sdk';
+import { ICreationContent } from '../matrix/dto/ICreationContent';
 import { EncryptionEventContent } from '../matrix/event/EncryptionEventContent';
 import { IStateEvent } from '../matrix/event/IStateEvent';
 import { IMeeting } from './IMeeting';
@@ -35,6 +36,7 @@ export interface IRoom {
   readonly spaceSubRooms: SpaceEntityMap;
   widgetEvents(removeEmpty: boolean): IStateEvent<IWidgetContent>[];
   readonly encryptionEvent: IStateEvent<EncryptionEventContent> | undefined;
+  readonly createEvent: IStateEvent<ICreationContent> | undefined;
   widgetEventById(widgetId: string): IStateEvent<IWidgetContent> | undefined;
   roomMemberMap(toIgnore: string[]): Map<string, IRoomMember>;
   readonly powerLevelContent: PowerLevelsEventContent;
