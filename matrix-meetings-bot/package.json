@@ -34,7 +34,7 @@
     "@matrix-widget-toolkit/events": "^1.0.0",
     "@nestjs/common": "^10.4.22",
     "@nestjs/config": "^3.3.0",
-    "@nestjs/core": "^11.1.28",
+    "@nestjs/core": "^11.2.7",
     "@nestjs/microservices": "^10.4.22",
     "@nestjs/platform-express": "^10.4.22",
     "@nestjs/swagger": "^7.4.2",
