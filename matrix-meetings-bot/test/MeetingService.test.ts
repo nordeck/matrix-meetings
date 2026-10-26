@@ -18,10 +18,10 @@ import fetch from 'jest-fetch-mock';
 import _, { last } from 'lodash';
 import {
   MatrixClient,
+  PowerLevelAction,
   PowerLevelsEventContent,
   RoomTopicEventContent,
 } from 'matrix-bot-sdk';
-import { PowerLevelAction } from 'matrix-bot-sdk/lib/models/PowerLevelAction';
 import {
   anything,
   capture,

@@ -27,7 +27,7 @@
     "generate-disclaimer": "cp ../LICENSE ./lib/LICENSE.txt && cp NOTICE ./lib/NOTICE.txt && yarn licenses generate-disclaimer --prod >> ./lib/NOTICE.txt && yarn licenses list --prod --json --no-progress > ./lib/licenses.json"
   },
   "engines": {
-    "node": ">=20",
+    "node": ">=24",
     "yarn": ">=1.22.1 <2.0.0"
   },
   "dependencies": {
@@ -51,7 +51,7 @@
     "joi": "^17.13.3",
     "lodash": "^4.18.1",
     "luxon": "3.3.0",
-    "matrix-bot-sdk": "npm:@nordeck/matrix-bot-sdk@0.7.1-crypto.beta.12",
+    "matrix-bot-sdk": "^0.8.0",
     "mime-types": "^2.1.35",
     "mustache": "^4.2.0",
     "nestjs-pino": "^4.1.0",

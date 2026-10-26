@@ -30,6 +30,7 @@ import {
   IStorageProvider,
   MatrixClient,
   RustSdkCryptoStorageProvider,
+  RustSdkCryptoStoreType,
   SimpleFsStorageProvider,
   UserID,
 } from 'matrix-bot-sdk';
@@ -128,6 +129,7 @@ const matrixClientFactoryHelper = {
   ): Promise<ICryptoStorageProvider> => {
     const cryptoStorage = new RustSdkCryptoStorageProvider(
       path.join(appConfig.data_path, appConfig.crypto_data_path),
+      RustSdkCryptoStoreType.Sqlite,
     );
 
     logger.log(

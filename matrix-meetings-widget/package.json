@@ -76,7 +76,7 @@
     "vitest-axe": "1.0.0-pre.5"
   },
   "engines": {
-    "node": ">=20",
+    "node": ">=24",
     "yarn": ">=1.22.1 <2.0.0"
   },
   "scripts": {

@@ -4,7 +4,7 @@ FROM aquasec/trivy:0.76.1@sha256:790fd66d1697395d8693d1acaa1ea702406a20f109b6fc7
 COPY yarn.lock /tmp
 RUN trivy fs --format spdx-json --scanners "license" /tmp/yarn.lock > /tmp/sbom.spdx.json
 
-FROM node:20-bookworm-slim AS builder
+FROM node:24-trixie-slim AS builder
 
 WORKDIR /build
 
@@ -15,13 +15,10 @@ COPY packages/calendar/lib ./packages/calendar/lib
 RUN yarn install --production --frozen-lockfile --network-timeout 1000000
 
 # Runtime image
-FROM node:20-bookworm-slim
+FROM node:24-trixie-slim
 
 ENV NODE_ENV=production
 WORKDIR /app
-
-#  update npm to address CVE-2024-21538
-RUN npm install -g npm@10.9.2
 
 # Add SBOM to the public folder
 COPY --from=scanner /tmp/sbom.spdx.json /usr/local/share/doc/matrix-meetings-bot.sbom.spdx.json
