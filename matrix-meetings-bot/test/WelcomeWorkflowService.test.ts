@@ -16,10 +16,10 @@
 
 import {
   MatrixClient,
+  MembershipEventContent,
   MessageEventContent,
   PowerLevelsEventContent,
 } from 'matrix-bot-sdk';
-import { MembershipEventContent } from 'matrix-bot-sdk/src/models/events/MembershipEvent';
 import {
   anyString,
   anything,

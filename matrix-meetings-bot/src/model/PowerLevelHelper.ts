@@ -25,8 +25,7 @@ import {
   StateEvent,
   StateEventCreateContent,
 } from '@matrix-widget-toolkit/events';
-import { PowerLevelsEventContent } from 'matrix-bot-sdk';
-import { PowerLevelAction } from 'matrix-bot-sdk/lib/models/PowerLevelAction';
+import { PowerLevelAction, PowerLevelsEventContent } from 'matrix-bot-sdk';
 import { PermissionError } from '../error/PermissionError';
 import { ICreationContent } from '../matrix/dto/ICreationContent';
 import { IStateEvent } from '../matrix/event/IStateEvent';

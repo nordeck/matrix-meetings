@@ -18,8 +18,12 @@ import { Inject, Injectable, Logger } from '@nestjs/common';
 import { PromisePool } from '@supercharge/promise-pool';
 import { encode } from 'html-entities';
 import i18next from 'i18next';
-import { MatrixClient, SpaceEntityMap, UserID } from 'matrix-bot-sdk';
-import { PowerLevelAction } from 'matrix-bot-sdk/lib/models/PowerLevelAction';
+import {
+  MatrixClient,
+  PowerLevelAction,
+  SpaceEntityMap,
+  UserID,
+} from 'matrix-bot-sdk';
 import { DeepReadonly, DeepReadonlyArray } from '../DeepReadOnly';
 import { EventContentRenderer } from '../EventContentRenderer';
 import { IAppConfiguration } from '../IAppConfiguration';
