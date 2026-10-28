@@ -220,6 +220,14 @@ export class MatrixServer
     }
   }
 
+  on() {
+    throw new Error('Method not implemented.');
+  }
+
+  unwrap<T>(): T {
+    throw new Error('Method not implemented.');
+  }
+
   getHandlerByPattern(
     pattern: string,
   ): MessageHandler<HandlerData, IContext, void> | null {

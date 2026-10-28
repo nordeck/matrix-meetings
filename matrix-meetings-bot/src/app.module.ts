@@ -281,6 +281,6 @@ const i18nFactory: FactoryProvider<void> = {
 })
 export class AppModule implements NestModule {
   configure(consumer: MiddlewareConsumer) {
-    consumer.apply(MatrixAuthMiddleware).forRoutes('*');
+    consumer.apply(MatrixAuthMiddleware).forRoutes('{*splat}');
   }
 }
