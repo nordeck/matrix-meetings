@@ -21,9 +21,9 @@ import {
   MembershipEventContent,
 } from 'matrix-bot-sdk';
 import { PinoLogger } from 'nestjs-pino';
-import { default as pino } from 'pino';
 import { Observable } from 'rxjs';
 import { anything, instance, mock, verify, when } from 'ts-mockito';
+import type { Mock } from 'vitest';
 import { AppRuntimeContext } from '../src/AppRuntimeContext';
 import { IAppConfiguration } from '../src/IAppConfiguration';
 import { ReactionClient } from '../src/client/ReactionClient';
@@ -78,22 +78,14 @@ describe('MatrixServer suite', () => {
       ...appConfiguration,
       matrix_server_event_max_age_minutes,
     };
-    // @ts-expect-error: root is readonly field, but this is the place where
-    // it's set actually
-    PinoLogger.root = pino();
     matrixServer = new MatrixServer(
       appRuntimeContext,
       matrixClient,
       reactionClient,
       roomMessageService,
       appConfiguration,
+      new PinoLogger({ pinoHttp: { level: 'silent' } }),
     );
-  });
-
-  afterEach(() => {
-    // @ts-expect-error: root is readonly field, but this is the place where
-    // it's set actually
-    PinoLogger.root = undefined;
   });
 
   test('onModuleInit test', async () => {
@@ -269,12 +261,12 @@ describe('MatrixServer suite', () => {
     const inviter = '@user:matrix.org';
     const joinedAt = Date.now();
 
-    let meetingCreateHandler: jest.Mock;
+    let meetingCreateHandler: Mock;
 
     beforeEach(async () => {
       await matrixServer.onModuleInit();
 
-      meetingCreateHandler = jest.fn();
+      meetingCreateHandler = vi.fn();
       matrixServer.addHandler(
         matrixPattern.roomEvent(RoomEventName.NIC_MEETINGS_MEETING_CREATE),
         (): Promise<Observable<any>> => {
@@ -450,7 +442,7 @@ describe('MatrixServer suite', () => {
     };
     await expect(
       matrixServer.processEvent(pattern1.botEventType, roomId, roomEvent11),
-    ).rejects.toThrowError();
+    ).rejects.toThrow();
   });
 
   test('listen/close test', async () => {

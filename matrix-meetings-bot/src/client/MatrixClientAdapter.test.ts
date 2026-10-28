@@ -17,13 +17,12 @@
 import { MatrixClient } from 'matrix-bot-sdk';
 import { MatrixClientAdapter } from './MatrixClientAdapter';
 
-jest.mock('matrix-bot-sdk');
+vi.mock('matrix-bot-sdk');
 
 describe('MatrixClientAdapter', () => {
   beforeEach(() => {
-    jest
-      .spyOn(MatrixClient.prototype, 'doRequest')
-      .mockImplementation((_method, endpoint) => {
+    vi.spyOn(MatrixClient.prototype, 'doRequest').mockImplementation(
+      (_method, endpoint) => {
         const response =
           endpoint === '/_matrix/client/v3/capabilities'
             ? {
@@ -43,7 +42,8 @@ describe('MatrixClientAdapter', () => {
             : undefined;
 
         return Promise.resolve(response);
-      });
+      },
+    );
   });
 
   it('should get synapse default room version via capabilities endpoint', async () => {
@@ -61,7 +61,7 @@ describe('MatrixClientAdapter', () => {
   });
 
   it('should get and cache synapse default room version via capabilities endpoint', async () => {
-    jest.useFakeTimers();
+    vi.useFakeTimers();
 
     const matrixClient = new MatrixClient('https://example.com', 'token123');
     const matrixClientAdapter = new MatrixClientAdapter(matrixClient);
@@ -80,7 +80,7 @@ describe('MatrixClientAdapter', () => {
     ).toEqual('12');
     expect(MatrixClient.prototype.doRequest).toHaveBeenCalledTimes(1);
 
-    jest.advanceTimersByTime(7200000); // 2 hours
+    vi.advanceTimersByTime(7200000); // 2 hours
 
     expect(
       await matrixClientAdapter.getCapabilitiesDefaultRoomVersion(),

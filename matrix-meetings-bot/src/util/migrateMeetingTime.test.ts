@@ -263,9 +263,7 @@ describe('migrateMeetingTime', () => {
       calendar: undefined,
     },
   ])('should fail when %s', (meetingTime) => {
-    expect(() =>
-      migrateMeetingTime(meetingTime, undefined, undefined),
-    ).toThrowError(
+    expect(() => migrateMeetingTime(meetingTime, undefined, undefined)).toThrow(
       'Unexpected input: either start_time with end_time or calendar should be provided',
     );
   });

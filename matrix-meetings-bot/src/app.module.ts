@@ -235,14 +235,19 @@ const i18nFactory: FactoryProvider<void> = {
       envFilePath: ['.env.local', '.env.dev', '.env'],
       load: [configuration],
     }),
-    LoggerModule.forRoot({
-      pinoHttp: {
-        level: process.env.LOG_LEVEL ? process.env.LOG_LEVEL : 'error',
-        genReqId(_req) {
-          return uuiv4();
+    LoggerModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      // Use ConfigService to read log level
+      useFactory: (configService: ConfigService) => ({
+        pinoHttp: {
+          level: configService.get<string>('LOG_LEVEL') ?? 'error',
+          genReqId(_req) {
+            return uuiv4();
+          },
+          redact: ['req.headers.authorization', 'matrix_event.content'],
         },
-        redact: ['req.headers.authorization', 'matrix_event.content'],
-      },
+      }),
     }),
   ],
   controllers: [

@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports, no-undef
-require('jest-fetch-mock').enableMocks();
-// eslint-disable-next-line no-undef
-fetchMock.dontMock();
+import { defineConfig } from 'vitest/config';
+
+export default defineConfig({
+  test: {
+    globals: true,
+    include: ['src/**/*.test.ts'],
+    setupFiles: ['./setupTests.ts'],
+    mockReset: true,
+  },
+});

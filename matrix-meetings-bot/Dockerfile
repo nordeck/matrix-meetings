@@ -29,6 +29,7 @@ RUN set -x\
     && chmod -R g+w /app/storage
 USER 101
 COPY --from=builder /build/node_modules/ ./node_modules
+COPY --from=builder /build/matrix-meetings-bot/node_modules/ ./lib/node_modules
 COPY --from=builder /build/packages/calendar/ ./packages/calendar/
 COPY matrix-meetings-bot/conf ./conf
 COPY matrix-meetings-bot/lib ./lib

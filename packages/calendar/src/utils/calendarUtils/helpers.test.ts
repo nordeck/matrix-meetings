@@ -287,7 +287,7 @@ describe('getSingleOrRecurringEntry', () => {
   });
 
   it('should throw if calendar is empty', () => {
-    expect(() => getSingleOrRecurringEntry([])).toThrowError(
+    expect(() => getSingleOrRecurringEntry([])).toThrow(
       'calendar must have single or recurring entry',
     );
   });
