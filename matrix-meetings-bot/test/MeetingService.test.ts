@@ -14,7 +14,6 @@
  * limitations under the License.
  */
 
-import fetch from 'jest-fetch-mock';
 import _, { last } from 'lodash';
 import {
   MatrixClient,
@@ -374,8 +373,10 @@ describe('test relevant functionality of MeetingService', () => {
   };
 
   beforeEach(() => {
-    fetch.resetMocks();
-    fetch.enableMocks();
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response('')),
+    );
 
     resetCalls(clientMock);
 

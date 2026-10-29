@@ -4,7 +4,8 @@
     "module": "commonjs",
     "outDir": "lib",
     "rootDir": "src",
-    "noEmit": false
+    "noEmit": false,
+    "types": ["vitest/globals"]
   },
   "include": ["src"]
 }

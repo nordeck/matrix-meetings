@@ -16,7 +16,6 @@
 
 import base64url from 'base64url';
 import { Request } from 'express';
-import fetch from 'jest-fetch-mock';
 import { MatrixClient } from 'matrix-bot-sdk';
 import { mock, resetCalls } from 'ts-mockito';
 import { IAppConfiguration } from '../../src/IAppConfiguration';
@@ -28,8 +27,10 @@ describe('test relevant functionality of MatrixAuthMiddleware', () => {
   const clientMock: MatrixClient = mock(MatrixClient);
 
   beforeEach(() => {
-    fetch.resetMocks();
-    fetch.enableMocks();
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async () => new Response('')),
+    );
     resetCalls(clientMock);
   });
 
@@ -65,7 +66,9 @@ describe('test relevant functionality of MatrixAuthMiddleware', () => {
       },
     } as Request;
 
-    fetch.mockResponseOnce(JSON.stringify({ sub: 4711 }));
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(JSON.stringify({ sub: 4711 })),
+    );
     const result = await matrixAuth.extractUserContext(mockRequest);
     expect(result?.userId).toEqual(4711);
   });
@@ -95,7 +98,9 @@ describe('test relevant functionality of MatrixAuthMiddleware', () => {
       },
     } as Request;
 
-    fetch.mockResponseOnce(JSON.stringify({ user_id: '@user' }));
+    vi.mocked(fetch).mockResolvedValueOnce(
+      new Response(JSON.stringify({ user_id: '@user' })),
+    );
     const result = await matrixAuth.extractUserContext(mockRequest);
     expect(result?.userId).toEqual('@user');
   });

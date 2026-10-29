@@ -19,17 +19,17 @@ import { EventContentRenderer } from '../EventContentRenderer';
 import { MeetingType } from '../model/MeetingType';
 import { MeetingClient } from './MeetingClient';
 
-jest.mock('matrix-bot-sdk');
+vi.mock('matrix-bot-sdk');
 
 describe('MeetingClient', () => {
   describe('createMeeting', () => {
     beforeEach(() => {
-      jest
-        .spyOn(MatrixClient.prototype, 'getUserProfile')
-        .mockResolvedValue({ displayname: 'User' });
-      jest
-        .spyOn(MatrixClient.prototype, 'createRoom')
-        .mockResolvedValue('!new-room-id');
+      vi.spyOn(MatrixClient.prototype, 'getUserProfile').mockResolvedValue({
+        displayname: 'User',
+      });
+      vi.spyOn(MatrixClient.prototype, 'createRoom').mockResolvedValue(
+        '!new-room-id',
+      );
     });
 
     it.each([undefined, 100])(
@@ -89,7 +89,9 @@ describe('MeetingClient', () => {
           ],
         ]);
 
-        expect(jest.mocked(MatrixClient).prototype.createRoom).toBeCalledWith({
+        expect(
+          vi.mocked(MatrixClient).prototype.createRoom,
+        ).toHaveBeenCalledWith({
           name: 'My Meeting',
           topic: 'My Description',
           visibility: 'private',
@@ -187,44 +189,46 @@ describe('MeetingClient', () => {
         ],
       ]);
 
-      expect(jest.mocked(MatrixClient).prototype.createRoom).toBeCalledWith({
-        name: 'My Meeting',
-        topic: 'My Description',
-        visibility: 'private',
-        preset: 'private_chat',
-        creation_content: {
-          type: 'net.nordeck.meetings.meeting',
-        },
-        power_level_content_override: {
-          users: {
-            '@user-id:example.og': 150,
+      expect(vi.mocked(MatrixClient).prototype.createRoom).toHaveBeenCalledWith(
+        {
+          name: 'My Meeting',
+          topic: 'My Description',
+          visibility: 'private',
+          preset: 'private_chat',
+          creation_content: {
+            type: 'net.nordeck.meetings.meeting',
           },
-        },
-        initial_state: [
-          {
-            type: 'net.nordeck.meetings.metadata',
-            content: {
-              creator: '@user-id:example.og',
-              calendar: [
-                {
-                  uid: 'uid-0',
-                  dtstart: {
-                    tzid: 'Europe/Berlin',
-                    value: '20200507T100000',
-                  },
-                  dtend: { tzid: 'Europe/Berlin', value: '20200507T110000' },
-                },
-              ],
-              start_time: undefined,
-              end_time: undefined,
-              auto_deletion_offset: undefined,
-              force_deletion_at: new Date(
-                '2020-05-07T12:00:00+02:00',
-              ).getTime(),
+          power_level_content_override: {
+            users: {
+              '@user-id:example.og': 150,
             },
           },
-        ],
-      });
+          initial_state: [
+            {
+              type: 'net.nordeck.meetings.metadata',
+              content: {
+                creator: '@user-id:example.og',
+                calendar: [
+                  {
+                    uid: 'uid-0',
+                    dtstart: {
+                      tzid: 'Europe/Berlin',
+                      value: '20200507T100000',
+                    },
+                    dtend: { tzid: 'Europe/Berlin', value: '20200507T110000' },
+                  },
+                ],
+                start_time: undefined,
+                end_time: undefined,
+                auto_deletion_offset: undefined,
+                force_deletion_at: new Date(
+                  '2020-05-07T12:00:00+02:00',
+                ).getTime(),
+              },
+            },
+          ],
+        },
+      );
     });
 
     it('should create a meeting with the legacy data format', async () => {
@@ -276,72 +280,60 @@ describe('MeetingClient', () => {
         ],
       ]);
 
-      expect(jest.mocked(MatrixClient).prototype.createRoom).toBeCalledWith({
-        name: 'My Meeting',
-        topic: 'My Description',
-        visibility: 'private',
-        preset: 'private_chat',
-        creation_content: {
-          type: 'net.nordeck.meetings.meeting',
-        },
-        power_level_content_override: {
-          users: {
-            '@bot-user-id:example.org': 101,
-            '@user-id:example.og': 100,
+      expect(vi.mocked(MatrixClient).prototype.createRoom).toHaveBeenCalledWith(
+        {
+          name: 'My Meeting',
+          topic: 'My Description',
+          visibility: 'private',
+          preset: 'private_chat',
+          creation_content: {
+            type: 'net.nordeck.meetings.meeting',
           },
-        },
-        initial_state: [
-          {
-            type: 'net.nordeck.meetings.metadata',
-            content: {
-              creator: '@user-id:example.og',
-              calendar: [
-                {
-                  uid: expect.any(String),
-                  dtstart: {
-                    tzid: 'UTC',
-                    value: '20200507T080000',
-                  },
-                  dtend: { tzid: 'UTC', value: '20200507T090000' },
-                },
-              ],
-              force_deletion_at: new Date(
-                '2020-05-07T12:00:00+02:00',
-              ).getTime(),
+          power_level_content_override: {
+            users: {
+              '@bot-user-id:example.org': 101,
+              '@user-id:example.og': 100,
             },
           },
-        ],
-      });
+          initial_state: [
+            {
+              type: 'net.nordeck.meetings.metadata',
+              content: {
+                creator: '@user-id:example.og',
+                calendar: [
+                  {
+                    uid: expect.any(String),
+                    dtstart: {
+                      tzid: 'UTC',
+                      value: '20200507T080000',
+                    },
+                    dtend: { tzid: 'UTC', value: '20200507T090000' },
+                  },
+                ],
+                force_deletion_at: new Date(
+                  '2020-05-07T12:00:00+02:00',
+                ).getTime(),
+              },
+            },
+          ],
+        },
+      );
     });
 
     // TODO: add more tests
   });
 
-  describe('traverseRoomChildren', () => {
-    // TODO: add more tests
-  });
+  describe.todo('traverseRoomChildren');
 
-  describe('loadPartialRooms', () => {
-    // TODO: add more tests
-  });
+  describe.todo('loadPartialRooms');
 
-  describe('loadRooms', () => {
-    // TODO: add more tests
-  });
+  describe.todo('loadRooms');
 
-  describe('createRoomList', () => {
-    // TODO: add more tests
-  });
+  describe.todo('createRoomList');
 
-  describe('fetchRoomAsync', () => {
-    // TODO: add more tests
-  });
+  describe.todo('fetchRoomAsync');
 
-  describe('parentAddChildRoom', () => {
-    // TODO: add more tests
-  });
+  describe.todo('parentAddChildRoom');
 
-  describe('inviteUserToPrivateRoom', () => {
-    // TODO: add more tests
-  });
+  describe.todo('inviteUserToPrivateRoom');
 });

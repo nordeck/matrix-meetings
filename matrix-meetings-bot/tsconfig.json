@@ -12,7 +12,9 @@
     "declaration": true,
     "resolveJsonModule": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "types": ["node", "vitest/globals"],
+    "noEmit": true
   },
-  "include": ["./src/**/*"]
+  "include": ["src", "test", "setupTests.ts"]
 }

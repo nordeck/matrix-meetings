@@ -33,8 +33,6 @@ import {
   MembershipEvent,
 } from 'matrix-bot-sdk';
 import { PinoLogger } from 'nestjs-pino';
-import { Store, storage } from 'nestjs-pino/storage';
-import * as pino from 'pino';
 import { Observable, lastValueFrom } from 'rxjs';
 import { AppRuntimeContext } from '../AppRuntimeContext';
 import { IAppConfiguration } from '../IAppConfiguration';
@@ -80,8 +78,6 @@ export class MatrixServer
 {
   protected logger = new Logger(MatrixServer.name);
 
-  private pinoLoggerRoot: pino.Logger = undefined as unknown as pino.Logger;
-
   private readonly botEventTypes = Object.values(BotEventType);
 
   private subscribers: ISubscriber[] = [];
@@ -102,6 +98,7 @@ export class MatrixServer
     private roomMessageService: RoomMessageService,
     @Inject(ModuleProviderToken.APP_CONFIGURATION)
     private appConfig: IAppConfiguration,
+    private pinoLogger: PinoLogger,
     private controlRoomMigrationService?: ControlRoomMigrationService,
   ) {
     super();
@@ -109,13 +106,6 @@ export class MatrixServer
 
   async onModuleInit(): Promise<void> {
     this.logger.log('module init');
-
-    if (!PinoLogger.root) {
-      throw new Error(
-        'pino logger root is undefined, make sure nestjs-pino LoggerModule is configured',
-      );
-    }
-    this.pinoLoggerRoot = PinoLogger.root;
 
     const _filter = {
       event_fields: [],
@@ -218,6 +208,14 @@ export class MatrixServer
     for (const subscriber of this.subscribers) {
       this.matrixClient.off(subscriber.botEventType, subscriber.listener);
     }
+  }
+
+  on() {
+    throw new Error('Method not implemented.');
+  }
+
+  unwrap<T>(): T {
+    throw new Error('Method not implemented.');
   }
 
   getHandlerByPattern(
@@ -378,16 +376,15 @@ export class MatrixServer
     const pattern = this.normalizePattern(botPattern);
     const handler = this.getHandlerByPattern(pattern);
 
-    const childLogger = this.pinoLoggerRoot.child({ matrix_event: event });
-
     if (!handler) {
       this.logger.verbose(`handler not found for ${pattern}`);
     } else {
       const args = this.extractHandlerArguments(botEventType, roomId, event);
       const result: Observable<any> = this.transformToObservable(
         // execute handler, exceptions are handled by nest exception filter
-        await storage.run(new Store(childLogger), () =>
-          handler(args.data, args.context),
+        await this.pinoLogger.runInContext(
+          () => handler(args.data, args.context),
+          { bindings: { matrix_event: event } },
         ),
       );
       await lastValueFrom(result);
