@@ -26,11 +26,6 @@ if (process.env.VITE_DEV_SSL === 'true') {
 
 // https://vitejs.dev/config/
 export default defineConfig({
-  build: {
-    commonjsOptions: {
-      strictRequires: true,
-    },
-  },
   resolve: {
     dedupe: [
       '@matrix-widget-toolkit/mui',
