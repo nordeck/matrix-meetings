@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-calendar
 
+## 1.0.2
+
+### Patch Changes
+
+- a5ab303: Update NestJS to version 12. Use Vitest instead of Jest for the bot and calendar packages.
+
 ## 1.0.1
 
 ### Patch Changes
