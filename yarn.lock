@@ -5492,7 +5492,7 @@ jiti@^2.6.1:
   resolved "https://registry.yarnpkg.com/jiti/-/jiti-2.6.1.tgz#178ef2fc9a1a594248c20627cd820187a4d78d92"
   integrity sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ==
 
-joi@^17.13.3, joi@^17.13.4, joi@^17.13.6:
+joi@^17.13.4, joi@^17.13.6:
   version "17.13.8"
   resolved "https://registry.yarnpkg.com/joi/-/joi-17.13.8.tgz#92069d521eea09fd709d8abbb86b0ef02862224f"
   integrity sha512-iPKOGmiRw1jxf/JOPwxmCcUQAOdF359mdzYiP2DJ+TMX0YK2zjK3D+zYOaGjpumWxOFF/l2xVWjRVK5bGSLdEw==
@@ -5503,10 +5503,10 @@ joi@^17.13.3, joi@^17.13.4, joi@^17.13.6:
     "@sideway/formula" "^3.0.1"
     "@sideway/pinpoint" "^2.0.0"
 
-joi@^18.3.0:
-  version "18.3.0"
-  resolved "https://registry.yarnpkg.com/joi/-/joi-18.3.0.tgz#c63eb2f25082fe9c443f48c2a8e5a7a11ce3a5a1"
-  integrity sha512-/RwAK4BAfzcdbdFg073tzq4/xhY6Q7lMd5AmjqTL6pu0QFJdEmtswgm8BvgwXvOKuPNYQ8XrdQrrW/gF65LiNw==
+joi@^18.0.0, joi@^18.3.0:
+  version "18.3.1"
+  resolved "https://registry.yarnpkg.com/joi/-/joi-18.3.1.tgz#0d80d63b8ff103e61b414edc7943666e72458a3b"
+  integrity sha512-mV9M4Llh4va3NT90p7KBtQhoZqjs8xLX7EWYE4y/GG3yLF6REbIBEHSUb0UX1JXRht2w5tiLSsvmpYc5akiqIw==
   dependencies:
     "@hapi/address" "^5.1.1"
     "@hapi/formula" "^3.0.2"
