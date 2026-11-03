@@ -1,5 +1,12 @@
 # @nordeck/matrix-meetings-widget
 
+## 1.7.7
+
+### Patch Changes
+
+- Updated dependencies [a5ab303]
+  - @nordeck/matrix-meetings-calendar@1.0.2
+
 ## 1.7.6
 
 ### Patch Changes

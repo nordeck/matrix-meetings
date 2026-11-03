@@ -1,5 +1,14 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.8.9
+
+### Patch Changes
+
+- a5ab303: Update NestJS to version 12. Use Vitest instead of Jest for the bot and calendar packages.
+- 834c212: Replace `@nordeck/matrix-bot-sdk` fork with upstream `matrix-bot-sdk` 0.8.0. Use Node version 24, and the Docker image builds on `node:24-trixie-slim` to keep support for s390x.
+- Updated dependencies [a5ab303]
+  - @nordeck/matrix-meetings-calendar@1.0.2
+
 ## 2.8.8
 
 ### Patch Changes
