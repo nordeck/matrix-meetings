@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.8.10
+
+### Patch Changes
+
+- 43d192f: Remove unnecessary Mustache rendering from the invite message sent by the bot.
+
 ## 2.8.9
 
 ### Patch Changes
