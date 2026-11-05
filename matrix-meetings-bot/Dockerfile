@@ -4,7 +4,7 @@ FROM aquasec/trivy:0.76.1@sha256:790fd66d1697395d8693d1acaa1ea702406a20f109b6fc7
 COPY yarn.lock /tmp
 RUN trivy fs --format spdx-json --scanners "license" /tmp/yarn.lock > /tmp/sbom.spdx.json
 
-FROM node:24-trixie-slim AS builder
+FROM node:24-trixie-slim@sha256:0820eaa85e07d0490446dd01d14707e17e6108a36988cf374899cd057eb3812d AS builder
 
 WORKDIR /build
 
@@ -15,7 +15,7 @@ COPY packages/calendar/lib ./packages/calendar/lib
 RUN yarn install --production --frozen-lockfile --network-timeout 1000000
 
 # Runtime image
-FROM node:24-trixie-slim
+FROM node:24-trixie-slim@sha256:0820eaa85e07d0490446dd01d14707e17e6108a36988cf374899cd057eb3812d
 
 ENV NODE_ENV=production
 WORKDIR /app
