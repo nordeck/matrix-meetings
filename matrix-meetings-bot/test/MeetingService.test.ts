@@ -385,7 +385,7 @@ describe('test relevant functionality of MeetingService', () => {
       ...createAppConfig(),
       matrix_link_share: 'https://matrix.to/#/',
     };
-    eventContentRenderer = new EventContentRenderer(appConfig);
+    eventContentRenderer = new EventContentRenderer();
     widgetService = new WidgetClient(
       client,
       appConfig,

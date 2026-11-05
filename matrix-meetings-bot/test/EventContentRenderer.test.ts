@@ -17,20 +17,16 @@
 import path from 'path';
 import { DeepReadonly } from '../src/DeepReadOnly';
 import { EventContentRenderer } from '../src/EventContentRenderer';
-import { IAppConfiguration } from '../src/IAppConfiguration';
 import { IEventContentParams } from '../src/IEventContentParams';
 import { RoomMatrixEventsReader } from '../src/io/RoomMatrixEventsReader';
 import { IRoomEvent } from '../src/matrix/event/IRoomEvent';
 import { IRoomMatrixEvents } from '../src/model/IRoomMatrixEvents';
 import { StateEventName } from '../src/model/StateEventName';
-import { createAppConfig } from './util/MockUtils';
 
 describe('EventContentRenderer', () => {
-  const appConfig: IAppConfiguration = createAppConfig();
-
   const roomMatrixEvents: DeepReadonly<IRoomMatrixEvents> =
     new RoomMatrixEventsReader('test/conf/test_default_events.json').read();
-  const eventContentRenderer = new EventContentRenderer(appConfig);
+  const eventContentRenderer = new EventContentRenderer();
 
   const params: IEventContentParams = {
     room_id: 'room1',

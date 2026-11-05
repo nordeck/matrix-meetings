@@ -27,7 +27,6 @@ import {
   when,
 } from 'ts-mockito';
 import { EventContentRenderer } from '../src/EventContentRenderer';
-import { IAppConfiguration } from '../src/IAppConfiguration';
 import { MatrixEndpoint } from '../src/MatrixEndpoint';
 import { MeetingClient } from '../src/client/MeetingClient';
 import { CalendarEntryDto } from '../src/dto/CalendarEntryDto';
@@ -36,7 +35,6 @@ import { IUserContext } from '../src/model/IUserContext';
 import { MeetingType } from '../src/model/MeetingType';
 import { RoomMessageService } from '../src/service/RoomMessageService';
 import { meetingChangesHelper } from '../src/util/IMeetingChanges';
-import { createAppConfig } from './util/MockUtils';
 
 describe('test RoomMessageService', () => {
   const matrixClientMock = mock(MatrixClient);
@@ -44,7 +42,6 @@ describe('test RoomMessageService', () => {
   const userId = 'user_id';
   const roomId = 'room_id';
   const eventId = 'event_id';
-  const appConfig: IAppConfiguration = createAppConfig();
   const fetchResultWithRightUser = {
     rooms: {
       join: {
@@ -97,7 +94,7 @@ describe('test RoomMessageService', () => {
   beforeEach(() => {
     resetCalls(matrixClientMock);
     const client = instance(matrixClientMock);
-    const eventContentRenderer = new EventContentRenderer(appConfig);
+    const eventContentRenderer = new EventContentRenderer();
     const meetingClient = new MeetingClient(client, eventContentRenderer);
 
     roomMessageService = new RoomMessageService(client, meetingClient);
