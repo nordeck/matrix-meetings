@@ -37,7 +37,7 @@ describe('MeetingClient', () => {
       async (messagingPowerLevel) => {
         const client = new MeetingClient(
           new MatrixClient('', ''),
-          new EventContentRenderer({} as any),
+          new EventContentRenderer(),
         );
 
         await expect(
@@ -137,7 +137,7 @@ describe('MeetingClient', () => {
     it('should create a meeting when default room version is 12', async () => {
       const client = new MeetingClient(
         new MatrixClient('', ''),
-        new EventContentRenderer({} as any),
+        new EventContentRenderer(),
       );
 
       await expect(
@@ -234,7 +234,7 @@ describe('MeetingClient', () => {
     it('should create a meeting with the legacy data format', async () => {
       const client = new MeetingClient(
         new MatrixClient('', ''),
-        new EventContentRenderer({} as any),
+        new EventContentRenderer(),
       );
 
       await expect(

@@ -155,7 +155,7 @@ describe('test WelcomeWorkflowService', () => {
       dependencies?.roomMatrixEvents ||
       new RoomMatrixEventsReader('test/conf/test_default_events.json').read();
     const eventContentRenderer =
-      dependencies?.eventContentRenderer || new EventContentRenderer(appConfig);
+      dependencies?.eventContentRenderer || new EventContentRenderer();
     const widgetClient =
       dependencies?.widgetClient ||
       new WidgetClient(
