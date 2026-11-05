@@ -151,6 +151,10 @@ export class MeetingService {
     meetingCreate: MeetingCreateDto,
     meetingType: MeetingType = MeetingType.MEETING,
   ): Promise<MeetingCreateResponseDto> {
+    if (userContext.userId.startsWith(this.appConfig.guest_user_prefix)) {
+      throw new Error('Guest users are not allowed to create rooms');
+    }
+
     const parentRoomId: string | undefined = meetingCreate.parent_room_id;
 
     // it is not possible to disable auto deletion for rooms that use a `calendar`
