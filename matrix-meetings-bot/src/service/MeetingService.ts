@@ -126,6 +126,50 @@ export class MeetingService {
     );
   }
 
+  /**
+   * Ensures that the user is allowed to create a meeting in a parent room.
+   *
+   * Requests that arrive as Matrix events are already authorized by the
+   * homeserver, but the HTTP API takes the parent room id from the request
+   * body. Without this check any authenticated user could attach meetings to
+   * rooms they are not a member of, as long as the bot has the required power
+   * level in that room.
+   *
+   * Checks that user is member of parent room and is allowed to send
+   * a meeting or breakout session creation event according to power levels.
+   *
+   * @param parentRoom parent room of the meeting to be created
+   * @param userId the user who requests the meeting
+   * @param meetingType the type of the meeting that should be created
+   * @throws PermissionError if the user is not a member of the parent
+   *   room or lacks the power level for the create event
+   */
+  private async assertUserCanCreateMeetingInParentRoom(
+    parentRoom: IRoom,
+    userId: string,
+    meetingType: MeetingType,
+  ): Promise<void> {
+    const joinedMembers = await this.matrixClient.getJoinedRoomMembers(
+      parentRoom.id,
+    );
+    if (!joinedMembers?.includes(userId)) {
+      throw new PermissionError(
+        `user: ${userId} is not a joined member of room: ${parentRoom.id}`,
+      );
+    }
+
+    // Check that user has a power level to send event to create a meeting
+    const createEventType =
+      meetingType === MeetingType.BREAKOUT_SESSION
+        ? RoomEventName.NIC_MEETINGS_BREAKOUTSESSIONS_CREATE
+        : RoomEventName.NIC_MEETINGS_MEETING_CREATE;
+    powerLevelHelper.assertUserHasPowerLevelFor(
+      parentRoom,
+      userId,
+      createEventType,
+    );
+  }
+
   public async createBreakOutSessions(
     userContext: IUserContext,
     parentRoomId: string,
@@ -169,6 +213,14 @@ export class MeetingService {
     const parentRoom: IRoom | undefined = parentRoomId
       ? await this.meetingClient.fetchRoomAsync(parentRoomId)
       : undefined;
+
+    if (parentRoom) {
+      await this.assertUserCanCreateMeetingInParentRoom(
+        parentRoom,
+        userContext.userId,
+        meetingType,
+      );
+    }
 
     const spaceParentEventContent: ISpaceParentEventContent = {
       via: [new UserID(await this.matrixClient.getUserId()).domain],

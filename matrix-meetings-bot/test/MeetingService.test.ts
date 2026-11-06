@@ -31,6 +31,7 @@ import {
   verify,
   when,
 } from 'ts-mockito';
+import { beforeEach } from 'vitest';
 import { EventContentRenderer } from '../src/EventContentRenderer';
 import { IAppConfiguration } from '../src/IAppConfiguration';
 import { MatrixEndpoint } from '../src/MatrixEndpoint';
@@ -414,6 +415,11 @@ describe('test relevant functionality of MeetingService', () => {
 
     when(clientMock.createRoom(anything())).thenResolve(ROOM_ID);
     initRoomsAndFetchResult();
+
+    when(clientMock.getJoinedRoomMembers(anything())).thenResolve([
+      CURRENT_USER,
+      BOT_USER,
+    ]);
   });
 
   test('userHasPowerlevel', async () => {
@@ -657,6 +663,9 @@ describe('test relevant functionality of MeetingService', () => {
   });
 
   test('check the levels of powerusers botuser=101 others 100 if sender is botuser', async () => {
+    when(clientMock.getRoomState(PARENT_MEETING_ROOM_ID)).thenResolve(
+      create_test_meeting(BOT_USER, PARENT_MEETING_ROOM_ID, null),
+    );
     const room_props = createEvent(PARENT_MEETING_ROOM_ID);
     const newUserContext = { ...userContext, userId: BOT_USER };
     await meetingService.createMeeting(newUserContext, room_props);
@@ -2329,6 +2338,116 @@ describe('test relevant functionality of MeetingService', () => {
           anything(),
         ),
       ).once();
+    });
+
+    test('should fail to create a meeting in a parent room if the user has not joined', async () => {
+      setupRoom(meetingRoom);
+      when(clientMock.getJoinedRoomMembers(ROOM)).thenResolve([BOT_USER]);
+      await expect(
+        meetingService.createMeeting(
+          {
+            ...userContext,
+            userId: '@user-other:example.org',
+          },
+          createEvent(ROOM),
+        ),
+      ).rejects.toThrow(
+        new PermissionError(
+          `user: @user-other:example.org is not a joined member of room: ${ROOM}`,
+        ),
+      );
+      verify(clientMock.createRoom(anything())).never();
+      verify(
+        clientMock.sendStateEvent(
+          ROOM,
+          StateEventName.M_SPACE_CHILD_EVENT,
+          anything(),
+          anything(),
+        ),
+      ).never();
+    });
+
+    test('should fail to create a meeting in a parent room if the user lacks a power level', async () => {
+      setupRoom({
+        creator: BOT_USER,
+        users: {},
+        powerLevels: {
+          events: {
+            [RoomEventName.NIC_MEETINGS_MEETING_CREATE]: 50,
+          },
+        },
+      });
+
+      await expect(
+        meetingService.createMeeting(userContext, createEvent(ROOM)),
+      ).rejects.toThrow(
+        new PermissionError(
+          `user: ${CURRENT_USER} has no permission for event: ${RoomEventName.NIC_MEETINGS_MEETING_CREATE} in room: ${ROOM}`,
+        ),
+      );
+      verify(clientMock.createRoom(anything())).never();
+    });
+
+    describe('breakout sessions', () => {
+      let breakoutSessions: BreakoutSessionsDto;
+
+      beforeEach(() => {
+        breakoutSessions = new BreakoutSessionsDto(
+          [new BreakoutSessionsDetailDto('group', [])],
+          TOPIC,
+          START,
+          END,
+          [],
+          true,
+        );
+      });
+
+      test('should create a breakout session room', async () => {
+        setupRoom({
+          creator: BOT_USER,
+          users: { [CURRENT_USER]: 50 },
+          powerLevels: {
+            events: {
+              [RoomEventName.NIC_MEETINGS_MEETING_CREATE]: 100,
+              [RoomEventName.NIC_MEETINGS_BREAKOUTSESSIONS_CREATE]: 25,
+            },
+          },
+        });
+
+        await meetingService.createBreakOutSessions(
+          userContext,
+          ROOM,
+          breakoutSessions,
+        );
+
+        verify(clientMock.createRoom(anything())).once();
+      });
+
+      test('should fail to create breakout session room if the user lacks the power level for the breakout session create event', async () => {
+        setupRoom({
+          creator: BOT_USER,
+          users: { [CURRENT_USER]: 50 },
+          powerLevels: {
+            events: {
+              [RoomEventName.NIC_MEETINGS_MEETING_CREATE]: 25,
+              [RoomEventName.NIC_MEETINGS_BREAKOUTSESSIONS_CREATE]: 100,
+            },
+          },
+        });
+
+        await expect(
+          meetingService.createBreakOutSessions(
+            userContext,
+            ROOM,
+            breakoutSessions,
+          ),
+        ).rejects.toThrow(
+          new PermissionError(
+            `user: ${CURRENT_USER} has no permission for event: ${RoomEventName.NIC_MEETINGS_BREAKOUTSESSIONS_CREATE} in room: ${ROOM}`,
+          ),
+        );
+        verify(clientMock.createRoom(anything())).never();
+      });
     });
 
     test('should notify about the changed time if messaging is restricted to moderators', async () => {
