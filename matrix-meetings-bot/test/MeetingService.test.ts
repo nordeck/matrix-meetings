@@ -16,6 +16,7 @@
 
 import _, { last } from 'lodash';
 import {
+  APIRoomStateEvent,
   MatrixClient,
   PowerLevelAction,
   PowerLevelsEventContent,
@@ -56,10 +57,7 @@ import { RoomNotCreatedError } from '../src/error/RoomNotCreatedError';
 import { RoomMatrixEventsReader } from '../src/io/RoomMatrixEventsReader';
 import { WidgetLayoutConfigReader } from '../src/io/WidgetLayoutConfigReader';
 import { IRoomCreate } from '../src/matrix/dto/IRoomCreate';
-import {
-  IStateEvent,
-  iStateEventHelper,
-} from '../src/matrix/event/IStateEvent';
+import { iStateEventHelper } from '../src/matrix/event/IStateEvent';
 import { ExternalData } from '../src/model/ExternalData';
 import { IElementMembershipEventContent } from '../src/model/IElementMembershipEventContent';
 import { IMeetingsMetadataEventContent } from '../src/model/IMeetingsMetadataEventContent';
@@ -150,16 +148,17 @@ describe('test relevant functionality of MeetingService', () => {
     'test/conf/test_default_widget_layouts.json.json',
   ).read();
 
-  const stateEventStub: Omit<IStateEvent<any>, 'type' | 'content'> = {
+  const stateEventStub: Omit<APIRoomStateEvent, 'type' | 'content'> = {
     event_id: '',
+    room_id: '',
+    unsigned: {},
     origin_server_ts: 0,
-    prev_content: {},
     sender: '',
     state_key: '',
   };
 
   const initRoomsAndFetchResult = () => {
-    let parentRoom: IStateEvent<any>[] = create_test_meeting(
+    let parentRoom: APIRoomStateEvent[] = create_test_meeting(
       CURRENT_USER,
       PARENT_MEETING_ROOM_ID,
       null,
@@ -172,13 +171,13 @@ describe('test relevant functionality of MeetingService', () => {
       ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll'],
       false,
     );
-    const childRoom1: IStateEvent<any>[] = create_test_meeting(
+    const childRoom1: APIRoomStateEvent[] = create_test_meeting(
       CURRENT_USER,
       'childRoom1',
       PARENT_MEETING_ROOM_ID,
       ['jitsi', 'etherpad', 'whiteboard', 'cockpit', 'meetings', 'poll'],
     );
-    const childRoom2: IStateEvent<any>[] = create_test_meeting(
+    const childRoom2: APIRoomStateEvent[] = create_test_meeting(
       CURRENT_USER,
       'childRoom2',
       PARENT_MEETING_ROOM_ID,
@@ -207,19 +206,18 @@ describe('test relevant functionality of MeetingService', () => {
     const i1: any[] = create_test_meeting(CURRENT_USER, 'i1', null);
     const i2: any[] = create_test_meeting(CURRENT_USER, 'i2', null);
 
-    parentRoom.push(
-      iStateEventHelper.fromPartial({
-        type: StateEventName.M_SPACE_CHILD_EVENT,
-        state_key: 'childRoom1',
-        content: {
-          via: ['localhost'],
-        },
-      }),
-    );
+    parentRoom.push({
+      ...stateEventStub,
+      type: StateEventName.M_SPACE_CHILD_EVENT,
+      state_key: 'childRoom1',
+      content: {
+        via: ['localhost'],
+      },
+    });
     parentRoom = parentRoom.map((se) => {
       if (se.type === StateEventName.M_ROOM_POWER_LEVELS_EVENT) {
         const content = se.content as PowerLevelsEventContent;
-        const newSe: IStateEvent<PowerLevelsEventContent> = {
+        const newSe: APIRoomStateEvent = {
           ...se,
           content: {
             ...content,
@@ -227,22 +225,21 @@ describe('test relevant functionality of MeetingService', () => {
               ...content.users,
               '@admin_user:localhost': 100,
             },
-          },
+          } satisfies PowerLevelsEventContent,
         };
         return newSe;
       } else {
         return se;
       }
     });
-    parentRoom.push(
-      iStateEventHelper.fromPartial({
-        type: StateEventName.M_SPACE_CHILD_EVENT,
-        state_key: 'childRoom2',
-        content: {
-          via: ['localhost'],
-        },
-      }),
-    );
+    parentRoom.push({
+      ...stateEventStub,
+      type: StateEventName.M_SPACE_CHILD_EVENT,
+      state_key: 'childRoom2',
+      content: {
+        via: ['localhost'],
+      },
+    });
 
     const fetchResult: any = {
       rooms: {
@@ -303,7 +300,7 @@ describe('test relevant functionality of MeetingService', () => {
       matrixClientAdapterMock.getCapabilitiesDefaultRoomVersion(),
     ).thenResolve('10');
 
-    const input: [string, IStateEvent<any>[]][] = [
+    const input: [string, APIRoomStateEvent[]][] = [
       ['childRoom1', childRoom1],
       ['childRoom2', childRoom2],
     ];
@@ -1003,7 +1000,7 @@ describe('test relevant functionality of MeetingService', () => {
             type,
             state_key,
             content,
-          }) as IStateEvent<unknown>,
+          }) as APIRoomStateEvent,
       );
 
     // parent children via spaces must contain one child created before
@@ -1048,7 +1045,7 @@ describe('test relevant functionality of MeetingService', () => {
   test('should invite users', async () => {
     const roomId = 'a1';
 
-    const roomCreationEvent: IStateEvent<any> = {
+    const roomCreationEvent: APIRoomStateEvent = {
       type: StateEventName.M_ROOM_CREATION_EVENT,
       ...stateEventStub,
       sender: CURRENT_USER,
@@ -1057,25 +1054,24 @@ describe('test relevant functionality of MeetingService', () => {
       },
     };
 
-    const nicMeetingMetadataEvent: IStateEvent<IMeetingsMetadataEventContent> =
-      {
-        type: StateEventName.NIC_MEETINGS_METADATA_EVENT as string,
-        ...stateEventStub,
-        content: {
-          calendar: [
-            {
-              uid: 'entry-0',
-              dtstart: { tzid: 'UTC', value: '20220101T100000' },
-              dtend: { tzid: 'UTC', value: '20220101T110000' },
-              rrule: 'FREQ=DAILY;COUNT=3',
-            },
-          ],
-          force_deletion_at: new Date('2022-01-01T11:05:00Z').getTime(),
-          creator: CURRENT_USER,
-        },
-      };
+    const nicMeetingMetadataEvent: APIRoomStateEvent = {
+      type: StateEventName.NIC_MEETINGS_METADATA_EVENT as string,
+      ...stateEventStub,
+      content: {
+        calendar: [
+          {
+            uid: 'entry-0',
+            dtstart: { tzid: 'UTC', value: '20220101T100000' },
+            dtend: { tzid: 'UTC', value: '20220101T110000' },
+            rrule: 'FREQ=DAILY;COUNT=3',
+          },
+        ],
+        force_deletion_at: new Date('2022-01-01T11:05:00Z').getTime(),
+        creator: CURRENT_USER,
+      } satisfies IMeetingsMetadataEventContent,
+    };
 
-    const powerLevelsEvent: IStateEvent<PowerLevelsEventContent> = {
+    const powerLevelsEvent: APIRoomStateEvent = {
       type: StateEventName.M_ROOM_POWER_LEVELS_EVENT,
       ...stateEventStub,
       content: {
@@ -1084,15 +1080,15 @@ describe('test relevant functionality of MeetingService', () => {
           [BOT_USER]: 101,
           [CURRENT_USER]: 100,
         },
-      },
+      } satisfies PowerLevelsEventContent,
     };
 
-    const topicEvent: IStateEvent<RoomTopicEventContent> = {
+    const topicEvent: APIRoomStateEvent = {
       type: StateEventName.M_ROOM_TOPIC_EVENT,
       ...stateEventStub,
       content: {
         topic: 'good meeting',
-      },
+      } satisfies RoomTopicEventContent,
     };
 
     const userId1 = '@user_1:localhost';
@@ -1197,7 +1193,7 @@ describe('test relevant functionality of MeetingService', () => {
   test('changeMessagingPermissions', async () => {
     const roomId = 'a1';
 
-    const powerLevelsEvent: IStateEvent<PowerLevelsEventContent> = {
+    const powerLevelsEvent: APIRoomStateEvent = {
       type: StateEventName.M_ROOM_POWER_LEVELS_EVENT,
       ...stateEventStub,
       content: {
@@ -1208,7 +1204,7 @@ describe('test relevant functionality of MeetingService', () => {
         users: {
           [CURRENT_USER]: 100,
         },
-      },
+      } satisfies PowerLevelsEventContent,
     };
     const stateEvents: any[] = [powerLevelsEvent];
     when(clientMock.getRoomState(roomId)).thenResolve(stateEvents);
@@ -1294,7 +1290,7 @@ describe('test relevant functionality of MeetingService', () => {
     const endTime = '2022-01-03T00:00:00.000Z';
     const autoDeletionOffset = 0;
 
-    const roomCreationEvent: IStateEvent<any> = {
+    const roomCreationEvent: APIRoomStateEvent = {
       type: StateEventName.M_ROOM_CREATION_EVENT,
       ...stateEventStub,
       sender: CURRENT_USER,
@@ -1307,25 +1303,24 @@ describe('test relevant functionality of MeetingService', () => {
         id: '1',
       },
     };
-    const nicMeetingMetadataEvent: IStateEvent<IMeetingsMetadataEventContent> =
-      {
-        type: StateEventName.NIC_MEETINGS_METADATA_EVENT as string,
-        ...stateEventStub,
-        content: {
-          calendar: [
-            {
-              uid: 'entry-0',
-              dtstart: { tzid: 'UTC', value: '20220101T000000' },
-              dtend: { tzid: 'UTC', value: '20220103T000000' },
-            },
-          ],
-          force_deletion_at: new Date('2022-01-03T00:05:00Z').getTime(),
-          creator: CURRENT_USER,
-          external_data: externalData,
-        },
-      };
+    const nicMeetingMetadataEvent: APIRoomStateEvent = {
+      type: StateEventName.NIC_MEETINGS_METADATA_EVENT as string,
+      ...stateEventStub,
+      content: {
+        calendar: [
+          {
+            uid: 'entry-0',
+            dtstart: { tzid: 'UTC', value: '20220101T000000' },
+            dtend: { tzid: 'UTC', value: '20220103T000000' },
+          },
+        ],
+        force_deletion_at: new Date('2022-01-03T00:05:00Z').getTime(),
+        creator: CURRENT_USER,
+        external_data: externalData,
+      } satisfies IMeetingsMetadataEventContent,
+    };
 
-    const powerLevelsEvent: IStateEvent<PowerLevelsEventContent> = {
+    const powerLevelsEvent: APIRoomStateEvent = {
       type: StateEventName.M_ROOM_POWER_LEVELS_EVENT,
       ...stateEventStub,
       content: {
@@ -1334,21 +1329,21 @@ describe('test relevant functionality of MeetingService', () => {
           [BOT_USER]: 101,
           [CURRENT_USER]: 100,
         },
-      },
+      } satisfies PowerLevelsEventContent,
     };
 
     const userId1 = '@user_1:localhost';
     const userId2 = '@user_2:localhost';
     const userId3 = '@user_3:localhost';
     const userId4 = '@user_4:localhost';
-    const memberEvents: IStateEvent<IElementMembershipEventContent>[] = [
+    const memberEvents: APIRoomStateEvent[] = [
       {
         type: StateEventName.M_ROOM_MEMBER_EVENT,
         ...stateEventStub,
         state_key: userId1,
         content: {
           membership: 'join',
-        },
+        } satisfies IElementMembershipEventContent,
       },
       {
         type: StateEventName.M_ROOM_MEMBER_EVENT,
@@ -1358,7 +1353,7 @@ describe('test relevant functionality of MeetingService', () => {
           membership: 'invite',
           reason: 'good reason',
           'io.element.html_reason': 'good reason',
-        },
+        } satisfies IElementMembershipEventContent,
       },
       {
         type: StateEventName.M_ROOM_MEMBER_EVENT,
@@ -1369,7 +1364,7 @@ describe('test relevant functionality of MeetingService', () => {
           // already contains the expected value WITHOUT trailing space.
           reason: `📅 2/1/2022, 12:00 AM UTC – 2/3/2022, 12:00 AM UTC\nyou've been invited to a meeting by displayname\ndescription1`,
           'io.element.html_reason': 'good reason',
-        },
+        } satisfies IElementMembershipEventContent,
       },
       {
         type: StateEventName.M_ROOM_MEMBER_EVENT,
@@ -1380,7 +1375,7 @@ describe('test relevant functionality of MeetingService', () => {
           // already contains the expected value WITH trailing space.
           reason: `📅 2/1/2022, 12:00 AM UTC – 2/3/2022, 12:00 AM UTC\nyou've been invited to a meeting by displayname\ndescription1 `,
           'io.element.html_reason': 'good reason',
-        },
+        } satisfies IElementMembershipEventContent,
       },
     ];
 
@@ -1772,7 +1767,7 @@ describe('test relevant functionality of MeetingService', () => {
   test('getSharingInformationAsync', async () => {
     const roomId = 'a1';
 
-    const roomCreationEvent: IStateEvent<any> = {
+    const roomCreationEvent: APIRoomStateEvent = {
       type: StateEventName.M_ROOM_CREATION_EVENT,
       ...stateEventStub,
       sender: CURRENT_USER,
@@ -1781,22 +1776,21 @@ describe('test relevant functionality of MeetingService', () => {
       },
     };
 
-    const nicMeetingMetadataEvent: IStateEvent<IMeetingsMetadataEventContent> =
-      {
-        type: StateEventName.NIC_MEETINGS_METADATA_EVENT as string,
-        ...stateEventStub,
-        content: {
-          creator: CURRENT_USER,
-          calendar: [
-            {
-              uid: 'entry-0',
-              dtstart: { tzid: 'UTC', value: '20220101T000000' },
-              dtend: { tzid: 'UTC', value: '20220103T000000' },
-              rrule: undefined,
-            },
-          ],
-        },
-      };
+    const nicMeetingMetadataEvent: APIRoomStateEvent = {
+      type: StateEventName.NIC_MEETINGS_METADATA_EVENT as string,
+      ...stateEventStub,
+      content: {
+        creator: CURRENT_USER,
+        calendar: [
+          {
+            uid: 'entry-0',
+            dtstart: { tzid: 'UTC', value: '20220101T000000' },
+            dtend: { tzid: 'UTC', value: '20220103T000000' },
+            rrule: undefined,
+          },
+        ],
+      } satisfies IMeetingsMetadataEventContent,
+    };
 
     const stateEvents: any[] = [roomCreationEvent, nicMeetingMetadataEvent];
     when(clientMock.getRoomState(roomId)).thenResolve(stateEvents);

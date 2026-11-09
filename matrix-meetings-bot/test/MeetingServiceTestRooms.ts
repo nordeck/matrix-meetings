@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 
+import { APIRoomStateEvent } from 'matrix-bot-sdk';
 import { RoomEventsBuilder } from './RoomEventsBuilder';
 
 export function create_test_meeting(
@@ -22,7 +23,7 @@ export function create_test_meeting(
   parent_room_id: string | null,
   widgetTypes: string[] = ['jitsi', 'etherpad', 'whiteboard'],
   isMeeting = true,
-) {
+): APIRoomStateEvent[] {
   const builder = new RoomEventsBuilder(
     creator,
     room_id,

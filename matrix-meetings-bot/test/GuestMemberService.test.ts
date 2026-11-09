@@ -712,7 +712,9 @@ describe('GuestMemberService', () => {
       when(matrixClientMock.getRoomState(roomId)).thenResolve([
         {
           event_id: '$createEventId',
+          room_id: roomId,
           origin_server_ts: Date.now(),
+          unsigned: {},
           sender: botUserId,
           type: StateEventName.M_ROOM_CREATION_EVENT,
           content: { room_version: '12' },
