@@ -1,5 +1,14 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.8.10
+
+### Patch Changes
+
+- ed251cc: Disable room creation for guest users by the bot
+- 34a3234: Remove appConfig data from the possible parameters in default_events.json
+- c03b866: Check that the user is a member of the parent room and has the required power level to create a meeting.
+- 43d192f: Remove unnecessary Mustache rendering from the invite message sent by the bot.
+
 ## 2.8.9
 
 ### Patch Changes
