@@ -2237,6 +2237,16 @@ describe('test relevant functionality of MeetingService', () => {
     );
   });
 
+  test('createMeeting should fail if user is a guest', async () => {
+    const newUserContext = {
+      ...userContext,
+      userId: '@guest-userId1:matrix.org',
+    };
+    await expect(
+      meetingService.createMeeting(newUserContext, createEvent(undefined)),
+    ).rejects.toThrow('Guest users are not allowed to create rooms');
+  });
+
   /**
    * Since room version 12, the room creators have an infinite power level and
    * are not listed in the PL state event, but in the `sender` and the

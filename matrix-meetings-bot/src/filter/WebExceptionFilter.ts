@@ -133,7 +133,12 @@ export class WebExceptionFilter extends BaseExceptionFilter {
           error.stack,
         );
 
-        if (this.appConfig.enable_private_room_error_sending) {
+        if (
+          this.appConfig.enable_private_room_error_sending &&
+          !context.userContext.userId.startsWith(
+            this.appConfig.guest_user_prefix,
+          )
+        ) {
           privateRoomId =
             await this.roomMessageService.sendHtmlMessageToErrorPrivateRoom(
               context.userContext.userId,
