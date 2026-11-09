@@ -14,12 +14,10 @@
  * limitations under the License.
  */
 
-import { Inject, Injectable } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import Mustache from 'mustache';
 import { DeepReadonly, DeepReadonlyArray } from './DeepReadOnly';
-import { IAppConfiguration } from './IAppConfiguration';
 import { IEventContentParams } from './IEventContentParams';
-import { ModuleProviderToken } from './ModuleProviderToken';
 import { IMatrixEvent } from './matrix/event/IMatrixEvent';
 import { IRoomEvent } from './matrix/event/IRoomEvent';
 import { IStateEvent } from './matrix/event/IStateEvent';
@@ -28,11 +26,6 @@ import { StateEventName } from './model/StateEventName';
 
 @Injectable()
 export class EventContentRenderer {
-  constructor(
-    @Inject(ModuleProviderToken.APP_CONFIGURATION)
-    private appConfiguration: IAppConfiguration,
-  ) {}
-
   public renderStateEvents<T>(
     events: DeepReadonlyArray<IStateEvent<T>>,
     model: IEventContentParams,
@@ -96,7 +89,6 @@ export class EventContentRenderer {
 
   public renderTemplate(template: string, model: any): string {
     const templateModel: any = {
-      appConfig: this.appConfiguration,
       ...model,
       encodeURIComponent() {
         return function (text: string, render: (text: string) => string) {

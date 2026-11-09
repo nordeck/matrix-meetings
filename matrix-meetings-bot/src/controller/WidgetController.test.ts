@@ -15,16 +15,13 @@
  */
 
 import { EventContentRenderer } from '../EventContentRenderer';
-import { IAppConfiguration } from '../IAppConfiguration';
 import { WidgetController } from './WidgetController';
 
 describe('WidgetController', () => {
   let eventContentRenderer: EventContentRenderer;
 
   beforeEach(() => {
-    eventContentRenderer = new EventContentRenderer({
-      bot_displayname: 'Bot User',
-    } as IAppConfiguration);
+    eventContentRenderer = new EventContentRenderer();
   });
 
   it('should return a list of widgets', () => {
@@ -60,27 +57,6 @@ describe('WidgetController', () => {
     expect(widgetController.widgetList()).toEqual([
       { id: 'widget-1', name: 'Widget 1', optional: true },
       { id: 'widget-2', name: 'Widget 2', optional: false },
-    ]);
-  });
-
-  it('should render configuration values in the name', () => {
-    const widgetController = new WidgetController(eventContentRenderer, {
-      roomEvents: [],
-      stateEvents: [],
-      widgetContents: [
-        {
-          id: 'widget-1',
-          name: 'Widget 1 ({{appConfig.bot_displayname}})',
-          type: 'm.custom',
-          url: '',
-        },
-      ],
-      allWidgetIds: ['widget-1'],
-      defaultWidgetIds: ['widget-1'],
-    });
-
-    expect(widgetController.widgetList()).toEqual([
-      { id: 'widget-1', name: 'Widget 1 (Bot User)', optional: false },
     ]);
   });
 });
