@@ -229,13 +229,6 @@ export class MeetingClient {
       powerLevel.events_default = messagingPowerLevel;
     }
 
-    const renderedMemberEventsWithReason: DeepReadonlyArray<
-      IStateEvent<IElementMembershipEventContent>
-    > = this.eventContentRenderer.renderStateEvents(
-      [...memberEventsWithReason],
-      params,
-    );
-
     const meetingsMetadataEventContent: IMeetingsMetadataEventContent = {
       calendar,
       force_deletion_at: getForceDeletionTime(autoDeletionOffset, calendar),
@@ -295,7 +288,7 @@ export class MeetingClient {
       throw new RoomNotCreatedError();
     }
 
-    return [roomId, renderedMemberEventsWithReason];
+    return [roomId, memberEventsWithReason];
   }
 
   public async traverseRoomChildren(parentRoom: IRoom): Promise<IRoom[]> {
