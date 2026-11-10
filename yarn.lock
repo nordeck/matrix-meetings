@@ -963,6 +963,16 @@
     qs "^6.15.3"
     rxjs "^7.8.2"
 
+"@matrix-widget-toolkit/api@^5.1.1":
+  version "5.1.1"
+  resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/api/-/api-5.1.1.tgz#2f8e4cc0336dce7b7a675999b9e16584d8731f71"
+  integrity sha512-hKLIvTA8YvmnLHq7l9QKhc3gQbENe2kLGjBtYvFMRUKrk/6zAz5o1SQrywKw+jtO5hdyx967ZVui/SiZldnPDQ==
+  dependencies:
+    "@matrix-widget-toolkit/events" "^1.0.0"
+    matrix-widget-api "^1.18.0"
+    qs "^6.16.0"
+    rxjs "^7.8.2"
+
 "@matrix-widget-toolkit/events@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@matrix-widget-toolkit/events/-/events-1.0.0.tgz#863fc4facb295a42b4be2d98aac8f4711c90fd13"
