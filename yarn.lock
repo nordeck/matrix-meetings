@@ -1265,17 +1265,17 @@
     tsconfig-paths "4.2.0"
     typescript "~6.0.2"
 
-"@nestjs/common@^12.2.0":
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-12.2.0.tgz#b5efa06b38e313f997aaba75c8c4add2938fe6f4"
-  integrity sha512-xC4tUL31tQ2eoZcHheHIjnCrhnqyAEDRMGGHMUrYsOdh0Kg1DvDlLn7zelisErMcpaNanSIApJH6m9AcnK3fQQ==
+"@nestjs/common@^12.3.2":
+  version "12.4.2"
+  resolved "https://registry.yarnpkg.com/@nestjs/common/-/common-12.4.2.tgz#03cd1a68fda33f76d842ee66c33e6a05746c9903"
+  integrity sha512-V39QSKjG6hMyI2WBtwH4g8ZRS4X5r2IlNcu5czlaEkGwsiT3P6JFywP21wlfd+O++UfoNvn6AmqRKsRmmeb9LA==
   dependencies:
     uid "2.0.2"
     "@standard-schema/spec" "1.1.0"
-    file-type "22.1.1"
+    file-type "22.3.0"
     iterare "1.2.1"
     load-esm "1.0.3"
-    tslib "2.8.1"
+    tslib "2.9.1"
 
 "@nestjs/config@^12.0.1":
   version "12.0.1"
@@ -1287,40 +1287,40 @@
     dotenv-expand "13.0.0"
     es-toolkit "1.52.0"
 
-"@nestjs/core@^12.2.0":
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-12.2.0.tgz#1af54258f7da8d5abd67a48a0f7aeaab8ad85486"
-  integrity sha512-OTNlRALw/xlSJ/cXeIo7HzY/TqE9RSyv6uFS+OY41dDelDwMqnAjpRFiN5RVGOI/R4wAhaD0TJVjsfOrpZJCjA==
+"@nestjs/core@^12.3.2":
+  version "12.4.2"
+  resolved "https://registry.yarnpkg.com/@nestjs/core/-/core-12.4.2.tgz#5aff976a35f391c0c2314122596b12bcb11cf8bf"
+  integrity sha512-x0Xt+4Koah/CY97P89GxudJomylIMhlU5hmiyJOvBuayU9zIzQiYoOFzTs6/WdKM9ppAnWjfTnOYqQVIQ3t1mA==
   dependencies:
     uid "2.0.2"
     fast-safe-stringify "2.1.1"
     iterare "1.2.1"
     path-to-regexp "8.4.2"
-    tslib "2.8.1"
+    tslib "2.9.1"
 
 "@nestjs/mapped-types@12.0.1":
   version "12.0.1"
   resolved "https://registry.yarnpkg.com/@nestjs/mapped-types/-/mapped-types-12.0.1.tgz#847f32994bed00790c1700289e79b48552bb8b08"
   integrity sha512-AHkgYt6UgJ5XBE3v4zGUUdfPD7kCGBzOa/uHfOYkkRTfojYWLRCCdAJiyWNpIFHCySJH/MR2F/z4MrMo5YheHg==
 
-"@nestjs/microservices@^12.2.0":
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/microservices/-/microservices-12.2.0.tgz#44d9cee0591c69ae0af288e7f1f25c2d769f02ec"
-  integrity sha512-xLb8olEhH0/7sluke2FlR5HasULV7LwGn/5JMTW+TW5QZsqmO9KGkR2sIHKWi54cHBFIe9XdrbG7n5ezttMSAQ==
+"@nestjs/microservices@^12.3.2":
+  version "12.4.2"
+  resolved "https://registry.yarnpkg.com/@nestjs/microservices/-/microservices-12.4.2.tgz#811da7ec42db6848fbe7b0be0862668858477b99"
+  integrity sha512-IkggbEQDdTX5Q2N1gQ0ZK81cjsIAV3zloYa03MP8gSyE503iQocR/e7e1HOS5zFBddd8wtDdKpL5pMNz815xSw==
   dependencies:
     iterare "1.2.1"
-    tslib "2.8.1"
+    tslib "2.9.1"
 
-"@nestjs/platform-express@^12.2.0":
-  version "12.2.0"
-  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-12.2.0.tgz#30f05e78e5c910aafc0cbc0ebb72e67ff2cb81a8"
-  integrity sha512-ZG4nRgFicwfFKnzz9CfmX6GhSL1Ov6ch25L+7yDFoPeOBZ0EoytsttyURQaDJPRigcIJXQ1E+Z5zWDwUGc9Yyg==
+"@nestjs/platform-express@^12.3.2":
+  version "12.4.2"
+  resolved "https://registry.yarnpkg.com/@nestjs/platform-express/-/platform-express-12.4.2.tgz#c5ded3f44216782ef6e88fa390af6f2243b2006d"
+  integrity sha512-YWPJ0lIN0QJLsX658dCm0elvTtc76XvjX8VgahYbPDw6OGB2hgkdd7nLC6CI7q+tdhSNlXoF0rithWyGNRd7hQ==
   dependencies:
     cors "2.8.6"
     express "5.3.0"
-    multer "2.4.0"
+    multer "2.5.0"
     path-to-regexp "8.4.2"
-    tslib "2.8.1"
+    tslib "2.9.1"
 
 "@nestjs/schematics@^12.0.0":
   version "12.0.10"
@@ -1743,13 +1743,14 @@
   resolved "https://registry.yarnpkg.com/@testing-library/user-event/-/user-event-14.6.9.tgz#cc5205aadbcbfefd5e2f76a6cc5dc3cc3f4a4322"
   integrity sha512-/8boTjZHNXFi8JGUI2Ev05cq0Szh0OX35Bamkq6CK1ne+l1Xm8BKE3+nGgsnFgaYk0MX67Vh59cZDsNz5lJJEg==
 
-"@tokenizer/inflate@^0.4.1":
-  version "0.4.1"
-  resolved "https://registry.yarnpkg.com/@tokenizer/inflate/-/inflate-0.4.1.tgz#fa6cdb8366151b3cc8426bf9755c1ea03a2fba08"
-  integrity sha512-2mAv+8pkG6GIZiF1kNg1jAjh27IDxEPKwdGul3snfztFerfPGI1LjDezZp3i7BElXompqEtPmoPx6c2wgtWsOA==
+"@tokenizer/inflate@^0.6.0":
+  version "0.6.0"
+  resolved "https://registry.yarnpkg.com/@tokenizer/inflate/-/inflate-0.6.0.tgz#e249321793cb6c4e5fd58b8fc79cb23465f3d0c5"
+  integrity sha512-+0RDxhBkyT9xMnGdJAwmats9yxRLR8ypJrQgrnLqOu4Gv/aHlnxYgdGVy2QTwvBl6IF/w2Hr+ZNirH+iMUbVZA==
   dependencies:
     debug "^4.4.3"
-    token-types "^6.1.1"
+    strtok3 "^10.6.2"
+    token-types "^6.1.2"
 
 "@tokenizer/token@^0.3.0":
   version "0.3.0"
@@ -4388,15 +4389,15 @@ file-entry-cache@^8.0.0:
   dependencies:
     flat-cache "^4.0.0"
 
-file-type@22.1.1:
-  version "22.1.1"
-  resolved "https://registry.yarnpkg.com/file-type/-/file-type-22.1.1.tgz#5d9b20bd514657440379e57ff64ba06d3822c2a3"
-  integrity sha512-sEB0oStmeLGtpmSAD88RDNuLsvhv4iC3u0lE25CUvfCULvj49xoQ3l3K525Vn+ZzsZ6DOLajQCV6RmhwwhqiJg==
+file-type@22.3.0:
+  version "22.3.0"
+  resolved "https://registry.yarnpkg.com/file-type/-/file-type-22.3.0.tgz#cb5ad3c202d48e0973f4f5e3c60b180045321f52"
+  integrity sha512-PrPedgnnWl5bWz3JHgar0QSzRvzeyFh7dZ9JpYOgcPZu4KALS9zw4MMa6qXRYyjeBsAlpaWB2boLuG991+0HIQ==
   dependencies:
-    "@tokenizer/inflate" "^0.4.1"
-    strtok3 "^10.3.5"
+    "@tokenizer/inflate" "^0.6.0"
+    strtok3 "^10.6.3"
     token-types "^6.1.2"
-    uint8array-extras "^1.5.0"
+    uint8array-extras "^1.6.0"
 
 fill-range@^7.1.1:
   version "7.1.1"
@@ -6197,10 +6198,10 @@ msw@^1.3.5:
     type-fest "^2.19.0"
     yargs "^17.3.1"
 
-multer@2.4.0:
-  version "2.4.0"
-  resolved "https://registry.yarnpkg.com/multer/-/multer-2.4.0.tgz#969ab025c207829967c923172c51a75cbf171be1"
-  integrity sha512-7dqa0ZcFfzbefdTuIkzOSMvZWC0J7FLqBOjJUZvDCXShIURWKxAyTT1wHhnE5q19c7jOJf43IYYKjBmZVZmvhg==
+multer@2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/multer/-/multer-2.5.0.tgz#92e08d5015b53fb554d5d623398d67b8b146ded2"
+  integrity sha512-BsqOzYGVq49JcW2IzoSAxeKYRevb+dGGPPWleOR8Lrlk4igwxu1/9pwSXlByhCb7MVZDrNJFC0IBP5/O5nLYRw==
   dependencies:
     append-field "^1.0.0"
     busboy "^1.6.0"
@@ -8122,10 +8123,10 @@ strip-json-comments@^3.1.1:
   resolved "https://registry.yarnpkg.com/strip-json-comments/-/strip-json-comments-3.1.1.tgz#31f1281b3832630434831c310c01cccda8cbe006"
   integrity sha512-6fPc+R4ihwqP6N/aIv2f1gMH8lOVtWQHoqC4yK6oSDVVocumAsfCqjkXnqiYMhmMwS/mEHLp7Vehlt3ql6lEig==
 
-strtok3@^10.3.5:
-  version "10.6.2"
-  resolved "https://registry.yarnpkg.com/strtok3/-/strtok3-10.6.2.tgz#7fac1be17e83295b863399f01a843e962f4d648f"
-  integrity sha512-BkdixFFUt7r7LsX6aGNPVyYMLjW+M1USLlKPNbZsrZEmLFh5tGqhdfckKo6xgsZIJqdDD0CZGkeCJJwNWQIKQA==
+strtok3@^10.6.2, strtok3@^10.6.3:
+  version "10.7.0"
+  resolved "https://registry.yarnpkg.com/strtok3/-/strtok3-10.7.0.tgz#ac787dce30c69b5ff972f36b704eeb561b1c22e4"
+  integrity sha512-iAqrCpp7UXD2FZiHWhLXqdJ6CmNeVzRkkHAyyhhKMVtbVm2KtPX3D/bJNonvtcyLTHS4rwqP2pz9fsjK1K4z0Q==
   dependencies:
     "@tokenizer/token" "^0.3.0"
 
@@ -8319,7 +8320,7 @@ toidentifier@~1.0.1:
   resolved "https://registry.yarnpkg.com/toidentifier/-/toidentifier-1.0.1.tgz#3be34321a88a820ed1bd80dfaa33e479fbb8dd35"
   integrity sha512-o5sSPKEkg/DIQNmH43V0/uerLrpzVedkUh8tGNvaeXpfpuwjKenlSox/2O/BTlZUtEe+JG7s5YhEz608PlAHRA==
 
-token-types@^6.1.1, token-types@^6.1.2:
+token-types@^6.1.2:
   version "6.1.2"
   resolved "https://registry.yarnpkg.com/token-types/-/token-types-6.1.2.tgz#18d0fd59b996d421f9f83914d6101c201bd08129"
   integrity sha512-dRXchy+C0IgK8WPC6xvCHFRIWYUbqqdEIKPaKo/AcTUNzwLTK6AH7RjdLWsEZcAN/TBdtfUw3PYEgPr5VPr6ww==
@@ -8369,7 +8370,12 @@ tsconfig-paths@4.2.0:
     minimist "^1.2.6"
     strip-bom "^3.0.0"
 
-tslib@2.8.1, tslib@^2.1.0, tslib@^2.4.0, tslib@^2.5.0:
+tslib@2.9.1:
+  version "2.9.1"
+  resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.9.1.tgz#8986213ba2f17f38ba39a7c43d0e565a9134ff5f"
+  integrity sha512-a4Ux9VKuIMHsOS7ENbEq6hK2ZGYIT27Rtl0E4eD9KqwxhKiQeMZE/9xb3IdYwWaSOyIBQLExhQgXDTYoiCxnWA==
+
+tslib@^2.1.0, tslib@^2.4.0, tslib@^2.5.0:
   version "2.8.1"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-2.8.1.tgz#612efe4ed235d567e8aba5f2a5fab70280ade83f"
   integrity sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==
@@ -8497,7 +8503,7 @@ uid@2.0.2:
   dependencies:
     "@lukeed/csprng" "^1.0.0"
 
-uint8array-extras@^1.5.0:
+uint8array-extras@^1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/uint8array-extras/-/uint8array-extras-1.6.0.tgz#ab895526255bddd698e75a02992ee73f1b112ebe"
   integrity sha512-8iAasVS4wUx0gPLjH8Xtz2PeDzTSiy8QiLGu2DT3X5GU+egFEQhpnbtkehbAwjvDcxIERmCYcysiODFmE3Ud0Q==
