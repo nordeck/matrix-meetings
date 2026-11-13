@@ -14,7 +14,13 @@
  * limitations under the License.
  */
 
+import {
+  APIRoomStateEvent,
+  CreateEventContent,
+  PowerLevelsEventContent,
+} from 'matrix-bot-sdk';
 import { v4 as uuiv4 } from 'uuid';
+import { IMeetingsMetadataEventContent } from '../src/model/IMeetingsMetadataEventContent';
 import { MeetingType } from '../src/model/MeetingType';
 import { RoomEventName } from '../src/model/RoomEventName';
 import { StateEventName } from '../src/model/StateEventName';
@@ -24,7 +30,6 @@ export class RoomEventsBuilder {
   private readonly parent_room_id: string | undefined | null;
   private readonly creator: string;
   private widgetTypes: string[] = [];
-  private powerLevelUser: string[] = [];
   private creationType = MeetingType.MEETING;
 
   private readonly isAMeetingRoom;
@@ -46,8 +51,8 @@ export class RoomEventsBuilder {
     return this;
   }
 
-  public createPowerLevelEvent() {
-    const roomPowerlevelEvent = {
+  public createPowerLevelEvent(): APIRoomStateEvent {
+    return {
       type: StateEventName.M_ROOM_POWER_LEVELS_EVENT,
       room_id: this.room_id,
       sender: this.creator,
@@ -69,47 +74,44 @@ export class RoomEventsBuilder {
         kick: 50,
         redact: 50,
         invite: 50,
-      },
+      } satisfies PowerLevelsEventContent,
       state_key: '',
       event_id: uuiv4(),
-      user_id: this.creator,
+      unsigned: {},
+      origin_server_ts: 0,
     };
-    for (const user in this.powerLevelUser) {
-      roomPowerlevelEvent.content.users[user] = 100;
-    }
-    return roomPowerlevelEvent;
   }
 
-  public build() {
-    const roomEvents: any[] = [];
-    roomEvents.push(this.createRoomCreationEvent());
-    roomEvents.push(this.createPowerLevelEvent());
-    for (const widget of this.createWidgets()) {
-      roomEvents.push(widget);
-    }
-    if (this.createSpace()) roomEvents.push(this.createSpace());
-    if (this.isAMeetingRoom) roomEvents.push(this.createNicMeetingContent());
+  public build(): APIRoomStateEvent[] {
+    const roomEvents: APIRoomStateEvent[] = [
+      this.createRoomCreationEvent(),
+      this.createPowerLevelEvent(),
+      ...this.createWidgets(),
+    ];
+    const spaceEvent = this.createSpace();
+    if (spaceEvent) roomEvents.push(spaceEvent);
+    if (this.isAMeetingRoom) roomEvents.push(this.createNicMeetingEvent());
     return roomEvents;
   }
 
-  private createRoomCreationEvent() {
-    const roomCreationEvent = {
+  private createRoomCreationEvent(): APIRoomStateEvent {
+    return {
       type: StateEventName.M_ROOM_CREATION_EVENT,
       room_id: this.room_id,
       sender: this.creator,
       content: {
         type: this.creationType,
         creator: this.creator,
-      },
+      } satisfies CreateEventContent,
       state_key: '',
       event_id: uuiv4(),
-      user_id: this.creator,
+      unsigned: {},
+      origin_server_ts: 0,
     };
-    return roomCreationEvent;
   }
 
-  private createWidgets(): any[] {
-    const widgetEvents: any[] = [];
+  private createWidgets(): APIRoomStateEvent[] {
+    const widgetEvents: APIRoomStateEvent[] = [];
     for (const widgetType of this.widgetTypes) {
       const widgetId = widgetType;
       widgetEvents.push({
@@ -124,46 +126,52 @@ export class RoomEventsBuilder {
         },
         state_key: widgetId,
         event_id: uuiv4(),
-        user_id: this.creator,
+        unsigned: {},
+        origin_server_ts: 0,
       });
     }
     return widgetEvents;
   }
 
-  private createSpace() {
+  private createSpace(): APIRoomStateEvent | undefined {
     if (this.parent_room_id) {
       return {
         type: StateEventName.M_SPACE_PARENT_EVENT,
+        room_id: this.room_id,
+        sender: this.creator,
         state_key: this.parent_room_id,
         content: {
           via: 'matrix.org',
         },
+        event_id: uuiv4(),
+        unsigned: {},
+        origin_server_ts: 0,
       };
     } else {
       return undefined;
     }
   }
 
-  private createNicMeetingContent() {
-    if (this.isAMeetingRoom) {
-      return {
-        type: StateEventName.NIC_MEETINGS_METADATA_EVENT,
-        room_id: this.room_id,
-        sender: this.creator,
-        content: {
-          calendar: [
-            {
-              uid: 'entry-0',
-              dtstart: { tzid: 'UTC', value: '20210511T104500' },
-              dtend: { tzid: 'UTC', value: '20210511T114500' },
-            },
-          ],
-          force_deletion_at: new Date('2021-05-11T11:50:00Z').getTime(),
-        },
-        event_id: uuiv4(),
-        user_id: this.creator,
-      };
-    }
-    return undefined;
+  private createNicMeetingEvent(): APIRoomStateEvent {
+    return {
+      type: StateEventName.NIC_MEETINGS_METADATA_EVENT,
+      room_id: this.room_id,
+      sender: this.creator,
+      state_key: '',
+      content: {
+        creator: this.creator,
+        calendar: [
+          {
+            uid: 'entry-0',
+            dtstart: { tzid: 'UTC', value: '20210511T104500' },
+            dtend: { tzid: 'UTC', value: '20210511T114500' },
+          },
+        ],
+        force_deletion_at: new Date('2021-05-11T11:50:00Z').getTime(),
+      } satisfies IMeetingsMetadataEventContent,
+      event_id: uuiv4(),
+      unsigned: {},
+      origin_server_ts: 0,
+    };
   }
 }

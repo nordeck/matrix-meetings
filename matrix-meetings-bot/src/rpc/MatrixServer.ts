@@ -131,6 +131,7 @@ export class MatrixServer
           types: [
             StateEventName.M_ROOM_MEMBER_EVENT,
             StateEventName.M_ROOM_POWER_LEVELS_EVENT,
+            StateEventName.M_ROOM_ENCRYPTION,
             RoomEventName.M_ROOM_ENCRYPTED,
             RoomEventName.M_ROOM_MESSAGE,
             RoomEventName.NIC_MEETINGS_MEETING_CREATE,

@@ -375,7 +375,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
     throw new Error('unsupported method setUserPowerLevel');
   }
 
-  mxcToHttp(mxc: string): string {
+  mxcToHttp(mxc: string): Promise<string> {
     throw new Error('unsupported method mxcToHttp');
   }
 
@@ -384,7 +384,7 @@ export abstract class AbstractMatrixClient extends MatrixClient {
     width: number,
     height: number,
     method: 'crop' | 'scale',
-  ): string {
+  ): Promise<string> {
     throw new Error('unsupported method mxcToHttpThumbnail');
   }
 

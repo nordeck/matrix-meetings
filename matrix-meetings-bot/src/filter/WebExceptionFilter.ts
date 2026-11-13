@@ -24,7 +24,7 @@ import {
 } from '@nestjs/common';
 import { BaseExceptionFilter, HttpAdapterHost } from '@nestjs/core';
 import i18next from 'i18next';
-import { MatrixClient } from 'matrix-bot-sdk';
+import { MatrixClient, RoomNameEventContent } from 'matrix-bot-sdk';
 import { IAppConfiguration } from '../IAppConfiguration';
 import { ModuleProviderToken } from '../ModuleProviderToken';
 import { ReactionClient } from '../client/ReactionClient';
@@ -97,12 +97,12 @@ export class WebExceptionFilter extends BaseExceptionFilter {
       const errorName = error.constructor.name;
       const requestId = context.userContext.requestId;
       try {
-        const nameEvent = await this.matrixClient.getRoomStateEvent(
+        const nameEvent = (await this.matrixClient.getRoomStateEventContent(
           roomId,
           StateEventName.M_ROOM_NAME_EVENT,
           '',
-        );
-        roomName = nameEvent?.name;
+        )) as Partial<RoomNameEventContent>;
+        roomName = nameEvent?.name ?? '';
       } catch (err) {
         this.logger.warn(
           `Can not fetch room name for ${roomId} while sending a message`,

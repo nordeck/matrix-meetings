@@ -80,7 +80,7 @@ describe('test CommandService', () => {
 
   const makeRoomPublic = (roomId = ROOM_ID) => {
     when(
-      matrixClientMock.getRoomStateEvent(
+      matrixClientMock.getRoomStateEventContent(
         roomId,
         StateEventName.NIC_MEETINGS_WELCOME_ROOM,
         appRuntimeContext.botUserId,
@@ -90,7 +90,7 @@ describe('test CommandService', () => {
 
   const makeRoomPrivate = (roomId = ROOM_ID) => {
     when(
-      matrixClientMock.getRoomStateEvent(
+      matrixClientMock.getRoomStateEventContent(
         roomId,
         StateEventName.NIC_MEETINGS_WELCOME_ROOM,
         appRuntimeContext.botUserId,
