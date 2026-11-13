@@ -193,17 +193,17 @@ describe('test WelcomeWorkflowService', () => {
 
   const makeRoomPublic = (roomId = ROOM_ID) => {
     when(
-      clientMock.getRoomStateEvent(
+      clientMock.getRoomStateEventContent(
         roomId,
         StateEventName.NIC_MEETINGS_WELCOME_ROOM,
         BOT_ID,
       ),
-    ).thenResolve(null);
+    ).thenReject(new Error());
   };
 
   const makeRoomPrivate = (roomId = ROOM_ID) => {
     when(
-      clientMock.getRoomStateEvent(
+      clientMock.getRoomStateEventContent(
         roomId,
         StateEventName.NIC_MEETINGS_WELCOME_ROOM,
         BOT_ID,
@@ -277,7 +277,7 @@ describe('test WelcomeWorkflowService', () => {
       appConfig,
     );
     when(
-      clientMock.getRoomStateEvent(
+      clientMock.getRoomStateEventContent(
         ROOM_ID,
         StateEventName.NIC_MEETINGS_WELCOME_ROOM,
         BOT_ID,
@@ -436,7 +436,7 @@ describe('test WelcomeWorkflowService', () => {
     // do nothing if membership is undefined
     verify(clientMock.leaveRoom(ROOM_ID)).never();
     verify(
-      clientMock.getRoomStateEvent(anything(), anything(), anything()),
+      clientMock.getRoomStateEventContent(anything(), anything(), anything()),
     ).never();
   });
 

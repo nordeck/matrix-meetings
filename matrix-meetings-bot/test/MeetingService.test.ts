@@ -312,9 +312,9 @@ describe('test relevant functionality of MeetingService', () => {
         StateEventName.M_ROOM_POWER_LEVELS_EVENT,
       ]) {
         const stateEvent = childRoom.find((se) => se.type === eventType);
-        const eventContent = stateEvent?.content;
+        const eventContent = stateEvent?.content ?? {};
         when(
-          clientMock.getRoomStateEvent(childRoomId, eventType, ''),
+          clientMock.getRoomStateEventContent(childRoomId, eventType, ''),
         ).thenResolve(eventContent);
       }
     }

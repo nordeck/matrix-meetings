@@ -63,7 +63,7 @@ describe('GuestMemberService', () => {
     'assigns power level to guest when guest joins and bot has power (power level: %s)',
     async (botPowerLevel) => {
       when(
-        matrixClientMock.getRoomStateEvent(
+        matrixClientMock.getRoomStateEventContent(
           roomId,
           StateEventName.M_ROOM_POWER_LEVELS_EVENT,
           '',
@@ -121,7 +121,7 @@ describe('GuestMemberService', () => {
     'deletes power level of guest when guest leaves and bot has power (power level: %s)',
     async (botPowerLevel) => {
       when(
-        matrixClientMock.getRoomStateEvent(
+        matrixClientMock.getRoomStateEventContent(
           roomId,
           StateEventName.M_ROOM_POWER_LEVELS_EVENT,
           '',
@@ -179,7 +179,7 @@ describe('GuestMemberService', () => {
     appConfig.enable_guest_user_power_level_change = false;
 
     when(
-      matrixClientMock.getRoomStateEvent(
+      matrixClientMock.getRoomStateEventContent(
         roomId,
         StateEventName.M_ROOM_POWER_LEVELS_EVENT,
         '',
@@ -219,7 +219,7 @@ describe('GuestMemberService', () => {
 
   test('does not assign power level to guest when guest joins but no power level event', async () => {
     when(
-      matrixClientMock.getRoomStateEvent(
+      matrixClientMock.getRoomStateEventContent(
         roomId,
         StateEventName.M_ROOM_POWER_LEVELS_EVENT,
         '',
@@ -247,7 +247,7 @@ describe('GuestMemberService', () => {
 
   test('does not assign power level to guest when guest joins but bot has no power to change power level', async () => {
     when(
-      matrixClientMock.getRoomStateEvent(
+      matrixClientMock.getRoomStateEventContent(
         roomId,
         StateEventName.M_ROOM_POWER_LEVELS_EVENT,
         '',
@@ -291,7 +291,7 @@ describe('GuestMemberService', () => {
     appConfig.guest_user_delete_power_level_on_leave = false;
 
     when(
-      matrixClientMock.getRoomStateEvent(
+      matrixClientMock.getRoomStateEventContent(
         roomId,
         StateEventName.M_ROOM_POWER_LEVELS_EVENT,
         '',
@@ -332,7 +332,7 @@ describe('GuestMemberService', () => {
 
   test('does not assign power level to not a guest user when user joins and bot has power', async () => {
     when(
-      matrixClientMock.getRoomStateEvent(
+      matrixClientMock.getRoomStateEventContent(
         roomId,
         StateEventName.M_ROOM_POWER_LEVELS_EVENT,
         '',
@@ -374,7 +374,7 @@ describe('GuestMemberService', () => {
     'does not delete power level of not a guest user when user (power level: %s) leaves and bot has power',
     async (userPowerLevel) => {
       when(
-        matrixClientMock.getRoomStateEvent(
+        matrixClientMock.getRoomStateEventContent(
           roomId,
           StateEventName.M_ROOM_POWER_LEVELS_EVENT,
           '',
@@ -418,7 +418,7 @@ describe('GuestMemberService', () => {
     appConfig.guest_user_default_power_level = 25;
 
     when(
-      matrixClientMock.getRoomStateEvent(
+      matrixClientMock.getRoomStateEventContent(
         roomId,
         StateEventName.M_ROOM_POWER_LEVELS_EVENT,
         '',
@@ -460,7 +460,7 @@ describe('GuestMemberService', () => {
     appConfig.guest_user_default_power_level = 25;
 
     when(
-      matrixClientMock.getRoomStateEvent(
+      matrixClientMock.getRoomStateEventContent(
         roomId,
         StateEventName.M_ROOM_POWER_LEVELS_EVENT,
         '',
@@ -724,7 +724,7 @@ describe('GuestMemberService', () => {
     });
     test('assigns power level to guest when it joins a meeting / breakout room', async () => {
       when(
-        matrixClientMock.getRoomStateEvent(
+        matrixClientMock.getRoomStateEventContent(
           roomId,
           StateEventName.M_ROOM_POWER_LEVELS_EVENT,
           '',

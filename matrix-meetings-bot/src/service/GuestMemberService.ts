@@ -73,7 +73,7 @@ export class GuestMemberService {
     let powerLevels: PowerLevelsEventContent | undefined;
 
     try {
-      powerLevels = await this.matrixClient.getRoomStateEvent(
+      powerLevels = await this.matrixClient.getRoomStateEventContent(
         roomId,
         StateEventName.M_ROOM_POWER_LEVELS_EVENT,
         '',
