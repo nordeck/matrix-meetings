@@ -209,13 +209,16 @@ export class GuestMemberService {
     let createEvent: IStateEvent<ICreationContent> | undefined;
 
     try {
-      // getRoomStateEvent only returns the content, but the sender is required
-      // to detect the creator in room version 12.
-      const roomState: IStateEvent<unknown>[] =
-        await this.matrixClient.getRoomState(roomId);
-      createEvent = roomState?.find(
-        (se) => se.type === StateEventName.M_ROOM_CREATION_EVENT,
-      ) as IStateEvent<ICreationContent> | undefined;
+      const roomCreateEvent =
+        await this.matrixClient.getRoomCreateEvent(roomId);
+      createEvent = {
+        sender: roomCreateEvent.sender,
+        type: roomCreateEvent.type,
+        event_id: roomCreateEvent.eventId,
+        state_key: roomCreateEvent.stateKey,
+        origin_server_ts: roomCreateEvent.timestamp,
+        content: roomCreateEvent.content as ICreationContent,
+      };
     } catch (err) {
       createEvent = undefined;
     }

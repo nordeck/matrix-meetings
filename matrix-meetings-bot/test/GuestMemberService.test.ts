@@ -15,6 +15,7 @@
  */
 
 import {
+  CreateEvent,
   MatrixClient,
   MembershipEventContent,
   PowerLevelsEventContent,
@@ -709,8 +710,8 @@ describe('GuestMemberService', () => {
     } satisfies PowerLevelsEventContent;
 
     beforeEach(() => {
-      when(matrixClientMock.getRoomState(roomId)).thenResolve([
-        {
+      when(matrixClientMock.getRoomCreateEvent(roomId)).thenResolve(
+        new CreateEvent({
           event_id: '$createEventId',
           room_id: roomId,
           origin_server_ts: Date.now(),
@@ -719,8 +720,8 @@ describe('GuestMemberService', () => {
           type: StateEventName.M_ROOM_CREATION_EVENT,
           content: { room_version: '12' },
           state_key: '',
-        },
-      ]);
+        }),
+      );
     });
     test('assigns power level to guest when it joins a meeting / breakout room', async () => {
       when(
