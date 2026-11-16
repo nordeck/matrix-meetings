@@ -17,10 +17,10 @@
 /**
  * see https://spec.matrix.org/v1.2/client-server-api/#get_matrixclientv3sync
  */
-export interface ISyncParams {
+export type ISyncParams = {
   filter?: string;
   full_state?: boolean;
   set_presence?: 'offline' | 'online' | 'unavailable';
   since?: string;
   timeout?: number;
-}
+};

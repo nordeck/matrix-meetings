@@ -359,11 +359,12 @@ export class MeetingClient {
           const stateEvents: IStateEvent<unknown>[] = await Promise.all(
             stateSelector.map(async (tuple) => {
               const [eventType, stateKey] = tuple;
-              const eventContent = await this.matrixClient.getRoomStateEvent(
-                childId,
-                eventType,
-                stateKey,
-              );
+              const eventContent =
+                await this.matrixClient.getRoomStateEventContent(
+                  childId,
+                  eventType,
+                  stateKey,
+                );
 
               return {
                 type: eventType,

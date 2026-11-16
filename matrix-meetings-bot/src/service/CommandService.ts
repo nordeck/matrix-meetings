@@ -176,12 +176,14 @@ export class CommandService {
   private async detectLocale(roomId: string): Promise<string> {
     try {
       // TODO: extract this into a common service or cache
-      const ctx = await this.matrixClient.getRoomStateEvent(
+      const ctx = await this.matrixClient.getRoomStateEventContent(
         roomId,
         StateEventName.NIC_MEETINGS_WELCOME_ROOM,
         this.botUserId,
       );
-      return ctx?.locale ?? this.appConfig.welcome_workflow_default_locale;
+      return typeof ctx?.locale === 'string'
+        ? ctx.locale
+        : this.appConfig.welcome_workflow_default_locale;
     } catch (e) {
       this.logger.warn(
         `Can't detect locale in room: ${roomId} using ${StateEventName.NIC_MEETINGS_WELCOME_ROOM} event.`,

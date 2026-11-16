@@ -21,6 +21,7 @@ import {
   MembershipEventContent,
   PowerLevelsEventContent,
   RoomCreateOptions,
+  RoomNameEventContent,
 } from 'matrix-bot-sdk';
 import { AppRuntimeContext } from '../AppRuntimeContext';
 import { IAppConfiguration } from '../IAppConfiguration';
@@ -131,12 +132,7 @@ export class WelcomeWorkflowService {
       ? RoomType.CALENDAR_ROOM
       : RoomType.HELP_ROOM;
 
-    let originalRoomName: string | undefined;
-    try {
-      originalRoomName = await this.getRoomName(roomId);
-    } catch (err) {
-      // keep original room name undefined
-    }
+    const originalRoomName = await this.getRoomName(roomId);
     const { displayname } = await this.client.getUserProfile(sender);
 
     // available translation variables are limited because we are not in a private room
@@ -576,7 +572,7 @@ export class WelcomeWorkflowService {
 
   public async fetchContextStateEvent(roomId: string): Promise<any> {
     try {
-      return await this.client.getRoomStateEvent(
+      return await this.client.getRoomStateEventContent(
         roomId,
         StateEventName.NIC_MEETINGS_WELCOME_ROOM,
         this.botId,
@@ -593,7 +589,7 @@ export class WelcomeWorkflowService {
     if (!res) return null;
 
     const { displayname } = await this.client.getUserProfile(res.userId);
-    const originalRoomName = await this.getRoomName(res.originalRoomId);
+    const originalRoomName = (await this.getRoomName(res.originalRoomId)) ?? '';
     return {
       roomId,
       originalRoomName,
@@ -622,14 +618,17 @@ export class WelcomeWorkflowService {
     return !!exists;
   }
 
-  private async getRoomName(roomId: string): Promise<string> {
-    const { name } =
-      (await this.client.getRoomStateEvent(
+  private async getRoomName(roomId: string): Promise<string | undefined> {
+    try {
+      const content = (await this.client.getRoomStateEventContent(
         roomId,
         StateEventName.M_ROOM_NAME_EVENT,
         '',
-      )) || {};
-    return name;
+      )) as Partial<RoomNameEventContent>;
+      return content?.name;
+    } catch (err) {
+      return undefined;
+    }
   }
 
   private i18nOptions(

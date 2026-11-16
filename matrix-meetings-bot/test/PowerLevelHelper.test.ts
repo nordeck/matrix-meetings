@@ -14,8 +14,7 @@
  * limitations under the License.
  */
 
-import { PowerLevelsEventContent } from 'matrix-bot-sdk';
-import { PowerLevelAction } from 'matrix-bot-sdk/lib/models/PowerLevelAction';
+import { PowerLevelAction, PowerLevelsEventContent } from 'matrix-bot-sdk';
 import { PermissionError } from '../src/error/PermissionError';
 import { iStateEventHelper } from '../src/matrix/event/IStateEvent';
 import { powerLevelHelper } from '../src/model/PowerLevelHelper';
