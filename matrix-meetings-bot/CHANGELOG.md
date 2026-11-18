@@ -1,5 +1,11 @@
 # @nordeck/matrix-meetings-bot
 
+## 2.9.0
+
+### Minor Changes
+
+- cab1235: Use the Element fork `@vector-im/matrix-bot-sdk` 0.10.1-element.0 instead of `matrix-bot-sdk` 0.8.0
+
 ## 2.8.10
 
 ### Patch Changes
