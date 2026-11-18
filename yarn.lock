@@ -4957,6 +4957,13 @@ i18next-browser-languagedetector@^8.2.1:
   dependencies:
     "@babel/runtime" "^7.23.2"
 
+i18next-browser-languagedetector@^8.2.4:
+  version "8.3.1"
+  resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-8.3.1.tgz#5197f2df07fdd48c128a0517707cf81ac3ed0f3a"
+  integrity sha512-W7dfKWlmaxuy5zsKsu8vKm7SQ0R6T1Tw7XRMKCh3bt98q9m5Q73GKF1PiqtvcwzC+AZvfUCugbfcIYQkDfHeAg==
+  dependencies:
+    "@babel/runtime" "^7.29.2"
+
 i18next-chained-backend@^4.6.3:
   version "4.6.3"
   resolved "https://registry.yarnpkg.com/i18next-chained-backend/-/i18next-chained-backend-4.6.3.tgz#3a4cc3a396dd04f50846743ea4e987489dd8a0cf"
@@ -4986,20 +4993,20 @@ i18next-cli@^1.50.3:
     react-i18next "^16.5.8"
     yaml "^2.8.2"
 
-i18next-fs-backend@^2.6.7:
-  version "2.6.7"
-  resolved "https://registry.yarnpkg.com/i18next-fs-backend/-/i18next-fs-backend-2.6.7.tgz#4cb4aba9d165748bb6b2f19ed0892061a98c1c81"
-  integrity sha512-nN2TIycyR/d+OVuLm1ugPyOlMprqPRnQ7QktBgn44F3H8l7TeTH4ffHJ7nUsd4QVJfetWW7/VZ3s+4g7FoAZUA==
+i18next-fs-backend@^2.6.10:
+  version "2.6.12"
+  resolved "https://registry.yarnpkg.com/i18next-fs-backend/-/i18next-fs-backend-2.6.12.tgz#ed6463c200aa281cc28a36cc31ce6f1a57e6adc3"
+  integrity sha512-dg2SfnepHuzqrmnGCbGM6fUlb/NTkObJqR2a8ih3OEzAnEKtREfn/X9iaimdRaCnD00dXf7xgMPMvcF4fbwxVQ==
 
-i18next-http-backend@^4.0.0:
+i18next-http-backend@^4.0.10:
   version "4.0.10"
   resolved "https://registry.yarnpkg.com/i18next-http-backend/-/i18next-http-backend-4.0.10.tgz#f16d8dc137dbbc9fd27508ca753fcec48b724a68"
   integrity sha512-CfdQuwIVijbrS/fmiTAQYcYyje4nMbH9aIjKYhhm5bgVmWKWLOM1F7qrA1o63Jl1JxQcRjdtWhKlvDzyqV9aPg==
 
-i18next-http-middleware@^3.9.8:
-  version "3.9.8"
-  resolved "https://registry.yarnpkg.com/i18next-http-middleware/-/i18next-http-middleware-3.9.8.tgz#e6079a58fe9fe8cdcbf8adcb38237d00f40873e2"
-  integrity sha512-HMKPc/P/v3qI+JX1k8RLsc4IKT3nKwKFt4cPDZB+iSLlEkUblpjiJ2z3YZYgHgY2Xs6cnnqFkJIg4AU3JSTNaA==
+i18next-http-middleware@^3.9.11:
+  version "3.10.3"
+  resolved "https://registry.yarnpkg.com/i18next-http-middleware/-/i18next-http-middleware-3.10.3.tgz#23abb4d2c78dd75c0707ae741d408878a93fcc20"
+  integrity sha512-CITsM0mm5eA6TQAySWH8WfNYX8uMMOWcL5es6Brv6qMAWzknpz5xa5r6ANZc4g9/4Kgz7dYfHi2KPEJnePp55w==
 
 i18next-resources-for-ts@^2.0.2:
   version "2.0.2"
