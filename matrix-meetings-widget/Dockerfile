@@ -4,7 +4,7 @@ FROM aquasec/trivy:0.76.1@sha256:790fd66d1697395d8693d1acaa1ea702406a20f109b6fc7
 COPY --from=root yarn.lock /tmp
 RUN trivy fs --format spdx-json --scanners "license" /tmp/yarn.lock > /tmp/sbom.spdx.json
 
-FROM ghcr.io/nordeck/matrix-widget-toolkit/widget-server:1.2.4@sha256:77c23bd22699771e682dac9ec34e1a73c00728405bd77a160d2df22a7922800f
+FROM ghcr.io/nordeck/matrix-widget-toolkit/widget-server:1.2.5@sha256:???
 
 ADD --chown=nginx:nginx dist /usr/share/nginx/html/
 
