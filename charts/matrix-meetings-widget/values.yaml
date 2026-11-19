@@ -8,7 +8,7 @@ image:
   repository: ghcr.io/nordeck/matrix-meetings-widget
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
+  tag: "@sha256:669adb7f3a4d72cc205a8e05f9eec00f7da4ef874012defe5268fbd5250b9b7a"
 
 imagePullSecrets: []
 nameOverride: ""
