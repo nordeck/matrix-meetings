@@ -4957,7 +4957,7 @@ i18next-browser-languagedetector@^8.2.1:
   dependencies:
     "@babel/runtime" "^7.23.2"
 
-i18next-browser-languagedetector@^8.2.4:
+i18next-browser-languagedetector@^8.3.0:
   version "8.3.1"
   resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-8.3.1.tgz#5197f2df07fdd48c128a0517707cf81ac3ed0f3a"
   integrity sha512-W7dfKWlmaxuy5zsKsu8vKm7SQ0R6T1Tw7XRMKCh3bt98q9m5Q73GKF1PiqtvcwzC+AZvfUCugbfcIYQkDfHeAg==
@@ -5003,10 +5003,10 @@ i18next-http-backend@^4.0.10:
   resolved "https://registry.yarnpkg.com/i18next-http-backend/-/i18next-http-backend-4.0.10.tgz#f16d8dc137dbbc9fd27508ca753fcec48b724a68"
   integrity sha512-CfdQuwIVijbrS/fmiTAQYcYyje4nMbH9aIjKYhhm5bgVmWKWLOM1F7qrA1o63Jl1JxQcRjdtWhKlvDzyqV9aPg==
 
-i18next-http-middleware@^3.9.11:
-  version "3.10.3"
-  resolved "https://registry.yarnpkg.com/i18next-http-middleware/-/i18next-http-middleware-3.10.3.tgz#23abb4d2c78dd75c0707ae741d408878a93fcc20"
-  integrity sha512-CITsM0mm5eA6TQAySWH8WfNYX8uMMOWcL5es6Brv6qMAWzknpz5xa5r6ANZc4g9/4Kgz7dYfHi2KPEJnePp55w==
+i18next-http-middleware@^3.10.0:
+  version "3.11.0"
+  resolved "https://registry.yarnpkg.com/i18next-http-middleware/-/i18next-http-middleware-3.11.0.tgz#3c7381a68d8cd9852e85585797728e47a8f4d0d8"
+  integrity sha512-qsebtb2ZksvmQbeU5ssPaXdLIrhzJdOVAgNaUUHEZpLrOCHP1FRypTpI+KiBuuCUTbriDV71+BW4JOhiAQlKEA==
 
 i18next-resources-for-ts@^2.0.2:
   version "2.0.2"
